@@ -1,6 +1,6 @@
 package wwmm.crawler.core;
 
-import static wwmm.crawler.CrystalEyeConstants.X_XHTML;
+import static wwmm.crawler.CrawlerConstants.X_XHTML;
 import static wwmm.crawler.core.CrawlerConstants.ACS_HOMEPAGE_URL;
 
 import java.util.ArrayList;
