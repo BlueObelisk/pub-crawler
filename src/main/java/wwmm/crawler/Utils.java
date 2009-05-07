@@ -1,6 +1,6 @@
 package wwmm.crawler;
 
-import static wwmm.crawler.CrystalEyeConstants.X_XHTML;
+import static wwmm.crawler.CrawlerConstants.X_XHTML;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -29,7 +29,7 @@ import org.apache.log4j.Logger;
 
 /**
  * <p>
- * Utility methods used throughout CrystalEye.
+ * Utility methods used throughout the crawler project.
  * </p>
  * 
  * @author Nick Day
@@ -109,145 +109,6 @@ public class Utils {
 			nodeList.add(nodes.get(i));
 		}
 		return nodeList;
-	}
-
-	/**
-	 * <p>
-	 * Convenience method for rounding a <code>double</code>.
-	 * </p>
-	 * 
-	 * @param val - the number you want rounded.
-	 * @param places - the number of decimal places you want
-	 * the provided number rounded to.
-	 * 
-	 * @return the rounded number as a <code>double</code>.
-	 */
-	public static double round(double val, int places) {
-		long factor = (long)Math.pow(10,places);
-		val = val * factor;
-		long tmp = Math.round(val);
-		return (double)tmp / factor;
-	}
-
-	/**
-	 * <p>
-	 * Convenience method for appending a String to a File.
-	 * </p>
-	 * 
-	 * @param file you want the String appended to.
-	 * @param content you want to append to the File.
-	 * 
-	 * @throws IOException if there is a problem reading or writing
-	 * the file.
-	 */
-	public static void appendToFile(File file, String content) throws IOException {
-		FileWriter fw = null;
-		try {
-			fw = new FileWriter(file, true);
-			fw.write(content);
-		} finally {
-			IOUtils.closeQuietly(fw);
-		}
-	}
-
-	/**
-	 * <p>
-	 * Writes the provided XML out to the file defined by the
-	 * provided filename.
-	 * </p>
-	 * 
-	 * @param doc - the XML to be written.
-	 * @param fileName of the file to be written to.
-	 */
-	public static void writeXML(Document doc, String fileName) {
-		File writeFile = new File(fileName).getParentFile();
-		if (!writeFile.exists()) {
-			writeFile.mkdirs();
-		}
-		FileOutputStream fos = null;
-		try {
-			fos = new FileOutputStream(fileName);
-			Serializer serializer = null;
-			serializer = new Serializer(fos);
-			serializer.write(doc);
-		} catch (IOException e) {
-			throw new RuntimeException("Could not write XML file to "+fileName);
-		} finally {
-			IOUtils.closeQuietly(fos);
-		}
-	}
-
-	/**
-	 * <p>
-	 * Writes the provided XML out to the file defined by the
-	 * provided filename complete with indentations to make the
-	 * XML more human readable.
-	 * </p>
-	 * 
-	 * @param doc - the XML to be written.
-	 * @param fileName of the file to be written to.
-	 */
-	public static void writePrettyXML(Document doc, String fileName) {
-		File writeFile = new File(fileName).getParentFile();
-		if (!writeFile.exists()) {
-			writeFile.mkdirs();
-		}
-		Serializer serializer;
-		FileOutputStream fos = null;
-		try {
-			fos = new FileOutputStream(fileName);
-			serializer = new Serializer(fos);
-			serializer.setIndent(2);
-			serializer.write(doc);
-		} catch (IOException e) {
-			throw new RuntimeException("Could not write XML file to "+fileName);
-		} finally {
-			IOUtils.closeQuietly(fos);
-		}
-	}
-
-	/**
-	 * <p>
-	 * Writes the provided XML out to the provided OutputStream complete 
-	 * with indentations to make the XML more human readable.
-	 * </p>
-	 * 
-	 * @param doc to be written to the OutputStream.
-	 * @param out - the OutputStream to be written to.
-	 * 
-	 * @throws IOException if there is a problem writing the XML to the
-	 * OutputStream. 
-	 */
-	public static void writePrettyXML(Document doc, OutputStream out) throws IOException {
-		Serializer serializer = null;
-		serializer = new Serializer(out);
-		serializer.setIndent(2);
-		serializer.write(doc);
-	}
-	
-	/**
-	 * <p>
-	 * Converts an XML document to a pretty XML String.
-	 * </p>
-	 * 
-	 * @param doc to be converted.
-	 * 
-	 * @return String form of the provided XML document.
-	 */
-	public static String toPrettyXMLString(Document doc) {
-		OutputStream baos = null;
-		Serializer serializer = null;
-		try {
-			baos = new ByteArrayOutputStream();
-			serializer = new Serializer(baos);
-			serializer.setIndent(2);
-			serializer.write(doc);
-		} catch (IOException e) {
-			throw new RuntimeException("Could not write XML file to ByteArrayOutputStream.");
-		} finally {
-			IOUtils.closeQuietly(baos);
-		}
-		return baos.toString();
 	}
 
 	/**

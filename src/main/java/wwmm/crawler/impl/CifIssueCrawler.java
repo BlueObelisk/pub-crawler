@@ -1,6 +1,6 @@
 package wwmm.crawler.impl;
 
-import static wwmm.crawler.CrystalEyeConstants.CIF_CONTENT_TYPE;
+import static wwmm.crawler.CrawlerConstants.CIF_CONTENT_TYPE;
 
 import java.util.ArrayList;
 import java.util.List;

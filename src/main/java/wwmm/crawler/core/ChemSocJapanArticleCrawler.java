@@ -1,7 +1,7 @@
 package wwmm.crawler.core;
 
-import static wwmm.crawler.CrystalEyeConstants.XHTML_NS;
-import static wwmm.crawler.CrystalEyeConstants.X_XHTML;
+import static wwmm.crawler.CrawlerConstants.XHTML_NS;
+import static wwmm.crawler.CrawlerConstants.X_XHTML;
 import static wwmm.crawler.core.CrawlerConstants.CHEMSOCJAPAN_HOMEPAGE_URL;
 
 import java.util.ArrayList;
