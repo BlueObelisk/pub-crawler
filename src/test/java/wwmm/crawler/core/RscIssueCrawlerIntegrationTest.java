@@ -9,10 +9,10 @@ import nu.xom.Document;
 
 import org.junit.Test;
 
-import wwmm.crawler.core.DOI;
-import wwmm.crawler.core.IssueDetails;
-import wwmm.crawler.core.RscIssueCrawler;
-import wwmm.crawler.core.RscJournal;
+import wwmm.pubcrawler.core.DOI;
+import wwmm.pubcrawler.core.IssueDetails;
+import wwmm.pubcrawler.core.RscIssueCrawler;
+import wwmm.pubcrawler.core.RscJournal;
 
 public class RscIssueCrawlerIntegrationTest {
 	

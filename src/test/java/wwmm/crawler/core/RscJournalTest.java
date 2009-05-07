@@ -4,7 +4,7 @@ import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
 
-import wwmm.crawler.core.RscJournal;
+import wwmm.pubcrawler.core.RscJournal;
 
 public class RscJournalTest {
 	

@@ -6,8 +6,8 @@ import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
-import wwmm.crawler.core.IssueCrawler;
-import wwmm.crawler.core.IssueDetails;
+import wwmm.pubcrawler.core.IssueCrawler;
+import wwmm.pubcrawler.core.IssueDetails;
 
 public class IssueDetailsTest {
 	

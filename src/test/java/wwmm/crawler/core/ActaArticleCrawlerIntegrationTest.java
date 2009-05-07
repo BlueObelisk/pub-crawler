@@ -9,11 +9,11 @@ import org.apache.commons.httpclient.URI;
 import org.apache.commons.httpclient.URIException;
 import org.junit.Test;
 
-import wwmm.crawler.core.ActaArticleCrawler;
-import wwmm.crawler.core.ArticleDetails;
-import wwmm.crawler.core.ArticleReference;
-import wwmm.crawler.core.DOI;
-import wwmm.crawler.core.SupplementaryFileDetails;
+import wwmm.pubcrawler.core.ActaArticleCrawler;
+import wwmm.pubcrawler.core.ArticleDetails;
+import wwmm.pubcrawler.core.ArticleReference;
+import wwmm.pubcrawler.core.DOI;
+import wwmm.pubcrawler.core.SupplementaryFileDetails;
 
 public class ActaArticleCrawlerIntegrationTest {
 	

@@ -9,10 +9,10 @@ import nu.xom.Document;
 
 import org.junit.Test;
 
-import wwmm.crawler.core.ActaIssueCrawler;
-import wwmm.crawler.core.ActaJournal;
-import wwmm.crawler.core.DOI;
-import wwmm.crawler.core.IssueDetails;
+import wwmm.pubcrawler.core.ActaIssueCrawler;
+import wwmm.pubcrawler.core.ActaJournal;
+import wwmm.pubcrawler.core.DOI;
+import wwmm.pubcrawler.core.IssueDetails;
 
 public class ActaIssueCrawlerIntegrationTest {
 	
