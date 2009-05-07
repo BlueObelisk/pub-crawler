@@ -5,7 +5,7 @@ import static junit.framework.Assert.assertSame;
 
 import org.junit.Test;
 
-import wwmm.crawler.core.ArticleReference;
+import wwmm.pubcrawler.core.ArticleReference;
 
 public class ArticleReferenceTest {
 	

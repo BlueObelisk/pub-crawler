@@ -9,7 +9,7 @@ import org.apache.commons.httpclient.URIException;
 import org.junit.Before;
 import org.junit.Test;
 
-import wwmm.crawler.core.SupplementaryFileDetails;
+import wwmm.pubcrawler.core.SupplementaryFileDetails;
 
 public class SupplementaryFileDetailsTest {
 

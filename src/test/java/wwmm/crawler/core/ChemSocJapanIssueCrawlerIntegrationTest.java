@@ -9,10 +9,10 @@ import nu.xom.Document;
 
 import org.junit.Test;
 
-import wwmm.crawler.core.ChemSocJapanIssueCrawler;
-import wwmm.crawler.core.ChemSocJapanJournal;
-import wwmm.crawler.core.DOI;
-import wwmm.crawler.core.IssueDetails;
+import wwmm.pubcrawler.core.ChemSocJapanIssueCrawler;
+import wwmm.pubcrawler.core.ChemSocJapanJournal;
+import wwmm.pubcrawler.core.DOI;
+import wwmm.pubcrawler.core.IssueDetails;
 
 public class ChemSocJapanIssueCrawlerIntegrationTest {
 	
