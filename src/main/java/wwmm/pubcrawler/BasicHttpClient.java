@@ -1,8 +1,13 @@
 package wwmm.pubcrawler;
 
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.StringReader;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -21,9 +26,12 @@ import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.HeadMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.io.IOUtils;
+import org.apache.log4j.Logger;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
+
+import wwmm.pubcrawler.core.AcsArticleCrawler;
 
 
 /**
@@ -37,6 +45,8 @@ import org.xml.sax.helpers.XMLReaderFactory;
  * 
  */
 public class BasicHttpClient {
+	
+	private static final Logger LOG = Logger.getLogger(BasicHttpClient.class);
 
 	private HttpClient client;
 	private HttpMethod method;
@@ -71,7 +81,7 @@ public class BasicHttpClient {
 		}
 		return in;
 	}
-	
+
 	/**
 	 * <p>
 	 * Executes a HTTP GET on the resource at the provided <code>URI</code>.  The 
@@ -102,6 +112,36 @@ public class BasicHttpClient {
 
 	/**
 	 * <p>
+	 * Writes the resource at the provided URI to the provided
+	 * file.
+	 * </p>
+	 * 
+	 * @param uri of the resource you wish written to file.
+	 * @param file that the resource will be written to.
+	 * 
+	 * @return true if the resource is successfully written
+	 * to file, false if not. 
+	 */
+	public boolean writeResourceToFile(URI uri, File file) {
+		InputStream in = null;
+		OutputStream out = null;
+		try {
+			in = getResourceStream(uri);
+			out = new BufferedOutputStream(new FileOutputStream(file));
+			IOUtils.copy(in, out);
+		} catch (IOException e) {
+			LOG.info("Could not write URI ("+uri.toString()+") to file ("+file+")\n"+
+					e.getMessage());
+			return false;
+		} finally {
+			IOUtils.closeQuietly(in);
+			IOUtils.closeQuietly(out);
+		}
+		return true;
+	}
+
+	/**
+	 * <p>
 	 * Executes a HTTP GET on the resource at the provided <code>URI</code>.  The 
 	 * resource contents are parsed by Tagsoup and returned as a XOM 
 	 * <code>Document</code>.
@@ -127,7 +167,7 @@ public class BasicHttpClient {
 		}
 		return doc;
 	}
-	
+
 	/**
 	 * <p>
 	 * Executes a HTTP GET on the resource at the provided <code>URI</code>.  
@@ -169,7 +209,7 @@ public class BasicHttpClient {
 		}
 		return doc;
 	}
-	
+
 	/**
 	 * <p>
 	 * Executes a HTTP GET on the resource at the provided <code>URI</code>.  The 
@@ -196,7 +236,7 @@ public class BasicHttpClient {
 		}
 		return doc;
 	}	
-	
+
 	/**
 	 * <p>
 	 * Executes a HTTP POST using the provided <code>postMethod</code> (which will 
@@ -220,7 +260,7 @@ public class BasicHttpClient {
 		}
 		return in;
 	}
-	
+
 	/**
 	 * <p>
 	 * Executes a HTTP POST using the provided <code>postMethod</code> (which will 
@@ -248,7 +288,7 @@ public class BasicHttpClient {
 		}
 		return result;
 	}
-	
+
 	/**
 	 * <p>
 	 * Executes a HTTP POST using the provided <code>postMethod</code> (which will 
