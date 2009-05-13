@@ -5,13 +5,14 @@ import org.apache.commons.httpclient.URIException;
 
 /**
  * <p>
- * Class used to represent details about a file that is provided
- * as supplementary information to a published journal article.
+ * Class used to represent details about a file that is provided as
+ * supplementary information to a published journal article.
  * </p>
  * 
+ * @todo Add setters or remove access to default constructor
  * @author Nick Day
  * @version 0.1
- *
+ * 
  */
 public class SupplementaryFileDetails {
 

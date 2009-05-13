@@ -28,6 +28,10 @@ public class BibtexTool {
 	private String bibtexString;
 	public Map<String, String> nameValuePairs;
 
+	private BibtexTool() {
+		;
+	}
+	
 	/**
 	 * <p>
 	 * Creates an instance of <code>BibtexTool</code> from
@@ -45,24 +49,6 @@ public class BibtexTool {
 		parseBibtexString();
 	}
 
-	/**
-	 * <p>
-	 * Creates an instance of <code>BibtexTool</code> from
-	 * a <code>String</code> containing a Bibtex file.  Upon
-	 * object creation, the provided Bibtex will be validated
-	 * and then parsed into its name-value pairs.
-	 * </p>
-	 * 
-	 * @param bibtexFile - a <code>File</code> containing
-	 * Bibtex.
-	 * 
-	 * @throws IOException if the provided <code>File</code>
-	 * cannot be read.
-	 */
-	public BibtexTool(File bibtexFile) throws IOException {
-		this(FileUtils.readFileToString(bibtexFile));
-	}
-	
 	/**
 	 * <p>
 	 * Simple validation of the provided Bibtex file.

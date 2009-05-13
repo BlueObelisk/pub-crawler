@@ -25,6 +25,7 @@ import org.apache.commons.httpclient.URIException;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.HeadMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
+import org.apache.commons.httpclient.util.URIUtil;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.xml.sax.SAXException;
