@@ -18,6 +18,13 @@ public class DOI {
 	private URI doiUri;
 	public static final String DOI_SITE_URL = "http://dx.doi.org";
 
+	/**
+	 * Blanked default constructor to ensure valid construction.
+	 */
+	private DOI() {
+		;
+	}
+	
 	public DOI(String doiUrl) {
 		doiUri = createURI(doiUrl);
 		validate();
@@ -73,15 +80,15 @@ public class DOI {
 	 * @return URI for the provided URL.
 	 */
 	private URI createURI(String url) {
-		URI uri = null;
+		if (url == null) {
+			throw new IllegalArgumentException(
+					"Cannot create a URI from a null String.");
+		}
 		try {
-			uri = new URI(url, false);
+			return new URI(url, false);
 		} catch (URIException e) {
 			throw new RuntimeException("Problem creating URI from: "+url, e);
-		} catch (NullPointerException e) {
-			throw new RuntimeException("Cannot create a URI from a null String.", e);
 		}
-		return uri;
 	}
 
 	/**
