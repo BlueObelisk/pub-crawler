@@ -162,6 +162,7 @@ public class ActaIssueCrawler extends IssueCrawler {
 			ArticleDetails ad = new ActaArticleCrawler(doi).getDetails();
 			adList.add(ad);
 		}
+		LOG.info("Finished finding issue article details: "+details.getYear()+"-"+details.getIssueId());
 		return adList;
 	}
 

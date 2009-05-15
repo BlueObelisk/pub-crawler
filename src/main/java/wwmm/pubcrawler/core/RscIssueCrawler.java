@@ -28,7 +28,7 @@ import wwmm.pubcrawler.Utils;
  * @version 1.1
  * 
  */
-public class RscIssueCrawler extends IssueCrawler{
+public class RscIssueCrawler extends IssueCrawler {
 
 	public RscJournal journal;
 	private String volume = "0";
@@ -205,7 +205,6 @@ public class RscIssueCrawler extends IssueCrawler{
 	public List<ArticleDetails> getDetailsForArticles(IssueDetails details) {
 		String year = details.getYear();
 		String issueId = details.getIssueId();
-		LOG.info("Starting to find issue article details: "+year+"-"+issueId);
 		List<DOI> dois = getDOIs(details);
 		List<ArticleDetails> adList = new ArrayList<ArticleDetails>(dois.size());
 		for (DOI doi : dois) {
