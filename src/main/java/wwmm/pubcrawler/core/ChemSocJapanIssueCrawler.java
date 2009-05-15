@@ -162,6 +162,7 @@ public class ChemSocJapanIssueCrawler extends IssueCrawler {
 			ArticleDetails ad = new ChemSocJapanArticleCrawler(doi).getDetails();
 			adList.add(ad);
 		}
+		LOG.info("Finished finding issue article details: "+details.getYear()+"-"+details.getIssueId());
 		return adList;
 	}
 

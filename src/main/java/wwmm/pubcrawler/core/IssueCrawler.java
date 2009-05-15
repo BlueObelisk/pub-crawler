@@ -101,5 +101,19 @@ public abstract class IssueCrawler extends Crawler {
 		IssueDetails issueDetails = getCurrentIssueDetails();
 		return getDetailsForArticles(issueDetails);
 	}
+	
+	/**
+	 * <p>
+	 * Gets the DOIs for all articles in the current issue of the 
+	 * journal as defined in the implemented subclass.
+	 * </p>
+	 * 
+	 * @return a list where each item is the DOI for a particular 
+	 * article from the current issue.
+	 */
+	final public List<DOI> getDoisForCurrentArticles() {
+		IssueDetails issueDetails = getCurrentIssueDetails();
+		return getDOIs(issueDetails);
+	}
 
 }
