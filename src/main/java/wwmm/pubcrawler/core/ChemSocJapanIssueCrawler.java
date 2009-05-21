@@ -135,7 +135,7 @@ public class ChemSocJapanIssueCrawler extends IssueCrawler {
 			DOI doi = new DOI(createURI(doiStr));
 			dois.add(doi);
 		}
-		LOG.info("Finished finding issue DOIs.");
+		LOG.info("Finished finding issue DOIs: "+dois.size());
 		return dois;
 	}
 	

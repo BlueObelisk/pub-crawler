@@ -150,7 +150,7 @@ public class RscIssueCrawler extends IssueCrawler {
 			DOI doi = new DOI(createURI(doiStr));
 			dois.add(doi);
 		}
-		LOG.info("Finished finding DOIs.");
+		LOG.info("Finished finding issue DOIs: "+dois.size());
 		return dois;
 	}
 
