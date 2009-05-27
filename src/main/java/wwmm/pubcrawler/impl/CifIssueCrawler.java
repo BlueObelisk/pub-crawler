@@ -8,7 +8,7 @@ import java.util.List;
 import wwmm.pubcrawler.core.ArticleDetails;
 import wwmm.pubcrawler.core.IssueCrawler;
 import wwmm.pubcrawler.core.IssueDetails;
-import wwmm.pubcrawler.core.SupplementaryFileDetails;
+import wwmm.pubcrawler.core.SupplementaryResourceDetails;
 
 /**
  * <p>
@@ -84,7 +84,7 @@ public abstract class CifIssueCrawler {
 	 */
 	final private boolean isCifArticle(ArticleDetails details) {
 		boolean isCifArticle = false;
-		for (SupplementaryFileDetails sfd : details.getSuppFiles()) {
+		for (SupplementaryResourceDetails sfd : details.getSupplementaryResources()) {
 			if (isCifFile(sfd)) {
 				String oldContentType = sfd.getContentType();
 				if (!oldContentType.contains(CIF_CONTENT_TYPE)) {
@@ -109,6 +109,6 @@ public abstract class CifIssueCrawler {
 	 * 
 	 * @return whether the file is a CIF or not.
 	 */
-	abstract protected boolean isCifFile(SupplementaryFileDetails sfd);
+	abstract protected boolean isCifFile(SupplementaryResourceDetails sfd);
 	
 }

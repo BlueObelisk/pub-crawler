@@ -14,7 +14,7 @@ import wwmm.pubcrawler.core.ArticleDetails;
 import wwmm.pubcrawler.core.ArticleReference;
 import wwmm.pubcrawler.core.DOI;
 import wwmm.pubcrawler.core.RscArticleCrawler;
-import wwmm.pubcrawler.core.SupplementaryFileDetails;
+import wwmm.pubcrawler.core.SupplementaryResourceDetails;
 
 public class RscArticleCrawlerIntegrationTest {
 
@@ -48,9 +48,9 @@ public class RscArticleCrawlerIntegrationTest {
 		String title = details.getTitle();
 		assertEquals("Convergent, stereoselective syntheses of the glycosidase inhibitors broussonetines D and M", title);
 		
-		List<SupplementaryFileDetails> suppList = details.getSuppFiles();
+		List<SupplementaryResourceDetails> suppList = details.getSupplementaryResources();
 		assertEquals(3, suppList.size());
-		SupplementaryFileDetails sfd0 = suppList.get(0);
+		SupplementaryResourceDetails sfd0 = suppList.get(0);
 		String contentType0 = sfd0.getContentType();
 		assertEquals("application/pdf", contentType0);
 		String fileId0 = sfd0.getFileId();
@@ -59,7 +59,7 @@ public class RscArticleCrawlerIntegrationTest {
 		assertEquals("Additional experimental procedures and tabulated spectral data of compounds 7, 8, 9a, 10, 11, 13, 14, 16–19 and 21", linkText0);
 		URI uri0 = sfd0.getURI();
 		assertEquals(new URI("http://pubs.rsc.org/suppdata/OB/b8/b821431j/b821431j_1.pdf", false), uri0);
-		SupplementaryFileDetails sfd2 = suppList.get(2);
+		SupplementaryResourceDetails sfd2 = suppList.get(2);
 		String contentType2 = sfd2.getContentType();
 		assertEquals("text/plain", contentType2);
 		String fileId2 = sfd2.getFileId();

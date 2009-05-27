@@ -9,11 +9,11 @@ import org.apache.commons.httpclient.URIException;
 import org.junit.Before;
 import org.junit.Test;
 
-import wwmm.pubcrawler.core.SupplementaryFileDetails;
+import wwmm.pubcrawler.core.SupplementaryResourceDetails;
 
 public class SupplementaryFileDetailsTest {
 
-	SupplementaryFileDetails sfd;
+	SupplementaryResourceDetails sfd;
 	URI uri;
 	String filename;
 	String linkText;
@@ -25,7 +25,7 @@ public class SupplementaryFileDetailsTest {
 		filename = "filename.txt";
 		linkText = "Any old link text here";
 		contentType = "image/png";
-		sfd = new SupplementaryFileDetails(uri, filename, linkText, contentType);
+		sfd = new SupplementaryResourceDetails(uri, filename, linkText, contentType);
 	}
 
 	@Test
@@ -35,7 +35,7 @@ public class SupplementaryFileDetailsTest {
 		linkText = "Any old link text here";
 		contentType = "image/png";
 		try {
-			sfd = new SupplementaryFileDetails(uri, filename, linkText, contentType);
+			sfd = new SupplementaryResourceDetails(uri, filename, linkText, contentType);
 			fail("Should have failed as filename is not the latter part of the" +
 			"provided URI.");
 		} catch (Exception e) {

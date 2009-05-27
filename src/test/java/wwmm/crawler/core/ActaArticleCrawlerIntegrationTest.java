@@ -13,7 +13,7 @@ import wwmm.pubcrawler.core.ActaArticleCrawler;
 import wwmm.pubcrawler.core.ArticleDetails;
 import wwmm.pubcrawler.core.ArticleReference;
 import wwmm.pubcrawler.core.DOI;
-import wwmm.pubcrawler.core.SupplementaryFileDetails;
+import wwmm.pubcrawler.core.SupplementaryResourceDetails;
 
 public class ActaArticleCrawlerIntegrationTest {
 	
@@ -49,9 +49,9 @@ public class ActaArticleCrawlerIntegrationTest {
 		String title = details.getTitle();
 		assertEquals("Lithium barium silicate, Li${\\sb 2}$BaSiO${\\sb 4}$, from synchrotron powder data", title);
 		
-		List<SupplementaryFileDetails> suppList = details.getSuppFiles();
+		List<SupplementaryResourceDetails> suppList = details.getSupplementaryResources();
 		assertEquals(1, suppList.size());
-		SupplementaryFileDetails sfd0 = suppList.get(0);
+		SupplementaryResourceDetails sfd0 = suppList.get(0);
 		String contentType0 = sfd0.getContentType();
 		assertEquals("text/plain; charset=utf-8", contentType0);
 		String fileId0 = sfd0.getFileId();
@@ -74,7 +74,7 @@ public class ActaArticleCrawlerIntegrationTest {
 		DOI doi = new DOI(DOI.DOI_SITE_URL+"/10.1107/S0108768109004066");
 		ActaArticleCrawler crawler = new ActaArticleCrawler(doi);
 		ArticleDetails details = crawler.getDetails();
-		assertEquals(2, details.getSuppFiles().size());
+		assertEquals(2, details.getSupplementaryResources().size());
 	}
 
 }

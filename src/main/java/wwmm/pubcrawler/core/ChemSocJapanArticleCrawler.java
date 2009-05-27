@@ -59,9 +59,9 @@ public class ChemSocJapanArticleCrawler extends ArticleCrawler {
 			LOG.warn("The DOI provided for the article abstract ("+doi.toString()+") has not resolved so we cannot get article details.");
 			return ad;
 		}
-		URI fullTextLink = getFullTextLink();
-		ad.setFullTextLink(fullTextLink);
-		List<SupplementaryFileDetails> suppFiles = getSupplementaryFilesDetails();
+		List<FullTextResourceDetails> fullTextResources = getFullTextResources();
+		ad.setFullTextResources(fullTextResources);
+		List<SupplementaryResourceDetails> suppFiles = getSupplementaryFilesDetails();
 		setBibtexTool();
 		if (bibtexTool != null) {
 			String title = bibtexTool.getTitle();
@@ -71,7 +71,7 @@ public class ChemSocJapanArticleCrawler extends ArticleCrawler {
 			ad.setTitle(title);
 			ad.setReference(ref);
 			ad.setAuthors(authors);
-			ad.setSuppFiles(suppFiles);
+			ad.setSupplementaryResources(suppFiles);
 		}
 		LOG.info("Finished finding article details: "+doi);
 		return ad;
@@ -98,20 +98,28 @@ public class ChemSocJapanArticleCrawler extends ArticleCrawler {
 
 	/**
 	 * <p>
-	 * Gets the URI of the article full-text.
+	 * Gets the details of any full-text resources provided for
+	 * the article.
 	 * </p>
 	 * 
-	 * @return URI of the article full-text.
+	 * @return list containing the details of each full-text
+	 * resource provided for the article.
 	 */
-	private URI getFullTextLink() {
+	private List<FullTextResourceDetails> getFullTextResources() {
+		List<FullTextResourceDetails> fullTexts = new ArrayList<FullTextResourceDetails>(1);
 		Nodes pdfLinks = articleAbstractHtml.query(".//x:a[contains(@href,'_pdf') and contains(.,'PDF')]", X_XHTML);
 		if (pdfLinks.size() == 0) {
 			LOG.warn("Could not find PDF link for: "+doi);
 			return null;
 		}
-		String urlPostfix = ((Element)pdfLinks.get(0)).getAttributeValue("href");
+		Element link = (Element)pdfLinks.get(0);
+		String linkText = link.getValue().trim();
+		String urlPostfix = link.getAttributeValue("href");
 		String pdfUrl = CHEMSOCJAPAN_HOMEPAGE_URL+urlPostfix;
-		return createURI(pdfUrl);
+		URI pdfUri = createURI(pdfUrl);
+		FullTextResourceDetails ftrd = new FullTextResourceDetails(pdfUri, linkText, "application/pdf");
+		fullTexts.add(ftrd);
+		return fullTexts;
 	}
 
 	/**
@@ -124,10 +132,10 @@ public class ChemSocJapanArticleCrawler extends ArticleCrawler {
 	 * data file (as a <code>SupplementaryFileDetails</code> object).
 	 * 
 	 */
-	private List<SupplementaryFileDetails> getSupplementaryFilesDetails() {
+	private List<SupplementaryResourceDetails> getSupplementaryFilesDetails() {
 		Nodes suppListLinks = articleAbstractHtml.query(".//x:a[contains(@href,'_applist')]", X_XHTML);
 		if (suppListLinks.size() == 0) {
-			return new ArrayList<SupplementaryFileDetails>(0);
+			return new ArrayList<SupplementaryResourceDetails>(0);
 		}
 		String urlPostfix = ((Element)suppListLinks.get(0)).getAttributeValue("href");
 		String suppListUrl = CHEMSOCJAPAN_HOMEPAGE_URL+urlPostfix;
@@ -139,7 +147,7 @@ public class ChemSocJapanArticleCrawler extends ArticleCrawler {
 			LOG.warn("Expected the supplementary document table to have at least 3 rows, found "+tableRows.size());
 			return null;
 		}
-		List<SupplementaryFileDetails> suppFiles = new ArrayList<SupplementaryFileDetails>(1);
+		List<SupplementaryResourceDetails> suppFiles = new ArrayList<SupplementaryResourceDetails>(1);
 		for (int i = 2; i < tableRows.size(); i++) {
 			Element row = (Element)tableRows.get(i);
 			Nodes cells = row.query(".//x:td", X_XHTML);
@@ -155,7 +163,7 @@ public class ChemSocJapanArticleCrawler extends ArticleCrawler {
 			String filename = getFilenameFromUrl(suppUrl);
 			URI suppUri = createURI(suppUrl);
 			String contentType = httpClient.getContentType(suppUri);
-			SupplementaryFileDetails suppFile = new SupplementaryFileDetails(suppUri, filename, linkText, contentType);
+			SupplementaryResourceDetails suppFile = new SupplementaryResourceDetails(suppUri, filename, linkText, contentType);
 			suppFiles.add(suppFile);
 		}
 		return suppFiles;
@@ -176,4 +184,17 @@ public class ChemSocJapanArticleCrawler extends ArticleCrawler {
 		return cifUrl.substring(idx+1);
 	}
 
+	/**
+	 * <p>
+	 * Main method meant for demonstration purposes only. Requires
+	 * no arguments.
+	 * </p>
+	 * 
+	 */
+	public static void main(String[] args) {
+		DOI doi = new DOI("http://dx.doi.org/10.1246/cl.2009.442");
+		ChemSocJapanArticleCrawler crawler = new ChemSocJapanArticleCrawler(doi);
+		ArticleDetails ad = crawler.getDetails();
+		System.out.println(ad.toString());
+	}
 }

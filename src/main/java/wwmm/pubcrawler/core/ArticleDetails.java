@@ -2,7 +2,6 @@ package wwmm.pubcrawler.core;
 
 import java.util.List;
 
-import org.apache.commons.httpclient.URI;
 import org.apache.commons.lang.StringUtils;
 
 /**
@@ -22,11 +21,11 @@ public class ArticleDetails {
 	private DOI doi;
 	private boolean doiResolved;
 
-	private URI fullTextLink;
 	private String title;
-	private ArticleReference reference;
 	private String authors;
-	private List<SupplementaryFileDetails> suppFiles;
+	private ArticleReference reference;
+	private List<FullTextResourceDetails> fullTexts;
+	private List<SupplementaryResourceDetails> suppFiles;
 	
 	// assume initially that the article has been published,
 	// it is more likely than not.
@@ -90,28 +89,17 @@ public class ArticleDetails {
 	public void setDoiResolved(boolean doiResolved) {
 		this.doiResolved = doiResolved;
 	}
-
+	
 	/**
 	 * <p>
-	 * Get the URI for the full-text of the article.
+	 * Gets details for any full-text resources for this article.
 	 * </p>
 	 * 
-	 * @return URI for the full-text of the article.
+	 * @return the details for any full-text resources provided
+	 * for this article.
 	 */
-	public URI getFullTextLink() {
-		return fullTextLink;
-	}
-
-	/**
-	 * <p>
-	 * Set the URI for the full-text of the article.
-	 * </p>
-	 * 
-	 * @param fullTextHtmlLink - URI for the full-text
-	 * of the article.
-	 */
-	public void setFullTextLink(URI fullTextHtmlLink) {
-		this.fullTextLink = fullTextHtmlLink;
+	public List<FullTextResourceDetails> getFullTextResources() {
+		return fullTexts;
 	}
 
 	/**
@@ -123,8 +111,21 @@ public class ArticleDetails {
 	 * @return details for each supplementary file to the
 	 * article.
 	 */
-	public List<SupplementaryFileDetails> getSuppFiles() {
+	public List<SupplementaryResourceDetails> getSupplementaryResources() {
 		return suppFiles;
+	}
+	
+	/**
+	 * <p>
+	 * Sets details for any full-text resources that are provided
+	 * for this article.
+	 * </p>
+	 * 
+	 * @param fullTexts - details for each full-text resources
+	 * provided for this article.
+	 */
+	public void setFullTextResources(List<FullTextResourceDetails> fullTexts) {
+		this.fullTexts = fullTexts;
 	}
 
 	/**
@@ -136,7 +137,7 @@ public class ArticleDetails {
 	 * @param suppFiles - details for each supplementary
 	 * file to the article.
 	 */
-	public void setSuppFiles(List<SupplementaryFileDetails> suppFiles) {
+	public void setSupplementaryResources(List<SupplementaryResourceDetails> suppFiles) {
 		this.suppFiles = suppFiles;
 	}
 
@@ -255,9 +256,6 @@ public class ArticleDetails {
 		if (!isDoiResolved()) {
 			result.append("  ### DOI DID NOT RESOLVE - NO ARTICLE DETAILS OBTAINED ###"+NEW_LINE);
 		} else {
-			if (fullTextLink != null) {
-				result.append("  Full text HTML link: "+fullTextLink+NEW_LINE);
-			}
 			if (StringUtils.isNotEmpty(title)) {
 				result.append("  Title: "+title+NEW_LINE);
 			}
@@ -280,9 +278,26 @@ public class ArticleDetails {
 			if (StringUtils.isNotEmpty(reference.getPages())) {
 				result.append("    Pages: "+reference.getPages()+NEW_LINE);
 			}
+			result.append("  Full-text file details:"+NEW_LINE);
+			int fcount = 1;
+			for (FullTextResourceDetails ftrd : fullTexts) {
+				if (ftrd.getURI() != null) {
+					result.append("    URI: "+ftrd.getURI()+NEW_LINE);
+				}
+				if (!StringUtils.isEmpty(ftrd.getLinkText())) {
+					result.append("    Link text: "+ftrd.getLinkText()+NEW_LINE);
+				}
+				if (!StringUtils.isEmpty(ftrd.getContentType())) {
+					result.append("    Content-type: "+ftrd.getContentType()+NEW_LINE);
+				}
+				if (fullTexts.size() > 1 && fcount < fullTexts.size()) {
+					result.append("    -----"+NEW_LINE);
+				}
+				fcount++;
+			}
 			result.append("  Supplementary file details:"+NEW_LINE);
 			int scount = 1;
-			for (SupplementaryFileDetails sf : suppFiles) {
+			for (SupplementaryResourceDetails sf : suppFiles) {
 				if (sf.getURI() != null) {
 					result.append("    URI: "+sf.getURI()+NEW_LINE);
 				}

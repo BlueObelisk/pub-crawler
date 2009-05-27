@@ -5,36 +5,42 @@ import org.apache.commons.httpclient.URIException;
 
 /**
  * <p>
- * Class used to represent details about a file that is provided as
- * supplementary information to a published journal article.
+ * Class used to represent details about a resource that is 
+ * provided as supplementary information to a published 
+ * journal article.
  * </p>
  * 
- * @todo Add setters or remove access to default constructor
  * @author Nick Day
  * @version 0.1
  * 
  */
-public class SupplementaryFileDetails {
+public class SupplementaryResourceDetails {
 
 	private URI uri;
 	private String fileId;
 	private String linkText;
 	private String contentType;
 	
+	// private default constructor so that the other is used
+	// to set all instance vars on construction.
+	private SupplementaryResourceDetails() {
+		;
+	}
+	
 	/**
 	 * <p>
-	 * Creates an instance of the SupplementaryFileDetails class. 
+	 * Creates an instance of the SupplementaryResourceDetails class. 
 	 * NOTE that the provided fileId MUST be part of the provided URI.
 	 * The reason this must be provided is that there is no way of
 	 * automatically asserting the files ID from the URI alone.
 	 * </p>
 	 * 
-	 * @param uri - the URI that the file resides at.
-	 * @param fileId - the site-specific identifier for the file.
-	 * @param linkText - the text from the HTML link that points to the file.
-	 * @param contentType - the Content-type of the file from its HTTP headers.
+	 * @param uri - the URI that the resource resides at.
+	 * @param fileId - the site-specific identifier for the resource.
+	 * @param linkText - the text from the HTML link that points to the resource.
+	 * @param contentType - the Content-type of the resource from its HTTP headers.
 	 */
-	public SupplementaryFileDetails(URI uri, String fileId, String linkText, String contentType) {
+	public SupplementaryResourceDetails(URI uri, String fileId, String linkText, String contentType) {
 		this.uri = uri;
 		this.fileId = fileId;
 		this.linkText = linkText;
@@ -49,17 +55,17 @@ public class SupplementaryFileDetails {
 	private void validate() {
 		if (!getUriString().contains(fileId)) {
 			throw new RuntimeException("The provided filename must be " +
-					"the latter part of the provided URI.");
+					"part of the provided URI.");
 		}
 	}
 
 	/**
 	 * <p>
-	 * Gets the text from HTML link that points to the supplementary file.
+	 * Gets the text from HTML link that points to the supplementary resource.
 	 * </p>
 	 * 
 	 * @return text from the HTML link that points to the
-	 * supplementary file.
+	 * supplementary resource.
 	 */
 	public String getLinkText() {
 		return linkText;
@@ -67,10 +73,10 @@ public class SupplementaryFileDetails {
 
 	/**
 	 * <p>
-	 * Gets the URI that points to the supplementary file.
+	 * Gets the URI that points to the supplementary resource.
 	 * </p>
 	 * 
-	 * @return the URI that points to the supplementary file.
+	 * @return the URI that points to the supplementary resource.
 	 */
 	public URI getURI() {
 		return uri;
@@ -78,12 +84,12 @@ public class SupplementaryFileDetails {
 	
 	/**
 	 * <p>
-	 * Gets the URI that points to the supplementary file in
+	 * Gets the URI that points to the supplementary resource in
 	 * String form.
 	 * </p>
 	 * 
 	 * @return String form of the URI that points to the
-	 * supplementary file.
+	 * supplementary resource.
 	 */
 	public String getUriString() {
 		String uriStr = null;
@@ -97,10 +103,10 @@ public class SupplementaryFileDetails {
 	
 	/**
 	 * <p>
-	 * Gets the site-specific ID of the supplementary file.
+	 * Gets the site-specific ID of the supplementary resource.
 	 * </p>
 	 * 
-	 * @return the site-specific ID of the supplementary file.
+	 * @return the site-specific ID of the supplementary resource.
 	 */
 	public String getFileId() {
 		return fileId;
@@ -108,11 +114,11 @@ public class SupplementaryFileDetails {
 
 	/**
 	 * <p>
-	 * Gets the Content-type of the supplementary file, as described
+	 * Gets the Content-type of the supplementary resource, as described
 	 * in its HTTP header.
 	 * </p>
 	 * 
-	 * @return the Content-type of the supplementary file, as described
+	 * @return the Content-type of the supplementary resource, as described
 	 * in its HTTP header.
 	 */
 	public String getContentType() {
@@ -121,11 +127,12 @@ public class SupplementaryFileDetails {
 	
 	/**
 	 * <p>
-	 * Sets the Content-type of the supplementary file, as would be 
+	 * Sets the Content-type of the supplementary resource, as would be 
 	 * described by its HTTP header. 
 	 * </p>
 	 * 
-	 * @param contentType
+	 * @param contentType - a String to append to the resource's
+	 * content-type.
 	 */
 	public void appendToContentType(String contentType) {
 		String newContentType = contentType+"; "+this.contentType;

@@ -21,7 +21,7 @@ public class ArticleReference {
 	private String volume;
 	private String number;
 	private String pages;
-	
+
 	public ArticleReference() {
 		;
 	}
@@ -131,5 +131,46 @@ public class ArticleReference {
 	public void setPages(String pages) {
 		this.pages = pages;
 	}
-	
+
+	/**
+	 * <p>
+	 * Gets a String representation of this object
+	 * which is a typical article reference you may 
+	 * see in a journal.
+	 * </p>
+	 * 
+	 * @return a String representation of this object
+	 * which is a typical article reference you may 
+	 * see in a journal.
+	 */
+	public String getRefString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(this.journalTitle);
+		sb.append(", ");
+		if (year != null) {
+			sb.append(this.year);
+			sb.append(", ");
+		}
+		if (volume != null) {
+			sb.append(this.volume);
+			if (number == null) {
+				sb.append(", ");
+			}
+		}
+		if (number != null) {
+			if (volume != null) {
+				sb.append(" (");
+				sb.append(this.number);
+				sb.append(")");
+			} else {
+				sb.append(this.number);
+			}
+			sb.append(", ");
+		}
+		if (pages != null) {
+			sb.append(this.pages);
+		}
+		return sb.toString();
+	}
+
 }

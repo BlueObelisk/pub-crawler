@@ -9,7 +9,7 @@ import junitx.util.PrivateAccessor;
 import org.junit.Test;
 
 import wwmm.pubcrawler.core.ChemSocJapanIssueCrawler;
-import wwmm.pubcrawler.core.SupplementaryFileDetails;
+import wwmm.pubcrawler.core.SupplementaryResourceDetails;
 import wwmm.pubcrawler.impl.ChemSocJapanCifIssueCrawler;
 
 public class ChemSocJapanCifIssueCrawlerTest {
@@ -21,19 +21,19 @@ public class ChemSocJapanCifIssueCrawlerTest {
 	@Test
 	public void testIsCifFile() throws Throwable {
 		ChemSocJapanCifIssueCrawler crawler = new ChemSocJapanCifIssueCrawler(mock(ChemSocJapanIssueCrawler.class));
-		SupplementaryFileDetails sfd1 = mock(SupplementaryFileDetails.class);
+		SupplementaryResourceDetails sfd1 = mock(SupplementaryResourceDetails.class);
 		String cifLinkText = "CIF";
 		when(sfd1.getLinkText()).thenReturn(cifLinkText);
 		// use reflection to access private isCifFile method for testing
 		boolean isCif1 = (Boolean) PrivateAccessor.invoke(crawler, "isCifFile", 
-				new Class[]{SupplementaryFileDetails.class}, new Object[]{sfd1});
+				new Class[]{SupplementaryResourceDetails.class}, new Object[]{sfd1});
 		assertTrue(isCif1);
 		
 		String notCifLinkText = "Supplementary Details";
 		when(sfd1.getLinkText()).thenReturn(notCifLinkText);
 		// use reflection to access private isCifFile method for testing
 		boolean isCif2 = (Boolean) PrivateAccessor.invoke(crawler, "isCifFile", 
-				new Class[]{SupplementaryFileDetails.class}, new Object[]{sfd1});
+				new Class[]{SupplementaryResourceDetails.class}, new Object[]{sfd1});
 		assertFalse(isCif2);
 	}
 

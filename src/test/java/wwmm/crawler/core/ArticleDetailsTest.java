@@ -15,7 +15,7 @@ import org.junit.Test;
 import wwmm.pubcrawler.core.ArticleDetails;
 import wwmm.pubcrawler.core.ArticleReference;
 import wwmm.pubcrawler.core.DOI;
-import wwmm.pubcrawler.core.SupplementaryFileDetails;
+import wwmm.pubcrawler.core.SupplementaryResourceDetails;
 
 public class ArticleDetailsTest {
 	
@@ -27,7 +27,7 @@ public class ArticleDetailsTest {
 		assertNull("Title should initially be null when using the default constructor.", ad.getTitle());
 		assertNull("Authors should initially be null when using the default constructor.", ad.getAuthors());
 		assertNull("Reference should initially be null when using the default constructor.", ad.getReference());
-		assertNull("Supplementary file list should initially be null when using the default constructor.", ad.getSuppFiles());
+		assertNull("Supplementary file list should initially be null when using the default constructor.", ad.getSupplementaryResources());
 		assertTrue(ad.hasBeenPublished());
 	}
 	
@@ -74,9 +74,9 @@ public class ArticleDetailsTest {
 	@Test
 	public void testSetAndGetSupplementaryFileList() {
 		ArticleDetails ad = new ArticleDetails();
-		List<SupplementaryFileDetails> sfd = mock(ArrayList.class);
-		ad.setSuppFiles(sfd);
-		assertEquals(sfd, ad.getSuppFiles());
+		List<SupplementaryResourceDetails> sfd = mock(ArrayList.class);
+		ad.setSupplementaryResources(sfd);
+		assertEquals(sfd, ad.getSupplementaryResources());
 	}
 
 }

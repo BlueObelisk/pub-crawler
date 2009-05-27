@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 import org.apache.commons.httpclient.URIException;
 
 import wwmm.pubcrawler.core.ActaIssueCrawler;
-import wwmm.pubcrawler.core.SupplementaryFileDetails;
+import wwmm.pubcrawler.core.SupplementaryResourceDetails;
 
 /**
  * <p>
@@ -34,7 +34,7 @@ public class ActaCifIssueCrawler extends CifIssueCrawler {
 	 * CIF file, false if not.
 	 */
 	@Override
-	protected boolean isCifFile(SupplementaryFileDetails sfd) {
+	protected boolean isCifFile(SupplementaryResourceDetails sfd) {
 		Pattern pattern = Pattern.compile("http://scripts.iucr.org/cgi-bin/sendcif\\?.{6}sup\\d+");
 		Matcher matcher = null;
 		try {
