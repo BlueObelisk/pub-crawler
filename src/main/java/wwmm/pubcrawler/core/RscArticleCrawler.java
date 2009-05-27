@@ -14,7 +14,6 @@ import nu.xom.Element;
 import nu.xom.Nodes;
 
 import org.apache.commons.httpclient.URI;
-import org.apache.commons.httpclient.URIException;
 import org.apache.log4j.Logger;
 
 /**
@@ -291,7 +290,7 @@ public class RscArticleCrawler extends ArticleCrawler {
 	 * 
 	 */
 	public static void main(String[] args) {
-		DOI doi = new DOI("http://dx.doi.org/10.1039/b821051a");
+		DOI doi = new DOI("http://dx.doi.org/10.1039/b821431j");
 		RscArticleCrawler crawler = new RscArticleCrawler(doi);
 		ArticleDetails ad = crawler.getDetails();
 		System.out.println(ad.toString());

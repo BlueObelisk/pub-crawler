@@ -13,6 +13,7 @@ import wwmm.pubcrawler.core.ArticleDetails;
 import wwmm.pubcrawler.core.ArticleReference;
 import wwmm.pubcrawler.core.ChemSocJapanArticleCrawler;
 import wwmm.pubcrawler.core.DOI;
+import wwmm.pubcrawler.core.FullTextResourceDetails;
 import wwmm.pubcrawler.core.SupplementaryResourceDetails;
 
 public class ChemSocJapanArticleCrawlerIntegrationTest {
@@ -32,8 +33,13 @@ public class ChemSocJapanArticleCrawlerIntegrationTest {
 		assertEquals("Koichiro Takao and Yasuhisa Ikeda", authors);
 		DOI detailsDoi = details.getDoi();
 		assertEquals(doi, detailsDoi);
-		URI fullTextLink = details.getFullTextLink();
-		assertEquals(new URI("http://www.jstage.jst.go.jp/article/cl/37/7/682/_pdf", false), fullTextLink);
+
+		List<FullTextResourceDetails> ftrds = details.getFullTextResources();
+		assertEquals(1, ftrds.size());
+		FullTextResourceDetails ftrd = ftrds.get(0);
+		assertEquals(new URI("http://www.jstage.jst.go.jp/article/cl/37/7/682/_pdf", false), ftrd.getURI());
+		assertEquals("PDF (75K)", ftrd.getLinkText());
+		assertEquals("application/pdf", ftrd.getContentType());
 		
 		ArticleReference ref = details.getReference();
 		String journalTitle = ref.getJournalTitle();

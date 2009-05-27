@@ -192,7 +192,7 @@ public class ChemSocJapanArticleCrawler extends ArticleCrawler {
 	 * 
 	 */
 	public static void main(String[] args) {
-		DOI doi = new DOI("http://dx.doi.org/10.1246/cl.2009.442");
+		DOI doi = new DOI("http://dx.doi.org/10.1246/cl.2008.682");
 		ChemSocJapanArticleCrawler crawler = new ChemSocJapanArticleCrawler(doi);
 		ArticleDetails ad = crawler.getDetails();
 		System.out.println(ad.toString());

@@ -96,7 +96,7 @@ public class AcsArticleCrawler extends ArticleCrawler {
 		if (fullTextPdfDetails != null) {
 			fullTextResources.add(fullTextPdfDetails);
 		}
-		FullTextResourceDetails fullTextHiResPdfDetails = getFullTextHiResPdfDetails();
+		FullTextResourceDetails fullTextHiResPdfDetails = getFullTextEnhancedPdfDetails();
 		if (fullTextHiResPdfDetails != null) {
 			fullTextResources.add(fullTextHiResPdfDetails);
 		}
@@ -127,14 +127,14 @@ public class AcsArticleCrawler extends ArticleCrawler {
 	
 	/**
 	 * <p>
-	 * Gets the details about the full-text Hi-Res PDF resource for 
+	 * Gets the details about the full-text enhanced PDF resource for 
 	 * this article.
 	 * </p>
 	 * 
-	 * @return details about the full-text Hi-Res PDF resource for this
+	 * @return details about the full-text enhanced PDF resource for this
 	 * article.
 	 */
-	private FullTextResourceDetails getFullTextHiResPdfDetails() {
+	private FullTextResourceDetails getFullTextEnhancedPdfDetails() {
 		Nodes fullTextPdfLinks = articleAbstractHtml.query(".//x:a[contains(@href,'/doi/pdfplus/')]", X_XHTML);
 		if (fullTextPdfLinks.size() == 0) {
 			LOG.warn("Problem getting full text HTML link: "+doi);
@@ -354,7 +354,7 @@ public class AcsArticleCrawler extends ArticleCrawler {
 	 * 
 	 */
 	public static void main(String[] args) {
-		DOI doi = new DOI("http://dx.doi.org/10.1021/np900030y");
+		DOI doi = new DOI("http://dx.doi.org/10.1021/cg801336t");
 		AcsArticleCrawler crawler = new AcsArticleCrawler(doi);
 		ArticleDetails ad = crawler.getDetails();
 		System.out.println(ad.toString());

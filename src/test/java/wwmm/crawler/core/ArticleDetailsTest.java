@@ -9,7 +9,6 @@ import static org.mockito.Mockito.mock;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.httpclient.URI;
 import org.junit.Test;
 
 import wwmm.pubcrawler.core.ArticleDetails;
@@ -23,7 +22,7 @@ public class ArticleDetailsTest {
 	public void testConstructor() {
 		ArticleDetails ad = new ArticleDetails();
 		assertNull("DOI should initially be null when using the default constructor.", ad.getDoi());
-		assertNull("Full-text HTML link should initially be null when using the default constructor.", ad.getFullTextLink());
+		assertNull("Full-text HTML link should initially be null when using the default constructor.", ad.getFullTextResources());
 		assertNull("Title should initially be null when using the default constructor.", ad.getTitle());
 		assertNull("Authors should initially be null when using the default constructor.", ad.getAuthors());
 		assertNull("Reference should initially be null when using the default constructor.", ad.getReference());
@@ -37,14 +36,6 @@ public class ArticleDetailsTest {
 		DOI doi = mock(DOI.class);
 		ad.setDoi(doi);
 		assertSame(doi, ad.getDoi());
-	}
-	
-	@Test
-	public void testSetAndGetFulltextHtmlLink() {
-		ArticleDetails ad = new ArticleDetails();
-		URI uri = mock(URI.class);
-		ad.setFullTextLink(uri);
-		assertSame(uri, ad.getFullTextLink());
 	}
 	
 	@Test 
