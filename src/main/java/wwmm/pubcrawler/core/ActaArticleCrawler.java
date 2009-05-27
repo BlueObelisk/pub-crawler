@@ -294,7 +294,7 @@ public class ActaArticleCrawler extends ArticleCrawler {
 	 * 
 	 */
 	public static void main(String[] args) {
-		DOI doi = new DOI("http://dx.doi.org/10.1107/S0108270109015303");
+		DOI doi = new DOI("http://dx.doi.org//10.1107/S0108270109006118");
 		ActaArticleCrawler crawler = new ActaArticleCrawler(doi);
 		ArticleDetails ad = crawler.getDetails();
 		System.out.println(ad.toString());

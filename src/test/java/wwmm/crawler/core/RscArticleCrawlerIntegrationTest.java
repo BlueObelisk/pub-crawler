@@ -13,6 +13,7 @@ import org.junit.Test;
 import wwmm.pubcrawler.core.ArticleDetails;
 import wwmm.pubcrawler.core.ArticleReference;
 import wwmm.pubcrawler.core.DOI;
+import wwmm.pubcrawler.core.FullTextResourceDetails;
 import wwmm.pubcrawler.core.RscArticleCrawler;
 import wwmm.pubcrawler.core.SupplementaryResourceDetails;
 
@@ -33,9 +34,17 @@ public class RscArticleCrawlerIntegrationTest {
 		assertEquals("Celia Ribes, Eva Falomir, Juan Murga, Miguel Carda and J. Alberto Marco", authors);
 		DOI detailsDoi = details.getDoi();
 		assertEquals(doi, detailsDoi);
-		URI fullTextLink = details.getFullTextLink();
-		assertEquals(new URI("http://www.rsc.org/delivery/_ArticleLinking/ArticleLinking.cfm?JournalCode=OB&Year=2009&ManuscriptID=b821431j&Iss=7", false), fullTextLink);
-		
+
+		List<FullTextResourceDetails> ftrds = details.getFullTextResources();
+		assertEquals(2, ftrds.size());
+		FullTextResourceDetails ftrd1 = ftrds.get(0);
+		assertEquals(new URI("http://www.rsc.org/delivery/_ArticleLinking/ArticleLinking.cfm?JournalCode=OB&Year=2009&ManuscriptID=b821431j&Iss=7", false), ftrd1.getURI());
+		assertEquals("HTML article", ftrd1.getLinkText());
+		assertEquals("text/html", ftrd1.getContentType());
+		FullTextResourceDetails ftrd2 = ftrds.get(1);
+		assertEquals(new URI("http://www.rsc.org/ej/OB/2009/b821431j.pdf", false), ftrd2.getURI());
+		assertEquals("PDF", ftrd2.getLinkText());
+		assertEquals("application/pdf", ftrd2.getContentType());
 		ArticleReference ref = details.getReference();
 		String journalTitle = ref.getJournalTitle();
 		assertEquals("Org. Biomol. Chem.", journalTitle);

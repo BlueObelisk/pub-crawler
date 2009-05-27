@@ -13,6 +13,7 @@ import wwmm.pubcrawler.core.ActaArticleCrawler;
 import wwmm.pubcrawler.core.ArticleDetails;
 import wwmm.pubcrawler.core.ArticleReference;
 import wwmm.pubcrawler.core.DOI;
+import wwmm.pubcrawler.core.FullTextResourceDetails;
 import wwmm.pubcrawler.core.SupplementaryResourceDetails;
 
 public class ActaArticleCrawlerIntegrationTest {
@@ -32,9 +33,17 @@ public class ActaArticleCrawlerIntegrationTest {
 		assertEquals("Kim, Jinyoung and Ahn, Docheon and Kulshreshtha, Chandramouli and Sohn, Kee-Sun and Shin, Namsoo", authors);
 		DOI detailsDoi = details.getDoi();
 		assertEquals(doi, detailsDoi);
-		URI fullTextLink = details.getFullTextLink();
-		assertEquals(new URI("http://journals.iucr.org/c/issues/2009/04/00/sq3185/index.html", false), fullTextLink);
-		
+
+		List<FullTextResourceDetails> ftrds = details.getFullTextResources();
+		assertEquals(2, ftrds.size());
+		FullTextResourceDetails ftrd1 = ftrds.get(0);
+		assertEquals(new URI("http://journals.iucr.org/c/issues/2009/04/00/sq3185/index.html", false), ftrd1.getURI());
+		assertEquals("HTML", ftrd1.getLinkText());
+		assertEquals("text/html", ftrd1.getContentType());
+		FullTextResourceDetails ftrd2 = ftrds.get(1);
+		assertEquals(new URI("http://journals.iucr.org/c/issues/2009/04/00/sq3185/sq3185.pdf", false), ftrd2.getURI());
+		assertEquals("PDF", ftrd2.getLinkText());
+		assertEquals("application/pdf", ftrd2.getContentType());
 		ArticleReference ref = details.getReference();
 		String journalTitle = ref.getJournalTitle();
 		assertEquals("Acta Crystallographica Section C", journalTitle);

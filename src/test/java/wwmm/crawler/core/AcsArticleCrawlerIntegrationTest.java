@@ -13,6 +13,7 @@ import wwmm.pubcrawler.core.AcsArticleCrawler;
 import wwmm.pubcrawler.core.ArticleDetails;
 import wwmm.pubcrawler.core.ArticleReference;
 import wwmm.pubcrawler.core.DOI;
+import wwmm.pubcrawler.core.FullTextResourceDetails;
 import wwmm.pubcrawler.core.SupplementaryResourceDetails;
 
 public class AcsArticleCrawlerIntegrationTest {
@@ -32,8 +33,21 @@ public class AcsArticleCrawlerIntegrationTest {
 		assertEquals("Ichiro Hisaki, Norie Shizuki, Kazuaki Aburaya, Masanori Katsuta, Norimitsu Tohnai, Mikiji Miyata", authors);
 		DOI detailsDoi = details.getDoi();
 		assertEquals(doi, detailsDoi);
-		URI fullTextLink = details.getFullTextLink();
-		assertEquals(new URI("http://pubs.acs.org/doi/full/10.1021/cg801336t", false), fullTextLink);
+
+		List<FullTextResourceDetails> ftrds = details.getFullTextResources();
+		assertEquals(3, ftrds.size());
+		FullTextResourceDetails ftrd1 = ftrds.get(0);
+		assertEquals(new URI("http://pubs.acs.org/doi/full/10.1021/cg801336t", false), ftrd1.getURI());
+		assertEquals("Full Text HTML", ftrd1.getLinkText());
+		assertEquals("text/html", ftrd1.getContentType());
+		FullTextResourceDetails ftrd2 = ftrds.get(1);
+		assertEquals(new URI("http://pubs.acs.org/doi/pdf/10.1021/cg801336t", false), ftrd2.getURI());
+		assertEquals("Hi-Res PDF[1954 KB]", ftrd2.getLinkText());
+		assertEquals("application/pdf", ftrd2.getContentType());
+		FullTextResourceDetails ftrd3 = ftrds.get(2);
+		assertEquals(new URI("http://pubs.acs.org/doi/pdfplus/10.1021/cg801336t", false), ftrd3.getURI());
+		assertEquals("PDF w/ Links[370 KB]", ftrd3.getLinkText());
+		assertEquals("application/pdf", ftrd3.getContentType());
 		
 		ArticleReference ref = details.getReference();
 		String journalTitle = ref.getJournalTitle();

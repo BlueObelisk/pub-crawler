@@ -2,15 +2,11 @@ package wwmm.pubcrawler;
 
 import static wwmm.pubcrawler.CrawlerConstants.X_XHTML;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -21,10 +17,8 @@ import nu.xom.Document;
 import nu.xom.Node;
 import nu.xom.Nodes;
 import nu.xom.ParsingException;
-import nu.xom.Serializer;
 import nu.xom.ValidityException;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 
 /**
