@@ -61,17 +61,16 @@ public class RscArticleCrawler extends ArticleCrawler {
 			LOG.warn("The DOI provided for the article abstract ("+doi.toString()+") has not resolved so we cannot get article details.");
 			return ad;
 		}		
-		URI fullTextLink = getFullTextLink();
-		ad.setFullTextLink(fullTextLink);
+		List<FullTextResourceDetails> fullTextResources = getFullTextResources();
+		ad.setFullTextResources(fullTextResources);
 		String title = getTitle();
 		ArticleReference ref = getReference();
 		String authors = getAuthors();
-		List<SupplementaryFileDetails> suppFiles = getSupplementaryFilesDetails();
-		ad.setFullTextLink(fullTextLink);
+		List<SupplementaryResourceDetails> suppFiles = getSupplementaryFilesDetails();
 		ad.setTitle(title);
 		ad.setReference(ref);
 		ad.setAuthors(authors);
-		ad.setSuppFiles(suppFiles);
+		ad.setSupplementaryResources(suppFiles);
 		ad.setHasBeenPublished(true);
 		LOG.info("Finished finding article details: "+doi);
 		return ad;
@@ -79,20 +78,70 @@ public class RscArticleCrawler extends ArticleCrawler {
 
 	/**
 	 * <p>
-	 * Gets the URI of the article full-text.
+	 * Gets the details of any full-text resources provided for
+	 * the article.
 	 * </p>
 	 * 
-	 * @return URI of the article full-text.
+	 * @return list containing the details of each full-text
+	 * resource provided for the article.
 	 */
-	private URI getFullTextLink() {
+	private List<FullTextResourceDetails> getFullTextResources() {
+		List<FullTextResourceDetails> fullTextResources = new ArrayList<FullTextResourceDetails>(3);
+		FullTextResourceDetails fullTextHtmlDetails = getFullTextHtmlDetails();
+		if (fullTextHtmlDetails != null) {
+			fullTextResources.add(fullTextHtmlDetails);
+		}
+		FullTextResourceDetails fullTextPdfDetails = getFullTextPdfDetails();
+		if (fullTextPdfDetails != null) {
+			fullTextResources.add(fullTextPdfDetails);
+		}
+		return fullTextResources;
+	}
+	
+	/**
+	 * <p>
+	 * Gets the details about the full-text HTML resource for 
+	 * this article.
+	 * </p>
+	 * 
+	 * @return details about the full-text HTML resource for this
+	 * article.
+	 */
+	private FullTextResourceDetails getFullTextHtmlDetails() {
 		Nodes links = articleAbstractHtml.query(".//x:a[.='HTML article']", X_XHTML);
 		if (links.size() != 1) {
 			LOG.warn("Problem finding full text HTML link: "+doi);
 			return null;
 		}
-		String urlPostfix = ((Element)links.get(0)).getAttributeValue("href");
+		Element link = (Element)links.get(0);
+		String linkText = link.getValue().trim();
+		String urlPostfix = link.getAttributeValue("href");
 		String url = "http://www.rsc.org"+urlPostfix;
-		return createURI(url);
+		URI uri = createURI(url);
+		return new FullTextResourceDetails(uri, linkText, "text/html");
+	}
+	
+	/**
+	 * <p>
+	 * Gets the details about the full-text PDF resource for 
+	 * this article.
+	 * </p>
+	 * 
+	 * @return details about the full-text PDF resource for this
+	 * article.
+	 */
+	private FullTextResourceDetails getFullTextPdfDetails() {
+		Nodes links = articleAbstractHtml.query(".//x:a[.='PDF']", X_XHTML);
+		if (links.size() != 1) {
+			LOG.warn("Problem finding full text PDF link: "+doi);
+			return null;
+		}
+		Element link = (Element)links.get(0);
+		String linkText = link.getValue().trim();
+		String urlPostfix = link.getAttributeValue("href");
+		String url = "http://www.rsc.org"+urlPostfix;
+		URI uri = createURI(url);
+		return new FullTextResourceDetails(uri, linkText, "application/pdf");
 	}
 
 	/**
@@ -105,7 +154,7 @@ public class RscArticleCrawler extends ArticleCrawler {
 	 * data file (as a <code>SupplementaryFileDetails</code> object).
 	 * 
 	 */
-	private List<SupplementaryFileDetails> getSupplementaryFilesDetails() {
+	private List<SupplementaryResourceDetails> getSupplementaryFilesDetails() {
 		Nodes nds = articleAbstractHtml.query(".//x:a[contains(.,'ESI')]", X_XHTML);
 		if (nds.size() == 0) {
 			return Collections.EMPTY_LIST;
@@ -115,7 +164,7 @@ public class RscArticleCrawler extends ArticleCrawler {
 		URI suppListUri = createURI(suppListUrl);
 		Document suppListDoc = httpClient.getResourceHTML(suppListUri);
 		Nodes linkNds = suppListDoc.query(".//x:li/x:a", X_XHTML);
-		List<SupplementaryFileDetails> sfdList = new ArrayList<SupplementaryFileDetails>(linkNds.size());
+		List<SupplementaryResourceDetails> sfdList = new ArrayList<SupplementaryResourceDetails>(linkNds.size());
 		for (int i = 0; i < linkNds.size(); i++) {
 			Element linkNd = (Element)linkNds.get(i);
 			String linkText = linkNd.getValue();
@@ -125,7 +174,7 @@ public class RscArticleCrawler extends ArticleCrawler {
 			String suppFilename = getFilenameFromUrl(suppFileUrl);
 			URI suppFileUri = createURI(suppFileUrl);
 			String contentType = httpClient.getContentType(suppFileUri);
-			SupplementaryFileDetails sfd = new SupplementaryFileDetails(suppFileUri, suppFilename, linkText, contentType);
+			SupplementaryResourceDetails sfd = new SupplementaryResourceDetails(suppFileUri, suppFilename, linkText, contentType);
 			sfdList.add(sfd);
 		}
 		return sfdList;
@@ -233,30 +282,19 @@ public class RscArticleCrawler extends ArticleCrawler {
 		title = title.trim();
 		return title;
 	}
-
+	
 	/**
 	 * <p>
-	 * Main method only for demonstration of class use. Does not require
-	 * any arguments.
+	 * Main method meant for demonstration purposes only. Requires
+	 * no arguments.
 	 * </p>
 	 * 
-	 * @param args
-	 * @throws NullPointerException 
-	 * @throws URIException 
 	 */
-	public static void main(String[] args) throws URIException, NullPointerException {
-		String ref = "Org. Biomol. Chem., 2009, 7, 1355 - 1360, DOI: 10.1039/b821431j";
-		//String p = "\\s*([^,]+),\\s*(\\d+),\\s*(\\d+),\\s*([^,]+),\\s*DOI:.*";
-		String p = "\\s*([^,]+),\\s*(\\d+),[^\\d]*(\\d+),\\s*([^,]+),\\s*DOI:.*";
-		Pattern firstPattern = Pattern.compile(p);
-		Matcher firstMatcher = firstPattern.matcher(ref);
-		if (firstMatcher.find()) {
-			for (int i = 0; i <= firstMatcher.groupCount(); i++) {
-				System.out.println(firstMatcher.group(i));
-			}
-		} else {
-			System.out.println("no match");
-		}
+	public static void main(String[] args) {
+		DOI doi = new DOI("http://dx.doi.org/10.1039/b821051a");
+		RscArticleCrawler crawler = new RscArticleCrawler(doi);
+		ArticleDetails ad = crawler.getDetails();
+		System.out.println(ad.toString());
 	}
 
 }

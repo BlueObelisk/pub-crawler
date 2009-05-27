@@ -13,7 +13,7 @@ import wwmm.pubcrawler.core.AcsArticleCrawler;
 import wwmm.pubcrawler.core.ArticleDetails;
 import wwmm.pubcrawler.core.ArticleReference;
 import wwmm.pubcrawler.core.DOI;
-import wwmm.pubcrawler.core.SupplementaryFileDetails;
+import wwmm.pubcrawler.core.SupplementaryResourceDetails;
 
 public class AcsArticleCrawlerIntegrationTest {
 	
@@ -49,9 +49,9 @@ public class AcsArticleCrawlerIntegrationTest {
 		String title = details.getTitle();
 		assertEquals("Structures of Brucinium Cholate: Bile Acid and Strychnine Derivatives Meet in the Crystals", title);
 		
-		List<SupplementaryFileDetails> suppList = details.getSuppFiles();
+		List<SupplementaryResourceDetails> suppList = details.getSupplementaryResources();
 		assertEquals(4, suppList.size());
-		SupplementaryFileDetails sfd0 = suppList.get(0);
+		SupplementaryResourceDetails sfd0 = suppList.get(0);
 		String contentType0 = sfd0.getContentType();
 		assertEquals("application/pdf", contentType0);
 		String fileId0 = sfd0.getFileId();
@@ -60,7 +60,7 @@ public class AcsArticleCrawlerIntegrationTest {
 		assertEquals("cg801336t_si_001.pdf (841 KB)", linkText0);
 		URI uri0 = sfd0.getURI();
 		assertEquals(new URI("http://pubs.acs.org/doi/suppl/10.1021/cg801336t/suppl_file/cg801336t_si_001.pdf", false), uri0);
-		SupplementaryFileDetails sfd2 = suppList.get(2);
+		SupplementaryResourceDetails sfd2 = suppList.get(2);
 		String contentType2 = sfd2.getContentType();
 		assertEquals("chemical/x-cif", contentType2);
 		String fileId2 = sfd2.getFileId();

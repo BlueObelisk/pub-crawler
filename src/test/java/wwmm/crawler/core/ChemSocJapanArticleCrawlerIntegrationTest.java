@@ -13,7 +13,7 @@ import wwmm.pubcrawler.core.ArticleDetails;
 import wwmm.pubcrawler.core.ArticleReference;
 import wwmm.pubcrawler.core.ChemSocJapanArticleCrawler;
 import wwmm.pubcrawler.core.DOI;
-import wwmm.pubcrawler.core.SupplementaryFileDetails;
+import wwmm.pubcrawler.core.SupplementaryResourceDetails;
 
 public class ChemSocJapanArticleCrawlerIntegrationTest {
 
@@ -49,9 +49,9 @@ public class ChemSocJapanArticleCrawlerIntegrationTest {
 		String title = details.getTitle();
 		assertEquals("Alternative Route to Metal Halide Free Ionic Liquids", title);
 		
-		List<SupplementaryFileDetails> suppList = details.getSuppFiles();
+		List<SupplementaryResourceDetails> suppList = details.getSupplementaryResources();
 		assertEquals(2, suppList.size());
-		SupplementaryFileDetails sfd0 = suppList.get(0);
+		SupplementaryResourceDetails sfd0 = suppList.get(0);
 		String contentType0 = sfd0.getContentType();
 		assertEquals("application/pdf", contentType0);
 		String fileId0 = sfd0.getFileId();
@@ -60,7 +60,7 @@ public class ChemSocJapanArticleCrawlerIntegrationTest {
 		assertEquals("Supporting Information", linkText0);
 		URI uri0 = sfd0.getURI();
 		assertEquals(new URI("http://www.jstage.jst.go.jp/article/cl/37/7/37_682/_appendix/1", false), uri0);
-		SupplementaryFileDetails sfd1 = suppList.get(1);
+		SupplementaryResourceDetails sfd1 = suppList.get(1);
 		String contentType1 = sfd1.getContentType();
 		assertEquals("application/octet-stream", contentType1);
 		String fileId1 = sfd1.getFileId();

@@ -1,7 +1,7 @@
 package wwmm.pubcrawler.impl;
 
 import wwmm.pubcrawler.core.ChemSocJapanIssueCrawler;
-import wwmm.pubcrawler.core.SupplementaryFileDetails;
+import wwmm.pubcrawler.core.SupplementaryResourceDetails;
 
 /**
  * <p>
@@ -29,7 +29,7 @@ public class ChemSocJapanCifIssueCrawler extends CifIssueCrawler {
 	 * CIF file, false if not.
 	 */
 	@Override
-	protected boolean isCifFile(SupplementaryFileDetails sfd) {
+	protected boolean isCifFile(SupplementaryResourceDetails sfd) {
 		String linkText = sfd.getLinkText();
 		if (linkText.contains("CIF")) {
 			return true;
