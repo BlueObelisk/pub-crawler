@@ -1,6 +1,5 @@
 package wwmm.pubcrawler.core;
 
-import static wwmm.pubcrawler.core.CrawlerConstants.ACS_HOMEPAGE_URL;
 import static wwmm.pubcrawler.core.CrawlerConstants.NATURE_HOMEPAGE_URL;
 import static wwmm.pubcrawler.core.CrawlerConstants.X_XHTML;
 

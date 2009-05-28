@@ -9,8 +9,6 @@ import nu.xom.Document;
 
 import org.junit.Test;
 
-import wwmm.pubcrawler.core.AcsIssueCrawler;
-import wwmm.pubcrawler.core.AcsJournal;
 import wwmm.pubcrawler.core.DOI;
 import wwmm.pubcrawler.core.IssueDetails;
 import wwmm.pubcrawler.core.NatureIssueCrawler;
