@@ -1,6 +1,6 @@
 package wwmm.pubcrawler.impl;
 
-import static wwmm.pubcrawler.CrawlerConstants.CIF_CONTENT_TYPE;
+import static wwmm.pubcrawler.core.CrawlerConstants.CIF_CONTENT_TYPE;
 
 import java.util.ArrayList;
 import java.util.List;

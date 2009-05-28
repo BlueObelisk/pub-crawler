@@ -1,7 +1,7 @@
 package wwmm.pubcrawler.core;
 
-import static wwmm.pubcrawler.CrawlerConstants.X_XHTML;
 import static wwmm.pubcrawler.core.CrawlerConstants.ACS_HOMEPAGE_URL;
+import static wwmm.pubcrawler.core.CrawlerConstants.X_XHTML;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -115,7 +115,7 @@ public class AcsArticleCrawler extends ArticleCrawler {
 	private FullTextResourceDetails getFullTextPdfDetails() {
 		Nodes fullTextPdfLinks = articleAbstractHtml.query(".//x:a[contains(@href,'/doi/pdf/')]", X_XHTML);
 		if (fullTextPdfLinks.size() == 0) {
-			LOG.warn("Problem getting full text HTML link: "+doi);
+			LOG.warn("Problem getting full text PDF link: "+doi);
 			return null;
 		}
 		Element fullTextLink = (Element)fullTextPdfLinks.get(0);
@@ -137,7 +137,7 @@ public class AcsArticleCrawler extends ArticleCrawler {
 	private FullTextResourceDetails getFullTextEnhancedPdfDetails() {
 		Nodes fullTextPdfLinks = articleAbstractHtml.query(".//x:a[contains(@href,'/doi/pdfplus/')]", X_XHTML);
 		if (fullTextPdfLinks.size() == 0) {
-			LOG.warn("Problem getting full text HTML link: "+doi);
+			LOG.warn("Problem getting full text enhanced PDF link: "+doi);
 			return null;
 		}
 		Element fullTextLink = (Element)fullTextPdfLinks.get(0);

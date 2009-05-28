@@ -1,6 +1,7 @@
 package wwmm.pubcrawler.core;
 
 import static wwmm.pubcrawler.core.CrawlerConstants.ACS_HOMEPAGE_URL;
+import static wwmm.pubcrawler.core.CrawlerConstants.NATURE_HOMEPAGE_URL;
 import static wwmm.pubcrawler.core.CrawlerConstants.X_XHTML;
 
 import java.util.ArrayList;
@@ -20,33 +21,33 @@ import wwmm.pubcrawler.Utils;
 
 /**
  * <p>
- * The <code>AcsIssueCrawler</code> class provides a method for obtaining
+ * The <code>NatureIssueCrawler</code> class provides a method for obtaining
  * information about all articles from a particular issue of a journal
- * published by the American Chemical Society.
+ * published by the Nature Publishing Group.
  * </p>
  * 
  * @author Nick Day
- * @version 1.1
+ * @version 0.1
  * 
  */
-public class AcsIssueCrawler extends IssueCrawler {
+public class NatureIssueCrawler extends IssueCrawler {
+	
+	private NatureJournal journal;
 
-	private AcsJournal journal;
-
-	private static final Logger LOG = Logger.getLogger(AcsIssueCrawler.class);
-
+	private static final Logger LOG = Logger.getLogger(NatureIssueCrawler.class);
+	
 	/**
 	 * <p>
-	 * Creates an instance of the AcsIssueCrawler class and
+	 * Creates an instance of the NatureIssueCrawler class and
 	 * specifies the journal of the issue to be crawled.
 	 * </p>
 	 * 
 	 * @param doi of the article to be crawled.
 	 */
-	public AcsIssueCrawler(AcsJournal journal) {
+	public NatureIssueCrawler(NatureJournal journal) {
 		this.journal = journal;
 	}
-
+	
 	/**
 	 * <p>
 	 * Gets information to identify the last published issue of a
@@ -59,24 +60,24 @@ public class AcsIssueCrawler extends IssueCrawler {
 	@Override
 	public IssueDetails getCurrentIssueDetails() {
 		Document doc = getCurrentIssueHtml();
-		Nodes journalInfo = doc.query(".//x:div[@id='tocMeta']", X_XHTML);
-		int size = journalInfo.size();
-		if (size != 1) {
+		Nodes currentIssueNds = doc.query(".//x:a[.='Current issue']", X_XHTML);
+		if (currentIssueNds.size() != 1) {
 			throw new CrawlerRuntimeException("Expected to find 1 element containing" +
-					" the year/issue information but found "+size+".");
+					" a link to the current issue TOC but found "+currentIssueNds.size()+".");
 		}
-		String info = journalInfo.get(0).getValue().trim();
-		Pattern pattern = Pattern.compile("[^,]*,\\s*(\\d+)\\s+Volume\\s+(\\d+),\\s+Issue\\s+(\\d+)\\s+Pages\\s+(\\d+-\\d+).*");
-		Matcher matcher = pattern.matcher(info);
-		if (!matcher.find() || matcher.groupCount() != 4) {
+		String urlPostfix = ((Element)currentIssueNds.get(0)).getAttributeValue("href");
+		Pattern pattern = Pattern.compile("/"+journal.getAbbreviation()+"/journal/v(\\d+)/n(\\d+)");
+		Matcher matcher = pattern.matcher(urlPostfix);
+		if (!matcher.find() || matcher.groupCount() != 2) {
 			throw new CrawlerRuntimeException("Could not extract the year/issue information.");
 		}
-		String year = matcher.group(1);
-		String issueId = matcher.group(3);
-		LOG.debug("Found latest issue details for ACS journal "+journal.getFullTitle()+": year="+year+", issue="+issueId+".");
-		return new IssueDetails(year, issueId);
+		String volume = matcher.group(1);
+		String number = matcher.group(2);
+		String year = String.valueOf(Integer.valueOf(volume)+journal.getVolumeOffset());
+		LOG.debug("Found latest issue details for Nature journal "+journal.getFullTitle()+": year="+year+", issue="+number+".");
+		return new IssueDetails(year, number);
 	}
-
+	
 	/**
 	 * <p>
 	 * Gets the HTML of the table of contents of the last 
@@ -88,11 +89,11 @@ public class AcsIssueCrawler extends IssueCrawler {
 	 */
 	@Override
 	public Document getCurrentIssueHtml() {
-		String url = "http://pubs.acs.org/toc/"+journal.getAbbreviation()+"/current";
+		String url = NATURE_HOMEPAGE_URL+"/"+journal.getAbbreviation()+"/index.html";
 		URI issueUri = createURI(url);
 		return httpClient.getResourceHTML(issueUri);
 	}
-
+	
 	/**
 	 * <p>
 	 * Gets the DOIs of all of the articles from the last 
@@ -128,14 +129,14 @@ public class AcsIssueCrawler extends IssueCrawler {
 		String issueId = issueDetails.getIssueId();
 		List<DOI> dois = new ArrayList<DOI>();
 		int volume = Integer.valueOf(year)-journal.getVolumeOffset();
-		String issueUrl = ACS_HOMEPAGE_URL+"/toc/"+journal.getAbbreviation()+"/"+volume+"/"+issueId;
+		String issueUrl = NATURE_HOMEPAGE_URL+"/"+journal.getAbbreviation()+"/journal/v"+volume+"/n"+issueId+"/index.html";
 		URI issueUri = createURI(issueUrl);
 		LOG.info("Started to find DOIs from "+journal.getFullTitle()+", year "+year+", issue "+issueId+".");
 		Document issueDoc = httpClient.getResourceHTML(issueUri);
-		List<Node> doiNodes = Utils.queryHTML(issueDoc, ".//x:div[@class='DOI']");
+		List<Node> doiNodes = Utils.queryHTML(issueDoc, ".//x:span[@class='doi']");
 		for (Node doiNode : doiNodes) {
-			String contents = ((Element)doiNode).getValue();
-			String doiPostfix = contents.replaceAll("DOI:", "").trim();
+			Element span = (Element)doiNode;
+			String doiPostfix = span.getValue().substring(4);
 			String doiStr = DOI.DOI_SITE_URL+"/"+doiPostfix;
 			DOI doi = new DOI(createURI(doiStr)); 
 			dois.add(doi);
@@ -147,7 +148,7 @@ public class AcsIssueCrawler extends IssueCrawler {
 	/**
 	 * <p>
 	 * Gets information describing all articles in the issue 
-	 * defined by the <code>AcsJournal</code> and the provided
+	 * defined by the <code>NatureJournal</code> and the provided
 	 * year and issue identifier (wrapped in the 
 	 * <code>issueDetails</code> parameter.
 	 * </p>
@@ -164,7 +165,7 @@ public class AcsIssueCrawler extends IssueCrawler {
 		List<DOI> dois = getDOIs(details);
 		List<ArticleDetails> adList = new ArrayList<ArticleDetails>(dois.size());
 		for (DOI doi : dois) {
-			ArticleDetails ad = new AcsArticleCrawler(doi).getDetails();
+			ArticleDetails ad = new NatureArticleCrawler(doi).getDetails();
 			adList.add(ad);
 		}
 		LOG.info("Finished finding issue article details: "+details.getYear()+"-"+details.getIssueId());
@@ -180,9 +181,15 @@ public class AcsIssueCrawler extends IssueCrawler {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		AcsIssueCrawler acf = new AcsIssueCrawler(AcsJournal.THE_JOURNAL_OF_ORGANIC_CHEMISTRY);
-		IssueDetails details = acf.getCurrentIssueDetails();
-		List<ArticleDetails> adList = acf.getDetailsForArticles(details);
+		NatureIssueCrawler nic = new NatureIssueCrawler(NatureJournal.CHEMISTRY);
+		IssueDetails details = nic.getCurrentIssueDetails();
+		/*
+		List<DOI> dois = nic.getDOIs(details);
+		for (DOI doi : dois) {
+			System.out.println(doi.toString());
+		}
+		*/
+		List<ArticleDetails> adList = nic.getDetailsForArticles(details);
 		for (ArticleDetails ad : adList) {
 			System.out.println(ad.toString());
 		}
