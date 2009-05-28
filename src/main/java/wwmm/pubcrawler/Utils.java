@@ -1,6 +1,6 @@
 package wwmm.pubcrawler;
 
-import static wwmm.pubcrawler.CrawlerConstants.X_XHTML;
+import static wwmm.pubcrawler.core.CrawlerConstants.X_XHTML;
 
 import java.io.File;
 import java.io.FileNotFoundException;

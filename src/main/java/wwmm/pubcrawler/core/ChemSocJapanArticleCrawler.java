@@ -1,8 +1,8 @@
 package wwmm.pubcrawler.core;
 
-import static wwmm.pubcrawler.CrawlerConstants.XHTML_NS;
-import static wwmm.pubcrawler.CrawlerConstants.X_XHTML;
 import static wwmm.pubcrawler.core.CrawlerConstants.CHEMSOCJAPAN_HOMEPAGE_URL;
+import static wwmm.pubcrawler.core.CrawlerConstants.XHTML_NS;
+import static wwmm.pubcrawler.core.CrawlerConstants.X_XHTML;
 
 import java.util.ArrayList;
 import java.util.List;

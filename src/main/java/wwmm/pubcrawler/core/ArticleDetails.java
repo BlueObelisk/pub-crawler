@@ -1,5 +1,6 @@
 package wwmm.pubcrawler.core;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -24,13 +25,13 @@ public class ArticleDetails {
 	private String title;
 	private String authors;
 	private ArticleReference reference;
-	private List<FullTextResourceDetails> fullTexts;
-	private List<SupplementaryResourceDetails> suppFiles;
-	
+	private List<FullTextResourceDetails> fullTexts = new ArrayList<FullTextResourceDetails>();
+	private List<SupplementaryResourceDetails> suppFiles = new ArrayList<SupplementaryResourceDetails>();
+
 	// assume initially that the article has been published,
 	// it is more likely than not.
 	private boolean hasBeenPublished = true;
-	
+
 	public ArticleDetails() {
 		;
 	}
@@ -89,7 +90,7 @@ public class ArticleDetails {
 	public void setDoiResolved(boolean doiResolved) {
 		this.doiResolved = doiResolved;
 	}
-	
+
 	/**
 	 * <p>
 	 * Gets details for any full-text resources for this article.
@@ -114,7 +115,7 @@ public class ArticleDetails {
 	public List<SupplementaryResourceDetails> getSupplementaryResources() {
 		return suppFiles;
 	}
-	
+
 	/**
 	 * <p>
 	 * Sets details for any full-text resources that are provided
@@ -262,21 +263,23 @@ public class ArticleDetails {
 			if (StringUtils.isNotEmpty(authors)) {
 				result.append("  Authors: "+authors+NEW_LINE);
 			}
-			result.append("  Bib data: "+NEW_LINE);
-			if (StringUtils.isNotEmpty(reference.getJournalTitle())) {
-				result.append("    Journal: "+reference.getJournalTitle()+NEW_LINE);
-			}
-			if (StringUtils.isNotEmpty(reference.getYear())) {
-				result.append("    Year: "+reference.getYear()+NEW_LINE);
-			}
-			if (StringUtils.isNotEmpty(reference.getVolume())) {
-				result.append("    Volume: "+reference.getVolume()+NEW_LINE);
-			}
-			if (StringUtils.isNotEmpty(reference.getNumber())) {
-				result.append("    Number: "+reference.getNumber()+NEW_LINE);
-			}
-			if (StringUtils.isNotEmpty(reference.getPages())) {
-				result.append("    Pages: "+reference.getPages()+NEW_LINE);
+			if (reference != null) {
+				result.append("  Bib data: "+NEW_LINE);
+				if (StringUtils.isNotEmpty(reference.getJournalTitle())) {
+					result.append("    Journal: "+reference.getJournalTitle()+NEW_LINE);
+				}
+				if (StringUtils.isNotEmpty(reference.getYear())) {
+					result.append("    Year: "+reference.getYear()+NEW_LINE);
+				}
+				if (StringUtils.isNotEmpty(reference.getVolume())) {
+					result.append("    Volume: "+reference.getVolume()+NEW_LINE);
+				}
+				if (StringUtils.isNotEmpty(reference.getNumber())) {
+					result.append("    Number: "+reference.getNumber()+NEW_LINE);
+				}
+				if (StringUtils.isNotEmpty(reference.getPages())) {
+					result.append("    Pages: "+reference.getPages()+NEW_LINE);
+				}
 			}
 			result.append("  Full-text file details:"+NEW_LINE);
 			int fcount = 1;
@@ -294,6 +297,9 @@ public class ArticleDetails {
 					result.append("    -----"+NEW_LINE);
 				}
 				fcount++;
+			}
+			if (fullTexts.size() == 0) {
+				result.append("    --no full-text files--"+NEW_LINE);
 			}
 			result.append("  Supplementary file details:"+NEW_LINE);
 			int scount = 1;
