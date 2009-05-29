@@ -30,11 +30,11 @@ import wwmm.pubcrawler.Utils;
  * 
  */
 public class NatureIssueCrawler extends IssueCrawler {
-	
+
 	private NatureJournal journal;
 
 	private static final Logger LOG = Logger.getLogger(NatureIssueCrawler.class);
-	
+
 	/**
 	 * <p>
 	 * Creates an instance of the NatureIssueCrawler class and
@@ -46,7 +46,7 @@ public class NatureIssueCrawler extends IssueCrawler {
 	public NatureIssueCrawler(NatureJournal journal) {
 		this.journal = journal;
 	}
-	
+
 	/**
 	 * <p>
 	 * Gets information to identify the last published issue of a
@@ -76,7 +76,7 @@ public class NatureIssueCrawler extends IssueCrawler {
 		LOG.debug("Found latest issue details for Nature journal "+journal.getFullTitle()+": year="+year+", issue="+number+".");
 		return new IssueDetails(year, number);
 	}
-	
+
 	/**
 	 * <p>
 	 * Gets the HTML of the table of contents of the last 
@@ -92,7 +92,7 @@ public class NatureIssueCrawler extends IssueCrawler {
 		URI issueUri = createURI(url);
 		return httpClient.getResourceHTML(issueUri);
 	}
-	
+
 	/**
 	 * <p>
 	 * Gets the DOIs of all of the articles from the last 
@@ -187,7 +187,7 @@ public class NatureIssueCrawler extends IssueCrawler {
 		for (DOI doi : dois) {
 			System.out.println(doi.toString());
 		}
-		*/
+		 */
 		List<ArticleDetails> adList = nic.getDetailsForArticles(details);
 		for (ArticleDetails ad : adList) {
 			System.out.println(ad.toString());
