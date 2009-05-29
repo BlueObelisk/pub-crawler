@@ -34,5 +34,7 @@ public interface CrawlerConstants {
 	public static final XPathContext X_XHTML = new XPathContext("x", XHTML_NS);
 	
 	public static final String CIF_CONTENT_TYPE = "chemical/x-cif";
+	public static final String HTML_CONTENT_TYPE = "text/html";
+	public static final String PDF_CONTENT_TYPE = "application/pdf";
 	
 }

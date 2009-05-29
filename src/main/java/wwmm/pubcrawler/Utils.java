@@ -11,6 +11,7 @@ import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import nu.xom.Builder;
 import nu.xom.Document;
@@ -32,6 +33,19 @@ import org.apache.log4j.Logger;
 public class Utils {
 
 	private static final Logger LOG = Logger.getLogger(Utils.class);
+	
+	/**
+	 * <p>
+	 * Generates and returns a random UUID string.
+	 * </p>
+	 * 
+	 * @return a random UUID string, e.g. 
+	 * urn:uuid:fab87b8d-74c9-407b-9590-c2898ae82fff
+	 */
+	public static String getRandomUuidString() {
+		UUID uuid = UUID.randomUUID();
+		return "urn:uuid:"+uuid.toString();
+	}
 
 	/**
 	 * <p>
