@@ -22,11 +22,11 @@ public class ArticleDetailsTest {
 	public void testConstructor() {
 		ArticleDetails ad = new ArticleDetails();
 		assertNull("DOI should initially be null when using the default constructor.", ad.getDoi());
-		assertNull("Full-text HTML link should initially be null when using the default constructor.", ad.getFullTextResources());
 		assertNull("Title should initially be null when using the default constructor.", ad.getTitle());
 		assertNull("Authors should initially be null when using the default constructor.", ad.getAuthors());
 		assertNull("Reference should initially be null when using the default constructor.", ad.getReference());
-		assertNull("Supplementary file list should initially be null when using the default constructor.", ad.getSupplementaryResources());
+		assertEquals(0, ad.getSupplementaryResources().size());
+		assertEquals(0, ad.getFullTextResources().size());
 		assertTrue(ad.hasBeenPublished());
 	}
 	

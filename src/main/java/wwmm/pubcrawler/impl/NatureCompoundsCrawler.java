@@ -116,7 +116,7 @@ public class NatureCompoundsCrawler {
 			String chemDrawUrl = cmlUrl.replaceAll("cml", "cdx");
 			chemDrawUrl = chemDrawUrl.replaceAll("/cdx/", "/chemdraw/");
 			URI chemDrawUri = createUri(chemDrawUrl);
-			cdList.add(new CompoundDetails(splashPageUri, molUri, cmlUri, chemDrawUri));
+			cdList.add(new CompoundDetails(splashPageUri, molUri, chemDrawUri));
 		}
 		return cdList;
 	}
@@ -251,7 +251,6 @@ public class NatureCompoundsCrawler {
 
 		private URI splashPageUri;
 		private URI molUri;
-		private URI cmlUri;
 		private URI chemDrawUri;
 
 		// hide the default constructor
@@ -259,10 +258,9 @@ public class NatureCompoundsCrawler {
 			;
 		}
 
-		public CompoundDetails(URI splashPageUri, URI molUri, URI cmlUri, URI chemDrawUri) {
+		public CompoundDetails(URI splashPageUri, URI molUri, URI chemDrawUri) {
 			this.splashPageUri = splashPageUri;
 			this.molUri = molUri;
-			this.cmlUri = cmlUri;
 			this.chemDrawUri = chemDrawUri;
 		}
 
@@ -286,17 +284,6 @@ public class NatureCompoundsCrawler {
 		 */
 		public URI getMolUri() {
 			return molUri;
-		}
-
-		/**
-		 * <p>
-		 * Gets the URI of the CML file for this compound.
-		 * </p>
-		 * 
-		 * @return the URI of the CML file for this compound.
-		 */
-		public URI getCmlUrl() {
-			return cmlUri;
 		}
 
 		/**
@@ -329,7 +316,6 @@ public class NatureCompoundsCrawler {
 				System.out.println(cd.getSplashPageUri());
 				System.out.println(cd.getChemDrawUri());
 				System.out.println(cd.getMolUri());
-				System.out.println(cd.getCmlUrl());
 				System.out.println("---------------------------------------");
 			}
 			System.out.println("======================================================");
