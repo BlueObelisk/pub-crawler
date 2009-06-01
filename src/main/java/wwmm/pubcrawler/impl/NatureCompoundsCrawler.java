@@ -102,6 +102,7 @@ public class NatureCompoundsCrawler {
 			compoundUrls.add(compoundUrl);
 		}
 		List<CompoundDetails> cdList = new ArrayList<CompoundDetails>(compoundUrls.size());
+		int count = 1;
 		for (String compoundUrl : compoundUrls) {
 			LOG.info("Finding compound info at: "+compoundUrl);
 			URI splashPageUri = createUri(compoundUrl);
@@ -116,7 +117,8 @@ public class NatureCompoundsCrawler {
 			String chemDrawUrl = cmlUrl.replaceAll("cml", "cdx");
 			chemDrawUrl = chemDrawUrl.replaceAll("/cdx/", "/chemdraw/");
 			URI chemDrawUri = createUri(chemDrawUrl);
-			cdList.add(new CompoundDetails(splashPageUri, cmlUri, molUri, chemDrawUri));
+			cdList.add(new CompoundDetails(""+count, splashPageUri, cmlUri, molUri, chemDrawUri));
+			count++;
 		}
 		return cdList;
 	}
@@ -249,6 +251,7 @@ public class NatureCompoundsCrawler {
 	 */
 	public class CompoundDetails {
 
+		private String id;
 		private URI splashPageUri;
 		private URI cmlUri;
 		private URI molUri;
@@ -259,11 +262,23 @@ public class NatureCompoundsCrawler {
 			;
 		}
 
-		public CompoundDetails(URI splashPageUri, URI cmlUri, URI molUri, URI chemDrawUri) {
+		public CompoundDetails(String id, URI splashPageUri, URI cmlUri, URI molUri, URI chemDrawUri) {
+			this.id = id;
 			this.splashPageUri = splashPageUri;
 			this.cmlUri = cmlUri;
 			this.molUri = molUri;
 			this.chemDrawUri = chemDrawUri;
+		}
+		
+		/**
+		 * <p>
+		 * Gets the ID of this compound.
+		 * </p>
+		 * 
+		 * @return the ID for this compound.
+		 */
+		public String getID() {
+			return id;
 		}
 
 		/**
