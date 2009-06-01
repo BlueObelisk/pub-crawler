@@ -117,6 +117,8 @@ public class NatureCompoundsCrawler {
 			String chemDrawUrl = cmlUrl.replaceAll("cml", "cdx");
 			chemDrawUrl = chemDrawUrl.replaceAll("/cdx/", "/chemdraw/");
 			URI chemDrawUri = createUri(chemDrawUrl);
+			// TODO - alter this so that the real compound ID is used
+			// rather than the incremented number
 			cdList.add(new CompoundDetails(""+count, splashPageUri, cmlUri, molUri, chemDrawUri));
 			count++;
 		}
