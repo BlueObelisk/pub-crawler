@@ -1,5 +1,7 @@
 package wwmm.pubcrawler.core;
 
+import java.io.File;
+
 import nu.xom.Document;
 
 import org.apache.commons.httpclient.Header;
@@ -245,6 +247,24 @@ public class CrawlerHttpClient extends BasicHttpClient {
 	public String getContentType(URI uri) {
 		Utils.sleep(maxSleep);
 		return super.getContentType(uri);
+	}
+	
+	/**
+	 * <p>
+	 * Writes the resource at the provided URI to the provided
+	 * file. Includes a period of sleep.
+	 * </p>
+	 * 
+	 * @param uri of the resource you wish written to file.
+	 * @param file that the resource will be written to.
+	 * 
+	 * @return true if the resource is successfully written
+	 * to file, false if not. 
+	 */
+	@Override
+	public boolean writeResourceToFile(URI uri, File file) {
+		Utils.sleep(maxSleep);
+		return super.writeResourceToFile(uri, file);
 	}
 
 }

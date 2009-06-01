@@ -13,18 +13,12 @@ import org.dspace.foresite.OREException;
 import org.dspace.foresite.OREFactory;
 import org.dspace.foresite.OREResource;
 import org.dspace.foresite.ORESerialiser;
-import org.dspace.foresite.ORESerialiserException;
 import org.dspace.foresite.ORESerialiserFactory;
 import org.dspace.foresite.Predicate;
 import org.dspace.foresite.ResourceMap;
 import org.dspace.foresite.ResourceMapDocument;
 
 import wwmm.pubcrawler.Utils;
-import wwmm.pubcrawler.core.ArticleDetails;
-import wwmm.pubcrawler.core.ArticleReference;
-import wwmm.pubcrawler.core.DOI;
-import wwmm.pubcrawler.core.FullTextResourceDetails;
-import wwmm.pubcrawler.core.SupplementaryResourceDetails;
 
 /**
  * <p>
@@ -53,6 +47,24 @@ public class OreTool {
 			throw new IllegalStateException("ArticleDetails passed to the constructor is null.");
 		}
 		this.remUrl = remUrl;
+		alterRemUrl();
+	}
+	
+	/**
+	 * <p>
+	 * If the provided REM URL is of the file protocol, then for it to be
+	 * legal in FORESITE it must be file:/// rather than file:/ (which is 
+	 * output by File.toURI()). This method simply changes any URLs of the 
+	 * latter to the former.
+	 * </p>
+	 * 
+	 */
+	private void alterRemUrl() {
+		if (remUrl.startsWith("file:/") && !remUrl.startsWith("file:///")) {
+			remUrl = "file:///"+remUrl.substring(6);
+		} else if (remUrl.startsWith("file://") && !remUrl.startsWith("file:///")) {
+			remUrl = "file:///"+remUrl.substring(7);
+		}
 	}
 
 	/**
@@ -62,105 +74,159 @@ public class OreTool {
 	 * </p>
 	 * 
 	 * @return an XML String containing an ORE description of
-	 * the provided <code>ArticleDetails</code>.
-	 * 
-	 * @throws URISyntaxException 
-	 * @throws OREException 
-	 * @throws ORESerialiserException 
+	 * the provided <code>ArticleDetails</code>.  Will return null
+	 * if an exception was thrown during ORE creation.
+	 *  
 	 */
-	public String getORE() throws Exception {
-		URI remUri = new URI(remUrl);
-		URI aggregationUri = new URI(remUrl+"#aggregation");
-		Aggregation agg = OREFactory.createAggregation(aggregationUri);
-		ResourceMap rem = agg.createResourceMap(remUri);
-		Date dateNow = new Date();
+	public String getORE() {
+		try {
+			URI remUri = new URI(remUrl);
+			URI aggregationUri = new URI(remUrl+"#aggregation");
+			Aggregation agg = OREFactory.createAggregation(aggregationUri);
+			ResourceMap rem = agg.createResourceMap(remUri);
+			Date dateNow = new Date();
 
-		// add triples about the Resource Map
-		rem.setModified(dateNow);
-		rem.setCreated(dateNow);
-		rem.setRights("http://www.opendatacommons.org/licenses/pddl/1.0/");
+			// add triples about the Resource Map
+			rem.setModified(dateNow);
+			rem.setCreated(dateNow);
+			rem.setRights("http://www.opendatacommons.org/licenses/pddl/1.0/");
 
-		// add triples about the aggregation
-		agg.setModified(dateNow);
-		agg.setCreated(dateNow);
-		List<URI> similarToList = new ArrayList<URI>(1);
-		similarToList.add(new URI(createDoiString(ad.getDoi())));
-		agg.setSimilarTo(similarToList);
-		addTriple(agg, aggregationUri, createPredicate(DC_NS+"title"), ad.getTitle());
-		addTriple(agg, aggregationUri, createPredicate(DC_NS+"type"), "j.0:AcademicArticle");
-		addTriple(agg, aggregationUri, createPredicate(BIBO_NS+"authorList"), ad.getAuthors());
-		String journalUuid = Utils.getRandomUuidString();
-		URI journalUri = new URI(journalUuid);
-		addTriple(agg, aggregationUri, createPredicate(DC_NS+"isPartOf"), journalUri);
-		ArticleReference reference = ad.getReference();
-		String volume = reference.getVolume();
-		if (volume != null) {
-			addTriple(agg, aggregationUri, createPredicate(BIBO_NS+"volume"), volume);
-		}
-		String number = reference.getNumber();
-		if (number != null) {
-			addTriple(agg, aggregationUri, createPredicate(BIBO_NS+"issue"), number);
-		}
-		String pages = reference.getPages();
-		if (pages != null) {
-			addTriple(agg, aggregationUri, createPredicate(BIBO_NS+"pages"), pages);
-		}
-		String year = reference.getYear();
-		if (year != null) {
-			addTriple(agg, aggregationUri, createPredicate(DCTERMS_NS+"issued"), year);
-		}
-		// add triples about aggregated resources
-		// --1st the triples about the full-text
-		List<FullTextResourceDetails> ftrds = ad.getFullTextResources();
-		for (FullTextResourceDetails ftrd : ftrds) {
-			URI fullTextUri = new URI(ftrd.getURI().getURI());
-			AggregatedResource fullTextAr = OREFactory.createAggregatedResource(fullTextUri);
-			agg.addAggregatedResource(fullTextAr);
-			addTriple(agg, fullTextUri, createPredicate(DC_NS+"format"), ftrd.getContentType());
-			addTriple(agg, fullTextUri, createPredicate(DC_NS+"language"), "en");
-			// FIXME - need to find a better way of describing this
-			addTriple(agg, fullTextUri, createPredicate(DC_NS+"type"), "FULL_TEXT");
-		}
-		// --2nd the triples about supplementary files
-		for (SupplementaryResourceDetails sfd : ad.getSupplementaryResources()) {
-			URI sfdUri = new URI(sfd.getUriString());
-			AggregatedResource ar = OREFactory.createAggregatedResource(sfdUri);
-			agg.addAggregatedResource(ar);
-			addTriple(ar, sfdUri, createPredicate(DC_NS+"format"), sfd.getContentType());
-			// FIXME - need to find a better way of describing this
-			addTriple(agg, sfdUri, createPredicate(DC_NS+"type"), "SUPPLEMENTARY_FILE");
-			addTriple(agg, sfdUri, createPredicate(DC_NS+"language"), "en");
-		}
-		
-		// FIXME - figure out how to do this
-		// now add a few triples to describe the journal the article is part of
-		//addTriple(agg, journalUri, createPredicate(DC_NS+"type"), BIBO_PREFIX+":Journal");
-		//addTriple(agg, journalUri, createPredicate("j.0:shortTitle"), reference.getJournalTitle());
-		
-		URI doiUri = new URI(ad.getDoi().toString());
-		AggregatedResource doiAr = OREFactory.createAggregatedResource(doiUri);
-		agg.addAggregatedResource(doiAr);
-		addTriple(agg, doiUri, createPredicate(RDF_NS+"type"), "info:eu-repo/semantics/humanStartPage");
-		addTriple(agg, doiUri, createPredicate(DC_NS+"language"), "en");
-		addTriple(agg, doiUri, createPredicate(DC_NS+"format"), "text/html");
+			// add triples about the aggregation
+			agg.setModified(dateNow);
+			agg.setCreated(dateNow);
+			List<URI> similarToList = new ArrayList<URI>(1);
+			similarToList.add(new URI(createDoiInfoString(ad.getDoi())));
+			agg.setSimilarTo(similarToList);
+			addTriple(agg, aggregationUri, createPredicate(DC_NS+"title"), ad.getTitle());
+			addTriple(agg, aggregationUri, createPredicate(DC_NS+"type"), "j.0:AcademicArticle");
+			addTriple(agg, aggregationUri, createPredicate(BIBO_NS+"authorList"), ad.getAuthors());
+			String journalUuid = Utils.getRandomUuidString();
+			URI journalUri = new URI(journalUuid);
+			addTriple(agg, aggregationUri, createPredicate(DC_NS+"isPartOf"), journalUri);
+			ArticleReference reference = ad.getReference();
+			String volume = reference.getVolume();
+			if (volume != null) {
+				addTriple(agg, aggregationUri, createPredicate(BIBO_NS+"volume"), volume);
+			}
+			String number = reference.getNumber();
+			if (number != null) {
+				addTriple(agg, aggregationUri, createPredicate(BIBO_NS+"issue"), number);
+			}
+			String pages = reference.getPages();
+			if (pages != null) {
+				addTriple(agg, aggregationUri, createPredicate(BIBO_NS+"pages"), pages);
+			}
+			String year = reference.getYear();
+			if (year != null) {
+				addTriple(agg, aggregationUri, createPredicate(DCTERMS_NS+"issued"), year);
+			}
+			// add triples about aggregated resources
+			// --1st the triples about the full-text
+			List<FullTextResourceDetails> ftrds = ad.getFullTextResources();
+			for (FullTextResourceDetails ftrd : ftrds) {
+				URI fullTextUri = new URI(ftrd.getURI().getURI());
+				AggregatedResource fullTextAr = OREFactory.createAggregatedResource(fullTextUri);
+				agg.addAggregatedResource(fullTextAr);
+				addTriple(agg, fullTextUri, createPredicate(DC_NS+"format"), ftrd.getContentType());
+				addTriple(agg, fullTextUri, createPredicate(DC_NS+"language"), "en");
+				// FIXME - need to find a better way of describing this
+				addTriple(agg, fullTextUri, createPredicate(DC_NS+"type"), "FULL_TEXT");
+			}
+			// --2nd the triples about supplementary files
+			for (SupplementaryResourceDetails sfd : ad.getSupplementaryResources()) {
+				URI sfdUri = new URI(sfd.getUriString());
+				AggregatedResource ar = OREFactory.createAggregatedResource(sfdUri);
+				agg.addAggregatedResource(ar);
+				addTriple(ar, sfdUri, createPredicate(DC_NS+"format"), sfd.getContentType());
+				// FIXME - need to find a better way of describing this
+				addTriple(agg, sfdUri, createPredicate(DC_NS+"type"), "SUPPLEMENTARY_FILE");
+				addTriple(agg, sfdUri, createPredicate(DC_NS+"language"), "en");
+			}
 
-		ORESerialiser serial = ORESerialiserFactory.getInstance("RDF/XML");
-		ResourceMapDocument doc = serial.serialise(rem);
-		return doc.toString();
+			// FIXME - figure out how to do this
+			// now add a few triples to describe the journal the article is part of
+			//addTriple(agg, journalUri, createPredicate(DC_NS+"type"), BIBO_PREFIX+":Journal");
+			//addTriple(agg, journalUri, createPredicate("j.0:shortTitle"), reference.getJournalTitle());
+
+			URI doiUri = new URI(ad.getDoi().toString());
+			AggregatedResource doiAr = OREFactory.createAggregatedResource(doiUri);
+			agg.addAggregatedResource(doiAr);
+			addTriple(agg, doiUri, createPredicate(RDF_NS+"type"), "info:eu-repo/semantics/humanStartPage");
+			addTriple(agg, doiUri, createPredicate(DC_NS+"language"), "en");
+			addTriple(agg, doiUri, createPredicate(DC_NS+"format"), "text/html");
+
+			ORESerialiser serial = ORESerialiserFactory.getInstance("RDF/XML");
+			ResourceMapDocument doc = serial.serialise(rem);
+			return doc.toString();
+		} catch (Exception e) {
+			LOG.warn("Problem generating ORE document: "+e.getMessage());
+			return null;
+		}
 	}
 
-	private void addTriple(OREResource resource, URI subject, Predicate pred, Object object) throws OREException {
-		resource.addTriple(OREFactory.createTriple(subject, pred, object));
+	/**
+	 * <p>
+	 * Adds a triple to the provided <code>resource</code> using 
+	 * the subject, predicate and object provided.
+	 * </p>
+	 * 
+	 * @param resource you want to add the triple to.
+	 * @param subject of the triple to be added.
+	 * @param predicate of the triple to be added. 
+	 * @param object of the triple to be added.
+	 * 
+	 * @throws OREException if something bad happens.
+	 */
+	private void addTriple(OREResource resource, URI subject, Predicate predicate, Object object) throws OREException {
+		resource.addTriple(OREFactory.createTriple(subject, predicate, object));
 	}
 
+	/**
+	 * <p>
+	 * Create a FORESITE predicate using the provided URL.
+	 * </p>
+	 * 
+	 * @param url you want to create the Predicate with.
+	 * 
+	 * @return a FORESITE predicate based on the provided URL.
+	 * 
+	 * @throws URISyntaxException - if the provided String does
+	 * not represent a valid URI.
+	 */
 	private Predicate createPredicate(String url) throws URISyntaxException {
 		Predicate predicate = new Predicate();
 		predicate.setURI(new URI(url));
 		return predicate;
 	}
 
-	private String createDoiString(DOI doi) {
+	/**
+	 * <p>
+	 * Create the protocol-less String representation of the
+	 * DOI.
+	 * </p>
+	 * 
+	 * @param doi that you want to create the String from.
+	 * 
+	 * @return a protocol-less String representation of the
+	 * provided DOI.
+	 */
+	private String createDoiInfoString(DOI doi) {
 		return "info:doi/"+doi.getPostfix();
+	}
+
+	/**
+	 * <p>
+	 * Main method is meant for demonstration purposes only.
+	 * Does not require any arguments.
+	 * </p>
+	 * 
+	 */
+	public static void main(String[] args) {
+		DOI doi = new DOI("http://dx.doi.org/10.1107/S1600536809016109");
+		ActaArticleCrawler crawler = new ActaArticleCrawler(doi);
+		ArticleDetails details = crawler.getDetails();
+		OreTool ot = new OreTool("file:/wwmm.ch.cam.ac.uk/sdfa", details);
+		System.out.println(ot.getORE());
 	}
 
 }
