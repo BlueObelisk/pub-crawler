@@ -248,7 +248,7 @@ public class NatureArticleCrawler extends ArticleCrawler {
 	private String getMetaElementContent(String name) {
 		Nodes authorNds = articleAbstractHtml.query(".//x:meta[@name='"+name+"']", X_XHTML);
 		if (authorNds.size() == 0) {
-			LOG.warn("Problem finding meta element with name='"+name+"' at: "+doi);
+			LOG.info("No meta element found with name='"+name+"' at: "+doi);
 			return null;
 		}
 		Element metaEl = (Element)authorNds.get(0);

@@ -120,6 +120,7 @@ public class BasicHttpClient {
 	 * to file, false if not. 
 	 */
 	public boolean writeResourceToFile(URI uri, File file) {
+		file.getParentFile().mkdirs();
 		InputStream in = null;
 		OutputStream out = null;
 		try {

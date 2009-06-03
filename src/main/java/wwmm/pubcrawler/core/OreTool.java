@@ -18,8 +18,6 @@ import org.dspace.foresite.Predicate;
 import org.dspace.foresite.ResourceMap;
 import org.dspace.foresite.ResourceMapDocument;
 
-import wwmm.pubcrawler.Utils;
-
 /**
  * <p>
  * Provides a method of converting the information in an 
@@ -37,6 +35,7 @@ public class OreTool {
 	private static final String BIBO_NS = "http://purl.org/ontology/bibo/";
 	private static final String DC_NS = "http://purl.org/dc/elements/1.1/";
 	private static final String DCTERMS_NS = "http://purl.org/dc/terms/";
+	private static final String PRISM_NS = "http://prismstandard.org/namespaces/1.2/basic/";
 	private static final String RDF_NS = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
 
 	private static final Logger LOG = Logger.getLogger(OreTool.class);
@@ -49,7 +48,7 @@ public class OreTool {
 		this.remUrl = remUrl;
 		alterRemUrl();
 	}
-	
+
 	/**
 	 * <p>
 	 * If the provided REM URL is of the file protocol, then for it to be
@@ -97,28 +96,44 @@ public class OreTool {
 			List<URI> similarToList = new ArrayList<URI>(1);
 			similarToList.add(new URI(createDoiInfoString(ad.getDoi())));
 			agg.setSimilarTo(similarToList);
-			addTriple(agg, aggregationUri, createPredicate(DC_NS+"title"), ad.getTitle());
+			String title = ad.getTitle();
+			if (title != null) {
+				addTriple(agg, aggregationUri, createPredicate(DC_NS+"title"), title);
+			}
 			addTriple(agg, aggregationUri, createPredicate(DC_NS+"type"), "j.0:AcademicArticle");
-			addTriple(agg, aggregationUri, createPredicate(BIBO_NS+"authorList"), ad.getAuthors());
-			String journalUuid = Utils.getRandomUuidString();
-			URI journalUri = new URI(journalUuid);
-			addTriple(agg, aggregationUri, createPredicate(DC_NS+"isPartOf"), journalUri);
+			String authors = ad.getAuthors();
+			if (authors != null) {
+				addTriple(agg, aggregationUri, createPredicate(BIBO_NS+"authorList"), authors);
+			}
+			//String journalUuid = Utils.getRandomUuidString();
+			//URI journalUri = new URI(journalUuid);
+			//addTriple(agg, aggregationUri, createPredicate(DC_NS+"isPartOf"), journalUri);
 			ArticleReference reference = ad.getReference();
-			String volume = reference.getVolume();
-			if (volume != null) {
-				addTriple(agg, aggregationUri, createPredicate(BIBO_NS+"volume"), volume);
-			}
-			String number = reference.getNumber();
-			if (number != null) {
-				addTriple(agg, aggregationUri, createPredicate(BIBO_NS+"issue"), number);
-			}
-			String pages = reference.getPages();
-			if (pages != null) {
-				addTriple(agg, aggregationUri, createPredicate(BIBO_NS+"pages"), pages);
-			}
-			String year = reference.getYear();
-			if (year != null) {
-				addTriple(agg, aggregationUri, createPredicate(DCTERMS_NS+"issued"), year);
+			if (reference != null) {
+				String volume = reference.getVolume();
+				if (volume != null) {
+					addTriple(agg, aggregationUri, createPredicate(BIBO_NS+"volume"), volume);
+				}
+				String number = reference.getNumber();
+				if (number != null) {
+					addTriple(agg, aggregationUri, createPredicate(BIBO_NS+"issue"), number);
+				}
+				String pages = reference.getPages();
+				if (pages != null) {
+					addTriple(agg, aggregationUri, createPredicate(BIBO_NS+"pages"), pages);
+				}
+				String year = reference.getYear();
+				if (year != null) {
+					addTriple(agg, aggregationUri, createPredicate(DCTERMS_NS+"issued"), year);
+				}
+				String journalTitle = reference.getJournalTitle();
+				if (year != null) {
+					addTriple(agg, aggregationUri, createPredicate(PRISM_NS+"publicationName"), journalTitle);
+				}
+				String refString = reference.getRefString();
+				if (year != null) {
+					addTriple(agg, aggregationUri, createPredicate(BIBO_NS+"shortDescription"), refString);
+				}
 			}
 			// add triples about aggregated resources
 			// --1st the triples about the full-text
@@ -137,17 +152,16 @@ public class OreTool {
 				URI sfdUri = new URI(sfd.getUriString());
 				AggregatedResource ar = OREFactory.createAggregatedResource(sfdUri);
 				agg.addAggregatedResource(ar);
-				addTriple(ar, sfdUri, createPredicate(DC_NS+"format"), sfd.getContentType());
+				String contentType = sfd.getContentType();
+				if (contentType != null) {
+					addTriple(ar, sfdUri, createPredicate(DC_NS+"format"), contentType);
+				}
 				// FIXME - need to find a better way of describing this
 				addTriple(agg, sfdUri, createPredicate(DC_NS+"type"), "SUPPLEMENTARY_FILE");
 				addTriple(agg, sfdUri, createPredicate(DC_NS+"language"), "en");
 			}
 
-			// FIXME - figure out how to do this
-			// now add a few triples to describe the journal the article is part of
-			//addTriple(agg, journalUri, createPredicate(DC_NS+"type"), BIBO_PREFIX+":Journal");
-			//addTriple(agg, journalUri, createPredicate("j.0:shortTitle"), reference.getJournalTitle());
-
+			// add triples about the human splash page
 			URI doiUri = new URI(ad.getDoi().toString());
 			AggregatedResource doiAr = OREFactory.createAggregatedResource(doiUri);
 			agg.addAggregatedResource(doiAr);
@@ -160,6 +174,7 @@ public class OreTool {
 			return doc.toString();
 		} catch (Exception e) {
 			LOG.warn("Problem generating ORE document: "+e.getMessage());
+			e.printStackTrace();
 			return null;
 		}
 	}
