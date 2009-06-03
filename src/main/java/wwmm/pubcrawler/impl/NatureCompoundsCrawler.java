@@ -3,6 +3,8 @@ package wwmm.pubcrawler.impl;
 import static wwmm.pubcrawler.core.CrawlerConstants.NATURE_HOMEPAGE_URL;
 import static wwmm.pubcrawler.core.CrawlerConstants.X_XHTML;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -14,23 +16,21 @@ import nu.xom.Nodes;
 
 import org.apache.commons.httpclient.URI;
 import org.apache.commons.httpclient.URIException;
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 
 import wwmm.pubcrawler.core.ArticleDetails;
 import wwmm.pubcrawler.core.CrawlerHttpClient;
 import wwmm.pubcrawler.core.FullTextResourceDetails;
+import wwmm.pubcrawler.core.IssueDetails;
 import wwmm.pubcrawler.core.NatureIssueCrawler;
 import wwmm.pubcrawler.core.NatureJournal;
+import wwmm.pubcrawler.core.OreTool;
 
 /**
  * <p>
  * Provides a method of crawling an issue of a journal published
- * by Nature and extracting information about each compound 
- * mentioned in the full-text of each article.
- * 
- * HUGE NOTE: you will need to have a subscription to the
- * Nature journal of choice for this to work, as it requires
- * access to article full-text.
+ * by Nature and extracting any compound data provided.
  * </p>
  * 
  * @author Nick Day
@@ -40,7 +40,7 @@ import wwmm.pubcrawler.core.NatureJournal;
 public class NatureCompoundsCrawler {
 
 	private final CrawlerHttpClient httpClient = new CrawlerHttpClient();
-	private NatureJournal journal;
+	private NatureIssueCrawler crawler;
 
 	private static final Logger LOG = Logger.getLogger(NatureCompoundsCrawler.class);
 
@@ -48,9 +48,9 @@ public class NatureCompoundsCrawler {
 	private NatureCompoundsCrawler() {
 		;
 	}
-	
+
 	public NatureCompoundsCrawler(NatureJournal journal) {
-		this.journal = journal;
+		crawler = new NatureIssueCrawler(journal);
 	}
 
 	/**
@@ -64,10 +64,40 @@ public class NatureCompoundsCrawler {
 	 * details about the article, as well as any data for any compounds found.
 	 */
 	public List<ArticleData> crawlCurrentIssue() {
-		NatureIssueCrawler crawler = new NatureIssueCrawler(journal);
 		List<ArticleDetails> articleDetailsList = crawler.getDetailsForCurrentArticles();
-		List<ArticleData> articleDataList = new ArrayList<ArticleData>(articleDetailsList.size());
-		for (ArticleDetails ad : articleDetailsList) {
+		return getArticleDatasFromArticleDetails(articleDetailsList);
+	}
+
+	/**
+	 * <p>
+	 * Crawls the issue defined in <code>issueDetails</code> of the provided 
+	 * <code>NatureJournal</code> and provides details of each article for 
+	 * that issue, complete with details on the compounds in each article. 
+	 * </p>
+	 * 
+	 * @return - a list of <code>ArticleData</code> objects, which provide
+	 * details about each article, as well as any data for any compounds found.
+	 */
+	public List<ArticleData> crawlIssue(IssueDetails issueDetails) {
+		List<ArticleDetails> articleDetailsList = crawler.getDetailsForArticles(issueDetails);
+		return getArticleDatasFromArticleDetails(articleDetailsList);
+	}
+
+	/**
+	 * <p>
+	 * Uses the provided list of <code>ArticleDetails</code> to construct
+	 * a list of <code>ArticleData</code>.
+	 * </p>
+	 * 
+	 * @param adList - list of <code>ArticleDetails</code>s you want to 
+	 * construct the list of <code>ArticleData</code> from.
+	 * 
+	 * @return list of <code>ArticleData</code> where each item is generated
+	 * from an item in the provided <code>ArticleDetails</code> list.
+	 */
+	private List<ArticleData> getArticleDatasFromArticleDetails(List<ArticleDetails> adList) {
+		List<ArticleData> articleDataList = new ArrayList<ArticleData>(adList.size());
+		for (ArticleDetails ad : adList) {
 			URI fullTextHtmlUri = getArticleFullTextHtmlUri(ad);
 			if (fullTextHtmlUri == null) {
 				LOG.warn("Could not find a full-text URI for article with DOI: "+ad.getDoi().toString());
@@ -102,9 +132,16 @@ public class NatureCompoundsCrawler {
 			compoundUrls.add(compoundUrl);
 		}
 		List<CompoundDetails> cdList = new ArrayList<CompoundDetails>(compoundUrls.size());
-		int count = 1;
 		for (String compoundUrl : compoundUrls) {
+			// if contains _ci. then is the compound index - we don't want that
+			if (compoundUrl.contains("_ci.")) {
+				continue;
+			}
 			LOG.info("Finding compound info at: "+compoundUrl);
+			String cmpdId = getCompoundId(compoundUrl);
+			if (cmpdId == null) {
+				continue;
+			}
 			URI splashPageUri = createUri(compoundUrl);
 			if (splashPageUri == null) {
 				continue;
@@ -117,14 +154,31 @@ public class NatureCompoundsCrawler {
 			String chemDrawUrl = cmlUrl.replaceAll("cml", "cdx");
 			chemDrawUrl = chemDrawUrl.replaceAll("/cdx/", "/chemdraw/");
 			URI chemDrawUri = createUri(chemDrawUrl);
-			// TODO - alter this so that the real compound ID is used
-			// rather than the incremented number
-			cdList.add(new CompoundDetails(""+count, splashPageUri, cmlUri, molUri, chemDrawUri));
-			count++;
+			cdList.add(new CompoundDetails(cmpdId, splashPageUri, cmlUri, molUri, chemDrawUri));
 		}
 		return cdList;
 	}
-	
+
+	/**
+	 * <p>
+	 * Gets a compounds ID from its splash page URL.
+	 * </p>
+	 * 
+	 * @param compoundUrl - URL that the ID will be extracted 
+	 * from.
+	 * 
+	 * @return String representing the compound ID.
+	 */
+	private String getCompoundId(String compoundUrl) {
+		int startIdx = compoundUrl.indexOf("_comp")+5;
+		int endIdx = compoundUrl.lastIndexOf(".");
+		if (startIdx == -1 || endIdx == -1) {
+			LOG.warn("Could not find compound ID from URL: "+compoundUrl);
+			return null;
+		}
+		return compoundUrl.substring(startIdx, endIdx);
+	}
+
 	/**
 	 * <p>
 	 * Simple convenience method for the creation of URIs from
@@ -271,7 +325,7 @@ public class NatureCompoundsCrawler {
 			this.molUri = molUri;
 			this.chemDrawUri = chemDrawUri;
 		}
-		
+
 		/**
 		 * <p>
 		 * Gets the ID of this compound.
@@ -304,7 +358,7 @@ public class NatureCompoundsCrawler {
 		public URI getCmlUri() {
 			return cmlUri;
 		}
-		
+
 		/**
 		 * <p>
 		 * Gets the URI of the MOL file for this compound.
@@ -328,7 +382,7 @@ public class NatureCompoundsCrawler {
 		}
 
 	}
-	
+
 	/**
 	 * <p>
 	 * Main method meant for demonstration purposes only. Requires
@@ -336,19 +390,45 @@ public class NatureCompoundsCrawler {
 	 * </p>
 	 * 
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		NatureCompoundsCrawler ncc = new NatureCompoundsCrawler(NatureJournal.CHEMISTRY);
-		List<ArticleData> adList = ncc.crawlCurrentIssue();
-		for (ArticleData ad : adList) {
-			System.out.println(ad.getArticleDetails());
-			List<CompoundDetails> cdList = ad.getCompoundDetailsList();
-			for (CompoundDetails cd : cdList) {
-				System.out.println(cd.getSplashPageUri());
-				System.out.println(cd.getChemDrawUri());
-				System.out.println(cd.getMolUri());
-				System.out.println("---------------------------------------");
+		for (int i = 1; i > 0; i--) {
+			String year = "2009";
+			String issue = ""+i;
+			IssueDetails details = new IssueDetails(year, issue);
+			List<ArticleData> adList = ncc.crawlIssue(details);
+			File rootFile = new File("c:/Users/ned24/workspace/nature-data/nchem/");
+			File yearFile = new File(rootFile, year);
+			File issueFile = new File(yearFile, issue);
+			rootFile.mkdirs();
+			for (ArticleData articleData: adList) {
+				ArticleDetails ad = articleData.getArticleDetails();
+				String doiPostfix = ad.getDoi().getPostfix().replaceAll("\\.", "_");
+				doiPostfix = doiPostfix.substring(doiPostfix.lastIndexOf("/")+1);
+				File articleFolder = new File(issueFile, doiPostfix);
+				File oreFile = new File(articleFolder, doiPostfix+".rdf");
+				OreTool ot = new OreTool(oreFile.toURI().toString(), ad);
+				File fullTextHtmlFile = new File(articleFolder, doiPostfix+".fulltext.html");
+				File fullTextPdfFile = new File(articleFolder, doiPostfix+".fulltext.pdf");
+				CrawlerHttpClient crawler = new CrawlerHttpClient();
+				for (FullTextResourceDetails ftrd : ad.getFullTextResources()) {
+					if (ftrd.getContentType().contains("html")) {
+						crawler.writeResourceToFile(ftrd.getURI(), fullTextHtmlFile);
+					} else if (ftrd.getContentType().contains("pdf")) {
+						crawler.writeResourceToFile(ftrd.getURI(), fullTextPdfFile);
+					}
+				}
+				FileUtils.writeStringToFile(oreFile, ot.getORE());
+				List<CompoundDetails> cdList = articleData.getCompoundDetailsList();
+				for (CompoundDetails cd : cdList) {
+					String cmpdId = cd.getID();
+					File cmpdFolder = new File(articleFolder, cmpdId);
+					crawler.writeResourceToFile(cd.getSplashPageUri(), new File(cmpdFolder, cmpdId+".splash.html"));
+					crawler.writeResourceToFile(cd.getCmlUri(), new File(cmpdFolder, cmpdId+".cml"));
+					crawler.writeResourceToFile(cd.getMolUri(), new File(cmpdFolder, cmpdId+".mol"));
+					crawler.writeResourceToFile(cd.getChemDrawUri(), new File(cmpdFolder, cmpdId+".cdx"));
+				}
 			}
-			System.out.println("======================================================");
 		}
 	}
 
