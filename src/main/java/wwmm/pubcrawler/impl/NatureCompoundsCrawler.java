@@ -21,7 +21,6 @@ import org.apache.log4j.Logger;
 
 import wwmm.pubcrawler.core.ArticleDetails;
 import wwmm.pubcrawler.core.CrawlerHttpClient;
-import wwmm.pubcrawler.core.FullTextResourceDetails;
 import wwmm.pubcrawler.core.IssueDetails;
 import wwmm.pubcrawler.core.NatureIssueCrawler;
 import wwmm.pubcrawler.core.NatureJournal;
@@ -98,12 +97,10 @@ public class NatureCompoundsCrawler {
 	private List<ArticleData> getArticleDatasFromArticleDetails(List<ArticleDetails> adList) {
 		List<ArticleData> articleDataList = new ArrayList<ArticleData>(adList.size());
 		for (ArticleDetails ad : adList) {
-			URI fullTextHtmlUri = getArticleFullTextHtmlUri(ad);
-			if (fullTextHtmlUri == null) {
-				LOG.warn("Could not find a full-text URI for article with DOI: "+ad.getDoi().toString());
-				continue;
-			}
-			List<CompoundDetails> cdList = getCompoundDetailsList(fullTextHtmlUri);
+			String doiPostfix = ad.getDoi().getPostfix();
+			String natureId = doiPostfix.substring(doiPostfix.indexOf("/")+1);
+			String ciUrl = "http://www.nature.com/nchem/journal/v1/n5/compound/"+natureId+"_ci.html";
+			List<CompoundDetails> cdList = getCompoundDetailsList(createUri(ciUrl));
 			articleDataList.add(new ArticleData(ad, cdList));
 			LOG.info("Finished crawling for: "+ad.getDoi().toString());
 		}
@@ -122,9 +119,14 @@ public class NatureCompoundsCrawler {
 	 * @return details for all compounds described within the
 	 * full-text HTML.
 	 */
-	private List<CompoundDetails> getCompoundDetailsList(URI fullTextHtmlUri) {
-		Document fullTextDoc = httpClient.getResourceHTML(fullTextHtmlUri);
-		Nodes compoundLinkNds = fullTextDoc.query(".//x:a[contains(@href,'/compound/')]", X_XHTML);
+	private List<CompoundDetails> getCompoundDetailsList(URI abstractUri) {
+		Document abstractDoc = null;
+		try {
+			abstractDoc = httpClient.getResourceHTML(abstractUri);
+		} catch (RuntimeException e) {
+			return new ArrayList<CompoundDetails>();
+		}
+		Nodes compoundLinkNds = abstractDoc.query(".//x:h3/x:a[contains(@href,'/compound/') and contains(@href,'.html')]", X_XHTML);
 		Set<String> compoundUrls = new HashSet<String>();
 		for (int i = 0; i < compoundLinkNds.size(); i++) {
 			Element compoundLink = (Element)compoundLinkNds.get(i);
@@ -133,10 +135,6 @@ public class NatureCompoundsCrawler {
 		}
 		List<CompoundDetails> cdList = new ArrayList<CompoundDetails>(compoundUrls.size());
 		for (String compoundUrl : compoundUrls) {
-			// if contains _ci. then is the compound index - we don't want that
-			if (compoundUrl.contains("_ci.")) {
-				continue;
-			}
 			LOG.info("Finding compound info at: "+compoundUrl);
 			String cmpdId = getCompoundId(compoundUrl);
 			if (cmpdId == null) {
@@ -147,13 +145,9 @@ public class NatureCompoundsCrawler {
 				continue;
 			}
 			Document splashPageDoc = httpClient.getResourceHTML(splashPageUri);
-			String cmlUrl = getCmlFileUrl(splashPageDoc);
-			URI cmlUri = createUri(cmlUrl);
-			String molUrl = cmlUrl.replaceAll("cml", "mol");
-			URI molUri = createUri(molUrl);
-			String chemDrawUrl = cmlUrl.replaceAll("cml", "cdx");
-			chemDrawUrl = chemDrawUrl.replaceAll("/cdx/", "/chemdraw/");
-			URI chemDrawUri = createUri(chemDrawUrl);
+			URI cmlUri = getCmlFileUri(splashPageDoc);
+			URI molUri = getMolFileUri(splashPageDoc);
+			URI chemDrawUri = getChemDrawFileUri(splashPageDoc);
 			cdList.add(new CompoundDetails(cmpdId, splashPageUri, cmlUri, molUri, chemDrawUri));
 		}
 		return cdList;
@@ -208,38 +202,55 @@ public class NatureCompoundsCrawler {
 	 * @param splashPageDoc - XML Document of the splash page HTML.
 	 * 
 	 * @return the URL that links to the CML from the splash page. 
+	 * Returns null if a CML link cannot be found.
 	 */
-	private String getCmlFileUrl(Document splashPageDoc) {
+	private URI getCmlFileUri(Document splashPageDoc) {
 		Nodes cmlFileLinkNds = splashPageDoc.query(".//x:a[contains(@href,'/cml/')]", X_XHTML);
 		if (cmlFileLinkNds.size() != 1) {
-			LOG.warn("Could not find link to CML file.");
+			return null;
 		}
 		Element cmlLink = (Element)cmlFileLinkNds.get(0);
-		return NATURE_HOMEPAGE_URL+cmlLink.getAttributeValue("href");
+		return createUri(NATURE_HOMEPAGE_URL+cmlLink.getAttributeValue("href"));
 	}
 
 	/**
 	 * <p>
-	 * Gets the URI of the full-text HTML for the provided
-	 * <code>ArticleDetails</code>.  If none is found then null
-	 * will be returned.
+	 * Extracts the link to a structure's MOL file from its 
+	 * splash page.
 	 * </p>
 	 * 
-	 * @param ad - <code>ArticleDetails</code> of the article you
-	 * wish to find the full-text HTML for.
+	 * @param splashPageDoc - XML Document of the splash page HTML.
 	 * 
-	 * @return the URI of the full-text HTML for the provided
-	 * <code>ArticleDetails</code>.  If none is found then null
-	 * will be returned.
+	 * @return the URL that links to the MOL from the splash page. 
+	 * Returns null if a MOL link cannot be found.
 	 */
-	private URI getArticleFullTextHtmlUri(ArticleDetails ad) {
-		List<FullTextResourceDetails> fullTexts = ad.getFullTextResources();
-		for (FullTextResourceDetails ftrd : fullTexts) {
-			if (ftrd.getContentType().contains("html")) {
-				return ftrd.getURI();
-			}
+	private URI getMolFileUri(Document splashPageDoc) {
+		Nodes molFileLinkNds = splashPageDoc.query(".//x:a[contains(@href,'/mol/')]", X_XHTML);
+		if (molFileLinkNds.size() != 1) {
+			return null;
 		}
-		return null;
+		Element molLink = (Element)molFileLinkNds.get(0);
+		return createUri(NATURE_HOMEPAGE_URL+molLink.getAttributeValue("href"));
+	}
+
+	/**
+	 * <p>
+	 * Extracts the link to a structure's ChemDraw file from its 
+	 * splash page.
+	 * </p>
+	 * 
+	 * @param splashPageDoc - XML Document of the splash page HTML.
+	 * 
+	 * @return the URL that links to the ChemDraw from the splash 
+	 * page. Returns null if a ChemDraw link cannot be found.
+	 */
+	private URI getChemDrawFileUri(Document splashPageDoc) {
+		Nodes chemdrawFileLinkNds = splashPageDoc.query(".//x:a[contains(@href,'/chemdraw/')]", X_XHTML);
+		if (chemdrawFileLinkNds.size() != 1) {
+			return null;
+		}
+		Element chemdrawLink = (Element)chemdrawFileLinkNds.get(0);
+		return createUri(NATURE_HOMEPAGE_URL+chemdrawLink.getAttributeValue("href"));
 	}
 
 	/**
@@ -392,40 +403,32 @@ public class NatureCompoundsCrawler {
 	 */
 	public static void main(String[] args) throws IOException {
 		NatureCompoundsCrawler ncc = new NatureCompoundsCrawler(NatureJournal.CHEMISTRY);
-		for (int i = 1; i > 0; i--) {
-			String year = "2009";
-			String issue = ""+i;
-			IssueDetails details = new IssueDetails(year, issue);
-			List<ArticleData> adList = ncc.crawlIssue(details);
-			File rootFile = new File("c:/Users/ned24/workspace/nature-data/nchem/");
-			File yearFile = new File(rootFile, year);
-			File issueFile = new File(yearFile, issue);
-			rootFile.mkdirs();
-			for (ArticleData articleData: adList) {
-				ArticleDetails ad = articleData.getArticleDetails();
-				String doiPostfix = ad.getDoi().getPostfix().replaceAll("\\.", "_");
-				doiPostfix = doiPostfix.substring(doiPostfix.lastIndexOf("/")+1);
-				File articleFolder = new File(issueFile, doiPostfix);
-				File oreFile = new File(articleFolder, doiPostfix+".rdf");
-				OreTool ot = new OreTool(oreFile.toURI().toString(), ad);
-				File fullTextHtmlFile = new File(articleFolder, doiPostfix+".fulltext.html");
-				File fullTextPdfFile = new File(articleFolder, doiPostfix+".fulltext.pdf");
-				CrawlerHttpClient crawler = new CrawlerHttpClient();
-				for (FullTextResourceDetails ftrd : ad.getFullTextResources()) {
-					if (ftrd.getContentType().contains("html")) {
-						crawler.writeResourceToFile(ftrd.getURI(), fullTextHtmlFile);
-					} else if (ftrd.getContentType().contains("pdf")) {
-						crawler.writeResourceToFile(ftrd.getURI(), fullTextPdfFile);
-					}
-				}
-				FileUtils.writeStringToFile(oreFile, ot.getORE());
-				List<CompoundDetails> cdList = articleData.getCompoundDetailsList();
-				for (CompoundDetails cd : cdList) {
-					String cmpdId = cd.getID();
-					File cmpdFolder = new File(articleFolder, cmpdId);
+		List<ArticleData> adList = ncc.crawlCurrentIssue();
+		File rootFile = new File("c:/Users/ned24/workspace/nature-data/nchem/");
+		rootFile.mkdirs();
+		for (ArticleData articleData: adList) {
+			ArticleDetails ad = articleData.getArticleDetails();
+			String doiPostfix = ad.getDoi().getPostfix().replaceAll("\\.", "_");
+			doiPostfix = doiPostfix.substring(doiPostfix.lastIndexOf("/")+1);
+			File articleFolder = new File(rootFile, doiPostfix);
+			File oreFile = new File(articleFolder, doiPostfix+".rdf");
+			OreTool ot = new OreTool(oreFile.toURI().toString(), ad);
+			CrawlerHttpClient crawler = new CrawlerHttpClient();
+			FileUtils.writeStringToFile(oreFile, ot.getORE());
+			List<CompoundDetails> cdList = articleData.getCompoundDetailsList();
+			for (CompoundDetails cd : cdList) {
+				String cmpdId = cd.getID();
+				File cmpdFolder = new File(articleFolder, cmpdId);
+				if (cd.getSplashPageUri() != null) {
 					crawler.writeResourceToFile(cd.getSplashPageUri(), new File(cmpdFolder, cmpdId+".splash.html"));
+				}
+				if (cd.getCmlUri() != null) {
 					crawler.writeResourceToFile(cd.getCmlUri(), new File(cmpdFolder, cmpdId+".cml"));
+				}
+				if (cd.getMolUri() != null) {
 					crawler.writeResourceToFile(cd.getMolUri(), new File(cmpdFolder, cmpdId+".mol"));
+				}
+				if (cd.getChemDrawUri() != null) {
 					crawler.writeResourceToFile(cd.getChemDrawUri(), new File(cmpdFolder, cmpdId+".cdx"));
 				}
 			}

@@ -180,8 +180,9 @@ public class AcsIssueCrawler extends IssueCrawler {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		AcsIssueCrawler acf = new AcsIssueCrawler(AcsJournal.THE_JOURNAL_OF_ORGANIC_CHEMISTRY);
-		IssueDetails details = acf.getCurrentIssueDetails();
+		AcsIssueCrawler acf = new AcsIssueCrawler(AcsJournal.JOURNAL_OF_CHEMICAL_AND_ENGINEERING_DATA);
+		//IssueDetails details = acf.getCurrentIssueDetails();
+		IssueDetails details = new IssueDetails("2009", "5");
 		List<ArticleDetails> adList = acf.getDetailsForArticles(details);
 		for (ArticleDetails ad : adList) {
 			System.out.println(ad.toString());

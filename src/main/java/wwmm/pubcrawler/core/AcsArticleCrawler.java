@@ -3,6 +3,8 @@ package wwmm.pubcrawler.core;
 import static wwmm.pubcrawler.core.CrawlerConstants.ACS_HOMEPAGE_URL;
 import static wwmm.pubcrawler.core.CrawlerConstants.X_XHTML;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -15,6 +17,7 @@ import nu.xom.Node;
 import nu.xom.Nodes;
 
 import org.apache.commons.httpclient.URI;
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 
 import wwmm.pubcrawler.Utils;
@@ -351,13 +354,17 @@ public class AcsArticleCrawler extends ArticleCrawler {
 	 * Main method meant for demonstration purposes only. Requires
 	 * no arguments.
 	 * </p>
+	 * @throws IOException 
 	 * 
 	 */
-	public static void main(String[] args) {
-		DOI doi = new DOI("http://dx.doi.org/10.1021/cg801336t");
+	public static void main(String[] args) throws IOException {
+		DOI doi = new DOI("http://dx.doi.org/10.1021/je800923q");
 		AcsArticleCrawler crawler = new AcsArticleCrawler(doi);
 		ArticleDetails ad = crawler.getDetails();
 		System.out.println(ad.toString());
+		String title = ad.getTitle();
+		title = new String(title.getBytes("ISO-8859-1"), "UTF8");
+		FileUtils.writeStringToFile(new File("C:\\Users\\ned24\\workspace\\test.txt"), title);
 	}
 
 }
