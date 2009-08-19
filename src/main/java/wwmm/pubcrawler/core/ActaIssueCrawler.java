@@ -1,7 +1,9 @@
 package wwmm.pubcrawler.core;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -122,21 +124,29 @@ public class ActaIssueCrawler extends IssueCrawler {
 	public List<DOI> getDOIs(IssueDetails details) {
 		String year = details.getYear();
 		String issueId = details.getIssueId();
-		List<DOI> dois = new ArrayList<DOI>();
+		Set<DOI> dois = new HashSet<DOI>();
 		String url = "http://journals.iucr.org/"+journal.getAbbreviation()+"/issues/"
 		+year+"/"+issueId.replaceAll("-", "/")+"/isscontsbdy.html";
 		URI issueUri = createURI(url);
 		LOG.info("Started to find article DOIs from "+journal.getFullTitle()+", year "+year+", issue "+issueId+".");
 		LOG.debug(issueUri);
 		Document issueDoc = httpClient.getResourceHTML(issueUri);
-		List<Node> doiNodes = Utils.queryHTML(issueDoc, ".//x:a[contains(@href,'"+DOI.DOI_SITE_URL+"/10.1107/')]/@href");
-		for (Node doiNode : doiNodes) {
+		List<Node> aTagDoiNodes = Utils.queryHTML(issueDoc, ".//x:a[contains(@href,'"+DOI.DOI_SITE_URL+"/10.1107/')]/@href");
+		for (Node doiNode : aTagDoiNodes) {
 			String doiStr = ((Attribute)doiNode).getValue();
 			DOI doi = new DOI(createURI(doiStr));
 			dois.add(doi);
 		}
+		// sometimes the DOIs aren't the href in an <a> tag, so we have to look
+		// at the text as well...
+		List<Node> textDoiNodes = Utils.queryHTML(issueDoc, ".//x:font[@size='2' and contains(.,'doi:10.1107/')]");
+		for (Node doiNode : textDoiNodes) {
+			String doiPrefix = ((Element)doiNode).getValue().substring(4);
+			DOI doi = new DOI(createURI(DOI.DOI_SITE_URL+"/"+doiPrefix));
+			dois.add(doi);
+		}
 		LOG.info("Finished finding issue DOIs: "+dois.size());
-		return dois;
+		return new ArrayList<DOI>(dois);
 	}
 
 	/**

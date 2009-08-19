@@ -28,7 +28,7 @@ public class ActaIssueCrawlerIntegrationTest {
 		ActaIssueCrawler crawler = new ActaIssueCrawler(ActaJournal.SECTION_C);
 		List<DOI> doiList = crawler.getDOIs(details);
 		assertEquals(23, doiList.size());
-		assertEquals(new DOI(DOI.DOI_SITE_URL+"/10.1107/S0108270108037979"), doiList.get(9));
+		assertEquals(new DOI(DOI.DOI_SITE_URL+"/10.1107/S0108270108041504"), doiList.get(9));
 	}
 
 	/**
