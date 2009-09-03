@@ -120,7 +120,7 @@ public class ChemSocJapanIssueCrawler extends IssueCrawler {
 	public List<DOI> getDOIs(IssueDetails details) {
 		String year = details.getYear();
 		String issueId = details.getIssueId();
-		String url = "http://www.chemistry.or.jp/journals/chem-lett/cl-cont/cl"+year+"-"+issueId+".html";
+		String url = "http://www.chemistry.or.jp/journals/"+journal.getAbbreviation()+"/cl-cont/cl"+year+"-"+issueId+".html";
 		URI issueUri = createURI(url);
 		LOG.info("Started to find DOIs from "+journal.getFullTitle()+", year "+year+", issue "+issueId+".");
 		LOG.debug(issueUri.toString());
