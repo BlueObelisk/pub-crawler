@@ -475,4 +475,8 @@ public class BasicHttpClient {
 		}
 	}
 
+	public HttpClient getClient() {
+		return client;
+	}
+
 }
