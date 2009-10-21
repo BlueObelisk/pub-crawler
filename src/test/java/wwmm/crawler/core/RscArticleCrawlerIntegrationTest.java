@@ -4,10 +4,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
-import org.apache.commons.httpclient.URI;
-import org.apache.commons.httpclient.URIException;
 import org.junit.Test;
 
 import wwmm.pubcrawler.core.ArticleDetails;
@@ -25,7 +25,7 @@ public class RscArticleCrawlerIntegrationTest {
 	 * a test that the abstract page HTML has not changed.
 	 */
 	@Test
-	public void testGetArticleDetails() throws URIException, NullPointerException {
+	public void testGetArticleDetails() throws URISyntaxException, NullPointerException {
 		DOI doi = new DOI(DOI.DOI_SITE_URL+"/10.1039/b821431j");
 		RscArticleCrawler crawler = new RscArticleCrawler(doi);
 		ArticleDetails details = crawler.getDetails();
@@ -38,11 +38,11 @@ public class RscArticleCrawlerIntegrationTest {
 		List<FullTextResourceDetails> ftrds = details.getFullTextResources();
 		assertEquals(2, ftrds.size());
 		FullTextResourceDetails ftrd1 = ftrds.get(0);
-		assertEquals(new URI("http://www.rsc.org/delivery/_ArticleLinking/ArticleLinking.cfm?JournalCode=OB&Year=2009&ManuscriptID=b821431j&Iss=7", false), ftrd1.getURI());
+		assertEquals(new URI("http://www.rsc.org/delivery/_ArticleLinking/ArticleLinking.cfm?JournalCode=OB&Year=2009&ManuscriptID=b821431j&Iss=7"), ftrd1.getURI());
 		assertEquals("HTML article", ftrd1.getLinkText());
 		assertEquals("text/html", ftrd1.getContentType());
 		FullTextResourceDetails ftrd2 = ftrds.get(1);
-		assertEquals(new URI("http://www.rsc.org/ej/OB/2009/b821431j.pdf", false), ftrd2.getURI());
+		assertEquals(new URI("http://www.rsc.org/ej/OB/2009/b821431j.pdf"), ftrd2.getURI());
 		assertEquals("PDF", ftrd2.getLinkText());
 		assertEquals("application/pdf", ftrd2.getContentType());
 		ArticleReference ref = details.getReference();
@@ -67,7 +67,7 @@ public class RscArticleCrawlerIntegrationTest {
 		String linkText0 = sfd0.getLinkText();
 		assertEquals("Additional experimental procedures and tabulated spectral data of compounds 7, 8, 9a, 10, 11, 13, 14, 16–19 and 21", linkText0);
 		URI uri0 = sfd0.getURI();
-		assertEquals(new URI("http://pubs.rsc.org/suppdata/OB/b8/b821431j/b821431j_1.pdf", false), uri0);
+		assertEquals(new URI("http://pubs.rsc.org/suppdata/OB/b8/b821431j/b821431j_1.pdf"), uri0);
 		SupplementaryResourceDetails sfd2 = suppList.get(2);
 		String contentType2 = sfd2.getContentType();
 		assertEquals("text/plain", contentType2);
@@ -76,7 +76,7 @@ public class RscArticleCrawlerIntegrationTest {
 		String linkText2 = sfd2.getLinkText();
 		assertEquals("Crystal structure data", linkText2);
 		URI uri2 = sfd2.getURI();
-		assertEquals(new URI("http://pubs.rsc.org/suppdata/OB/b8/b821431j/b821431j.txt", false), uri2);		
+		assertEquals(new URI("http://pubs.rsc.org/suppdata/OB/b8/b821431j/b821431j.txt"), uri2);		
 	}
 	
 	/**

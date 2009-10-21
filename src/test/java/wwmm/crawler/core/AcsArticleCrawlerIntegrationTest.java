@@ -3,10 +3,10 @@ package wwmm.crawler.core;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
-import org.apache.commons.httpclient.URI;
-import org.apache.commons.httpclient.URIException;
 import org.junit.Test;
 
 import wwmm.pubcrawler.core.AcsArticleCrawler;
@@ -24,7 +24,7 @@ public class AcsArticleCrawlerIntegrationTest {
 	 * a test that the abstract page HTML has not changed.
 	 */
 	@Test
-	public void testGetArticleDetails() throws URIException, NullPointerException {
+	public void testGetArticleDetails() throws URISyntaxException, NullPointerException {
 		DOI doi = new DOI(DOI.DOI_SITE_URL+"/10.1021/cg801336t");
 		AcsArticleCrawler crawler = new AcsArticleCrawler(doi);
 		ArticleDetails details = crawler.getDetails();
@@ -37,15 +37,15 @@ public class AcsArticleCrawlerIntegrationTest {
 		List<FullTextResourceDetails> ftrds = details.getFullTextResources();
 		assertEquals(3, ftrds.size());
 		FullTextResourceDetails ftrd1 = ftrds.get(0);
-		assertEquals(new URI("http://pubs.acs.org/doi/full/10.1021/cg801336t", false), ftrd1.getURI());
+		assertEquals(new URI("http://pubs.acs.org/doi/full/10.1021/cg801336t"), ftrd1.getURI());
 		assertEquals("Full Text HTML", ftrd1.getLinkText());
 		assertEquals("text/html", ftrd1.getContentType());
 		FullTextResourceDetails ftrd2 = ftrds.get(1);
-		assertEquals(new URI("http://pubs.acs.org/doi/pdf/10.1021/cg801336t", false), ftrd2.getURI());
+		assertEquals(new URI("http://pubs.acs.org/doi/pdf/10.1021/cg801336t"), ftrd2.getURI());
 		assertEquals("Hi-Res PDF[1954 KB]", ftrd2.getLinkText());
 		assertEquals("application/pdf", ftrd2.getContentType());
 		FullTextResourceDetails ftrd3 = ftrds.get(2);
-		assertEquals(new URI("http://pubs.acs.org/doi/pdfplus/10.1021/cg801336t", false), ftrd3.getURI());
+		assertEquals(new URI("http://pubs.acs.org/doi/pdfplus/10.1021/cg801336t"), ftrd3.getURI());
 		assertEquals("PDF w/ Links[370 KB]", ftrd3.getLinkText());
 		assertEquals("application/pdf", ftrd3.getContentType());
 		
@@ -73,7 +73,7 @@ public class AcsArticleCrawlerIntegrationTest {
 		String linkText0 = sfd0.getLinkText();
 		assertEquals("cg801336t_si_001.pdf (841 KB)", linkText0);
 		URI uri0 = sfd0.getURI();
-		assertEquals(new URI("http://pubs.acs.org/doi/suppl/10.1021/cg801336t/suppl_file/cg801336t_si_001.pdf", false), uri0);
+		assertEquals(new URI("http://pubs.acs.org/doi/suppl/10.1021/cg801336t/suppl_file/cg801336t_si_001.pdf"), uri0);
 		SupplementaryResourceDetails sfd2 = suppList.get(2);
 		String contentType2 = sfd2.getContentType();
 		assertEquals("chemical/x-cif", contentType2);
@@ -82,7 +82,7 @@ public class AcsArticleCrawlerIntegrationTest {
 		String linkText2 = sfd2.getLinkText();
 		assertEquals("cg801336t_si_003.cif (69 KB)", linkText2);
 		URI uri2 = sfd2.getURI();
-		assertEquals(new URI("http://pubs.acs.org/doi/suppl/10.1021/cg801336t/suppl_file/cg801336t_si_003.cif", false), uri2);
+		assertEquals(new URI("http://pubs.acs.org/doi/suppl/10.1021/cg801336t/suppl_file/cg801336t_si_003.cif"), uri2);
 	}
 
 }

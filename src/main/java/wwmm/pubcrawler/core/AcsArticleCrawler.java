@@ -5,6 +5,7 @@ import static wwmm.pubcrawler.core.CrawlerConstants.X_XHTML;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -16,7 +17,6 @@ import nu.xom.Element;
 import nu.xom.Node;
 import nu.xom.Nodes;
 
-import org.apache.commons.httpclient.URI;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 

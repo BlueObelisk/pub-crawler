@@ -5,8 +5,9 @@ import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import org.apache.commons.httpclient.URI;
-import org.apache.commons.httpclient.URIException;
+import java.net.URI;
+import java.net.URISyntaxException;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -22,13 +23,13 @@ public class DOITest {
 	URI validDoiUri;
 
 	@Before
-	public void setupUrlsAndUris() throws URIException, NullPointerException {
+	public void setupUrlsAndUris() throws URISyntaxException, NullPointerException {
 		invalidUriUrl = "thisisnotavaliduri";
-		invalidUri = new URI(invalidUriUrl, false);
+		invalidUri = new URI(invalidUriUrl);
 		invalidDoiUrl = "http://www.google.com";
-		invalidDoiUri = new URI(invalidDoiUrl, false);
+		invalidDoiUri = new URI(invalidDoiUrl);
 		validDoiUrl = "http://dx.doi.org/10.1039/b815603d";
-		validDoiUri = new URI(validDoiUrl, false);
+		validDoiUri = new URI(validDoiUrl);
 	}
 
 	@Test
