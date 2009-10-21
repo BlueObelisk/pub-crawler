@@ -1,5 +1,6 @@
 package wwmm.pubcrawler.core;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -9,7 +10,6 @@ import nu.xom.Attribute;
 import nu.xom.Document;
 import nu.xom.Node;
 
-import org.apache.commons.httpclient.URI;
 import org.apache.log4j.Logger;
 
 import wwmm.pubcrawler.Utils;

@@ -139,7 +139,7 @@ public class OreTool {
 			// --1st the triples about the full-text
 			List<FullTextResourceDetails> ftrds = ad.getFullTextResources();
 			for (FullTextResourceDetails ftrd : ftrds) {
-				URI fullTextUri = new URI(ftrd.getURI().getURI());
+				URI fullTextUri = ftrd.getURI();
 				AggregatedResource fullTextAr = OREFactory.createAggregatedResource(fullTextUri);
 				agg.addAggregatedResource(fullTextAr);
 				addTriple(agg, fullTextUri, createPredicate(DC_NS+"format"), ftrd.getContentType());

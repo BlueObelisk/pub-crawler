@@ -5,6 +5,8 @@ import static wwmm.pubcrawler.core.CrawlerConstants.X_XHTML;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -14,8 +16,6 @@ import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Nodes;
 
-import org.apache.commons.httpclient.URI;
-import org.apache.commons.httpclient.URIException;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 
@@ -186,8 +186,8 @@ public class NatureCompoundsCrawler {
 	 */
 	private URI createUri(String url) {
 		try {
-			return new URI(url, false);
-		} catch (URIException e) {
+			return new URI(url);
+		} catch (URISyntaxException e) {
 			LOG.warn("Could not create URI from URL: "+url+" - "+e.getMessage());
 			return null;
 		}

@@ -3,10 +3,10 @@ package wwmm.crawler.core;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
-import org.apache.commons.httpclient.URI;
-import org.apache.commons.httpclient.URIException;
 import org.junit.Test;
 
 import wwmm.pubcrawler.core.ArticleDetails;
@@ -24,7 +24,7 @@ public class NatureArticleCrawlerIntegrationTest {
 	 * a test that the abstract page HTML has not changed.
 	 */
 	@Test
-	public void testGetArticleDetails() throws URIException, NullPointerException {
+	public void testGetArticleDetails() throws URISyntaxException, NullPointerException {
 		DOI doi = new DOI(DOI.DOI_SITE_URL+"/10.1038/nchem.213");
 		NatureArticleCrawler crawler = new NatureArticleCrawler(doi);
 		ArticleDetails details = crawler.getDetails();
@@ -37,11 +37,11 @@ public class NatureArticleCrawlerIntegrationTest {
 		List<FullTextResourceDetails> ftrds = details.getFullTextResources();
 		assertEquals(2, ftrds.size());
 		FullTextResourceDetails ftrd1 = ftrds.get(0);
-		assertEquals(new URI("http://www.nature.com/nchem/journal/v1/n3/full/nchem.213.html", false), ftrd1.getURI());
+		assertEquals(new URI("http://www.nature.com/nchem/journal/v1/n3/full/nchem.213.html"), ftrd1.getURI());
 		assertEquals("Full text", ftrd1.getLinkText());
 		assertEquals("text/html", ftrd1.getContentType());
 		FullTextResourceDetails ftrd2 = ftrds.get(1);
-		assertEquals(new URI("http://www.nature.com/nchem/journal/v1/n3/pdf/nchem.213.pdf", false), ftrd2.getURI());
+		assertEquals(new URI("http://www.nature.com/nchem/journal/v1/n3/pdf/nchem.213.pdf"), ftrd2.getURI());
 		assertEquals("Download PDF", ftrd2.getLinkText());
 		assertEquals("application/pdf", ftrd2.getContentType());
 		
@@ -67,7 +67,7 @@ public class NatureArticleCrawlerIntegrationTest {
 		String linkText0 = sfd0.getLinkText();
 		assertEquals("Supplementary information - Download PDF file (1,177 KB)", linkText0);
 		URI uri0 = sfd0.getURI();
-		assertEquals(new URI("http://www.nature.com/nchem/journal/v1/n3/extref/nchem.213-s1.pdf", false), uri0);
+		assertEquals(new URI("http://www.nature.com/nchem/journal/v1/n3/extref/nchem.213-s1.pdf"), uri0);
 		SupplementaryResourceDetails sfd2 = suppList.get(1);
 		String contentType2 = sfd2.getContentType();
 		assertEquals("text/plain; charset=UTF-8", contentType2);
@@ -76,7 +76,7 @@ public class NatureArticleCrawlerIntegrationTest {
 		String linkText2 = sfd2.getLinkText();
 		assertEquals("Supplementary information - Download cif (35 KB)", linkText2);
 		URI uri2 = sfd2.getURI();
-		assertEquals(new URI("http://www.nature.com/nchem/journal/v1/n3/extref/nchem.213-s2.cif", false), uri2);
+		assertEquals(new URI("http://www.nature.com/nchem/journal/v1/n3/extref/nchem.213-s2.cif"), uri2);
 	}
 	
 }

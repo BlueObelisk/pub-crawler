@@ -4,8 +4,9 @@ import static junit.framework.Assert.assertSame;
 import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.fail;
 
-import org.apache.commons.httpclient.URI;
-import org.apache.commons.httpclient.URIException;
+import java.net.URI;
+import java.net.URISyntaxException;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -20,8 +21,8 @@ public class SupplementaryFileDetailsTest {
 	String contentType;
 
 	@Before
-	public void createInstance() throws URIException, NullPointerException {
-		uri = new URI("http://something/filename.txt", false);
+	public void createInstance() throws URISyntaxException, NullPointerException {
+		uri = new URI("http://something/filename.txt");
 		filename = "filename.txt";
 		linkText = "Any old link text here";
 		contentType = "image/png";
@@ -29,8 +30,8 @@ public class SupplementaryFileDetailsTest {
 	}
 
 	@Test
-	public void testAttemptCreateInstanceWithWrongFilename() throws URIException, NullPointerException {
-		uri = new URI("http://something/filename.txt", false);
+	public void testAttemptCreateInstanceWithWrongFilename() throws URISyntaxException, NullPointerException {
+		uri = new URI("http://something/filename.txt");
 		filename = "wrongname";
 		linkText = "Any old link text here";
 		contentType = "image/png";

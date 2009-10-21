@@ -4,6 +4,7 @@ import static wwmm.pubcrawler.core.CrawlerConstants.RSC_HOMEPAGE_URL;
 import static wwmm.pubcrawler.core.CrawlerConstants.X_DC;
 import static wwmm.pubcrawler.core.CrawlerConstants.X_RSS1;
 
+import java.net.URI;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -14,7 +15,6 @@ import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Nodes;
 
-import org.apache.commons.httpclient.URI;
 import org.apache.log4j.Logger;
 
 /**

@@ -1,7 +1,7 @@
 package wwmm.pubcrawler.core;
 
-import org.apache.commons.httpclient.URI;
-import org.apache.commons.httpclient.URIException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 /**
  * <p>
@@ -73,13 +73,7 @@ public class FullTextResourceDetails {
 	 * full-text resource.
 	 */
 	public String getUriString() {
-		String uriStr = null;
-		try {
-			uriStr = uri.getURI();
-		} catch (URIException e) {
-			throw new RuntimeException("Exception getting string for URI: "+uri);
-		}
-		return uriStr;
+		return uri.toString();
 	}
 
 	/**
