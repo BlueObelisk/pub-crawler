@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>wwmm</groupId>
 	<artifactId>pub-crawler</artifactId>
-	<version>0.1</version>
+	<version>0.2</version>
 	<build>
 		<plugins>
 			<plugin>
@@ -72,12 +72,6 @@
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.dspace</groupId>
-			<artifactId>foresite</artifactId>
-			<version>SNAPSHOT</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.4</version>
@@ -89,6 +83,11 @@
 			<version>1.4</version>
 			<type>jar</type>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.13</version>
 		</dependency>
 		<dependency>
 			<groupId>org.mockito</groupId>
