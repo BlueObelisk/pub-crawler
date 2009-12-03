@@ -1,7 +1,6 @@
 package wwmm.pubcrawler.core;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 
 /**
  * <p>

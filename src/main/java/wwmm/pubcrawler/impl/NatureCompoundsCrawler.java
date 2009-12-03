@@ -16,7 +16,6 @@ import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Nodes;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 
 import wwmm.pubcrawler.core.ArticleDetails;
@@ -24,7 +23,6 @@ import wwmm.pubcrawler.core.CrawlerHttpClient;
 import wwmm.pubcrawler.core.IssueDetails;
 import wwmm.pubcrawler.core.NatureIssueCrawler;
 import wwmm.pubcrawler.core.NatureJournal;
-import wwmm.pubcrawler.core.OreTool;
 
 /**
  * <p>
@@ -411,10 +409,7 @@ public class NatureCompoundsCrawler {
 			String doiPostfix = ad.getDoi().getPostfix().replaceAll("\\.", "_");
 			doiPostfix = doiPostfix.substring(doiPostfix.lastIndexOf("/")+1);
 			File articleFolder = new File(rootFile, doiPostfix);
-			File oreFile = new File(articleFolder, doiPostfix+".rdf");
-			OreTool ot = new OreTool(oreFile.toURI().toString(), ad);
 			CrawlerHttpClient crawler = new CrawlerHttpClient();
-			FileUtils.writeStringToFile(oreFile, ot.getORE());
 			List<CompoundDetails> cdList = articleData.getCompoundDetailsList();
 			for (CompoundDetails cd : cdList) {
 				String cmpdId = cd.getID();

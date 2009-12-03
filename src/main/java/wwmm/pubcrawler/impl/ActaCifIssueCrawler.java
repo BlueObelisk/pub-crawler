@@ -1,6 +1,5 @@
 package wwmm.pubcrawler.impl;
 
-import java.net.URISyntaxException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
