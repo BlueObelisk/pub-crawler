@@ -62,15 +62,21 @@ public class NatureArticleCrawler extends ArticleCrawler {
 			LOG.warn("The DOI provided for the article abstract ("+doi.toString()+") has not resolved so we cannot get article details.");
 			return ad;
 		}
+		LOG.info("here1");
 		List<FullTextResourceDetails> fullTextResources = getFullTextResources();
+		LOG.info("here2");
 		ad.setFullTextResources(fullTextResources);
 		String title = getTitle();
 		ad.setTitle(title);
 		String authors = getAuthors();
 		ad.setAuthors(authors);
+		LOG.info("here3");
 		ArticleReference ref = getReference();
+		LOG.info("here4");
 		ad.setReference(ref);
+		LOG.info("here5");
 		List<SupplementaryResourceDetails> suppFiles = getSupplementaryFilesDetails();
+		LOG.info("here6");
 		ad.setSupplementaryResources(suppFiles);
 		LOG.info("Finished finding article details: "+doi.toString());
 		return ad;
