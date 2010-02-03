@@ -70,7 +70,7 @@ public class NatureArticleCrawlerIntegrationTest {
 		assertEquals(new URI("http://www.nature.com/nchem/journal/v1/n3/extref/nchem.213-s1.pdf"), uri0);
 		SupplementaryResourceDetails sfd2 = suppList.get(1);
 		String contentType2 = sfd2.getContentType();
-		assertEquals("text/plain; charset=UTF-8", contentType2);
+		assertEquals("chemical/x-cif", contentType2);
 		String fileId2 = sfd2.getFileId();
 		assertEquals("nchem.213-s2.cif", fileId2);
 		String linkText2 = sfd2.getLinkText();
