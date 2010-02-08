@@ -1,6 +1,7 @@
 package wwmm.pubcrawler.impl;
 
 import wwmm.pubcrawler.core.ChemSocJapanIssueCrawler;
+import wwmm.pubcrawler.core.ChemSocJapanJournal;
 import wwmm.pubcrawler.core.SupplementaryResourceDetails;
 
 /**
@@ -17,6 +18,10 @@ public class ChemSocJapanCifIssueCrawler extends CifIssueCrawler {
 	
 	public ChemSocJapanCifIssueCrawler(ChemSocJapanIssueCrawler crawler) {
 		super(crawler);
+	}
+	
+	public ChemSocJapanCifIssueCrawler(ChemSocJapanJournal journal) {
+		super(new ChemSocJapanIssueCrawler(journal));
 	}
 	
 	/**

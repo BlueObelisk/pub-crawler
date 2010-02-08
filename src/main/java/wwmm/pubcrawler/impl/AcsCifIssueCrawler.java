@@ -1,6 +1,9 @@
 package wwmm.pubcrawler.impl;
 
+import org.apache.log4j.Logger;
+
 import wwmm.pubcrawler.core.AcsIssueCrawler;
+import wwmm.pubcrawler.core.AcsJournal;
 import wwmm.pubcrawler.core.SupplementaryResourceDetails;
 
 /**
@@ -14,9 +17,15 @@ import wwmm.pubcrawler.core.SupplementaryResourceDetails;
  * @version 0.1;
  */
 public class AcsCifIssueCrawler extends CifIssueCrawler {
+	
+	private static final Logger LOG = Logger.getLogger(AcsCifIssueCrawler.class);
 
 	public AcsCifIssueCrawler(AcsIssueCrawler crawler) {
 		super(crawler);
+	}
+	
+	public AcsCifIssueCrawler(AcsJournal journal) {
+		super(new AcsIssueCrawler(journal));
 	}
 	
 	/**
@@ -30,8 +39,8 @@ public class AcsCifIssueCrawler extends CifIssueCrawler {
 	 */
 	@Override
 	protected boolean isCifFile(SupplementaryResourceDetails sfd) {
-		String filename = sfd.getFileId();
-		if (filename.endsWith(".cif")) {
+		String uri = sfd.getURI().toString();
+		if (uri.endsWith(".cif")) {
 			return true;
 		} else {
 			return false;
