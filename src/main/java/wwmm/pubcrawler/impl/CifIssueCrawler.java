@@ -5,6 +5,8 @@ import static wwmm.pubcrawler.core.CrawlerConstants.CIF_CONTENT_TYPE;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import wwmm.pubcrawler.core.ArticleDetails;
 import wwmm.pubcrawler.core.IssueCrawler;
 import wwmm.pubcrawler.core.IssueDetails;
@@ -25,9 +27,9 @@ import wwmm.pubcrawler.core.SupplementaryResourceDetails;
  * @version 1.0
  *
  */
-public abstract class CifIssueCrawler {
+public abstract class CifIssueCrawler { 
 	
-	// TODO - provide a 'Factory' way of creating the subclasses of this? 
+	private static final Logger LOG = Logger.getLogger(CifIssueCrawler.class);
 
 	protected IssueCrawler crawler;
 	

@@ -4,6 +4,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import wwmm.pubcrawler.core.ActaIssueCrawler;
+import wwmm.pubcrawler.core.ActaJournal;
 import wwmm.pubcrawler.core.SupplementaryResourceDetails;
 
 /**
@@ -20,6 +21,10 @@ public class ActaCifIssueCrawler extends CifIssueCrawler {
 
 	public ActaCifIssueCrawler(ActaIssueCrawler crawler) {
 		super(crawler);
+	}
+	
+	public ActaCifIssueCrawler(ActaJournal journal) {
+		super(new ActaIssueCrawler(journal));
 	}
 
 	/**
