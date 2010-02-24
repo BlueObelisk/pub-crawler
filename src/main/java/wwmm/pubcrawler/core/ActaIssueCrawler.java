@@ -1,6 +1,5 @@
 package wwmm.pubcrawler.core;
 
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -13,6 +12,7 @@ import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Node;
 
+import org.apache.commons.httpclient.URI;
 import org.apache.log4j.Logger;
 
 import wwmm.pubcrawler.Utils;

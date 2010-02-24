@@ -2,8 +2,6 @@ package wwmm.pubcrawler.core;
 
 import static wwmm.pubcrawler.core.CrawlerConstants.X_XHTML;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -13,11 +11,9 @@ import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Nodes;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.utils.URLEncodedUtils;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.message.BasicNameValuePair;
+import org.apache.commons.httpclient.NameValuePair;
+import org.apache.commons.httpclient.URI;
+import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.log4j.Logger;
 
 /**
@@ -91,20 +87,13 @@ public class ActaArticleCrawler extends ArticleCrawler {
 	 */
 	private void setBibtexTool() {
 		String articleId = getArticleId();
-		HttpPost postMethod = new HttpPost("http://scripts.iucr.org/cgi-bin/biblio");
-		List<NameValuePair> pairs = new ArrayList<NameValuePair>(3);
-		pairs.add(new BasicNameValuePair("name", "saveas"));
-		pairs.add(new BasicNameValuePair("cnor", articleId));
-		pairs.add(new BasicNameValuePair("Action", "download"));
-		String encoding = "UTF-8";
-		String paramStr = URLEncodedUtils.format(pairs, encoding);
-		StringEntity entity;
-		try {
-			entity = new StringEntity(paramStr);
-		} catch (UnsupportedEncodingException e) {
-			throw new IllegalStateException("Entity encoding of "+encoding+" is illegal.", e);
-		}
-		postMethod.setEntity(entity);
+		PostMethod postMethod = new PostMethod("http://scripts.iucr.org/cgi-bin/biblio");
+		NameValuePair[] nvps = {
+				new NameValuePair("name", "saveas"),
+				new NameValuePair("cnor", articleId),
+				new NameValuePair("Action", "download")
+		};
+		postMethod.setRequestBody(nvps);
 		String bibstr = httpClient.getPostResultString(postMethod);
 		bibtexTool = new BibtexTool(bibstr);
 	}

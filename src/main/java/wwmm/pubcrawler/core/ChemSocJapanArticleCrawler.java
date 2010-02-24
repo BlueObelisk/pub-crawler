@@ -4,7 +4,6 @@ import static wwmm.pubcrawler.core.CrawlerConstants.CHEMSOCJAPAN_HOMEPAGE_URL;
 import static wwmm.pubcrawler.core.CrawlerConstants.XHTML_NS;
 import static wwmm.pubcrawler.core.CrawlerConstants.X_XHTML;
 
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +12,7 @@ import nu.xom.Element;
 import nu.xom.Nodes;
 import nu.xom.Text;
 
+import org.apache.commons.httpclient.URI;
 import org.apache.log4j.Logger;
 
 /**

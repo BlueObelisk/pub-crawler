@@ -3,8 +3,9 @@ package wwmm.pubcrawler.impl;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.httpclient.URIException;
+
 import wwmm.pubcrawler.core.ActaIssueCrawler;
-import wwmm.pubcrawler.core.ActaJournal;
 import wwmm.pubcrawler.core.SupplementaryResourceDetails;
 
 /**
@@ -22,10 +23,6 @@ public class ActaCifIssueCrawler extends CifIssueCrawler {
 	public ActaCifIssueCrawler(ActaIssueCrawler crawler) {
 		super(crawler);
 	}
-	
-	public ActaCifIssueCrawler(ActaJournal journal) {
-		super(new ActaIssueCrawler(journal));
-	}
 
 	/**
 	 * <p>
@@ -39,7 +36,12 @@ public class ActaCifIssueCrawler extends CifIssueCrawler {
 	@Override
 	protected boolean isCifFile(SupplementaryResourceDetails sfd) {
 		Pattern pattern = Pattern.compile("http://scripts.iucr.org/cgi-bin/sendcif\\?.{6}sup\\d+");
-		Matcher matcher = pattern.matcher(sfd.getURI().toString());
+		Matcher matcher = null;
+		try {
+			matcher = pattern.matcher(sfd.getURI().getURI());
+		} catch (URIException e) {
+			throw new RuntimeException("Error getting URI string.", e);
+		}
 		if (matcher.find()) {
 			return true;
 		}

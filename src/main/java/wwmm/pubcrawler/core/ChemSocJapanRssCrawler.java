@@ -1,6 +1,5 @@
 package wwmm.pubcrawler.core;
 
-import java.net.URI;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -13,6 +12,7 @@ import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Nodes;
 
+import org.apache.commons.httpclient.URI;
 import org.apache.log4j.Logger;
 
 /**

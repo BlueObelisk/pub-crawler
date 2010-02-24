@@ -8,26 +8,23 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.StringReader;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import javax.print.URIException;
 
 import nu.xom.Builder;
 import nu.xom.Document;
 
+import org.apache.commons.httpclient.Header;
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.HttpException;
+import org.apache.commons.httpclient.HttpMethod;
+import org.apache.commons.httpclient.HttpStatus;
+import org.apache.commons.httpclient.URI;
+import org.apache.commons.httpclient.URIException;
+import org.apache.commons.httpclient.methods.GetMethod;
+import org.apache.commons.httpclient.methods.HeadMethod;
+import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.io.IOUtils;
-import org.apache.http.Header;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpHead;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpRequestBase;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.log4j.Logger;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
@@ -45,28 +42,18 @@ import org.xml.sax.helpers.XMLReaderFactory;
  * 
  */
 public class BasicHttpClient {
-
+	
 	private static final Logger LOG = Logger.getLogger(BasicHttpClient.class);
 
 	private HttpClient client;
+	private HttpMethod method;
 
 	public BasicHttpClient() {
-		client = new DefaultHttpClient();
+		client = new HttpClient();
 	}
 
 	public BasicHttpClient(HttpClient client) {
 		this.client = client;
-	}
-	
-	/**
-	 * <p>
-	 * Returns the HTTP client that this class wraps.
-	 * </p>
-	 * 
-	 * @return The <code>HttpClient</code> that this class wraps.
-	 */
-	public HttpClient getClient() {
-		return client;
 	}
 
 	/**
@@ -83,9 +70,9 @@ public class BasicHttpClient {
 	 */
 	private InputStream getResourceStream(URI uri) {
 		InputStream in = null;
-		HttpResponse resp = executeGET(uri);
+		method = executeGET(uri);
 		try {
-			in = resp.getEntity().getContent();
+			in = method.getResponseBodyAsStream();
 		} catch (IOException e) {
 			throw new RuntimeException("Exception getting response stream for: "+uri);
 		}
@@ -113,6 +100,9 @@ public class BasicHttpClient {
 			throw new RuntimeException("Exception converting webpage stream to string: "+uri, e);
 		} finally {
 			IOUtils.closeQuietly(in);
+			if (method != null) {
+				method.releaseConnection();
+			}
 		}
 		return html;
 	}
@@ -169,6 +159,9 @@ public class BasicHttpClient {
 			doc = Utils.parseXml(builder, in);
 		} finally {
 			IOUtils.closeQuietly(in);
+			if (method != null) {
+				method.releaseConnection();
+			}
 		}
 		return doc;
 	}
@@ -235,6 +228,9 @@ public class BasicHttpClient {
 			doc = Utils.parseXml(in);
 		} finally {
 			IOUtils.closeQuietly(in);
+			if (method != null) {
+				method.releaseConnection();
+			}
 		}
 		return doc;
 	}	
@@ -251,12 +247,12 @@ public class BasicHttpClient {
 	 * @return InputStream containing the results of the POST method.
 	 * 
 	 */
-	private InputStream getPostResultStream(HttpPost postMethod) {
-		HttpPost method = postMethod;
-		HttpResponse resp = executeMethod(method);
+	private InputStream getPostResultStream(PostMethod postMethod) {
+		method = postMethod;
+		executeMethod(method);
 		InputStream in = null;
 		try {
-			in = resp.getEntity().getContent();
+			in = method.getResponseBodyAsStream();
 		} catch (IOException e) {
 			throw new RuntimeException("Problem getting POST response stream.", e);
 		}
@@ -275,7 +271,7 @@ public class BasicHttpClient {
 	 * @return String containing the results of the POST method.
 	 * 
 	 */
-	public String getPostResultString(HttpPost postMethod) {
+	public String getPostResultString(PostMethod postMethod) {
 		InputStream in = getPostResultStream(postMethod);
 		String result = null;
 		try {
@@ -284,6 +280,9 @@ public class BasicHttpClient {
 			throw new RuntimeException("Problem converting POST result stream to string.", e);
 		} finally {
 			IOUtils.closeQuietly(in);
+			if (method != null) {
+				method.releaseConnection();
+			}
 		}
 		return result;
 	}
@@ -300,7 +299,7 @@ public class BasicHttpClient {
 	 * @return XML <code>Document</code> containing the results of the POST method.
 	 * 
 	 */
-	public Document getPostResultXML(HttpPost postMethod) {
+	public Document getPostResultXML(PostMethod postMethod) {
 		InputStream in = getPostResultStream(postMethod);
 		Document doc = null;
 		try {
@@ -308,6 +307,9 @@ public class BasicHttpClient {
 			doc = Utils.parseXml(builder, in);
 		} finally {
 			IOUtils.closeQuietly(in);
+			if (method != null) {
+				method.releaseConnection();
+			}
 		}
 		return doc;
 	}
@@ -325,8 +327,14 @@ public class BasicHttpClient {
 	 * 
 	 */
 	public Header[] getHeaders(URI uri) {
-		HttpResponse resp = executeHEAD(uri);
-		return resp.getAllHeaders();
+		method = executeHEAD(uri);
+		try {
+			return method.getResponseHeaders();
+		} finally {
+			if (method != null) {
+				method.releaseConnection();
+			}
+		}
 	}
 
 	/**
@@ -357,22 +365,22 @@ public class BasicHttpClient {
 	 * @param method - HTTP method to execute
 	 * 
 	 */
-	private HttpResponse executeMethod(HttpRequestBase method) {
+	private void executeMethod(HttpMethod method) {
 		URI uri = null;
-		HttpResponse resp = null;
 		try {
 			uri = method.getURI();
-			resp = client.execute(method);
-			int statusCode = resp.getStatusLine().getStatusCode();
+			int statusCode = client.executeMethod(method);
 			if (statusCode != HttpStatus.SC_OK) {
-				throw new RuntimeException("Problems executing "+method.getClass()
+				throw new RuntimeException("Problems executing "+method.getName()
 						+" method on "+uri+". Returned status code = "+statusCode);
 			}
+		} catch (HttpException e) {
+			throw new RuntimeException("HttpException executing "+method.getName()
+					+" method on "+uri, e);
 		} catch (IOException e) {
-			throw new RuntimeException("IOException executing "+method.getClass()
+			throw new RuntimeException("IOException executing "+method.getName()
 					+" method on "+uri, e);
 		}
-		return resp;
 	}
 
 	/**
@@ -386,10 +394,16 @@ public class BasicHttpClient {
 	 * details and results.
 	 * 
 	 */
-	public HttpResponse executeGET(URI uri) {
-		HttpGet method = new HttpGet();
-		method.setURI(uri);
-		return executeMethod(method);
+	public GetMethod executeGET(URI uri) {
+		method = new GetMethod();
+		try {
+			method.setURI(uri);
+			executeMethod(method);
+		} catch (URIException e) {
+			throw new RuntimeException("Exception setting the URI for the HTTP " +
+					"GET method: "+uri, e);
+		}
+		return (GetMethod)method;
 	}
 
 	/**
@@ -403,10 +417,16 @@ public class BasicHttpClient {
 	 * details and results.
 	 * 
 	 */
-	public HttpResponse executeHEAD(URI uri) {
-		HttpHead method = new HttpHead();
-		method.setURI(uri);
-		return executeMethod(method);
+	public HeadMethod executeHEAD(URI uri) {
+		HeadMethod method = new HeadMethod();
+		try {
+			method.setURI(uri);
+			executeMethod(method);
+		} catch (URIException e) {
+			throw new RuntimeException("Exception setting the URI for the HTTP " +
+					"GET method: "+uri, e);
+		}
+		return (HeadMethod)method;
 	}
 
 	/**
@@ -447,12 +467,16 @@ public class BasicHttpClient {
 	 * @throws NullPointerException
 	 * 
 	 */
-	public static void main(String[] args) throws URISyntaxException, NullPointerException {
+	public static void main(String[] args) throws URIException, NullPointerException {
 		BasicHttpClient bhc = new BasicHttpClient();
-		Header[] headers = bhc.getHeaders(new URI("http://pubs.rsc.org/suppdata/CC/b8/b811528a/b811528a.pdf"));
+		Header[] headers = bhc.getHeaders(new URI("http://pubs.rsc.org/suppdata/CC/b8/b811528a/b811528a.pdf", false));
 		for (Header h : headers) {
 			System.out.println(h.getName()+" = "+h.getValue());
 		}
+	}
+
+	public HttpClient getClient() {
+		return client;
 	}
 
 }

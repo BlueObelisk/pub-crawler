@@ -1,13 +1,14 @@
 package wwmm.pubcrawler.core;
 
 import java.io.File;
-import java.net.URI;
 
 import nu.xom.Document;
 
-import org.apache.http.Header;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpPost;
+import org.apache.commons.httpclient.Header;
+import org.apache.commons.httpclient.URI;
+import org.apache.commons.httpclient.methods.GetMethod;
+import org.apache.commons.httpclient.methods.HeadMethod;
+import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.log4j.Logger;
 
 import wwmm.pubcrawler.BasicHttpClient;
@@ -141,7 +142,7 @@ public class CrawlerHttpClient extends BasicHttpClient {
 	 * 
 	 */
 	@Override
-	public String getPostResultString(HttpPost postMethod) {
+	public String getPostResultString(PostMethod postMethod) {
 		Utils.sleep(maxSleep);
 		return super.getPostResultString(postMethod);
 	}
@@ -161,7 +162,7 @@ public class CrawlerHttpClient extends BasicHttpClient {
 	 * 
 	 */
 	@Override
-	public Document getPostResultXML(HttpPost postMethod) {
+	public Document getPostResultXML(PostMethod postMethod) {
 		Utils.sleep(maxSleep);
 		return super.getPostResultXML(postMethod);
 	}
@@ -202,7 +203,7 @@ public class CrawlerHttpClient extends BasicHttpClient {
 	 * 
 	 */
 	@Override
-	public HttpResponse executeGET(URI uri) {
+	public GetMethod executeGET(URI uri) {
 		Utils.sleep(maxSleep);
 		return super.executeGET(uri);
 	}
@@ -222,7 +223,7 @@ public class CrawlerHttpClient extends BasicHttpClient {
 	 * 
 	 */
 	@Override
-	public HttpResponse executeHEAD(URI uri) {
+	public HeadMethod executeHEAD(URI uri) {
 		Utils.sleep(maxSleep);
 		return super.executeHEAD(uri);
 	}
