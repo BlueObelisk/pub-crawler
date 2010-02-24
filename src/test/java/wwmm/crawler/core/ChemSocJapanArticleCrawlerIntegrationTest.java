@@ -3,10 +3,10 @@ package wwmm.crawler.core;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.List;
 
+import org.apache.commons.httpclient.URI;
+import org.apache.commons.httpclient.URIException;
 import org.junit.Test;
 
 import wwmm.pubcrawler.core.ArticleDetails;
@@ -24,7 +24,7 @@ public class ChemSocJapanArticleCrawlerIntegrationTest {
 	 * a test that the abstract page HTML has not changed.
 	 */
 	@Test
-	public void testGetArticleDetails() throws URISyntaxException, NullPointerException {
+	public void testGetArticleDetails() throws URIException, NullPointerException {
 		DOI doi = new DOI(DOI.DOI_SITE_URL+"/10.1246/cl.2008.682");
 		ChemSocJapanArticleCrawler crawler = new ChemSocJapanArticleCrawler(doi);
 		ArticleDetails details = crawler.getDetails();
@@ -37,7 +37,7 @@ public class ChemSocJapanArticleCrawlerIntegrationTest {
 		List<FullTextResourceDetails> ftrds = details.getFullTextResources();
 		assertEquals(1, ftrds.size());
 		FullTextResourceDetails ftrd = ftrds.get(0);
-		assertEquals(new URI("http://www.jstage.jst.go.jp/article/cl/37/7/682/_pdf"), ftrd.getURI());
+		assertEquals(new URI("http://www.jstage.jst.go.jp/article/cl/37/7/682/_pdf", false), ftrd.getURI());
 		assertEquals("PDF (75K)", ftrd.getLinkText());
 		assertEquals("application/pdf", ftrd.getContentType());
 		
@@ -65,7 +65,7 @@ public class ChemSocJapanArticleCrawlerIntegrationTest {
 		String linkText0 = sfd0.getLinkText();
 		assertEquals("Supporting Information", linkText0);
 		URI uri0 = sfd0.getURI();
-		assertEquals(new URI("http://www.jstage.jst.go.jp/article/cl/37/7/37_682/_appendix/1"), uri0);
+		assertEquals(new URI("http://www.jstage.jst.go.jp/article/cl/37/7/37_682/_appendix/1", false), uri0);
 		SupplementaryResourceDetails sfd1 = suppList.get(1);
 		String contentType1 = sfd1.getContentType();
 		assertEquals("application/octet-stream", contentType1);
@@ -74,7 +74,7 @@ public class ChemSocJapanArticleCrawlerIntegrationTest {
 		String linkText1 = sfd1.getLinkText();
 		assertEquals("Crystallographic Information File (CIF)", linkText1);
 		URI uri1 = sfd1.getURI();
-		assertEquals(new URI("http://www.jstage.jst.go.jp/article/cl/37/7/37_682/_appendix/2"), uri1);
+		assertEquals(new URI("http://www.jstage.jst.go.jp/article/cl/37/7/37_682/_appendix/2", false), uri1);
 	}
 	
 }

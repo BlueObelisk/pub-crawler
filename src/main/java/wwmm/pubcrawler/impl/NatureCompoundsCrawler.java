@@ -3,10 +3,6 @@ package wwmm.pubcrawler.impl;
 import static wwmm.pubcrawler.core.CrawlerConstants.NATURE_HOMEPAGE_URL;
 import static wwmm.pubcrawler.core.CrawlerConstants.X_XHTML;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -16,6 +12,8 @@ import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Nodes;
 
+import org.apache.commons.httpclient.URI;
+import org.apache.commons.httpclient.URIException;
 import org.apache.log4j.Logger;
 
 import wwmm.pubcrawler.core.ArticleDetails;
@@ -184,8 +182,8 @@ public class NatureCompoundsCrawler {
 	 */
 	private URI createUri(String url) {
 		try {
-			return new URI(url);
-		} catch (URISyntaxException e) {
+			return new URI(url, false);
+		} catch (URIException e) {
 			LOG.warn("Could not create URI from URL: "+url+" - "+e.getMessage());
 			return null;
 		}
@@ -390,44 +388,6 @@ public class NatureCompoundsCrawler {
 			return chemDrawUri;
 		}
 
-	}
-
-	/**
-	 * <p>
-	 * Main method meant for demonstration purposes only. Requires
-	 * no arguments.
-	 * </p>
-	 * 
-	 */
-	public static void main(String[] args) throws IOException {
-		NatureCompoundsCrawler ncc = new NatureCompoundsCrawler(NatureJournal.CHEMISTRY);
-		List<ArticleData> adList = ncc.crawlCurrentIssue();
-		File rootFile = new File("c:/Users/ned24/workspace/nature-data/nchem/");
-		rootFile.mkdirs();
-		for (ArticleData articleData: adList) {
-			ArticleDetails ad = articleData.getArticleDetails();
-			String doiPostfix = ad.getDoi().getPostfix().replaceAll("\\.", "_");
-			doiPostfix = doiPostfix.substring(doiPostfix.lastIndexOf("/")+1);
-			File articleFolder = new File(rootFile, doiPostfix);
-			CrawlerHttpClient crawler = new CrawlerHttpClient();
-			List<CompoundDetails> cdList = articleData.getCompoundDetailsList();
-			for (CompoundDetails cd : cdList) {
-				String cmpdId = cd.getID();
-				File cmpdFolder = new File(articleFolder, cmpdId);
-				if (cd.getSplashPageUri() != null) {
-					crawler.writeResourceToFile(cd.getSplashPageUri(), new File(cmpdFolder, cmpdId+".splash.html"));
-				}
-				if (cd.getCmlUri() != null) {
-					crawler.writeResourceToFile(cd.getCmlUri(), new File(cmpdFolder, cmpdId+".cml"));
-				}
-				if (cd.getMolUri() != null) {
-					crawler.writeResourceToFile(cd.getMolUri(), new File(cmpdFolder, cmpdId+".mol"));
-				}
-				if (cd.getChemDrawUri() != null) {
-					crawler.writeResourceToFile(cd.getChemDrawUri(), new File(cmpdFolder, cmpdId+".cdx"));
-				}
-			}
-		}
 	}
 
 }

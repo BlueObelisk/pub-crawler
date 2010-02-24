@@ -1,6 +1,7 @@
 package wwmm.pubcrawler.core;
 
-import java.net.URI;
+import org.apache.commons.httpclient.URI;
+import org.apache.commons.httpclient.URIException;
 
 /**
  * <p>
@@ -91,7 +92,13 @@ public class SupplementaryResourceDetails {
 	 * supplementary resource.
 	 */
 	public String getUriString() {
-		return uri.toString();
+		String uriStr = null;
+		try {
+			uriStr = uri.getURI();
+		} catch (URIException e) {
+			throw new RuntimeException("Exception getting string for URI: "+uri);
+		}
+		return uriStr;
 	}
 	
 	/**

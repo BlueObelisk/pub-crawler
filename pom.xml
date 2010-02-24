@@ -4,19 +4,9 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>wwmm</groupId>
 	<artifactId>pub-crawler</artifactId>
-	<version>0.2.2-SNAPSHOT</version>
+	<version>0.1</version>
 	<build>
 		<plugins>
-			<plugin>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<version>2.1</version>
-				<configuration>
-					<archive>
-						<manifestFile>${basedir}/src/main/resources/META-INF/MANIFEST.MF</manifestFile>
-					</archive>
-					<descriptor>descriptor.xml</descriptor>
-				</configuration>
-			</plugin>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
@@ -34,35 +24,19 @@
 			</plugin>
 		</plugins>
 	</build>
-	<repositories>
-		<repository>
-			<id>wwmm</id>
-			<url>http://wwmm.ch.cam.ac.uk/maven2/</url>
-		</repository>
-	</repositories>
 	<dependencies>
 		<dependency>
 			<groupId>commons-httpclient</groupId>
 			<artifactId>commons-httpclient</artifactId>
-			<version>4.0-beta2</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>commons-httpcore</groupId>
-			<artifactId>commons-httpcore</artifactId>
-			<version>4.0-beta3</version>
+			<version>3.1</version>
+			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>commons-lang</groupId>
 			<artifactId>commons-lang</artifactId>
 			<version>2.4</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>commons-logging</groupId>
-			<artifactId>commons-logging</artifactId>
-			<version>1.1.1</version>
+			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
@@ -88,6 +62,7 @@
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 			<version>1.2.13</version>
+			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.mockito</groupId>
@@ -109,10 +84,15 @@
 	</dependencies>
 	<distributionManagement>
 		<repository>
-			<id>wwmm-dav</id>
-			<name>WWMM</name>
-			<url>dav:http://wwmm.ch.cam.ac.uk/maven2</url>
+			<id>ucc-snapshots</id>
+			<url>http://maven.ch.cam.ac.uk/content/repositories/snapshots/</url>
 		</repository>
 	</distributionManagement>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>ucc-repo</id>
+			<url>http://maven.ch.cam.ac.uk/m2repo/</url>
+		</pluginRepository>
+	</pluginRepositories>
 </project>
 

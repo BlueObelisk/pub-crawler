@@ -1,7 +1,6 @@
 package wwmm.pubcrawler.impl;
 
 import wwmm.pubcrawler.core.RscIssueCrawler;
-import wwmm.pubcrawler.core.RscJournal;
 import wwmm.pubcrawler.core.SupplementaryResourceDetails;
 
 /**
@@ -18,10 +17,6 @@ public class RscCifIssueCrawler extends CifIssueCrawler {
 	
 	public RscCifIssueCrawler(RscIssueCrawler crawler) {
 		super(crawler);
-	}
-	
-	public RscCifIssueCrawler(RscJournal journal) {
-		super(new RscIssueCrawler(journal));
 	}
 	
 	/**

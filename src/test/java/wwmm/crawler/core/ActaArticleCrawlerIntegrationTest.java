@@ -3,10 +3,10 @@ package wwmm.crawler.core;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.List;
 
+import org.apache.commons.httpclient.URI;
+import org.apache.commons.httpclient.URIException;
 import org.junit.Test;
 
 import wwmm.pubcrawler.core.ActaArticleCrawler;
@@ -24,7 +24,7 @@ public class ActaArticleCrawlerIntegrationTest {
 	 * a test that the abstract page HTML has not changed.
 	 */
 	@Test
-	public void testGetArticleDetails() throws URISyntaxException, NullPointerException {
+	public void testGetArticleDetails() throws URIException, NullPointerException {
 		DOI doi = new DOI(DOI.DOI_SITE_URL+"/10.1107/S0108270109006118");
 		ActaArticleCrawler crawler = new ActaArticleCrawler(doi);
 		ArticleDetails details = crawler.getDetails();
@@ -37,11 +37,11 @@ public class ActaArticleCrawlerIntegrationTest {
 		List<FullTextResourceDetails> ftrds = details.getFullTextResources();
 		assertEquals(2, ftrds.size());
 		FullTextResourceDetails ftrd1 = ftrds.get(0);
-		assertEquals(new URI("http://journals.iucr.org/c/issues/2009/04/00/sq3185/index.html"), ftrd1.getURI());
+		assertEquals(new URI("http://journals.iucr.org/c/issues/2009/04/00/sq3185/index.html", false), ftrd1.getURI());
 		assertEquals("HTML", ftrd1.getLinkText());
 		assertEquals("text/html", ftrd1.getContentType());
 		FullTextResourceDetails ftrd2 = ftrds.get(1);
-		assertEquals(new URI("http://journals.iucr.org/c/issues/2009/04/00/sq3185/sq3185.pdf"), ftrd2.getURI());
+		assertEquals(new URI("http://journals.iucr.org/c/issues/2009/04/00/sq3185/sq3185.pdf", false), ftrd2.getURI());
 		assertEquals("PDF", ftrd2.getLinkText());
 		assertEquals("application/pdf", ftrd2.getContentType());
 		ArticleReference ref = details.getReference();
@@ -68,7 +68,7 @@ public class ActaArticleCrawlerIntegrationTest {
 		String linkText0 = sfd0.getLinkText();
 		assertEquals("CIF", linkText0);
 		URI uri0 = sfd0.getURI();
-		assertEquals(new URI("http://scripts.iucr.org/cgi-bin/sendcif?sq3185sup1"), uri0);
+		assertEquals(new URI("http://scripts.iucr.org/cgi-bin/sendcif?sq3185sup1", false), uri0);
 	}
 	
 	/**

@@ -1,7 +1,7 @@
 package wwmm.pubcrawler.core;
 
-import java.net.URI;
-import java.net.URISyntaxException;
+import org.apache.commons.httpclient.URI;
+import org.apache.commons.httpclient.URIException;
 
 /**
  * <p>
@@ -85,8 +85,8 @@ public class DOI {
 					"Cannot create a URI from a null String.");
 		}
 		try {
-			return new URI(url);
-		} catch (URISyntaxException e) {
+			return new URI(url, false);
+		} catch (URIException e) {
 			throw new RuntimeException("Problem creating URI from: "+url, e);
 		}
 	}
@@ -110,7 +110,11 @@ public class DOI {
 	 */
 	@Override
 	public String toString() {
-		return doiUri.toString();
+		try {
+			return doiUri.getURI();
+		} catch (URIException e) {
+			throw new RuntimeException("Error getting DOI string: "+doiUri, e);
+		}
 	}
 
 	/**

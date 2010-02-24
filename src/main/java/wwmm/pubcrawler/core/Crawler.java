@@ -1,8 +1,7 @@
 package wwmm.pubcrawler.core;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-
+import org.apache.commons.httpclient.URI;
+import org.apache.commons.httpclient.URIException;
 import org.apache.log4j.Logger;
 
 import wwmm.pubcrawler.BasicHttpClient;
@@ -44,8 +43,8 @@ public abstract class Crawler {
 	protected URI createURI(String url) {
 		URI uri = null;
 		try {
-			uri = new URI(url);
-		} catch (URISyntaxException e) {
+			uri = new URI(url, false);
+		} catch (URIException e) {
 			throw new CrawlerRuntimeException("Problem creating URI from: "
 					+ url, e);
 		} catch (NullPointerException e) {
@@ -56,7 +55,12 @@ public abstract class Crawler {
 	}
 
 	protected String getURIString(URI uri) {
-		return uri.toString();
+		try {
+			return uri.getURI();
+		} catch (URIException e) {
+			throw new RuntimeException("Could not convert URI to URL: " + uri,
+					e);
+		}
 	}
 
 	/**
@@ -72,8 +76,8 @@ public abstract class Crawler {
 	protected URI createURI(String url, boolean escaped) {
 		URI uri = null;
 		try {
-			uri = new URI(url);
-		} catch (URISyntaxException e) {
+			uri = new URI(url, true);
+		} catch (URIException e) {
 			throw new CrawlerRuntimeException("Problem creating URI from: "
 					+ url, e);
 		} catch (NullPointerException e) {
