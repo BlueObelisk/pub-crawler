@@ -1,6 +1,7 @@
 package wwmm.pubcrawler.impl;
 
 import wwmm.pubcrawler.core.AcsIssueCrawler;
+import wwmm.pubcrawler.core.AcsJournal;
 import wwmm.pubcrawler.core.SupplementaryResourceDetails;
 
 /**
@@ -17,6 +18,10 @@ public class AcsCifIssueCrawler extends CifIssueCrawler {
 
 	public AcsCifIssueCrawler(AcsIssueCrawler crawler) {
 		super(crawler);
+	}
+	
+	public AcsCifIssueCrawler(AcsJournal journal) {
+		super(new AcsIssueCrawler(journal));
 	}
 	
 	/**
