@@ -32,52 +32,52 @@ public class RscArticleCrawlerIntegrationTest {
 		ArticleDetails details = crawler.getDetails();
 		assertNotNull(details);
 		String authors = details.getAuthors();
-		assertEquals("Celia Ribes, Eva Falomir, Juan Murga, Miguel Carda and J. Alberto Marco", authors);
+		assertEquals("Article authors", "Celia Ribes, Eva Falomir, Juan Murga, Miguel Carda and J. Alberto Marco", authors);
 		DOI detailsDoi = details.getDoi();
-		assertEquals(doi, detailsDoi);
+		assertEquals("Article DOI", doi, detailsDoi);
 
 		List<FullTextResourceDetails> ftrds = details.getFullTextResources();
 		assertEquals(2, ftrds.size());
 		FullTextResourceDetails ftrd1 = ftrds.get(0);
-		assertEquals(new URI(RSC_HOMEPAGE_URL+"/delivery/_ArticleLinking/ArticleLinking.cfm?JournalCode=OB&Year=2009&ManuscriptID=b821431j&Iss=7", false), ftrd1.getURI());
-		assertEquals("HTML article", ftrd1.getLinkText());
-		assertEquals("text/html", ftrd1.getContentType());
+		assertEquals("Fulltext HTML URI", new URI(RSC_HOMEPAGE_URL+"/delivery/_ArticleLinking/ArticleLinking.cfm?JournalCode=OB&Year=2009&ManuscriptID=b821431j&Iss=7", false), ftrd1.getURI());
+		assertEquals("Fulltext HTML link text", "HTML article", ftrd1.getLinkText());
+		assertEquals("Fulltext HTML MIME", "text/html", ftrd1.getContentType());
 		FullTextResourceDetails ftrd2 = ftrds.get(1);
-		assertEquals(new URI(RSC_HOMEPAGE_URL+"/ej/OB/2009/b821431j.pdf", false), ftrd2.getURI());
-		assertEquals("PDF", ftrd2.getLinkText());
-		assertEquals("application/pdf", ftrd2.getContentType());
+		assertEquals("Fulltext PDF URI", new URI(RSC_HOMEPAGE_URL+"/ej/OB/2009/b821431j.pdf", false), ftrd2.getURI());
+		assertEquals("Fulltext PDF link", "PDF", ftrd2.getLinkText());
+		assertEquals("Fulltext PDF MIME", "application/pdf", ftrd2.getContentType());
 		ArticleReference ref = details.getReference();
 		String journalTitle = ref.getJournalTitle();
-		assertEquals("Org. Biomol. Chem.", journalTitle);
+		assertEquals("Journal in reference", "Org. Biomol. Chem.", journalTitle);
 		String pages = ref.getPages();
-		assertEquals("1355 - 1360", pages);
+		assertEquals("Pages in reference", "1355 - 1360", pages);
 		String volume = ref.getVolume();
-		assertEquals("7", volume);
+		assertEquals("Volume in reference", "7", volume);
 		String year = ref.getYear();
-		assertEquals("2009", year);
+		assertEquals("Year in reference", "2009", year);
 		String title = details.getTitle();
-		assertEquals("Convergent, stereoselective syntheses of the glycosidase inhibitors broussonetines D and M", title);
+		assertEquals("Title", "Convergent, stereoselective syntheses of the glycosidase inhibitors broussonetines D and M", title);
 		
 		List<SupplementaryResourceDetails> suppList = details.getSupplementaryResources();
 		assertEquals(3, suppList.size());
 		SupplementaryResourceDetails sfd0 = suppList.get(0);
 		String contentType0 = sfd0.getContentType();
-		assertEquals("application/pdf", contentType0);
+		assertEquals("First supplementary resource MIME", "application/pdf", contentType0);
 		String fileId0 = sfd0.getFileId();
-		assertEquals("b821431j_1", fileId0);
+		assertEquals("First supplementary resource file ID", "b821431j_1", fileId0);
 		String linkText0 = sfd0.getLinkText();
-		assertEquals("Additional experimental procedures and tabulated spectral data of compounds 7, 8, 9a, 10, 11, 13, 14, 16–19 and 21", linkText0);
+		assertEquals("First supplementary resource link text", "Additional experimental procedures and tabulated spectral data of compounds 7, 8, 9a, 10, 11, 13, 14, 16–19 and 21", linkText0);
 		URI uri0 = sfd0.getURI();
-		assertEquals(new URI(RSC_HOMEPAGE_URL+"/suppdata/OB/b8/b821431j/b821431j_1.pdf", false), uri0);
+		assertEquals("First supplementary resource URI", new URI(RSC_HOMEPAGE_URL+"/suppdata/OB/b8/b821431j/b821431j_1.pdf", false), uri0);
 		SupplementaryResourceDetails sfd2 = suppList.get(2);
 		String contentType2 = sfd2.getContentType();
-		assertEquals("text/plain", contentType2);
+		assertEquals("Second supplementary resource MIME", "text/plain", contentType2);
 		String fileId2 = sfd2.getFileId();
-		assertEquals("b821431j", fileId2);
+		assertEquals("Second supplementary resource file ID", "b821431j", fileId2);
 		String linkText2 = sfd2.getLinkText();
-		assertEquals("Crystal structure data", linkText2);
+		assertEquals("Second supplementary resource link text", "Crystal structure data", linkText2);
 		URI uri2 = sfd2.getURI();
-		assertEquals(new URI(RSC_HOMEPAGE_URL+"/suppdata/OB/b8/b821431j/b821431j.txt", false), uri2);		
+		assertEquals("Second supplementary resource URI", new URI(RSC_HOMEPAGE_URL+"/suppdata/OB/b8/b821431j/b821431j.txt", false), uri2);		
 	}
 	
 	/**
@@ -98,25 +98,25 @@ public class RscArticleCrawlerIntegrationTest {
 		ArticleDetails details1 = crawler1.getDetails();
 		ArticleReference ref1 = details1.getReference();
 		String title1 = ref1.getJournalTitle();
-		assertEquals("Chem. Commun.", title1);
+		assertEquals("Journal abbreviation in first reference", "Chem. Commun.", title1);
 		String pages1 = ref1.getPages();
-		assertEquals("1658-1660", pages1);
+		assertEquals("Pages in first reference", "1658-1660", pages1);
 		String vol1 = ref1.getVolume();
 		assertNull(vol1);
 		String year1 = ref1.getYear();
-		assertEquals("2009", year1);
+		assertEquals("Year in first reference", "2009", year1);
 		DOI doi2 = new DOI(DOI.DOI_SITE_URL+"/10.1039/b900026g");
 		RscArticleCrawler crawler2 = new RscArticleCrawler(doi2);
 		ArticleDetails details2 = crawler2.getDetails();
 		ArticleReference ref2 = details2.getReference();
 		String title2 = ref2.getJournalTitle();
-		assertEquals("Org. Biomol. Chem.", title2);
+		assertEquals("Journal abbreviation in second reference", "Org. Biomol. Chem.", title2);
 		String pages2 = ref2.getPages();
-		assertEquals("1280 - 1283", pages2);
+		assertEquals("Pages in second reference", "1280 - 1283", pages2);
 		String vol2 = ref2.getVolume();
-		assertEquals("7", vol2);
+		assertEquals("Volume in second reference", "7", vol2);
 		String year2 = ref2.getYear();
-		assertEquals("2009", year2);
+		assertEquals("Year in second reference", "2009", year2);
 	}
 	
 }
