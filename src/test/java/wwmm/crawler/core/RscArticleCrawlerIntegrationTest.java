@@ -30,14 +30,14 @@ public class RscArticleCrawlerIntegrationTest {
 		DOI doi = new DOI(DOI.DOI_SITE_URL+"/10.1039/b821431j");
 		RscArticleCrawler crawler = new RscArticleCrawler(doi);
 		ArticleDetails details = crawler.getDetails();
-		assertNotNull(details);
+		assertNotNull("NULL article details", details);
 		String authors = details.getAuthors();
 		assertEquals("Article authors", "Celia Ribes, Eva Falomir, Juan Murga, Miguel Carda and J. Alberto Marco", authors);
 		DOI detailsDoi = details.getDoi();
 		assertEquals("Article DOI", doi, detailsDoi);
 
 		List<FullTextResourceDetails> ftrds = details.getFullTextResources();
-		assertEquals(2, ftrds.size());
+		assertEquals("Number of fulltext resources found", 2, ftrds.size());
 		FullTextResourceDetails ftrd1 = ftrds.get(0);
 		assertEquals("Fulltext HTML URI", new URI(RSC_HOMEPAGE_URL+"/delivery/_ArticleLinking/ArticleLinking.cfm?JournalCode=OB&Year=2009&ManuscriptID=b821431j&Iss=7", false), ftrd1.getURI());
 		assertEquals("Fulltext HTML link text", "HTML article", ftrd1.getLinkText());
@@ -59,7 +59,7 @@ public class RscArticleCrawlerIntegrationTest {
 		assertEquals("Title", "Convergent, stereoselective syntheses of the glycosidase inhibitors broussonetines D and M", title);
 		
 		List<SupplementaryResourceDetails> suppList = details.getSupplementaryResources();
-		assertEquals(3, suppList.size());
+		assertEquals("Number of supplementary resources found", 3, suppList.size());
 		SupplementaryResourceDetails sfd0 = suppList.get(0);
 		String contentType0 = sfd0.getContentType();
 		assertEquals("First supplementary resource MIME", "application/pdf", contentType0);
@@ -102,7 +102,7 @@ public class RscArticleCrawlerIntegrationTest {
 		String pages1 = ref1.getPages();
 		assertEquals("Pages in first reference", "1658-1660", pages1);
 		String vol1 = ref1.getVolume();
-		assertNull(vol1);
+		assertNull("Not NULL volume", vol1);
 		String year1 = ref1.getYear();
 		assertEquals("Year in first reference", "2009", year1);
 		DOI doi2 = new DOI(DOI.DOI_SITE_URL+"/10.1039/b900026g");
