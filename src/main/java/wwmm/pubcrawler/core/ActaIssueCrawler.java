@@ -145,7 +145,7 @@ public class ActaIssueCrawler extends IssueCrawler {
 			DOI doi = new DOI(createURI(DOI.DOI_SITE_URL+"/"+doiPrefix));
 			dois.add(doi);
 		}
-		LOG.info("Finished finding issue DOIs: "+dois.size());
+		LOG.info("Found issue DOIs: "+dois.size());
 		return new ArrayList<DOI>(dois);
 	}
 
@@ -167,13 +167,7 @@ public class ActaIssueCrawler extends IssueCrawler {
 	@Override
 	public List<ArticleDetails> getDetailsForArticles(IssueDetails details) {
 		List<DOI> dois = getDOIs(details);
-		List<ArticleDetails> adList = new ArrayList<ArticleDetails>(dois.size());
-		for (DOI doi : dois) {
-			ArticleDetails ad = new ActaArticleCrawler(doi).getDetails();
-			adList.add(ad);
-		}
-		LOG.info("Finished finding issue article details: "+details.getYear()+"-"+details.getIssueId());
-		return adList;
+		return getDetailsForArticles(new ActaArticleCrawler(), dois);
 	}
 
 
@@ -186,7 +180,8 @@ public class ActaIssueCrawler extends IssueCrawler {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		ActaIssueCrawler acf = new ActaIssueCrawler(ActaJournal.SECTION_B);
+		ActaIssueCrawler acf = new ActaIssueCrawler(ActaJournal.SECTION_E);
+		acf.setMaxArticlesToCrawl(10);
 		IssueDetails details = acf.getCurrentIssueDetails();
 		List<ArticleDetails> adList = acf.getDetailsForArticles(details);
 		for (ArticleDetails ad : adList) {

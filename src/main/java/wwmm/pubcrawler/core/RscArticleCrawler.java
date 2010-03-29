@@ -31,14 +31,10 @@ public class RscArticleCrawler extends ArticleCrawler {
 
 	private static final Logger LOG = Logger.getLogger(RscArticleCrawler.class);
 
-	/**
-	 * <p>
-	 * Creates an instance of the RscArticleCrawler class and
-	 * specifies the DOI of the article to be crawled.
-	 * </p>
-	 * 
-	 * @param doi of the article to be crawled.
-	 */
+	public RscArticleCrawler() {
+		;
+	}
+
 	public RscArticleCrawler(DOI doi) {
 		super(doi);
 	}
@@ -58,21 +54,21 @@ public class RscArticleCrawler extends ArticleCrawler {
 	public ArticleDetails getDetails() {
 		if (!doiResolved) {
 			LOG.warn("The DOI provided for the article abstract ("+doi.toString()+") has not resolved so we cannot get article details.");
-			return ad;
+			return articleDetails;
 		}		
 		List<FullTextResourceDetails> fullTextResources = getFullTextResources();
-		ad.setFullTextResources(fullTextResources);
+		articleDetails.setFullTextResources(fullTextResources);
 		String title = getTitle();
 		ArticleReference ref = getReference();
 		String authors = getAuthors();
 		List<SupplementaryResourceDetails> suppFiles = getSupplementaryFilesDetails();
-		ad.setTitle(title);
-		ad.setReference(ref);
-		ad.setAuthors(authors);
-		ad.setSupplementaryResources(suppFiles);
-		ad.setHasBeenPublished(true);
+		articleDetails.setTitle(title);
+		articleDetails.setReference(ref);
+		articleDetails.setAuthors(authors);
+		articleDetails.setSupplementaryResources(suppFiles);
+		articleDetails.setHasBeenPublished(true);
 		LOG.info("Finished finding article details: "+doi);
-		return ad;
+		return articleDetails;
 	}
 
 	/**

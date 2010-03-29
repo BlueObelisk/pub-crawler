@@ -33,14 +33,10 @@ public class NatureArticleCrawler extends ArticleCrawler {
 
 	private static final Logger LOG = Logger.getLogger(NatureArticleCrawler.class);
 
-	/**
-	 * <p>
-	 * Creates an instance of the NatureArticleCrawler class and
-	 * specifies the DOI of the article to be crawled.
-	 * </p>
-	 * 
-	 * @param doi of the article to be crawled.
-	 */
+	public NatureArticleCrawler() {
+		;
+	}
+
 	public NatureArticleCrawler(DOI doi) {
 		super(doi);
 	}
@@ -60,20 +56,20 @@ public class NatureArticleCrawler extends ArticleCrawler {
 	public ArticleDetails getDetails() {
 		if (!doiResolved) {
 			LOG.warn("The DOI provided for the article abstract ("+doi.toString()+") has not resolved so we cannot get article details.");
-			return ad;
+			return articleDetails;
 		}
 		List<FullTextResourceDetails> fullTextResources = getFullTextResources();
-		ad.setFullTextResources(fullTextResources);
+		articleDetails.setFullTextResources(fullTextResources);
 		String title = getTitle();
-		ad.setTitle(title);
+		articleDetails.setTitle(title);
 		String authors = getAuthors();
-		ad.setAuthors(authors);
+		articleDetails.setAuthors(authors);
 		ArticleReference ref = getReference();
-		ad.setReference(ref);
+		articleDetails.setReference(ref);
 		List<SupplementaryResourceDetails> suppFiles = getSupplementaryFilesDetails();
-		ad.setSupplementaryResources(suppFiles);
+		articleDetails.setSupplementaryResources(suppFiles);
 		LOG.info("Finished finding article details: "+doi.toString());
-		return ad;
+		return articleDetails;
 	}
 
 	/**

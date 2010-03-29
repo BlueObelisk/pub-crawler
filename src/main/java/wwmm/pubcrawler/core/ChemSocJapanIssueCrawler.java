@@ -157,13 +157,7 @@ public class ChemSocJapanIssueCrawler extends IssueCrawler {
 	@Override
 	public List<ArticleDetails> getDetailsForArticles(IssueDetails details) {
 		List<DOI> dois = getDOIs(details);
-		List<ArticleDetails> adList = new ArrayList<ArticleDetails>(dois.size());
-		for (DOI doi : dois) {
-			ArticleDetails ad = new ChemSocJapanArticleCrawler(doi).getDetails();
-			adList.add(ad);
-		}
-		LOG.info("Finished finding issue article details: "+details.getYear()+"-"+details.getIssueId());
-		return adList;
+		return getDetailsForArticles(new ChemSocJapanArticleCrawler(), dois);
 	}
 
 	/**

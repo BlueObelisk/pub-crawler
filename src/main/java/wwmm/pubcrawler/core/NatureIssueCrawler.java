@@ -162,13 +162,7 @@ public class NatureIssueCrawler extends IssueCrawler {
 	@Override
 	public List<ArticleDetails> getDetailsForArticles(IssueDetails details) {
 		List<DOI> dois = getDOIs(details);
-		List<ArticleDetails> adList = new ArrayList<ArticleDetails>(dois.size());
-		for (DOI doi : dois) {
-			ArticleDetails ad = new NatureArticleCrawler(doi).getDetails();
-			adList.add(ad);
-		}
-		LOG.info("Finished finding issue article details: "+details.getYear()+"-"+details.getIssueId());
-		return adList;
+		return getDetailsForArticles(new NatureArticleCrawler(), dois);
 	}
 
 	/**
