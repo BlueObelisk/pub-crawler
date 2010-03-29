@@ -37,14 +37,10 @@ public class AcsArticleCrawler extends ArticleCrawler {
 
 	private static final Logger LOG = Logger.getLogger(AcsArticleCrawler.class);
 
-	/**
-	 * <p>
-	 * Creates an instance of the AcsArticleCrawler class and
-	 * specifies the DOI of the article to be crawled.
-	 * </p>
-	 * 
-	 * @param doi of the article to be crawled.
-	 */
+	public AcsArticleCrawler() {
+		;
+	}
+	
 	public AcsArticleCrawler(DOI doi) {
 		super(doi);
 	}
@@ -64,20 +60,20 @@ public class AcsArticleCrawler extends ArticleCrawler {
 	public ArticleDetails getDetails() {
 		if (!doiResolved) {
 			LOG.warn("The DOI provided for the article abstract ("+doi.toString()+") has not resolved so we cannot get article details.");
-			return ad;
+			return articleDetails;
 		}
 		List<FullTextResourceDetails> fullTextResources = getFullTextResources();
-		ad.setFullTextResources(fullTextResources);
+		articleDetails.setFullTextResources(fullTextResources);
 		String title = getTitle();
 		String authors = getAuthors();
 		ArticleReference ref = getReference();
 		List<SupplementaryResourceDetails> suppFiles = getSupplementaryFilesDetails();
-		ad.setTitle(title);
-		ad.setReference(ref);
-		ad.setAuthors(authors);
-		ad.setSupplementaryResources(suppFiles);
+		articleDetails.setTitle(title);
+		articleDetails.setReference(ref);
+		articleDetails.setAuthors(authors);
+		articleDetails.setSupplementaryResources(suppFiles);
 		LOG.debug("Finished finding article details: "+doi.toString());
-		return ad;
+		return articleDetails;
 	}
 
 	/**
@@ -298,7 +294,7 @@ public class AcsArticleCrawler extends ArticleCrawler {
 		String number = null;
 		String pages = null;
 		if (!citationContent.contains("Article ASAP")) {
-			ad.setHasBeenPublished(true);
+			articleDetails.setHasBeenPublished(true);
 			Nodes yearNds = citationNd.query("./x:span[@class='citation_year']", X_XHTML);
 			if (yearNds.size() != 1) {
 				LOG.warn("Problem finding year text at: "+doi);
@@ -319,7 +315,7 @@ public class AcsArticleCrawler extends ArticleCrawler {
 				pages = matcher.group(2)+"-"+matcher.group(3);
 			}
 		} else {
-			ad.setHasBeenPublished(false);
+			articleDetails.setHasBeenPublished(false);
 		}
 
 		ArticleReference ar = new ArticleReference();

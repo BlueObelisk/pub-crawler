@@ -31,14 +31,10 @@ public class ActaArticleCrawler extends ArticleCrawler {
 
 	private static final Logger LOG = Logger.getLogger(ActaArticleCrawler.class);
 
-	/**
-	 * <p>
-	 * Creates an instance of the ActaArticleCrawler class and
-	 * specifies the DOI of the article to be crawled.
-	 * </p>
-	 * 
-	 * @param doi of the article to be crawled.
-	 */
+	public ActaArticleCrawler() {
+		;
+	}
+	
 	public ActaArticleCrawler(DOI doi) {
 		super(doi);
 	}
@@ -56,26 +52,29 @@ public class ActaArticleCrawler extends ArticleCrawler {
 	 */
 	@Override
 	public ArticleDetails getDetails() {
+		if (doi == null) {
+			throw new IllegalStateException("DOI is null, it must be set before the article details can be obtained.");
+		}
 		if (!doiResolved) {
 			LOG.warn("The DOI provided for the article abstract ("+doi.toString()+") has not resolved so we cannot get article details.");
-			return ad;
+			return articleDetails;
 		}
 		List<FullTextResourceDetails> fullTextResources = getFullTextResources();
-		ad.setFullTextResources(fullTextResources);
+		articleDetails.setFullTextResources(fullTextResources);
 		List<SupplementaryResourceDetails> suppFiles = getSupplementaryFilesDetails();
 		setBibtexTool();
 		if (bibtexTool != null) {
 			String title = bibtexTool.getTitle();
 			ArticleReference ref = bibtexTool.getReference();
-			ad.setHasBeenPublished(true);
+			articleDetails.setHasBeenPublished(true);
 			String authors = bibtexTool.getAuthors();
-			ad.setTitle(title);
-			ad.setReference(ref);
-			ad.setAuthors(authors);
-			ad.setSupplementaryResources(suppFiles);
+			articleDetails.setTitle(title);
+			articleDetails.setReference(ref);
+			articleDetails.setAuthors(authors);
+			articleDetails.setSupplementaryResources(suppFiles);
 		}
 		LOG.info("Finished finding article details: "+doi);
-		return ad;
+		return articleDetails;
 	}
 
 	/**

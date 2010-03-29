@@ -30,14 +30,10 @@ public class ChemSocJapanArticleCrawler extends ArticleCrawler {
 
 	private static final Logger LOG = Logger.getLogger(ChemSocJapanArticleCrawler.class);
 
-	/**
-	 * <p>
-	 * Creates an instance of the ChemSocJapanArticleCrawler class and
-	 * specifies the DOI of the article to be crawled.
-	 * </p>
-	 * 
-	 * @param doi of the article to be crawled.
-	 */
+	public ChemSocJapanArticleCrawler() {
+		;
+	}
+
 	public ChemSocJapanArticleCrawler(DOI doi) {
 		super(doi);
 	}
@@ -57,24 +53,24 @@ public class ChemSocJapanArticleCrawler extends ArticleCrawler {
 	public ArticleDetails getDetails() {
 		if (!doiResolved) {
 			LOG.warn("The DOI provided for the article abstract ("+doi.toString()+") has not resolved so we cannot get article details.");
-			return ad;
+			return articleDetails;
 		}
 		List<FullTextResourceDetails> fullTextResources = getFullTextResources();
-		ad.setFullTextResources(fullTextResources);
+		articleDetails.setFullTextResources(fullTextResources);
 		List<SupplementaryResourceDetails> suppFiles = getSupplementaryFilesDetails();
 		setBibtexTool();
 		if (bibtexTool != null) {
 			String title = bibtexTool.getTitle();
 			ArticleReference ref = bibtexTool.getReference();
-			ad.setHasBeenPublished(true);
+			articleDetails.setHasBeenPublished(true);
 			String authors = bibtexTool.getAuthors();
-			ad.setTitle(title);
-			ad.setReference(ref);
-			ad.setAuthors(authors);
-			ad.setSupplementaryResources(suppFiles);
+			articleDetails.setTitle(title);
+			articleDetails.setReference(ref);
+			articleDetails.setAuthors(authors);
+			articleDetails.setSupplementaryResources(suppFiles);
 		}
 		LOG.info("Finished finding article details: "+doi);
-		return ad;
+		return articleDetails;
 	}
 
 	/**

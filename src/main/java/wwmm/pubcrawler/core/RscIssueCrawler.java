@@ -203,16 +203,8 @@ public class RscIssueCrawler extends IssueCrawler {
 	 */
 	@Override
 	public List<ArticleDetails> getDetailsForArticles(IssueDetails details) {
-		String year = details.getYear();
-		String issueId = details.getIssueId();
 		List<DOI> dois = getDOIs(details);
-		List<ArticleDetails> adList = new ArrayList<ArticleDetails>(dois.size());
-		for (DOI doi : dois) {
-			ArticleDetails ad = new RscArticleCrawler(doi).getDetails();
-			adList.add(ad);
-		}
-		LOG.info("Finished finding issue article details: "+year+"-"+issueId);
-		return adList;
+		return getDetailsForArticles(new RscArticleCrawler(), dois);
 	}
 
 	/**

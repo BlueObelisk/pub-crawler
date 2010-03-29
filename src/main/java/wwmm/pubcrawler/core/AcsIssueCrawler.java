@@ -162,13 +162,7 @@ public class AcsIssueCrawler extends IssueCrawler {
 	@Override
 	public List<ArticleDetails> getDetailsForArticles(IssueDetails details) {
 		List<DOI> dois = getDOIs(details);
-		List<ArticleDetails> adList = new ArrayList<ArticleDetails>(dois.size());
-		for (DOI doi : dois) {
-			ArticleDetails ad = new AcsArticleCrawler(doi).getDetails();
-			adList.add(ad);
-		}
-		LOG.info("Finished finding issue article details: "+details.getYear()+"-"+details.getIssueId());
-		return adList;
+		return getDetailsForArticles(new AcsArticleCrawler(), dois);
 	}
 
 	/**

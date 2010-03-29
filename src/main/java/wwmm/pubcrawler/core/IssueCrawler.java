@@ -1,5 +1,6 @@
 package wwmm.pubcrawler.core;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import nu.xom.Document;
@@ -16,10 +17,19 @@ import nu.xom.Document;
  *       making this an interface
  */
 public abstract class IssueCrawler extends Crawler {
-
-	// FIXME - can we provide a superclass for the journal enums
-	// (e.g. ActaJournal) here so that implementers are forced to
-	// include one?
+	
+	protected static int MAX_ARTICLES_TO_CRAWL = Integer.MAX_VALUE;
+	
+	public void setMaxArticlesToCrawl(int i) {
+		if (i < 0) {
+			throw new IllegalArgumentException("Cannot set max number of articles to crawl to less than 0.");
+		}
+		MAX_ARTICLES_TO_CRAWL = i;
+	}
+	
+	public int getMaxArticlesToCrawl() {
+		return MAX_ARTICLES_TO_CRAWL;
+	}
 
 	/**
 	 * <p>
@@ -87,6 +97,34 @@ public abstract class IssueCrawler extends Crawler {
 	 */
 	abstract public List<ArticleDetails> getDetailsForArticles(
 			IssueDetails details);
+	
+	/**
+	 * <p>
+	 * Uses the provided article crawler to get the details for all the articles 
+	 * that are found at the provided DOIs.  Will only crawl the number of articles
+	 * that MAX_ARTICLE_TO_CRAWL has been set to.
+	 * </p>
+	 * 
+	 * @param articleCrawler - crawler to use to crawl the articles at the provided
+	 * DOIs.
+	 * @param dois - DOIs for the articles that are to be crawled. 
+	 * 
+	 * @return list of <code>ArticleDetails</code> describing the articles at the
+	 * provided DOIs.
+	 */
+	protected List<ArticleDetails> getDetailsForArticles(ArticleCrawler articleCrawler, List<DOI> dois) {
+		List<ArticleDetails> adList = new ArrayList<ArticleDetails>(MAX_ARTICLES_TO_CRAWL);
+		int count = 0;
+		for (DOI doi : dois) {
+			if (count >= MAX_ARTICLES_TO_CRAWL) {
+				break;
+			}
+			articleCrawler.setDOI(doi);
+			adList.add(articleCrawler.getDetails());
+			count++;
+		}
+		return adList;
+	}
 
 	/**
 	 * <p>
