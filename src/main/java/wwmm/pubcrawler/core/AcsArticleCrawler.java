@@ -57,17 +57,17 @@ public class AcsArticleCrawler extends ArticleCrawler {
 	 * 
 	 */
 	@Override
-	public ArticleDetails getDetails() {
+	public ArticleDescription getDetails() {
 		if (!doiResolved) {
 			LOG.warn("The DOI provided for the article abstract ("+doi.toString()+") has not resolved so we cannot get article details.");
 			return articleDetails;
 		}
-		List<FullTextResourceDetails> fullTextResources = getFullTextResources();
+		List<FullTextResourceDescription> fullTextResources = getFullTextResources();
 		articleDetails.setFullTextResources(fullTextResources);
 		String title = getTitle();
 		String authors = getAuthors();
 		ArticleReference ref = getReference();
-		List<SupplementaryResourceDetails> suppFiles = getSupplementaryFilesDetails();
+		List<SupplementaryResourceDescription> suppFiles = getSupplementaryFilesDetails();
 		articleDetails.setTitle(title);
 		articleDetails.setReference(ref);
 		articleDetails.setAuthors(authors);
@@ -85,17 +85,17 @@ public class AcsArticleCrawler extends ArticleCrawler {
 	 * @return list containing the details of each full-text
 	 * resource provided for the article.
 	 */
-	private List<FullTextResourceDetails> getFullTextResources() {
-		List<FullTextResourceDetails> fullTextResources = new ArrayList<FullTextResourceDetails>(3);
-		FullTextResourceDetails fullTextHtmlDetails = getFullTextHtmlDetails();
+	private List<FullTextResourceDescription> getFullTextResources() {
+		List<FullTextResourceDescription> fullTextResources = new ArrayList<FullTextResourceDescription>(3);
+		FullTextResourceDescription fullTextHtmlDetails = getFullTextHtmlDetails();
 		if (fullTextHtmlDetails != null) {
 			fullTextResources.add(fullTextHtmlDetails);
 		}
-		FullTextResourceDetails fullTextPdfDetails = getFullTextPdfDetails();
+		FullTextResourceDescription fullTextPdfDetails = getFullTextPdfDetails();
 		if (fullTextPdfDetails != null) {
 			fullTextResources.add(fullTextPdfDetails);
 		}
-		FullTextResourceDetails fullTextHiResPdfDetails = getFullTextEnhancedPdfDetails();
+		FullTextResourceDescription fullTextHiResPdfDetails = getFullTextEnhancedPdfDetails();
 		if (fullTextHiResPdfDetails != null) {
 			fullTextResources.add(fullTextHiResPdfDetails);
 		}
@@ -111,7 +111,7 @@ public class AcsArticleCrawler extends ArticleCrawler {
 	 * @return details about the full-text PDF resource for this
 	 * article.
 	 */
-	private FullTextResourceDetails getFullTextPdfDetails() {
+	private FullTextResourceDescription getFullTextPdfDetails() {
 		Nodes fullTextPdfLinks = articleAbstractHtml.query(".//x:a[contains(@href,'/doi/pdf/')]", X_XHTML);
 		if (fullTextPdfLinks.size() == 0) {
 			LOG.warn("Problem getting full text PDF link: "+doi);
@@ -121,7 +121,7 @@ public class AcsArticleCrawler extends ArticleCrawler {
 		String linkText = fullTextLink.getValue().trim();
 		String fullTextPdfUrl = ACS_HOMEPAGE_URL+fullTextLink.getAttributeValue("href");
 		URI fullTextPdfUri = createURI(fullTextPdfUrl);
-		return new FullTextResourceDetails(fullTextPdfUri, linkText, "application/pdf");
+		return new FullTextResourceDescription(fullTextPdfUri, linkText, "application/pdf");
 	}
 	
 	/**
@@ -133,7 +133,7 @@ public class AcsArticleCrawler extends ArticleCrawler {
 	 * @return details about the full-text enhanced PDF resource for this
 	 * article.
 	 */
-	private FullTextResourceDetails getFullTextEnhancedPdfDetails() {
+	private FullTextResourceDescription getFullTextEnhancedPdfDetails() {
 		Nodes fullTextPdfLinks = articleAbstractHtml.query(".//x:a[contains(@href,'/doi/pdfplus/')]", X_XHTML);
 		if (fullTextPdfLinks.size() == 0) {
 			LOG.warn("Problem getting full text enhanced PDF link: "+doi);
@@ -143,7 +143,7 @@ public class AcsArticleCrawler extends ArticleCrawler {
 		String linkText = fullTextLink.getValue().trim();
 		String fullTextPdfUrl = ACS_HOMEPAGE_URL+fullTextLink.getAttributeValue("href");
 		URI fullTextPdfUri = createURI(fullTextPdfUrl);
-		return new FullTextResourceDetails(fullTextPdfUri, linkText, "application/pdf");
+		return new FullTextResourceDescription(fullTextPdfUri, linkText, "application/pdf");
 	}
 	
 	/**
@@ -155,7 +155,7 @@ public class AcsArticleCrawler extends ArticleCrawler {
 	 * @return details about the full-text HTML resource for this
 	 * article.
 	 */
-	private FullTextResourceDetails getFullTextHtmlDetails() {
+	private FullTextResourceDescription getFullTextHtmlDetails() {
 		Nodes fullTextHtmlLinks = articleAbstractHtml.query(".//x:a[contains(@href,'/doi/full/')]", X_XHTML);
 		if (fullTextHtmlLinks.size() == 0) {
 			LOG.warn("Problem getting full text HTML link: "+doi);
@@ -165,7 +165,7 @@ public class AcsArticleCrawler extends ArticleCrawler {
 		String linkText = fullTextLink.getValue().trim();
 		String fullTextHtmlUrl = ACS_HOMEPAGE_URL+fullTextLink.getAttributeValue("href");
 		URI fullTextHtmlUri = createURI(fullTextHtmlUrl);
-		return new FullTextResourceDetails(fullTextHtmlUri, linkText, "text/html");
+		return new FullTextResourceDescription(fullTextHtmlUri, linkText, "text/html");
 	}
 
 	/**
@@ -178,13 +178,13 @@ public class AcsArticleCrawler extends ArticleCrawler {
 	 * data file (as a <code>SupplementaryFileDetails</code> object).
 	 * 
 	 */
-	private List<SupplementaryResourceDetails> getSupplementaryFilesDetails() {
+	private List<SupplementaryResourceDescription> getSupplementaryFilesDetails() {
 		Document suppPageDoc = getSupplementaryDataWebpage();
 		if (suppPageDoc == null) {
 			return Collections.EMPTY_LIST;
 		}
 		List<Node> suppLinks = Utils.queryHTML(suppPageDoc, ".//x:div[@id='supInfoBox']//x:a[contains(@href,'/suppl/')]");
-		List<SupplementaryResourceDetails> sfList = new ArrayList<SupplementaryResourceDetails>(suppLinks.size());
+		List<SupplementaryResourceDescription> sfList = new ArrayList<SupplementaryResourceDescription>(suppLinks.size());
 		for (Node suppLink : suppLinks) {
 			Element link = (Element)suppLink;
 			String urlPostfix = link.getAttributeValue("href");
@@ -193,7 +193,7 @@ public class AcsArticleCrawler extends ArticleCrawler {
 			URI uri = createURI(url);
 			String linkText = link.getValue();
 			String contentType = httpClient.getContentType(uri);
-			SupplementaryResourceDetails sf = new SupplementaryResourceDetails(uri, filename, linkText, contentType);
+			SupplementaryResourceDescription sf = new SupplementaryResourceDescription(uri, filename, linkText, contentType);
 			sfList.add(sf);
 		}
 		return sfList;
@@ -356,7 +356,7 @@ public class AcsArticleCrawler extends ArticleCrawler {
 	public static void main(String[] args) throws IOException {
 		DOI doi = new DOI("http://dx.doi.org/10.1021/je800923q");
 		AcsArticleCrawler crawler = new AcsArticleCrawler(doi);
-		ArticleDetails ad = crawler.getDetails();
+		ArticleDescription ad = crawler.getDetails();
 		System.out.println(ad.toString());
 		String title = ad.getTitle();
 		title = new String(title.getBytes("ISO-8859-1"), "UTF8");

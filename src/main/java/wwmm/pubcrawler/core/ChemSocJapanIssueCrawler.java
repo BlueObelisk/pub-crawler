@@ -52,7 +52,7 @@ public class ChemSocJapanIssueCrawler extends IssueCrawler {
 	 * 
 	 */
 	@Override
-	public IssueDetails getCurrentIssueDetails() {
+	public IssueDescription getCurrentIssueDescription() {
 		Document doc = getCurrentIssueHtml();
 		List<Node> journalInfo = Utils.queryHTML(doc, "//x:span[@class='augr']");
 		int size = journalInfo.size();
@@ -68,7 +68,7 @@ public class ChemSocJapanIssueCrawler extends IssueCrawler {
 		}
 		String year = matcher.group(2);
 		String issueNum = matcher.group(1);
-		return new IssueDetails(year, issueNum);
+		return new IssueDescription(year, issueNum);
 	}
 	
 	/**
@@ -98,7 +98,7 @@ public class ChemSocJapanIssueCrawler extends IssueCrawler {
 	 */
 	@Override
 	public List<DOI> getCurrentIssueDOIs() {
-		IssueDetails details = getCurrentIssueDetails();
+		IssueDescription details = getCurrentIssueDescription();
 		return getDOIs(details);
 	}
 
@@ -117,7 +117,7 @@ public class ChemSocJapanIssueCrawler extends IssueCrawler {
 	 * 
 	 */
 	@Override
-	public List<DOI> getDOIs(IssueDetails details) {
+	public List<DOI> getDOIs(IssueDescription details) {
 		String year = details.getYear();
 		String issueId = details.getIssueId();
 		String url = "http://www.chemistry.or.jp/journals/"+journal.getAbbreviation()+"/cl-cont/cl"+year+"-"+issueId+".html";
@@ -155,9 +155,27 @@ public class ChemSocJapanIssueCrawler extends IssueCrawler {
 	 * 
 	 */
 	@Override
-	public List<ArticleDetails> getDetailsForArticles(IssueDetails details) {
+	public List<ArticleDescription> getArticleDescriptions(IssueDescription details) {
 		List<DOI> dois = getDOIs(details);
-		return getDetailsForArticles(new ChemSocJapanArticleCrawler(), dois);
+		return getArticleDescriptions(new ChemSocJapanArticleCrawler(), dois);
+	}
+	
+	/**
+	 * <p>
+	 * Gets information describing all articles defined by the list
+	 * of DOIs provided.
+	 * </p>
+	 * 
+	 * @param dois - a list of DOIs for the article that are to be
+	 * crawled.
+	 * 
+	 * @return a list where each item contains the details for 
+	 * a particular article from the issue.
+	 * 
+	 */
+	@Override
+	public List<ArticleDescription> getArticleDescriptions(List<DOI> dois) {
+		return getArticleDescriptions(new ChemSocJapanArticleCrawler(), dois);
 	}
 
 	/**
@@ -171,9 +189,9 @@ public class ChemSocJapanIssueCrawler extends IssueCrawler {
 	public static void main(String[] args) {
 		for (ChemSocJapanJournal journal : ChemSocJapanJournal.values()) {
 			ChemSocJapanIssueCrawler acf = new ChemSocJapanIssueCrawler(journal);
-			IssueDetails details = acf.getCurrentIssueDetails();
-			List<ArticleDetails> adList = acf.getDetailsForArticles(details);
-			for (ArticleDetails ad : adList) {
+			IssueDescription details = acf.getCurrentIssueDescription();
+			List<ArticleDescription> adList = acf.getArticleDescriptions(details);
+			for (ArticleDescription ad : adList) {
 				System.out.println(ad.toString());
 			}
 			break;

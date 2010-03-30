@@ -12,7 +12,7 @@ import org.junit.Test;
 import wwmm.pubcrawler.core.AcsIssueCrawler;
 import wwmm.pubcrawler.core.AcsJournal;
 import wwmm.pubcrawler.core.DOI;
-import wwmm.pubcrawler.core.IssueDetails;
+import wwmm.pubcrawler.core.IssueDescription;
 
 public class AcsIssueCrawlerIntegrationTest {
 	
@@ -24,7 +24,7 @@ public class AcsIssueCrawlerIntegrationTest {
 	 */
 	@Test
 	public void testGetIssueDois() {
-		IssueDetails details = new IssueDetails("2009", "2");
+		IssueDescription details = new IssueDescription("2009", "2");
 		AcsIssueCrawler crawler = new AcsIssueCrawler(AcsJournal.THE_JOURNAL_OF_ORGANIC_CHEMISTRY);
 		List<DOI> doiList = crawler.getDOIs(details);
 		assertEquals(66, doiList.size());

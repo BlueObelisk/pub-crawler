@@ -12,7 +12,7 @@ import org.junit.Test;
 import wwmm.pubcrawler.core.ActaIssueCrawler;
 import wwmm.pubcrawler.core.ActaJournal;
 import wwmm.pubcrawler.core.DOI;
-import wwmm.pubcrawler.core.IssueDetails;
+import wwmm.pubcrawler.core.IssueDescription;
 
 public class ActaIssueCrawlerIntegrationTest {
 	
@@ -24,7 +24,7 @@ public class ActaIssueCrawlerIntegrationTest {
 	 */
 	@Test
 	public void testGetIssueDois() {
-		IssueDetails details = new IssueDetails("2009", "01-00");
+		IssueDescription details = new IssueDescription("2009", "01-00");
 		ActaIssueCrawler crawler = new ActaIssueCrawler(ActaJournal.SECTION_C);
 		List<DOI> doiList = crawler.getDOIs(details);
 		assertEquals(23, doiList.size());

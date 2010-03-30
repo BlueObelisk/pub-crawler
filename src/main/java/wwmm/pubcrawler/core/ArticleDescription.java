@@ -17,7 +17,7 @@ import org.apache.commons.lang.StringUtils;
  * @version 1.1
  * 
  */
-public class ArticleDetails {
+public class ArticleDescription {
 
 	private DOI doi;
 	private boolean doiResolved;
@@ -25,14 +25,14 @@ public class ArticleDetails {
 	private String title;
 	private String authors;
 	private ArticleReference reference;
-	private List<FullTextResourceDetails> fullTexts = new ArrayList<FullTextResourceDetails>();
-	private List<SupplementaryResourceDetails> suppFiles = new ArrayList<SupplementaryResourceDetails>();
+	private List<FullTextResourceDescription> fullTexts = new ArrayList<FullTextResourceDescription>();
+	private List<SupplementaryResourceDescription> suppFiles = new ArrayList<SupplementaryResourceDescription>();
 
 	// assume initially that the article has been published,
 	// it is more likely than not.
 	private boolean hasBeenPublished = true;
 
-	public ArticleDetails() {
+	public ArticleDescription() {
 		;
 	}
 
@@ -99,7 +99,7 @@ public class ArticleDetails {
 	 * @return the details for any full-text resources provided
 	 * for this article.
 	 */
-	public List<FullTextResourceDetails> getFullTextResources() {
+	public List<FullTextResourceDescription> getFullTextResources() {
 		return fullTexts;
 	}
 
@@ -112,7 +112,7 @@ public class ArticleDetails {
 	 * @return details for each supplementary file to the
 	 * article.
 	 */
-	public List<SupplementaryResourceDetails> getSupplementaryResources() {
+	public List<SupplementaryResourceDescription> getSupplementaryResources() {
 		return suppFiles;
 	}
 
@@ -125,7 +125,7 @@ public class ArticleDetails {
 	 * @param fullTexts - details for each full-text resources
 	 * provided for this article.
 	 */
-	public void setFullTextResources(List<FullTextResourceDetails> fullTexts) {
+	public void setFullTextResources(List<FullTextResourceDescription> fullTexts) {
 		this.fullTexts = fullTexts;
 	}
 
@@ -138,7 +138,7 @@ public class ArticleDetails {
 	 * @param suppFiles - details for each supplementary
 	 * file to the article.
 	 */
-	public void setSupplementaryResources(List<SupplementaryResourceDetails> suppFiles) {
+	public void setSupplementaryResources(List<SupplementaryResourceDescription> suppFiles) {
 		this.suppFiles = suppFiles;
 	}
 
@@ -283,7 +283,7 @@ public class ArticleDetails {
 			}
 			result.append("  Full-text file details:"+NEW_LINE);
 			int fcount = 1;
-			for (FullTextResourceDetails ftrd : fullTexts) {
+			for (FullTextResourceDescription ftrd : fullTexts) {
 				if (ftrd.getURI() != null) {
 					result.append("    URI: "+ftrd.getURI()+NEW_LINE);
 				}
@@ -303,7 +303,7 @@ public class ArticleDetails {
 			}
 			result.append("  Supplementary file details:"+NEW_LINE);
 			int scount = 1;
-			for (SupplementaryResourceDetails sf : suppFiles) {
+			for (SupplementaryResourceDescription sf : suppFiles) {
 				if (sf.getURI() != null) {
 					result.append("    URI: "+sf.getURI()+NEW_LINE);
 				}

@@ -14,7 +14,7 @@ import org.apache.commons.httpclient.URIException;
  * @version 0.1
  * 
  */
-public class SupplementaryResourceDetails {
+public class SupplementaryResourceDescription {
 
 	private URI uri;
 	private String fileId;
@@ -23,7 +23,7 @@ public class SupplementaryResourceDetails {
 	
 	// private default constructor so that the other is used
 	// to set all instance vars on construction.
-	private SupplementaryResourceDetails() {
+	private SupplementaryResourceDescription() {
 		;
 	}
 	
@@ -40,7 +40,7 @@ public class SupplementaryResourceDetails {
 	 * @param linkText - the text from the HTML link that points to the resource.
 	 * @param contentType - the Content-type of the resource from its HTTP headers.
 	 */
-	public SupplementaryResourceDetails(URI uri, String fileId, String linkText, String contentType) {
+	public SupplementaryResourceDescription(URI uri, String fileId, String linkText, String contentType) {
 		this.uri = uri;
 		this.fileId = fileId;
 		this.linkText = linkText;

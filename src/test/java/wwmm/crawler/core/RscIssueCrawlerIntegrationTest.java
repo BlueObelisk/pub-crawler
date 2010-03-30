@@ -10,7 +10,7 @@ import nu.xom.Document;
 import org.junit.Test;
 
 import wwmm.pubcrawler.core.DOI;
-import wwmm.pubcrawler.core.IssueDetails;
+import wwmm.pubcrawler.core.IssueDescription;
 import wwmm.pubcrawler.core.RscIssueCrawler;
 import wwmm.pubcrawler.core.RscJournal;
 
@@ -24,7 +24,7 @@ public class RscIssueCrawlerIntegrationTest {
 	 */
 	@Test
 	public void testGetIssueDois() {
-		IssueDetails details = new IssueDetails("2009", "2");
+		IssueDescription details = new IssueDescription("2009", "2");
 		RscIssueCrawler crawler = new RscIssueCrawler(RscJournal.DALTON_TRANSACTIONS);
 		List<DOI> doiList = crawler.getDOIs(details);
 		assertEquals(20, doiList.size());

@@ -57,7 +57,7 @@ public class NatureIssueCrawler extends IssueCrawler {
 	 * 
 	 */
 	@Override
-	public IssueDetails getCurrentIssueDetails() {
+	public IssueDescription getCurrentIssueDescription() {
 		Document doc = getCurrentIssueHtml();
 		Nodes currentIssueNds = doc.query(".//x:a[.='Current issue']", X_XHTML);
 		if (currentIssueNds.size() != 1) {
@@ -74,7 +74,7 @@ public class NatureIssueCrawler extends IssueCrawler {
 		String number = matcher.group(2);
 		String year = String.valueOf(Integer.valueOf(volume)+journal.getVolumeOffset());
 		LOG.debug("Found latest issue details for Nature journal "+journal.getFullTitle()+": year="+year+", issue="+number+".");
-		return new IssueDetails(year, number);
+		return new IssueDescription(year, number);
 	}
 
 	/**
@@ -104,7 +104,7 @@ public class NatureIssueCrawler extends IssueCrawler {
 	 */
 	@Override
 	public List<DOI> getCurrentIssueDOIs() {
-		IssueDetails details = getCurrentIssueDetails();
+		IssueDescription details = getCurrentIssueDescription();
 		return getDOIs(details);
 	}
 
@@ -123,7 +123,7 @@ public class NatureIssueCrawler extends IssueCrawler {
 	 * 
 	 */
 	@Override
-	public List<DOI> getDOIs(IssueDetails issueDetails) {
+	public List<DOI> getDOIs(IssueDescription issueDetails) {
 		String year = issueDetails.getYear();
 		String issueId = issueDetails.getIssueId();
 		List<DOI> dois = new ArrayList<DOI>();
@@ -160,9 +160,27 @@ public class NatureIssueCrawler extends IssueCrawler {
 	 * 
 	 */
 	@Override
-	public List<ArticleDetails> getDetailsForArticles(IssueDetails details) {
+	public List<ArticleDescription> getArticleDescriptions(IssueDescription details) {
 		List<DOI> dois = getDOIs(details);
-		return getDetailsForArticles(new NatureArticleCrawler(), dois);
+		return getArticleDescriptions(new NatureArticleCrawler(), dois);
+	}
+	
+	/**
+	 * <p>
+	 * Gets information describing all articles defined by the list
+	 * of DOIs provided.
+	 * </p>
+	 * 
+	 * @param dois - a list of DOIs for the article that are to be
+	 * crawled.
+	 * 
+	 * @return a list where each item contains the details for 
+	 * a particular article from the issue.
+	 * 
+	 */
+	@Override
+	public List<ArticleDescription> getArticleDescriptions(List<DOI> dois) {
+		return getArticleDescriptions(new NatureArticleCrawler(), dois);
 	}
 
 	/**
@@ -175,15 +193,15 @@ public class NatureIssueCrawler extends IssueCrawler {
 	 */
 	public static void main(String[] args) {
 		NatureIssueCrawler nic = new NatureIssueCrawler(NatureJournal.CHEMISTRY);
-		IssueDetails details = nic.getCurrentIssueDetails();
+		IssueDescription details = nic.getCurrentIssueDescription();
 		/*
 		List<DOI> dois = nic.getDOIs(details);
 		for (DOI doi : dois) {
 			System.out.println(doi.toString());
 		}
 		 */
-		List<ArticleDetails> adList = nic.getDetailsForArticles(details);
-		for (ArticleDetails ad : adList) {
+		List<ArticleDescription> adList = nic.getArticleDescriptions(details);
+		for (ArticleDescription ad : adList) {
 			System.out.println(ad.toString());
 		}
 	}

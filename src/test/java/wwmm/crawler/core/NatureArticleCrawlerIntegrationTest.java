@@ -10,12 +10,12 @@ import org.apache.commons.httpclient.URI;
 import org.apache.commons.httpclient.URIException;
 import org.junit.Test;
 
-import wwmm.pubcrawler.core.ArticleDetails;
+import wwmm.pubcrawler.core.ArticleDescription;
 import wwmm.pubcrawler.core.ArticleReference;
 import wwmm.pubcrawler.core.DOI;
-import wwmm.pubcrawler.core.FullTextResourceDetails;
+import wwmm.pubcrawler.core.FullTextResourceDescription;
 import wwmm.pubcrawler.core.NatureArticleCrawler;
-import wwmm.pubcrawler.core.SupplementaryResourceDetails;
+import wwmm.pubcrawler.core.SupplementaryResourceDescription;
 
 public class NatureArticleCrawlerIntegrationTest {
 
@@ -28,20 +28,20 @@ public class NatureArticleCrawlerIntegrationTest {
 	public void testGetArticleDetails() throws URIException, NullPointerException {
 		DOI doi = new DOI(DOI.DOI_SITE_URL+"/10.1038/nchem.213");
 		NatureArticleCrawler crawler = new NatureArticleCrawler(doi);
-		ArticleDetails details = crawler.getDetails();
+		ArticleDescription details = crawler.getDetails();
 		assertNotNull(details);
 		String authors = details.getAuthors();
 		assertEquals("Tanya K. Ronson, Julie Fisher, Lindsay P. Harding, Pierre J. Rizkallah, John E. Warren, Michaele J. Hardie", authors);
 		DOI detailsDoi = details.getDoi();
 		assertEquals(doi, detailsDoi);
 
-		List<FullTextResourceDetails> ftrds = details.getFullTextResources();
+		List<FullTextResourceDescription> ftrds = details.getFullTextResources();
 		assertEquals(2, ftrds.size());
-		FullTextResourceDetails ftrd1 = ftrds.get(0);
+		FullTextResourceDescription ftrd1 = ftrds.get(0);
 		assertEquals(new URI("http://www.nature.com/nchem/journal/v1/n3/full/nchem.213.html", false), ftrd1.getURI());
 		assertEquals("Full text", ftrd1.getLinkText());
 		assertEquals("text/html", ftrd1.getContentType());
-		FullTextResourceDetails ftrd2 = ftrds.get(1);
+		FullTextResourceDescription ftrd2 = ftrds.get(1);
 		assertEquals(new URI("http://www.nature.com/nchem/journal/v1/n3/pdf/nchem.213.pdf", false), ftrd2.getURI());
 		assertEquals("Download PDF", ftrd2.getLinkText());
 		assertEquals("application/pdf", ftrd2.getContentType());
@@ -58,9 +58,9 @@ public class NatureArticleCrawlerIntegrationTest {
 //		String title = details.getTitle();
 //		assertEquals("Stellated polyhedral assembly of a topologically complicated Pd4L4 |[lsquo]|Solomon cube|[rsquo]|", title);
 		
-		List<SupplementaryResourceDetails> suppList = details.getSupplementaryResources();
+		List<SupplementaryResourceDescription> suppList = details.getSupplementaryResources();
 		assertEquals(2, suppList.size());
-		SupplementaryResourceDetails sfd0 = suppList.get(0);
+		SupplementaryResourceDescription sfd0 = suppList.get(0);
 		String contentType0 = sfd0.getContentType();
 		assertEquals("application/pdf", contentType0);
 		String fileId0 = sfd0.getFileId();
@@ -69,7 +69,7 @@ public class NatureArticleCrawlerIntegrationTest {
 		assertEquals("Supplementary information - Download PDF file (1,177 KB)", linkText0);
 		URI uri0 = sfd0.getURI();
 		assertEquals(new URI("http://www.nature.com/nchem/journal/v1/n3/extref/nchem.213-s1.pdf", false), uri0);
-		SupplementaryResourceDetails sfd2 = suppList.get(1);
+		SupplementaryResourceDescription sfd2 = suppList.get(1);
 		String contentType2 = sfd2.getContentType();
 		assertEquals(CIF_CONTENT_TYPE, contentType2);
 		String fileId2 = sfd2.getFileId();

@@ -10,7 +10,7 @@ import org.apache.commons.httpclient.URI;
 import org.junit.Test;
 
 import wwmm.pubcrawler.core.ActaIssueCrawler;
-import wwmm.pubcrawler.core.SupplementaryResourceDetails;
+import wwmm.pubcrawler.core.SupplementaryResourceDescription;
 import wwmm.pubcrawler.impl.ActaCifIssueCrawler;
 
 public class ActaCifIssueCrawlerTest {
@@ -22,19 +22,19 @@ public class ActaCifIssueCrawlerTest {
 	@Test
 	public void testIsCifFile() throws Throwable {
 		ActaCifIssueCrawler crawler = new ActaCifIssueCrawler(mock(ActaIssueCrawler.class));
-		SupplementaryResourceDetails sfd1 = mock(SupplementaryResourceDetails.class);
+		SupplementaryResourceDescription sfd1 = mock(SupplementaryResourceDescription.class);
 		URI cifUri = new URI("http://scripts.iucr.org/cgi-bin/sendcif?lg3009sup1", false);
 		when(sfd1.getURI()).thenReturn(cifUri);
 		// use reflection to access private isCifFile method for testing
 		boolean isCif1 = (Boolean) PrivateAccessor.invoke(crawler, "isCifFile", 
-				new Class[]{SupplementaryResourceDetails.class}, new Object[]{sfd1});
+				new Class[]{SupplementaryResourceDescription.class}, new Object[]{sfd1});
 		assertTrue(isCif1);
 		
 		URI notCifUri = new URI("http://journals.iucr.org/c/issues/2009/04/00/sq3182/sq3182Isup2.hkl", false);
 		when(sfd1.getURI()).thenReturn(notCifUri);
 		// use reflection to access private isCifFile method for testing
 		boolean isCif2 = (Boolean) PrivateAccessor.invoke(crawler, "isCifFile", 
-				new Class[]{SupplementaryResourceDetails.class}, new Object[]{sfd1});
+				new Class[]{SupplementaryResourceDescription.class}, new Object[]{sfd1});
 		assertFalse(isCif2);
 	}
 

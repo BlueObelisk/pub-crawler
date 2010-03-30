@@ -7,7 +7,7 @@ import org.apache.commons.httpclient.URIException;
 
 import wwmm.pubcrawler.core.ActaIssueCrawler;
 import wwmm.pubcrawler.core.ActaJournal;
-import wwmm.pubcrawler.core.SupplementaryResourceDetails;
+import wwmm.pubcrawler.core.SupplementaryResourceDescription;
 
 /**
  * <p>
@@ -39,7 +39,7 @@ public class ActaCifIssueCrawler extends CifIssueCrawler {
 	 * CIF file, false if not.
 	 */
 	@Override
-	protected boolean isCifFile(SupplementaryResourceDetails sfd) {
+	protected boolean isCifFile(SupplementaryResourceDescription sfd) {
 		Pattern pattern = Pattern.compile("http://scripts.iucr.org/cgi-bin/sendcif\\?.{6}sup\\d+");
 		Matcher matcher = null;
 		try {
