@@ -11,16 +11,16 @@ import java.util.List;
 
 import org.junit.Test;
 
-import wwmm.pubcrawler.core.ArticleDetails;
+import wwmm.pubcrawler.core.ArticleDescription;
 import wwmm.pubcrawler.core.ArticleReference;
 import wwmm.pubcrawler.core.DOI;
-import wwmm.pubcrawler.core.SupplementaryResourceDetails;
+import wwmm.pubcrawler.core.SupplementaryResourceDescription;
 
 public class ArticleDetailsTest {
 	
 	@Test
 	public void testConstructor() {
-		ArticleDetails ad = new ArticleDetails();
+		ArticleDescription ad = new ArticleDescription();
 		assertNull("DOI should initially be null when using the default constructor.", ad.getDoi());
 		assertNull("Title should initially be null when using the default constructor.", ad.getTitle());
 		assertNull("Authors should initially be null when using the default constructor.", ad.getAuthors());
@@ -32,7 +32,7 @@ public class ArticleDetailsTest {
 	
 	@Test
 	public void testSetAndGetDOI() {
-		ArticleDetails ad = new ArticleDetails();
+		ArticleDescription ad = new ArticleDescription();
 		DOI doi = mock(DOI.class);
 		ad.setDoi(doi);
 		assertSame(doi, ad.getDoi());
@@ -40,7 +40,7 @@ public class ArticleDetailsTest {
 	
 	@Test 
 	public void testSetAndGetTitle() {
-		ArticleDetails ad = new ArticleDetails();
+		ArticleDescription ad = new ArticleDescription();
 		String title = "Any old title will do";
 		ad.setTitle(title);
 		assertSame(title, ad.getTitle());
@@ -48,7 +48,7 @@ public class ArticleDetailsTest {
 	
 	@Test
 	public void testSetAndGetAuthors() {
-		ArticleDetails ad = new ArticleDetails();
+		ArticleDescription ad = new ArticleDescription();
 		String authors = "N. E. Day, O. J. Downing, J. A. Townsend, P. Murray-Rust";
 		ad.setAuthors(authors);
 		assertSame(authors, ad.getAuthors());
@@ -56,7 +56,7 @@ public class ArticleDetailsTest {
 	
 	@Test
 	public void testSetAndGetReference() {
-		ArticleDetails ad = new ArticleDetails();
+		ArticleDescription ad = new ArticleDescription();
 		ArticleReference reference = mock(ArticleReference.class);
 		ad.setReference(reference);
 		assertSame(reference, ad.getReference());
@@ -64,8 +64,8 @@ public class ArticleDetailsTest {
 	
 	@Test
 	public void testSetAndGetSupplementaryFileList() {
-		ArticleDetails ad = new ArticleDetails();
-		List<SupplementaryResourceDetails> sfd = mock(ArrayList.class);
+		ArticleDescription ad = new ArticleDescription();
+		List<SupplementaryResourceDescription> sfd = mock(ArrayList.class);
 		ad.setSupplementaryResources(sfd);
 		assertEquals(sfd, ad.getSupplementaryResources());
 	}

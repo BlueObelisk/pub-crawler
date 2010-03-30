@@ -16,9 +16,9 @@ import org.apache.commons.httpclient.URI;
 import org.apache.commons.httpclient.URIException;
 import org.apache.log4j.Logger;
 
-import wwmm.pubcrawler.core.ArticleDetails;
+import wwmm.pubcrawler.core.ArticleDescription;
 import wwmm.pubcrawler.core.CrawlerHttpClient;
-import wwmm.pubcrawler.core.IssueDetails;
+import wwmm.pubcrawler.core.IssueDescription;
 import wwmm.pubcrawler.core.NatureIssueCrawler;
 import wwmm.pubcrawler.core.NatureJournal;
 
@@ -59,7 +59,7 @@ public class NatureCompoundsCrawler {
 	 * details about the article, as well as any data for any compounds found.
 	 */
 	public List<ArticleData> crawlCurrentIssue() {
-		List<ArticleDetails> articleDetailsList = crawler.getDetailsForCurrentArticles();
+		List<ArticleDescription> articleDetailsList = crawler.getCurrentArticleDescriptions();
 		return getArticleDatasFromArticleDetails(articleDetailsList);
 	}
 
@@ -73,8 +73,8 @@ public class NatureCompoundsCrawler {
 	 * @return - a list of <code>ArticleData</code> objects, which provide
 	 * details about each article, as well as any data for any compounds found.
 	 */
-	public List<ArticleData> crawlIssue(IssueDetails issueDetails) {
-		List<ArticleDetails> articleDetailsList = crawler.getDetailsForArticles(issueDetails);
+	public List<ArticleData> crawlIssue(IssueDescription issueDetails) {
+		List<ArticleDescription> articleDetailsList = crawler.getArticleDescriptions(issueDetails);
 		return getArticleDatasFromArticleDetails(articleDetailsList);
 	}
 
@@ -90,9 +90,9 @@ public class NatureCompoundsCrawler {
 	 * @return list of <code>ArticleData</code> where each item is generated
 	 * from an item in the provided <code>ArticleDetails</code> list.
 	 */
-	private List<ArticleData> getArticleDatasFromArticleDetails(List<ArticleDetails> adList) {
+	private List<ArticleData> getArticleDatasFromArticleDetails(List<ArticleDescription> adList) {
 		List<ArticleData> articleDataList = new ArrayList<ArticleData>(adList.size());
-		for (ArticleDetails ad : adList) {
+		for (ArticleDescription ad : adList) {
 			String doiPostfix = ad.getDoi().getPostfix();
 			String natureId = doiPostfix.substring(doiPostfix.indexOf("/")+1);
 			String ciUrl = "http://www.nature.com/nchem/journal/v1/n5/compound/"+natureId+"_ci.html";
@@ -261,7 +261,7 @@ public class NatureCompoundsCrawler {
 	 */
 	public class ArticleData {
 
-		private ArticleDetails ad;
+		private ArticleDescription ad;
 		private List<CompoundDetails> cdList;
 
 		// hide the default constructor
@@ -269,7 +269,7 @@ public class NatureCompoundsCrawler {
 			;
 		}
 
-		public ArticleData(ArticleDetails ad, List<CompoundDetails> cdList) {
+		public ArticleData(ArticleDescription ad, List<CompoundDetails> cdList) {
 			this.ad = ad;
 			this.cdList = cdList;
 		}
@@ -283,7 +283,7 @@ public class NatureCompoundsCrawler {
 		 * @return the <code>ArticleDetails</code> description
 		 * for this article.
 		 */
-		public ArticleDetails getArticleDetails() {
+		public ArticleDescription getArticleDetails() {
 			return ad;
 		}
 

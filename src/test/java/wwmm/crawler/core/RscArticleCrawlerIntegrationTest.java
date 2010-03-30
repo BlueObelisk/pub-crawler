@@ -11,12 +11,12 @@ import org.apache.commons.httpclient.URI;
 import org.apache.commons.httpclient.URIException;
 import org.junit.Test;
 
-import wwmm.pubcrawler.core.ArticleDetails;
+import wwmm.pubcrawler.core.ArticleDescription;
 import wwmm.pubcrawler.core.ArticleReference;
 import wwmm.pubcrawler.core.DOI;
-import wwmm.pubcrawler.core.FullTextResourceDetails;
+import wwmm.pubcrawler.core.FullTextResourceDescription;
 import wwmm.pubcrawler.core.RscArticleCrawler;
-import wwmm.pubcrawler.core.SupplementaryResourceDetails;
+import wwmm.pubcrawler.core.SupplementaryResourceDescription;
 
 public class RscArticleCrawlerIntegrationTest {
 
@@ -29,20 +29,20 @@ public class RscArticleCrawlerIntegrationTest {
 	public void testGetArticleDetails() throws URIException, NullPointerException {
 		DOI doi = new DOI(DOI.DOI_SITE_URL+"/10.1039/b821431j");
 		RscArticleCrawler crawler = new RscArticleCrawler(doi);
-		ArticleDetails details = crawler.getDetails();
+		ArticleDescription details = crawler.getDetails();
 		assertNotNull("NULL article details", details);
 		String authors = details.getAuthors();
 		assertEquals("Article authors", "Celia Ribes, Eva Falomir, Juan Murga, Miguel Carda and J. Alberto Marco", authors);
 		DOI detailsDoi = details.getDoi();
 		assertEquals("Article DOI", doi, detailsDoi);
 
-		List<FullTextResourceDetails> ftrds = details.getFullTextResources();
+		List<FullTextResourceDescription> ftrds = details.getFullTextResources();
 		assertEquals("Number of fulltext resources found", 2, ftrds.size());
-		FullTextResourceDetails ftrd1 = ftrds.get(0);
+		FullTextResourceDescription ftrd1 = ftrds.get(0);
 		assertEquals("Fulltext HTML URI", new URI(RSC_HOMEPAGE_URL+"/delivery/_ArticleLinking/ArticleLinking.cfm?JournalCode=OB&Year=2009&ManuscriptID=b821431j&Iss=7", false), ftrd1.getURI());
 		assertEquals("Fulltext HTML link text", "HTML article", ftrd1.getLinkText());
 		assertEquals("Fulltext HTML MIME", "text/html", ftrd1.getContentType());
-		FullTextResourceDetails ftrd2 = ftrds.get(1);
+		FullTextResourceDescription ftrd2 = ftrds.get(1);
 		assertEquals("Fulltext PDF URI", new URI(RSC_HOMEPAGE_URL+"/ej/OB/2009/b821431j.pdf", false), ftrd2.getURI());
 		assertEquals("Fulltext PDF link", "PDF", ftrd2.getLinkText());
 		assertEquals("Fulltext PDF MIME", "application/pdf", ftrd2.getContentType());
@@ -58,9 +58,9 @@ public class RscArticleCrawlerIntegrationTest {
 		String title = details.getTitle();
 		assertEquals("Title", "Convergent, stereoselective syntheses of the glycosidase inhibitors broussonetines D and M", title);
 		
-		List<SupplementaryResourceDetails> suppList = details.getSupplementaryResources();
+		List<SupplementaryResourceDescription> suppList = details.getSupplementaryResources();
 		assertEquals("Number of supplementary resources found", 3, suppList.size());
-		SupplementaryResourceDetails sfd0 = suppList.get(0);
+		SupplementaryResourceDescription sfd0 = suppList.get(0);
 		String contentType0 = sfd0.getContentType();
 		assertEquals("First supplementary resource MIME", "application/pdf", contentType0);
 		String fileId0 = sfd0.getFileId();
@@ -69,7 +69,7 @@ public class RscArticleCrawlerIntegrationTest {
 		assertEquals("First supplementary resource link text", "Additional experimental procedures and tabulated spectral data of compounds 7, 8, 9a, 10, 11, 13, 14, 16–19 and 21", linkText0);
 		URI uri0 = sfd0.getURI();
 		assertEquals("First supplementary resource URI", new URI(RSC_HOMEPAGE_URL+"/suppdata/OB/b8/b821431j/b821431j_1.pdf", false), uri0);
-		SupplementaryResourceDetails sfd2 = suppList.get(2);
+		SupplementaryResourceDescription sfd2 = suppList.get(2);
 		String contentType2 = sfd2.getContentType();
 		assertEquals("Second supplementary resource MIME", "text/plain", contentType2);
 		String fileId2 = sfd2.getFileId();
@@ -95,7 +95,7 @@ public class RscArticleCrawlerIntegrationTest {
 	public void testGetReference() {
 		DOI doi1 = new DOI(DOI.DOI_SITE_URL+"/10.1039/b815825h");
 		RscArticleCrawler crawler1 = new RscArticleCrawler(doi1);
-		ArticleDetails details1 = crawler1.getDetails();
+		ArticleDescription details1 = crawler1.getDetails();
 		ArticleReference ref1 = details1.getReference();
 		String title1 = ref1.getJournalTitle();
 		assertEquals("Journal abbreviation in first reference", "Chem. Commun.", title1);
@@ -107,7 +107,7 @@ public class RscArticleCrawlerIntegrationTest {
 		assertEquals("Year in first reference", "2009", year1);
 		DOI doi2 = new DOI(DOI.DOI_SITE_URL+"/10.1039/b900026g");
 		RscArticleCrawler crawler2 = new RscArticleCrawler(doi2);
-		ArticleDetails details2 = crawler2.getDetails();
+		ArticleDescription details2 = crawler2.getDetails();
 		ArticleReference ref2 = details2.getReference();
 		String title2 = ref2.getJournalTitle();
 		assertEquals("Journal abbreviation in second reference", "Org. Biomol. Chem.", title2);

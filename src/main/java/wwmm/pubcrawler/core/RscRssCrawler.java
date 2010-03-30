@@ -81,16 +81,16 @@ public class RscRssCrawler extends Crawler {
 	 * separate article.
 	 * 
 	 */
-	public List<ArticleDetails> getNewArticleDetails() {
+	public List<ArticleDescription> getNewArticleDetails() {
 		URI feedUri = createFeedURI();
 		Document feedDoc = httpClient.getResourceXML(feedUri);
 		List<Element> entries = getFeedEntries(feedDoc);
-		List<ArticleDetails> adList = new ArrayList<ArticleDetails>();
+		List<ArticleDescription> adList = new ArrayList<ArticleDescription>();
 		for (Element entry : entries) {
 			Date entryDate = getEntryDate(entry);
 			if (needToCrawlArticle(entryDate)) {
 				DOI doi = getDOI(entry);
-				ArticleDetails ad = new RscArticleCrawler(doi).getDetails();
+				ArticleDescription ad = new RscArticleCrawler(doi).getDetails();
 				adList.add(ad);
 			}
 		}
@@ -225,8 +225,8 @@ public class RscRssCrawler extends Crawler {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy'-'MM'-'dd");
 			Date date = sdf.parse("2008-08-15");
 			ActaRssCrawler acf = new ActaRssCrawler(journal, date);
-			List<ArticleDetails> details = acf.getNewArticleDetails();
-			for (ArticleDetails ad : details) {
+			List<ArticleDescription> details = acf.getNewArticleDetails();
+			for (ArticleDescription ad : details) {
 				System.out.println(ad.toString());
 			}
 			break;

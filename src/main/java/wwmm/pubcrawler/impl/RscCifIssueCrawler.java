@@ -2,7 +2,7 @@ package wwmm.pubcrawler.impl;
 
 import wwmm.pubcrawler.core.RscIssueCrawler;
 import wwmm.pubcrawler.core.RscJournal;
-import wwmm.pubcrawler.core.SupplementaryResourceDetails;
+import wwmm.pubcrawler.core.SupplementaryResourceDescription;
 
 /**
  * <p>
@@ -34,7 +34,7 @@ public class RscCifIssueCrawler extends CifIssueCrawler {
 	 * CIF file, false if not.
 	 */
 	@Override
-	protected boolean isCifFile(SupplementaryResourceDetails sfd) {
+	protected boolean isCifFile(SupplementaryResourceDescription sfd) {
 		String linkText = sfd.getLinkText();
 		if (linkText.contains("Crystal structure") ||
 				linkText.contains("crystal structure")) {

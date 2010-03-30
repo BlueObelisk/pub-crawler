@@ -10,11 +10,11 @@ import org.apache.commons.httpclient.URIException;
 import org.junit.Test;
 
 import wwmm.pubcrawler.core.ActaArticleCrawler;
-import wwmm.pubcrawler.core.ArticleDetails;
+import wwmm.pubcrawler.core.ArticleDescription;
 import wwmm.pubcrawler.core.ArticleReference;
 import wwmm.pubcrawler.core.DOI;
-import wwmm.pubcrawler.core.FullTextResourceDetails;
-import wwmm.pubcrawler.core.SupplementaryResourceDetails;
+import wwmm.pubcrawler.core.FullTextResourceDescription;
+import wwmm.pubcrawler.core.SupplementaryResourceDescription;
 
 public class ActaArticleCrawlerIntegrationTest {
 	
@@ -27,20 +27,20 @@ public class ActaArticleCrawlerIntegrationTest {
 	public void testGetArticleDetails() throws URIException, NullPointerException {
 		DOI doi = new DOI(DOI.DOI_SITE_URL+"/10.1107/S0108270109006118");
 		ActaArticleCrawler crawler = new ActaArticleCrawler(doi);
-		ArticleDetails details = crawler.getDetails();
+		ArticleDescription details = crawler.getDetails();
 		assertNotNull(details);
 		String authors = details.getAuthors();
 		assertEquals("Kim, Jinyoung and Ahn, Docheon and Kulshreshtha, Chandramouli and Sohn, Kee-Sun and Shin, Namsoo", authors);
 		DOI detailsDoi = details.getDoi();
 		assertEquals(doi, detailsDoi);
 
-		List<FullTextResourceDetails> ftrds = details.getFullTextResources();
+		List<FullTextResourceDescription> ftrds = details.getFullTextResources();
 		assertEquals(2, ftrds.size());
-		FullTextResourceDetails ftrd1 = ftrds.get(0);
+		FullTextResourceDescription ftrd1 = ftrds.get(0);
 		assertEquals(new URI("http://journals.iucr.org/c/issues/2009/04/00/sq3185/index.html", false), ftrd1.getURI());
 		assertEquals("HTML", ftrd1.getLinkText());
 		assertEquals("text/html", ftrd1.getContentType());
-		FullTextResourceDetails ftrd2 = ftrds.get(1);
+		FullTextResourceDescription ftrd2 = ftrds.get(1);
 		assertEquals(new URI("http://journals.iucr.org/c/issues/2009/04/00/sq3185/sq3185.pdf", false), ftrd2.getURI());
 		assertEquals("PDF", ftrd2.getLinkText());
 		assertEquals("application/pdf", ftrd2.getContentType());
@@ -58,9 +58,9 @@ public class ActaArticleCrawlerIntegrationTest {
 		String title = details.getTitle();
 		assertEquals("Lithium barium silicate, Li${\\sb 2}$BaSiO${\\sb 4}$, from synchrotron powder data", title);
 		
-		List<SupplementaryResourceDetails> suppList = details.getSupplementaryResources();
+		List<SupplementaryResourceDescription> suppList = details.getSupplementaryResources();
 		assertEquals(1, suppList.size());
-		SupplementaryResourceDetails sfd0 = suppList.get(0);
+		SupplementaryResourceDescription sfd0 = suppList.get(0);
 		String contentType0 = sfd0.getContentType();
 		assertEquals("text/plain; charset=utf-8", contentType0);
 		String fileId0 = sfd0.getFileId();
@@ -82,7 +82,7 @@ public class ActaArticleCrawlerIntegrationTest {
 	public void testGetMultipleCifsFromArticle() {
 		DOI doi = new DOI(DOI.DOI_SITE_URL+"/10.1107/S0108768109004066");
 		ActaArticleCrawler crawler = new ActaArticleCrawler(doi);
-		ArticleDetails details = crawler.getDetails();
+		ArticleDescription details = crawler.getDetails();
 		assertEquals(2, details.getSupplementaryResources().size());
 	}
 

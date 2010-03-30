@@ -5,10 +5,10 @@ import static wwmm.pubcrawler.core.CrawlerConstants.CIF_CONTENT_TYPE;
 import java.util.ArrayList;
 import java.util.List;
 
-import wwmm.pubcrawler.core.ArticleDetails;
+import wwmm.pubcrawler.core.ArticleDescription;
 import wwmm.pubcrawler.core.IssueCrawler;
-import wwmm.pubcrawler.core.IssueDetails;
-import wwmm.pubcrawler.core.SupplementaryResourceDetails;
+import wwmm.pubcrawler.core.IssueDescription;
+import wwmm.pubcrawler.core.SupplementaryResourceDescription;
 
 /**
  * <p>
@@ -46,10 +46,10 @@ public abstract class CifIssueCrawler {
 	 * @return list of the details of those articles that have a CIF as
 	 * supplementary data.
 	 */
-	final public List<ArticleDetails> getDetailsForArticles(IssueDetails details) {
-		List<ArticleDetails> adList = crawler.getDetailsForArticles(details);
-		List<ArticleDetails> cifAdList = new ArrayList<ArticleDetails>();
-		for (ArticleDetails ad : adList) {
+	final public List<ArticleDescription> getDetailsForArticles(IssueDescription details) {
+		List<ArticleDescription> adList = crawler.getArticleDescriptions(details);
+		List<ArticleDescription> cifAdList = new ArrayList<ArticleDescription>();
+		for (ArticleDescription ad : adList) {
 			if (isCifArticle(ad)) {
 				cifAdList.add(ad);
 			}
@@ -66,8 +66,8 @@ public abstract class CifIssueCrawler {
 	 * @return a list of the details of those articles that have a CIF as
 	 * supplementary data.
 	 */
-	final public List<ArticleDetails> getDetailsForCurrentArticles() {
-		IssueDetails details = crawler.getCurrentIssueDetails();
+	final public List<ArticleDescription> getDetailsForCurrentArticles() {
+		IssueDescription details = crawler.getCurrentIssueDescription();
 		return getDetailsForArticles(details);
 	}
 	
@@ -82,9 +82,9 @@ public abstract class CifIssueCrawler {
 	 * @param details
 	 * @return
 	 */
-	final private boolean isCifArticle(ArticleDetails details) {
+	final private boolean isCifArticle(ArticleDescription details) {
 		boolean isCifArticle = false;
-		for (SupplementaryResourceDetails sfd : details.getSupplementaryResources()) {
+		for (SupplementaryResourceDescription sfd : details.getSupplementaryResources()) {
 			if (isCifFile(sfd)) {
 				String oldContentType = sfd.getContentType();
 				if (!oldContentType.contains(CIF_CONTENT_TYPE)) {
@@ -109,6 +109,6 @@ public abstract class CifIssueCrawler {
 	 * 
 	 * @return whether the file is a CIF or not.
 	 */
-	abstract protected boolean isCifFile(SupplementaryResourceDetails sfd);
+	abstract protected boolean isCifFile(SupplementaryResourceDescription sfd);
 	
 }

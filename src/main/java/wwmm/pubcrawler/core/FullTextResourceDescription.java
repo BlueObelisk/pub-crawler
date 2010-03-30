@@ -13,7 +13,7 @@ import org.apache.commons.httpclient.URIException;
  * @version 0.1
  * 
  */
-public class FullTextResourceDetails {
+public class FullTextResourceDescription {
 	
 	private URI uri;
 	private String linkText;
@@ -21,7 +21,7 @@ public class FullTextResourceDetails {
 	
 	// private default constructor so that the other is used
 	// to set all instance vars on construction.
-	private FullTextResourceDetails() {
+	private FullTextResourceDescription() {
 		;
 	}
 	
@@ -34,7 +34,7 @@ public class FullTextResourceDetails {
 	 * @param linkText - the text from the HTML link that points to the resource.
 	 * @param contentType - the Content-type of the resource from its HTTP headers.
 	 */
-	public FullTextResourceDetails(URI uri, String linkText, String contentType) {
+	public FullTextResourceDescription(URI uri, String linkText, String contentType) {
 		this.uri = uri;
 		this.linkText = linkText;
 		this.contentType = contentType;

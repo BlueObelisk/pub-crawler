@@ -40,7 +40,7 @@ public abstract class IssueCrawler extends Crawler {
 	 * @return the year and issue identifier.
 	 * 
 	 */
-	abstract public IssueDetails getCurrentIssueDetails();
+	abstract public IssueDescription getCurrentIssueDescription();
 
 	/**
 	 * <p>
@@ -71,14 +71,14 @@ public abstract class IssueCrawler extends Crawler {
 	 * <code>issueDetails</code> parameter.
 	 * </p>
 	 * 
-	 * @param issueDetails
+	 * @param issueDescription
 	 *            - contains the year and issue identifier of the issue to be
 	 *            crawled.
 	 * 
 	 * @return a list of the DOIs of the articles for the issue.
 	 * 
 	 */
-	abstract public List<DOI> getDOIs(IssueDetails issueDetails);
+	abstract public List<DOI> getDOIs(IssueDescription issueDescription);
 
 	/**
 	 * <p>
@@ -95,8 +95,23 @@ public abstract class IssueCrawler extends Crawler {
 	 *         article from the issue.
 	 * 
 	 */
-	abstract public List<ArticleDetails> getDetailsForArticles(
-			IssueDetails details);
+	abstract public List<ArticleDescription> getArticleDescriptions(
+			IssueDescription issueDescription);
+	
+	/**
+	 * <p>
+	 * Gets information describing all articles defined by the list
+	 * of DOIs provided.
+	 * </p>
+	 * 
+	 * @param dois - a list of DOIs for the article that are to be
+	 * crawled.
+	 * 
+	 * @return a list where each item contains the details for 
+	 * a particular article from the issue.
+	 * 
+	 */
+	abstract public List<ArticleDescription> getArticleDescriptions(List<DOI> dois);
 	
 	/**
 	 * <p>
@@ -112,8 +127,8 @@ public abstract class IssueCrawler extends Crawler {
 	 * @return list of <code>ArticleDetails</code> describing the articles at the
 	 * provided DOIs.
 	 */
-	protected List<ArticleDetails> getDetailsForArticles(ArticleCrawler articleCrawler, List<DOI> dois) {
-		List<ArticleDetails> adList = new ArrayList<ArticleDetails>(MAX_ARTICLES_TO_CRAWL);
+	protected List<ArticleDescription> getArticleDescriptions(ArticleCrawler articleCrawler, List<DOI> dois) {
+		List<ArticleDescription> adList = new ArrayList<ArticleDescription>(MAX_ARTICLES_TO_CRAWL);
 		int count = 0;
 		for (DOI doi : dois) {
 			if (count >= MAX_ARTICLES_TO_CRAWL) {
@@ -135,9 +150,9 @@ public abstract class IssueCrawler extends Crawler {
 	 * @return a list where each item contains the details for a particular
 	 *         article from the issue.
 	 */
-	final public List<ArticleDetails> getDetailsForCurrentArticles() {
-		IssueDetails issueDetails = getCurrentIssueDetails();
-		return getDetailsForArticles(issueDetails);
+	final public List<ArticleDescription> getCurrentArticleDescriptions() {
+		IssueDescription issueDetails = getCurrentIssueDescription();
+		return getArticleDescriptions(issueDetails);
 	}
 	
 	/**
@@ -150,7 +165,7 @@ public abstract class IssueCrawler extends Crawler {
 	 * article from the current issue.
 	 */
 	final public List<DOI> getDoisForCurrentArticles() {
-		IssueDetails issueDetails = getCurrentIssueDetails();
+		IssueDescription issueDetails = getCurrentIssueDescription();
 		return getDOIs(issueDetails);
 	}
 

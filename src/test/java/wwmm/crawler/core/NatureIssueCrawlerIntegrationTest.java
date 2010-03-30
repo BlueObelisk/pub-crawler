@@ -10,7 +10,7 @@ import nu.xom.Document;
 import org.junit.Test;
 
 import wwmm.pubcrawler.core.DOI;
-import wwmm.pubcrawler.core.IssueDetails;
+import wwmm.pubcrawler.core.IssueDescription;
 import wwmm.pubcrawler.core.NatureIssueCrawler;
 import wwmm.pubcrawler.core.NatureJournal;
 
@@ -24,7 +24,7 @@ public class NatureIssueCrawlerIntegrationTest {
 	 */
 	@Test
 	public void testGetIssueDois() {
-		IssueDetails details = new IssueDetails("2009", "3");
+		IssueDescription details = new IssueDescription("2009", "3");
 		NatureIssueCrawler crawler = new NatureIssueCrawler(NatureJournal.CHEMISTRY);
 		List<DOI> doiList = crawler.getDOIs(details);
 		assertEquals(23, doiList.size());

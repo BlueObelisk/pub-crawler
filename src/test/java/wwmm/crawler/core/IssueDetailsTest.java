@@ -7,7 +7,7 @@ import static org.junit.Assert.fail;
 import org.junit.Test;
 
 import wwmm.pubcrawler.core.IssueCrawler;
-import wwmm.pubcrawler.core.IssueDetails;
+import wwmm.pubcrawler.core.IssueDescription;
 
 public class IssueDetailsTest {
 	
@@ -17,7 +17,7 @@ public class IssueDetailsTest {
 	public void testConstructorAndGetters() {
 		String year = "2009";
 		String issueId = "28";
-		IssueDetails id = new IssueDetails(year, issueId);
+		IssueDescription id = new IssueDescription(year, issueId);
 		assertSame(year, id.getYear());
 		assertSame(issueId, id.getIssueId());
 	}
@@ -29,19 +29,19 @@ public class IssueDetailsTest {
 		String invalidYear3 = "99999";
 		String issueId = "28";
 		try {
-			IssueDetails id1 = new IssueDetails(invalidYear1, issueId);
+			IssueDescription id1 = new IssueDescription(invalidYear1, issueId);
 			fail("Invalid year string provided ("+invalidYear1+") constructor should have failed.");
 		} catch(IllegalStateException e) {
 			assertTrue("Should throw like this if the year is invalid.", true);
 		}
 		try {
-			IssueDetails id2 = new IssueDetails(invalidYear2, issueId);
+			IssueDescription id2 = new IssueDescription(invalidYear2, issueId);
 			fail("Invalid year string provided ("+invalidYear2+") constructor should have failed.");
 		} catch(IllegalStateException e) {
 			assertTrue("Should throw like this if the year in invalid.", true);
 		}
 		try {
-			IssueDetails id3 = new IssueDetails(invalidYear3, issueId);
+			IssueDescription id3 = new IssueDescription(invalidYear3, issueId);
 			fail("Invalid year string provided ("+invalidYear3+") constructor should have failed.");
 		} catch(IllegalStateException e) {
 			assertTrue("Should throw like this if the year in invalid.", true);

@@ -2,7 +2,7 @@ package wwmm.pubcrawler.impl;
 
 import wwmm.pubcrawler.core.AcsIssueCrawler;
 import wwmm.pubcrawler.core.AcsJournal;
-import wwmm.pubcrawler.core.SupplementaryResourceDetails;
+import wwmm.pubcrawler.core.SupplementaryResourceDescription;
 
 /**
  * <p>
@@ -34,7 +34,7 @@ public class AcsCifIssueCrawler extends CifIssueCrawler {
 	 * CIF file, false if not.
 	 */
 	@Override
-	protected boolean isCifFile(SupplementaryResourceDetails sfd) {
+	protected boolean isCifFile(SupplementaryResourceDescription sfd) {
 		String filename = sfd.getFileId();
 		if (filename.endsWith(".cif")) {
 			return true;

@@ -53,12 +53,12 @@ public class NatureArticleCrawler extends ArticleCrawler {
 	 * 
 	 */
 	@Override
-	public ArticleDetails getDetails() {
+	public ArticleDescription getDetails() {
 		if (!doiResolved) {
 			LOG.warn("The DOI provided for the article abstract ("+doi.toString()+") has not resolved so we cannot get article details.");
 			return articleDetails;
 		}
-		List<FullTextResourceDetails> fullTextResources = getFullTextResources();
+		List<FullTextResourceDescription> fullTextResources = getFullTextResources();
 		articleDetails.setFullTextResources(fullTextResources);
 		String title = getTitle();
 		articleDetails.setTitle(title);
@@ -66,7 +66,7 @@ public class NatureArticleCrawler extends ArticleCrawler {
 		articleDetails.setAuthors(authors);
 		ArticleReference ref = getReference();
 		articleDetails.setReference(ref);
-		List<SupplementaryResourceDetails> suppFiles = getSupplementaryFilesDetails();
+		List<SupplementaryResourceDescription> suppFiles = getSupplementaryFilesDetails();
 		articleDetails.setSupplementaryResources(suppFiles);
 		LOG.info("Finished finding article details: "+doi.toString());
 		return articleDetails;
@@ -158,13 +158,13 @@ public class NatureArticleCrawler extends ArticleCrawler {
 	 * data file (as a <code>SupplementaryFileDetails</code> object).
 	 * 
 	 */
-	private List<SupplementaryResourceDetails> getSupplementaryFilesDetails() {
+	private List<SupplementaryResourceDescription> getSupplementaryFilesDetails() {
 		Document suppPageDoc = getSupplementaryDataWebpage();
 		if (suppPageDoc == null) {
 			return Collections.EMPTY_LIST;
 		}
 		List<Node> suppLinks = Utils.queryHTML(suppPageDoc, ".//x:a[contains(@href,'/extref/')]");
-		List<SupplementaryResourceDetails> sfList = new ArrayList<SupplementaryResourceDetails>(suppLinks.size());
+		List<SupplementaryResourceDescription> sfList = new ArrayList<SupplementaryResourceDescription>(suppLinks.size());
 		for (Node suppLink : suppLinks) {
 			Element link = (Element)suppLink;
 			String urlPostfix = link.getAttributeValue("href");
@@ -174,7 +174,7 @@ public class NatureArticleCrawler extends ArticleCrawler {
 			String linkText = link.getValue();
 			linkText = linkText.replaceAll("\\s+", " ").trim();
 			String contentType = httpClient.getContentType(uri);
-			SupplementaryResourceDetails sf = new SupplementaryResourceDetails(uri, filename, linkText, contentType);
+			SupplementaryResourceDescription sf = new SupplementaryResourceDescription(uri, filename, linkText, contentType);
 			sfList.add(sf);
 		}
 		return sfList;
@@ -260,13 +260,13 @@ public class NatureArticleCrawler extends ArticleCrawler {
 	 * @return list containing the details of each full-text
 	 * resource provided for the article.
 	 */
-	private List<FullTextResourceDetails> getFullTextResources() {
-		List<FullTextResourceDetails> fullTextResources = new ArrayList<FullTextResourceDetails>(3);
-		FullTextResourceDetails fullTextHtmlDetails = getFullTextHtmlDetails();
+	private List<FullTextResourceDescription> getFullTextResources() {
+		List<FullTextResourceDescription> fullTextResources = new ArrayList<FullTextResourceDescription>(3);
+		FullTextResourceDescription fullTextHtmlDetails = getFullTextHtmlDetails();
 		if (fullTextHtmlDetails != null) {
 			fullTextResources.add(fullTextHtmlDetails);
 		}
-		FullTextResourceDetails fullTextPdfDetails = getFullTextPdfDetails();
+		FullTextResourceDescription fullTextPdfDetails = getFullTextPdfDetails();
 		if (fullTextPdfDetails != null) {
 			fullTextResources.add(fullTextPdfDetails);
 		}
@@ -282,7 +282,7 @@ public class NatureArticleCrawler extends ArticleCrawler {
 	 * @return details about the full-text HTML resource for this
 	 * article.
 	 */
-	private FullTextResourceDetails getFullTextHtmlDetails() {
+	private FullTextResourceDescription getFullTextHtmlDetails() {
 		Nodes fullTextHtmlLinks = articleAbstractHtml.query(".//x:a[@class='fulltext']", X_XHTML);
 		if (fullTextHtmlLinks.size() == 0) {
 			LOG.warn("Problem getting full text HTML link: "+doi);
@@ -292,7 +292,7 @@ public class NatureArticleCrawler extends ArticleCrawler {
 		String linkText = fullTextLink.getValue().trim();
 		String fullTextHtmlUrl = NATURE_HOMEPAGE_URL+fullTextLink.getAttributeValue("href");
 		URI fullTextHtmlUri = createURI(fullTextHtmlUrl);
-		return new FullTextResourceDetails(fullTextHtmlUri, linkText, "text/html");
+		return new FullTextResourceDescription(fullTextHtmlUri, linkText, "text/html");
 	}
 
 	/**
@@ -304,7 +304,7 @@ public class NatureArticleCrawler extends ArticleCrawler {
 	 * @return details about the full-text PDF resource for this
 	 * article.
 	 */
-	private FullTextResourceDetails getFullTextPdfDetails() {
+	private FullTextResourceDescription getFullTextPdfDetails() {
 		Nodes fullTextPdfLinks = articleAbstractHtml.query(".//x:a[@class='download-pdf']", X_XHTML);
 		if (fullTextPdfLinks.size() == 0) {
 			LOG.warn("Problem getting full text PDF link: "+doi);
@@ -314,7 +314,7 @@ public class NatureArticleCrawler extends ArticleCrawler {
 		String linkText = fullTextLink.getValue().trim();
 		String fullTextPdfUrl = NATURE_HOMEPAGE_URL+fullTextLink.getAttributeValue("href");
 		URI fullTextPdfUri = createURI(fullTextPdfUrl);
-		return new FullTextResourceDetails(fullTextPdfUri, linkText, "application/pdf");
+		return new FullTextResourceDescription(fullTextPdfUri, linkText, "application/pdf");
 	}
 
 	/**
@@ -327,7 +327,7 @@ public class NatureArticleCrawler extends ArticleCrawler {
 	public static void main(String[] args) {
 		DOI doi = new DOI("http://dx.doi.org/10.1038/nchem.213");
 		NatureArticleCrawler nac = new NatureArticleCrawler(doi);
-		ArticleDetails details = nac.getDetails();
+		ArticleDescription details = nac.getDetails();
 		System.out.println(details.toString());
 	}
 

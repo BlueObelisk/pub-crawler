@@ -21,7 +21,7 @@ public abstract class ArticleCrawler extends Crawler {
 	protected DOI doi;
 	protected Document articleAbstractHtml;
 	protected boolean doiResolved;
-	protected ArticleDetails articleDetails = new ArticleDetails();
+	protected ArticleDescription articleDetails = new ArticleDescription();
 	protected BibtexTool bibtexTool;
 	
 	public ArticleCrawler() {
@@ -82,6 +82,6 @@ public abstract class ArticleCrawler extends Crawler {
 	 * 
 	 * @return ArticleDetails
 	 */
-	abstract public ArticleDetails getDetails();
+	abstract public ArticleDescription getDetails();
 
 }

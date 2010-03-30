@@ -55,7 +55,7 @@ public class ActaIssueCrawler extends IssueCrawler {
 	 * 
 	 */
 	@Override
-	public IssueDetails getCurrentIssueDetails() {
+	public IssueDescription getCurrentIssueDescription() {
 		Document doc = getCurrentIssueHtml();
 		List<Node> currentIssueLink = Utils.queryHTML(doc, "//x:a[contains(@target,'_parent')]");
 		Node current = currentIssueLink.get(0);
@@ -72,7 +72,7 @@ public class ActaIssueCrawler extends IssueCrawler {
 		String year = matcher.group(1);
 		String issueId = matcher.group(2).replaceAll("/", "-");
 		LOG.info("Found latest issue details for Acta journal "+journal.getFullTitle()+": year="+year+", issue="+issueId+".");
-		return new IssueDetails(year, issueId);
+		return new IssueDescription(year, issueId);
 	}
 
 	/**
@@ -102,7 +102,7 @@ public class ActaIssueCrawler extends IssueCrawler {
 	 */
 	@Override
 	public List<DOI> getCurrentIssueDOIs() {
-		IssueDetails details = getCurrentIssueDetails();
+		IssueDescription details = getCurrentIssueDescription();
 		return getDOIs(details);
 	}
 
@@ -121,7 +121,7 @@ public class ActaIssueCrawler extends IssueCrawler {
 	 * 
 	 */
 	@Override
-	public List<DOI> getDOIs(IssueDetails details) {
+	public List<DOI> getDOIs(IssueDescription details) {
 		String year = details.getYear();
 		String issueId = details.getIssueId();
 		Set<DOI> dois = new HashSet<DOI>();
@@ -165,11 +165,28 @@ public class ActaIssueCrawler extends IssueCrawler {
 	 * 
 	 */
 	@Override
-	public List<ArticleDetails> getDetailsForArticles(IssueDetails details) {
+	public List<ArticleDescription> getArticleDescriptions(IssueDescription details) {
 		List<DOI> dois = getDOIs(details);
-		return getDetailsForArticles(new ActaArticleCrawler(), dois);
+		return getArticleDescriptions(new ActaArticleCrawler(), dois);
 	}
 
+	/**
+	 * <p>
+	 * Gets information describing all articles defined by the list
+	 * of DOIs provided.
+	 * </p>
+	 * 
+	 * @param dois - a list of DOIs for the article that are to be
+	 * crawled.
+	 * 
+	 * @return a list where each item contains the details for 
+	 * a particular article from the issue.
+	 * 
+	 */
+	@Override
+	public List<ArticleDescription> getArticleDescriptions(List<DOI> dois) {
+		return getArticleDescriptions(new ActaArticleCrawler(), dois);
+	}
 
 	/**
 	 * <p>
@@ -181,10 +198,10 @@ public class ActaIssueCrawler extends IssueCrawler {
 	 */
 	public static void main(String[] args) {
 		ActaIssueCrawler acf = new ActaIssueCrawler(ActaJournal.SECTION_E);
-		acf.setMaxArticlesToCrawl(10);
-		IssueDetails details = acf.getCurrentIssueDetails();
-		List<ArticleDetails> adList = acf.getDetailsForArticles(details);
-		for (ArticleDetails ad : adList) {
+		acf.setMaxArticlesToCrawl(2);
+		IssueDescription details = acf.getCurrentIssueDescription();
+		List<ArticleDescription> adList = acf.getArticleDescriptions(details);
+		for (ArticleDescription ad : adList) {
 			System.out.println(ad.toString());
 		}
 	}

@@ -9,12 +9,12 @@ import org.apache.commons.httpclient.URI;
 import org.apache.commons.httpclient.URIException;
 import org.junit.Test;
 
-import wwmm.pubcrawler.core.ArticleDetails;
+import wwmm.pubcrawler.core.ArticleDescription;
 import wwmm.pubcrawler.core.ArticleReference;
 import wwmm.pubcrawler.core.ChemSocJapanArticleCrawler;
 import wwmm.pubcrawler.core.DOI;
-import wwmm.pubcrawler.core.FullTextResourceDetails;
-import wwmm.pubcrawler.core.SupplementaryResourceDetails;
+import wwmm.pubcrawler.core.FullTextResourceDescription;
+import wwmm.pubcrawler.core.SupplementaryResourceDescription;
 
 public class ChemSocJapanArticleCrawlerIntegrationTest {
 
@@ -27,16 +27,16 @@ public class ChemSocJapanArticleCrawlerIntegrationTest {
 	public void testGetArticleDetails() throws URIException, NullPointerException {
 		DOI doi = new DOI(DOI.DOI_SITE_URL+"/10.1246/cl.2008.682");
 		ChemSocJapanArticleCrawler crawler = new ChemSocJapanArticleCrawler(doi);
-		ArticleDetails details = crawler.getDetails();
+		ArticleDescription details = crawler.getDetails();
 		assertNotNull(details);
 		String authors = details.getAuthors();
 		assertEquals("Koichiro Takao and Yasuhisa Ikeda", authors);
 		DOI detailsDoi = details.getDoi();
 		assertEquals(doi, detailsDoi);
 
-		List<FullTextResourceDetails> ftrds = details.getFullTextResources();
+		List<FullTextResourceDescription> ftrds = details.getFullTextResources();
 		assertEquals(1, ftrds.size());
-		FullTextResourceDetails ftrd = ftrds.get(0);
+		FullTextResourceDescription ftrd = ftrds.get(0);
 		assertEquals(new URI("http://www.jstage.jst.go.jp/article/cl/37/7/682/_pdf", false), ftrd.getURI());
 		assertEquals("PDF (75K)", ftrd.getLinkText());
 		assertEquals("application/pdf", ftrd.getContentType());
@@ -55,9 +55,9 @@ public class ChemSocJapanArticleCrawlerIntegrationTest {
 		String title = details.getTitle();
 		assertEquals("Alternative Route to Metal Halide Free Ionic Liquids", title);
 		
-		List<SupplementaryResourceDetails> suppList = details.getSupplementaryResources();
+		List<SupplementaryResourceDescription> suppList = details.getSupplementaryResources();
 		assertEquals(2, suppList.size());
-		SupplementaryResourceDetails sfd0 = suppList.get(0);
+		SupplementaryResourceDescription sfd0 = suppList.get(0);
 		String contentType0 = sfd0.getContentType();
 		assertEquals("application/pdf", contentType0);
 		String fileId0 = sfd0.getFileId();
@@ -66,7 +66,7 @@ public class ChemSocJapanArticleCrawlerIntegrationTest {
 		assertEquals("Supporting Information", linkText0);
 		URI uri0 = sfd0.getURI();
 		assertEquals(new URI("http://www.jstage.jst.go.jp/article/cl/37/7/37_682/_appendix/1", false), uri0);
-		SupplementaryResourceDetails sfd1 = suppList.get(1);
+		SupplementaryResourceDescription sfd1 = suppList.get(1);
 		String contentType1 = sfd1.getContentType();
 		assertEquals("application/octet-stream", contentType1);
 		String fileId1 = sfd1.getFileId();

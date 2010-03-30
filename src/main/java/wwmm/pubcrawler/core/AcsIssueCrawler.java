@@ -57,7 +57,7 @@ public class AcsIssueCrawler extends IssueCrawler {
 	 * 
 	 */
 	@Override
-	public IssueDetails getCurrentIssueDetails() {
+	public IssueDescription getCurrentIssueDescription() {
 		Document doc = getCurrentIssueHtml();
 		Nodes journalInfo = doc.query(".//x:div[@id='tocMeta']", X_XHTML);
 		int size = journalInfo.size();
@@ -74,7 +74,7 @@ public class AcsIssueCrawler extends IssueCrawler {
 		String year = matcher.group(1);
 		String issueId = matcher.group(3);
 		LOG.debug("Found latest issue details for ACS journal "+journal.getFullTitle()+": year="+year+", issue="+issueId+".");
-		return new IssueDetails(year, issueId);
+		return new IssueDescription(year, issueId);
 	}
 
 	/**
@@ -104,7 +104,7 @@ public class AcsIssueCrawler extends IssueCrawler {
 	 */
 	@Override
 	public List<DOI> getCurrentIssueDOIs() {
-		IssueDetails details = getCurrentIssueDetails();
+		IssueDescription details = getCurrentIssueDescription();
 		return getDOIs(details);
 	}
 
@@ -123,7 +123,7 @@ public class AcsIssueCrawler extends IssueCrawler {
 	 * 
 	 */
 	@Override
-	public List<DOI> getDOIs(IssueDetails issueDetails) {
+	public List<DOI> getDOIs(IssueDescription issueDetails) {
 		String year = issueDetails.getYear();
 		String issueId = issueDetails.getIssueId();
 		List<DOI> dois = new ArrayList<DOI>();
@@ -160,9 +160,27 @@ public class AcsIssueCrawler extends IssueCrawler {
 	 * 
 	 */
 	@Override
-	public List<ArticleDetails> getDetailsForArticles(IssueDetails details) {
+	public List<ArticleDescription> getArticleDescriptions(IssueDescription details) {
 		List<DOI> dois = getDOIs(details);
-		return getDetailsForArticles(new AcsArticleCrawler(), dois);
+		return getArticleDescriptions(new AcsArticleCrawler(), dois);
+	}
+	
+	/**
+	 * <p>
+	 * Gets information describing all articles defined by the list
+	 * of DOIs provided.
+	 * </p>
+	 * 
+	 * @param dois - a list of DOIs for the article that are to be
+	 * crawled.
+	 * 
+	 * @return a list where each item contains the details for 
+	 * a particular article from the issue.
+	 * 
+	 */
+	@Override
+	public List<ArticleDescription> getArticleDescriptions(List<DOI> dois) {
+		return getArticleDescriptions(new AcsArticleCrawler(), dois);
 	}
 
 	/**
@@ -176,9 +194,9 @@ public class AcsIssueCrawler extends IssueCrawler {
 	public static void main(String[] args) {
 		AcsIssueCrawler acf = new AcsIssueCrawler(AcsJournal.JOURNAL_OF_CHEMICAL_AND_ENGINEERING_DATA);
 		//IssueDetails details = acf.getCurrentIssueDetails();
-		IssueDetails details = new IssueDetails("2009", "5");
-		List<ArticleDetails> adList = acf.getDetailsForArticles(details);
-		for (ArticleDetails ad : adList) {
+		IssueDescription details = new IssueDescription("2009", "5");
+		List<ArticleDescription> adList = acf.getArticleDescriptions(details);
+		for (ArticleDescription ad : adList) {
 			System.out.println(ad.toString());
 		}
 	}

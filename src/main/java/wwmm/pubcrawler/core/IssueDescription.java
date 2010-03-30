@@ -13,12 +13,12 @@ import java.util.regex.Pattern;
  * @author Nick Day
  * @version 1.1
  */
-public class IssueDetails {
+public class IssueDescription {
 
 	String year;
 	String issueId;
 
-	public IssueDetails(String year, String issueId) {
+	public IssueDescription(String year, String issueId) {
 		this.year = year;
 		validateYear(year);
 		this.issueId = issueId;

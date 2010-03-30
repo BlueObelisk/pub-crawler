@@ -79,16 +79,16 @@ public class ChemSocJapanRssCrawler extends Crawler {
 	 * separate article.
 	 * 
 	 */
-	public List<ArticleDetails> getNewArticleDetails() {
+	public List<ArticleDescription> getNewArticleDetails() {
 		URI feedUri = createFeedURI();
 		Document feedDoc = httpClient.getResourceXML(feedUri);
 		List<Element> entries = getFeedEntries(feedDoc);
-		List<ArticleDetails> adList = new ArrayList<ArticleDetails>();
+		List<ArticleDescription> adList = new ArrayList<ArticleDescription>();
 		for (Element entry : entries) {
 			Date entryDate = getEntryDate(entry);
 			if (needToCrawlArticle(entryDate)) {
 				DOI doi = getDOI(entry);
-				ArticleDetails ad = new ChemSocJapanArticleCrawler(doi).getDetails();
+				ArticleDescription ad = new ChemSocJapanArticleCrawler(doi).getDetails();
 				adList.add(ad);
 			}
 		}
@@ -231,8 +231,8 @@ public class ChemSocJapanRssCrawler extends Crawler {
 			SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy z");
 			Date date = sdf.parse("Sat, 7 Feb 2009 JST");
 			ChemSocJapanRssCrawler acf = new ChemSocJapanRssCrawler(journal, date);
-			List<ArticleDetails> details = acf.getNewArticleDetails();
-			for (ArticleDetails ad : details) {
+			List<ArticleDescription> details = acf.getNewArticleDetails();
+			for (ArticleDescription ad : details) {
 				System.out.println(ad.toString());
 			}
 			break;

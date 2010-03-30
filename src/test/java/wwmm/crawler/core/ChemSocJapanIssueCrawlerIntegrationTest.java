@@ -12,7 +12,7 @@ import org.junit.Test;
 import wwmm.pubcrawler.core.ChemSocJapanIssueCrawler;
 import wwmm.pubcrawler.core.ChemSocJapanJournal;
 import wwmm.pubcrawler.core.DOI;
-import wwmm.pubcrawler.core.IssueDetails;
+import wwmm.pubcrawler.core.IssueDescription;
 
 public class ChemSocJapanIssueCrawlerIntegrationTest {
 	
@@ -24,7 +24,7 @@ public class ChemSocJapanIssueCrawlerIntegrationTest {
 	 */
 	@Test
 	public void testGetIssueDois() {
-		IssueDetails details = new IssueDetails("2009", "2");
+		IssueDescription details = new IssueDescription("2009", "2");
 		ChemSocJapanIssueCrawler crawler = new ChemSocJapanIssueCrawler(ChemSocJapanJournal.CHEMISTRY_LETTERS);
 		List<DOI> doiList = crawler.getDOIs(details);
 		assertEquals(42, doiList.size());
