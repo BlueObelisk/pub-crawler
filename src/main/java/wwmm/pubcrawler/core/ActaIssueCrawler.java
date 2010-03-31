@@ -121,9 +121,9 @@ public class ActaIssueCrawler extends IssueCrawler {
 	 * 
 	 */
 	@Override
-	public List<DOI> getDOIs(IssueDescription details) {
-		String year = details.getYear();
-		String issueId = details.getIssueId();
+	public List<DOI> getDOIs(IssueDescription issueDescription) {
+		String year = issueDescription.getYear();
+		String issueId = issueDescription.getIssueId();
 		Set<DOI> dois = new HashSet<DOI>();
 		String url = "http://journals.iucr.org/"+journal.getAbbreviation()+"/issues/"
 		+year+"/"+issueId.replaceAll("-", "/")+"/isscontsbdy.html";
@@ -154,10 +154,10 @@ public class ActaIssueCrawler extends IssueCrawler {
 	 * Gets information describing all articles in the issue 
 	 * defined by the <code>ActaJournal</code> and the 
 	 * provided	year and issue identifier (wrapped in the 
-	 * <code>issueDetails</code> parameter.
+	 * <code>issueDescription</code> parameter.
 	 * </p>
 	 * 
-	 * @param issueDetails - contains the year and issue
+	 * @param issueDescription - contains the year and issue
 	 * identifier of the issue to be crawled.
 	 * 
 	 * @return a list where each item contains the details for 
@@ -165,8 +165,8 @@ public class ActaIssueCrawler extends IssueCrawler {
 	 * 
 	 */
 	@Override
-	public List<ArticleDescription> getArticleDescriptions(IssueDescription details) {
-		List<DOI> dois = getDOIs(details);
+	public List<ArticleDescription> getArticleDescriptions(IssueDescription issueDescription) {
+		List<DOI> dois = getDOIs(issueDescription);
 		return getArticleDescriptions(new ActaArticleCrawler(), dois);
 	}
 
@@ -199,8 +199,8 @@ public class ActaIssueCrawler extends IssueCrawler {
 	public static void main(String[] args) {
 		ActaIssueCrawler acf = new ActaIssueCrawler(ActaJournal.SECTION_E);
 		acf.setMaxArticlesToCrawl(2);
-		IssueDescription details = acf.getCurrentIssueDescription();
-		List<ArticleDescription> adList = acf.getArticleDescriptions(details);
+		IssueDescription issueDescription = acf.getCurrentIssueDescription();
+		List<ArticleDescription> adList = acf.getArticleDescriptions(issueDescription);
 		for (ArticleDescription ad : adList) {
 			System.out.println(ad.toString());
 		}

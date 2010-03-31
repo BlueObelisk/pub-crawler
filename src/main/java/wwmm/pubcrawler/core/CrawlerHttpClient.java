@@ -35,7 +35,7 @@ public class CrawlerHttpClient extends BasicHttpClient {
 	 * </p>
 	 * 
 	 */
-	int maxSleep = 1500;
+	int maxSleep = 500;
 	
 	private static final Logger LOG = Logger.getLogger(CrawlerHttpClient.class);
 	
