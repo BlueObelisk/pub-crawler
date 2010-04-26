@@ -103,7 +103,7 @@ public class ActaIssueCrawler extends IssueCrawler {
 	@Override
 	public List<DOI> getCurrentIssueDOIs() {
 		IssueDescription details = getCurrentIssueDescription();
-		return getDOIs(details);
+		return getDois(details);
 	}
 
 	/**
@@ -121,7 +121,7 @@ public class ActaIssueCrawler extends IssueCrawler {
 	 * 
 	 */
 	@Override
-	public List<DOI> getDOIs(IssueDescription issueDescription) {
+	public List<DOI> getDois(IssueDescription issueDescription) {
 		String year = issueDescription.getYear();
 		String issueId = issueDescription.getIssueId();
 		Set<DOI> dois = new HashSet<DOI>();
@@ -166,7 +166,7 @@ public class ActaIssueCrawler extends IssueCrawler {
 	 */
 	@Override
 	public List<ArticleDescription> getArticleDescriptions(IssueDescription issueDescription) {
-		List<DOI> dois = getDOIs(issueDescription);
+		List<DOI> dois = getDois(issueDescription);
 		return getArticleDescriptions(new ActaArticleCrawler(), dois);
 	}
 

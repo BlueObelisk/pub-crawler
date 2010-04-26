@@ -99,7 +99,7 @@ public class ChemSocJapanIssueCrawler extends IssueCrawler {
 	@Override
 	public List<DOI> getCurrentIssueDOIs() {
 		IssueDescription details = getCurrentIssueDescription();
-		return getDOIs(details);
+		return getDois(details);
 	}
 
 	/**
@@ -117,7 +117,7 @@ public class ChemSocJapanIssueCrawler extends IssueCrawler {
 	 * 
 	 */
 	@Override
-	public List<DOI> getDOIs(IssueDescription details) {
+	public List<DOI> getDois(IssueDescription details) {
 		String year = details.getYear();
 		String issueId = details.getIssueId();
 		String url = "http://www.chemistry.or.jp/journals/"+journal.getAbbreviation()+"/cl-cont/cl"+year+"-"+issueId+".html";
@@ -156,7 +156,7 @@ public class ChemSocJapanIssueCrawler extends IssueCrawler {
 	 */
 	@Override
 	public List<ArticleDescription> getArticleDescriptions(IssueDescription details) {
-		List<DOI> dois = getDOIs(details);
+		List<DOI> dois = getDois(details);
 		return getArticleDescriptions(new ChemSocJapanArticleCrawler(), dois);
 	}
 	

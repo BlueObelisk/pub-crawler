@@ -105,7 +105,7 @@ public class AcsIssueCrawler extends IssueCrawler {
 	@Override
 	public List<DOI> getCurrentIssueDOIs() {
 		IssueDescription details = getCurrentIssueDescription();
-		return getDOIs(details);
+		return getDois(details);
 	}
 
 	/**
@@ -123,7 +123,7 @@ public class AcsIssueCrawler extends IssueCrawler {
 	 * 
 	 */
 	@Override
-	public List<DOI> getDOIs(IssueDescription issueDetails) {
+	public List<DOI> getDois(IssueDescription issueDetails) {
 		String year = issueDetails.getYear();
 		String issueId = issueDetails.getIssueId();
 		List<DOI> dois = new ArrayList<DOI>();
@@ -161,7 +161,7 @@ public class AcsIssueCrawler extends IssueCrawler {
 	 */
 	@Override
 	public List<ArticleDescription> getArticleDescriptions(IssueDescription details) {
-		List<DOI> dois = getDOIs(details);
+		List<DOI> dois = getDois(details);
 		return getArticleDescriptions(new AcsArticleCrawler(), dois);
 	}
 	

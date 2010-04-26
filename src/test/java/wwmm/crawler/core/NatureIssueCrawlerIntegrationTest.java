@@ -26,7 +26,7 @@ public class NatureIssueCrawlerIntegrationTest {
 	public void testGetIssueDois() {
 		IssueDescription details = new IssueDescription("2009", "3");
 		NatureIssueCrawler crawler = new NatureIssueCrawler(NatureJournal.CHEMISTRY);
-		List<DOI> doiList = crawler.getDOIs(details);
+		List<DOI> doiList = crawler.getDois(details);
 		assertEquals(23, doiList.size());
 		assertEquals(new DOI(DOI.DOI_SITE_URL+"/10.1038/nchem.223"), doiList.get(9));
 	}

@@ -26,7 +26,7 @@ public class AcsIssueCrawlerIntegrationTest {
 	public void testGetIssueDois() {
 		IssueDescription details = new IssueDescription("2009", "2");
 		AcsIssueCrawler crawler = new AcsIssueCrawler(AcsJournal.THE_JOURNAL_OF_ORGANIC_CHEMISTRY);
-		List<DOI> doiList = crawler.getDOIs(details);
+		List<DOI> doiList = crawler.getDois(details);
 		assertEquals(66, doiList.size());
 		assertEquals(new DOI(DOI.DOI_SITE_URL+"/10.1021/jo8019237"), doiList.get(9));
 	}
