@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import wwmm.pubcrawler.core.ArticleDescription;
+import wwmm.pubcrawler.core.DOI;
 import wwmm.pubcrawler.core.IssueCrawler;
 import wwmm.pubcrawler.core.IssueDescription;
 import wwmm.pubcrawler.core.SupplementaryResourceDescription;
@@ -110,5 +111,13 @@ public abstract class CifIssueCrawler {
 	 * @return whether the file is a CIF or not.
 	 */
 	abstract protected boolean isCifFile(SupplementaryResourceDescription sfd);
+	
+	public List<DOI> getDoisForCurrentArticles() {
+		return crawler.getDoisForCurrentArticles();
+	}
+	
+	public List<ArticleDescription> getArticleDescriptions(List<DOI> dois) {
+		return crawler.getArticleDescriptions(dois);
+	}
 	
 }

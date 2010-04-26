@@ -26,7 +26,7 @@ public class ChemSocJapanIssueCrawlerIntegrationTest {
 	public void testGetIssueDois() {
 		IssueDescription details = new IssueDescription("2009", "2");
 		ChemSocJapanIssueCrawler crawler = new ChemSocJapanIssueCrawler(ChemSocJapanJournal.CHEMISTRY_LETTERS);
-		List<DOI> doiList = crawler.getDOIs(details);
+		List<DOI> doiList = crawler.getDois(details);
 		assertEquals(42, doiList.size());
 		assertEquals(new DOI(DOI.DOI_SITE_URL+"/10.1246/cl.2009.126"), doiList.get(9));
 	}
