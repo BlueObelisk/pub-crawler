@@ -34,7 +34,7 @@ public class ActaArticleCrawler extends ArticleCrawler {
 	public ActaArticleCrawler() {
 		;
 	}
-	
+
 	public ActaArticleCrawler(DOI doi) {
 		super(doi);
 	}
@@ -137,7 +137,7 @@ public class ActaArticleCrawler extends ArticleCrawler {
 		}
 		return fullTextResources;
 	}
-	
+
 	/**
 	 * <p>
 	 * Gets the details about the full-text PDF resource for 
@@ -159,7 +159,7 @@ public class ActaArticleCrawler extends ArticleCrawler {
 		URI fullTextUri = createURI(fullTextUrl);
 		return new FullTextResourceDescription(fullTextUri, linkText, "application/pdf");
 	}
-	
+
 	/**
 	 * <p>
 	 * Gets the details about the full-text HTML resource for 
@@ -226,10 +226,11 @@ public class ActaArticleCrawler extends ArticleCrawler {
 			Nodes linkNds = pageDoc.query(".//x:a[contains(@href,'http://scripts.iucr.org/cgi-bin/sendcif')]", X_XHTML);
 			if (linkNds.size() == 0) {
 				LOG.warn("Could not find any CIF links at the supposed CIF list page: "+uri);
-			}
-			for (int i = 0; i < linkNds.size(); i++) {
-				String url = ((Element)linkNds.get(i)).getAttributeValue("href");
-				cifUriList.add(createURI(url));
+			} else {
+				for (int i = 0; i < linkNds.size(); i++) {
+					String url = ((Element)linkNds.get(i)).getAttributeValue("href");
+					cifUriList.add(createURI(url));
+				}
 			}
 		} else {
 			cifUriList.add(uri);
@@ -284,7 +285,7 @@ public class ActaArticleCrawler extends ArticleCrawler {
 			return fileUrl.substring(idx+1);
 		}
 	}
-	
+
 	/**
 	 * <p>
 	 * Main method meant for demonstration purposes only. Requires
