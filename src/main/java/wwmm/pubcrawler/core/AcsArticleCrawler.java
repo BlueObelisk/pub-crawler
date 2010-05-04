@@ -40,7 +40,7 @@ public class AcsArticleCrawler extends ArticleCrawler {
 	public AcsArticleCrawler() {
 		;
 	}
-	
+
 	public AcsArticleCrawler(DOI doi) {
 		super(doi);
 	}
@@ -101,7 +101,7 @@ public class AcsArticleCrawler extends ArticleCrawler {
 		}
 		return fullTextResources;
 	}
-	
+
 	/**
 	 * <p>
 	 * Gets the details about the full-text PDF resource for 
@@ -123,7 +123,7 @@ public class AcsArticleCrawler extends ArticleCrawler {
 		URI fullTextPdfUri = createURI(fullTextPdfUrl);
 		return new FullTextResourceDescription(fullTextPdfUri, linkText, "application/pdf");
 	}
-	
+
 	/**
 	 * <p>
 	 * Gets the details about the full-text enhanced PDF resource for 
@@ -145,7 +145,7 @@ public class AcsArticleCrawler extends ArticleCrawler {
 		URI fullTextPdfUri = createURI(fullTextPdfUrl);
 		return new FullTextResourceDescription(fullTextPdfUri, linkText, "application/pdf");
 	}
-	
+
 	/**
 	 * <p>
 	 * Gets the details about the full-text HTML resource for 
@@ -298,13 +298,15 @@ public class AcsArticleCrawler extends ArticleCrawler {
 			Nodes yearNds = citationNd.query("./x:span[@class='citation_year']", X_XHTML);
 			if (yearNds.size() != 1) {
 				LOG.warn("Problem finding year text at: "+doi);
+			} else {
+				year = ((Element)yearNds.get(0)).getValue().trim();
 			}
-			year = ((Element)yearNds.get(0)).getValue().trim();		
 			Nodes volumeNds = citationNd.query("./x:span[@class='citation_volume']", X_XHTML);
 			if (volumeNds.size() != 1) {
 				LOG.warn("Problem finding volume text at: "+doi);
+			} else {
+				volume = ((Element)volumeNds.get(0)).getValue().trim();
 			}
-			volume = ((Element)volumeNds.get(0)).getValue().trim();
 			String refContent = citationNd.getValue();
 			Pattern p = Pattern.compile("[^\\(]*\\((\\d+)\\),\\s+pp\\s+(\\d+).(\\d+).*");
 			Matcher matcher = p.matcher(refContent);
@@ -344,7 +346,7 @@ public class AcsArticleCrawler extends ArticleCrawler {
 		String title = titleNds.get(0).getValue();
 		return title;
 	}
-	
+
 	/**
 	 * <p>
 	 * Main method meant for demonstration purposes only. Requires
