@@ -286,7 +286,7 @@ public class RscArticleCrawler extends ArticleCrawler {
 	 * 
 	 */
 	public static void main(String[] args) {
-		DOI doi = new DOI("http://dx.doi.org/10.1039/b821431j");
+		DOI doi = new DOI("http://dx.doi.org/10.1039/B713183F");
 		RscArticleCrawler crawler = new RscArticleCrawler(doi);
 		ArticleDescription ad = crawler.getDetails();
 		System.out.println(ad.toString());

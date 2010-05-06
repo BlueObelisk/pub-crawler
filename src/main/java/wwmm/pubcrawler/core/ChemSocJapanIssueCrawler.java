@@ -157,7 +157,7 @@ public class ChemSocJapanIssueCrawler extends IssueCrawler {
 	@Override
 	public List<ArticleDescription> getArticleDescriptions(IssueDescription details) {
 		List<DOI> dois = getDois(details);
-		return getArticleDescriptions(new ChemSocJapanArticleCrawler(), dois);
+		return getArticleDescriptions(dois);
 	}
 	
 	/**

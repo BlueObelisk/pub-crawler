@@ -1,5 +1,6 @@
 package wwmm.pubcrawler.impl;
 
+import wwmm.pubcrawler.core.ArticleDescription;
 import wwmm.pubcrawler.core.ChemSocJapanIssueCrawler;
 import wwmm.pubcrawler.core.ChemSocJapanJournal;
 import wwmm.pubcrawler.core.SupplementaryResourceDescription;
@@ -40,6 +41,14 @@ public class ChemSocJapanCifIssueCrawler extends CifIssueCrawler {
 			return true;
 		} else {
 			return false;
+		}
+	}
+	
+	public static void main(String[] args) {
+		ChemSocJapanCifIssueCrawler crawler = new ChemSocJapanCifIssueCrawler(ChemSocJapanJournal.CHEMISTRY_LETTERS);
+		crawler.setMaxArticlesToCrawl(10);
+		for (ArticleDescription ad : crawler.getCurrentArticleDescriptions()) {
+			System.out.println(ad.toString());
 		}
 	}
 

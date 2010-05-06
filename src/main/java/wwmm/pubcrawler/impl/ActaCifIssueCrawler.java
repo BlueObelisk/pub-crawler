@@ -7,6 +7,7 @@ import org.apache.commons.httpclient.URIException;
 
 import wwmm.pubcrawler.core.ActaIssueCrawler;
 import wwmm.pubcrawler.core.ActaJournal;
+import wwmm.pubcrawler.core.ArticleDescription;
 import wwmm.pubcrawler.core.SupplementaryResourceDescription;
 
 /**
@@ -51,6 +52,14 @@ public class ActaCifIssueCrawler extends CifIssueCrawler {
 			return true;
 		}
 		return false;
+	}
+	
+	public static void main(String[] args) {
+		ActaCifIssueCrawler crawler = new ActaCifIssueCrawler(ActaJournal.SECTION_C);
+		crawler.setMaxArticlesToCrawl(3);
+		for (ArticleDescription ad : crawler.getCurrentArticleDescriptions()) {
+			System.out.println(ad.toString());
+		}
 	}
 	
 }
