@@ -135,7 +135,8 @@ public abstract class IssueCrawler extends Crawler {
 				break;
 			}
 			articleCrawler.setDOI(doi);
-			adList.add(articleCrawler.getDetails());
+			ArticleDescription ad = articleCrawler.getDetails();
+			adList.add(ad);
 			count++;
 		}
 		return adList;

@@ -47,8 +47,19 @@ public abstract class CifIssueCrawler {
 	 * @return list of the details of those articles that have a CIF as
 	 * supplementary data.
 	 */
-	final public List<ArticleDescription> getDetailsForArticles(IssueDescription details) {
+	final public List<ArticleDescription> getArticleDescriptions(IssueDescription details) {
 		List<ArticleDescription> adList = crawler.getArticleDescriptions(details);
+		List<ArticleDescription> cifAdList = new ArrayList<ArticleDescription>();
+		for (ArticleDescription ad : adList) {
+			if (isCifArticle(ad)) {
+				cifAdList.add(ad);
+			}
+		}
+		return cifAdList;
+	}
+	
+	public List<ArticleDescription> getArticleDescriptions(List<DOI> dois) {
+		List<ArticleDescription> adList = crawler.getArticleDescriptions(dois);
 		List<ArticleDescription> cifAdList = new ArrayList<ArticleDescription>();
 		for (ArticleDescription ad : adList) {
 			if (isCifArticle(ad)) {
@@ -67,9 +78,9 @@ public abstract class CifIssueCrawler {
 	 * @return a list of the details of those articles that have a CIF as
 	 * supplementary data.
 	 */
-	final public List<ArticleDescription> getDetailsForCurrentArticles() {
+	final public List<ArticleDescription> getCurrentArticleDescriptions() {
 		IssueDescription details = crawler.getCurrentIssueDescription();
-		return getDetailsForArticles(details);
+		return getArticleDescriptions(details);
 	}
 	
 	/**
@@ -112,12 +123,20 @@ public abstract class CifIssueCrawler {
 	 */
 	abstract protected boolean isCifFile(SupplementaryResourceDescription sfd);
 	
-	public List<DOI> getDoisForCurrentArticles() {
+	public List<DOI> getDois(IssueDescription issueDescription) {
+		return crawler.getDois(issueDescription);
+	}
+	
+	public List<DOI> getCurrentArticlesDois() {
 		return crawler.getDoisForCurrentArticles();
 	}
 	
-	public List<ArticleDescription> getArticleDescriptions(List<DOI> dois) {
-		return crawler.getArticleDescriptions(dois);
+	public void setMaxArticlesToCrawl(int i) {
+		crawler.setMaxArticlesToCrawl(i);
+	}
+	
+	public IssueDescription getCurrentIssueDescription() {
+		return crawler.getCurrentIssueDescription();
 	}
 	
 }

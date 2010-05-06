@@ -88,4 +88,13 @@ public enum AcsJournal {
 	public int getVolumeOffset() {
 		return this.volumeOffset;
 	}
+	
+	public int getVolumeFromYear(int year) {
+		return year - this.volumeOffset;
+	}
+	
+	public int getYearFromVolume(int volume) {
+		return this.volumeOffset + volume;
+	}
+	
 }

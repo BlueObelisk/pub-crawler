@@ -162,7 +162,7 @@ public class AcsIssueCrawler extends IssueCrawler {
 	@Override
 	public List<ArticleDescription> getArticleDescriptions(IssueDescription details) {
 		List<DOI> dois = getDois(details);
-		return getArticleDescriptions(new AcsArticleCrawler(), dois);
+		return getArticleDescriptions(dois);
 	}
 	
 	/**
@@ -192,9 +192,10 @@ public class AcsIssueCrawler extends IssueCrawler {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		AcsIssueCrawler acf = new AcsIssueCrawler(AcsJournal.JOURNAL_OF_CHEMICAL_AND_ENGINEERING_DATA);
+		AcsIssueCrawler acf = new AcsIssueCrawler(AcsJournal.CRYSTAL_GROWTH_AND_DESIGN);
+		acf.setMaxArticlesToCrawl(10);
 		//IssueDetails details = acf.getCurrentIssueDetails();
-		IssueDescription details = new IssueDescription("2009", "5");
+		IssueDescription details = new IssueDescription("2008", "5");
 		List<ArticleDescription> adList = acf.getArticleDescriptions(details);
 		for (ArticleDescription ad : adList) {
 			System.out.println(ad.toString());

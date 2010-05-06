@@ -1,7 +1,6 @@
 package wwmm.pubcrawler.core;
 
-import static wwmm.pubcrawler.core.CrawlerConstants.X_XHTML;
-
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -10,9 +9,8 @@ import java.util.regex.Pattern;
 import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Node;
-import nu.xom.Nodes;
 
-import org.apache.commons.httpclient.URI;
+import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.log4j.Logger;
 
 import wwmm.pubcrawler.Utils;
@@ -59,20 +57,20 @@ public class RscIssueCrawler extends IssueCrawler {
 	@Override
 	public IssueDescription getCurrentIssueDescription() {
 		Document doc = getCurrentIssueHtml();
-		List<Node> journalInfo = Utils.queryHTML(doc, ".//x:h3[contains(text(),'Contents')]");
-		int size = journalInfo.size();
-		if (size != 1) {
-			throw new CrawlerRuntimeException("Expected to find 1 element containing"+
+		List<Node> chemTitles = Utils.queryHTML(doc, ".//x:div[@class='chem_title']");
+		int size = chemTitles.size();
+		if (size == 0) {
+			throw new CrawlerRuntimeException("Expected to find at least 1 element containing"+
 					"the year/issue information but found "+size+".");
 		}
-		String info = journalInfo.get(0).getValue().trim();
-		Pattern pattern = Pattern.compile("[^\\d]*(\\d+),[^\\d]*(\\d+)$");
+		String info = chemTitles.get(0).getValue().trim();
+		Pattern pattern = Pattern.compile("\\s*\\w*\\s*-\\s*(\\d+),\\sIss.\\s*(\\d+).*");
 		Matcher matcher = pattern.matcher(info);
 		if (!matcher.find() || matcher.groupCount() != 2) {
 			throw new CrawlerRuntimeException("Could not extract the year/issue information.");
 		}
-		String issueNum = matcher.group(1);
-		String year = matcher.group(2);
+		String issueNum = matcher.group(2);
+		String year = matcher.group(1);
 		return new IssueDescription(year, issueNum);
 	}
 
@@ -87,10 +85,11 @@ public class RscIssueCrawler extends IssueCrawler {
 	 */
 	@Override
 	public Document getCurrentIssueHtml() {
-		String url = "http://rsc.org/Publishing/Journals/"
-			+journal.getAbbreviation().toUpperCase()+"/Article.asp?Type=CurrentIssue";
-		URI uri = createURI(url);
-		return httpClient.getResourceHTML(uri);
+		PostMethod post = new PostMethod("http://pubs.rsc.org/en/Journals/Issues");
+		post.addParameter("issueID", "");
+		post.addParameter("jname", journal.getFullTitle());
+		post.addParameter("name", journal.getAbbreviation());
+		return httpClient.getPostResultXML(post);
 	}
 
 	/**
@@ -126,32 +125,57 @@ public class RscIssueCrawler extends IssueCrawler {
 	public List<DOI> getDois(IssueDescription details) {
 		String year = details.getYear();
 		String issueId = details.getIssueId();
-		String journalAbbreviation = journal.getAbbreviation();
-		String issueUrl = "http://rsc.org/Publishing/Journals/"+journalAbbreviation
-		+"/article.asp?Journal="+journalAbbreviation+"81&VolumeYear="+year+volume+"&Volume="+volume
-		+"&JournalCode="+journalAbbreviation+"&MasterJournalCode="+journalAbbreviation+"&SubYear="+year
-		+"&type=Issue&Issue="+issueId+"&x=11&y=5";
-		URI issueUri = createURI(issueUrl);
+		String rscIssueId = getRscIssueId(details);
+		PostMethod postMethod = new PostMethod("http://pubs.rsc.org/en/Journals/Issues");
+		postMethod.addParameter("issueID", rscIssueId);
+		postMethod.addParameter("jname", journal.getFullTitle());
+		postMethod.addParameter("name", journal.getAbbreviation().toUpperCase());
+		Document issueDoc = httpClient.getPostResultXML(postMethod);
 		LOG.info("Started to find DOIs from "+journal.getFullTitle()+", year "+year+", issue "+issueId+".");
-		Document issueDoc = httpClient.getResourceHTML(issueUri);
-		List<Node> articleNodes = Utils.queryHTML(issueDoc, ".//x:p[./x:a[contains(@title,'DOI:10.1039')]]");
+		List<Node> articleNodes = Utils.queryHTML(issueDoc, ".//x:div[@class='grey_left_box_text_s4_new']");
 		List<DOI> dois = new ArrayList<DOI>();
 		for (Node articleNode : articleNodes) {
 			Element articleElement = (Element)articleNode;
-			if (!isArticle(articleElement)) {
+			String text = articleElement.getValue();
+			if (!isArticle(text)) {
 				continue;
 			}
-			Nodes doiNodes = articleNode.query(".//x:a[contains(.,'10.1039/')]", X_XHTML);
-			if (doiNodes.size() != 1) {
-				throw new CrawlerRuntimeException("Problem getting DOI link from article element:\n"+articleElement.toXML());
+			int idx = text.indexOf("10.1039/");
+			if (idx == -1) {
+				continue;
 			}
-			String doiPrefix = ((Element)doiNodes.get(0)).getValue();
-			String doiStr = DOI.DOI_SITE_URL+"/"+doiPrefix;
+			String doiPostfix = text.substring(idx);
+			doiPostfix = doiPostfix.substring(0, doiPostfix.indexOf(","));
+			String doiStr = DOI.DOI_SITE_URL+"/"+doiPostfix;
 			DOI doi = new DOI(createURI(doiStr));
 			dois.add(doi);
 		}
 		LOG.info("Finished finding issue DOIs: "+dois.size());
 		return dois;
+	}
+	
+	private String getRscIssueId(IssueDescription desc) {
+		String year = desc.getYear();
+		int yr = Integer.valueOf(year);
+		int vol = journal.getVolumeFromYear(yr);
+		String volume = ""+vol;
+		if (journal.equals(RscJournal.DALTON_TRANSACTIONS) || 
+				journal.equals(RscJournal.CHEMCOMM) &&
+				yr < 2010) {
+			volume = year.substring(2);
+		}
+		String issueId = desc.getIssueId();
+		String journalAbbreviation = journal.getAbbreviation().toUpperCase();
+		return journalAbbreviation+padWithLeadingZeros(volume)+padWithLeadingZeros(issueId);
+	}
+	
+	private String padWithLeadingZeros(String s) {
+		StringBuilder sb = new StringBuilder();
+		for (int i = s.length(); i < 3; i++) {
+			sb.append("0");
+		}
+		sb.append(s);
+		return sb.toString();
 	}
 
 	/**
@@ -168,24 +192,17 @@ public class RscIssueCrawler extends IssueCrawler {
 	 * @return boolean stating whether the doiElement links to an article or not
 	 * 
 	 */
-	private boolean isArticle(Element articleElement) {
-		Nodes linkNds = articleElement.query(".//x:a[contains(@title,'DOI:')]", X_XHTML);
-		if (linkNds.size() == 0) {
-			throw new CrawlerRuntimeException("Problem getting DOI link nodes from article element:\n"+articleElement.toXML());
-		}
-		String value = ((Element)linkNds.get(0)).getValue();
-		if (value.contains("Front cover") || 
-				value.contains("Inside front cover") ||
-				value.contains("Contents and") ||
-				value.trim().equals("Contents") ||
-				value.contains("Back matter") ||
-				value.contains("Back cover"))  {
+	private boolean isArticle(String text) {
+		if (text.contains("Cover") || 
+				text.contains("Matter") ||
+				text.contains("Editorial") ||
+				text.trim().equals("Contents"))  {
 			return false;
 		} else {
 			return true;
 		}
 	}
-	
+
 	/**
 	 * <p>
 	 * Gets information describing all articles in the issue 
@@ -204,9 +221,9 @@ public class RscIssueCrawler extends IssueCrawler {
 	@Override
 	public List<ArticleDescription> getArticleDescriptions(IssueDescription details) {
 		List<DOI> dois = getDois(details);
-		return getArticleDescriptions(new RscArticleCrawler(), dois);
+		return getArticleDescriptions(dois);
 	}
-	
+
 	/**
 	 * <p>
 	 * Gets information describing all articles defined by the list
@@ -232,19 +249,14 @@ public class RscIssueCrawler extends IssueCrawler {
 	 * </p>
 	 * 
 	 * @param args
+	 * @throws IOException 
 	 */
-	public static void main(String[] args) {
-		for (RscJournal journal : RscJournal.values()) {
-			if (!journal.getAbbreviation().equals("cc")) {
-				continue;
-			}
-			RscIssueCrawler acf = new RscIssueCrawler(journal);
-			IssueDescription details = acf.getCurrentIssueDescription();
-			List<ArticleDescription> adList = acf.getArticleDescriptions(details);
-			for (ArticleDescription ad : adList) {
-				System.out.println(ad.toString());
-			}
-			break;
+	public static void main(String[] args) throws IOException {
+		RscIssueCrawler acf = new RscIssueCrawler(RscJournal.JOURNAL_OF_MATERIALS_CHEMISTRY);
+		acf.setMaxArticlesToCrawl(10);
+		List<ArticleDescription> adList = acf.getArticleDescriptions(new IssueDescription("2009", "9"));
+		for (ArticleDescription ad : adList) {
+			System.out.println(ad.toString());
 		}
 	}
 

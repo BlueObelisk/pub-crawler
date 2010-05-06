@@ -1,7 +1,9 @@
 package wwmm.pubcrawler.impl;
 
+import static wwmm.pubcrawler.core.CrawlerConstants.CIF_CONTENT_TYPE;
 import wwmm.pubcrawler.core.AcsIssueCrawler;
 import wwmm.pubcrawler.core.AcsJournal;
+import wwmm.pubcrawler.core.ArticleDescription;
 import wwmm.pubcrawler.core.SupplementaryResourceDescription;
 
 /**
@@ -35,11 +37,19 @@ public class AcsCifIssueCrawler extends CifIssueCrawler {
 	 */
 	@Override
 	protected boolean isCifFile(SupplementaryResourceDescription sfd) {
-		String filename = sfd.getFileId();
-		if (filename.endsWith(".cif")) {
+		String contentType = sfd.getContentType();
+		if (contentType!= null && contentType.contains(CIF_CONTENT_TYPE)) {
 			return true;
 		} else {
 			return false;
+		}
+	}
+	
+	public static void main(String[] args) {
+		AcsCifIssueCrawler crawler = new AcsCifIssueCrawler(AcsJournal.CRYSTAL_GROWTH_AND_DESIGN);
+		crawler.setMaxArticlesToCrawl(10);
+		for (ArticleDescription ad : crawler.getCurrentArticleDescriptions()) {
+			System.out.println(ad.toString());
 		}
 	}
 	

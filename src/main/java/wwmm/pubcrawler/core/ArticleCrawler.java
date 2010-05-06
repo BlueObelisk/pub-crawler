@@ -21,7 +21,7 @@ public abstract class ArticleCrawler extends Crawler {
 	protected DOI doi;
 	protected Document articleAbstractHtml;
 	protected boolean doiResolved;
-	protected ArticleDescription articleDetails = new ArticleDescription();
+	protected ArticleDescription articleDetails;
 	protected BibtexTool bibtexTool;
 	
 	public ArticleCrawler() {
@@ -29,7 +29,6 @@ public abstract class ArticleCrawler extends Crawler {
 	}
 
 	public ArticleCrawler(DOI doi) {
-		this.doi = doi;
 		setDOI(doi);
 	}
 
@@ -50,11 +49,21 @@ public abstract class ArticleCrawler extends Crawler {
 	 * 
 	 */
 	public void setDOI(DOI doi) {
+		this.doi = null;
+		this.articleAbstractHtml = null;
+		this.articleDetails = new ArticleDescription();
+		this.bibtexTool = null;
+		this.doiResolved = false;
+		
 		this.doi = doi;
 		articleAbstractHtml = httpClient.getResourceHTML(doi.getUri());
 		setHasDoiResolved();
 		articleDetails.setDoiResolved(doiResolved);
 		articleDetails.setDoi(doi);
+	}
+	
+	public DOI getDOI() {
+		return this.doi;
 	}
 
 	/**

@@ -162,7 +162,7 @@ public class NatureIssueCrawler extends IssueCrawler {
 	@Override
 	public List<ArticleDescription> getArticleDescriptions(IssueDescription details) {
 		List<DOI> dois = getDois(details);
-		return getArticleDescriptions(new NatureArticleCrawler(), dois);
+		return getArticleDescriptions(dois);
 	}
 	
 	/**

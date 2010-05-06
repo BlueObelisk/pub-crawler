@@ -167,7 +167,7 @@ public class ActaIssueCrawler extends IssueCrawler {
 	@Override
 	public List<ArticleDescription> getArticleDescriptions(IssueDescription issueDescription) {
 		List<DOI> dois = getDois(issueDescription);
-		return getArticleDescriptions(new ActaArticleCrawler(), dois);
+		return getArticleDescriptions(dois);
 	}
 
 	/**
@@ -197,7 +197,7 @@ public class ActaIssueCrawler extends IssueCrawler {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		ActaIssueCrawler acf = new ActaIssueCrawler(ActaJournal.SECTION_E);
+		ActaIssueCrawler acf = new ActaIssueCrawler(ActaJournal.SECTION_B);
 		acf.setMaxArticlesToCrawl(2);
 		IssueDescription issueDescription = acf.getCurrentIssueDescription();
 		List<ArticleDescription> adList = acf.getArticleDescriptions(issueDescription);

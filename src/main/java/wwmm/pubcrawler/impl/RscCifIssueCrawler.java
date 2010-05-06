@@ -1,5 +1,6 @@
 package wwmm.pubcrawler.impl;
 
+import wwmm.pubcrawler.core.ArticleDescription;
 import wwmm.pubcrawler.core.RscIssueCrawler;
 import wwmm.pubcrawler.core.RscJournal;
 import wwmm.pubcrawler.core.SupplementaryResourceDescription;
@@ -41,6 +42,13 @@ public class RscCifIssueCrawler extends CifIssueCrawler {
 			return true;
 		} else {
 			return false;
+		}
+	}
+	
+	public static void main(String[] args) {
+		RscCifIssueCrawler crawler = new RscCifIssueCrawler(RscJournal.NEW_JOURNAL_OF_CHEMISTRY);
+		for (ArticleDescription ad : crawler.getCurrentArticleDescriptions()) {
+			System.out.println(ad.toString());
 		}
 	}
 
