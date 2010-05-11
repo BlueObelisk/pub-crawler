@@ -1,7 +1,5 @@
 package wwmm.pubcrawler.core;
 
-import org.apache.commons.httpclient.URI;
-import org.apache.commons.httpclient.URIException;
 
 /**
  * <p>
@@ -16,7 +14,7 @@ import org.apache.commons.httpclient.URIException;
  */
 public class SupplementaryResourceDescription {
 
-	private URI uri;
+	private String url;
 	private String fileId;
 	private String linkText;
 	private String contentType;
@@ -40,8 +38,8 @@ public class SupplementaryResourceDescription {
 	 * @param linkText - the text from the HTML link that points to the resource.
 	 * @param contentType - the Content-type of the resource from its HTTP headers.
 	 */
-	public SupplementaryResourceDescription(URI uri, String fileId, String linkText, String contentType) {
-		this.uri = uri;
+	public SupplementaryResourceDescription(String url, String fileId, String linkText, String contentType) {
+		this.url = url;
 		this.fileId = fileId;
 		this.linkText = linkText;
 		this.contentType = contentType;
@@ -53,7 +51,7 @@ public class SupplementaryResourceDescription {
 	 * files URL. 
 	 */
 	private void validate() {
-		if (!getUriString().contains(fileId)) {
+		if (!url.contains(fileId)) {
 			throw new RuntimeException("The provided filename must be " +
 					"part of the provided URI.");
 		}
@@ -78,27 +76,8 @@ public class SupplementaryResourceDescription {
 	 * 
 	 * @return the URI that points to the supplementary resource.
 	 */
-	public URI getURI() {
-		return uri;
-	}
-	
-	/**
-	 * <p>
-	 * Gets the URI that points to the supplementary resource in
-	 * String form.
-	 * </p>
-	 * 
-	 * @return String form of the URI that points to the
-	 * supplementary resource.
-	 */
-	public String getUriString() {
-		String uriStr = null;
-		try {
-			uriStr = uri.getURI();
-		} catch (URIException e) {
-			throw new RuntimeException("Exception getting string for URI: "+uri);
-		}
-		return uriStr;
+	public String getURL() {
+		return url;
 	}
 	
 	/**

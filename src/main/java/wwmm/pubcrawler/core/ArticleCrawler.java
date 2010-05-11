@@ -56,7 +56,7 @@ public abstract class ArticleCrawler extends Crawler {
 		this.doiResolved = false;
 		
 		this.doi = doi;
-		articleAbstractHtml = httpClient.getResourceHTML(doi.getUri());
+		articleAbstractHtml = httpClient.getResourceHTML(doi.getURL());
 		setHasDoiResolved();
 		articleDetails.setDoiResolved(doiResolved);
 		articleDetails.setDoi(doi);

@@ -6,7 +6,6 @@ import static wwmm.pubcrawler.core.CrawlerConstants.CIF_CONTENT_TYPE;
 
 import java.util.List;
 
-import org.apache.commons.httpclient.URI;
 import org.apache.commons.httpclient.URIException;
 import org.junit.Test;
 
@@ -38,11 +37,11 @@ public class NatureArticleCrawlerIntegrationTest {
 		List<FullTextResourceDescription> ftrds = details.getFullTextResources();
 		assertEquals(2, ftrds.size());
 		FullTextResourceDescription ftrd1 = ftrds.get(0);
-		assertEquals(new URI("http://www.nature.com/nchem/journal/v1/n3/full/nchem.213.html", false), ftrd1.getURI());
+		assertEquals("http://www.nature.com/nchem/journal/v1/n3/full/nchem.213.html", ftrd1.getURL());
 		assertEquals("Full text", ftrd1.getLinkText());
 		assertEquals("text/html", ftrd1.getContentType());
 		FullTextResourceDescription ftrd2 = ftrds.get(1);
-		assertEquals(new URI("http://www.nature.com/nchem/journal/v1/n3/pdf/nchem.213.pdf", false), ftrd2.getURI());
+		assertEquals("http://www.nature.com/nchem/journal/v1/n3/pdf/nchem.213.pdf", ftrd2.getURL());
 		assertEquals("Download PDF", ftrd2.getLinkText());
 		assertEquals("application/pdf", ftrd2.getContentType());
 		
@@ -67,8 +66,8 @@ public class NatureArticleCrawlerIntegrationTest {
 		assertEquals("nchem.213-s1.pdf", fileId0);
 		String linkText0 = sfd0.getLinkText();
 		assertEquals("Supplementary information - Download PDF file (1,177 KB)", linkText0);
-		URI uri0 = sfd0.getURI();
-		assertEquals(new URI("http://www.nature.com/nchem/journal/v1/n3/extref/nchem.213-s1.pdf", false), uri0);
+		String uri0 = sfd0.getURL();
+		assertEquals("http://www.nature.com/nchem/journal/v1/n3/extref/nchem.213-s1.pdf", uri0);
 		SupplementaryResourceDescription sfd2 = suppList.get(1);
 		String contentType2 = sfd2.getContentType();
 		assertEquals(CIF_CONTENT_TYPE, contentType2);
@@ -76,8 +75,8 @@ public class NatureArticleCrawlerIntegrationTest {
 		assertEquals("nchem.213-s2.cif", fileId2);
 		String linkText2 = sfd2.getLinkText();
 		assertEquals("Supplementary information - Download cif (35 KB)", linkText2);
-		URI uri2 = sfd2.getURI();
-		assertEquals(new URI("http://www.nature.com/nchem/journal/v1/n3/extref/nchem.213-s2.cif", false), uri2);
+		String uri2 = sfd2.getURL();
+		assertEquals("http://www.nature.com/nchem/journal/v1/n3/extref/nchem.213-s2.cif", uri2);
 	}
 	
 }

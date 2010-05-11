@@ -6,7 +6,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import junitx.util.PrivateAccessor;
 
-import org.apache.commons.httpclient.URI;
 import org.junit.Test;
 
 import wwmm.pubcrawler.core.ActaIssueCrawler;
@@ -23,15 +22,15 @@ public class ActaCifIssueCrawlerTest {
 	public void testIsCifFile() throws Throwable {
 		ActaCifIssueCrawler crawler = new ActaCifIssueCrawler(mock(ActaIssueCrawler.class));
 		SupplementaryResourceDescription sfd1 = mock(SupplementaryResourceDescription.class);
-		URI cifUri = new URI("http://scripts.iucr.org/cgi-bin/sendcif?lg3009sup1", false);
-		when(sfd1.getURI()).thenReturn(cifUri);
+		String cifUri = "http://scripts.iucr.org/cgi-bin/sendcif?lg3009sup1";
+		when(sfd1.getURL()).thenReturn(cifUri);
 		// use reflection to access private isCifFile method for testing
 		boolean isCif1 = (Boolean) PrivateAccessor.invoke(crawler, "isCifFile", 
 				new Class[]{SupplementaryResourceDescription.class}, new Object[]{sfd1});
 		assertTrue(isCif1);
 		
-		URI notCifUri = new URI("http://journals.iucr.org/c/issues/2009/04/00/sq3182/sq3182Isup2.hkl", false);
-		when(sfd1.getURI()).thenReturn(notCifUri);
+		String notCifUri = "http://journals.iucr.org/c/issues/2009/04/00/sq3182/sq3182Isup2.hkl";
+		when(sfd1.getURL()).thenReturn(notCifUri);
 		// use reflection to access private isCifFile method for testing
 		boolean isCif2 = (Boolean) PrivateAccessor.invoke(crawler, "isCifFile", 
 				new Class[]{SupplementaryResourceDescription.class}, new Object[]{sfd1});

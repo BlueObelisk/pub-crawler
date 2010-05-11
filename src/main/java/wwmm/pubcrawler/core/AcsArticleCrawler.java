@@ -15,7 +15,6 @@ import nu.xom.Element;
 import nu.xom.Node;
 import nu.xom.Nodes;
 
-import org.apache.commons.httpclient.URI;
 import org.apache.log4j.Logger;
 
 import wwmm.pubcrawler.Utils;
@@ -118,8 +117,7 @@ public class AcsArticleCrawler extends ArticleCrawler {
 		Element fullTextLink = (Element)fullTextPdfLinks.get(0);
 		String linkText = fullTextLink.getValue().trim();
 		String fullTextPdfUrl = ACS_HOMEPAGE_URL+fullTextLink.getAttributeValue("href");
-		URI fullTextPdfUri = createURI(fullTextPdfUrl);
-		return new FullTextResourceDescription(fullTextPdfUri, linkText, "application/pdf");
+		return new FullTextResourceDescription(fullTextPdfUrl, linkText, "application/pdf");
 	}
 
 	/**
@@ -140,8 +138,7 @@ public class AcsArticleCrawler extends ArticleCrawler {
 		Element fullTextLink = (Element)fullTextPdfLinks.get(0);
 		String linkText = fullTextLink.getValue().trim();
 		String fullTextPdfUrl = ACS_HOMEPAGE_URL+fullTextLink.getAttributeValue("href");
-		URI fullTextPdfUri = createURI(fullTextPdfUrl);
-		return new FullTextResourceDescription(fullTextPdfUri, linkText, "application/pdf");
+		return new FullTextResourceDescription(fullTextPdfUrl, linkText, "application/pdf");
 	}
 
 	/**
@@ -162,8 +159,7 @@ public class AcsArticleCrawler extends ArticleCrawler {
 		Element fullTextLink = (Element)fullTextHtmlLinks.get(0);
 		String linkText = fullTextLink.getValue().trim();
 		String fullTextHtmlUrl = ACS_HOMEPAGE_URL+fullTextLink.getAttributeValue("href");
-		URI fullTextHtmlUri = createURI(fullTextHtmlUrl);
-		return new FullTextResourceDescription(fullTextHtmlUri, linkText, "text/html");
+		return new FullTextResourceDescription(fullTextHtmlUrl, linkText, "text/html");
 	}
 
 	/**
@@ -188,10 +184,9 @@ public class AcsArticleCrawler extends ArticleCrawler {
 			String urlPostfix = link.getAttributeValue("href");
 			String url = ACS_HOMEPAGE_URL+urlPostfix;
 			String filename = getFilenameFromUrl(url);
-			URI uri = createURI(url);
 			String linkText = link.getValue();
-			String contentType = httpClient.getContentType(uri);
-			SupplementaryResourceDescription sf = new SupplementaryResourceDescription(uri, filename, linkText, contentType);
+			String contentType = httpClient.getContentType(url);
+			SupplementaryResourceDescription sf = new SupplementaryResourceDescription(url, filename, linkText, contentType);
 			sfList.add(sf);
 		}
 		return sfList;
@@ -211,7 +206,11 @@ public class AcsArticleCrawler extends ArticleCrawler {
 		int idx = cifUrl.lastIndexOf("/");
 		String namePlusMime = cifUrl.substring(idx+1);
 		int dot = namePlusMime.indexOf(".");
-		return namePlusMime.substring(0,dot);
+		if (dot == -1) {
+			return namePlusMime;
+		} else {
+			return namePlusMime.substring(0,dot);
+		}
 	}
 
 	/**
@@ -231,9 +230,8 @@ public class AcsArticleCrawler extends ArticleCrawler {
 			LOG.warn("Expected either 0 or 1 links to supporting info page, found "+suppPageLinks.size());
 		}
 		String urlPostfix = ((Element)suppPageLinks.get(0)).getAttributeValue("href");
-		String url = ACS_HOMEPAGE_URL+urlPostfix;
-		URI suppPageUri = createURI(url);
-		return httpClient.getResourceHTML(suppPageUri);
+		String suppPageUrl = ACS_HOMEPAGE_URL+urlPostfix;
+		return httpClient.getResourceHTML(suppPageUrl);
 	}
 
 	/**

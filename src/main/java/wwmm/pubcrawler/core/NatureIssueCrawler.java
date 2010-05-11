@@ -13,7 +13,6 @@ import nu.xom.Element;
 import nu.xom.Node;
 import nu.xom.Nodes;
 
-import org.apache.commons.httpclient.URI;
 import org.apache.log4j.Logger;
 
 import wwmm.pubcrawler.Utils;
@@ -88,9 +87,8 @@ public class NatureIssueCrawler extends IssueCrawler {
 	 */
 	@Override
 	public Document getCurrentIssueHtml() {
-		String url = NATURE_HOMEPAGE_URL+"/"+journal.getAbbreviation()+"/index.html";
-		URI issueUri = createURI(url);
-		return httpClient.getResourceHTML(issueUri);
+		String issueUrl = NATURE_HOMEPAGE_URL+"/"+journal.getAbbreviation()+"/index.html";
+		return httpClient.getResourceHTML(issueUrl);
 	}
 
 	/**
@@ -129,15 +127,14 @@ public class NatureIssueCrawler extends IssueCrawler {
 		List<DOI> dois = new ArrayList<DOI>();
 		int volume = Integer.valueOf(year)-journal.getVolumeOffset();
 		String issueUrl = NATURE_HOMEPAGE_URL+"/"+journal.getAbbreviation()+"/journal/v"+volume+"/n"+issueId+"/index.html";
-		URI issueUri = createURI(issueUrl);
 		LOG.info("Started to find DOIs from "+journal.getFullTitle()+", year "+year+", issue "+issueId+".");
-		Document issueDoc = httpClient.getResourceHTML(issueUri);
+		Document issueDoc = httpClient.getResourceHTML(issueUrl);
 		List<Node> doiNodes = Utils.queryHTML(issueDoc, ".//x:span[@class='doi']");
 		for (Node doiNode : doiNodes) {
 			Element span = (Element)doiNode;
 			String doiPostfix = span.getValue().substring(4);
 			String doiStr = DOI.DOI_SITE_URL+"/"+doiPostfix;
-			DOI doi = new DOI(createURI(doiStr)); 
+			DOI doi = new DOI(doiStr); 
 			dois.add(doi);
 		}
 		LOG.info("Finished finding issue DOIs: "+dois.size());

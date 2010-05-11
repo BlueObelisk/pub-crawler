@@ -30,6 +30,8 @@ import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
 
+import wwmm.pubcrawler.core.CrawlerRuntimeException;
+
 
 /**
  * <p>
@@ -68,13 +70,13 @@ public class BasicHttpClient {
 	 * provided <code>URI</code>.
 	 * 
 	 */
-	private InputStream getResourceStream(URI uri) {
+	private InputStream getResourceStream(String url) {
 		InputStream in = null;
-		method = executeGET(uri);
+		method = executeGET(url);
 		try {
 			in = method.getResponseBodyAsStream();
 		} catch (IOException e) {
-			throw new RuntimeException("Exception getting response stream for: "+uri);
+			throw new RuntimeException("Exception getting response stream for: "+url);
 		}
 		return in;
 	}
@@ -91,13 +93,13 @@ public class BasicHttpClient {
 	 * <code>URI</code>.
 	 * 
 	 */
-	public String getResourceString(URI uri) {
-		InputStream in = getResourceStream(uri);
+	public String getResourceString(String url) {
+		InputStream in = getResourceStream(url);
 		String html = null;
 		try {
 			html = IOUtils.toString(in);
 		} catch (IOException e) {
-			throw new RuntimeException("Exception converting webpage stream to string: "+uri, e);
+			throw new RuntimeException("Exception converting webpage stream to string: "+url, e);
 		} finally {
 			IOUtils.closeQuietly(in);
 			if (method != null) {
@@ -119,16 +121,16 @@ public class BasicHttpClient {
 	 * @return true if the resource is successfully written
 	 * to file, false if not. 
 	 */
-	public boolean writeResourceToFile(URI uri, File file) {
+	public boolean writeResourceToFile(String url, File file) {
 		file.getParentFile().mkdirs();
 		InputStream in = null;
 		OutputStream out = null;
 		try {
-			in = getResourceStream(uri);
+			in = getResourceStream(url);
 			out = new BufferedOutputStream(new FileOutputStream(file));
 			IOUtils.copy(in, out);
 		} catch (IOException e) {
-			LOG.info("Could not write URI ("+uri.toString()+") to file ("+file+")\n"+
+			LOG.info("Could not write URI ("+url+") to file ("+file+")\n"+
 					e.getMessage());
 			return false;
 		} finally {
@@ -151,8 +153,8 @@ public class BasicHttpClient {
 	 * at the provided <code>URI</code> after they have been parsed using Tagsoup.
 	 * 
 	 */
-	public Document getResourceHTML(URI uri) {
-		InputStream in = getResourceStream(uri);
+	public Document getResourceHTML(String url) {
+		InputStream in = getResourceStream(url);
 		Document doc = null;
 		try {
 			Builder builder = getTagsoupBuilder();
@@ -181,8 +183,8 @@ public class BasicHttpClient {
 	 * 
 	 * @return XML <code>Document</code> containined the parsed HTML.
 	 */
-	public Document getResourceHTMLMinusComments(URI uri) {
-		String html = getResourceString(uri);
+	public Document getResourceHTMLMinusComments(String url) {
+		String html = getResourceString(url);
 
 		String patternStr = "<!--(.*)?-->";
 		String replacementStr = "";
@@ -221,8 +223,8 @@ public class BasicHttpClient {
 	 * the provided <code>URI</code>.
 	 * 
 	 */
-	public Document getResourceXML(URI uri) {
-		InputStream in = getResourceStream(uri);
+	public Document getResourceXML(String url) {
+		InputStream in = getResourceStream(url);
 		Document doc = null;
 		try {
 			doc = Utils.parseXml(in);
@@ -326,8 +328,8 @@ public class BasicHttpClient {
 	 * the provided <code>URI</code>.
 	 * 
 	 */
-	public Header[] getHeaders(URI uri) {
-		method = executeHEAD(uri);
+	public Header[] getHeaders(String url) {
+		method = executeHEAD(url);
 		try {
 			return method.getResponseHeaders();
 		} finally {
@@ -394,14 +396,14 @@ public class BasicHttpClient {
 	 * details and results.
 	 * 
 	 */
-	public GetMethod executeGET(URI uri) {
+	public GetMethod executeGET(String url) {
 		method = new GetMethod();
 		try {
-			method.setURI(uri);
+			method.setURI(createURI(url));
 			executeMethod(method);
 		} catch (URIException e) {
 			throw new RuntimeException("Exception setting the URI for the HTTP " +
-					"GET method: "+uri, e);
+					"GET method: "+url, e);
 		}
 		return (GetMethod)method;
 	}
@@ -417,14 +419,14 @@ public class BasicHttpClient {
 	 * details and results.
 	 * 
 	 */
-	public HeadMethod executeHEAD(URI uri) {
+	public HeadMethod executeHEAD(String url) {
 		HeadMethod method = new HeadMethod();
 		try {
-			method.setURI(uri);
+			method.setURI(createURI(url));
 			executeMethod(method);
 		} catch (URIException e) {
 			throw new RuntimeException("Exception setting the URI for the HTTP " +
-					"GET method: "+uri, e);
+					"GET method: "+url, e);
 		}
 		return (HeadMethod)method;
 	}
@@ -442,8 +444,8 @@ public class BasicHttpClient {
 	 * returned.
 	 * 
 	 */
-	public String getContentType(URI uri) {
-		Header[] headers = this.getHeaders(uri);
+	public String getContentType(String url) {
+		Header[] headers = this.getHeaders(url);
 		String contentType = null;
 		for (Header header : headers) {
 			String name = header.getName();
@@ -454,7 +456,68 @@ public class BasicHttpClient {
 		}
 		return contentType;
 	}
+	
+	/**
+	 * <p>
+	 * Convenience method to handle the exceptions in creating a URI that has
+	 * not yet been escaped.
+	 * </p>
+	 * 
+	 * @param url
+	 * 
+	 * @return URI representing the provided <code>url</code>.
+	 */
+	public static URI createURI(String url) {
+		URI uri = null;
+		try {
+			uri = new URI(url, true);
+		} catch (URIException e) {
+			throw new CrawlerRuntimeException("Problem creating URI from: "
+					+ url, e);
+		} catch (NullPointerException e) {
+			throw new CrawlerRuntimeException(
+					"Cannot create a URI from a null String.", e);
+		}
+		return uri;
+	}
 
+	public static String getURIString(URI uri) {
+		try {
+			return uri.getURI();
+		} catch (URIException e) {
+			throw new RuntimeException("Could not convert URI to URL: " + uri,
+					e);
+		}
+	}
+
+	/**
+	 * <p>
+	 * Convenience method to handle the exceptions in creating a URI that may or
+	 * may not have been escaped.
+	 * </p>
+	 * 
+	 * @param url
+	 * 
+	 * @return URI representing the provided <code>url</code>.
+	 */
+	public static URI createURI(String url, boolean escaped) {
+		URI uri = null;
+		try {
+			uri = new URI(url, escaped);
+		} catch (URIException e) {
+			throw new CrawlerRuntimeException("Problem creating URI from: "
+					+ url, e);
+		} catch (NullPointerException e) {
+			throw new CrawlerRuntimeException(
+					"Cannot create a URI from a null String.", e);
+		}
+		return uri;
+	}
+
+	public HttpClient getClient() {
+		return client;
+	}
+	
 	/**
 	 * <p>
 	 * Main method only for demonstration of class use. Does not require
@@ -469,14 +532,10 @@ public class BasicHttpClient {
 	 */
 	public static void main(String[] args) throws URIException, NullPointerException {
 		BasicHttpClient bhc = new BasicHttpClient();
-		Header[] headers = bhc.getHeaders(new URI("http://pubs.rsc.org/suppdata/CC/b8/b811528a/b811528a.pdf", false));
+		Header[] headers = bhc.getHeaders("http://pubs.rsc.org/suppdata/CC/b8/b811528a/b811528a.pdf");
 		for (Header h : headers) {
 			System.out.println(h.getName()+" = "+h.getValue());
 		}
-	}
-
-	public HttpClient getClient() {
-		return client;
 	}
 
 }

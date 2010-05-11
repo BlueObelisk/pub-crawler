@@ -15,7 +15,7 @@ import org.apache.commons.httpclient.URIException;
  */
 public class DOI {
 
-	private URI doiUri;
+	private String doiUrl;
 	public static final String DOI_SITE_URL = "http://dx.doi.org";
 
 	/**
@@ -26,12 +26,7 @@ public class DOI {
 	}
 	
 	public DOI(String doiUrl) {
-		doiUri = createURI(doiUrl);
-		validate();
-	}
-
-	public DOI(URI doiUri) {
-		this.doiUri = doiUri;
+		this.doiUrl = doiUrl;
 		validate();
 	}
 
@@ -46,8 +41,7 @@ public class DOI {
 	 * 
 	 */
 	private void validate() {
-		String doiUrl = doiUri.toString();
-		if (!doiUri.toString().startsWith(DOI_SITE_URL) ||
+		if (!doiUrl.startsWith(DOI_SITE_URL) ||
 				doiUrl.length() <= DOI_SITE_URL.length()+1) {
 			throw new DOIRuntimeException("URI "+doiUrl+" is not a valid DOI.");
 		}
@@ -98,8 +92,8 @@ public class DOI {
 	 * 
 	 * @return the URI for the DOI.
 	 */
-	public URI getUri() {
-		return doiUri;
+	public String getURL() {
+		return doiUrl;
 	}
 	
 	/**
@@ -110,11 +104,7 @@ public class DOI {
 	 */
 	@Override
 	public String toString() {
-		try {
-			return doiUri.getURI();
-		} catch (URIException e) {
-			throw new RuntimeException("Error getting DOI string: "+doiUri, e);
-		}
+		return doiUrl;
 	}
 
 	/**
@@ -134,7 +124,7 @@ public class DOI {
 			return false;
 		}
 		DOI doi = (DOI)obj;
-		if (this.doiUri.equals(doi.getUri())) {
+		if (this.doiUrl.equals(doi.toString())) {
 			return true;
 		} else {
 			return false;
@@ -150,7 +140,7 @@ public class DOI {
 	@Override
 	public int hashCode() {
 		int hash = 7;
-		hash = 31 * hash + (null == doiUri ? 0 : doiUri.hashCode());
+		hash = 31 * hash + (null == doiUrl ? 0 : doiUrl.hashCode());
 		return hash;
 	}
 

@@ -12,7 +12,6 @@ import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Node;
 
-import org.apache.commons.httpclient.URI;
 import org.apache.log4j.Logger;
 
 import wwmm.pubcrawler.Utils;
@@ -86,9 +85,8 @@ public class ActaIssueCrawler extends IssueCrawler {
 	 */
 	@Override
 	public Document getCurrentIssueHtml() {
-		String url = "http://journals.iucr.org/"+journal.getAbbreviation()+"/contents/backissuesbdy.html";
-		URI issueUri = createURI(url);
-		return httpClient.getResourceHTML(issueUri);
+		String issueUrl = "http://journals.iucr.org/"+journal.getAbbreviation()+"/contents/backissuesbdy.html";
+		return httpClient.getResourceHTML(issueUrl);
 	}
 
 	/**
@@ -125,16 +123,14 @@ public class ActaIssueCrawler extends IssueCrawler {
 		String year = issueDescription.getYear();
 		String issueId = issueDescription.getIssueId();
 		Set<DOI> dois = new HashSet<DOI>();
-		String url = "http://journals.iucr.org/"+journal.getAbbreviation()+"/issues/"
+		String issueUrl = "http://journals.iucr.org/"+journal.getAbbreviation()+"/issues/"
 		+year+"/"+issueId.replaceAll("-", "/")+"/isscontsbdy.html";
-		URI issueUri = createURI(url);
 		LOG.info("Started to find article DOIs from "+journal.getFullTitle()+", year "+year+", issue "+issueId+".");
-		LOG.debug(issueUri);
-		Document issueDoc = httpClient.getResourceHTML(issueUri);
+		Document issueDoc = httpClient.getResourceHTML(issueUrl);
 		List<Node> aTagDoiNodes = Utils.queryHTML(issueDoc, ".//x:a[contains(@href,'"+DOI.DOI_SITE_URL+"/10.1107/')]/@href");
 		for (Node doiNode : aTagDoiNodes) {
 			String doiStr = ((Attribute)doiNode).getValue();
-			DOI doi = new DOI(createURI(doiStr));
+			DOI doi = new DOI(doiStr);
 			dois.add(doi);
 		}
 		// sometimes the DOIs aren't the href in an <a> tag, so we have to look
@@ -142,7 +138,7 @@ public class ActaIssueCrawler extends IssueCrawler {
 		List<Node> textDoiNodes = Utils.queryHTML(issueDoc, ".//x:font[@size='2' and contains(.,'doi:10.1107/')]");
 		for (Node doiNode : textDoiNodes) {
 			String doiPrefix = ((Element)doiNode).getValue().substring(4);
-			DOI doi = new DOI(createURI(DOI.DOI_SITE_URL+"/"+doiPrefix));
+			DOI doi = new DOI(DOI.DOI_SITE_URL+"/"+doiPrefix);
 			dois.add(doi);
 		}
 		LOG.info("Found issue DOIs: "+dois.size());

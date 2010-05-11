@@ -12,7 +12,6 @@ import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Nodes;
 
-import org.apache.commons.httpclient.URI;
 import org.apache.log4j.Logger;
 
 /**
@@ -32,7 +31,7 @@ public class ChemSocJapanRssCrawler extends Crawler {
 	private Date lastCrawledDate;
 
 	private static final Logger LOG = Logger.getLogger(ChemSocJapanRssCrawler.class);
-	
+
 	/**
 	 * <p>
 	 * Creates an instance of the ChemSocJapanRssCrawler class ready to 
@@ -80,8 +79,8 @@ public class ChemSocJapanRssCrawler extends Crawler {
 	 * 
 	 */
 	public List<ArticleDescription> getNewArticleDetails() {
-		URI feedUri = createFeedURI();
-		Document feedDoc = httpClient.getResourceXML(feedUri);
+		String feedUrl = createFeedURL();
+		Document feedDoc = httpClient.getResourceXML(feedUrl);
 		List<Element> entries = getFeedEntries(feedDoc);
 		List<ArticleDescription> adList = new ArrayList<ArticleDescription>();
 		for (Element entry : entries) {
@@ -94,7 +93,7 @@ public class ChemSocJapanRssCrawler extends Crawler {
 		}
 		return adList;
 	}
-	
+
 	/**
 	 * <p>
 	 * Gets the article DOI from the RSS entry.
@@ -123,7 +122,7 @@ public class ChemSocJapanRssCrawler extends Crawler {
 		String doiStr = DOI.DOI_SITE_URL+"/10.1246/cl."+doiPostfix;
 		return new DOI(doiStr);
 	}
-	
+
 	/**
 	 * <p>
 	 * If a <code>lastCrawledDate</code> was provided in the 
@@ -148,7 +147,7 @@ public class ChemSocJapanRssCrawler extends Crawler {
 			}
 		}
 	}
-	
+
 	/**
 	 * <p>
 	 * Gets the published date from the provided RSS entry.
@@ -172,11 +171,11 @@ public class ChemSocJapanRssCrawler extends Crawler {
 			date = sdf.parse(dateStr);
 		} catch (ParseException e) {
 			throw new CrawlerRuntimeException("Could not parse date string "+dateStr+
-					", looks like the crawler may need rewriting...");
+			", looks like the crawler may need rewriting...");
 		}
 		return date;		
 	}
-	
+
 	/**
 	 * <p>
 	 * Gets all entries found in the RSS feed being crawled.
@@ -209,9 +208,8 @@ public class ChemSocJapanRssCrawler extends Crawler {
 	 * @return the RSS feed <code>URI</code>.
 	 * 
 	 */
-	private URI createFeedURI() {
-		String feedUrl = "http://www.csj.jp/journals/"+journal.getAbbreviation()+"/cl-cont/rss/"+journal.getAbbreviation().replaceAll("-", "")+".rss";
-		return createURI(feedUrl);
+	private String createFeedURL() {
+		return "http://www.csj.jp/journals/"+journal.getAbbreviation()+"/cl-cont/rss/"+journal.getAbbreviation().replaceAll("-", "")+".rss";
 	}
 
 	/**
@@ -238,5 +236,5 @@ public class ChemSocJapanRssCrawler extends Crawler {
 			break;
 		}
 	}
-	
+
 }

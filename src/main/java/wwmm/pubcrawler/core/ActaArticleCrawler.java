@@ -12,7 +12,6 @@ import nu.xom.Element;
 import nu.xom.Nodes;
 
 import org.apache.commons.httpclient.NameValuePair;
-import org.apache.commons.httpclient.URI;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.log4j.Logger;
 
@@ -156,8 +155,7 @@ public class ActaArticleCrawler extends ArticleCrawler {
 		Element fullTextLink = (Element)fullTextPdfLinks.get(0);
 		String linkText = "PDF";
 		String fullTextUrl = fullTextLink.getAttributeValue("href");
-		URI fullTextUri = createURI(fullTextUrl);
-		return new FullTextResourceDescription(fullTextUri, linkText, "application/pdf");
+		return new FullTextResourceDescription(fullTextUrl, linkText, "application/pdf");
 	}
 
 	/**
@@ -178,8 +176,7 @@ public class ActaArticleCrawler extends ArticleCrawler {
 		Element fullTextLink = (Element)fullTextHtmlLinks.get(0);
 		String linkText = "HTML";
 		String fullTextUrl = fullTextLink.getAttributeValue("href");
-		URI fullTextUri = createURI(fullTextUrl);
-		return new FullTextResourceDescription(fullTextUri, linkText, "text/html");
+		return new FullTextResourceDescription(fullTextUrl, linkText, "text/html");
 	}
 
 	/**
@@ -198,13 +195,12 @@ public class ActaArticleCrawler extends ArticleCrawler {
 			return new ArrayList<SupplementaryResourceDescription>(0);
 		}
 		String url = ((Element)cifNds.get(0)).getAttributeValue("href");
-		URI uri = createURI(url);
-		List<URI> cifUriList = getCifUrisFromUri(uri);
-		List<SupplementaryResourceDescription> suppFiles = new ArrayList<SupplementaryResourceDescription>(cifUriList.size());
-		for (URI cifUri : cifUriList) {
-			String filename = getFilenameFromUrl(getURIString(cifUri));
-			String contentType = httpClient.getContentType(cifUri);
-			SupplementaryResourceDescription suppFile = new SupplementaryResourceDescription(cifUri, filename, "CIF", contentType);
+		List<String> cifUrlList = getCifUrisFromUri(url);
+		List<SupplementaryResourceDescription> suppFiles = new ArrayList<SupplementaryResourceDescription>(cifUrlList.size());
+		for (String cifUrl : cifUrlList) {
+			String filename = getFilenameFromUrl(cifUrl);
+			String contentType = httpClient.getContentType(cifUrl);
+			SupplementaryResourceDescription suppFile = new SupplementaryResourceDescription(cifUrl, filename, "CIF", contentType);
 			suppFiles.add(suppFile);
 		}
 		return suppFiles;
@@ -219,21 +215,21 @@ public class ActaArticleCrawler extends ArticleCrawler {
 	 * 
 	 * @return a list of the URIs for the CIFs for this article.
 	 */
-	private List<URI> getCifUrisFromUri(URI uri) {
-		List<URI> cifUriList = new ArrayList<URI>();
-		if (uriPointsToCifListPage(uri)) {
-			Document pageDoc = httpClient.getResourceHTML(uri);
+	private List<String> getCifUrisFromUri(String url) {
+		List<String> cifUriList = new ArrayList<String>();
+		if (uriPointsToCifListPage(url)) {
+			Document pageDoc = httpClient.getResourceHTML(url);
 			Nodes linkNds = pageDoc.query(".//x:a[contains(@href,'http://scripts.iucr.org/cgi-bin/sendcif')]", X_XHTML);
 			if (linkNds.size() == 0) {
-				LOG.warn("Could not find any CIF links at the supposed CIF list page: "+uri);
+				LOG.warn("Could not find any CIF links at the supposed CIF list page: "+url);
 			} else {
 				for (int i = 0; i < linkNds.size(); i++) {
-					String url = ((Element)linkNds.get(i)).getAttributeValue("href");
-					cifUriList.add(createURI(url));
+					String newUrl = ((Element)linkNds.get(i)).getAttributeValue("href");
+					cifUriList.add(newUrl);
 				}
 			}
 		} else {
-			cifUriList.add(uri);
+			cifUriList.add(url);
 		}
 		return cifUriList;
 	}
@@ -249,8 +245,7 @@ public class ActaArticleCrawler extends ArticleCrawler {
 	 * 
 	 * @return
 	 */
-	private boolean uriPointsToCifListPage(URI uri) {
-		String url = getURIString(uri);
+	private boolean uriPointsToCifListPage(String url) {
 		int idx = url.lastIndexOf("/");
 		String s = url.substring(idx);
 		if (s.contains("sup")) {

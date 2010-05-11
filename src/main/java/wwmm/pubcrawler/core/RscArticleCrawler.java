@@ -13,7 +13,6 @@ import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Nodes;
 
-import org.apache.commons.httpclient.URI;
 import org.apache.log4j.Logger;
 
 /**
@@ -92,7 +91,7 @@ public class RscArticleCrawler extends ArticleCrawler {
 		}
 		return fullTextResources;
 	}
-	
+
 	/**
 	 * <p>
 	 * Gets the details about the full-text HTML resource for 
@@ -112,10 +111,9 @@ public class RscArticleCrawler extends ArticleCrawler {
 		String linkText = link.getValue().trim();
 		String urlPostfix = link.getAttributeValue("href");
 		String url = "http://www.rsc.org"+urlPostfix;
-		URI uri = createURI(url);
-		return new FullTextResourceDescription(uri, linkText, "text/html");
+		return new FullTextResourceDescription(url, linkText, "text/html");
 	}
-	
+
 	/**
 	 * <p>
 	 * Gets the details about the full-text PDF resource for 
@@ -135,8 +133,7 @@ public class RscArticleCrawler extends ArticleCrawler {
 		String linkText = link.getValue().trim();
 		String urlPostfix = link.getAttributeValue("href");
 		String url = "http://www.rsc.org"+urlPostfix;
-		URI uri = createURI(url);
-		return new FullTextResourceDescription(uri, linkText, "application/pdf");
+		return new FullTextResourceDescription(url, linkText, "application/pdf");
 	}
 
 	/**
@@ -156,8 +153,7 @@ public class RscArticleCrawler extends ArticleCrawler {
 		}
 		String suppListUrlPostfix = ((Element)nds.get(0)).getAttributeValue("href");
 		String suppListUrl = RSC_HOMEPAGE_URL+suppListUrlPostfix;
-		URI suppListUri = createURI(suppListUrl);
-		Document suppListDoc = httpClient.getResourceHTML(suppListUri);
+		Document suppListDoc = httpClient.getResourceHTML(suppListUrl);
 		Nodes linkNds = suppListDoc.query(".//x:li/x:a", X_XHTML);
 		List<SupplementaryResourceDescription> sfdList = new ArrayList<SupplementaryResourceDescription>(linkNds.size());
 		for (int i = 0; i < linkNds.size(); i++) {
@@ -167,9 +163,8 @@ public class RscArticleCrawler extends ArticleCrawler {
 			String suppFileUrlPrefix = suppListUrl.substring(0,suppListUrl.lastIndexOf("/")+1);
 			String suppFileUrl = suppFileUrlPrefix+filename;
 			String suppFilename = getFilenameFromUrl(suppFileUrl);
-			URI suppFileUri = createURI(suppFileUrl);
-			String contentType = httpClient.getContentType(suppFileUri);
-			SupplementaryResourceDescription sfd = new SupplementaryResourceDescription(suppFileUri, suppFilename, linkText, contentType);
+			String contentType = httpClient.getContentType(suppFileUrl);
+			SupplementaryResourceDescription sfd = new SupplementaryResourceDescription(suppFileUrl, suppFilename, linkText, contentType);
 			sfdList.add(sfd);
 		}
 		return sfdList;
@@ -189,7 +184,11 @@ public class RscArticleCrawler extends ArticleCrawler {
 		int idx = cifUrl.lastIndexOf("/");
 		String namePlusMime = cifUrl.substring(idx+1);
 		int dot = namePlusMime.indexOf(".");
-		return namePlusMime.substring(0,dot);
+		if (dot == -1) {
+			return namePlusMime;
+		} else {
+			return namePlusMime.substring(0,dot);
+		}
 	}
 
 	/**
@@ -277,7 +276,7 @@ public class RscArticleCrawler extends ArticleCrawler {
 		title = title.trim();
 		return title;
 	}
-	
+
 	/**
 	 * <p>
 	 * Main method meant for demonstration purposes only. Requires

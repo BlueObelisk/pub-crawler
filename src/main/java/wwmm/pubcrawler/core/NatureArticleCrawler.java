@@ -12,7 +12,6 @@ import nu.xom.Element;
 import nu.xom.Node;
 import nu.xom.Nodes;
 
-import org.apache.commons.httpclient.URI;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
 
@@ -170,11 +169,10 @@ public class NatureArticleCrawler extends ArticleCrawler {
 			String urlPostfix = link.getAttributeValue("href");
 			String url = NATURE_HOMEPAGE_URL+urlPostfix;
 			String filename = FilenameUtils.getName(url);
-			URI uri = createURI(url);
 			String linkText = link.getValue();
 			linkText = linkText.replaceAll("\\s+", " ").trim();
-			String contentType = httpClient.getContentType(uri);
-			SupplementaryResourceDescription sf = new SupplementaryResourceDescription(uri, filename, linkText, contentType);
+			String contentType = httpClient.getContentType(url);
+			SupplementaryResourceDescription sf = new SupplementaryResourceDescription(url, filename, linkText, contentType);
 			sfList.add(sf);
 		}
 		return sfList;
@@ -197,9 +195,8 @@ public class NatureArticleCrawler extends ArticleCrawler {
 			LOG.warn("Expected either 0 or 1 links to supporting info page, found "+suppPageLinks.size());
 		}
 		String urlPostfix = ((Element)suppPageLinks.get(0)).getAttributeValue("href");
-		String url = NATURE_HOMEPAGE_URL+urlPostfix;
-		URI suppPageUri = createURI(url);
-		return httpClient.getResourceHTML(suppPageUri);
+		String suppPageUrl = NATURE_HOMEPAGE_URL+urlPostfix;
+		return httpClient.getResourceHTML(suppPageUrl);
 	}
 
 	/**
@@ -291,8 +288,7 @@ public class NatureArticleCrawler extends ArticleCrawler {
 		Element fullTextLink = (Element)fullTextHtmlLinks.get(0);
 		String linkText = fullTextLink.getValue().trim();
 		String fullTextHtmlUrl = NATURE_HOMEPAGE_URL+fullTextLink.getAttributeValue("href");
-		URI fullTextHtmlUri = createURI(fullTextHtmlUrl);
-		return new FullTextResourceDescription(fullTextHtmlUri, linkText, "text/html");
+		return new FullTextResourceDescription(fullTextHtmlUrl, linkText, "text/html");
 	}
 
 	/**
@@ -313,8 +309,7 @@ public class NatureArticleCrawler extends ArticleCrawler {
 		Element fullTextLink = (Element)fullTextPdfLinks.get(0);
 		String linkText = fullTextLink.getValue().trim();
 		String fullTextPdfUrl = NATURE_HOMEPAGE_URL+fullTextLink.getAttributeValue("href");
-		URI fullTextPdfUri = createURI(fullTextPdfUrl);
-		return new FullTextResourceDescription(fullTextPdfUri, linkText, "application/pdf");
+		return new FullTextResourceDescription(fullTextPdfUrl, linkText, "application/pdf");
 	}
 
 	/**

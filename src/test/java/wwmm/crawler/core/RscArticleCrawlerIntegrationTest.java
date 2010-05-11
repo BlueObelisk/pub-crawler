@@ -7,7 +7,6 @@ import static wwmm.pubcrawler.core.CrawlerConstants.RSC_HOMEPAGE_URL;
 
 import java.util.List;
 
-import org.apache.commons.httpclient.URI;
 import org.apache.commons.httpclient.URIException;
 import org.junit.Test;
 
@@ -39,11 +38,11 @@ public class RscArticleCrawlerIntegrationTest {
 		List<FullTextResourceDescription> ftrds = details.getFullTextResources();
 		assertEquals("Number of fulltext resources found", 2, ftrds.size());
 		FullTextResourceDescription ftrd1 = ftrds.get(0);
-		assertEquals("Fulltext HTML URI", new URI(RSC_HOMEPAGE_URL+"/delivery/_ArticleLinking/ArticleLinking.cfm?JournalCode=OB&Year=2009&ManuscriptID=b821431j&Iss=7", false), ftrd1.getURI());
+		assertEquals("Fulltext HTML URI", RSC_HOMEPAGE_URL+"/delivery/_ArticleLinking/ArticleLinking.cfm?JournalCode=OB&Year=2009&ManuscriptID=b821431j&Iss=7", ftrd1.getURL());
 		assertEquals("Fulltext HTML link text", "HTML article", ftrd1.getLinkText());
 		assertEquals("Fulltext HTML MIME", "text/html", ftrd1.getContentType());
 		FullTextResourceDescription ftrd2 = ftrds.get(1);
-		assertEquals("Fulltext PDF URI", new URI(RSC_HOMEPAGE_URL+"/ej/OB/2009/b821431j.pdf", false), ftrd2.getURI());
+		assertEquals("Fulltext PDF URI", RSC_HOMEPAGE_URL+"/ej/OB/2009/b821431j.pdf", ftrd2.getURL());
 		assertEquals("Fulltext PDF link", "PDF", ftrd2.getLinkText());
 		assertEquals("Fulltext PDF MIME", "application/pdf", ftrd2.getContentType());
 		ArticleReference ref = details.getReference();
@@ -67,8 +66,8 @@ public class RscArticleCrawlerIntegrationTest {
 		assertEquals("First supplementary resource file ID", "b821431j_1", fileId0);
 		String linkText0 = sfd0.getLinkText();
 		assertEquals("First supplementary resource link text", "Additional experimental procedures and tabulated spectral data of compounds 7, 8, 9a, 10, 11, 13, 14, 16–19 and 21", linkText0);
-		URI uri0 = sfd0.getURI();
-		assertEquals("First supplementary resource URI", new URI(RSC_HOMEPAGE_URL+"/suppdata/OB/b8/b821431j/b821431j_1.pdf", false), uri0);
+		String uri0 = sfd0.getURL();
+		assertEquals("First supplementary resource URI", RSC_HOMEPAGE_URL+"/suppdata/OB/b8/b821431j/b821431j_1.pdf", uri0);
 		SupplementaryResourceDescription sfd2 = suppList.get(2);
 		String contentType2 = sfd2.getContentType();
 		assertEquals("Second supplementary resource MIME", "text/plain", contentType2);
@@ -76,8 +75,8 @@ public class RscArticleCrawlerIntegrationTest {
 		assertEquals("Second supplementary resource file ID", "b821431j", fileId2);
 		String linkText2 = sfd2.getLinkText();
 		assertEquals("Second supplementary resource link text", "Crystal structure data", linkText2);
-		URI uri2 = sfd2.getURI();
-		assertEquals("Second supplementary resource URI", new URI(RSC_HOMEPAGE_URL+"/suppdata/OB/b8/b821431j/b821431j.txt", false), uri2);		
+		String uri2 = sfd2.getURL();
+		assertEquals("Second supplementary resource URI", RSC_HOMEPAGE_URL+"/suppdata/OB/b8/b821431j/b821431j.txt", uri2);		
 	}
 	
 	/**

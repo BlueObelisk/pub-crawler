@@ -12,7 +12,6 @@ import nu.xom.Element;
 import nu.xom.Nodes;
 import nu.xom.Text;
 
-import org.apache.commons.httpclient.URI;
 import org.apache.log4j.Logger;
 
 /**
@@ -87,8 +86,7 @@ public class ChemSocJapanArticleCrawler extends ArticleCrawler {
 		}
 		String urlPostfix = ((Element)bibtexLinks.get(0)).getAttributeValue("href");
 		String bibUrl = CHEMSOCJAPAN_HOMEPAGE_URL+urlPostfix;
-		URI bibtexUri = createURI(bibUrl);
-		String bibStr = httpClient.getResourceString(bibtexUri);
+		String bibStr = httpClient.getResourceString(bibUrl);
 		bibtexTool = new BibtexTool(bibStr);
 	}
 
@@ -112,8 +110,7 @@ public class ChemSocJapanArticleCrawler extends ArticleCrawler {
 		String linkText = link.getValue().trim();
 		String urlPostfix = link.getAttributeValue("href");
 		String pdfUrl = CHEMSOCJAPAN_HOMEPAGE_URL+urlPostfix;
-		URI pdfUri = createURI(pdfUrl);
-		FullTextResourceDescription ftrd = new FullTextResourceDescription(pdfUri, linkText, "application/pdf");
+		FullTextResourceDescription ftrd = new FullTextResourceDescription(pdfUrl, linkText, "application/pdf");
 		fullTexts.add(ftrd);
 		return fullTexts;
 	}
@@ -135,7 +132,7 @@ public class ChemSocJapanArticleCrawler extends ArticleCrawler {
 		}
 		String urlPostfix = ((Element)suppListLinks.get(0)).getAttributeValue("href");
 		String suppListUrl = CHEMSOCJAPAN_HOMEPAGE_URL+urlPostfix;
-		Document suppListDoc = httpClient.getResourceHTML(createURI(suppListUrl));
+		Document suppListDoc = httpClient.getResourceHTML(suppListUrl);
 		Nodes suppTableNodes = suppListDoc.query(".//x:table[@cellpadding='2' and @cellspacing='3']", X_XHTML);
 		Element suppTable = (Element)suppTableNodes.get(1);
 		Nodes tableRows = suppTable.query(".//x:tr", X_XHTML);
@@ -157,9 +154,8 @@ public class ChemSocJapanArticleCrawler extends ArticleCrawler {
 			String suppUrlPostfix = suppLink.getAttributeValue("href");
 			String suppUrl = CHEMSOCJAPAN_HOMEPAGE_URL+suppUrlPostfix;
 			String filename = getFilenameFromUrl(suppUrl);
-			URI suppUri = createURI(suppUrl);
-			String contentType = httpClient.getContentType(suppUri);
-			SupplementaryResourceDescription suppFile = new SupplementaryResourceDescription(suppUri, filename, linkText, contentType);
+			String contentType = httpClient.getContentType(suppUrl);
+			SupplementaryResourceDescription suppFile = new SupplementaryResourceDescription(suppUrl, filename, linkText, contentType);
 			suppFiles.add(suppFile);
 		}
 		return suppFiles;

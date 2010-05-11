@@ -147,7 +147,7 @@ public class RscIssueCrawler extends IssueCrawler {
 			String doiPostfix = text.substring(idx);
 			doiPostfix = doiPostfix.substring(0, doiPostfix.indexOf(","));
 			String doiStr = DOI.DOI_SITE_URL+"/"+doiPostfix;
-			DOI doi = new DOI(createURI(doiStr));
+			DOI doi = new DOI(doiStr);
 			dois.add(doi);
 		}
 		LOG.info("Finished finding issue DOIs: "+dois.size());
