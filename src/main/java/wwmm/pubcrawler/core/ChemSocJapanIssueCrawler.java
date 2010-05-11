@@ -9,7 +9,6 @@ import nu.xom.Attribute;
 import nu.xom.Document;
 import nu.xom.Node;
 
-import org.apache.commons.httpclient.URI;
 import org.apache.log4j.Logger;
 
 import wwmm.pubcrawler.Utils;
@@ -82,9 +81,8 @@ public class ChemSocJapanIssueCrawler extends IssueCrawler {
 	 */
 	@Override
 	public Document getCurrentIssueHtml() {
-		String url = "http://www.csj.jp/journals/"+journal.getAbbreviation()+"/cl-cont/newissue.html";
-		URI issueUri = createURI(url);
-		return httpClient.getResourceHTML(issueUri);
+		String issueUrl = "http://www.csj.jp/journals/"+journal.getAbbreviation()+"/cl-cont/newissue.html";
+		return httpClient.getResourceHTML(issueUrl);
 	}
 	
 	/**
@@ -120,11 +118,9 @@ public class ChemSocJapanIssueCrawler extends IssueCrawler {
 	public List<DOI> getDois(IssueDescription details) {
 		String year = details.getYear();
 		String issueId = details.getIssueId();
-		String url = "http://www.chemistry.or.jp/journals/"+journal.getAbbreviation()+"/cl-cont/cl"+year+"-"+issueId+".html";
-		URI issueUri = createURI(url);
+		String issueUrl = "http://www.chemistry.or.jp/journals/"+journal.getAbbreviation()+"/cl-cont/cl"+year+"-"+issueId+".html";
 		LOG.info("Started to find DOIs from "+journal.getFullTitle()+", year "+year+", issue "+issueId+".");
-		LOG.debug(issueUri.toString());
-		Document issueDoc = httpClient.getResourceHTML(issueUri);
+		Document issueDoc = httpClient.getResourceHTML(issueUrl);
 		List<Node> textLinks = Utils.queryHTML(issueDoc, ".//x:a[contains(@href,'http://www.is.csj.jp/cgi-bin/journals/pr/index.cgi?n=li') and not(contains(@href,'li_s'))]/@href");
 		List<DOI> dois = new ArrayList<DOI>();
 		for (Node textLink : textLinks) {
@@ -132,7 +128,7 @@ public class ChemSocJapanIssueCrawler extends IssueCrawler {
 			int idx = link.indexOf("id=");
 			String articleId = link.substring(idx+3).replaceAll("/", ".");
 			String doiStr = "http://dx.doi.org/10.1246/"+articleId;
-			DOI doi = new DOI(createURI(doiStr));
+			DOI doi = new DOI(doiStr);
 			dois.add(doi);
 		}
 		LOG.info("Finished finding issue DOIs: "+dois.size());

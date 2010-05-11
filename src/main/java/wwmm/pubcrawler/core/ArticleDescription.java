@@ -284,8 +284,8 @@ public class ArticleDescription {
 			result.append("  Full-text file details:"+NEW_LINE);
 			int fcount = 1;
 			for (FullTextResourceDescription ftrd : fullTexts) {
-				if (ftrd.getURI() != null) {
-					result.append("    URI: "+ftrd.getURI()+NEW_LINE);
+				if (ftrd.getURL() != null) {
+					result.append("    URI: "+ftrd.getURL()+NEW_LINE);
 				}
 				if (!StringUtils.isEmpty(ftrd.getLinkText())) {
 					result.append("    Link text: "+ftrd.getLinkText()+NEW_LINE);
@@ -304,8 +304,8 @@ public class ArticleDescription {
 			result.append("  Supplementary file details:"+NEW_LINE);
 			int scount = 1;
 			for (SupplementaryResourceDescription sf : suppFiles) {
-				if (sf.getURI() != null) {
-					result.append("    URI: "+sf.getURI()+NEW_LINE);
+				if (sf.getURL() != null) {
+					result.append("    URI: "+sf.getURL()+NEW_LINE);
 				}
 				if (!StringUtils.isEmpty(sf.getLinkText())) {
 					result.append("    Link text: "+sf.getLinkText()+NEW_LINE);

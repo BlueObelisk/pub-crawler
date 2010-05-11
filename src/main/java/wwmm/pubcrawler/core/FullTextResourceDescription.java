@@ -1,7 +1,5 @@
 package wwmm.pubcrawler.core;
 
-import org.apache.commons.httpclient.URI;
-import org.apache.commons.httpclient.URIException;
 
 /**
  * <p>
@@ -15,7 +13,7 @@ import org.apache.commons.httpclient.URIException;
  */
 public class FullTextResourceDescription {
 	
-	private URI uri;
+	private String url;
 	private String linkText;
 	private String contentType;
 	
@@ -30,12 +28,12 @@ public class FullTextResourceDescription {
 	 * Creates an instance of the FullTextResourceDetails class. 
 	 * </p>
 	 * 
-	 * @param uri - the URI that the resource resides at.
+	 * @param url - the URI that the resource resides at.
 	 * @param linkText - the text from the HTML link that points to the resource.
 	 * @param contentType - the Content-type of the resource from its HTTP headers.
 	 */
-	public FullTextResourceDescription(URI uri, String linkText, String contentType) {
-		this.uri = uri;
+	public FullTextResourceDescription(String url, String linkText, String contentType) {
+		this.url = url;
 		this.linkText = linkText;
 		this.contentType = contentType;
 	}
@@ -59,27 +57,8 @@ public class FullTextResourceDescription {
 	 * 
 	 * @return the URI that points to the full-text resource.
 	 */
-	public URI getURI() {
-		return uri;
-	}
-	
-	/**
-	 * <p>
-	 * Gets the URI that points to the full-text resource in
-	 * String form.
-	 * </p>
-	 * 
-	 * @return String form of the URI that points to the
-	 * full-text resource.
-	 */
-	public String getUriString() {
-		String uriStr = null;
-		try {
-			uriStr = uri.getURI();
-		} catch (URIException e) {
-			throw new RuntimeException("Exception getting string for URI: "+uri);
-		}
-		return uriStr;
+	public String getURL() {
+		return url;
 	}
 
 	/**

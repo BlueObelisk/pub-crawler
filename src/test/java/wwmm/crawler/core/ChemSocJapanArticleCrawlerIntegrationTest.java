@@ -5,7 +5,6 @@ import static org.junit.Assert.assertNotNull;
 
 import java.util.List;
 
-import org.apache.commons.httpclient.URI;
 import org.apache.commons.httpclient.URIException;
 import org.junit.Test;
 
@@ -37,7 +36,7 @@ public class ChemSocJapanArticleCrawlerIntegrationTest {
 		List<FullTextResourceDescription> ftrds = details.getFullTextResources();
 		assertEquals(1, ftrds.size());
 		FullTextResourceDescription ftrd = ftrds.get(0);
-		assertEquals(new URI("http://www.jstage.jst.go.jp/article/cl/37/7/682/_pdf", false), ftrd.getURI());
+		assertEquals("http://www.jstage.jst.go.jp/article/cl/37/7/682/_pdf", ftrd.getURL());
 		assertEquals("PDF (75K)", ftrd.getLinkText());
 		assertEquals("application/pdf", ftrd.getContentType());
 		
@@ -64,8 +63,8 @@ public class ChemSocJapanArticleCrawlerIntegrationTest {
 		assertEquals("1", fileId0);
 		String linkText0 = sfd0.getLinkText();
 		assertEquals("Supporting Information", linkText0);
-		URI uri0 = sfd0.getURI();
-		assertEquals(new URI("http://www.jstage.jst.go.jp/article/cl/37/7/37_682/_appendix/1", false), uri0);
+		String url0 = sfd0.getURL();
+		assertEquals("http://www.jstage.jst.go.jp/article/cl/37/7/37_682/_appendix/1", url0);
 		SupplementaryResourceDescription sfd1 = suppList.get(1);
 		String contentType1 = sfd1.getContentType();
 		assertEquals("application/octet-stream", contentType1);
@@ -73,8 +72,8 @@ public class ChemSocJapanArticleCrawlerIntegrationTest {
 		assertEquals("2", fileId1);
 		String linkText1 = sfd1.getLinkText();
 		assertEquals("Crystallographic Information File (CIF)", linkText1);
-		URI uri1 = sfd1.getURI();
-		assertEquals(new URI("http://www.jstage.jst.go.jp/article/cl/37/7/37_682/_appendix/2", false), uri1);
+		String url1 = sfd1.getURL();
+		assertEquals("http://www.jstage.jst.go.jp/article/cl/37/7/37_682/_appendix/2", url1);
 	}
 	
 }

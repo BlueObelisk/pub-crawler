@@ -5,7 +5,6 @@ import java.io.File;
 import nu.xom.Document;
 
 import org.apache.commons.httpclient.Header;
-import org.apache.commons.httpclient.URI;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.HeadMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
@@ -58,9 +57,9 @@ public class CrawlerHttpClient extends BasicHttpClient {
 	 * 
 	 */
 	@Override
-	public String getResourceString(URI uri) {
+	public String getResourceString(String url) {
 		Utils.sleep(maxSleep);
-		return super.getResourceString(uri);
+		return super.getResourceString(url);
 	}
 
 	/**
@@ -79,9 +78,9 @@ public class CrawlerHttpClient extends BasicHttpClient {
 	 * 
 	 */
 	@Override
-	public Document getResourceHTML(URI uri) {
+	public Document getResourceHTML(String url) {
 		Utils.sleep(maxSleep);
-		return super.getResourceHTML(uri);
+		return super.getResourceHTML(url);
 	}
 	
 	/**
@@ -101,9 +100,9 @@ public class CrawlerHttpClient extends BasicHttpClient {
 	 * @return XML <code>Document</code> containined the parsed HTML.
 	 */
 	@Override
-	public Document getResourceHTMLMinusComments(URI uri) {
+	public Document getResourceHTMLMinusComments(String url) {
 		Utils.sleep(maxSleep);
-		return super.getResourceHTMLMinusComments(uri);
+		return super.getResourceHTMLMinusComments(url);
 	}
 	
 	/**
@@ -122,9 +121,9 @@ public class CrawlerHttpClient extends BasicHttpClient {
 	 * 
 	 */
 	@Override
-	public Document getResourceXML(URI uri) {
+	public Document getResourceXML(String url) {
 		Utils.sleep(maxSleep);
-		return super.getResourceXML(uri);
+		return super.getResourceXML(url);
 	}
 	
 	/**
@@ -183,9 +182,9 @@ public class CrawlerHttpClient extends BasicHttpClient {
 	 * 
 	 */
 	@Override
-	public Header[] getHeaders(URI uri) {
+	public Header[] getHeaders(String url) {
 		Utils.sleep(maxSleep);
-		return super.getHeaders(uri);
+		return super.getHeaders(url);
 	}
 
 	/**
@@ -203,9 +202,9 @@ public class CrawlerHttpClient extends BasicHttpClient {
 	 * 
 	 */
 	@Override
-	public GetMethod executeGET(URI uri) {
+	public GetMethod executeGET(String url) {
 		Utils.sleep(maxSleep);
-		return super.executeGET(uri);
+		return super.executeGET(url);
 	}
 
 	/**
@@ -223,9 +222,9 @@ public class CrawlerHttpClient extends BasicHttpClient {
 	 * 
 	 */
 	@Override
-	public HeadMethod executeHEAD(URI uri) {
+	public HeadMethod executeHEAD(String url) {
 		Utils.sleep(maxSleep);
-		return super.executeHEAD(uri);
+		return super.executeHEAD(url);
 	}
 
 	/**
@@ -244,9 +243,9 @@ public class CrawlerHttpClient extends BasicHttpClient {
 	 * 
 	 */
 	@Override
-	public String getContentType(URI uri) {
+	public String getContentType(String url) {
 		Utils.sleep(maxSleep);
-		return super.getContentType(uri);
+		return super.getContentType(url);
 	}
 	
 	/**
@@ -262,9 +261,9 @@ public class CrawlerHttpClient extends BasicHttpClient {
 	 * to file, false if not. 
 	 */
 	@Override
-	public boolean writeResourceToFile(URI uri, File file) {
+	public boolean writeResourceToFile(String url, File file) {
 		Utils.sleep(maxSleep);
-		return super.writeResourceToFile(uri, file);
+		return super.writeResourceToFile(url, file);
 	}
 
 }

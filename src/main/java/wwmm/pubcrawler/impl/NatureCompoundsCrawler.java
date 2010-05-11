@@ -96,7 +96,7 @@ public class NatureCompoundsCrawler {
 			String doiPostfix = ad.getDoi().getPostfix();
 			String natureId = doiPostfix.substring(doiPostfix.indexOf("/")+1);
 			String ciUrl = "http://www.nature.com/nchem/journal/v1/n5/compound/"+natureId+"_ci.html";
-			List<CompoundDetails> cdList = getCompoundDetailsList(createUri(ciUrl));
+			List<CompoundDetails> cdList = getCompoundDetailsList(ciUrl);
 			articleDataList.add(new ArticleData(ad, cdList));
 			LOG.info("Finished crawling for: "+ad.getDoi().toString());
 		}
@@ -115,10 +115,10 @@ public class NatureCompoundsCrawler {
 	 * @return details for all compounds described within the
 	 * full-text HTML.
 	 */
-	private List<CompoundDetails> getCompoundDetailsList(URI abstractUri) {
+	private List<CompoundDetails> getCompoundDetailsList(String abstractUrl) {
 		Document abstractDoc = null;
 		try {
-			abstractDoc = httpClient.getResourceHTML(abstractUri);
+			abstractDoc = httpClient.getResourceHTML(abstractUrl);
 		} catch (RuntimeException e) {
 			return new ArrayList<CompoundDetails>();
 		}
@@ -136,15 +136,11 @@ public class NatureCompoundsCrawler {
 			if (cmpdId == null) {
 				continue;
 			}
-			URI splashPageUri = createUri(compoundUrl);
-			if (splashPageUri == null) {
-				continue;
-			}
-			Document splashPageDoc = httpClient.getResourceHTML(splashPageUri);
+			Document splashPageDoc = httpClient.getResourceHTML(compoundUrl);
 			URI cmlUri = getCmlFileUri(splashPageDoc);
 			URI molUri = getMolFileUri(splashPageDoc);
 			URI chemDrawUri = getChemDrawFileUri(splashPageDoc);
-			cdList.add(new CompoundDetails(cmpdId, splashPageUri, cmlUri, molUri, chemDrawUri));
+			cdList.add(new CompoundDetails(cmpdId, compoundUrl, cmlUri, molUri, chemDrawUri));
 		}
 		return cdList;
 	}
@@ -315,7 +311,7 @@ public class NatureCompoundsCrawler {
 	public class CompoundDetails {
 
 		private String id;
-		private URI splashPageUri;
+		private String splashPageUrl;
 		private URI cmlUri;
 		private URI molUri;
 		private URI chemDrawUri;
@@ -325,9 +321,9 @@ public class NatureCompoundsCrawler {
 			;
 		}
 
-		public CompoundDetails(String id, URI splashPageUri, URI cmlUri, URI molUri, URI chemDrawUri) {
+		public CompoundDetails(String id, String splashPageUrl, URI cmlUri, URI molUri, URI chemDrawUri) {
 			this.id = id;
-			this.splashPageUri = splashPageUri;
+			this.splashPageUrl = splashPageUrl;
 			this.cmlUri = cmlUri;
 			this.molUri = molUri;
 			this.chemDrawUri = chemDrawUri;
@@ -351,8 +347,8 @@ public class NatureCompoundsCrawler {
 		 * 
 		 * @return the URI of the splash page for this compound.
 		 */
-		public URI getSplashPageUri() {
-			return splashPageUri;
+		public String getSplashPageUrl() {
+			return splashPageUrl;
 		}
 
 		/**

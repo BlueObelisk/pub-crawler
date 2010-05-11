@@ -13,7 +13,6 @@ import nu.xom.Element;
 import nu.xom.Node;
 import nu.xom.Nodes;
 
-import org.apache.commons.httpclient.URI;
 import org.apache.log4j.Logger;
 
 import wwmm.pubcrawler.Utils;
@@ -88,9 +87,8 @@ public class AcsIssueCrawler extends IssueCrawler {
 	 */
 	@Override
 	public Document getCurrentIssueHtml() {
-		String url = "http://pubs.acs.org/toc/"+journal.getAbbreviation()+"/current";
-		URI issueUri = createURI(url);
-		return httpClient.getResourceHTML(issueUri);
+		String issueUrl = "http://pubs.acs.org/toc/"+journal.getAbbreviation()+"/current";
+		return httpClient.getResourceHTML(issueUrl);
 	}
 
 	/**
@@ -129,15 +127,14 @@ public class AcsIssueCrawler extends IssueCrawler {
 		List<DOI> dois = new ArrayList<DOI>();
 		int volume = Integer.valueOf(year)-journal.getVolumeOffset();
 		String issueUrl = ACS_HOMEPAGE_URL+"/toc/"+journal.getAbbreviation()+"/"+volume+"/"+issueId;
-		URI issueUri = createURI(issueUrl);
 		LOG.info("Started to find DOIs from "+journal.getFullTitle()+", year "+year+", issue "+issueId+".");
-		Document issueDoc = httpClient.getResourceHTML(issueUri);
+		Document issueDoc = httpClient.getResourceHTML(issueUrl);
 		List<Node> doiNodes = Utils.queryHTML(issueDoc, ".//x:div[@class='DOI']");
 		for (Node doiNode : doiNodes) {
 			String contents = ((Element)doiNode).getValue();
 			String doiPostfix = contents.replaceAll("DOI:", "").trim();
-			String doiStr = DOI.DOI_SITE_URL+"/"+doiPostfix;
-			DOI doi = new DOI(createURI(doiStr)); 
+			String doiUrl = DOI.DOI_SITE_URL+"/"+doiPostfix;
+			DOI doi = new DOI(doiUrl); 
 			dois.add(doi);
 		}
 		LOG.info("Finished finding issue DOIs: "+dois.size());

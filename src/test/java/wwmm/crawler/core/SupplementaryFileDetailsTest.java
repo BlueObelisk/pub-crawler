@@ -4,7 +4,6 @@ import static junit.framework.Assert.assertSame;
 import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.fail;
 
-import org.apache.commons.httpclient.URI;
 import org.apache.commons.httpclient.URIException;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,28 +13,28 @@ import wwmm.pubcrawler.core.SupplementaryResourceDescription;
 public class SupplementaryFileDetailsTest {
 
 	SupplementaryResourceDescription sfd;
-	URI uri;
+	String url;
 	String filename;
 	String linkText;
 	String contentType;
 
 	@Before
 	public void createInstance() throws URIException, NullPointerException {
-		uri = new URI("http://something/filename.txt", false);
+		url = "http://something/filename.txt";
 		filename = "filename.txt";
 		linkText = "Any old link text here";
 		contentType = "image/png";
-		sfd = new SupplementaryResourceDescription(uri, filename, linkText, contentType);
+		sfd = new SupplementaryResourceDescription(url, filename, linkText, contentType);
 	}
 
 	@Test
 	public void testAttemptCreateInstanceWithWrongFilename() throws URIException, NullPointerException {
-		uri = new URI("http://something/filename.txt", false);
+		url = "http://something/filename.txt";
 		filename = "wrongname";
 		linkText = "Any old link text here";
 		contentType = "image/png";
 		try {
-			sfd = new SupplementaryResourceDescription(uri, filename, linkText, contentType);
+			sfd = new SupplementaryResourceDescription(url, filename, linkText, contentType);
 			fail("Should have failed as filename is not the latter part of the" +
 			"provided URI.");
 		} catch (Exception e) {
@@ -45,7 +44,7 @@ public class SupplementaryFileDetailsTest {
 
 	@Test
 	public void testGetURI() {
-		assertSame(uri, sfd.getURI());
+		assertSame(url, sfd.getURL());
 	}
 
 	@Test

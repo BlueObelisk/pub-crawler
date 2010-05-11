@@ -14,7 +14,6 @@ import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Nodes;
 
-import org.apache.commons.httpclient.URI;
 import org.apache.log4j.Logger;
 
 /**
@@ -81,8 +80,8 @@ public class AcsRssCrawler extends Crawler {
 	 * 
 	 */
 	public List<ArticleDescription> getNewArticleDetails() {
-		URI feedUri = createFeedURI();
-		Document feedDoc = httpClient.getResourceXML(feedUri);
+		String feedUrl = createFeedURL();
+		Document feedDoc = httpClient.getResourceXML(feedUrl);
 		List<Element> entries = getFeedEntries(feedDoc);
 		List<ArticleDescription> adList = new ArrayList<ArticleDescription>();
 		for (Element entry : entries) {
@@ -211,10 +210,9 @@ public class AcsRssCrawler extends Crawler {
 	 * @return the RSS feed <code>URI</code>.
 	 * 
 	 */
-	private URI createFeedURI() {
-		String feedUrl = ACS_HOMEPAGE_URL+"/action/showFeed?ui=0&mi=r41k3s&ai=54r&jc="
+	private String createFeedURL() {
+		return ACS_HOMEPAGE_URL+"/action/showFeed?ui=0&mi=r41k3s&ai=54r&jc="
 		+journal.getAbbreviation()+"&type=etoc&feed=rss";
-		return createURI(feedUrl);
 	}
 
 	/**
