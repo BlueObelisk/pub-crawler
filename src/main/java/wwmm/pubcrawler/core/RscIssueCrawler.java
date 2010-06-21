@@ -137,15 +137,16 @@ public class RscIssueCrawler extends IssueCrawler {
 		for (Node articleNode : articleNodes) {
 			Element articleElement = (Element)articleNode;
 			String text = articleElement.getValue();
+			/*
 			if (!isArticle(text)) {
 				continue;
 			}
+			*/
 			int idx = text.indexOf("10.1039/");
 			if (idx == -1) {
 				continue;
 			}
-			String doiPostfix = text.substring(idx);
-			doiPostfix = doiPostfix.substring(0, doiPostfix.indexOf(","));
+			String doiPostfix = text.substring(idx).trim();
 			String doiStr = DOI.DOI_SITE_URL+"/"+doiPostfix;
 			DOI doi = new DOI(doiStr);
 			dois.add(doi);
