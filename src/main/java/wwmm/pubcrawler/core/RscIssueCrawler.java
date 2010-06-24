@@ -106,6 +106,14 @@ public class RscIssueCrawler extends IssueCrawler {
 		IssueDescription details = getCurrentIssueDescription();
 		return getDois(details);
 	}
+	
+	private PostMethod createIssuePagePostMethod(String issueId) {
+		PostMethod postMethod = new PostMethod("http://pubs.rsc.org/en/Journals/Issues");
+		postMethod.addParameter("issueID", issueId);
+		postMethod.addParameter("jname", journal.getFullTitle());
+		postMethod.addParameter("name", journal.getAbbreviation().toUpperCase());
+		return postMethod;
+	}
 
 	/**
 	 * <p>
@@ -126,13 +134,15 @@ public class RscIssueCrawler extends IssueCrawler {
 		String year = details.getYear();
 		String issueId = details.getIssueId();
 		String rscIssueId = getRscIssueId(details);
-		PostMethod postMethod = new PostMethod("http://pubs.rsc.org/en/Journals/Issues");
-		postMethod.addParameter("issueID", rscIssueId);
-		postMethod.addParameter("jname", journal.getFullTitle());
-		postMethod.addParameter("name", journal.getAbbreviation().toUpperCase());
-		Document issueDoc = httpClient.getPostResultXML(postMethod);
+		Document issueDoc = httpClient.getPostResultXML(createIssuePagePostMethod(rscIssueId));
 		LOG.info("Started to find DOIs from "+journal.getFullTitle()+", year "+year+", issue "+issueId+".");
 		List<Node> articleNodes = Utils.queryHTML(issueDoc, ".//x:div[@class='grey_left_box_text_s4_new']");
+		
+		if (articleNodes.size() == 0) {
+			issueDoc = httpClient.getPostResultXML(createIssuePagePostMethod(""));
+			articleNodes = Utils.queryHTML(issueDoc, ".//x:div[@class='grey_left_box_text_s4_new']");
+		}
+		
 		List<DOI> dois = new ArrayList<DOI>();
 		for (Node articleNode : articleNodes) {
 			Element articleElement = (Element)articleNode;
@@ -253,9 +263,9 @@ public class RscIssueCrawler extends IssueCrawler {
 	 * @throws IOException 
 	 */
 	public static void main(String[] args) throws IOException {
-		RscIssueCrawler acf = new RscIssueCrawler(RscJournal.JOURNAL_OF_MATERIALS_CHEMISTRY);
+		RscIssueCrawler acf = new RscIssueCrawler(RscJournal.DALTON_TRANSACTIONS);
 		acf.setMaxArticlesToCrawl(10);
-		List<ArticleDescription> adList = acf.getArticleDescriptions(new IssueDescription("2009", "9"));
+		List<ArticleDescription> adList = acf.getArticleDescriptions(new IssueDescription("2010", "25"));
 		for (ArticleDescription ad : adList) {
 			System.out.println(ad.toString());
 		}

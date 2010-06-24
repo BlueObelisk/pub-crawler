@@ -46,7 +46,7 @@ public class RscCifIssueCrawler extends CifIssueCrawler {
 	}
 	
 	public static void main(String[] args) {
-		RscCifIssueCrawler crawler = new RscCifIssueCrawler(RscJournal.NEW_JOURNAL_OF_CHEMISTRY);
+		RscCifIssueCrawler crawler = new RscCifIssueCrawler(RscJournal.CHEMCOMM);
 		for (ArticleDescription ad : crawler.getCurrentArticleDescriptions()) {
 			System.out.println(ad.toString());
 		}

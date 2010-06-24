@@ -54,7 +54,8 @@ public class RscArticleCrawler extends ArticleCrawler {
 		if (!doiResolved) {
 			LOG.warn("The DOI provided for the article abstract ("+doi.toString()+") has not resolved so we cannot get article details.");
 			return articleDetails;
-		}		
+		}
+	LOG.info("Starting to find article details: "+doi);
 		List<FullTextResourceDescription> fullTextResources = getFullTextResources();
 		articleDetails.setFullTextResources(fullTextResources);
 		String title = getTitle();
@@ -160,6 +161,9 @@ public class RscArticleCrawler extends ArticleCrawler {
 			Element linkNd = (Element)linkNds.get(i);
 			String linkText = linkNd.getValue();
 			String filename = linkNd.getAttributeValue("href");
+			if (filename.contains("http")) {
+				continue;
+			}
 			String suppFileUrlPrefix = suppListUrl.substring(0,suppListUrl.lastIndexOf("/")+1);
 			String suppFileUrl = suppFileUrlPrefix+filename;
 			String suppFilename = getFilenameFromUrl(suppFileUrl);
@@ -285,7 +289,7 @@ public class RscArticleCrawler extends ArticleCrawler {
 	 * 
 	 */
 	public static void main(String[] args) {
-		DOI doi = new DOI("http://dx.doi.org/10.1039/B713183F");
+		DOI doi = new DOI("http://dx.doi.org/10.1039/C0JM00266F");
 		RscArticleCrawler crawler = new RscArticleCrawler(doi);
 		ArticleDescription ad = crawler.getDetails();
 		System.out.println(ad.toString());
