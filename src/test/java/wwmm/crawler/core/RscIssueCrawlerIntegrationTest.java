@@ -27,7 +27,7 @@ public class RscIssueCrawlerIntegrationTest {
 		IssueDescription details = new IssueDescription("2009", "2");
 		RscIssueCrawler crawler = new RscIssueCrawler(RscJournal.DALTON_TRANSACTIONS);
 		List<DOI> doiList = crawler.getDois(details);
-		assertEquals(21, doiList.size());
+		assertEquals(24, doiList.size());
 		assertEquals(new DOI(DOI.DOI_SITE_URL+"/10.1039/B810767J"), doiList.get(9));
 	}
 

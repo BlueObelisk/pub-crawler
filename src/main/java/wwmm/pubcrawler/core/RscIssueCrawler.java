@@ -264,7 +264,7 @@ public class RscIssueCrawler extends IssueCrawler {
 	 */
 	public static void main(String[] args) throws IOException {
 		RscIssueCrawler acf = new RscIssueCrawler(RscJournal.DALTON_TRANSACTIONS);
-		acf.setMaxArticlesToCrawl(10);
+		//acf.setMaxArticlesToCrawl(10);
 		List<ArticleDescription> adList = acf.getArticleDescriptions(new IssueDescription("2010", "25"));
 		for (ArticleDescription ad : adList) {
 			System.out.println(ad.toString());
