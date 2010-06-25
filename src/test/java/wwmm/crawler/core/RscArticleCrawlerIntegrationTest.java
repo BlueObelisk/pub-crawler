@@ -65,7 +65,7 @@ public class RscArticleCrawlerIntegrationTest {
 		String fileId0 = sfd0.getFileId();
 		assertEquals("First supplementary resource file ID", "b821431j_1", fileId0);
 		String linkText0 = sfd0.getLinkText();
-		assertEquals("First supplementary resource link text", "Additional experimental procedures and tabulated spectral data of compounds 7, 8, 9a, 10, 11, 13, 14, 16-19 and 21", linkText0);
+		assertEquals("First supplementary resource link text", "Additional experimental procedures and tabulated spectral data of compounds 7, 8, 9a, 10, 11, 13, 14, 16–19 and 21", linkText0);
 		String uri0 = sfd0.getURL();
 		assertEquals("First supplementary resource URI", RSC_HOMEPAGE_URL+"/suppdata/OB/b8/b821431j/b821431j_1.pdf", uri0);
 		SupplementaryResourceDescription sfd2 = suppList.get(2);
