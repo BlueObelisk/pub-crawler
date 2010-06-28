@@ -352,7 +352,7 @@ public class AcsArticleCrawler extends ArticleCrawler {
 	 * 
 	 */
 	public static void main(String[] args) throws IOException {
-		DOI doi = new DOI("http://dx.doi.org/10.1021/cg801336t");
+		DOI doi = new DOI("http://dx.doi.org/10.1021/cg100078b");
 		AcsArticleCrawler crawler = new AcsArticleCrawler(doi);
 		ArticleDescription ad = crawler.getDetails();
 		System.out.println(ad.toString());
