@@ -26,57 +26,60 @@ public class RscArticleCrawlerIntegrationTest {
 	 */
 	@Test
 	public void testGetArticleDetails() throws URIException, NullPointerException {
-		DOI doi = new DOI(DOI.DOI_SITE_URL+"/10.1039/b821431j");
+		DOI doi = new DOI("http://dx.doi.org/10.1039/C0CC01684E");
 		RscArticleCrawler crawler = new RscArticleCrawler(doi);
 		ArticleDescription details = crawler.getDetails();
 		assertNotNull("NULL article details", details);
 		String authors = details.getAuthors();
-		assertEquals("Article authors", "Celia Ribes, Eva Falomir, Juan Murga, Miguel Carda and J. Alberto Marco", authors);
+		assertEquals("Article authors", "Nathalie Busschaert, Philip A. Gale, Cally J. E. Haynes, Mark E. Light, Stephen J. Moore, Christine C. Tong, Jeffery T. Davis, William A. Harrell, Jr.", authors);
 		DOI detailsDoi = details.getDoi();
 		assertEquals("Article DOI", doi, detailsDoi);
 
 		List<FullTextResourceDescription> ftrds = details.getFullTextResources();
 		assertEquals("Number of fulltext resources found", 2, ftrds.size());
 		FullTextResourceDescription ftrd1 = ftrds.get(0);
-		assertEquals("Fulltext HTML URI", RSC_HOMEPAGE_URL+"/delivery/_ArticleLinking/ArticleLinking.cfm?JournalCode=OB&Year=2009&ManuscriptID=b821431j&Iss=7", ftrd1.getURL());
-		assertEquals("Fulltext HTML link text", "HTML article", ftrd1.getLinkText());
+		assertEquals("Fulltext HTML URI", "http://pubs.rsc.org/en/Content/ArticleHTML/2010/CC/C0CC01684E", ftrd1.getURL());
+		assertEquals("Fulltext HTML link text", "HTML", ftrd1.getLinkText());
 		assertEquals("Fulltext HTML MIME", "text/html", ftrd1.getContentType());
 		FullTextResourceDescription ftrd2 = ftrds.get(1);
-		assertEquals("Fulltext PDF URI", RSC_HOMEPAGE_URL+"/ej/OB/2009/b821431j.pdf", ftrd2.getURL());
+		assertEquals("Fulltext PDF URI", "http://pubs.rsc.org/en/Content/ArticlePDF/2010/CC/C0CC01684E", ftrd2.getURL());
 		assertEquals("Fulltext PDF link", "PDF", ftrd2.getLinkText());
 		assertEquals("Fulltext PDF MIME", "application/pdf", ftrd2.getContentType());
 		ArticleReference ref = details.getReference();
 		String journalTitle = ref.getJournalTitle();
-		assertEquals("Journal in reference", "Org. Biomol. Chem.", journalTitle);
+		assertEquals("Journal in reference", "Chem. Commun.", journalTitle);
 		String pages = ref.getPages();
-		assertEquals("Pages in reference", "1355 - 1360", pages);
+		assertEquals("Pages in reference", "6252 - 6254", pages);
 		String volume = ref.getVolume();
-		assertEquals("Volume in reference", "7", volume);
+		assertEquals("Volume in reference", "46", volume);
 		String year = ref.getYear();
-		assertEquals("Year in reference", "2009", year);
+		assertEquals("Year in reference", "2010", year);
+		String issue = ref.getNumber();
+		assertEquals("Issue in reference", "34", issue);
 		String title = details.getTitle();
-		assertEquals("Title", "Convergent, stereoselective syntheses of the glycosidase inhibitors broussonetines D and M", title);
+		assertEquals("Title", "Tripodal transmembrane transporters for bicarbonate", title);
 		
 		List<SupplementaryResourceDescription> suppList = details.getSupplementaryResources();
-		assertEquals("Number of supplementary resources found", 3, suppList.size());
+		assertEquals("Number of supplementary resources found", 2, suppList.size());
 		SupplementaryResourceDescription sfd0 = suppList.get(0);
 		String contentType0 = sfd0.getContentType();
 		assertEquals("First supplementary resource MIME", "application/pdf", contentType0);
 		String fileId0 = sfd0.getFileId();
-		assertEquals("First supplementary resource file ID", "b821431j_1", fileId0);
+		assertEquals("First supplementary resource file ID", "C0CC01684E", fileId0);
 		String linkText0 = sfd0.getLinkText();
-		assertEquals("First supplementary resource link text", "Additional experimental procedures ", linkText0.substring(0, 35));
+		assertEquals("First supplementary resource link text", "Details of synthesis, stability constant determination, crystallography and supplementary membrane transport studies", linkText0);
 		String uri0 = sfd0.getURL();
-		assertEquals("First supplementary resource URI", RSC_HOMEPAGE_URL+"/suppdata/OB/b8/b821431j/b821431j_1.pdf", uri0);
-		SupplementaryResourceDescription sfd2 = suppList.get(2);
-		String contentType2 = sfd2.getContentType();
+		assertEquals("First supplementary resource URI", "http://www.rsc.org/suppdata/CC/C0/C0CC01684E/C0CC01684E.PDF", uri0);
+		
+		SupplementaryResourceDescription sfd1 = suppList.get(1);
+		String contentType2 = sfd1.getContentType();
 		assertEquals("Second supplementary resource MIME", "text/plain", contentType2);
-		String fileId2 = sfd2.getFileId();
-		assertEquals("Second supplementary resource file ID", "b821431j", fileId2);
-		String linkText2 = sfd2.getLinkText();
+		String fileId2 = sfd1.getFileId();
+		assertEquals("Second supplementary resource file ID", "C0CC01684E", fileId2);
+		String linkText2 = sfd1.getLinkText();
 		assertEquals("Second supplementary resource link text", "Crystal structure data", linkText2);
-		String uri2 = sfd2.getURL();
-		assertEquals("Second supplementary resource URI", RSC_HOMEPAGE_URL+"/suppdata/OB/b8/b821431j/b821431j.txt", uri2);		
+		String uri2 = sfd1.getURL();
+		assertEquals("Second supplementary resource URI", "http://www.rsc.org/suppdata/CC/C0/C0CC01684E/C0CC01684E.TXT", uri2);		
 	}
 	
 	/**
@@ -92,18 +95,18 @@ public class RscArticleCrawlerIntegrationTest {
 	 */
 	@Test
 	public void testGetReference() {
-		DOI doi1 = new DOI(DOI.DOI_SITE_URL+"/10.1039/b815825h");
+		DOI doi1 = new DOI("http://dx.doi.org/10.1039/C0CC01684E");
 		RscArticleCrawler crawler1 = new RscArticleCrawler(doi1);
 		ArticleDescription details1 = crawler1.getDetails();
 		ArticleReference ref1 = details1.getReference();
 		String title1 = ref1.getJournalTitle();
 		assertEquals("Journal abbreviation in first reference", "Chem. Commun.", title1);
 		String pages1 = ref1.getPages();
-		assertEquals("Pages in first reference", "1658-1660", pages1);
+		assertEquals("Pages in first reference", "6252 - 6254", pages1);
 		String vol1 = ref1.getVolume();
-		assertNull("Not NULL volume", vol1);
+		assertNotNull("Not NULL volume", vol1);
 		String year1 = ref1.getYear();
-		assertEquals("Year in first reference", "2009", year1);
+		assertEquals("Year in first reference", "2010", year1);
 		DOI doi2 = new DOI(DOI.DOI_SITE_URL+"/10.1039/b900026g");
 		RscArticleCrawler crawler2 = new RscArticleCrawler(doi2);
 		ArticleDescription details2 = crawler2.getDetails();
