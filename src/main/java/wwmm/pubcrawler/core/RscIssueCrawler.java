@@ -265,17 +265,11 @@ public class RscIssueCrawler extends IssueCrawler {
 	 */
 	public static void main(String[] args) throws IOException {
 		RscIssueCrawler acf = new RscIssueCrawler(RscJournal.CHEMCOMM);
-		//acf.setMaxArticlesToCrawl(10);
-		List<DOI> dois = acf.getDois(new IssueDescription("2010", "25"));
-		for (DOI doi : dois) {
-			System.out.println(doi);
-		}
-		/*
+		acf.setMaxArticlesToCrawl(10);
 		List<ArticleDescription> adList = acf.getArticleDescriptions(new IssueDescription("2010", "25"));
 		for (ArticleDescription ad : adList) {
 			System.out.println(ad.toString());
 		}
-		 */
 	}
 
 }

@@ -243,6 +243,9 @@ public class RscArticleCrawler extends ArticleCrawler {
 		if (metaElements.size() > 0) {
 			Element el = (Element)metaElements.get(0);
 			content =  el.getAttributeValue("content");
+			if (content != null) {
+				content = content.trim();
+			}
 		}
 		return content;
 	}
@@ -260,7 +263,7 @@ public class RscArticleCrawler extends ArticleCrawler {
 	 * 
 	 */
 	private String getTitle() {
-		return getMetaElementContent("citation_title").trim();
+		return getMetaElementContent("citation_title");
 	}
 
 	/**
