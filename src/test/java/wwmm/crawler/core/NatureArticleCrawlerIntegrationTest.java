@@ -1,3 +1,18 @@
+/*******************************************************************************
+ * Copyright 2010 Nick Day
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ******************************************************************************/
 package wwmm.crawler.core;
 
 import static org.junit.Assert.assertEquals;
@@ -35,12 +50,8 @@ public class NatureArticleCrawlerIntegrationTest {
 		assertEquals(doi, detailsDoi);
 
 		List<FullTextResourceDescription> ftrds = details.getFullTextResources();
-		assertEquals(2, ftrds.size());
-		FullTextResourceDescription ftrd1 = ftrds.get(0);
-		assertEquals("http://www.nature.com/nchem/journal/v1/n3/full/nchem.213.html", ftrd1.getURL());
-		assertEquals("Full text", ftrd1.getLinkText());
-		assertEquals("text/html", ftrd1.getContentType());
-		FullTextResourceDescription ftrd2 = ftrds.get(1);
+		assertEquals(1, ftrds.size());
+		FullTextResourceDescription ftrd2 = ftrds.get(0);
 		assertEquals("http://www.nature.com/nchem/journal/v1/n3/pdf/nchem.213.pdf", ftrd2.getURL());
 		assertEquals("Download PDF", ftrd2.getLinkText());
 		assertEquals("application/pdf", ftrd2.getContentType());
