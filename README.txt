@@ -48,7 +48,8 @@ then public methods for the following are provided:
 * getting the year and issue number of the latest journal issue.
 * getting the DOIs for a specific issue
 * getting the DOIs for the current issue
-* getting the bibliographic info for articles in a specific issue 
+* getting the bibliographic info for articles in a specific issue (as extracted by an
+	article crawler).
 * getting the bibliographic info for articles in the current issue
 
 Again the best explanation of how to use the code is available in the crawler main methods.
