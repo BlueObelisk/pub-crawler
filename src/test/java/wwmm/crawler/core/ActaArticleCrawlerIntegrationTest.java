@@ -24,6 +24,7 @@ import org.apache.commons.httpclient.URIException;
 import org.junit.Test;
 
 import wwmm.pubcrawler.core.ActaArticleCrawler;
+import wwmm.pubcrawler.core.ArticleCrawler;
 import wwmm.pubcrawler.core.ArticleDescription;
 import wwmm.pubcrawler.core.ArticleReference;
 import wwmm.pubcrawler.core.DOI;
@@ -40,7 +41,7 @@ public class ActaArticleCrawlerIntegrationTest {
 	@Test
 	public void testGetArticleDetails() throws URIException, NullPointerException {
 		DOI doi = new DOI(DOI.DOI_SITE_URL+"/10.1107/S0108270109006118");
-		ActaArticleCrawler crawler = new ActaArticleCrawler(doi);
+		ArticleCrawler crawler = new ActaArticleCrawler(doi);
 		ArticleDescription details = crawler.getDetails();
 		assertNotNull(details);
 		String authors = details.getAuthors();
@@ -95,7 +96,7 @@ public class ActaArticleCrawlerIntegrationTest {
 	@Test
 	public void testGetMultipleCifsFromArticle() {
 		DOI doi = new DOI(DOI.DOI_SITE_URL+"/10.1107/S0108768109004066");
-		ActaArticleCrawler crawler = new ActaArticleCrawler(doi);
+		ArticleCrawler crawler = new ActaArticleCrawler(doi);
 		ArticleDescription details = crawler.getDetails();
 		assertEquals(2, details.getSupplementaryResources().size());
 	}

@@ -240,13 +240,13 @@ public class AcsRssCrawler extends Crawler {
 	 * @throws ParseException 
 	 */
 	public static void main(String[] args) throws ParseException {
-		for (AcsJournal journal : AcsJournal.values()) {
+		for (Journal journal : AcsJournal.values()) {
 			if (!journal.getAbbreviation().equals("cgdefu")) {
 				continue;
 			}
 			SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss 'GMT'");
 			Date date = sdf.parse("Thu, 12 Feb 2009 12:00:00 GMT");
-			AcsRssCrawler acf = new AcsRssCrawler(journal, date);
+			AcsRssCrawler acf = new AcsRssCrawler((AcsJournal)journal, date);
 			List<ArticleDescription> details = acf.getNewArticleDetails();
 			for (ArticleDescription ad : details) {
 				System.out.println(ad.toString());

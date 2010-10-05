@@ -16,7 +16,17 @@
 package wwmm.pubcrawler.core;
 
 import static wwmm.pubcrawler.core.CrawlerConstants.X_XHTML;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.log4j.Logger;
+
+import wwmm.pubcrawler.Utils;
+
 import nu.xom.Document;
+import nu.xom.Element;
+import nu.xom.Node;
 import nu.xom.Nodes;
 
 /**
@@ -32,20 +42,30 @@ import nu.xom.Nodes;
  * 
  */
 public abstract class ArticleCrawler extends Crawler {
+	protected static final String APPLICATION_PDF = "application/pdf";
+	protected static final String TEXT_HTML = "text/html";
+
+	private static Logger LOG = Logger.getLogger(ArticleCrawler.class);
 
 	protected DOI doi;
 	protected Document articleAbstractHtml;
 	protected boolean doiResolved;
 	protected ArticleDescription articleDetails;
 	protected BibtexTool bibtexTool;
+
+	protected ArticleInfo articleInfo;
 	
 	public ArticleCrawler() {
-		;
+		this.articleInfo = new ArticleInfo();
+		readProperties();
 	}
 
 	public ArticleCrawler(DOI doi) {
+		this();
 		setDOI(doi);
 	}
+	
+	protected abstract void readProperties();
 
 	/**
 	 * <p>
@@ -97,15 +117,159 @@ public abstract class ArticleCrawler extends Crawler {
 		}
 	}
 	
+	protected void applyBibtexTool() {
+		setBibtexTool();
+		if (bibtexTool != null) {
+			String title = bibtexTool.getTitle();
+			ArticleReference ref = bibtexTool.getReference();
+			articleDetails.setHasBeenPublished(true);
+			String authors = bibtexTool.getAuthors();
+			articleDetails.setTitle(title);
+			articleDetails.setReference(ref);
+			articleDetails.setAuthors(authors);
+			List<SupplementaryResourceDescription> suppFiles = getSupplementaryFilesDetails();
+			articleDetails.setSupplementaryResources(suppFiles);
+		}
+	}
+	
+	protected void setBibtexTool() {
+	}
+
+	protected List<SupplementaryResourceDescription> getSupplementaryFilesDetails() {
+		return null;
+	}
+
+	protected void addFullTextPdfDetails(List<FullTextResourceDescription> fullTextResources) {
+		FullTextResourceDescription fullTextPdfDetails = getFullTextPdfDetails();
+		if (fullTextPdfDetails != null) {
+			fullTextResources.add(fullTextPdfDetails);
+		}
+	}
+
+	protected void addFullTextEnhancedPdfDetails(List<FullTextResourceDescription> fullTextResources) {
+		FullTextResourceDescription fullTextEnhancedPdfDetails = getFullTextEnhancedPdfDetails();
+		if (fullTextEnhancedPdfDetails != null) {
+			fullTextResources.add(fullTextEnhancedPdfDetails);
+		}
+	}
+
+	protected void addFullTextHtmlDetails(List<FullTextResourceDescription> fullTextResources) {
+		FullTextResourceDescription fullTextHtmlDetails = getFullTextHtmlDetails();
+		if (fullTextHtmlDetails != null) {
+			fullTextResources.add(fullTextHtmlDetails);
+		}
+	}
+	
 	/**
 	 * <p>
-	 * Uses the instance DOI to construct an ArticleDetails class
-	 * describing the important details for an article.  This is the 
-	 * only method that each subclass should have to implement.
+	 * Gets the details of any full-text resources provided for
+	 * the article.
 	 * </p>
 	 * 
-	 * @return ArticleDetails
+	 * @return list containing the details of each full-text
+	 * resource provided for the article.
 	 */
-	abstract public ArticleDescription getDetails();
+	protected List<FullTextResourceDescription> getFullTextResources() {
+		List<FullTextResourceDescription> fullTextResources = new ArrayList<FullTextResourceDescription>();
+		addFullTextHtmlDetails(fullTextResources);
+		addFullTextPdfDetails(fullTextResources);
+		addFullTextEnhancedPdfDetails(fullTextResources);
+		return fullTextResources;
+	}
 
+	protected FullTextResourceDescription getFullTextResourceDescription(
+			String xpath, String linkUrl, String mimeType) {
+		FullTextResourceDescription ftrd = null;
+		if (xpath != null) {
+			List<Node> fullTextPdfLinks = Utils.queryHTML(articleAbstractHtml, xpath);
+			if (fullTextPdfLinks.size() == 0) {
+				LOG.warn("Problem getting full text PDF link: "+doi);
+				return null;
+			}
+			Element fullTextLink = (Element)fullTextPdfLinks.get(0);
+			String linkText = fullTextLink.getValue().trim();
+			String fullTextPdfUrl = linkUrl+fullTextLink.getAttributeValue("href");
+			ftrd = new FullTextResourceDescription(fullTextPdfUrl, linkText, mimeType);
+		}
+		return ftrd;
+	}
+
+	/**
+	 * <p>
+	 * Gets the details about the full-text PDF resource for 
+	 * this article.
+	 * </p>
+	 * 
+	 * @return details about the full-text PDF resource for this
+	 * article.
+	 */
+	protected FullTextResourceDescription getFullTextPdfDetails() {
+		return getFullTextResourceDescription(
+				articleInfo.fullTextPdfXpath, articleInfo.fullTextPdfLinkUrl, APPLICATION_PDF);
+	}
+
+	/**
+	 * <p>
+	 * Gets the details about the full-text enhanced PDF resource for 
+	 * this article.
+	 * </p>
+	 * 
+	 * @return details about the full-text enhanced PDF resource for this
+	 * article.
+	 */
+	protected FullTextResourceDescription getFullTextEnhancedPdfDetails() {
+		return getFullTextResourceDescription(
+				articleInfo.fullTextEnhancedPdfXpath, articleInfo.fullTextPdfLinkUrl, APPLICATION_PDF);
+	}
+
+	/**
+	 * <p>
+	 * Gets the details about the full-text HTML resource for 
+	 * this article.
+	 * </p>
+	 * 
+	 * @return details about the full-text HTML resource for this
+	 * article.
+	 */
+	protected FullTextResourceDescription getFullTextHtmlDetails() {
+		return getFullTextResourceDescription(
+				articleInfo.fullTextHtmlXpath, articleInfo.fullTextHtmlLinkUrl, TEXT_HTML);
+	}
+
+	/**
+	 * <p>
+	 * Crawls the article abstract webpage for information, which is 
+	 * returned in an ArticleDetails object.
+	 * </p> 
+	 * 
+	 * @return ArticleDetails object containing important details about
+	 * the article (e.g. title, authors, reference, supplementary 
+	 * files).
+	 * 
+	 */
+	public ArticleDescription getDetails() {
+		if (!doiResolved) {
+			LOG.warn("The DOI provided for the article abstract ("+doi.toString()+") has not resolved so we cannot get article details.");
+			return articleDetails;
+		}
+		LOG.info("Starting to find article details: "+doi);
+		List<FullTextResourceDescription> fullTextResources = getFullTextResources();
+		articleDetails.setFullTextResources(fullTextResources);
+		String title = getTitle();
+		articleDetails.setTitle(title);
+		String authors = getAuthors();
+		articleDetails.setAuthors(authors);
+		ArticleReference ref = getReference();
+		articleDetails.setReference(ref);
+		List<SupplementaryResourceDescription> suppFiles = getSupplementaryFilesDetails();
+		articleDetails.setSupplementaryResources(suppFiles);
+		articleDetails.setHasBeenPublished(true);
+		LOG.debug("Finished finding article details: "+doi.toString());
+		return articleDetails;
+	}
+
+	protected String getTitle() {return null;}
+	protected String getAuthors() {return null;}
+	protected ArticleReference getReference() {return null;}
+	
 }

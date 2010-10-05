@@ -15,6 +15,9 @@
  ******************************************************************************/
 package wwmm.pubcrawler.core;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * <p>
  * The <code>AcsJournal</code> enum is meant to enumerate useful 
@@ -26,7 +29,8 @@ package wwmm.pubcrawler.core;
  * @version 1.1
  * 
  */
-public enum AcsJournal {
+public class AcsJournal extends Journal {
+	/**
 	ACCOUNTS_OF_CHEMICAL_RESEARCH("achre4", "Accounts of Chemical Research", 1967),
 	ANALYTICAL_CHEMISTRY("ancham", "Analytical Chemistry", 1928),
 	BIOCONJUGATE_CHEMISTRY("bcches", "Bioconjugate Chemistry", 1989),
@@ -52,64 +56,31 @@ public enum AcsJournal {
 	ORGANIC_LETTERS("orlef7", "Organic Letters", 1998),
 	ORGANIC_PROCESS_RESEARCH_AND_DEVELOPMENT("oprdfk", "Organic Process and Research and Development", 1996),
 	ORGANOMETALLICS("orgnd7", "Organometallics", 1981);
+*/
+	
+	static List<Journal> journals;
+	public static AcsJournal JOURNAL_OF_THE_AMERICAN_CHEMICAL_SOCIETY;
+	public static AcsJournal CRYSTAL_GROWTH_AND_DESIGN ;
+	public static AcsJournal THE_JOURNAL_OF_ORGANIC_CHEMISTRY;
+	
+	static {
+		journals = new ArrayList<Journal>();
+		JOURNAL_OF_THE_AMERICAN_CHEMICAL_SOCIETY = new AcsJournal("jacsat", "Journal of the American Chemical Society", 1878);
+		journals.add(JOURNAL_OF_THE_AMERICAN_CHEMICAL_SOCIETY);
+		CRYSTAL_GROWTH_AND_DESIGN = new AcsJournal("cgdefu", "Crystal Growth and Design", 2000);
+		journals.add(CRYSTAL_GROWTH_AND_DESIGN);
+		THE_JOURNAL_OF_ORGANIC_CHEMISTRY = new AcsJournal("joceah", "The Journal of Organic Chemistry", 1935);
+		journals.add(THE_JOURNAL_OF_ORGANIC_CHEMISTRY);
+	};
+	
+	public static List<Journal> values() {
+		return journals;
+	}
 
-	private final String abbreviation;
-	private final String fullTitle;
-	private final int volumeOffset;
+
 
 	AcsJournal(String abbreviation, String fullTitle, int volumeOffset) {
-		this.abbreviation = abbreviation;
-		this.fullTitle = fullTitle;
-		this.volumeOffset = volumeOffset;
-	}
-
-	/**
-	 * <p>
-	 * Gets the complete journal title.
-	 * </p>
-	 * 
-	 * @return String of the complete journal title.
-	 * 
-	 */
-	public String getFullTitle() {
-		return this.fullTitle;
-	}
-
-	/**
-	 * <p>
-	 * Gets the journal abbreviation (as used by the publisher
-	 * on their website).
-	 * </p>
-	 * 
-	 * @return String of the journal abbreviation.
-	 * 
-	 */
-	public String getAbbreviation() {
-		return this.abbreviation;
-	}
-
-	/**
-	 * <p>
-	 * Gets an <code></code> which describes the relationship 
-	 * between a journals year and volume i.e. if you know 
-	 * the journal year is 2009 and the <code>volumeOffset</code> 
-	 * is 2000, then the volume of the journal in 2009 is 9. 
-	 * Magic.
-	 * </p>
-	 *
-	 * @return int
-	 * 
-	 */
-	public int getVolumeOffset() {
-		return this.volumeOffset;
-	}
-	
-	public int getVolumeFromYear(int year) {
-		return year - this.volumeOffset;
-	}
-	
-	public int getYearFromVolume(int volume) {
-		return this.volumeOffset + volume;
+		super(abbreviation, fullTitle, volumeOffset);
 	}
 	
 }

@@ -23,6 +23,7 @@ import java.util.List;
 import org.apache.commons.httpclient.URIException;
 import org.junit.Test;
 
+import wwmm.pubcrawler.core.ArticleCrawler;
 import wwmm.pubcrawler.core.ArticleDescription;
 import wwmm.pubcrawler.core.ArticleReference;
 import wwmm.pubcrawler.core.ChemSocJapanArticleCrawler;
@@ -40,7 +41,7 @@ public class ChemSocJapanArticleCrawlerIntegrationTest {
 	@Test
 	public void testGetArticleDetails() throws URIException, NullPointerException {
 		DOI doi = new DOI(DOI.DOI_SITE_URL+"/10.1246/cl.2008.682");
-		ChemSocJapanArticleCrawler crawler = new ChemSocJapanArticleCrawler(doi);
+		ArticleCrawler crawler = new ChemSocJapanArticleCrawler(doi);
 		ArticleDescription details = crawler.getDetails();
 		assertNotNull(details);
 		String authors = details.getAuthors();

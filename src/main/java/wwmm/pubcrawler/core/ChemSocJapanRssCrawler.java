@@ -42,7 +42,7 @@ import org.apache.log4j.Logger;
  */
 public class ChemSocJapanRssCrawler extends Crawler {
 
-	private ChemSocJapanJournal journal;
+	private Journal journal;
 	private Date lastCrawledDate;
 
 	private static final Logger LOG = Logger.getLogger(ChemSocJapanRssCrawler.class);
@@ -58,7 +58,7 @@ public class ChemSocJapanRssCrawler extends Crawler {
 	 * @param journal - the journals RSS feed to be crawled.
 	 * 
 	 */
-	public ChemSocJapanRssCrawler(ChemSocJapanJournal journal) {
+	public ChemSocJapanRssCrawler(Journal journal) {
 		this.journal = journal;
 	}
 
@@ -74,7 +74,7 @@ public class ChemSocJapanRssCrawler extends Crawler {
 	 * @param journal - the journals RSS feed to be crawled.
 	 * 
 	 */
-	public ChemSocJapanRssCrawler(ChemSocJapanJournal journal, Date lastCrawledDate) {
+	public ChemSocJapanRssCrawler(Journal journal, Date lastCrawledDate) {
 		this.journal = journal;
 		this.lastCrawledDate = lastCrawledDate;
 	}
@@ -237,7 +237,7 @@ public class ChemSocJapanRssCrawler extends Crawler {
 	 * @throws ParseException 
 	 */
 	public static void main(String[] args) throws ParseException {
-		for (ChemSocJapanJournal journal : ChemSocJapanJournal.values()) {
+		for (Journal journal : ChemSocJapanJournal.values()) {
 			if (!journal.getAbbreviation().equals("chem-lett")) {
 				continue;
 			}

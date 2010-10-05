@@ -41,7 +41,6 @@ import wwmm.pubcrawler.Utils;
  */
 public class ChemSocJapanIssueCrawler extends IssueCrawler {
 
-	public ChemSocJapanJournal journal;
 	private static final Logger LOG = Logger.getLogger(ChemSocJapanIssueCrawler.class);
 
 	/**
@@ -52,68 +51,21 @@ public class ChemSocJapanIssueCrawler extends IssueCrawler {
 	 * 
 	 * @param doi of the article to be crawled.
 	 */
-	public ChemSocJapanIssueCrawler(ChemSocJapanJournal journal) {
+	public ChemSocJapanIssueCrawler(Journal journal) {
 		this.journal = journal;
 	}
 
-	/**
-	 * <p>
-	 * Gets information to identify the last published issue of a
-	 * the provided <code>ChemSocJapanJournal</code>.
-	 * </p>
-	 * 
-	 * @return the year and issue identifier.
-	 * 
-	 */
-	@Override
-	public IssueDescription getCurrentIssueDescription() {
-		Document doc = getCurrentIssueHtml();
-		List<Node> journalInfo = Utils.queryHTML(doc, "//x:span[@class='augr']");
-		int size = journalInfo.size();
-		if (size != 1) {
-			throw new CrawlerRuntimeException("Expected to find 1 element containing" +
-					"the year/issue information but found "+size+".");
-		}
-		String info = journalInfo.get(0).getValue();
-		Pattern pattern = Pattern.compile("[^,]*,\\s+\\w+\\.\\s+(\\d+)\\s+\\([^,]*,\\s+(\\d\\d\\d\\d)\\)");
-		Matcher matcher = pattern.matcher(info);
-		if (!matcher.find() || matcher.groupCount() != 2) {
-			throw new CrawlerRuntimeException("Could not extract the year/issue information.");
-		}
-		String year = matcher.group(2);
-		String issueNum = matcher.group(1);
-		return new IssueDescription(year, issueNum);
+	protected void readProperties() {
+		issueInfo.infoPath = "//x:span[@class='augr']";
+		issueInfo.yearIssueRegex = "[^,]*,\\s+\\w+\\.\\s+(\\d+)\\s+\\([^,]*,\\s+(\\d\\d\\d\\d)\\)";
+		issueInfo.matcherGroupCount = 2;
+		issueInfo.yearMatcherGroup = 2;
+		issueInfo.issueMatcherGroup = 1;
+		issueInfo.currentIssueHtmlStart = "http://www.csj.jp/journals/";
+		issueInfo.currentIssueHtmlEnd = "/cl-cont/newissue.html";
+		
 	}
-	
-	/**
-	 * <p>
-	 * Gets the HTML of the table of contents of the last 
-	 * published issue of the provided journal.
-	 * </p>
-	 * 
-	 * @return HTML of the issue table of contents.
-	 * 
-	 */
-	@Override
-	public Document getCurrentIssueHtml() {
-		String issueUrl = "http://www.csj.jp/journals/"+journal.getAbbreviation()+"/cl-cont/newissue.html";
-		return httpClient.getResourceHTML(issueUrl);
-	}
-	
-	/**
-	 * <p>
-	 * Gets the DOIs of all of the articles from the last 
-	 * published issue of the provided journal.
-	 * </p> 
-	 * 
-	 * @return a list of the DOIs of the articles.
-	 * 
-	 */
-	@Override
-	public List<DOI> getCurrentIssueDOIs() {
-		IssueDescription details = getCurrentIssueDescription();
-		return getDois(details);
-	}
+
 
 	/**
 	 * <p>
@@ -136,8 +88,8 @@ public class ChemSocJapanIssueCrawler extends IssueCrawler {
 		String issueUrl = "http://www.chemistry.or.jp/journals/"+journal.getAbbreviation()+"/cl-cont/cl"+year+"-"+issueId+".html";
 		LOG.info("Started to find DOIs from "+journal.getFullTitle()+", year "+year+", issue "+issueId+".");
 		Document issueDoc = httpClient.getResourceHTML(issueUrl);
-		List<Node> textLinks = Utils.queryHTML(issueDoc, ".//x:a[contains(@href,'http://www.is.csj.jp/cgi-bin/journals/pr/index.cgi?n=li') and not(contains(@href,'li_s'))]/@href");
 		List<DOI> dois = new ArrayList<DOI>();
+		List<Node> textLinks = Utils.queryHTML(issueDoc, ".//x:a[contains(@href,'http://www.is.csj.jp/cgi-bin/journals/pr/index.cgi?n=li') and not(contains(@href,'li_s'))]/@href");
 		for (Node textLink : textLinks) {
 			String link = ((Attribute)textLink).getValue();
 			int idx = link.indexOf("id=");
@@ -150,44 +102,23 @@ public class ChemSocJapanIssueCrawler extends IssueCrawler {
 		return dois;
 	}
 	
-	/**
-	 * <p>
-	 * Gets information describing all articles in the issue 
-	 * defined by the <code>ChemSocJapanJournal</code> and the 
-	 * provided	year and issue identifier (wrapped in the 
-	 * <code>issueDetails</code> parameter.
-	 * </p>
-	 * 
-	 * @param issueDetails - contains the year and issue
-	 * identifier of the issue to be crawled.
-	 * 
-	 * @return a list where each item contains the details for 
-	 * a particular article from the issue.
-	 * 
-	 */
-	@Override
-	public List<ArticleDescription> getArticleDescriptions(IssueDescription details) {
-		List<DOI> dois = getDois(details);
-		return getArticleDescriptions(dois);
-	}
-	
-	/**
-	 * <p>
-	 * Gets information describing all articles defined by the list
-	 * of DOIs provided.
-	 * </p>
-	 * 
-	 * @param dois - a list of DOIs for the article that are to be
-	 * crawled.
-	 * 
-	 * @return a list where each item contains the details for 
-	 * a particular article from the issue.
-	 * 
-	 */
-	@Override
-	public List<ArticleDescription> getArticleDescriptions(List<DOI> dois) {
-		return getArticleDescriptions(new ChemSocJapanArticleCrawler(), dois);
-	}
+//	/**
+//	 * <p>
+//	 * Gets information describing all articles defined by the list
+//	 * of DOIs provided.
+//	 * </p>
+//	 * 
+//	 * @param dois - a list of DOIs for the article that are to be
+//	 * crawled.
+//	 * 
+//	 * @return a list where each item contains the details for 
+//	 * a particular article from the issue.
+//	 * 
+//	 */
+//	@Override
+//	public List<ArticleDescription> getArticleDescriptions(List<DOI> dois) {
+//		return getArticleDescriptions(new ChemSocJapanArticleCrawler(), dois);
+//	}
 
 	/**
 	 * <p>
@@ -198,8 +129,8 @@ public class ChemSocJapanIssueCrawler extends IssueCrawler {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		for (ChemSocJapanJournal journal : ChemSocJapanJournal.values()) {
-			ChemSocJapanIssueCrawler acf = new ChemSocJapanIssueCrawler(journal);
+		for (Journal journal : ChemSocJapanJournal.values()) {
+			IssueCrawler acf = new ChemSocJapanIssueCrawler(journal);
 			IssueDescription details = acf.getCurrentIssueDescription();
 			List<ArticleDescription> adList = acf.getArticleDescriptions(details);
 			for (ArticleDescription ad : adList) {

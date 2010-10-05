@@ -44,7 +44,7 @@ import org.apache.log4j.Logger;
  */
 public class RscRssCrawler extends Crawler {
 
-	private RscJournal journal;
+	private Journal journal;
 	private Date lastCrawledDate;
 
 	private static final Logger LOG = Logger.getLogger(RscRssCrawler.class);
@@ -60,7 +60,7 @@ public class RscRssCrawler extends Crawler {
 	 * @param journal - the journals RSS feed to be crawled.
 	 * 
 	 */
-	public RscRssCrawler(RscJournal journal) {
+	public RscRssCrawler(Journal journal) {
 		this.journal = journal;
 	}
 
@@ -76,7 +76,7 @@ public class RscRssCrawler extends Crawler {
 	 * @param journal - the journals RSS feed to be crawled.
 	 * 
 	 */
-	public RscRssCrawler(RscJournal journal, Date lastCrawledDate) {
+	public RscRssCrawler(Journal journal, Date lastCrawledDate) {
 		this.journal = journal;
 		this.lastCrawledDate = lastCrawledDate;
 	}
@@ -231,13 +231,13 @@ public class RscRssCrawler extends Crawler {
 	 * @throws ParseException 
 	 */
 	public static void main(String[] args) throws ParseException {
-		for (ActaJournal journal : ActaJournal.values()) {
+		for (Journal journal : ActaJournal.values()) {
 			if (!journal.getAbbreviation().equals("c")) {
 				continue;
 			}
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy'-'MM'-'dd");
 			Date date = sdf.parse("2008-08-15");
-			ActaRssCrawler acf = new ActaRssCrawler(journal, date);
+			ActaRssCrawler acf = new ActaRssCrawler((ActaJournal)journal, date);
 			List<ArticleDescription> details = acf.getNewArticleDetails();
 			for (ArticleDescription ad : details) {
 				System.out.println(ad.toString());

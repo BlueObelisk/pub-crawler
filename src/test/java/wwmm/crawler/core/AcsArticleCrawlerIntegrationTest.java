@@ -24,6 +24,7 @@ import org.apache.commons.httpclient.URIException;
 import org.junit.Test;
 
 import wwmm.pubcrawler.core.AcsArticleCrawler;
+import wwmm.pubcrawler.core.ArticleCrawler;
 import wwmm.pubcrawler.core.ArticleDescription;
 import wwmm.pubcrawler.core.ArticleReference;
 import wwmm.pubcrawler.core.DOI;
@@ -40,7 +41,7 @@ public class AcsArticleCrawlerIntegrationTest {
 	@Test
 	public void testGetArticleDetails() throws URIException, NullPointerException {
 		DOI doi = new DOI(DOI.DOI_SITE_URL+"/10.1021/cg801336t");
-		AcsArticleCrawler crawler = new AcsArticleCrawler(doi);
+		ArticleCrawler crawler = new AcsArticleCrawler(doi);
 		ArticleDescription details = crawler.getDetails();
 		assertNotNull(details);
 		String authors = details.getAuthors();

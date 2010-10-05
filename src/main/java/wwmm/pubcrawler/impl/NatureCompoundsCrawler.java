@@ -33,6 +33,7 @@ import org.apache.log4j.Logger;
 
 import wwmm.pubcrawler.core.ArticleDescription;
 import wwmm.pubcrawler.core.CrawlerHttpClient;
+import wwmm.pubcrawler.core.IssueCrawler;
 import wwmm.pubcrawler.core.IssueDescription;
 import wwmm.pubcrawler.core.NatureIssueCrawler;
 import wwmm.pubcrawler.core.NatureJournal;
@@ -50,7 +51,7 @@ import wwmm.pubcrawler.core.NatureJournal;
 public class NatureCompoundsCrawler {
 
 	private final CrawlerHttpClient httpClient = new CrawlerHttpClient();
-	private NatureIssueCrawler crawler;
+	private IssueCrawler crawler;
 
 	private static final Logger LOG = Logger.getLogger(NatureCompoundsCrawler.class);
 

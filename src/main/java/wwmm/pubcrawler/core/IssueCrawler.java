@@ -17,8 +17,15 @@ package wwmm.pubcrawler.core;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.apache.log4j.Logger;
+
+import wwmm.pubcrawler.Utils;
 
 import nu.xom.Document;
+import nu.xom.Node;
 
 /**
  * <p>
@@ -32,8 +39,18 @@ import nu.xom.Document;
  *       making this an interface
  */
 public abstract class IssueCrawler extends Crawler {
+	private static Logger LOG = Logger.getLogger(IssueCrawler.class);
 	
 	protected static int MAX_ARTICLES_TO_CRAWL = Integer.MAX_VALUE;
+	protected IssueInfo issueInfo;
+	public Journal journal;
+	
+	protected IssueCrawler() {
+		this.issueInfo = new IssueInfo();
+		readProperties();
+	}
+	
+	protected abstract void readProperties();
 	
 	public void setMaxArticlesToCrawl(int i) {
 		if (i < 0) {
@@ -46,40 +63,7 @@ public abstract class IssueCrawler extends Crawler {
 		return MAX_ARTICLES_TO_CRAWL;
 	}
 
-	/**
-	 * <p>
-	 * Gets information to identify the last published issue of a journal (which
-	 * is defined in the subclass).
-	 * </p>
-	 * 
-	 * @return the year and issue identifier.
-	 * 
-	 */
-	abstract public IssueDescription getCurrentIssueDescription();
-
-	/**
-	 * <p>
-	 * Gets the HTML of the table of contents of the last published issue of the
-	 * subclass journal.
-	 * </p>
-	 * 
-	 * @return HTML of the issue table of contents as an XML Document.
-	 * 
-	 */
-	abstract public Document getCurrentIssueHtml();
-
-	/**
-	 * <p>
-	 * Gets the DOIs of all of the articles from the last published issue of the
-	 * subclass journal.
-	 * </p>
-	 * 
-	 * @return a list of the DOIs of the articles.
-	 * 
-	 */
-	abstract public List<DOI> getCurrentIssueDOIs();
-
-	/**
+		/**
 	 * <p>
 	 * Gets the DOIs of all articles in the issue defined by the subclass
 	 * journal and the provided year and issue identifier (wrapped in the
@@ -97,39 +81,6 @@ public abstract class IssueCrawler extends Crawler {
 
 	/**
 	 * <p>
-	 * Gets information describing all articles in the issue defined by the
-	 * subclass journal and the provided year and issue identifier (wrapped in
-	 * the <code>issueDetails</code> parameter.
-	 * </p>
-	 * 
-	 * @param issueDetails
-	 *            - contains the year and issue identifier of the issue to be
-	 *            crawled.
-	 * 
-	 * @return a list where each item contains the details for a particular
-	 *         article from the issue.
-	 * 
-	 */
-	abstract public List<ArticleDescription> getArticleDescriptions(
-			IssueDescription issueDescription);
-	
-	/**
-	 * <p>
-	 * Gets information describing all articles defined by the list
-	 * of DOIs provided.
-	 * </p>
-	 * 
-	 * @param dois - a list of DOIs for the article that are to be
-	 * crawled.
-	 * 
-	 * @return a list where each item contains the details for 
-	 * a particular article from the issue.
-	 * 
-	 */
-	abstract public List<ArticleDescription> getArticleDescriptions(List<DOI> dois);
-	
-	/**
-	 * <p>
 	 * Uses the provided article crawler to get the details for all the articles 
 	 * that are found at the provided DOIs.  Will only crawl the number of articles
 	 * that MAX_ARTICLE_TO_CRAWL has been set to.
@@ -142,7 +93,13 @@ public abstract class IssueCrawler extends Crawler {
 	 * @return list of <code>ArticleDetails</code> describing the articles at the
 	 * provided DOIs.
 	 */
-	protected List<ArticleDescription> getArticleDescriptions(ArticleCrawler articleCrawler, List<DOI> dois) {
+	public List<ArticleDescription> getArticleDescriptions(List<DOI> dois) {
+		ArticleCrawler articleCrawler = null;
+		try {
+			articleCrawler = (ArticleCrawler) issueInfo.articleCrawlerClass.newInstance();
+		} catch (Exception e) {
+			throw new RuntimeException("Cannot create article crawler", e);
+		}
 		List<ArticleDescription> adList = new ArrayList<ArticleDescription>();
 		int count = 0;
 		for (DOI doi : dois) {
@@ -185,4 +142,104 @@ public abstract class IssueCrawler extends Crawler {
 		return getDois(issueDetails);
 	}
 
+	/**
+	 * <p>
+	 * Gets information describing all articles in the issue 
+	 * defined by the <code>RscJournal</code> and the provided
+	 * year and issue identifier (wrapped in the 
+	 * <code>issueDetails</code> parameter.
+	 * </p>
+	 * 
+	 * @param issueDetails - contains the year and issue
+	 * identifier of the issue to be crawled.
+	 * 
+	 * @return a list where each item contains the details for 
+	 * a particular article from the issue.
+	 * 
+	 */
+	public List<ArticleDescription> getArticleDescriptions(IssueDescription details) {
+		List<DOI> dois = getDois(details);
+		return getArticleDescriptions(dois);
+	}
+
+	/**
+	 * <p>
+	 * Gets the DOIs of all of the articles from the last 
+	 * published issue of the provided journal.
+	 * </p> 
+	 * 
+	 * @return a list of the DOIs of the articles.
+	 * 
+	 */
+	protected List<DOI> getCurrentIssueDOIs() {
+		IssueDescription details = getCurrentIssueDescription();
+		return getDois(details);
+	}
+
+	protected String getJournalInfo() {
+		Document doc = getCurrentIssueHtml();
+		List<Node> journalInfoNodes = Utils.queryHTML(doc, issueInfo.infoPath);
+		int size = journalInfoNodes.size();
+		if (size != 1) {
+			throw new CrawlerRuntimeException("Expected to find 1 element containing" +
+					" the year/issue information but found "+size+".");
+		}
+		String info = journalInfoNodes.get(0).getValue().trim();
+		return info;
+	}
+
+	protected IssueDescription createIssueDescription(String info) {
+		Pattern pattern = Pattern.compile(issueInfo.yearIssueRegex);
+		Matcher matcher = pattern.matcher(info);
+		if (!matcher.find() || matcher.groupCount() != issueInfo.matcherGroupCount) {
+			throw new CrawlerRuntimeException("Could not extract the year/issue information.");
+		}
+		String yearVolume = matcher.group(issueInfo.yearMatcherGroup);
+		if (issueInfo.yearVolumeReplaceFrom != null && issueInfo.yearVolumeReplaceTo != null) {
+			yearVolume = yearVolume.replaceAll(issueInfo.yearVolumeReplaceFrom, issueInfo.yearVolumeReplaceTo);
+		}
+		String issueId = matcher.group(issueInfo.issueMatcherGroup);
+		if (issueInfo.issueIdReplaceFrom != null && issueInfo.issueIdReplaceTo != null) {
+			issueId = issueId.replaceAll(issueInfo.issueIdReplaceFrom, issueInfo.issueIdReplaceTo);
+		}
+		String year = getYearFromYearVolume(yearVolume, issueInfo.useVolume);
+		LOG.debug("Found latest issue details for "+this+" journal "+journal.getFullTitle()+": year="+year+", issue="+issueId+".");
+		return new IssueDescription(year, issueId);
+	}
+
+	/**
+	 * <p>
+	 * Gets information to identify the last published issue of a journal 
+	 * </p>
+	 * 
+	 * @return the year and issue identifier.
+	 * 
+	 */
+	public IssueDescription getCurrentIssueDescription() {
+		String info = getJournalInfo();
+		return createIssueDescription(info);
+	}
+
+	/**
+	 * <p>
+	 * Gets the HTML of the table of contents of the last 
+	 * published issue of the provided journal.
+	 * </p>
+	 * 
+	 * @return HTML of the issue table of contents.
+	 * 
+	 */
+	public Document getCurrentIssueHtml() {
+		String issueUrl = issueInfo.currentIssueHtmlStart+journal.getAbbreviation()+issueInfo.currentIssueHtmlEnd;
+		return httpClient.getResourceHTML(issueUrl);
+	}
+
+	protected String getYearFromYearVolume(String yearVolume, boolean useVolume) {
+		return (useVolume) ? ""+(Integer.parseInt(yearVolume)+journal.getVolumeOffset()) : yearVolume;
+	}
+	
+	protected String getVolumeFromYearVolume(String yearVolume, boolean useVolume) {
+		return (useVolume) ? ""+(Integer.parseInt(yearVolume)-journal.getVolumeOffset()) : yearVolume;
+	}
+	
 }

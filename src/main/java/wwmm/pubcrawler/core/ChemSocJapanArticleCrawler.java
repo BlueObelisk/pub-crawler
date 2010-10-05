@@ -52,6 +52,15 @@ public class ChemSocJapanArticleCrawler extends ArticleCrawler {
 		super(doi);
 	}
 
+	protected void readProperties() {
+//		articleInfo.fullTextHtmlXpath = ".//x:a[./x:img[contains(@src,'graphics/htmlborder.gif')]]";
+//		articleInfo.fullTextPdfXpath = ".//x:a[./x:img[contains(@src,'graphics/pdfborder.gif')]]";
+//		articleInfo.fullTextHtmlLinkUrl = "HTML";
+//		articleInfo.fullTextPdfLinkUrl = "PDF";
+		
+	}
+
+
 	/**
 	 * <p>
 	 * Crawls the article abstract webpage for information, which is 
@@ -71,18 +80,7 @@ public class ChemSocJapanArticleCrawler extends ArticleCrawler {
 		}
 		List<FullTextResourceDescription> fullTextResources = getFullTextResources();
 		articleDetails.setFullTextResources(fullTextResources);
-		List<SupplementaryResourceDescription> suppFiles = getSupplementaryFilesDetails();
-		setBibtexTool();
-		if (bibtexTool != null) {
-			String title = bibtexTool.getTitle();
-			ArticleReference ref = bibtexTool.getReference();
-			articleDetails.setHasBeenPublished(true);
-			String authors = bibtexTool.getAuthors();
-			articleDetails.setTitle(title);
-			articleDetails.setReference(ref);
-			articleDetails.setAuthors(authors);
-			articleDetails.setSupplementaryResources(suppFiles);
-		}
+		applyBibtexTool();
 		LOG.info("Finished finding article details: "+doi);
 		return articleDetails;
 	}
@@ -94,7 +92,8 @@ public class ChemSocJapanArticleCrawler extends ArticleCrawler {
 	 * </p>
 	 * 
 	 */
-	private void setBibtexTool() {
+	@Override
+	protected void setBibtexTool() {
 		Nodes bibtexLinks = articleAbstractHtml.query(".//x:a[contains(@href,'/_bib/')]", X_XHTML);
 		if (bibtexLinks.size() != 1) {
 			return;
@@ -114,7 +113,8 @@ public class ChemSocJapanArticleCrawler extends ArticleCrawler {
 	 * @return list containing the details of each full-text
 	 * resource provided for the article.
 	 */
-	private List<FullTextResourceDescription> getFullTextResources() {
+	@Override
+	protected List<FullTextResourceDescription> getFullTextResources() {
 		List<FullTextResourceDescription> fullTexts = new ArrayList<FullTextResourceDescription>(1);
 		Nodes pdfLinks = articleAbstractHtml.query(".//x:a[contains(@href,'_pdf') and contains(.,'PDF')]", X_XHTML);
 		if (pdfLinks.size() == 0) {
@@ -125,7 +125,7 @@ public class ChemSocJapanArticleCrawler extends ArticleCrawler {
 		String linkText = link.getValue().trim();
 		String urlPostfix = link.getAttributeValue("href");
 		String pdfUrl = CHEMSOCJAPAN_HOMEPAGE_URL+urlPostfix;
-		FullTextResourceDescription ftrd = new FullTextResourceDescription(pdfUrl, linkText, "application/pdf");
+		FullTextResourceDescription ftrd = new FullTextResourceDescription(pdfUrl, linkText, APPLICATION_PDF);
 		fullTexts.add(ftrd);
 		return fullTexts;
 	}
@@ -140,7 +140,8 @@ public class ChemSocJapanArticleCrawler extends ArticleCrawler {
 	 * data file (as a <code>SupplementaryFileDetails</code> object).
 	 * 
 	 */
-	private List<SupplementaryResourceDescription> getSupplementaryFilesDetails() {
+	@Override
+	protected List<SupplementaryResourceDescription> getSupplementaryFilesDetails() {
 		Nodes suppListLinks = articleAbstractHtml.query(".//x:a[contains(@href,'_applist')]", X_XHTML);
 		if (suppListLinks.size() == 0) {
 			return new ArrayList<SupplementaryResourceDescription>(0);
@@ -200,8 +201,9 @@ public class ChemSocJapanArticleCrawler extends ArticleCrawler {
 	 */
 	public static void main(String[] args) {
 		DOI doi = new DOI("http://dx.doi.org/10.1246/cl.2008.682");
-		ChemSocJapanArticleCrawler crawler = new ChemSocJapanArticleCrawler(doi);
+		ArticleCrawler crawler = new ChemSocJapanArticleCrawler(doi);
 		ArticleDescription ad = crawler.getDetails();
 		System.out.println(ad.toString());
 	}
+
 }
