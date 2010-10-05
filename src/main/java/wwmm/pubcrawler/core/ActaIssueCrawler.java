@@ -44,7 +44,6 @@ import wwmm.pubcrawler.Utils;
  */
 public class ActaIssueCrawler extends IssueCrawler {
 
-	public ActaJournal journal;
 	private static final Logger LOG = Logger.getLogger(ActaIssueCrawler.class);
 
 	/**
@@ -58,66 +57,49 @@ public class ActaIssueCrawler extends IssueCrawler {
 	public ActaIssueCrawler(ActaJournal journal) {
 		this.journal = journal;
 	}
-
-	/**
-	 * <p>
-	 * Gets information to identify the last published issue of a
-	 * the provided <code>ActaJournal</code>.
-	 * </p>
-	 * 
-	 * @return the year and issue identifier.
-	 * 
-	 */
-	@Override
-	public IssueDescription getCurrentIssueDescription() {
-		Document doc = getCurrentIssueHtml();
-		List<Node> currentIssueLink = Utils.queryHTML(doc, "//x:a[contains(@target,'_parent')]");
-		Node current = currentIssueLink.get(0);
-		if (((Element) current).getValue().contains("preparation")) {
-			current = currentIssueLink.get(1);
-		}
-		String info = ((Element)current).getAttributeValue("href");
-		Pattern pattern = Pattern.compile("\\.\\./issues/(\\d\\d\\d\\d)/(\\d\\d/\\d\\d)/issconts.html");
-		Matcher matcher = pattern.matcher(info);
-		if (!matcher.find() || matcher.groupCount() != 2) {
-			throw new CrawlerRuntimeException("Could not extract the year/issue information " +
-					"from current issue for Acta journal, "+journal.getFullTitle()+".");
-		}
-		String year = matcher.group(1);
-		String issueId = matcher.group(2).replaceAll("/", "-");
-		LOG.info("Found latest issue details for Acta journal "+journal.getFullTitle()+": year="+year+", issue="+issueId+".");
-		return new IssueDescription(year, issueId);
+	
+	protected void readProperties() {
+		issueInfo.infoPath = "//x:a[contains(@target,'_parent') and not(contains(. 'preparation')]/@href";
+		issueInfo.yearIssueRegex = "\\.\\./issues/(\\d\\d\\d\\d)/(\\d\\d/\\d\\d)/issconts.html";
+		issueInfo.matcherGroupCount = 4;
+		issueInfo.yearMatcherGroup = 1;
+		issueInfo.issueMatcherGroup = 2;
+		issueInfo.currentIssueHtmlStart = "http://journals.iucr.org/";
+		issueInfo.currentIssueHtmlEnd = "/contents/backissuesbdy.html";
+		//
+		issueInfo.issueIdReplaceFrom = "/";
+		issueInfo.issueIdReplaceTo = "-";
 	}
 
-	/**
-	 * <p>
-	 * Gets the HTML of the table of contents of the last 
-	 * published issue of the provided journal.
-	 * </p>
-	 * 
-	 * @return HTML of the issue table of contents.
-	 * 
-	 */
-	@Override
-	public Document getCurrentIssueHtml() {
-		String issueUrl = "http://journals.iucr.org/"+journal.getAbbreviation()+"/contents/backissuesbdy.html";
-		return httpClient.getResourceHTML(issueUrl);
-	}
-
-	/**
-	 * <p>
-	 * Gets the DOIs of all of the articles from the last 
-	 * published issue of the provided journal.
-	 * </p> 
-	 * 
-	 * @return a list of the DOIs of the articles.
-	 * 
-	 */
-	@Override
-	public List<DOI> getCurrentIssueDOIs() {
-		IssueDescription details = getCurrentIssueDescription();
-		return getDois(details);
-	}
+//	/**
+//	 * <p>
+//	 * Gets information to identify the last published issue of a
+//	 * the provided <code>ActaJournal</code>.
+//	 * </p>
+//	 * 
+//	 * @return the year and issue identifier.
+//	 * 
+//	 */
+//	@Override
+//	public IssueDescription getCurrentIssueDescription() {
+//		String info = getJournalInfo();
+//		Pattern pattern = Pattern.compile(issueInfo.yearIssueRegex);
+//		Matcher matcher = pattern.matcher(info);
+//		if (!matcher.find() || matcher.groupCount() != issueInfo.matcherGroupCount) {
+//			throw new CrawlerRuntimeException("Could not extract the year/issue information " +
+//					"from current issue for Acta journal, "+journal.getFullTitle()+".");
+//		}
+//		String year = matcher.group(issueInfo.yearMatcherGroup);
+//		if (issueInfo.yearVolumeReplaceFrom != null && issueInfo.yearVolumeReplaceTo != null) {
+//			year = year.replaceAll(issueInfo.yearVolumeReplaceFrom, issueInfo.yearVolumeReplaceTo);
+//		}
+//		String issueId = matcher.group(issueInfo.issueMatcherGroup);
+//		if (issueInfo.issueIdReplaceFrom != null && issueInfo.issueIdReplaceTo != null) {
+//			issueId = issueId.replaceAll(issueInfo.issueIdReplaceFrom, issueInfo.issueIdReplaceTo);
+//		}
+//		LOG.info("Found latest issue details for Acta journal "+journal.getFullTitle()+": year="+year+", issue="+issueId+".");
+//		return new IssueDescription(year, issueId);
+//	}
 
 	/**
 	 * <p>
@@ -160,44 +142,23 @@ public class ActaIssueCrawler extends IssueCrawler {
 		return new ArrayList<DOI>(dois);
 	}
 
-	/**
-	 * <p>
-	 * Gets information describing all articles in the issue 
-	 * defined by the <code>ActaJournal</code> and the 
-	 * provided	year and issue identifier (wrapped in the 
-	 * <code>issueDescription</code> parameter.
-	 * </p>
-	 * 
-	 * @param issueDescription - contains the year and issue
-	 * identifier of the issue to be crawled.
-	 * 
-	 * @return a list where each item contains the details for 
-	 * a particular article from the issue.
-	 * 
-	 */
-	@Override
-	public List<ArticleDescription> getArticleDescriptions(IssueDescription issueDescription) {
-		List<DOI> dois = getDois(issueDescription);
-		return getArticleDescriptions(dois);
-	}
-
-	/**
-	 * <p>
-	 * Gets information describing all articles defined by the list
-	 * of DOIs provided.
-	 * </p>
-	 * 
-	 * @param dois - a list of DOIs for the article that are to be
-	 * crawled.
-	 * 
-	 * @return a list where each item contains the details for 
-	 * a particular article from the issue.
-	 * 
-	 */
-	@Override
-	public List<ArticleDescription> getArticleDescriptions(List<DOI> dois) {
-		return getArticleDescriptions(new ActaArticleCrawler(), dois);
-	}
+//	/**
+//	 * <p>
+//	 * Gets information describing all articles defined by the list
+//	 * of DOIs provided.
+//	 * </p>
+//	 * 
+//	 * @param dois - a list of DOIs for the article that are to be
+//	 * crawled.
+//	 * 
+//	 * @return a list where each item contains the details for 
+//	 * a particular article from the issue.
+//	 * 
+//	 */
+//	@Override
+//	public List<ArticleDescription> getArticleDescriptions(List<DOI> dois) {
+//		return getArticleDescriptions(new ActaArticleCrawler(), dois);
+//	}
 
 	/**
 	 * <p>

@@ -25,6 +25,7 @@ import java.util.List;
 import org.apache.commons.httpclient.URIException;
 import org.junit.Test;
 
+import wwmm.pubcrawler.core.ArticleCrawler;
 import wwmm.pubcrawler.core.ArticleDescription;
 import wwmm.pubcrawler.core.ArticleReference;
 import wwmm.pubcrawler.core.DOI;
@@ -42,7 +43,7 @@ public class RscArticleCrawlerIntegrationTest {
 	@Test
 	public void testGetArticleDetails() throws URIException, NullPointerException {
 		DOI doi = new DOI("http://dx.doi.org/10.1039/C0CC01684E");
-		RscArticleCrawler crawler = new RscArticleCrawler(doi);
+		ArticleCrawler crawler = new RscArticleCrawler(doi);
 		ArticleDescription details = crawler.getDetails();
 		assertNotNull("NULL article details", details);
 		String authors = details.getAuthors();
@@ -111,7 +112,7 @@ public class RscArticleCrawlerIntegrationTest {
 	@Test
 	public void testGetReference() {
 		DOI doi1 = new DOI("http://dx.doi.org/10.1039/C0CC01684E");
-		RscArticleCrawler crawler1 = new RscArticleCrawler(doi1);
+		ArticleCrawler crawler1 = new RscArticleCrawler(doi1);
 		ArticleDescription details1 = crawler1.getDetails();
 		ArticleReference ref1 = details1.getReference();
 		String title1 = ref1.getJournalTitle();
@@ -123,7 +124,7 @@ public class RscArticleCrawlerIntegrationTest {
 		String year1 = ref1.getYear();
 		assertEquals("Year in first reference", "2010", year1);
 		DOI doi2 = new DOI(DOI.DOI_SITE_URL+"/10.1039/b900026g");
-		RscArticleCrawler crawler2 = new RscArticleCrawler(doi2);
+		ArticleCrawler crawler2 = new RscArticleCrawler(doi2);
 		ArticleDescription details2 = crawler2.getDetails();
 		ArticleReference ref2 = details2.getReference();
 		String title2 = ref2.getJournalTitle();

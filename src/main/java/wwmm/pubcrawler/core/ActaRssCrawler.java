@@ -230,14 +230,14 @@ public class ActaRssCrawler extends Crawler {
 	 * @throws ParseException 
 	 */
 	public static void main(String[] args) throws ParseException {
-		for (ActaJournal journal : ActaJournal.values()) {
+		for (Journal journal : ActaJournal.values()) {
 			if (!journal.getAbbreviation().equals("c")) {
 				continue;
 			}
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy'-'MM'-'dd");
 			Date date = sdf.parse("2008-08-15");
 			//Date date = new Date();
-			ActaRssCrawler acf = new ActaRssCrawler(journal, date);
+			ActaRssCrawler acf = new ActaRssCrawler((ActaJournal)journal, date);
 			List<ArticleDescription> details = acf.getNewArticleDetails();
 			for (ArticleDescription ad : details) {
 				System.out.println(ad.toString());

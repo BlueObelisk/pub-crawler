@@ -45,8 +45,6 @@ import wwmm.pubcrawler.Utils;
  */
 public class NatureIssueCrawler extends IssueCrawler {
 
-	private NatureJournal journal;
-
 	private static final Logger LOG = Logger.getLogger(NatureIssueCrawler.class);
 
 	/**
@@ -60,66 +58,30 @@ public class NatureIssueCrawler extends IssueCrawler {
 	public NatureIssueCrawler(NatureJournal journal) {
 		this.journal = journal;
 	}
+	
+	protected void readProperties() {
+		issueInfo.infoPath = ".//x:a[.='Current issue']";
+		issueInfo.yearIssueRegex = "/[^/]*/journal/v(\\d+)/n(\\d+)";
+		issueInfo.matcherGroupCount = 2;
+		issueInfo.yearMatcherGroup = 1;
+		issueInfo.issueMatcherGroup = 2;
+		
+		issueInfo.currentIssueHtmlStart = NATURE_HOMEPAGE_URL+"/";
+		issueInfo.currentIssueHtmlEnd = "/index.html";
+		
+		issueInfo.useVolume = true;
+		
+//		String issueUrl = NATURE_HOMEPAGE_URL+"/"+journal.getAbbreviation()+"/journal/v"+volume+"/n"+issueId+"/index.html";
+		issueInfo.issueUrlStart     = NATURE_HOMEPAGE_URL+"/";
+		issueInfo.issueUrlPreVolumeYear = "/journal/v";
+		issueInfo.issueUrlPreIssue  = "/n";
+		issueInfo.issueUrlEnd       = "/index.html";
 
-	/**
-	 * <p>
-	 * Gets information to identify the last published issue of a
-	 * the provided <code>AcsJournal</code>.
-	 * </p>
-	 * 
-	 * @return the year and issue identifier.
-	 * 
-	 */
-	@Override
-	public IssueDescription getCurrentIssueDescription() {
-		Document doc = getCurrentIssueHtml();
-		Nodes currentIssueNds = doc.query(".//x:a[.='Current issue']", X_XHTML);
-		if (currentIssueNds.size() != 1) {
-			throw new CrawlerRuntimeException("Expected to find 1 element containing" +
-					" a link to the current issue TOC but found "+currentIssueNds.size()+".");
-		}
-		String urlPostfix = ((Element)currentIssueNds.get(0)).getAttributeValue("href");
-		Pattern pattern = Pattern.compile("/"+journal.getAbbreviation()+"/journal/v(\\d+)/n(\\d+)");
-		Matcher matcher = pattern.matcher(urlPostfix);
-		if (!matcher.find() || matcher.groupCount() != 2) {
-			throw new CrawlerRuntimeException("Could not extract the year/issue information.");
-		}
-		String volume = matcher.group(1);
-		String number = matcher.group(2);
-		String year = String.valueOf(Integer.valueOf(volume)+journal.getVolumeOffset());
-		LOG.debug("Found latest issue details for Nature journal "+journal.getFullTitle()+": year="+year+", issue="+number+".");
-		return new IssueDescription(year, number);
+		issueInfo.doiXpath = ".//x:span[@class='doi']";
+		issueInfo.beheadDoi = 4;
+		issueInfo.articleCrawlerClass = NatureArticleCrawler.class;
 	}
 
-	/**
-	 * <p>
-	 * Gets the HTML of the table of contents of the last 
-	 * published issue of the provided journal.
-	 * </p>
-	 * 
-	 * @return HTML of the issue table of contents.
-	 * 
-	 */
-	@Override
-	public Document getCurrentIssueHtml() {
-		String issueUrl = NATURE_HOMEPAGE_URL+"/"+journal.getAbbreviation()+"/index.html";
-		return httpClient.getResourceHTML(issueUrl);
-	}
-
-	/**
-	 * <p>
-	 * Gets the DOIs of all of the articles from the last 
-	 * published issue of the provided journal.
-	 * </p> 
-	 * 
-	 * @return a list of the DOIs of the articles.
-	 * 
-	 */
-	@Override
-	public List<DOI> getCurrentIssueDOIs() {
-		IssueDescription details = getCurrentIssueDescription();
-		return getDois(details);
-	}
 
 	/**
 	 * <p>
@@ -140,14 +102,16 @@ public class NatureIssueCrawler extends IssueCrawler {
 		String year = issueDetails.getYear();
 		String issueId = issueDetails.getIssueId();
 		List<DOI> dois = new ArrayList<DOI>();
-		int volume = Integer.valueOf(year)-journal.getVolumeOffset();
-		String issueUrl = NATURE_HOMEPAGE_URL+"/"+journal.getAbbreviation()+"/journal/v"+volume+"/n"+issueId+"/index.html";
+		String volumeYear = getVolumeFromYearVolume(year, issueInfo.useVolume);
+		String issueUrl = issueInfo.issueUrlStart+journal.getAbbreviation()+
+			issueInfo.issueUrlPreVolumeYear+volumeYear+issueInfo.issueUrlPreIssue+issueId+issueInfo.issueUrlEnd;
 		LOG.info("Started to find DOIs from "+journal.getFullTitle()+", year "+year+", issue "+issueId+".");
 		Document issueDoc = httpClient.getResourceHTML(issueUrl);
-		List<Node> doiNodes = Utils.queryHTML(issueDoc, ".//x:span[@class='doi']");
+		List<Node> doiNodes = Utils.queryHTML(issueDoc, issueInfo.doiXpath);
 		for (Node doiNode : doiNodes) {
 			Element span = (Element)doiNode;
-			String doiPostfix = span.getValue().substring(4);
+			String doiPostfix = span.getValue();
+			doiPostfix = (issueInfo.beheadDoi != null) ? doiPostfix.substring(issueInfo.beheadDoi) : doiPostfix;
 			String doiStr = DOI.DOI_SITE_URL+"/"+doiPostfix;
 			DOI doi = new DOI(doiStr); 
 			dois.add(doi);
@@ -155,45 +119,24 @@ public class NatureIssueCrawler extends IssueCrawler {
 		LOG.info("Finished finding issue DOIs: "+dois.size());
 		return dois;
 	}
-
-	/**
-	 * <p>
-	 * Gets information describing all articles in the issue 
-	 * defined by the <code>NatureJournal</code> and the provided
-	 * year and issue identifier (wrapped in the 
-	 * <code>issueDetails</code> parameter.
-	 * </p>
-	 * 
-	 * @param issueDetails - contains the year and issue
-	 * identifier of the issue to be crawled.
-	 * 
-	 * @return a list where each item contains the details for 
-	 * a particular article from the issue.
-	 * 
-	 */
-	@Override
-	public List<ArticleDescription> getArticleDescriptions(IssueDescription details) {
-		List<DOI> dois = getDois(details);
-		return getArticleDescriptions(dois);
-	}
 	
-	/**
-	 * <p>
-	 * Gets information describing all articles defined by the list
-	 * of DOIs provided.
-	 * </p>
-	 * 
-	 * @param dois - a list of DOIs for the article that are to be
-	 * crawled.
-	 * 
-	 * @return a list where each item contains the details for 
-	 * a particular article from the issue.
-	 * 
-	 */
-	@Override
-	public List<ArticleDescription> getArticleDescriptions(List<DOI> dois) {
-		return getArticleDescriptions(new NatureArticleCrawler(), dois);
-	}
+//	/**
+//	 * <p>
+//	 * Gets information describing all articles defined by the list
+//	 * of DOIs provided.
+//	 * </p>
+//	 * 
+//	 * @param dois - a list of DOIs for the article that are to be
+//	 * crawled.
+//	 * 
+//	 * @return a list where each item contains the details for 
+//	 * a particular article from the issue.
+//	 * 
+//	 */
+//	@Override
+//	public List<ArticleDescription> getArticleDescriptions(List<DOI> dois) {
+//		return getArticleDescriptions(new NatureArticleCrawler(), dois);
+//	}
 
 	/**
 	 * <p>
@@ -204,7 +147,7 @@ public class NatureIssueCrawler extends IssueCrawler {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		NatureIssueCrawler nic = new NatureIssueCrawler(NatureJournal.CHEMISTRY);
+		IssueCrawler nic = new NatureIssueCrawler(NatureJournal.CHEMISTRY);
 		IssueDescription details = nic.getCurrentIssueDescription();
 		/*
 		List<DOI> dois = nic.getDOIs(details);

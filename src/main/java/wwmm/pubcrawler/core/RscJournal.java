@@ -15,6 +15,9 @@
  ******************************************************************************/
 package wwmm.pubcrawler.core;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * <p>
  * The <code>RscJournal</code> enum is meant to enumerate useful 
@@ -26,7 +29,8 @@ package wwmm.pubcrawler.core;
  * @version 1.1
  * 
  */
-public enum RscJournal {
+public class RscJournal extends Journal {
+	/**
 	CHEMCOMM("cc", "Chemical Communications", 1964),
 	CRYSTENGCOMM("ce", "CrystEngComm", 1998),
 	DALTON_TRANSACTIONS("dt", "Dalton Transactions", 1971),
@@ -37,63 +41,24 @@ public enum RscJournal {
 	NEW_JOURNAL_OF_CHEMISTRY("nj", "New Journal of Chemistry", 1977),
 	ORGANIC_AND_BIOMOLECULAR_CHEMISTRY("ob", "Organic and Biomolecular Chemistry", 2002),
 	PCCP("cp", "Physical Chemistry Chemical Physics", 1998);
+*/
+	static List<Journal> journals;
+	public static RscJournal CHEMCOMM;
+	public static RscJournal DALTON_TRANSACTIONS;
+	static {
+		journals = new ArrayList<Journal>();
+		CHEMCOMM = new RscJournal("cc", "Chemical Communications", 1964);
+		journals.add(CHEMCOMM);
+		DALTON_TRANSACTIONS = new RscJournal("dt", "Dalton Transactions", 1971);
+		journals.add(DALTON_TRANSACTIONS);
+	};
+	
+	public static List<Journal> values() {
+		return journals;
+	}
 
-	private final String abbreviation;
-	private final String fullTitle;
-	private final int volumeOffset;
 
 	RscJournal(String abbreviation, String fullTitle, int volumeOffset) {
-		this.abbreviation = abbreviation;
-		this.fullTitle = fullTitle;
-		this.volumeOffset = volumeOffset;
-	}
-
-	/**
-	 * <p>
-	 * Gets the complete journal title.
-	 * </p>
-	 * 
-	 * @return String of the complete journal title.
-	 * 
-	 */
-	public String getFullTitle() {
-		return this.fullTitle;
-	}
-
-	/**
-	 * <p>
-	 * Gets the journal abbreviation (as used by the publisher
-	 * on their website).
-	 * </p>
-	 * 
-	 * @return String of the journal abbreviation.
-	 * 
-	 */
-	public String getAbbreviation() {
-		return this.abbreviation;
-	}
-	
-	/**
-	 * <p>
-	 * Gets an <code></code> which describes the relationship 
-	 * between a journals year and volume i.e. if you know 
-	 * the journal year is 2009 and the <code>volumeOffset</code> 
-	 * is 2000, then the volume of the journal in 2009 is 9. 
-	 * Magic.
-	 * </p>
-	 *
-	 * @return int
-	 * 
-	 */
-	public int getVolumeOffset() {
-		return this.volumeOffset;
-	}
-	
-	public int getVolumeFromYear(int year) {
-		return year - this.volumeOffset;
-	}
-	
-	public int getYearFromVolume(int volume) {
-		return this.volumeOffset + volume;
+		super(abbreviation, fullTitle, volumeOffset);
 	}
 }

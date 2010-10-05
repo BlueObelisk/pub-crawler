@@ -15,6 +15,9 @@
  ******************************************************************************/
 package wwmm.pubcrawler.core;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * <p>
  * The <code>ChemSocJapanJournal</code> enum is meant to 
@@ -26,39 +29,22 @@ package wwmm.pubcrawler.core;
  * @version 1.1
  * 
  */
-public enum ChemSocJapanJournal {
-	CHEMISTRY_LETTERS("chem-lett", "Chemistry Letters");
+public class ChemSocJapanJournal extends Journal {
 
-	private final String abbreviation;
-	private final String fullTitle;
+	static List<Journal> journals;
+	public static ChemSocJapanJournal CHEMISTRY_LETTERS;
+
+	static {
+		journals = new ArrayList<Journal>();
+		CHEMISTRY_LETTERS = new ChemSocJapanJournal("chem-lett", "Chemistry Letters");
+		journals.add(CHEMISTRY_LETTERS);
+	};
+	
+	public static List<Journal> values() {
+		return journals;
+	}
 
 	ChemSocJapanJournal(String abbreviation, String fullTitle) {
-		this.abbreviation = abbreviation;
-		this.fullTitle = fullTitle;
-	}
-
-	/**
-	 * <p>
-	 * Gets the complete journal title.
-	 * </p>
-	 * 
-	 * @return String of the complete journal title.
-	 * 
-	 */
-	public String getFullTitle() {
-		return this.fullTitle;
-	}
-
-	/**
-	 * <p>
-	 * Gets the journal abbreviation (as used by the publisher
-	 * on their website).
-	 * </p>
-	 * 
-	 * @return String of the journal abbreviation.
-	 * 
-	 */
-	public String getAbbreviation() {
-		return this.abbreviation;
+		super(abbreviation, fullTitle);
 	}
 }

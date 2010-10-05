@@ -47,7 +47,7 @@ import wwmm.pubcrawler.Utils;
  */
 public class AcsArticleCrawler extends ArticleCrawler {
 
-	private static final Logger LOG = Logger.getLogger(AcsArticleCrawler.class);
+	static final Logger LOG = Logger.getLogger(AcsArticleCrawler.class);
 
 	public AcsArticleCrawler() {
 		;
@@ -56,125 +56,14 @@ public class AcsArticleCrawler extends ArticleCrawler {
 	public AcsArticleCrawler(DOI doi) {
 		super(doi);
 	}
-
-	/**
-	 * <p>
-	 * Crawls the article abstract webpage for information, which is 
-	 * returned in an ArticleDetails object.
-	 * </p> 
-	 * 
-	 * @return ArticleDetails object containing important details about
-	 * the article (e.g. title, authors, reference, supplementary 
-	 * files).
-	 * 
-	 */
-	@Override
-	public ArticleDescription getDetails() {
-		if (!doiResolved) {
-			LOG.warn("The DOI provided for the article abstract ("+doi.toString()+") has not resolved so we cannot get article details.");
-			return articleDetails;
-		}
-		List<FullTextResourceDescription> fullTextResources = getFullTextResources();
-		articleDetails.setFullTextResources(fullTextResources);
-		String title = getTitle();
-		String authors = getAuthors();
-		ArticleReference ref = getReference();
-		List<SupplementaryResourceDescription> suppFiles = getSupplementaryFilesDetails();
-		articleDetails.setTitle(title);
-		articleDetails.setReference(ref);
-		articleDetails.setAuthors(authors);
-		articleDetails.setSupplementaryResources(suppFiles);
-		LOG.debug("Finished finding article details: "+doi.toString());
-		return articleDetails;
-	}
-
-	/**
-	 * <p>
-	 * Gets the details of any full-text resources provided for
-	 * the article.
-	 * </p>
-	 * 
-	 * @return list containing the details of each full-text
-	 * resource provided for the article.
-	 */
-	private List<FullTextResourceDescription> getFullTextResources() {
-		List<FullTextResourceDescription> fullTextResources = new ArrayList<FullTextResourceDescription>(3);
-		FullTextResourceDescription fullTextHtmlDetails = getFullTextHtmlDetails();
-		if (fullTextHtmlDetails != null) {
-			fullTextResources.add(fullTextHtmlDetails);
-		}
-		FullTextResourceDescription fullTextPdfDetails = getFullTextPdfDetails();
-		if (fullTextPdfDetails != null) {
-			fullTextResources.add(fullTextPdfDetails);
-		}
-		FullTextResourceDescription fullTextHiResPdfDetails = getFullTextEnhancedPdfDetails();
-		if (fullTextHiResPdfDetails != null) {
-			fullTextResources.add(fullTextHiResPdfDetails);
-		}
-		return fullTextResources;
-	}
-
-	/**
-	 * <p>
-	 * Gets the details about the full-text PDF resource for 
-	 * this article.
-	 * </p>
-	 * 
-	 * @return details about the full-text PDF resource for this
-	 * article.
-	 */
-	private FullTextResourceDescription getFullTextPdfDetails() {
-		Nodes fullTextPdfLinks = articleAbstractHtml.query(".//x:a[contains(@href,'/doi/pdf/')]", X_XHTML);
-		if (fullTextPdfLinks.size() == 0) {
-			LOG.warn("Problem getting full text PDF link: "+doi);
-			return null;
-		}
-		Element fullTextLink = (Element)fullTextPdfLinks.get(0);
-		String linkText = fullTextLink.getValue().trim();
-		String fullTextPdfUrl = ACS_HOMEPAGE_URL+fullTextLink.getAttributeValue("href");
-		return new FullTextResourceDescription(fullTextPdfUrl, linkText, "application/pdf");
-	}
-
-	/**
-	 * <p>
-	 * Gets the details about the full-text enhanced PDF resource for 
-	 * this article.
-	 * </p>
-	 * 
-	 * @return details about the full-text enhanced PDF resource for this
-	 * article.
-	 */
-	private FullTextResourceDescription getFullTextEnhancedPdfDetails() {
-		Nodes fullTextPdfLinks = articleAbstractHtml.query(".//x:a[contains(@href,'/doi/pdfplus/')]", X_XHTML);
-		if (fullTextPdfLinks.size() == 0) {
-			LOG.warn("Problem getting full text enhanced PDF link: "+doi);
-			return null;
-		}
-		Element fullTextLink = (Element)fullTextPdfLinks.get(0);
-		String linkText = fullTextLink.getValue().trim();
-		String fullTextPdfUrl = ACS_HOMEPAGE_URL+fullTextLink.getAttributeValue("href");
-		return new FullTextResourceDescription(fullTextPdfUrl, linkText, "application/pdf");
-	}
-
-	/**
-	 * <p>
-	 * Gets the details about the full-text HTML resource for 
-	 * this article.
-	 * </p>
-	 * 
-	 * @return details about the full-text HTML resource for this
-	 * article.
-	 */
-	private FullTextResourceDescription getFullTextHtmlDetails() {
-		Nodes fullTextHtmlLinks = articleAbstractHtml.query(".//x:a[contains(@href,'/doi/full/')]", X_XHTML);
-		if (fullTextHtmlLinks.size() == 0) {
-			LOG.warn("Problem getting full text HTML link: "+doi);
-			return null;
-		}
-		Element fullTextLink = (Element)fullTextHtmlLinks.get(0);
-		String linkText = fullTextLink.getValue().trim();
-		String fullTextHtmlUrl = ACS_HOMEPAGE_URL+fullTextLink.getAttributeValue("href");
-		return new FullTextResourceDescription(fullTextHtmlUrl, linkText, "text/html");
+	
+	protected void readProperties() {
+		articleInfo.fullTextPdfLinkUrl = ACS_HOMEPAGE_URL;
+		articleInfo.fullTextPdfXpath = ".//x:a[contains(@href,'/doi/pdf/')]";
+		articleInfo.fullTextEnhancedPdfLinkUrl = ACS_HOMEPAGE_URL;
+		articleInfo.fullTextEnhancedPdfXpath = ".//x:a[contains(@href,'/doi/pdfplus/')]";
+		articleInfo.fullTextHtmlLinkUrl = ACS_HOMEPAGE_URL;
+		articleInfo.fullTextHtmlXpath = ".//x:a[contains(@href,'/doi/full/')]";
 	}
 
 	/**
@@ -187,7 +76,8 @@ public class AcsArticleCrawler extends ArticleCrawler {
 	 * data file (as a <code>SupplementaryFileDetails</code> object).
 	 * 
 	 */
-	private List<SupplementaryResourceDescription> getSupplementaryFilesDetails() {
+	@Override
+	protected List<SupplementaryResourceDescription> getSupplementaryFilesDetails() {
 		Document suppPageDoc = getSupplementaryDataWebpage();
 		if (suppPageDoc == null) {
 			return Collections.EMPTY_LIST;
@@ -257,7 +147,8 @@ public class AcsArticleCrawler extends ArticleCrawler {
 	 * @return String containing the article authors.
 	 * 
 	 */
-	private String getAuthors() {
+	@Override
+	protected String getAuthors() {
 		Nodes authorNds = articleAbstractHtml.query(".//x:meta[@name='dc.Creator']", X_XHTML);
 		if (authorNds.size() == 0) {
 			LOG.warn("Problem finding authors at: "+doi);
@@ -283,7 +174,8 @@ public class AcsArticleCrawler extends ArticleCrawler {
 	 * @return the article bibliographic reference.
 	 * 
 	 */
-	private ArticleReference getReference() {
+	@Override
+	protected ArticleReference getReference() {
 		Nodes citationNds = articleAbstractHtml.query(".//x:div[@id='citation']", X_XHTML);
 		if (citationNds.size() != 1) {
 			LOG.warn("Problem finding bibliographic text at: "+doi);
@@ -348,7 +240,8 @@ public class AcsArticleCrawler extends ArticleCrawler {
 	 * @return the article title.
 	 * 
 	 */
-	private String getTitle() {
+	@Override
+	protected String getTitle() {
 		Nodes titleNds = articleAbstractHtml.query(".//x:h1[@class='articleTitle']", X_XHTML);
 		if (titleNds.size() != 1) {
 			LOG.warn("Problem finding title at: "+doi);
@@ -368,7 +261,7 @@ public class AcsArticleCrawler extends ArticleCrawler {
 	 */
 	public static void main(String[] args) throws IOException {
 		DOI doi = new DOI("http://dx.doi.org/10.1021/cg100078b");
-		AcsArticleCrawler crawler = new AcsArticleCrawler(doi);
+		ArticleCrawler crawler = new AcsArticleCrawler(doi);
 		ArticleDescription ad = crawler.getDetails();
 		System.out.println(ad.toString());
 	}

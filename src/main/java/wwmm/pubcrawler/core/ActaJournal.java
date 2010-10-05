@@ -15,6 +15,9 @@
  ******************************************************************************/
 package wwmm.pubcrawler.core;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * <p>
  * The <code>ActaJournal</code> enum is meant to enumerate useful 
@@ -25,7 +28,9 @@ package wwmm.pubcrawler.core;
  * @version 1.1
  * 
  */
-public enum ActaJournal {
+public class ActaJournal extends Journal {
+	
+/**
 	SECTION_A("a", "Section A: Foundations of Crystallography"),
 	SECTION_B("b", "Section B: Structural Science"),
 	SECTION_C("c", "Section C: Crystal Structure Communications"),
@@ -34,37 +39,27 @@ public enum ActaJournal {
 	SECTION_F("f", "Section F: Structural Biology and Crystallization Communications"),
 	SECTION_J("j", "Section J: Applied Crystallography"),
 	SECTION_S("s", "Section S: Synchrotron Radiation");
+*/
+	
+	static List<Journal> journals;
+	public static ActaJournal SECTION_B ;
+	public static ActaJournal SECTION_C ;
 
-	private final String abbreviation;
-	private final String fullTitle;
+	static {
+		journals = new ArrayList<Journal>();
+		SECTION_B = new ActaJournal("b", "Section B: Structural Science") ;
+		journals.add(SECTION_B);
+		SECTION_C = new ActaJournal("c", "Section C: Crystal Structure Communications") ;
+		journals.add(SECTION_C);
+	};
+	
+	public static List<Journal> values() {
+		return journals;
+	}
+
 
 	ActaJournal(String abbreviation, String fullTitle) {
-		this.abbreviation = abbreviation;
-		this.fullTitle = fullTitle;
+		super(abbreviation, fullTitle);
 	}
 
-	/**
-	 * <p>
-	 * Gets the complete journal title.
-	 * </p>
-	 * 
-	 * @return String of the complete journal title.
-	 * 
-	 */
-	public String getFullTitle() {
-		return this.fullTitle;
-	}
-
-	/**
-	 * <p>
-	 * Gets the journal abbreviation (as used by the publisher
-	 * on their website).
-	 * </p>
-	 * 
-	 * @return String of the journal abbreviation.
-	 * 
-	 */
-	public String getAbbreviation() {
-		return this.abbreviation;
-	}
 }

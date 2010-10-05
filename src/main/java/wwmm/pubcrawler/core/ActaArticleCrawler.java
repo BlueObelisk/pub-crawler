@@ -15,6 +15,7 @@
  ******************************************************************************/
 package wwmm.pubcrawler.core;
 
+import static wwmm.pubcrawler.core.CrawlerConstants.ACS_HOMEPAGE_URL;
 import static wwmm.pubcrawler.core.CrawlerConstants.X_XHTML;
 
 import java.util.ArrayList;
@@ -43,6 +44,7 @@ import org.apache.log4j.Logger;
  */
 public class ActaArticleCrawler extends ArticleCrawler {
 
+	private static final String TEXT_HTML = "text/html";
 	private static final Logger LOG = Logger.getLogger(ActaArticleCrawler.class);
 
 	public ActaArticleCrawler() {
@@ -52,6 +54,16 @@ public class ActaArticleCrawler extends ArticleCrawler {
 	public ActaArticleCrawler(DOI doi) {
 		super(doi);
 	}
+	
+	protected void readProperties() {
+		articleInfo.fullTextHtmlXpath = ".//x:a[./x:img[contains(@src,'graphics/htmlborder.gif')]]";
+		articleInfo.fullTextPdfXpath = ".//x:a[./x:img[contains(@src,'graphics/pdfborder.gif')]]";
+		articleInfo.fullTextHtmlLinkUrl = "HTML";
+		articleInfo.fullTextPdfLinkUrl = "PDF";
+		
+	}
+
+
 
 	/**
 	 * <p>
@@ -75,18 +87,7 @@ public class ActaArticleCrawler extends ArticleCrawler {
 		}
 		List<FullTextResourceDescription> fullTextResources = getFullTextResources();
 		articleDetails.setFullTextResources(fullTextResources);
-		List<SupplementaryResourceDescription> suppFiles = getSupplementaryFilesDetails();
-		setBibtexTool();
-		if (bibtexTool != null) {
-			String title = bibtexTool.getTitle();
-			ArticleReference ref = bibtexTool.getReference();
-			articleDetails.setHasBeenPublished(true);
-			String authors = bibtexTool.getAuthors();
-			articleDetails.setTitle(title);
-			articleDetails.setReference(ref);
-			articleDetails.setAuthors(authors);
-			articleDetails.setSupplementaryResources(suppFiles);
-		}
+		applyBibtexTool();
 		LOG.info("Finished finding article details: "+doi);
 		return articleDetails;
 	}
@@ -98,7 +99,8 @@ public class ActaArticleCrawler extends ArticleCrawler {
 	 * </p>
 	 * 
 	 */
-	private void setBibtexTool() {
+	@Override
+	protected void setBibtexTool() {
 		String articleId = getArticleId();
 		PostMethod postMethod = new PostMethod("http://scripts.iucr.org/cgi-bin/biblio");
 		NameValuePair[] nvps = {
@@ -132,70 +134,6 @@ public class ActaArticleCrawler extends ArticleCrawler {
 
 	/**
 	 * <p>
-	 * Gets the details of any full-text resources provided for
-	 * the article.
-	 * </p>
-	 * 
-	 * @return list containing the details of each full-text
-	 * resource provided for the article.
-	 */
-	private List<FullTextResourceDescription> getFullTextResources() {
-		List<FullTextResourceDescription> fullTextResources = new ArrayList<FullTextResourceDescription>(3);
-		FullTextResourceDescription fullTextHtmlDetails = getFullTextHtmlDetails();
-		if (fullTextHtmlDetails != null) {
-			fullTextResources.add(fullTextHtmlDetails);
-		}
-		FullTextResourceDescription fullTextPdfDetails = getFullTextPdfDetails();
-		if (fullTextPdfDetails != null) {
-			fullTextResources.add(fullTextPdfDetails);
-		}
-		return fullTextResources;
-	}
-
-	/**
-	 * <p>
-	 * Gets the details about the full-text PDF resource for 
-	 * this article.
-	 * </p>
-	 * 
-	 * @return details about the full-text PDF resource for this
-	 * article.
-	 */
-	private FullTextResourceDescription getFullTextPdfDetails() {
-		Nodes fullTextPdfLinks = articleAbstractHtml.query(".//x:a[./x:img[contains(@src,'graphics/pdfborder.gif')]]", X_XHTML);
-		if (fullTextPdfLinks.size() != 1) {
-			LOG.warn("Problem finding full text PDF link: "+doi);
-			return null;
-		}
-		Element fullTextLink = (Element)fullTextPdfLinks.get(0);
-		String linkText = "PDF";
-		String fullTextUrl = fullTextLink.getAttributeValue("href");
-		return new FullTextResourceDescription(fullTextUrl, linkText, "application/pdf");
-	}
-
-	/**
-	 * <p>
-	 * Gets the details about the full-text HTML resource for 
-	 * this article.
-	 * </p>
-	 * 
-	 * @return details about the full-text HTML resource for this
-	 * article.
-	 */
-	private FullTextResourceDescription getFullTextHtmlDetails() {
-		Nodes fullTextHtmlLinks = articleAbstractHtml.query(".//x:a[./x:img[contains(@src,'graphics/htmlborder.gif')]]", X_XHTML);
-		if (fullTextHtmlLinks.size() != 1) {
-			LOG.warn("Problem finding full text HTML link: "+doi);
-			return null;
-		}
-		Element fullTextLink = (Element)fullTextHtmlLinks.get(0);
-		String linkText = "HTML";
-		String fullTextUrl = fullTextLink.getAttributeValue("href");
-		return new FullTextResourceDescription(fullTextUrl, linkText, "text/html");
-	}
-
-	/**
-	 * <p>
 	 * Gets the details of any supplementary files provided alongside
 	 * the published article.
 	 * </p>
@@ -204,7 +142,8 @@ public class ActaArticleCrawler extends ArticleCrawler {
 	 * data file (as a <code>SupplementaryFileDetails</code> object).
 	 * 
 	 */
-	private List<SupplementaryResourceDescription> getSupplementaryFilesDetails() {
+	@Override
+	protected List<SupplementaryResourceDescription> getSupplementaryFilesDetails() {
 		Nodes cifNds = articleAbstractHtml.query(".//x:a[contains(@href,'http://scripts.iucr.org/cgi-bin/sendcif') and not(contains(@href,'mime'))]", X_XHTML);
 		if (cifNds.size() == 0) {
 			return new ArrayList<SupplementaryResourceDescription>(0);
@@ -305,9 +244,8 @@ public class ActaArticleCrawler extends ArticleCrawler {
 	 */
 	public static void main(String[] args) {
 		DOI doi = new DOI("http://dx.doi.org//10.1107/S0108270109006118");
-		ActaArticleCrawler crawler = new ActaArticleCrawler(doi);
+		ArticleCrawler crawler = new ActaArticleCrawler(doi);
 		ArticleDescription ad = crawler.getDetails();
 		System.out.println(ad.toString());
 	}
-
 }

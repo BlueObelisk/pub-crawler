@@ -44,7 +44,6 @@ import wwmm.pubcrawler.Utils;
  */
 public class RscIssueCrawler extends IssueCrawler {
 
-	public RscJournal journal;
 	private String volume = "0";
 	private static final Logger LOG = Logger.getLogger(RscIssueCrawler.class);
 
@@ -57,37 +56,18 @@ public class RscIssueCrawler extends IssueCrawler {
 	 * @param doi of the article to be crawled.
 	 * 
 	 */
-	public RscIssueCrawler(RscJournal journal) {
+	public RscIssueCrawler(Journal journal) {
 		this.journal = journal;
 	}
-
-	/**
-	 * <p>
-	 * Gets information to identify the last published issue of a
-	 * the provided <code>RscJournal</code>.
-	 * </p>
-	 * 
-	 * @return the year and issue identifier.
-	 * 
-	 */
-	@Override
-	public IssueDescription getCurrentIssueDescription() {
-		Document doc = getCurrentIssueHtml();
-		List<Node> chemTitles = Utils.queryHTML(doc, ".//x:div[@class='chem_title']");
-		int size = chemTitles.size();
-		if (size == 0) {
-			throw new CrawlerRuntimeException("Expected to find at least 1 element containing"+
-					"the year/issue information but found "+size+".");
-		}
-		String info = chemTitles.get(0).getValue().trim();
-		Pattern pattern = Pattern.compile("\\s*\\w*\\s*-\\s*(\\d+),\\sIss.\\s*(\\d+).*");
-		Matcher matcher = pattern.matcher(info);
-		if (!matcher.find() || matcher.groupCount() != 2) {
-			throw new CrawlerRuntimeException("Could not extract the year/issue information.");
-		}
-		String issueNum = matcher.group(2);
-		String year = matcher.group(1);
-		return new IssueDescription(year, issueNum);
+	
+	protected void readProperties() {
+		issueInfo.infoPath = ".//x:div[@class='chem_title']";
+		issueInfo.yearIssueRegex = "\\s*\\w*\\s*-\\s*(\\d+),\\sIss.\\s*(\\d+).*";
+		issueInfo.matcherGroupCount = 2;
+		issueInfo.yearMatcherGroup = 2;
+		issueInfo.issueMatcherGroup = 1;
+		issueInfo.currentIssueHtmlStart = "???";
+		issueInfo.currentIssueHtmlEnd = "???";
 	}
 
 	/**
@@ -106,21 +86,6 @@ public class RscIssueCrawler extends IssueCrawler {
 		post.addParameter("jname", journal.getFullTitle());
 		post.addParameter("name", journal.getAbbreviation());
 		return httpClient.getPostResultXML(post);
-	}
-
-	/**
-	 * <p>
-	 * Gets the DOIs of all of the articles from the last 
-	 * published issue of the provided journal.
-	 * </p> 
-	 * 
-	 * @return a list of the DOIs of the articles.
-	 * 
-	 */
-	@Override
-	public List<DOI> getCurrentIssueDOIs() {
-		IssueDescription details = getCurrentIssueDescription();
-		return getDois(details);
 	}
 
 	private PostMethod createIssuePagePostMethod(String issueId) {
@@ -232,45 +197,6 @@ public class RscIssueCrawler extends IssueCrawler {
 
 	/**
 	 * <p>
-	 * Gets information describing all articles in the issue 
-	 * defined by the <code>RscJournal</code> and the provided
-	 * year and issue identifier (wrapped in the 
-	 * <code>issueDetails</code> parameter.
-	 * </p>
-	 * 
-	 * @param issueDetails - contains the year and issue
-	 * identifier of the issue to be crawled.
-	 * 
-	 * @return a list where each item contains the details for 
-	 * a particular article from the issue.
-	 * 
-	 */
-	@Override
-	public List<ArticleDescription> getArticleDescriptions(IssueDescription details) {
-		List<DOI> dois = getDois(details);
-		return getArticleDescriptions(dois);
-	}
-
-	/**
-	 * <p>
-	 * Gets information describing all articles defined by the list
-	 * of DOIs provided.
-	 * </p>
-	 * 
-	 * @param dois - a list of DOIs for the article that are to be
-	 * crawled.
-	 * 
-	 * @return a list where each item contains the details for 
-	 * a particular article from the issue.
-	 * 
-	 */
-	@Override
-	public List<ArticleDescription> getArticleDescriptions(List<DOI> dois) {
-		return getArticleDescriptions(new RscArticleCrawler(), dois);
-	}
-
-	/**
-	 * <p>
 	 * Main method only for demonstration of class use. Does not require
 	 * any arguments.
 	 * </p>
@@ -279,7 +205,7 @@ public class RscIssueCrawler extends IssueCrawler {
 	 * @throws IOException 
 	 */
 	public static void main(String[] args) throws IOException {
-		RscIssueCrawler acf = new RscIssueCrawler(RscJournal.CHEMCOMM);
+		IssueCrawler acf = new RscIssueCrawler(RscJournal.CHEMCOMM);
 		acf.setMaxArticlesToCrawl(10);
 		List<ArticleDescription> adList = acf.getCurrentArticleDescriptions();
 		for (ArticleDescription ad : adList) {

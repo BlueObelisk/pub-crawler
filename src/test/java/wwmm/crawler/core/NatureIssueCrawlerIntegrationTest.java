@@ -25,6 +25,7 @@ import nu.xom.Document;
 import org.junit.Test;
 
 import wwmm.pubcrawler.core.DOI;
+import wwmm.pubcrawler.core.IssueCrawler;
 import wwmm.pubcrawler.core.IssueDescription;
 import wwmm.pubcrawler.core.NatureIssueCrawler;
 import wwmm.pubcrawler.core.NatureJournal;
@@ -40,7 +41,7 @@ public class NatureIssueCrawlerIntegrationTest {
 	@Test
 	public void testGetIssueDois() {
 		IssueDescription details = new IssueDescription("2009", "3");
-		NatureIssueCrawler crawler = new NatureIssueCrawler(NatureJournal.CHEMISTRY);
+		IssueCrawler crawler = new NatureIssueCrawler(NatureJournal.CHEMISTRY);
 		List<DOI> doiList = crawler.getDois(details);
 		assertEquals(23, doiList.size());
 		assertEquals(new DOI(DOI.DOI_SITE_URL+"/10.1038/nchem.223"), doiList.get(9));
@@ -54,7 +55,7 @@ public class NatureIssueCrawlerIntegrationTest {
 	 */
 	@Test
 	public void testGetCurrentIssueHtml() {
-		NatureIssueCrawler crawler = new NatureIssueCrawler(NatureJournal.CHEMISTRY);
+		IssueCrawler crawler = new NatureIssueCrawler(NatureJournal.CHEMISTRY);
 		Document doc = crawler.getCurrentIssueHtml();
 		assertNotNull(doc);
 	}

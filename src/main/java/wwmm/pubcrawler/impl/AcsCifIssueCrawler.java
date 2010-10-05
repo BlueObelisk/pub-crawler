@@ -19,6 +19,7 @@ import static wwmm.pubcrawler.core.CrawlerConstants.CIF_CONTENT_TYPE;
 import wwmm.pubcrawler.core.AcsIssueCrawler;
 import wwmm.pubcrawler.core.AcsJournal;
 import wwmm.pubcrawler.core.ArticleDescription;
+import wwmm.pubcrawler.core.IssueCrawler;
 import wwmm.pubcrawler.core.SupplementaryResourceDescription;
 
 /**
@@ -33,7 +34,7 @@ import wwmm.pubcrawler.core.SupplementaryResourceDescription;
  */
 public class AcsCifIssueCrawler extends CifIssueCrawler {
 
-	public AcsCifIssueCrawler(AcsIssueCrawler crawler) {
+	public AcsCifIssueCrawler(IssueCrawler crawler) {
 		super(crawler);
 	}
 	

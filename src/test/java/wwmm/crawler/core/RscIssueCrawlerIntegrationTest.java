@@ -25,6 +25,7 @@ import nu.xom.Document;
 import org.junit.Test;
 
 import wwmm.pubcrawler.core.DOI;
+import wwmm.pubcrawler.core.IssueCrawler;
 import wwmm.pubcrawler.core.IssueDescription;
 import wwmm.pubcrawler.core.RscIssueCrawler;
 import wwmm.pubcrawler.core.RscJournal;
@@ -40,7 +41,7 @@ public class RscIssueCrawlerIntegrationTest {
 	@Test
 	public void testGetIssueDois() {
 		IssueDescription details = new IssueDescription("2009", "2");
-		RscIssueCrawler crawler = new RscIssueCrawler(RscJournal.DALTON_TRANSACTIONS);
+		IssueCrawler crawler = new RscIssueCrawler(RscJournal.DALTON_TRANSACTIONS);
 		List<DOI> doiList = crawler.getDois(details);
 		assertEquals(24, doiList.size());
 		assertEquals(new DOI(DOI.DOI_SITE_URL+"/10.1039/B817196N"), doiList.get(9));
@@ -54,7 +55,7 @@ public class RscIssueCrawlerIntegrationTest {
 	 */
 	@Test
 	public void testGetCurrentIssueHtml() {
-		RscIssueCrawler crawler = new RscIssueCrawler(RscJournal.CHEMCOMM);
+		IssueCrawler crawler = new RscIssueCrawler(RscJournal.CHEMCOMM);
 		Document doc = crawler.getCurrentIssueHtml();
 		assertNotNull(doc);
 	}

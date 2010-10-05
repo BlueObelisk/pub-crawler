@@ -49,6 +49,10 @@ public class RscArticleCrawler extends ArticleCrawler {
 	public RscArticleCrawler(DOI doi) {
 		super(doi);
 	}
+	
+	protected void readProperties() {
+		
+	}
 
 	/**
 	 * <p>
@@ -67,42 +71,20 @@ public class RscArticleCrawler extends ArticleCrawler {
 			LOG.warn("The DOI provided for the article abstract ("+doi.toString()+") has not resolved so we cannot get article details.");
 			return articleDetails;
 		}
-	LOG.info("Starting to find article details: "+doi);
+		LOG.info("Starting to find article details: "+doi);
 		List<FullTextResourceDescription> fullTextResources = getFullTextResources();
 		articleDetails.setFullTextResources(fullTextResources);
 		String title = getTitle();
-		ArticleReference ref = getReference();
-		String authors = getAuthors();
-		List<SupplementaryResourceDescription> suppFiles = getSupplementaryFilesDetails();
 		articleDetails.setTitle(title);
-		articleDetails.setReference(ref);
+		String authors = getAuthors();
 		articleDetails.setAuthors(authors);
+		ArticleReference ref = getReference();
+		articleDetails.setReference(ref);
+		List<SupplementaryResourceDescription> suppFiles = getSupplementaryFilesDetails();
 		articleDetails.setSupplementaryResources(suppFiles);
 		articleDetails.setHasBeenPublished(true);
 		LOG.info("Finished finding article details: "+doi);
 		return articleDetails;
-	}
-
-	/**
-	 * <p>
-	 * Gets the details of any full-text resources provided for
-	 * the article.
-	 * </p>
-	 * 
-	 * @return list containing the details of each full-text
-	 * resource provided for the article.
-	 */
-	private List<FullTextResourceDescription> getFullTextResources() {
-		List<FullTextResourceDescription> fullTextResources = new ArrayList<FullTextResourceDescription>(3);
-		FullTextResourceDescription fullTextHtmlDetails = getFullTextHtmlDetails();
-		if (fullTextHtmlDetails != null) {
-			fullTextResources.add(fullTextHtmlDetails);
-		}
-		FullTextResourceDescription fullTextPdfDetails = getFullTextPdfDetails();
-		if (fullTextPdfDetails != null) {
-			fullTextResources.add(fullTextPdfDetails);
-		}
-		return fullTextResources;
 	}
 
 	/**
@@ -114,7 +96,8 @@ public class RscArticleCrawler extends ArticleCrawler {
 	 * @return details about the full-text HTML resource for this
 	 * article.
 	 */
-	private FullTextResourceDescription getFullTextHtmlDetails() {
+	@Override
+	protected FullTextResourceDescription getFullTextHtmlDetails() {
 		String url = getMetaElementContent("citation_fulltext_html_url");
 		return new FullTextResourceDescription(url, "HTML", "text/html");
 	}
@@ -128,7 +111,8 @@ public class RscArticleCrawler extends ArticleCrawler {
 	 * @return details about the full-text PDF resource for this
 	 * article.
 	 */
-	private FullTextResourceDescription getFullTextPdfDetails() {
+	@Override
+	protected FullTextResourceDescription getFullTextPdfDetails() {
 		String url = getMetaElementContent("citation_pdf_url");
 		return new FullTextResourceDescription(url, "PDF", "application/pdf");
 	}
@@ -143,7 +127,8 @@ public class RscArticleCrawler extends ArticleCrawler {
 	 * data file (as a <code>SupplementaryFileDetails</code> object).
 	 * 
 	 */
-	private List<SupplementaryResourceDescription> getSupplementaryFilesDetails() {
+	@Override
+	protected List<SupplementaryResourceDescription> getSupplementaryFilesDetails() {
 		Nodes linkElements = articleAbstractHtml.query(".//x:a[contains(@href,'/suppdata/')]", X_XHTML);
 		if (linkElements.size() == 0) {
 			return Collections.EMPTY_LIST;
@@ -190,7 +175,8 @@ public class RscArticleCrawler extends ArticleCrawler {
 	 * @return String containing the article authors.
 	 * 
 	 */
-	private String getAuthors() {
+	@Override
+	protected String getAuthors() {
 		Nodes authorNds = getMetaElements("DC.Creator");
 		StringBuilder authors = new StringBuilder();
 		for (int i = 0; i < authorNds.size(); i++) {
@@ -215,7 +201,8 @@ public class RscArticleCrawler extends ArticleCrawler {
 	 * @return the article bibliographic reference.
 	 * 
 	 */
-	private ArticleReference getReference() {
+	@Override
+	protected ArticleReference getReference() {
 		ArticleReference ar = new ArticleReference();
 		ar.setJournalTitle(getJournal());
 		ar.setYear(getYear());
@@ -277,7 +264,8 @@ public class RscArticleCrawler extends ArticleCrawler {
 	 * @return the article title.
 	 * 
 	 */
-	private String getTitle() {
+	@Override
+	protected String getTitle() {
 		return getMetaElementContent("citation_title");
 	}
 
@@ -290,7 +278,7 @@ public class RscArticleCrawler extends ArticleCrawler {
 	 */
 	public static void main(String[] args) {
 		DOI doi = new DOI("http://dx.doi.org/10.1039/C0CC01684E");
-		RscArticleCrawler crawler = new RscArticleCrawler(doi);
+		ArticleCrawler crawler = new RscArticleCrawler(doi);
 		ArticleDescription ad = crawler.getDetails();
 		System.out.println(ad.toString());
 	}

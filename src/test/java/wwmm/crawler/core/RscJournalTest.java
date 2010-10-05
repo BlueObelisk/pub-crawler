@@ -19,13 +19,14 @@ import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
 
+import wwmm.pubcrawler.core.Journal;
 import wwmm.pubcrawler.core.RscJournal;
 
 public class RscJournalTest {
 	
 	@Test
 	public void checkJournalsHaveAllParamatersSet() {
-		for (RscJournal journal : RscJournal.values()) {
+		for (Journal journal : RscJournal.values()) {
 			String abbreviation = journal.getAbbreviation();
 			assertNotNull("Journal "+journal.toString()+" has a NULL abbreviation, must be set to a string.", abbreviation);
 			String fullTitle = journal.getFullTitle();
