@@ -1,8 +1,10 @@
 package wwmm.pubcrawler.core;
 
+import java.util.Collection;
+
 public abstract class Journal {
 
-	protected final String abbreviation;
+	public final String abbreviation;
 	protected final String fullTitle;
 	private Integer volumeOffset = null;
 
@@ -15,7 +17,7 @@ public abstract class Journal {
 		this(abbreviation, fullTitle);
 		this.volumeOffset  = volumeOffset;
 	}
-
+	
 	/**
 	 * <p>
 	 * Gets the complete journal title.
@@ -66,5 +68,13 @@ public abstract class Journal {
 	public int getYearFromVolume(int volume) {
 		return this.volumeOffset + volume;
 	}
+
+//	public static Collection<Journal> values() {
+//		return journalMap.getMap().values();
+//	}
+//
+//	public static Journal getJournal(String abbreviation) {
+//		return journalMap.get(abbreviation);
+//	}
 
 }

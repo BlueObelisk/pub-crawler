@@ -1,0 +1,14 @@
+2010-11-26 11:41:27,768 INFO  wwmm.pubcrawler.journal.rsc.RscArticleCrawler @ Starting to find article details: http://dx.doi.org/10.1039/C0CC01684E
+2010-11-26 11:41:29,390 INFO  wwmm.pubcrawler.journal.rsc.RscArticleCrawler @ Finished finding article details: http://dx.doi.org/10.1039/C0CC01684E
+2010-11-26 11:41:30,733 INFO  wwmm.pubcrawler.journal.rsc.RscArticleCrawler @ Starting to find article details: http://dx.doi.org/10.1039/b900026g
+2010-11-26 11:41:31,617 INFO  wwmm.pubcrawler.journal.rsc.RscArticleCrawler @ Finished finding article details: http://dx.doi.org/10.1039/b900026g
+2010-11-26 11:41:32,609 INFO  wwmm.pubcrawler.journal.rsc.RscArticleCrawler @ Starting to find article details: http://dx.doi.org/10.1039/C0CC01684E
+2010-11-26 11:41:34,227 INFO  wwmm.pubcrawler.journal.rsc.RscArticleCrawler @ Finished finding article details: http://dx.doi.org/10.1039/C0CC01684E
+2010-11-26 11:41:35,668 INFO  wwmm.pubcrawler.core.ArticleCrawler @ Starting to find article details: http://dx.doi.org/10.1021/cg801336t
+2010-11-26 11:41:41,816 INFO  wwmm.pubcrawler.journal.nature.NatureArticleCrawler @ Starting to find article details: http://dx.doi.org/10.1038/nchem.213
+2010-11-26 11:41:41,825 WARN  wwmm.pubcrawler.core.ArticleCrawler @ Problem getting full text PDF link: http://dx.doi.org/10.1038/nchem.213
+2010-11-26 11:41:41,882 WARN  wwmm.pubcrawler.journal.nature.NatureArticleCrawler @ Expected either 0 or 1 links to supporting info page, found 6
+2010-11-26 11:41:44,764 INFO  wwmm.pubcrawler.journal.nature.NatureArticleCrawler @ Finished finding article details: http://dx.doi.org/10.1038/nchem.213
+2010-11-26 11:41:52,253 INFO  wwmm.pubcrawler.journal.acta.ActaArticleCrawler @ Finished finding article details: http://dx.doi.org/10.1107/S0108270109006118
+2010-11-26 11:42:29,457 INFO  wwmm.pubcrawler.journal.acta.ActaArticleCrawler @ Finished finding article details: http://dx.doi.org/10.1107/S0108768109004066
+2010-11-26 11:42:37,314 INFO  wwmm.pubcrawler.journal.chemsocjapan.ChemSocJapanArticleCrawler @ Finished finding article details: http://dx.doi.org/10.1246/cl.2008.682

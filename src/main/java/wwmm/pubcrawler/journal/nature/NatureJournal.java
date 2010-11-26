@@ -13,34 +13,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package wwmm.pubcrawler.core;
+package wwmm.pubcrawler.journal.nature;
 
-import org.apache.log4j.Logger;
+import java.util.ArrayList;
+import java.util.List;
 
-import wwmm.pubcrawler.BasicHttpClient;
+import wwmm.pubcrawler.core.Journal;
+import wwmm.pubcrawler.core.JournalMap;
 
 /**
  * <p>
- * The abstract <code>Crawler</code> class is intended to be used as a
- * superclass for any web crawler classes. It contains objects (e.g. a HTTP
- * client) and methods generic to the use and manipulation of web resources.
+ * The <code>NatureJournal</code> enum is meant to enumerate useful 
+ * details about journals of interest from the Nature Publishing
+ * Group.
  * </p>
  * 
- * 
- * @todo consider making this a helper class or a library rather than a
- *       superclass, it doesn't have any state...
  * @author Nick Day
- * @version 1.1
+ * @version 0.1
  * 
  */
-public abstract class Crawler {
+public class NatureJournal extends Journal {
+	
+	public static final String CHEMISTRY = "nchem";
 
-	protected BasicHttpClient httpClient;
-
-	private static final Logger LOG = Logger.getLogger(Crawler.class);
-
-	public Crawler() {
-		httpClient = new CrawlerHttpClient();
+	static {
+    	journalMap = new JournalMap();
+	    journalMap.add(new NatureJournal(CHEMISTRY, "Nature Chemistry", 2008));
+	}
+	
+	NatureJournal(String abbreviation, String fullTitle, int volumeOffset) {
+		super(abbreviation, fullTitle, volumeOffset);
 	}
 
 }

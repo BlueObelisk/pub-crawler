@@ -18,9 +18,10 @@ package wwmm.pubcrawler.impl;
 import wwmm.pubcrawler.core.ArticleDescription;
 import wwmm.pubcrawler.core.IssueCrawler;
 import wwmm.pubcrawler.core.Journal;
-import wwmm.pubcrawler.core.RscIssueCrawler;
-import wwmm.pubcrawler.core.RscJournal;
 import wwmm.pubcrawler.core.SupplementaryResourceDescription;
+import wwmm.pubcrawler.journal.acs.AcsJournal;
+import wwmm.pubcrawler.journal.rsc.RscIssueCrawler;
+import wwmm.pubcrawler.journal.rsc.RscJournal;
 
 /**
  * <p>
@@ -42,6 +43,10 @@ public class RscCifIssueCrawler extends CifIssueCrawler {
 		super(new RscIssueCrawler(journal));
 	}
 	
+	public RscCifIssueCrawler(String abbreviation) {
+		this((RscJournal)RscJournal.getJournal(abbreviation));
+	}
+
 	/**
 	 * <p>
 	 * A Royal Society of Chemistry specific method of determining 

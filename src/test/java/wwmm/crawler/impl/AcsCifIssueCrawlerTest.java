@@ -23,9 +23,9 @@ import junitx.util.PrivateAccessor;
 
 import org.junit.Test;
 
-import wwmm.pubcrawler.core.AcsIssueCrawler;
 import wwmm.pubcrawler.core.SupplementaryResourceDescription;
 import wwmm.pubcrawler.impl.AcsCifIssueCrawler;
+import wwmm.pubcrawler.journal.acs.AcsIssueCrawler;
 
 public class AcsCifIssueCrawlerTest {
 	

@@ -41,6 +41,7 @@ public class DOI {
 	}
 	
 	public DOI(String doiUrl) {
+		this();
 		this.doiUrl = doiUrl;
 		validate();
 	}

@@ -18,10 +18,12 @@ package wwmm.pubcrawler.impl;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import wwmm.pubcrawler.core.ActaIssueCrawler;
-import wwmm.pubcrawler.core.ActaJournal;
 import wwmm.pubcrawler.core.ArticleDescription;
+import wwmm.pubcrawler.core.IssueCrawler;
 import wwmm.pubcrawler.core.SupplementaryResourceDescription;
+import wwmm.pubcrawler.journal.acs.AcsJournal;
+import wwmm.pubcrawler.journal.acta.ActaIssueCrawler;
+import wwmm.pubcrawler.journal.acta.ActaJournal;
 
 /**
  * <p>
@@ -35,12 +37,16 @@ import wwmm.pubcrawler.core.SupplementaryResourceDescription;
  */
 public class ActaCifIssueCrawler extends CifIssueCrawler {
 
-	public ActaCifIssueCrawler(ActaIssueCrawler crawler) {
+	public ActaCifIssueCrawler(IssueCrawler crawler) {
 		super(crawler);
 	}
 	
 	public ActaCifIssueCrawler(ActaJournal journal) {
 		super(new ActaIssueCrawler(journal));
+	}
+
+	public ActaCifIssueCrawler(String abbreviation) {
+		this((ActaJournal)ActaJournal.getJournal(abbreviation));
 	}
 
 	/**

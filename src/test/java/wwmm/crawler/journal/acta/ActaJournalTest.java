@@ -13,34 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package wwmm.pubcrawler.core;
+package wwmm.crawler.journal.acta;
 
-import org.apache.log4j.Logger;
+import static org.junit.Assert.assertNotNull;
 
-import wwmm.pubcrawler.BasicHttpClient;
+import org.junit.Test;
 
-/**
- * <p>
- * The abstract <code>Crawler</code> class is intended to be used as a
- * superclass for any web crawler classes. It contains objects (e.g. a HTTP
- * client) and methods generic to the use and manipulation of web resources.
- * </p>
- * 
- * 
- * @todo consider making this a helper class or a library rather than a
- *       superclass, it doesn't have any state...
- * @author Nick Day
- * @version 1.1
- * 
- */
-public abstract class Crawler {
+import wwmm.pubcrawler.core.Journal;
+import wwmm.pubcrawler.journal.acta.ActaJournal;
 
-	protected BasicHttpClient httpClient;
-
-	private static final Logger LOG = Logger.getLogger(Crawler.class);
-
-	public Crawler() {
-		httpClient = new CrawlerHttpClient();
+public class ActaJournalTest {
+	
+	@Test
+	public void checkJournalsHaveAllParamatersSet() {
+		for (Journal journal : ActaJournal.values()) {
+			String abbreviation = journal.getAbbreviation();
+			assertNotNull("Journal "+journal.toString()+" has a NULL abbreviation, must be set to a string.", abbreviation);
+			String fullTitle = journal.getFullTitle();
+			assertNotNull("Journal "+journal.toString()+" has a NULL title, must be set to a string.", fullTitle);
+		}
 	}
 
 }

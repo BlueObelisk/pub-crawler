@@ -35,8 +35,8 @@ import wwmm.pubcrawler.core.ArticleDescription;
 import wwmm.pubcrawler.core.CrawlerHttpClient;
 import wwmm.pubcrawler.core.IssueCrawler;
 import wwmm.pubcrawler.core.IssueDescription;
-import wwmm.pubcrawler.core.NatureIssueCrawler;
-import wwmm.pubcrawler.core.NatureJournal;
+import wwmm.pubcrawler.journal.nature.NatureIssueCrawler;
+import wwmm.pubcrawler.journal.nature.NatureJournal;
 
 /**
  * <p>
@@ -282,6 +282,7 @@ public class NatureCompoundsCrawler {
 		}
 
 		public ArticleData(ArticleDescription ad, List<CompoundDetails> cdList) {
+			this();
 			this.ad = ad;
 			this.cdList = cdList;
 		}

@@ -13,34 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package wwmm.pubcrawler.core;
+package wwmm.pubcrawler.journal.chemsocjapan;
 
-import org.apache.log4j.Logger;
+import wwmm.pubcrawler.core.Journal;
+import wwmm.pubcrawler.core.JournalMap;
 
-import wwmm.pubcrawler.BasicHttpClient;
 
 /**
  * <p>
- * The abstract <code>Crawler</code> class is intended to be used as a
- * superclass for any web crawler classes. It contains objects (e.g. a HTTP
- * client) and methods generic to the use and manipulation of web resources.
+ * The <code>ChemSocJapanJournal</code> enum is meant to 
+ * enumerate useful details about journals of interest from 
+ * the Chemical Society of Japan.
  * </p>
  * 
- * 
- * @todo consider making this a helper class or a library rather than a
- *       superclass, it doesn't have any state...
  * @author Nick Day
  * @version 1.1
  * 
  */
-public abstract class Crawler {
+public class ChemSocJapanJournal extends Journal {
 
-	protected BasicHttpClient httpClient;
+	public static final String CHEMISTRY_LETTERS = "chem-lett";
 
-	private static final Logger LOG = Logger.getLogger(Crawler.class);
-
-	public Crawler() {
-		httpClient = new CrawlerHttpClient();
+	static {
+    	journalMap = new JournalMap();
+	    journalMap.add(new ChemSocJapanJournal(CHEMISTRY_LETTERS, "Chemistry Letters"));
 	}
-
+	
+	ChemSocJapanJournal(String abbreviation, String fullTitle) {
+		super(abbreviation, fullTitle);
+	}
 }

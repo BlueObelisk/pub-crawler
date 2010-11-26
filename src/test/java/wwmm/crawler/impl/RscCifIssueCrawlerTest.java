@@ -23,9 +23,9 @@ import junitx.util.PrivateAccessor;
 
 import org.junit.Test;
 
-import wwmm.pubcrawler.core.RscIssueCrawler;
 import wwmm.pubcrawler.core.SupplementaryResourceDescription;
 import wwmm.pubcrawler.impl.RscCifIssueCrawler;
+import wwmm.pubcrawler.journal.rsc.RscIssueCrawler;
 
 public class RscCifIssueCrawlerTest {
 	

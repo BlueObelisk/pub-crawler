@@ -23,9 +23,9 @@ import junitx.util.PrivateAccessor;
 
 import org.junit.Test;
 
-import wwmm.pubcrawler.core.ActaIssueCrawler;
 import wwmm.pubcrawler.core.SupplementaryResourceDescription;
 import wwmm.pubcrawler.impl.ActaCifIssueCrawler;
+import wwmm.pubcrawler.journal.acta.ActaIssueCrawler;
 
 public class ActaCifIssueCrawlerTest {
 	
