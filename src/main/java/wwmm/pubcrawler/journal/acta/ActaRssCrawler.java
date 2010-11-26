@@ -49,7 +49,7 @@ import wwmm.pubcrawler.core.Journal;
  */
 public class ActaRssCrawler extends Crawler {
 	
-	private ActaJournal journal;
+	private Journal journal;
 	private Date lastCrawledDate;
 
 	private static final Logger LOG = Logger.getLogger(ActaRssCrawler.class);
@@ -65,7 +65,7 @@ public class ActaRssCrawler extends Crawler {
 	 * @param journal - the journals RSS feed to be crawled.
 	 * 
 	 */
-	public ActaRssCrawler(ActaJournal journal) {
+	public ActaRssCrawler(Journal journal) {
 		this.journal = journal;
 	}
 
@@ -81,7 +81,7 @@ public class ActaRssCrawler extends Crawler {
 	 * @param journal - the journals RSS feed to be crawled.
 	 * 
 	 */
-	public ActaRssCrawler(ActaJournal journal, Date lastCrawledDate) {
+	public ActaRssCrawler(Journal journal, Date lastCrawledDate) {
 		this.journal = journal;
 		this.lastCrawledDate = lastCrawledDate;
 	}
@@ -236,11 +236,11 @@ public class ActaRssCrawler extends Crawler {
 	 * @throws ParseException 
 	 */
 	public static void main(String[] args) throws ParseException {
-		Journal journal = ActaJournal.getJournal(ActaJournal.SECTION_C);
+		Journal journal = ActaJournalIndex.ACTA_SECTION_C;
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy'-'MM'-'dd");
 		Date date = sdf.parse("2008-08-15");
 		//Date date = new Date();
-		ActaRssCrawler acf = new ActaRssCrawler((ActaJournal)journal, date);
+		ActaRssCrawler acf = new ActaRssCrawler(journal, date);
 		List<ArticleDescription> details = acf.getNewArticleDetails();
 		for (ArticleDescription ad : details) {
 			System.out.println(ad.toString());

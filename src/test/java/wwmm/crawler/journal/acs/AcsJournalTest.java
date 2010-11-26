@@ -20,13 +20,13 @@ import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
 
 import wwmm.pubcrawler.core.Journal;
-import wwmm.pubcrawler.journal.acs.AcsJournal;
+import wwmm.pubcrawler.journal.acs.AcsJournalIndex;
 
 public class AcsJournalTest {
 	
 	@Test
 	public void checkJournalsHaveAllParamatersSet() {
-		for (Journal journal : AcsJournal.values()) {
+		for (Journal journal : AcsJournalIndex.getIndex().values()) {
 			String abbreviation = journal.getAbbreviation();
 			assertNotNull("Journal "+journal.toString()+" has a NULL abbreviation, must be set to a string.", abbreviation);
 			int volumeOffset = journal.getVolumeOffset();

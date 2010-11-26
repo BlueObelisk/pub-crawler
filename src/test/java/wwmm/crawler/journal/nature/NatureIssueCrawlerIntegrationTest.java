@@ -28,7 +28,7 @@ import wwmm.pubcrawler.core.DOI;
 import wwmm.pubcrawler.core.IssueCrawler;
 import wwmm.pubcrawler.core.IssueDescription;
 import wwmm.pubcrawler.journal.nature.NatureIssueCrawler;
-import wwmm.pubcrawler.journal.nature.NatureJournal;
+import wwmm.pubcrawler.journal.nature.NatureJournalIndex;
 
 public class NatureIssueCrawlerIntegrationTest {
 	
@@ -41,7 +41,7 @@ public class NatureIssueCrawlerIntegrationTest {
 	@Test
 	public void testGetIssueDois() {
 		IssueDescription details = new IssueDescription("2009", "3");
-		IssueCrawler crawler = new NatureIssueCrawler(NatureJournal.CHEMISTRY);
+		IssueCrawler crawler = new NatureIssueCrawler(NatureJournalIndex.NATURE_CHEMISTRY);
 		List<DOI> doiList = crawler.getDois(details);
 		assertEquals(23, doiList.size());
 		assertEquals(new DOI(DOI.DOI_SITE_URL+"/10.1038/nchem.223"), doiList.get(9));
@@ -55,7 +55,7 @@ public class NatureIssueCrawlerIntegrationTest {
 	 */
 	@Test
 	public void testGetCurrentIssueHtml() {
-		IssueCrawler crawler = new NatureIssueCrawler(NatureJournal.CHEMISTRY);
+		IssueCrawler crawler = new NatureIssueCrawler(NatureJournalIndex.NATURE_CHEMISTRY);
 		Document doc = crawler.getCurrentIssueHtml();
 		assertNotNull(doc);
 	}

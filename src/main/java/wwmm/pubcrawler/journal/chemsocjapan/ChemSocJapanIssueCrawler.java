@@ -17,8 +17,6 @@ package wwmm.pubcrawler.journal.chemsocjapan;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import nu.xom.Attribute;
 import nu.xom.Document;
@@ -32,6 +30,7 @@ import wwmm.pubcrawler.core.DOI;
 import wwmm.pubcrawler.core.IssueCrawler;
 import wwmm.pubcrawler.core.IssueDescription;
 import wwmm.pubcrawler.core.Journal;
+import wwmm.pubcrawler.core.JournalIndex;
 
 /**
  * <p>
@@ -54,14 +53,14 @@ public class ChemSocJapanIssueCrawler extends IssueCrawler {
 	 * specifies the journal of the issue to be crawled.
 	 * </p>
 	 * 
-	 * @param doi of the article to be crawled.
+	 * @param journal of the article to be crawled.
 	 */
 	public ChemSocJapanIssueCrawler(Journal journal) {
 		this.journal = journal;
 	}
 
 	public ChemSocJapanIssueCrawler(String abbreviation) {
-		this((ChemSocJapanJournal)ChemSocJapanJournal.getJournal(abbreviation));
+		this(ChemSocJapanJournalIndex.getIndex().getJournal(abbreviation));
 	}
 
 	protected void readProperties() {
@@ -84,7 +83,7 @@ public class ChemSocJapanIssueCrawler extends IssueCrawler {
 	 * <code>issueDetails</code> parameter.
 	 * </p>
 	 * 
-	 * @param issueDetails - contains the year and issue
+	 * @param details - contains the year and issue
 	 * identifier of the issue to be crawled.
 	 * 
 	 * @return a list of the DOIs of the articles for the issue.
@@ -120,7 +119,7 @@ public class ChemSocJapanIssueCrawler extends IssueCrawler {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		Journal journal = ChemSocJapanJournal.getJournal(ChemSocJapanJournal.CHEMISTRY_LETTERS);
+		Journal journal = ChemSocJapanJournalIndex.CHEMISTRY_LETTERS;
 		IssueCrawler acf = new ChemSocJapanIssueCrawler(journal);
 		IssueDescription details = acf.getCurrentIssueDescription();
 		List<ArticleDescription> adList = acf.getArticleDescriptions(details);

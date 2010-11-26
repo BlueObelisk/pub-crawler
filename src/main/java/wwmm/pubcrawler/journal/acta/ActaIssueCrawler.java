@@ -19,8 +19,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import nu.xom.Attribute;
 import nu.xom.Document;
@@ -33,6 +31,8 @@ import wwmm.pubcrawler.Utils;
 import wwmm.pubcrawler.core.DOI;
 import wwmm.pubcrawler.core.IssueCrawler;
 import wwmm.pubcrawler.core.IssueDescription;
+import wwmm.pubcrawler.core.Journal;
+import wwmm.pubcrawler.core.JournalIndex;
 
 /**
  * <p>
@@ -57,12 +57,12 @@ public class ActaIssueCrawler extends IssueCrawler {
 	 * 
 	 * @param doi of the article to be crawled.
 	 */
-	public ActaIssueCrawler(ActaJournal journal) {
+	public ActaIssueCrawler(Journal journal) {
 		this.journal = journal;
 	}
 	
 	public ActaIssueCrawler(String abbreviation) {
-		this((ActaJournal)ActaJournal.getJournal(abbreviation));
+		this(ActaJournalIndex.getIndex().getJournal(abbreviation));
 	}
 
 	protected void readProperties() {
@@ -128,7 +128,7 @@ public class ActaIssueCrawler extends IssueCrawler {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		IssueCrawler acf = new ActaIssueCrawler(ActaJournal.SECTION_B);
+		IssueCrawler acf = new ActaIssueCrawler(ActaJournalIndex.SECTION_B);
 		acf.mainTest2(2);
 	}
 

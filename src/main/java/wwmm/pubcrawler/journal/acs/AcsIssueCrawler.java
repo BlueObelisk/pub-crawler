@@ -16,7 +16,6 @@
 package wwmm.pubcrawler.journal.acs;
 
 import static wwmm.pubcrawler.core.CrawlerConstants.ACS_HOMEPAGE_URL;
-import static wwmm.pubcrawler.core.CrawlerConstants.X_XHTML;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +23,6 @@ import java.util.List;
 import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Node;
-import nu.xom.Nodes;
 
 import org.apache.log4j.Logger;
 
@@ -32,6 +30,8 @@ import wwmm.pubcrawler.Utils;
 import wwmm.pubcrawler.core.DOI;
 import wwmm.pubcrawler.core.IssueCrawler;
 import wwmm.pubcrawler.core.IssueDescription;
+import wwmm.pubcrawler.core.Journal;
+import wwmm.pubcrawler.core.JournalIndex;
 
 /**
  * <p>
@@ -56,12 +56,12 @@ public class AcsIssueCrawler extends IssueCrawler {
 	 * 
 	 * @param doi of the article to be crawled.
 	 */
-	public AcsIssueCrawler(AcsJournal journal) {
+	public AcsIssueCrawler(Journal journal) {
 		this.journal = journal;
 	}
 	
 	public AcsIssueCrawler(String abbreviation) {
-		this((AcsJournal)AcsJournal.getJournal(abbreviation));
+		this(AcsJournalIndex.getIndex().getJournal(abbreviation));
 	}
 
 	protected void readProperties() {
@@ -118,7 +118,7 @@ public class AcsIssueCrawler extends IssueCrawler {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		IssueCrawler acf = new AcsIssueCrawler(AcsJournal.CRYSTAL_GROWTH_AND_DESIGN);
+		IssueCrawler acf = new AcsIssueCrawler(AcsJournalIndex.CRYSTAL_GROWTH_AND_DESIGN);
 		acf.mainTest("2008", "5", 10);
 	}
 

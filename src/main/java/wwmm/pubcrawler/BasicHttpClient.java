@@ -17,6 +17,7 @@ package wwmm.pubcrawler;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -29,6 +30,8 @@ import java.util.regex.Pattern;
 import nu.xom.Builder;
 import nu.xom.Document;
 
+import nu.xom.ParsingException;
+import nu.xom.ValidityException;
 import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
@@ -170,7 +173,7 @@ public class BasicHttpClient {
 	 */
 	public Document getResourceHTML(String url) {
 		InputStream in = getResourceStream(url);
-		Document doc = null;
+        Document doc = null;
 		try {
 			Builder builder = getTagsoupBuilder();
 			doc = Utils.parseXml(builder, in);

@@ -28,7 +28,7 @@ import wwmm.pubcrawler.core.DOI;
 import wwmm.pubcrawler.core.IssueCrawler;
 import wwmm.pubcrawler.core.IssueDescription;
 import wwmm.pubcrawler.journal.acta.ActaIssueCrawler;
-import wwmm.pubcrawler.journal.acta.ActaJournal;
+import wwmm.pubcrawler.journal.acta.ActaJournalIndex;
 
 public class ActaIssueCrawlerIntegrationTest {
 	
@@ -41,7 +41,7 @@ public class ActaIssueCrawlerIntegrationTest {
 	@Test
 	public void testGetIssueDois() {
 		IssueDescription details = new IssueDescription("2009", "01-00");
-		IssueCrawler crawler = new ActaIssueCrawler(ActaJournal.SECTION_C);
+		IssueCrawler crawler = new ActaIssueCrawler(ActaJournalIndex.SECTION_C);
 		List<DOI> doiList = crawler.getDois(details);
 		assertEquals(23, doiList.size());
 		assertEquals(new DOI(DOI.DOI_SITE_URL+"/10.1107/S0108270108041504"), doiList.get(9));
@@ -55,7 +55,7 @@ public class ActaIssueCrawlerIntegrationTest {
 	 */
 	@Test
 	public void testGetCurrentIssueHtml() {
-		IssueCrawler crawler = new ActaIssueCrawler(ActaJournal.SECTION_C);
+		IssueCrawler crawler = new ActaIssueCrawler(ActaJournalIndex.SECTION_C);
 		Document doc = crawler.getCurrentIssueHtml();
 		assertNotNull(doc);
 	}

@@ -16,17 +16,13 @@
 package wwmm.pubcrawler.journal.nature;
 
 import static wwmm.pubcrawler.core.CrawlerConstants.NATURE_HOMEPAGE_URL;
-import static wwmm.pubcrawler.core.CrawlerConstants.X_XHTML;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Node;
-import nu.xom.Nodes;
 
 import org.apache.log4j.Logger;
 
@@ -34,6 +30,8 @@ import wwmm.pubcrawler.Utils;
 import wwmm.pubcrawler.core.DOI;
 import wwmm.pubcrawler.core.IssueCrawler;
 import wwmm.pubcrawler.core.IssueDescription;
+import wwmm.pubcrawler.core.Journal;
+import wwmm.pubcrawler.core.JournalIndex;
 
 /**
  * <p>
@@ -56,14 +54,14 @@ public class NatureIssueCrawler extends IssueCrawler {
 	 * specifies the journal of the issue to be crawled.
 	 * </p>
 	 * 
-	 * @param doi of the article to be crawled.
+	 * @param journal of the article to be crawled.
 	 */
-	public NatureIssueCrawler(NatureJournal journal) {
+	public NatureIssueCrawler(Journal journal) {
 		this.journal = journal;
 	}
 	
 	public NatureIssueCrawler(String abbreviation) {
-		this((NatureJournal)NatureJournal.getJournal(abbreviation));
+		this(NatureJournalIndex.getIndex().getJournal(abbreviation));
 	}
 
 	protected void readProperties() {
@@ -136,7 +134,7 @@ public class NatureIssueCrawler extends IssueCrawler {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		IssueCrawler nic = new NatureIssueCrawler(NatureJournal.CHEMISTRY);
+		IssueCrawler nic = new NatureIssueCrawler(NatureJournalIndex.NATURE_CHEMISTRY);
 		nic.mainTest2(5);
 	}
 

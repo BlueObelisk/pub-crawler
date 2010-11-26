@@ -1,8 +1,6 @@
 package wwmm.pubcrawler.core;
 
-import java.util.Collection;
-
-public abstract class Journal {
+public class Journal {
 
 	public final String abbreviation;
 	protected final String fullTitle;
@@ -13,7 +11,7 @@ public abstract class Journal {
 		this.fullTitle = fullTitle;
 	}
 
-	public Journal(String abbreviation, String fullTitle, int volumeOffset) {
+	public Journal(String abbreviation, String fullTitle, Integer volumeOffset) {
 		this(abbreviation, fullTitle);
 		this.volumeOffset  = volumeOffset;
 	}

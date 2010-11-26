@@ -18,10 +18,10 @@ package wwmm.pubcrawler.impl;
 import wwmm.pubcrawler.core.ArticleDescription;
 import wwmm.pubcrawler.core.IssueCrawler;
 import wwmm.pubcrawler.core.Journal;
+import wwmm.pubcrawler.core.JournalIndex;
 import wwmm.pubcrawler.core.SupplementaryResourceDescription;
-import wwmm.pubcrawler.journal.acs.AcsJournal;
 import wwmm.pubcrawler.journal.chemsocjapan.ChemSocJapanIssueCrawler;
-import wwmm.pubcrawler.journal.chemsocjapan.ChemSocJapanJournal;
+import wwmm.pubcrawler.journal.chemsocjapan.ChemSocJapanJournalIndex;
 
 /**
  * <p>
@@ -44,7 +44,7 @@ public class ChemSocJapanCifIssueCrawler extends CifIssueCrawler {
 	}
 	
 	public ChemSocJapanCifIssueCrawler(String abbreviation) {
-		this((ChemSocJapanJournal)ChemSocJapanJournal.getJournal(abbreviation));
+		this(ChemSocJapanJournalIndex.getIndex().getJournal(abbreviation));
 	}
 
 	/**
@@ -68,7 +68,7 @@ public class ChemSocJapanCifIssueCrawler extends CifIssueCrawler {
 	
 	public static void main(String[] args) {
 		ChemSocJapanCifIssueCrawler crawler = new ChemSocJapanCifIssueCrawler(
-				ChemSocJapanJournal.CHEMISTRY_LETTERS);
+				ChemSocJapanJournalIndex.CHEMISTRY_LETTERS);
 		crawler.setMaxArticlesToCrawl(10);
 		for (ArticleDescription ad : crawler.getCurrentArticleDescriptions()) {
 			System.out.println(ad.toString());

@@ -18,8 +18,6 @@ package wwmm.pubcrawler.journal.rsc;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import nu.xom.Document;
 import nu.xom.Element;
@@ -34,6 +32,7 @@ import wwmm.pubcrawler.core.DOI;
 import wwmm.pubcrawler.core.IssueCrawler;
 import wwmm.pubcrawler.core.IssueDescription;
 import wwmm.pubcrawler.core.Journal;
+import wwmm.pubcrawler.core.JournalIndex;
 
 /**
  * <p>
@@ -56,7 +55,7 @@ public class RscIssueCrawler extends IssueCrawler {
 	 * specifies the journal of the issue to be crawled.
 	 * </p>
 	 * 
-	 * @param doi of the article to be crawled.
+	 * @param journal of the article to be crawled.
 	 * 
 	 */
 	public RscIssueCrawler(Journal journal) {
@@ -64,7 +63,7 @@ public class RscIssueCrawler extends IssueCrawler {
 	}
 	
 	public RscIssueCrawler(String abbreviation) {
-		this((RscJournal)RscJournal.getJournal(abbreviation));
+		this(RscJournalIndex.getIndex().getJournal(abbreviation));
 	}
 
 
@@ -113,7 +112,7 @@ public class RscIssueCrawler extends IssueCrawler {
 	 * <code>issueDetails</code> parameter.
 	 * </p>
 	 * 
-	 * @param issueDetails - contains the year and issue
+	 * @param details - contains the year and issue
 	 * identifier of the issue to be crawled.
 	 * 
 	 * @return a list of the DOIs of the articles for the issue.
@@ -159,8 +158,8 @@ public class RscIssueCrawler extends IssueCrawler {
 		int yr = Integer.valueOf(year);
 		int vol = journal.getVolumeFromYear(yr);
 		String volume = ""+vol;
-		if (journal.abbreviation.equals(RscJournal.DALTON_TRANSACTIONS) || 
-				journal.abbreviation.equals(RscJournal.CHEMCOMM) &&
+        if (RscJournalIndex.DALTON_TRANSACTIONS.equals(journal) ||
+				RscJournalIndex.CHEMICAL_COMMUNICATIONS.equals(journal) &&
 				yr < 2010) {
 			volume = year.substring(2);
 		}
@@ -188,7 +187,7 @@ public class RscIssueCrawler extends IssueCrawler {
 	 * weeded out by this method.
 	 * </p>
 	 * 
-	 * @param articleElement
+	 * @param text
 	 * @return boolean stating whether the doiElement links to an article or not
 	 * 
 	 */
@@ -213,7 +212,7 @@ public class RscIssueCrawler extends IssueCrawler {
 	 * @throws IOException 
 	 */
 	public static void main(String[] args) throws IOException {
-		IssueCrawler acf = new RscIssueCrawler(RscJournal.CHEMCOMM);
+		IssueCrawler acf = new RscIssueCrawler(RscJournalIndex.CHEMICAL_COMMUNICATIONS);
 		acf.mainTest2(10);
 	}
 

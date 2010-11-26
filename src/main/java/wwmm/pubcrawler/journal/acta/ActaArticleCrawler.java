@@ -65,8 +65,10 @@ public class ActaArticleCrawler extends ArticleCrawler {
 	protected void readProperties() {
 		articleInfo.fullTextHtmlXpath = ".//x:a[./x:img[contains(@src,'graphics/htmlborder.gif')]]";
 		articleInfo.fullTextPdfXpath = ".//x:a[./x:img[contains(@src,'graphics/pdfborder.gif')]]";
-		articleInfo.fullTextHtmlLinkUrl = "HTML";
-		articleInfo.fullTextPdfLinkUrl = "PDF";
+		articleInfo.fullTextHtmlLinkUrl = "";
+        articleInfo.fullTextHtmlLinkText = "HTML";
+		articleInfo.fullTextPdfLinkUrl = "";
+        articleInfo.fullTextPdfLinkText = "PDF";
 		
 	}
 

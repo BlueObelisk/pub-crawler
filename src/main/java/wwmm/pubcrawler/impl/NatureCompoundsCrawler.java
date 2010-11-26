@@ -35,8 +35,8 @@ import wwmm.pubcrawler.core.ArticleDescription;
 import wwmm.pubcrawler.core.CrawlerHttpClient;
 import wwmm.pubcrawler.core.IssueCrawler;
 import wwmm.pubcrawler.core.IssueDescription;
+import wwmm.pubcrawler.core.Journal;
 import wwmm.pubcrawler.journal.nature.NatureIssueCrawler;
-import wwmm.pubcrawler.journal.nature.NatureJournal;
 
 /**
  * <p>
@@ -60,7 +60,7 @@ public class NatureCompoundsCrawler {
 		;
 	}
 
-	public NatureCompoundsCrawler(NatureJournal journal) {
+	public NatureCompoundsCrawler(Journal journal) {
 		crawler = new NatureIssueCrawler(journal);
 	}
 
@@ -126,7 +126,7 @@ public class NatureCompoundsCrawler {
 	 * described within.
 	 * </p>
 	 * 
-	 * @param fullTextHtmlUri - the URI of the full-text HTML.
+	 * @param abstractUrl - the URI of the full-text HTML.
 	 * 
 	 * @return details for all compounds described within the
 	 * full-text HTML.
