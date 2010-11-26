@@ -16,11 +16,13 @@
 package wwmm.pubcrawler.impl;
 
 import static wwmm.pubcrawler.core.CrawlerConstants.CIF_CONTENT_TYPE;
-import wwmm.pubcrawler.core.AcsIssueCrawler;
-import wwmm.pubcrawler.core.AcsJournal;
 import wwmm.pubcrawler.core.ArticleDescription;
 import wwmm.pubcrawler.core.IssueCrawler;
+import wwmm.pubcrawler.core.Journal;
 import wwmm.pubcrawler.core.SupplementaryResourceDescription;
+import wwmm.pubcrawler.journal.acs.AcsIssueCrawler;
+import wwmm.pubcrawler.journal.acs.AcsJournal;
+import wwmm.pubcrawler.journal.chemsocjapan.ChemSocJapanJournal;
 
 /**
  * <p>
@@ -42,6 +44,11 @@ public class AcsCifIssueCrawler extends CifIssueCrawler {
 		super(new AcsIssueCrawler(journal));
 	}
 	
+	public AcsCifIssueCrawler(String abbreviation) {
+		this((AcsJournal)AcsJournal.getJournal(abbreviation));
+	}
+
+
 	/**
 	 * <p>
 	 * An American Chemical Society specific method of determining 
@@ -62,7 +69,8 @@ public class AcsCifIssueCrawler extends CifIssueCrawler {
 	}
 	
 	public static void main(String[] args) {
-		AcsCifIssueCrawler crawler = new AcsCifIssueCrawler(AcsJournal.CRYSTAL_GROWTH_AND_DESIGN);
+		AcsCifIssueCrawler crawler = new AcsCifIssueCrawler(
+				AcsJournal.CRYSTAL_GROWTH_AND_DESIGN);
 		crawler.setMaxArticlesToCrawl(10);
 		for (ArticleDescription ad : crawler.getCurrentArticleDescriptions()) {
 			System.out.println(ad.toString());

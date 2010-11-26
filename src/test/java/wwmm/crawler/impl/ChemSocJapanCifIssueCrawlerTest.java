@@ -23,9 +23,9 @@ import junitx.util.PrivateAccessor;
 
 import org.junit.Test;
 
-import wwmm.pubcrawler.core.ChemSocJapanIssueCrawler;
 import wwmm.pubcrawler.core.SupplementaryResourceDescription;
 import wwmm.pubcrawler.impl.ChemSocJapanCifIssueCrawler;
+import wwmm.pubcrawler.journal.chemsocjapan.ChemSocJapanIssueCrawler;
 
 public class ChemSocJapanCifIssueCrawlerTest {
 	

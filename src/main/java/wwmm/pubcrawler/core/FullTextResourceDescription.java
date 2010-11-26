@@ -48,6 +48,7 @@ public class FullTextResourceDescription {
 	 * @param contentType - the Content-type of the resource from its HTTP headers.
 	 */
 	public FullTextResourceDescription(String url, String linkText, String contentType) {
+		this();
 		this.url = url;
 		this.linkText = linkText;
 		this.contentType = contentType;

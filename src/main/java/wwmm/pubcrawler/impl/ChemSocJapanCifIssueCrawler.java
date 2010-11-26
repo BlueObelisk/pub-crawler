@@ -16,11 +16,12 @@
 package wwmm.pubcrawler.impl;
 
 import wwmm.pubcrawler.core.ArticleDescription;
-import wwmm.pubcrawler.core.ChemSocJapanIssueCrawler;
-import wwmm.pubcrawler.core.ChemSocJapanJournal;
 import wwmm.pubcrawler.core.IssueCrawler;
 import wwmm.pubcrawler.core.Journal;
 import wwmm.pubcrawler.core.SupplementaryResourceDescription;
+import wwmm.pubcrawler.journal.acs.AcsJournal;
+import wwmm.pubcrawler.journal.chemsocjapan.ChemSocJapanIssueCrawler;
+import wwmm.pubcrawler.journal.chemsocjapan.ChemSocJapanJournal;
 
 /**
  * <p>
@@ -42,6 +43,10 @@ public class ChemSocJapanCifIssueCrawler extends CifIssueCrawler {
 		super(new ChemSocJapanIssueCrawler(journal));
 	}
 	
+	public ChemSocJapanCifIssueCrawler(String abbreviation) {
+		this((ChemSocJapanJournal)ChemSocJapanJournal.getJournal(abbreviation));
+	}
+
 	/**
 	 * <p>
 	 * A Chemical Society of Japan specific method of determining 
@@ -62,7 +67,8 @@ public class ChemSocJapanCifIssueCrawler extends CifIssueCrawler {
 	}
 	
 	public static void main(String[] args) {
-		ChemSocJapanCifIssueCrawler crawler = new ChemSocJapanCifIssueCrawler(ChemSocJapanJournal.CHEMISTRY_LETTERS);
+		ChemSocJapanCifIssueCrawler crawler = new ChemSocJapanCifIssueCrawler(
+				ChemSocJapanJournal.CHEMISTRY_LETTERS);
 		crawler.setMaxArticlesToCrawl(10);
 		for (ArticleDescription ad : crawler.getCurrentArticleDescriptions()) {
 			System.out.println(ad.toString());

@@ -55,6 +55,7 @@ public class BibtexTool {
 	 * Bibtex file.
 	 */
 	public BibtexTool(String bibtexString) {
+		this();
 		this.bibtexString = bibtexString;
 		validate();
 		parseBibtexString();

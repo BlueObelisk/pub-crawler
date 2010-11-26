@@ -241,5 +241,23 @@ public abstract class IssueCrawler extends Crawler {
 	protected String getVolumeFromYearVolume(String yearVolume, boolean useVolume) {
 		return (useVolume) ? ""+(Integer.parseInt(yearVolume)-journal.getVolumeOffset()) : yearVolume;
 	}
+
+	public void mainTest(String year, String issue, int maxToCrawl) {
+		this.setMaxArticlesToCrawl(maxToCrawl);
+		IssueDescription details = new IssueDescription(year, issue);
+		List<ArticleDescription> adList = this.getArticleDescriptions(details);
+		for (ArticleDescription ad : adList) {
+			System.out.println(ad.toString());
+		}
+	}
+
+	public void mainTest2(int maxToCrawl) {
+		this.setMaxArticlesToCrawl(maxToCrawl);
+		IssueDescription issueDescription = this.getCurrentIssueDescription();
+		List<ArticleDescription> adList = this.getArticleDescriptions(issueDescription);
+		for (ArticleDescription ad : adList) {
+			System.out.println(ad.toString());
+		}
+	}
 	
 }
