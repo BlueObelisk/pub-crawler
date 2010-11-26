@@ -246,7 +246,7 @@ public class AcsRssCrawler extends Crawler {
 	 * @throws ParseException 
 	 */
 	public static void main(String[] args) throws ParseException {
-		Journal journal = AcsJournalIndex.J_ACS_cgdefu;
+		Journal journal = AcsJournalIndex.CRYSTAL_GROWTH_AND_DESIGN;
 		SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss 'GMT'");
 		Date date = sdf.parse("Thu, 12 Feb 2009 12:00:00 GMT");
 		AcsRssCrawler acf = new AcsRssCrawler((Journal)journal, date);

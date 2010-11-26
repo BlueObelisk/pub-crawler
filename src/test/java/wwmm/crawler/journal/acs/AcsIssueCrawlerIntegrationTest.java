@@ -55,7 +55,7 @@ public class AcsIssueCrawlerIntegrationTest {
 	 */
 	@Test
 	public void testGetCurrentIssueHtml() {
-		IssueCrawler crawler = new AcsIssueCrawler(AcsJournalIndex.JOURNAL_OF_THE_AMERICAN_CHEMICAL_SOCIETY);
+		IssueCrawler crawler = new AcsIssueCrawler(AcsJournalIndex.JOURNAL_OF_CHEMICAL_AND_ENGINEERING_DATA);
 		Document doc = crawler.getCurrentIssueHtml();
 		assertNotNull(doc);
 	}
