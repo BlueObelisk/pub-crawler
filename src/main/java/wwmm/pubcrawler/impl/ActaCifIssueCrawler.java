@@ -20,10 +20,11 @@ import java.util.regex.Pattern;
 
 import wwmm.pubcrawler.core.ArticleDescription;
 import wwmm.pubcrawler.core.IssueCrawler;
+import wwmm.pubcrawler.core.Journal;
+import wwmm.pubcrawler.core.JournalIndex;
 import wwmm.pubcrawler.core.SupplementaryResourceDescription;
-import wwmm.pubcrawler.journal.acs.AcsJournal;
 import wwmm.pubcrawler.journal.acta.ActaIssueCrawler;
-import wwmm.pubcrawler.journal.acta.ActaJournal;
+import wwmm.pubcrawler.journal.acta.ActaJournalIndex;
 
 /**
  * <p>
@@ -41,12 +42,12 @@ public class ActaCifIssueCrawler extends CifIssueCrawler {
 		super(crawler);
 	}
 	
-	public ActaCifIssueCrawler(ActaJournal journal) {
+	public ActaCifIssueCrawler(Journal journal) {
 		super(new ActaIssueCrawler(journal));
 	}
 
 	public ActaCifIssueCrawler(String abbreviation) {
-		this((ActaJournal)ActaJournal.getJournal(abbreviation));
+		this(ActaJournalIndex.getIndex().getJournal(abbreviation));
 	}
 
 	/**
@@ -69,7 +70,7 @@ public class ActaCifIssueCrawler extends CifIssueCrawler {
 	}
 	
 	public static void main(String[] args) {
-		ActaCifIssueCrawler crawler = new ActaCifIssueCrawler(ActaJournal.SECTION_C);
+		ActaCifIssueCrawler crawler = new ActaCifIssueCrawler(ActaJournalIndex.SECTION_C);
 		crawler.setMaxArticlesToCrawl(3);
 		for (ArticleDescription ad : crawler.getCurrentArticleDescriptions()) {
 			System.out.println(ad.toString());

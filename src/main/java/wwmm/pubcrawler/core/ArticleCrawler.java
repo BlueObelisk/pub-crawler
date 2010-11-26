@@ -178,7 +178,7 @@ public abstract class ArticleCrawler extends Crawler {
 	}
 
 	protected FullTextResourceDescription getFullTextResourceDescription(
-			String xpath, String linkUrl, String mimeType) {
+			String xpath, String linkUrl, String linkText, String mimeType) {
 		FullTextResourceDescription ftrd = null;
 		if (xpath != null) {
 			List<Node> fullTextPdfLinks = Utils.queryHTML(articleAbstractHtml, xpath);
@@ -187,8 +187,15 @@ public abstract class ArticleCrawler extends Crawler {
 				return null;
 			}
 			Element fullTextLink = (Element)fullTextPdfLinks.get(0);
-			String linkText = fullTextLink.getValue().trim();
-			String fullTextPdfUrl = linkUrl+fullTextLink.getAttributeValue("href");
+            if (linkText == null) {
+                linkText = fullTextLink.getValue().trim();
+            }
+			String fullTextPdfUrl;
+            if (linkUrl == null) {
+                fullTextPdfUrl = fullTextLink.getAttributeValue("href");
+            } else {
+                fullTextPdfUrl = linkUrl + fullTextLink.getAttributeValue("href");
+            }
 			ftrd = new FullTextResourceDescription(fullTextPdfUrl, linkText, mimeType);
 		}
 		return ftrd;
@@ -205,7 +212,7 @@ public abstract class ArticleCrawler extends Crawler {
 	 */
 	protected FullTextResourceDescription getFullTextPdfDetails() {
 		return getFullTextResourceDescription(
-				articleInfo.fullTextPdfXpath, articleInfo.fullTextPdfLinkUrl, APPLICATION_PDF);
+				articleInfo.fullTextPdfXpath, articleInfo.fullTextPdfLinkUrl, articleInfo.fullTextPdfLinkText, APPLICATION_PDF);
 	}
 
 	/**
@@ -219,7 +226,7 @@ public abstract class ArticleCrawler extends Crawler {
 	 */
 	protected FullTextResourceDescription getFullTextEnhancedPdfDetails() {
 		return getFullTextResourceDescription(
-				articleInfo.fullTextEnhancedPdfXpath, articleInfo.fullTextPdfLinkUrl, APPLICATION_PDF);
+				articleInfo.fullTextEnhancedPdfXpath, articleInfo.fullTextPdfLinkUrl, articleInfo.fullTextPdfLinkText, APPLICATION_PDF);
 	}
 
 	/**
@@ -233,7 +240,7 @@ public abstract class ArticleCrawler extends Crawler {
 	 */
 	protected FullTextResourceDescription getFullTextHtmlDetails() {
 		return getFullTextResourceDescription(
-				articleInfo.fullTextHtmlXpath, articleInfo.fullTextHtmlLinkUrl, TEXT_HTML);
+				articleInfo.fullTextHtmlXpath, articleInfo.fullTextHtmlLinkUrl, articleInfo.fullTextHtmlLinkText, TEXT_HTML);
 	}
 
 	/**

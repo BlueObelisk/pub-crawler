@@ -27,9 +27,8 @@ import org.junit.Test;
 import wwmm.pubcrawler.core.DOI;
 import wwmm.pubcrawler.core.IssueCrawler;
 import wwmm.pubcrawler.core.IssueDescription;
-import wwmm.pubcrawler.core.Journal;
 import wwmm.pubcrawler.journal.acs.AcsIssueCrawler;
-import wwmm.pubcrawler.journal.acs.AcsJournal;
+import wwmm.pubcrawler.journal.acs.AcsJournalIndex;
 
 public class AcsIssueCrawlerIntegrationTest {
 	
@@ -42,7 +41,7 @@ public class AcsIssueCrawlerIntegrationTest {
 	@Test
 	public void testGetIssueDois() {
 		IssueDescription details = new IssueDescription("2009", "2");
-		IssueCrawler crawler = new AcsIssueCrawler(AcsJournal.THE_JOURNAL_OF_ORGANIC_CHEMISTRY);
+		IssueCrawler crawler = new AcsIssueCrawler(AcsJournalIndex.THE_JOURNAL_OF_ORGANIC_CHEMISTRY);
 		List<DOI> doiList = crawler.getDois(details);
 		assertEquals(66, doiList.size());
 		assertEquals(new DOI(DOI.DOI_SITE_URL+"/10.1021/jo8019237"), doiList.get(9));
@@ -56,7 +55,7 @@ public class AcsIssueCrawlerIntegrationTest {
 	 */
 	@Test
 	public void testGetCurrentIssueHtml() {
-		IssueCrawler crawler = new AcsIssueCrawler(AcsJournal.JOURNAL_OF_THE_AMERICAN_CHEMICAL_SOCIETY);
+		IssueCrawler crawler = new AcsIssueCrawler(AcsJournalIndex.JOURNAL_OF_THE_AMERICAN_CHEMICAL_SOCIETY);
 		Document doc = crawler.getCurrentIssueHtml();
 		assertNotNull(doc);
 	}

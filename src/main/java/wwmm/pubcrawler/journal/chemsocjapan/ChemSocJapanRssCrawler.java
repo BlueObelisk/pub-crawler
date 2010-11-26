@@ -243,7 +243,7 @@ public class ChemSocJapanRssCrawler extends Crawler {
 	 * @throws ParseException 
 	 */
 	public static void main(String[] args) throws ParseException {
-		Journal journal = ChemSocJapanJournal.getJournal(ChemSocJapanJournal.CHEMISTRY_LETTERS);
+		Journal journal = ChemSocJapanJournalIndex.CHEMISTRY_LETTERS;
 		SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy z");
 		Date date = sdf.parse("Sat, 7 Feb 2009 JST");
 		ChemSocJapanRssCrawler acf = new ChemSocJapanRssCrawler(journal, date);

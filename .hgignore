@@ -8,3 +8,4 @@ target/*
 # switch to regexp syntax.
 syntax: regexp
 ^\.pc/
+^pub-crawler.log

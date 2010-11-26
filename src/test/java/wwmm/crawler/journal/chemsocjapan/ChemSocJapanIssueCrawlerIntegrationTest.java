@@ -27,9 +27,8 @@ import org.junit.Test;
 import wwmm.pubcrawler.core.DOI;
 import wwmm.pubcrawler.core.IssueCrawler;
 import wwmm.pubcrawler.core.IssueDescription;
-import wwmm.pubcrawler.core.Journal;
 import wwmm.pubcrawler.journal.chemsocjapan.ChemSocJapanIssueCrawler;
-import wwmm.pubcrawler.journal.chemsocjapan.ChemSocJapanJournal;
+import wwmm.pubcrawler.journal.chemsocjapan.ChemSocJapanJournalIndex;
 
 public class ChemSocJapanIssueCrawlerIntegrationTest {
 	
@@ -42,8 +41,7 @@ public class ChemSocJapanIssueCrawlerIntegrationTest {
 	@Test
 	public void testGetIssueDois() {
 		IssueDescription details = new IssueDescription("2009", "2");
-		IssueCrawler crawler = new ChemSocJapanIssueCrawler(
-				(ChemSocJapanJournal)ChemSocJapanJournal.getJournal(ChemSocJapanJournal.CHEMISTRY_LETTERS));
+		IssueCrawler crawler = new ChemSocJapanIssueCrawler(ChemSocJapanJournalIndex.CHEMISTRY_LETTERS);
 		List<DOI> doiList = crawler.getDois(details);
 		assertEquals(42, doiList.size());
 		assertEquals(new DOI(DOI.DOI_SITE_URL+"/10.1246/cl.2009.126"), doiList.get(9));
@@ -57,8 +55,7 @@ public class ChemSocJapanIssueCrawlerIntegrationTest {
 	 */
 	@Test
 	public void testGetCurrentIssueHtml() {
-		IssueCrawler crawler = new ChemSocJapanIssueCrawler(
-				(ChemSocJapanJournal)ChemSocJapanJournal.getJournal(ChemSocJapanJournal.CHEMISTRY_LETTERS));
+		IssueCrawler crawler = new ChemSocJapanIssueCrawler(ChemSocJapanJournalIndex.CHEMISTRY_LETTERS);
 		Document doc = crawler.getCurrentIssueHtml();
 		assertNotNull(doc);
 	}

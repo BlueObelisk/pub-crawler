@@ -30,7 +30,6 @@ import nu.xom.Element;
 import nu.xom.Nodes;
 
 import org.apache.log4j.Logger;
-import org.joda.time.DateTime;
 
 import wwmm.pubcrawler.core.ArticleDescription;
 import wwmm.pubcrawler.core.Crawler;
@@ -247,7 +246,7 @@ public class AcsRssCrawler extends Crawler {
 	 * @throws ParseException 
 	 */
 	public static void main(String[] args) throws ParseException {
-		Journal journal = AcsJournal.getJournal(AcsJournal.CRYSTAL_GROWTH_AND_DESIGN);
+		Journal journal = AcsJournalIndex.J_ACS_cgdefu;
 		SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss 'GMT'");
 		Date date = sdf.parse("Thu, 12 Feb 2009 12:00:00 GMT");
 		AcsRssCrawler acf = new AcsRssCrawler((Journal)journal, date);

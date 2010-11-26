@@ -13,36 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package wwmm.pubcrawler.journal.nature;
-
-import java.util.ArrayList;
-import java.util.List;
+package wwmm.pubcrawler.journal.chemsocjapan;
 
 import wwmm.pubcrawler.core.Journal;
-import wwmm.pubcrawler.core.JournalMap;
+import wwmm.pubcrawler.core.JournalIndex;
+
 
 /**
  * <p>
- * The <code>NatureJournal</code> enum is meant to enumerate useful 
- * details about journals of interest from the Nature Publishing
- * Group.
+ * The <code>ChemSocJapanJournal</code> enum is meant to 
+ * enumerate useful details about journals of interest from 
+ * the Chemical Society of Japan.
  * </p>
  * 
  * @author Nick Day
- * @version 0.1
+ * @version 1.1
  * 
  */
-public class NatureJournal extends Journal {
-	
-	public static final String CHEMISTRY = "nchem";
+public class ChemSocJapanJournalIndex {
 
-	static {
-    	journalMap = new JournalMap();
-	    journalMap.add(new NatureJournal(CHEMISTRY, "Nature Chemistry", 2008));
-	}
-	
-	NatureJournal(String abbreviation, String fullTitle, int volumeOffset) {
-		super(abbreviation, fullTitle, volumeOffset);
-	}
+    private static final JournalIndex INDEX = new JournalIndex();
 
+    public static final Journal CHEMISTRY_LETTERS = INDEX.register("chem-lett", "Chemistry Letters");
+
+    public static JournalIndex getIndex() {
+        return INDEX;
+    }
+    
 }

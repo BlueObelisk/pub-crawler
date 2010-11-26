@@ -18,10 +18,10 @@ package wwmm.pubcrawler.impl;
 import wwmm.pubcrawler.core.ArticleDescription;
 import wwmm.pubcrawler.core.IssueCrawler;
 import wwmm.pubcrawler.core.Journal;
+import wwmm.pubcrawler.core.JournalIndex;
 import wwmm.pubcrawler.core.SupplementaryResourceDescription;
-import wwmm.pubcrawler.journal.acs.AcsJournal;
 import wwmm.pubcrawler.journal.rsc.RscIssueCrawler;
-import wwmm.pubcrawler.journal.rsc.RscJournal;
+import wwmm.pubcrawler.journal.rsc.RscJournalIndex;
 
 /**
  * <p>
@@ -44,7 +44,7 @@ public class RscCifIssueCrawler extends CifIssueCrawler {
 	}
 	
 	public RscCifIssueCrawler(String abbreviation) {
-		this((RscJournal)RscJournal.getJournal(abbreviation));
+		this(RscJournalIndex.getIndex().getJournal(abbreviation));
 	}
 
 	/**
@@ -68,7 +68,7 @@ public class RscCifIssueCrawler extends CifIssueCrawler {
 	}
 	
 	public static void main(String[] args) {
-		RscCifIssueCrawler crawler = new RscCifIssueCrawler(RscJournal.CHEMCOMM);
+		RscCifIssueCrawler crawler = new RscCifIssueCrawler(RscJournalIndex.CHEMICAL_COMMUNICATIONS);
 		for (ArticleDescription ad : crawler.getCurrentArticleDescriptions()) {
 			System.out.println(ad.toString());
 		}

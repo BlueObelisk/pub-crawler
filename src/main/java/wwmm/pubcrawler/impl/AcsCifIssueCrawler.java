@@ -19,10 +19,10 @@ import static wwmm.pubcrawler.core.CrawlerConstants.CIF_CONTENT_TYPE;
 import wwmm.pubcrawler.core.ArticleDescription;
 import wwmm.pubcrawler.core.IssueCrawler;
 import wwmm.pubcrawler.core.Journal;
+import wwmm.pubcrawler.core.JournalIndex;
 import wwmm.pubcrawler.core.SupplementaryResourceDescription;
 import wwmm.pubcrawler.journal.acs.AcsIssueCrawler;
-import wwmm.pubcrawler.journal.acs.AcsJournal;
-import wwmm.pubcrawler.journal.chemsocjapan.ChemSocJapanJournal;
+import wwmm.pubcrawler.journal.acs.AcsJournalIndex;
 
 /**
  * <p>
@@ -40,12 +40,12 @@ public class AcsCifIssueCrawler extends CifIssueCrawler {
 		super(crawler);
 	}
 	
-	public AcsCifIssueCrawler(AcsJournal journal) {
+	public AcsCifIssueCrawler(Journal journal) {
 		super(new AcsIssueCrawler(journal));
 	}
 	
 	public AcsCifIssueCrawler(String abbreviation) {
-		this((AcsJournal)AcsJournal.getJournal(abbreviation));
+		this(AcsJournalIndex.getIndex().getJournal(abbreviation));
 	}
 
 
@@ -70,7 +70,7 @@ public class AcsCifIssueCrawler extends CifIssueCrawler {
 	
 	public static void main(String[] args) {
 		AcsCifIssueCrawler crawler = new AcsCifIssueCrawler(
-				AcsJournal.CRYSTAL_GROWTH_AND_DESIGN);
+				AcsJournalIndex.CRYSTAL_GROWTH_AND_DESIGN);
 		crawler.setMaxArticlesToCrawl(10);
 		for (ArticleDescription ad : crawler.getCurrentArticleDescriptions()) {
 			System.out.println(ad.toString());
