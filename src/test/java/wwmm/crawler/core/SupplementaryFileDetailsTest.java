@@ -19,7 +19,6 @@ import static junit.framework.Assert.assertSame;
 import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.fail;
 
-import org.apache.commons.httpclient.URIException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -34,7 +33,7 @@ public class SupplementaryFileDetailsTest {
 	String contentType;
 
 	@Before
-	public void createInstance() throws URIException, NullPointerException {
+	public void createInstance() throws NullPointerException {
 		url = "http://something/filename.txt";
 		filename = "filename.txt";
 		linkText = "Any old link text here";
@@ -43,7 +42,7 @@ public class SupplementaryFileDetailsTest {
 	}
 
 	@Test
-	public void testAttemptCreateInstanceWithWrongFilename() throws URIException, NullPointerException {
+	public void testAttemptCreateInstanceWithWrongFilename() throws NullPointerException {
 		url = "http://something/filename.txt";
 		filename = "wrongname";
 		linkText = "Any old link text here";

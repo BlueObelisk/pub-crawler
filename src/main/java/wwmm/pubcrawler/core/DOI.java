@@ -15,8 +15,8 @@
  ******************************************************************************/
 package wwmm.pubcrawler.core;
 
-import org.apache.commons.httpclient.URI;
-import org.apache.commons.httpclient.URIException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 /**
  * <p>
@@ -70,8 +70,6 @@ public class DOI {
 	 * from a DOI of http://dx.doi.org/10.1021/b789765f).
 	 * </p>
 	 * 
-	 * @param doi the DOI for which you want the postfix.
-	 * 
 	 * @return the postfix of the provided DOI.
 	 */
 	public String getPostfix() {
@@ -95,8 +93,8 @@ public class DOI {
 					"Cannot create a URI from a null String.");
 		}
 		try {
-			return new URI(url, false);
-		} catch (URIException e) {
+			return new URI(url);
+		} catch (URISyntaxException e) {
 			throw new RuntimeException("Problem creating URI from: "+url, e);
 		}
 	}

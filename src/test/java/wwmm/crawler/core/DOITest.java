@@ -20,7 +20,6 @@ import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import org.apache.commons.httpclient.URIException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -33,7 +32,7 @@ public class DOITest {
 	String validDoiUrl;
 
 	@Before
-	public void setupUrlsAndUris() throws URIException, NullPointerException {
+	public void setupUrlsAndUris() throws NullPointerException {
 		invalidUriUrl = "thisisnotavaliduri";
 		invalidDoiUrl = "http://www.google.com";
 		validDoiUrl = "http://dx.doi.org/10.1039/b815603d";

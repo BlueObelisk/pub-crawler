@@ -224,8 +224,8 @@ public class RscArticleCrawler extends ArticleCrawler {
 	}
 	
 	private String getYear() {
-		String date = getMetaElementContent("DC.Date");
-		return date.substring(0, date.indexOf("-"));
+		String date = getMetaElementContent("citation_date");
+		return date.substring(0, date.indexOf("/"));
 	}
 	
 	private String getVolume() {

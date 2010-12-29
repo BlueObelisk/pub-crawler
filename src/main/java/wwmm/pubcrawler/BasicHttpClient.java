@@ -15,40 +15,25 @@
  ******************************************************************************/
 package wwmm.pubcrawler;
 
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.StringReader;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import nu.xom.Builder;
 import nu.xom.Document;
-
-import nu.xom.ParsingException;
-import nu.xom.ValidityException;
-import org.apache.commons.httpclient.Header;
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.HttpException;
-import org.apache.commons.httpclient.HttpMethod;
-import org.apache.commons.httpclient.HttpStatus;
-import org.apache.commons.httpclient.URI;
-import org.apache.commons.httpclient.URIException;
-import org.apache.commons.httpclient.methods.GetMethod;
-import org.apache.commons.httpclient.methods.HeadMethod;
-import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.io.IOUtils;
+import org.apache.http.Header;
+import org.apache.http.HttpRequest;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpHead;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.log4j.Logger;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
 
-import wwmm.pubcrawler.core.CrawlerRuntimeException;
+import java.io.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 /**
@@ -66,10 +51,9 @@ public class BasicHttpClient {
 	private static final Logger LOG = Logger.getLogger(BasicHttpClient.class);
 
 	private HttpClient client;
-	private HttpMethod method;
 
 	public BasicHttpClient() {
-		client = new HttpClient();
+		client = new DefaultHttpClient();
 	}
 
 	public BasicHttpClient(HttpClient client) {
@@ -88,13 +72,13 @@ public class BasicHttpClient {
 	 * provided <code>URI</code>.
 	 * 
 	 */
-	private InputStream getResourceStream(String url) {
+	private InputStream getResourceStream(String uri) {
 		InputStream in = null;
-		method = executeGET(url);
 		try {
-			in = method.getResponseBodyAsStream();
+            HttpResponse response = executeGET(uri);
+			in = response.getEntity().getContent();
 		} catch (IOException e) {
-			throw new RuntimeException("Exception getting response stream for: "+url);
+			throw new RuntimeException("Exception getting response stream for: "+uri);
 		}
 		return in;
 	}
@@ -111,20 +95,26 @@ public class BasicHttpClient {
 	 * <code>URI</code>.
 	 * 
 	 */
-	public String getResourceString(String url) {
-		InputStream in = getResourceStream(url);
-		String html = null;
+	public String getResourceString(String uri) {
+        String html;
 		try {
-			html = IOUtils.toString(in);
+            HttpResponse response = executeGET(uri);
+            try {
+                InputStream in = response.getEntity().getContent();
+                try {
+                    html = IOUtils.toString(in);
+                } finally {
+                    IOUtils.closeQuietly(in);
+                }
+            } finally {
+                if (response.getEntity() != null) {
+                    response.getEntity().consumeContent();
+                }
+            }
 		} catch (IOException e) {
-			throw new RuntimeException("Exception converting webpage stream to string: "+url, e);
-		} finally {
-			IOUtils.closeQuietly(in);
-			if (method != null) {
-				method.releaseConnection();
-			}
+			throw new RuntimeException("Exception getting response stream for: "+uri);
 		}
-		return html;
+        return html;
 	}
 
 	/**
@@ -139,16 +129,16 @@ public class BasicHttpClient {
 	 * @return true if the resource is successfully written
 	 * to file, false if not. 
 	 */
-	public boolean writeResourceToFile(String url, File file) {
+	public boolean writeResourceToFile(String uri, File file) {
 		file.getParentFile().mkdirs();
 		InputStream in = null;
 		OutputStream out = null;
 		try {
-			in = getResourceStream(url);
+			in = getResourceStream(uri);
 			out = new BufferedOutputStream(new FileOutputStream(file));
 			IOUtils.copy(in, out);
 		} catch (IOException e) {
-			LOG.info("Could not write URI ("+url+") to file ("+file+")\n"+
+			LOG.info("Could not write URI ("+uri+") to file ("+file+")\n"+
 					e.getMessage());
 			return false;
 		} finally {
@@ -171,19 +161,27 @@ public class BasicHttpClient {
 	 * at the provided <code>URI</code> after they have been parsed using Tagsoup.
 	 * 
 	 */
-	public Document getResourceHTML(String url) {
-		InputStream in = getResourceStream(url);
-        Document doc = null;
-		try {
-			Builder builder = getTagsoupBuilder();
-			doc = Utils.parseXml(builder, in);
-		} finally {
-			IOUtils.closeQuietly(in);
-			if (method != null) {
-				method.releaseConnection();
-			}
+	public Document getResourceHTML(String uri) {
+		Document doc = null;
+        try {
+            HttpResponse response = executeGET(uri);
+            try {
+                InputStream in = response.getEntity().getContent();
+                try {
+                    Builder builder = getTagsoupBuilder();
+			        doc = Utils.parseXml(builder, in);
+                } finally {
+                    IOUtils.closeQuietly(in);
+                }
+            } finally {
+                if (response.getEntity() != null) {
+                    response.getEntity().consumeContent();
+                }
+            }
+		} catch (IOException e) {
+			throw new RuntimeException("Exception getting response stream for: "+uri);
 		}
-		return doc;
+        return doc;
 	}
 
 	/**
@@ -201,8 +199,8 @@ public class BasicHttpClient {
 	 * 
 	 * @return XML <code>Document</code> containined the parsed HTML.
 	 */
-	public Document getResourceHTMLMinusComments(String url) {
-		String html = getResourceString(url);
+	public Document getResourceHTMLMinusComments(String uri) {
+		String html = getResourceString(uri);
 
 		String patternStr = "<!--(.*)?-->";
 		String replacementStr = "";
@@ -241,18 +239,26 @@ public class BasicHttpClient {
 	 * the provided <code>URI</code>.
 	 * 
 	 */
-	public Document getResourceXML(String url) {
-		InputStream in = getResourceStream(url);
+	public Document getResourceXML(String uri) {
 		Document doc = null;
-		try {
-			doc = Utils.parseXml(in);
-		} finally {
-			IOUtils.closeQuietly(in);
-			if (method != null) {
-				method.releaseConnection();
-			}
+        try {
+            HttpResponse response = executeGET(uri);
+            try {
+                InputStream in = response.getEntity().getContent();
+                try {
+                    doc = Utils.parseXml(in);
+                } finally {
+                    IOUtils.closeQuietly(in);
+                }
+            } finally {
+                if (response.getEntity() != null) {
+                    response.getEntity().consumeContent();
+                }
+            }
+		} catch (IOException e) {
+			throw new RuntimeException("Exception getting response stream for: "+uri);
 		}
-		return doc;
+        return doc;
 	}	
 
 	/**
@@ -267,12 +273,11 @@ public class BasicHttpClient {
 	 * @return InputStream containing the results of the POST method.
 	 * 
 	 */
-	private InputStream getPostResultStream(PostMethod postMethod) {
-		method = postMethod;
-		executeMethod(method);
+	private InputStream getPostResultStream(HttpPost postMethod) {
 		InputStream in = null;
 		try {
-			in = method.getResponseBodyAsStream();
+            HttpResponse response = client.execute(postMethod);
+		    in = response.getEntity().getContent();
 		} catch (IOException e) {
 			throw new RuntimeException("Problem getting POST response stream.", e);
 		}
@@ -291,18 +296,25 @@ public class BasicHttpClient {
 	 * @return String containing the results of the POST method.
 	 * 
 	 */
-	public String getPostResultString(PostMethod postMethod) {
-		InputStream in = getPostResultStream(postMethod);
+	public String getPostResultString(HttpPost postMethod) {
+        // TODO handle encoding
 		String result = null;
 		try {
-			result = IOUtils.toString(in);
+            HttpResponse response = client.execute(postMethod);
+            try {
+                InputStream in = response.getEntity().getContent();
+                try {
+                    result = IOUtils.toString(in);
+                } finally {
+                    IOUtils.closeQuietly(in);
+                }
+            } finally {
+                if (response.getEntity() != null) {
+                    response.getEntity().consumeContent();
+                }
+            }
 		} catch (IOException e) {
-			throw new RuntimeException("Problem converting POST result stream to string.", e);
-		} finally {
-			IOUtils.closeQuietly(in);
-			if (method != null) {
-				method.releaseConnection();
-			}
+			throw new RuntimeException("Exception getting response stream for: "+postMethod.getURI());
 		}
 		return result;
 	}
@@ -319,19 +331,27 @@ public class BasicHttpClient {
 	 * @return XML <code>Document</code> containing the results of the POST method.
 	 * 
 	 */
-	public Document getPostResultXML(PostMethod postMethod) {
-		InputStream in = getPostResultStream(postMethod);
+	public Document getPostResultXML(HttpPost postMethod) {
 		Document doc = null;
 		try {
-			Builder builder = getTagsoupBuilder();
-			doc = Utils.parseXml(builder, in);
-		} finally {
-			IOUtils.closeQuietly(in);
-			if (method != null) {
-				method.releaseConnection();
-			}
+            HttpResponse response = client.execute(postMethod);
+            try {
+                InputStream in = response.getEntity().getContent();
+                try {
+                    Builder builder = getTagsoupBuilder();
+			        doc = Utils.parseXml(builder, in);
+                } finally {
+                    IOUtils.closeQuietly(in);
+                }
+            } finally {
+                if (response.getEntity() != null) {
+                    response.getEntity().consumeContent();
+                }
+            }
+		} catch (IOException e) {
+			throw new RuntimeException("Exception getting response stream for: "+postMethod.getURI());
 		}
-		return doc;
+        return doc;
 	}
 
 	/**
@@ -341,20 +361,20 @@ public class BasicHttpClient {
 	 * </p>
 	 * 
 	 * @param uri - the resource for which to retrieve the headers.
-	 * 
+	 *
 	 * @return array containing all of the HTTP headers for the resource at
 	 * the provided <code>URI</code>.
 	 * 
 	 */
-	public Header[] getHeaders(String url) {
-		method = executeHEAD(url);
-		try {
-			return method.getResponseHeaders();
-		} finally {
-			if (method != null) {
-				method.releaseConnection();
-			}
-		}
+	public Header[] getHeaders(String uri) throws IOException {
+		HttpResponse response = executeHEAD(uri);
+        try {
+            return response.getAllHeaders();
+        } finally {
+            if (response.getEntity() != null) {
+                response.getEntity().consumeContent();
+            }
+        }
 	}
 
 	/**
@@ -377,53 +397,20 @@ public class BasicHttpClient {
 		return new Builder(tagsoup);
 	}
 
-	/**
-	 * <p>
-	 * Simply executes the HTTP method provided as a parameter.
-	 * </p>
-	 * 
-	 * @param method - HTTP method to execute
-	 * 
-	 */
-	private void executeMethod(HttpMethod method) {
-		URI uri = null;
-		try {
-			uri = method.getURI();
-			int statusCode = client.executeMethod(method);
-			if (statusCode != HttpStatus.SC_OK) {
-				throw new RuntimeException("Problems executing "+method.getName()
-						+" method on "+uri+". Returned status code = "+statusCode);
-			}
-		} catch (HttpException e) {
-			throw new RuntimeException("HttpException executing "+method.getName()
-					+" method on "+uri, e);
-		} catch (IOException e) {
-			throw new RuntimeException("IOException executing "+method.getName()
-					+" method on "+uri, e);
-		}
-	}
 
 	/**
 	 * <p>
 	 * Executes a HTTP GET on the provided <code>URI</code>.
 	 * </p>
 	 * 
-	 * @param uri - resource to GET
-	 * 
-	 * @return Apache <code>HTTPClient</code> wrapper containing the GET method 
+	 * @return Apache <code>HTTPClient</code> wrapper containing the GET method
 	 * details and results.
 	 * 
 	 */
-	public GetMethod executeGET(String url) {
-		method = new GetMethod();
-		try {
-			method.setURI(createURI(url));
-			executeMethod(method);
-		} catch (URIException e) {
-			throw new RuntimeException("Exception setting the URI for the HTTP " +
-					"GET method: "+url, e);
-		}
-		return (GetMethod)method;
+	public HttpResponse executeGET(String url) throws IOException {
+		HttpGet request = new HttpGet(url);
+        HttpResponse response = client.execute(request);
+		return response;
 	}
 
 	/**
@@ -437,16 +424,10 @@ public class BasicHttpClient {
 	 * details and results.
 	 * 
 	 */
-	public HeadMethod executeHEAD(String url) {
-		HeadMethod method = new HeadMethod();
-		try {
-			method.setURI(createURI(url));
-			executeMethod(method);
-		} catch (URIException e) {
-			throw new RuntimeException("Exception setting the URI for the HTTP " +
-					"GET method: "+url, e);
-		}
-		return (HeadMethod)method;
+	public HttpResponse executeHEAD(String uri) throws IOException {
+		HttpHead request = new HttpHead(uri);
+        HttpResponse response = client.execute(request);
+        return response;
 	}
 
 	/**
@@ -462,98 +443,21 @@ public class BasicHttpClient {
 	 * returned.
 	 * 
 	 */
-	public String getContentType(String url) {
-		Header[] headers = this.getHeaders(url);
-		String contentType = null;
+	public String getContentType(String uri) {
+        Header[] headers = new Header[0];
+        try {
+            headers = this.getHeaders(uri);
+        } catch (IOException e) {
+            throw new RuntimeException("Unable to fetch content-type", e);
+        }
+        String contentType = null;
 		for (Header header : headers) {
 			String name = header.getName();
-			if ("Content-Type".equals(name) ||
-					"Content-type".equals(name)) {
+			if ("Content-Type".equalsIgnoreCase(name)) {
 				contentType = header.getValue();
 			}
 		}
 		return contentType;
-	}
-	
-	/**
-	 * <p>
-	 * Convenience method to handle the exceptions in creating a URI that has
-	 * not yet been escaped.
-	 * </p>
-	 * 
-	 * @param url
-	 * 
-	 * @return URI representing the provided <code>url</code>.
-	 */
-	public static URI createURI(String url) {
-		URI uri = null;
-		try {
-			uri = new URI(url, true);
-		} catch (URIException e) {
-			throw new CrawlerRuntimeException("Problem creating URI from: "
-					+ url, e);
-		} catch (NullPointerException e) {
-			throw new CrawlerRuntimeException(
-					"Cannot create a URI from a null String.", e);
-		}
-		return uri;
-	}
-
-	public static String getURIString(URI uri) {
-		try {
-			return uri.getURI();
-		} catch (URIException e) {
-			throw new RuntimeException("Could not convert URI to URL: " + uri,
-					e);
-		}
-	}
-
-	/**
-	 * <p>
-	 * Convenience method to handle the exceptions in creating a URI that may or
-	 * may not have been escaped.
-	 * </p>
-	 * 
-	 * @param url
-	 * 
-	 * @return URI representing the provided <code>url</code>.
-	 */
-	public static URI createURI(String url, boolean escaped) {
-		URI uri = null;
-		try {
-			uri = new URI(url, escaped);
-		} catch (URIException e) {
-			throw new CrawlerRuntimeException("Problem creating URI from: "
-					+ url, e);
-		} catch (NullPointerException e) {
-			throw new CrawlerRuntimeException(
-					"Cannot create a URI from a null String.", e);
-		}
-		return uri;
-	}
-
-	public HttpClient getClient() {
-		return client;
-	}
-	
-	/**
-	 * <p>
-	 * Main method only for demonstration of class use. Does not require
-	 * any arguments.
-	 * </p>
-	 * 
-	 * @param args
-	 * 
-	 * @throws URIException
-	 * @throws NullPointerException
-	 * 
-	 */
-	public static void main(String[] args) throws URIException, NullPointerException {
-		BasicHttpClient bhc = new BasicHttpClient();
-		Header[] headers = bhc.getHeaders("http://pubs.rsc.org/suppdata/CC/b8/b811528a/b811528a.pdf");
-		for (Header h : headers) {
-			System.out.println(h.getName()+" = "+h.getValue());
-		}
 	}
 
 }

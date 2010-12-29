@@ -18,7 +18,9 @@ package wwmm.pubcrawler.journal.acta;
 import static wwmm.pubcrawler.core.CrawlerConstants.ACS_HOMEPAGE_URL;
 import static wwmm.pubcrawler.core.CrawlerConstants.X_XHTML;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -27,8 +29,10 @@ import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Nodes;
 
-import org.apache.commons.httpclient.NameValuePair;
-import org.apache.commons.httpclient.methods.PostMethod;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.log4j.Logger;
 
 import wwmm.pubcrawler.core.ArticleCrawler;
@@ -111,14 +115,18 @@ public class ActaArticleCrawler extends ArticleCrawler {
 	@Override
 	protected void setBibtexTool() {
 		String articleId = getArticleId();
-		PostMethod postMethod = new PostMethod("http://scripts.iucr.org/cgi-bin/biblio");
-		NameValuePair[] nvps = {
-				new NameValuePair("name", "saveas"),
-				new NameValuePair("cnor", articleId),
-				new NameValuePair("Action", "download")
-		};
-		postMethod.setRequestBody(nvps);
-		String bibstr = httpClient.getPostResultString(postMethod);
+		List<BasicNameValuePair> nvps = Arrays.asList(
+				new BasicNameValuePair("name", "saveas"),
+				new BasicNameValuePair("cnor", articleId),
+				new BasicNameValuePair("Action", "download")
+		);
+        HttpPost post = new HttpPost("http://scripts.iucr.org/cgi-bin/biblio");
+        try {
+            post.setEntity(new UrlEncodedFormEntity(nvps));
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException("Unable to encode form", e);
+        }
+        String bibstr = httpClient.getPostResultString(post);
 		bibtexTool = new BibtexTool(bibstr);
 	}
 
@@ -178,13 +186,13 @@ public class ActaArticleCrawler extends ArticleCrawler {
 	 * 
 	 * @return a list of the URIs for the CIFs for this article.
 	 */
-	private List<String> getCifUrisFromUri(String url) {
+	private List<String> getCifUrisFromUri(String uri) {
 		List<String> cifUriList = new ArrayList<String>();
-		if (uriPointsToCifListPage(url)) {
-			Document pageDoc = httpClient.getResourceHTML(url);
+		if (uriPointsToCifListPage(uri)) {
+			Document pageDoc = httpClient.getResourceHTML(uri);
 			Nodes linkNds = pageDoc.query(".//x:a[contains(@href,'http://scripts.iucr.org/cgi-bin/sendcif')]", X_XHTML);
 			if (linkNds.size() == 0) {
-				LOG.warn("Could not find any CIF links at the supposed CIF list page: "+url);
+				LOG.warn("Could not find any CIF links at the supposed CIF list page: "+uri);
 			} else {
 				for (int i = 0; i < linkNds.size(); i++) {
 					String newUrl = ((Element)linkNds.get(i)).getAttributeValue("href");
@@ -192,7 +200,7 @@ public class ActaArticleCrawler extends ArticleCrawler {
 				}
 			}
 		} else {
-			cifUriList.add(url);
+			cifUriList.add(uri);
 		}
 		return cifUriList;
 	}
@@ -208,9 +216,9 @@ public class ActaArticleCrawler extends ArticleCrawler {
 	 * 
 	 * @return
 	 */
-	private boolean uriPointsToCifListPage(String url) {
-		int idx = url.lastIndexOf("/");
-		String s = url.substring(idx);
+	private boolean uriPointsToCifListPage(String uri) {
+		int idx = uri.lastIndexOf("/");
+		String s = uri.substring(idx);
 		if (s.contains("sup")) {
 			return false;
 		} else {

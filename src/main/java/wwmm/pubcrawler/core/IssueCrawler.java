@@ -15,6 +15,7 @@
  ******************************************************************************/
 package wwmm.pubcrawler.core;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -176,7 +177,7 @@ public abstract class IssueCrawler extends Crawler {
 		return getDois(details);
 	}
 
-	protected String getJournalInfo() {
+	protected String getJournalInfo() throws IOException {
 		Document doc = getCurrentIssueHtml();
 		List<Node> journalInfoNodes = Utils.queryHTML(doc, issueInfo.infoPath);
 		int size = journalInfoNodes.size();
@@ -216,8 +217,13 @@ public abstract class IssueCrawler extends Crawler {
 	 * 
 	 */
 	public IssueDescription getCurrentIssueDescription() {
-		String info = getJournalInfo();
-		return createIssueDescription(info);
+        String info = null;
+        try {
+            info = getJournalInfo();
+        } catch (IOException e) {
+            throw new RuntimeException("Unable to fetch current issue description", e);
+        }
+        return createIssueDescription(info);
 	}
 
 	/**

@@ -22,7 +22,6 @@ import static wwmm.pubcrawler.core.CrawlerConstants.RSC_HOMEPAGE_URL;
 
 import java.util.List;
 
-import org.apache.commons.httpclient.URIException;
 import org.junit.Test;
 
 import wwmm.pubcrawler.core.ArticleCrawler;
@@ -41,7 +40,7 @@ public class RscArticleCrawlerIntegrationTest {
 	 * a test that the abstract page HTML has not changed.
 	 */
 	@Test
-	public void testGetArticleDetails() throws URIException, NullPointerException {
+	public void testGetArticleDetails() throws NullPointerException {
 		DOI doi = new DOI("http://dx.doi.org/10.1039/C0CC01684E");
 		ArticleCrawler crawler = new RscArticleCrawler(doi);
 		ArticleDescription details = crawler.getDetails();
