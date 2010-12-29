@@ -16,6 +16,7 @@
 package wwmm.pubcrawler.journal.rsc;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,8 +24,11 @@ import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Node;
 
-import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.lang.StringUtils;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.log4j.Logger;
 
 import wwmm.pubcrawler.Utils;
@@ -88,20 +92,32 @@ public class RscIssueCrawler extends IssueCrawler {
 	 */
 	@Override
 	public Document getCurrentIssueHtml() {
-		PostMethod post = new PostMethod("http://pubs.rsc.org/en/Journals/Issues");
-		post.addParameter("issueID", "");
-		post.addParameter("jname", journal.getFullTitle());
-		post.addParameter("name", journal.getAbbreviation());
-		return httpClient.getPostResultXML(post);
+		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
+        parameters.add(new BasicNameValuePair("issueID", ""));
+        parameters.add(new BasicNameValuePair("jname", journal.getFullTitle()));
+        parameters.add(new BasicNameValuePair("name", journal.getAbbreviation()));
+        HttpPost post = new HttpPost("http://pubs.rsc.org/en/Journals/Issues");
+        try {
+            post.setEntity(new UrlEncodedFormEntity(parameters));
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException("Unable to encode form", e);
+        }
+        return httpClient.getPostResultXML(post);
 	}
 
-	private PostMethod createIssuePagePostMethod(String issueId) {
-		PostMethod postMethod = new PostMethod("http://pubs.rsc.org/en/Journals/Issues");
-		postMethod.addParameter("isContentAvailable", "true");
-		postMethod.addParameter("issueID", issueId);
-		postMethod.addParameter("jname", journal.getFullTitle());
-		postMethod.addParameter("name", journal.getAbbreviation().toUpperCase());
-		return postMethod;
+	private HttpPost createIssuePagePostMethod(String issueId) {
+		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
+        parameters.add(new BasicNameValuePair("isContentAvailable", "true"));
+		parameters.add(new BasicNameValuePair("issueID", issueId));
+		parameters.add(new BasicNameValuePair("jname", journal.getFullTitle()));
+		parameters.add(new BasicNameValuePair("name", journal.getAbbreviation().toUpperCase()));
+        HttpPost post = new HttpPost("http://pubs.rsc.org/en/Journals/Issues");
+        try {
+            post.setEntity(new UrlEncodedFormEntity(parameters));
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException("Unable to encode form", e);
+        }
+        return post;
 	}
 
 	/**

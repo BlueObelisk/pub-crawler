@@ -20,7 +20,6 @@ import static org.junit.Assert.assertNotNull;
 
 import java.util.List;
 
-import org.apache.commons.httpclient.URIException;
 import org.junit.Test;
 
 import wwmm.pubcrawler.core.ArticleCrawler;
@@ -39,7 +38,7 @@ public class ActaArticleCrawlerIntegrationTest {
 	 * a test that the abstract page HTML has not changed.
 	 */
 	@Test
-	public void testGetArticleDetails() throws URIException, NullPointerException {
+	public void testGetArticleDetails() throws NullPointerException {
 		DOI doi = new DOI(DOI.DOI_SITE_URL+"/10.1107/S0108270109006118");
 		ArticleCrawler crawler = new ActaArticleCrawler(doi);
 		ArticleDescription details = crawler.getDetails();
