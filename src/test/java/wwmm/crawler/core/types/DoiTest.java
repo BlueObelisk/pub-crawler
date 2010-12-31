@@ -18,7 +18,7 @@ package wwmm.crawler.core.types;
 import org.junit.Test;
 
 import wwmm.pubcrawler.core.types.Doi;
-import wwmm.pubcrawler.core.InvalidDoiException;
+import wwmm.pubcrawler.core.types.InvalidDoiException;
 
 import java.net.URI;
 

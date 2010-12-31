@@ -1,7 +1,5 @@
 package wwmm.pubcrawler.core.types;
 
-import wwmm.pubcrawler.core.InvalidDoiException;
-
 import java.net.URI;
 
 /**
@@ -34,7 +32,7 @@ public class Doi {
         }
         String doi = url.substring(DOI_SITE_URL.toString().length());
         validate(doi);
-        this.value = doi; 
+        this.value = doi;
     }
 
     private String extractDoi(String value) {
