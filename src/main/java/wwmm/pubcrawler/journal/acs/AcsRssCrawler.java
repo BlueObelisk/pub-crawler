@@ -31,11 +31,11 @@ import nu.xom.Nodes;
 
 import org.apache.log4j.Logger;
 
-import wwmm.pubcrawler.core.ArticleDescription;
-import wwmm.pubcrawler.core.Crawler;
+import wwmm.pubcrawler.core.crawler.Crawler;
+import wwmm.pubcrawler.core.model.ArticleDescription;
 import wwmm.pubcrawler.core.CrawlerRuntimeException;
-import wwmm.pubcrawler.core.DOI;
-import wwmm.pubcrawler.core.Journal;
+import wwmm.pubcrawler.core.model.DOI;
+import wwmm.pubcrawler.core.model.Journal;
 
 /**
  * <p>

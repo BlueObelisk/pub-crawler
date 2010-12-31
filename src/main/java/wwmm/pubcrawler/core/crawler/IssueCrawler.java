@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package wwmm.pubcrawler.core;
+package wwmm.pubcrawler.core.crawler;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -27,6 +27,8 @@ import wwmm.pubcrawler.Utils;
 
 import nu.xom.Document;
 import nu.xom.Node;
+import wwmm.pubcrawler.core.CrawlerRuntimeException;
+import wwmm.pubcrawler.core.model.*;
 
 /**
  * <p>

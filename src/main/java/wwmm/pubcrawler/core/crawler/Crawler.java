@@ -13,11 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package wwmm.pubcrawler.core;
+package wwmm.pubcrawler.core.crawler;
 
 import org.apache.log4j.Logger;
 
 import wwmm.pubcrawler.BasicHttpClient;
+import wwmm.pubcrawler.core.CrawlerHttpClient;
 
 /**
  * <p>

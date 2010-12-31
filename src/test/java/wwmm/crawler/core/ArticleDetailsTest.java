@@ -26,10 +26,10 @@ import java.util.List;
 
 import org.junit.Test;
 
-import wwmm.pubcrawler.core.ArticleDescription;
-import wwmm.pubcrawler.core.ArticleReference;
-import wwmm.pubcrawler.core.DOI;
-import wwmm.pubcrawler.core.SupplementaryResourceDescription;
+import wwmm.pubcrawler.core.model.ArticleDescription;
+import wwmm.pubcrawler.core.model.ArticleReference;
+import wwmm.pubcrawler.core.model.DOI;
+import wwmm.pubcrawler.core.model.SupplementaryResourceDescription;
 
 public class ArticleDetailsTest {
 	

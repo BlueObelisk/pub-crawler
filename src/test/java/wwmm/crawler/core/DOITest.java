@@ -23,7 +23,7 @@ import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.Test;
 
-import wwmm.pubcrawler.core.DOI;
+import wwmm.pubcrawler.core.model.DOI;
 
 public class DOITest {
 

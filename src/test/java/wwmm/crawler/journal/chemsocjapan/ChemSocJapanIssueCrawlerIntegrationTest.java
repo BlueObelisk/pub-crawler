@@ -24,9 +24,9 @@ import nu.xom.Document;
 
 import org.junit.Test;
 
-import wwmm.pubcrawler.core.DOI;
-import wwmm.pubcrawler.core.IssueCrawler;
-import wwmm.pubcrawler.core.IssueDescription;
+import wwmm.pubcrawler.core.model.DOI;
+import wwmm.pubcrawler.core.crawler.IssueCrawler;
+import wwmm.pubcrawler.core.model.IssueDescription;
 import wwmm.pubcrawler.journal.chemsocjapan.ChemSocJapanIssueCrawler;
 import wwmm.pubcrawler.journal.chemsocjapan.ChemSocJapanJournalIndex;
 

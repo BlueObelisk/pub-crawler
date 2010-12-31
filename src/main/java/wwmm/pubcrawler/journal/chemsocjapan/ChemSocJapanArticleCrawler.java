@@ -29,12 +29,12 @@ import nu.xom.Text;
 
 import org.apache.log4j.Logger;
 
-import wwmm.pubcrawler.core.ArticleCrawler;
-import wwmm.pubcrawler.core.ArticleDescription;
+import wwmm.pubcrawler.core.crawler.ArticleCrawler;
+import wwmm.pubcrawler.core.model.ArticleDescription;
 import wwmm.pubcrawler.core.BibtexTool;
-import wwmm.pubcrawler.core.DOI;
-import wwmm.pubcrawler.core.FullTextResourceDescription;
-import wwmm.pubcrawler.core.SupplementaryResourceDescription;
+import wwmm.pubcrawler.core.model.DOI;
+import wwmm.pubcrawler.core.model.FullTextResourceDescription;
+import wwmm.pubcrawler.core.model.SupplementaryResourceDescription;
 
 /**
  * <p>
