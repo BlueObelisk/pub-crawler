@@ -15,8 +15,8 @@
  ******************************************************************************/
 package wwmm.pubcrawler.impl;
 
-import static wwmm.pubcrawler.core.CrawlerConstants.NATURE_HOMEPAGE_URL;
-import static wwmm.pubcrawler.core.CrawlerConstants.X_XHTML;
+import static wwmm.pubcrawler.core.utils.CrawlerConstants.NATURE_HOMEPAGE_URL;
+import static wwmm.pubcrawler.core.utils.CrawlerConstants.X_XHTML;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -32,7 +32,7 @@ import nu.xom.Nodes;
 import org.apache.log4j.Logger;
 
 import wwmm.pubcrawler.core.model.ArticleDescription;
-import wwmm.pubcrawler.core.CrawlerHttpClient;
+import wwmm.pubcrawler.core.utils.CrawlerHttpClient;
 import wwmm.pubcrawler.core.crawler.IssueCrawler;
 import wwmm.pubcrawler.core.model.IssueDescription;
 import wwmm.pubcrawler.core.model.Journal;

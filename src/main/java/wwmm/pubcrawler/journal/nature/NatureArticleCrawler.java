@@ -15,8 +15,8 @@
  ******************************************************************************/
 package wwmm.pubcrawler.journal.nature;
 
-import static wwmm.pubcrawler.core.CrawlerConstants.NATURE_HOMEPAGE_URL;
-import static wwmm.pubcrawler.core.CrawlerConstants.X_XHTML;
+import static wwmm.pubcrawler.core.utils.CrawlerConstants.NATURE_HOMEPAGE_URL;
+import static wwmm.pubcrawler.core.utils.CrawlerConstants.X_XHTML;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -30,7 +30,7 @@ import nu.xom.Nodes;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
 
-import wwmm.pubcrawler.Utils;
+import wwmm.pubcrawler.core.utils.Utils;
 import wwmm.pubcrawler.core.crawler.ArticleCrawler;
 import wwmm.pubcrawler.core.model.*;
 import wwmm.pubcrawler.core.model.ArticleReference;

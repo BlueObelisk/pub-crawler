@@ -15,7 +15,7 @@
  ******************************************************************************/
 package wwmm.pubcrawler.journal.acs;
 
-import static wwmm.pubcrawler.core.CrawlerConstants.ACS_HOMEPAGE_URL;
+import static wwmm.pubcrawler.core.utils.CrawlerConstants.ACS_HOMEPAGE_URL;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

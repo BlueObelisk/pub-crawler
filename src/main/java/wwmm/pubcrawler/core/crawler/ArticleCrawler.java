@@ -15,20 +15,20 @@
  ******************************************************************************/
 package wwmm.pubcrawler.core.crawler;
 
-import static wwmm.pubcrawler.core.CrawlerConstants.X_XHTML;
+import static wwmm.pubcrawler.core.utils.CrawlerConstants.X_XHTML;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 
-import wwmm.pubcrawler.Utils;
+import wwmm.pubcrawler.core.utils.Utils;
 
 import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Node;
 import nu.xom.Nodes;
-import wwmm.pubcrawler.core.BibtexTool;
+import wwmm.pubcrawler.core.utils.BibtexTool;
 import wwmm.pubcrawler.core.model.*;
 
 /**

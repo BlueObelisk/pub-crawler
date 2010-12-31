@@ -15,7 +15,7 @@
  ******************************************************************************/
 package wwmm.pubcrawler.journal.rsc;
 
-import static wwmm.pubcrawler.core.CrawlerConstants.X_XHTML;
+import static wwmm.pubcrawler.core.utils.CrawlerConstants.X_XHTML;
 
 import java.util.ArrayList;
 import java.util.Collections;

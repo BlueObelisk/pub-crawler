@@ -17,7 +17,7 @@ package wwmm.crawler.journal.nature;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static wwmm.pubcrawler.core.CrawlerConstants.CIF_CONTENT_TYPE;
+import static wwmm.pubcrawler.core.utils.CrawlerConstants.CIF_CONTENT_TYPE;
 
 import java.util.List;
 

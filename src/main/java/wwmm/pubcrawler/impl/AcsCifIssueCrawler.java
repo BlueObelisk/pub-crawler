@@ -15,7 +15,7 @@
  ******************************************************************************/
 package wwmm.pubcrawler.impl;
 
-import static wwmm.pubcrawler.core.CrawlerConstants.CIF_CONTENT_TYPE;
+import static wwmm.pubcrawler.core.utils.CrawlerConstants.CIF_CONTENT_TYPE;
 import wwmm.pubcrawler.core.model.ArticleDescription;
 import wwmm.pubcrawler.core.crawler.IssueCrawler;
 import wwmm.pubcrawler.core.model.Journal;
