@@ -31,11 +31,11 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.log4j.Logger;
 
-import wwmm.pubcrawler.core.utils.Utils;
 import wwmm.pubcrawler.core.model.DOI;
 import wwmm.pubcrawler.core.crawler.IssueCrawler;
 import wwmm.pubcrawler.core.model.IssueDescription;
 import wwmm.pubcrawler.core.model.Journal;
+import wwmm.pubcrawler.core.utils.XPathUtils;
 
 /**
  * <p>
@@ -141,11 +141,11 @@ public class RscIssueCrawler extends IssueCrawler {
 		Document issueDoc = httpClient.getPostResultXML(createIssuePagePostMethod(rscIssueId));
 		LOG.info("Started to find DOIs from "+journal.getFullTitle()+", year "+year+", issue "+issueId+".");
 		String articleLinkXpath = ".//x:a[contains(@href,'/ArticleLanding/')]";
-		List<Node> articleNodes = Utils.queryHTML(issueDoc, articleLinkXpath);
+		List<Node> articleNodes = XPathUtils.queryHTML(issueDoc, articleLinkXpath);
 
 		if (articleNodes.size() == 0) {
 			issueDoc = httpClient.getPostResultXML(createIssuePagePostMethod(""));
-			articleNodes = Utils.queryHTML(issueDoc, articleLinkXpath);
+			articleNodes = XPathUtils.queryHTML(issueDoc, articleLinkXpath);
 		}
 
 		List<DOI> dois = new ArrayList<DOI>();

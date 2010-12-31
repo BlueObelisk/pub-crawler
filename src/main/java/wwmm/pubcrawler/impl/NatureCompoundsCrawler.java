@@ -16,7 +16,6 @@
 package wwmm.pubcrawler.impl;
 
 import static wwmm.pubcrawler.core.utils.CrawlerConstants.NATURE_HOMEPAGE_URL;
-import static wwmm.pubcrawler.core.utils.CrawlerConstants.X_XHTML;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -36,6 +35,7 @@ import wwmm.pubcrawler.core.utils.CrawlerHttpClient;
 import wwmm.pubcrawler.core.crawler.IssueCrawler;
 import wwmm.pubcrawler.core.model.IssueDescription;
 import wwmm.pubcrawler.core.model.Journal;
+import wwmm.pubcrawler.core.utils.XHtml;
 import wwmm.pubcrawler.journal.nature.NatureIssueCrawler;
 
 /**
@@ -138,7 +138,7 @@ public class NatureCompoundsCrawler {
 		} catch (RuntimeException e) {
 			return new ArrayList<CompoundDetails>();
 		}
-		Nodes compoundLinkNds = abstractDoc.query(".//x:h3/x:a[contains(@href,'/compound/') and contains(@href,'.html')]", X_XHTML);
+		Nodes compoundLinkNds = abstractDoc.query(".//x:h3/x:a[contains(@href,'/compound/') and contains(@href,'.html')]", XHtml.XPATH_CONTEXT);
 		Set<String> compoundUrls = new HashSet<String>();
 		for (int i = 0; i < compoundLinkNds.size(); i++) {
 			Element compoundLink = (Element)compoundLinkNds.get(i);
@@ -213,7 +213,7 @@ public class NatureCompoundsCrawler {
 	 * Returns null if a CML link cannot be found.
 	 */
 	private URI getCmlFileUri(Document splashPageDoc) {
-		Nodes cmlFileLinkNds = splashPageDoc.query(".//x:a[contains(@href,'/cml/')]", X_XHTML);
+		Nodes cmlFileLinkNds = splashPageDoc.query(".//x:a[contains(@href,'/cml/')]", XHtml.XPATH_CONTEXT);
 		if (cmlFileLinkNds.size() != 1) {
 			return null;
 		}
@@ -233,7 +233,7 @@ public class NatureCompoundsCrawler {
 	 * Returns null if a MOL link cannot be found.
 	 */
 	private URI getMolFileUri(Document splashPageDoc) {
-		Nodes molFileLinkNds = splashPageDoc.query(".//x:a[contains(@href,'/mol/')]", X_XHTML);
+		Nodes molFileLinkNds = splashPageDoc.query(".//x:a[contains(@href,'/mol/')]", XHtml.XPATH_CONTEXT);
 		if (molFileLinkNds.size() != 1) {
 			return null;
 		}
@@ -253,7 +253,7 @@ public class NatureCompoundsCrawler {
 	 * page. Returns null if a ChemDraw link cannot be found.
 	 */
 	private URI getChemDrawFileUri(Document splashPageDoc) {
-		Nodes chemdrawFileLinkNds = splashPageDoc.query(".//x:a[contains(@href,'/chemdraw/')]", X_XHTML);
+		Nodes chemdrawFileLinkNds = splashPageDoc.query(".//x:a[contains(@href,'/chemdraw/')]", XHtml.XPATH_CONTEXT);
 		if (chemdrawFileLinkNds.size() != 1) {
 			return null;
 		}

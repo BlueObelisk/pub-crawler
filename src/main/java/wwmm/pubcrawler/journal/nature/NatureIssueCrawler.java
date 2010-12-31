@@ -26,11 +26,11 @@ import nu.xom.Node;
 
 import org.apache.log4j.Logger;
 
-import wwmm.pubcrawler.core.utils.Utils;
 import wwmm.pubcrawler.core.crawler.IssueCrawler;
 import wwmm.pubcrawler.core.model.DOI;
 import wwmm.pubcrawler.core.model.IssueDescription;
 import wwmm.pubcrawler.core.model.Journal;
+import wwmm.pubcrawler.core.utils.XPathUtils;
 
 /**
  * <p>
@@ -111,7 +111,7 @@ public class NatureIssueCrawler extends IssueCrawler {
 			issueInfo.issueUrlPreVolumeYear+volumeYear+issueInfo.issueUrlPreIssue+issueId+issueInfo.issueUrlEnd;
 		LOG.info("Started to find DOIs from "+journal.getFullTitle()+", year "+year+", issue "+issueId+".");
 		Document issueDoc = httpClient.getResourceHTML(issueUrl);
-		List<Node> doiNodes = Utils.queryHTML(issueDoc, issueInfo.doiXpath);
+		List<Node> doiNodes = XPathUtils.queryHTML(issueDoc, issueInfo.doiXpath);
 		for (Node doiNode : doiNodes) {
 			Element span = (Element)doiNode;
 			String doiPostfix = span.getValue();

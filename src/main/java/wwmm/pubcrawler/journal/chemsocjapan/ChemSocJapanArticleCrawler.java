@@ -17,7 +17,6 @@ package wwmm.pubcrawler.journal.chemsocjapan;
 
 import static wwmm.pubcrawler.core.utils.CrawlerConstants.CHEMSOCJAPAN_HOMEPAGE_URL;
 import static wwmm.pubcrawler.core.utils.CrawlerConstants.XHTML_NS;
-import static wwmm.pubcrawler.core.utils.CrawlerConstants.X_XHTML;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +34,7 @@ import wwmm.pubcrawler.core.utils.BibtexTool;
 import wwmm.pubcrawler.core.model.DOI;
 import wwmm.pubcrawler.core.model.FullTextResourceDescription;
 import wwmm.pubcrawler.core.model.SupplementaryResourceDescription;
+import wwmm.pubcrawler.core.utils.XHtml;
 
 /**
  * <p>
@@ -101,7 +101,7 @@ public class ChemSocJapanArticleCrawler extends ArticleCrawler {
 	 */
 	@Override
 	protected void setBibtexTool() {
-		Nodes bibtexLinks = articleAbstractHtml.query(".//x:a[contains(@href,'/_bib/')]", X_XHTML);
+		Nodes bibtexLinks = articleAbstractHtml.query(".//x:a[contains(@href,'/_bib/')]", XHtml.XPATH_CONTEXT);
 		if (bibtexLinks.size() != 1) {
 			return;
 		}
@@ -123,7 +123,7 @@ public class ChemSocJapanArticleCrawler extends ArticleCrawler {
 	@Override
 	protected List<FullTextResourceDescription> getFullTextResources() {
 		List<FullTextResourceDescription> fullTexts = new ArrayList<FullTextResourceDescription>(1);
-		Nodes pdfLinks = articleAbstractHtml.query(".//x:a[contains(@href,'_pdf') and contains(.,'PDF')]", X_XHTML);
+		Nodes pdfLinks = articleAbstractHtml.query(".//x:a[contains(@href,'_pdf') and contains(.,'PDF')]", XHtml.XPATH_CONTEXT);
 		if (pdfLinks.size() == 0) {
 			LOG.warn("Could not find PDF link for: "+doi);
 			return null;
@@ -149,16 +149,16 @@ public class ChemSocJapanArticleCrawler extends ArticleCrawler {
 	 */
 	@Override
 	protected List<SupplementaryResourceDescription> getSupplementaryFilesDetails() {
-		Nodes suppListLinks = articleAbstractHtml.query(".//x:a[contains(@href,'_applist')]", X_XHTML);
+		Nodes suppListLinks = articleAbstractHtml.query(".//x:a[contains(@href,'_applist')]", XHtml.XPATH_CONTEXT);
 		if (suppListLinks.size() == 0) {
 			return new ArrayList<SupplementaryResourceDescription>(0);
 		}
 		String urlPostfix = ((Element)suppListLinks.get(0)).getAttributeValue("href");
 		String suppListUrl = CHEMSOCJAPAN_HOMEPAGE_URL+urlPostfix;
 		Document suppListDoc = httpClient.getResourceHTML(suppListUrl);
-		Nodes suppTableNodes = suppListDoc.query(".//x:table[@cellpadding='2' and @cellspacing='3']", X_XHTML);
+		Nodes suppTableNodes = suppListDoc.query(".//x:table[@cellpadding='2' and @cellspacing='3']", XHtml.XPATH_CONTEXT);
 		Element suppTable = (Element)suppTableNodes.get(1);
-		Nodes tableRows = suppTable.query(".//x:tr", X_XHTML);
+		Nodes tableRows = suppTable.query(".//x:tr", XHtml.XPATH_CONTEXT);
 		if (tableRows.size() < 3) {
 			LOG.warn("Expected the supplementary document table to have at least 3 rows, found "+tableRows.size());
 			return null;
@@ -166,7 +166,7 @@ public class ChemSocJapanArticleCrawler extends ArticleCrawler {
 		List<SupplementaryResourceDescription> suppFiles = new ArrayList<SupplementaryResourceDescription>(1);
 		for (int i = 2; i < tableRows.size(); i++) {
 			Element row = (Element)tableRows.get(i);
-			Nodes cells = row.query(".//x:td", X_XHTML);
+			Nodes cells = row.query(".//x:td", XHtml.XPATH_CONTEXT);
 			if (cells.size() != 4) {
 				continue;
 			}
