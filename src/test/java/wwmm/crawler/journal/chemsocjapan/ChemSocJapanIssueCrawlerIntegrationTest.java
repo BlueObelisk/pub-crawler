@@ -24,7 +24,7 @@ import nu.xom.Document;
 
 import org.junit.Test;
 
-import wwmm.pubcrawler.core.model.DOI;
+import wwmm.pubcrawler.core.types.Doi;
 import wwmm.pubcrawler.core.crawler.IssueCrawler;
 import wwmm.pubcrawler.core.model.IssueDescription;
 import wwmm.pubcrawler.journal.chemsocjapan.ChemSocJapanIssueCrawler;
@@ -42,9 +42,9 @@ public class ChemSocJapanIssueCrawlerIntegrationTest {
 	public void testGetIssueDois() {
 		IssueDescription details = new IssueDescription("2009", "2");
 		IssueCrawler crawler = new ChemSocJapanIssueCrawler(ChemSocJapanJournalIndex.CHEMISTRY_LETTERS);
-		List<DOI> doiList = crawler.getDois(details);
+		List<Doi> doiList = crawler.getDois(details);
 		assertEquals(42, doiList.size());
-		assertEquals(new DOI(DOI.DOI_SITE_URL+"/10.1246/cl.2009.126"), doiList.get(9));
+		assertEquals(new Doi("10.1246/cl.2009.126"), doiList.get(9));
 	}
 
 	/**

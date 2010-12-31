@@ -29,10 +29,10 @@ import nu.xom.Nodes;
 
 import org.apache.log4j.Logger;
 
+import wwmm.pubcrawler.core.types.Doi;
 import wwmm.pubcrawler.core.model.ArticleDescription;
 import wwmm.pubcrawler.core.crawler.Crawler;
 import wwmm.pubcrawler.core.CrawlerRuntimeException;
-import wwmm.pubcrawler.core.model.DOI;
 import wwmm.pubcrawler.core.model.Journal;
 
 /**
@@ -107,7 +107,7 @@ public class ChemSocJapanRssCrawler extends Crawler {
 		for (Element entry : entries) {
 			Date entryDate = getEntryDate(entry);
 			if (needToCrawlArticle(entryDate)) {
-				DOI doi = getDOI(entry);
+				Doi doi = getDOI(entry);
 				ArticleDescription ad = new ChemSocJapanArticleCrawler(doi).getDetails();
 				adList.add(ad);
 			}
@@ -125,7 +125,7 @@ public class ChemSocJapanRssCrawler extends Crawler {
 	 * @return DOI for the article described by the RSS entry.
 	 * 
 	 */
-	private DOI getDOI(Element entry) {
+	private Doi getDOI(Element entry) {
 		Nodes nds = entry.query("./link");
 		if (nds.size() != 1) {
 			throw new IllegalStateException("Expected to find 1 link element in this entry, found "+nds.size()+":\n"+entry.toXML());
@@ -140,8 +140,7 @@ public class ChemSocJapanRssCrawler extends Crawler {
 			throw new CrawlerRuntimeException("Could not extract DOI from <link> URI, "+
 					entryLink.toString()+"element, crawler may need rewriting.");
 		}
-		String doiStr = DOI.DOI_SITE_URL+"/10.1246/cl."+doiPostfix;
-		return new DOI(doiStr);
+		return new Doi("10.1246/cl."+doiPostfix);
 	}
 
 	/**

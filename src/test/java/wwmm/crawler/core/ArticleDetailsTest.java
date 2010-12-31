@@ -26,9 +26,9 @@ import java.util.List;
 
 import org.junit.Test;
 
+import wwmm.pubcrawler.core.types.Doi;
 import wwmm.pubcrawler.core.model.ArticleDescription;
 import wwmm.pubcrawler.core.model.ArticleReference;
-import wwmm.pubcrawler.core.model.DOI;
 import wwmm.pubcrawler.core.model.SupplementaryResourceDescription;
 
 public class ArticleDetailsTest {
@@ -48,7 +48,7 @@ public class ArticleDetailsTest {
 	@Test
 	public void testSetAndGetDOI() {
 		ArticleDescription ad = new ArticleDescription();
-		DOI doi = mock(DOI.class);
+		Doi doi = mock(Doi.class);
 		ad.setDoi(doi);
 		assertSame(doi, ad.getDoi());
 	}

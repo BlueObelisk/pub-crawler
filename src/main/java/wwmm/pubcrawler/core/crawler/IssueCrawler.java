@@ -26,6 +26,7 @@ import org.apache.log4j.Logger;
 import nu.xom.Document;
 import nu.xom.Node;
 import wwmm.pubcrawler.core.CrawlerRuntimeException;
+import wwmm.pubcrawler.core.types.Doi;
 import wwmm.pubcrawler.core.model.*;
 import wwmm.pubcrawler.core.utils.XPathUtils;
 
@@ -79,7 +80,7 @@ public abstract class IssueCrawler extends Crawler {
 	 * @return a list of the DOIs of the articles for the issue.
 	 * 
 	 */
-	abstract public List<DOI> getDois(IssueDescription issueDescription);
+	abstract public List<Doi> getDois(IssueDescription issueDescription);
 
 	/**
 	 * <p>
@@ -95,7 +96,7 @@ public abstract class IssueCrawler extends Crawler {
 	 * @return list of <code>ArticleDetails</code> describing the articles at the
 	 * provided DOIs.
 	 */
-	public List<ArticleDescription> getArticleDescriptions(List<DOI> dois) {
+	public List<ArticleDescription> getArticleDescriptions(List<Doi> dois) {
 		ArticleCrawler articleCrawler = null;
 		try {
 			articleCrawler = (ArticleCrawler) issueInfo.articleCrawlerClass.newInstance();
@@ -104,7 +105,7 @@ public abstract class IssueCrawler extends Crawler {
 		}
 		List<ArticleDescription> adList = new ArrayList<ArticleDescription>();
 		int count = 0;
-		for (DOI doi : dois) {
+		for (Doi doi : dois) {
 			if (count >= MAX_ARTICLES_TO_CRAWL) {
 				break;
 			}
@@ -139,7 +140,7 @@ public abstract class IssueCrawler extends Crawler {
 	 * @return a list where each item is the DOI for a particular 
 	 * article from the current issue.
 	 */
-	final public List<DOI> getDoisForCurrentArticles() {
+	final public List<Doi> getDoisForCurrentArticles() {
 		IssueDescription issueDetails = getCurrentIssueDescription();
 		return getDois(issueDetails);
 	}
@@ -160,7 +161,7 @@ public abstract class IssueCrawler extends Crawler {
 	 * 
 	 */
 	public List<ArticleDescription> getArticleDescriptions(IssueDescription details) {
-		List<DOI> dois = getDois(details);
+		List<Doi> dois = getDois(details);
 		return getArticleDescriptions(dois);
 	}
 
@@ -173,7 +174,7 @@ public abstract class IssueCrawler extends Crawler {
 	 * @return a list of the DOIs of the articles.
 	 * 
 	 */
-	protected List<DOI> getCurrentIssueDOIs() {
+	protected List<Doi> getCurrentIssueDOIs() {
 		IssueDescription details = getCurrentIssueDescription();
 		return getDois(details);
 	}

@@ -31,10 +31,10 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.log4j.Logger;
 
+import wwmm.pubcrawler.core.types.Doi;
 import wwmm.pubcrawler.core.crawler.ArticleCrawler;
 import wwmm.pubcrawler.core.model.ArticleDescription;
 import wwmm.pubcrawler.core.utils.BibtexTool;
-import wwmm.pubcrawler.core.model.DOI;
 import wwmm.pubcrawler.core.model.FullTextResourceDescription;
 import wwmm.pubcrawler.core.model.SupplementaryResourceDescription;
 import wwmm.pubcrawler.core.utils.XHtml;
@@ -59,7 +59,7 @@ public class ActaArticleCrawler extends ArticleCrawler {
 		;
 	}
 
-	public ActaArticleCrawler(DOI doi) {
+	public ActaArticleCrawler(Doi doi) {
 		super(doi);
 	}
 	
@@ -257,7 +257,7 @@ public class ActaArticleCrawler extends ArticleCrawler {
 	 * 
 	 */
 	public static void main(String[] args) {
-		DOI doi = new DOI("http://dx.doi.org//10.1107/S0108270109006118");
+		Doi doi = new Doi("http://dx.doi.org//10.1107/S0108270109006118");
 		ArticleCrawler crawler = new ActaArticleCrawler(doi);
 		ArticleDescription ad = crawler.getDetails();
 		System.out.println(ad.toString());

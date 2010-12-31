@@ -27,7 +27,7 @@ import nu.xom.Node;
 
 import org.apache.log4j.Logger;
 
-import wwmm.pubcrawler.core.model.DOI;
+import wwmm.pubcrawler.core.types.Doi;
 import wwmm.pubcrawler.core.crawler.IssueCrawler;
 import wwmm.pubcrawler.core.model.IssueDescription;
 import wwmm.pubcrawler.core.model.Journal;
@@ -92,18 +92,18 @@ public class ActaIssueCrawler extends IssueCrawler {
 	 * 
 	 */
 	@Override
-	public List<DOI> getDois(IssueDescription issueDescription) {
+	public List<Doi> getDois(IssueDescription issueDescription) {
 		String year = issueDescription.getYear();
 		String issueId = issueDescription.getIssueId();
-		Set<DOI> dois = new HashSet<DOI>();
+		Set<Doi> dois = new HashSet<Doi>();
 		String issueUrl = "http://journals.iucr.org/"+journal.getAbbreviation()+"/issues/"
 		+year+"/"+issueId.replaceAll("-", "/")+"/isscontsbdy.html";
 		LOG.info("Started to find article DOIs from "+journal.getFullTitle()+", year "+year+", issue "+issueId+".");
 		Document issueDoc = httpClient.getResourceHTML(issueUrl);
-		List<Node> doiNodes = XPathUtils.queryHTML(issueDoc, ".//x:a[contains(@href,'" + DOI.DOI_SITE_URL + "/10.1107/')]/@href");
+		List<Node> doiNodes = XPathUtils.queryHTML(issueDoc, ".//x:a[contains(@href,'" + Doi.DOI_SITE_URL.resolve("/10.1107/").toString() + "')]/@href");
 		for (Node doiNode : doiNodes) {
 			String doiStr = ((Attribute)doiNode).getValue();
-			DOI doi = new DOI(doiStr);
+			Doi doi = new Doi(doiStr);
 			dois.add(doi);
 		}
 		// sometimes the DOIs aren't the href in an <a> tag, so we have to look
@@ -111,11 +111,10 @@ public class ActaIssueCrawler extends IssueCrawler {
 		List<Node> textDoiNodes = XPathUtils.queryHTML(issueDoc, ".//x:font[@size='2' and contains(.,'doi:10.1107/')]");
 		for (Node doiNode : textDoiNodes) {
 			String doiPrefix = ((Element)doiNode).getValue().substring(4);
-			DOI doi = new DOI(DOI.DOI_SITE_URL+"/"+doiPrefix);
-			dois.add(doi);
+			dois.add(new Doi(doiPrefix));
 		}
 		LOG.info("Found issue DOIs: "+dois.size());
-		return new ArrayList<DOI>(dois);
+		return new ArrayList<Doi>(dois);
 	}
 
 	/**

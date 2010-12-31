@@ -29,10 +29,10 @@ import nu.xom.Nodes;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
 
+import wwmm.pubcrawler.core.types.Doi;
 import wwmm.pubcrawler.core.crawler.ArticleCrawler;
 import wwmm.pubcrawler.core.model.*;
 import wwmm.pubcrawler.core.model.ArticleReference;
-import wwmm.pubcrawler.core.model.DOI;
 import wwmm.pubcrawler.core.model.FullTextResourceDescription;
 import wwmm.pubcrawler.core.model.SupplementaryResourceDescription;
 import wwmm.pubcrawler.core.utils.XHtml;
@@ -57,7 +57,7 @@ public class NatureArticleCrawler extends ArticleCrawler {
 		;
 	}
 
-	public NatureArticleCrawler(DOI doi) {
+	public NatureArticleCrawler(Doi doi) {
 		super(doi);
 	}
 	
@@ -291,7 +291,7 @@ public class NatureArticleCrawler extends ArticleCrawler {
 	 * 
 	 */
 	public static void main(String[] args) {
-		DOI doi = new DOI("http://dx.doi.org/10.1038/nchem.213");
+		Doi doi = new Doi("http://dx.doi.org/10.1038/nchem.213");
 		NatureArticleCrawler nac = new NatureArticleCrawler(doi);
 		ArticleDescription details = nac.getDetails();
 		System.out.println(details.toString());

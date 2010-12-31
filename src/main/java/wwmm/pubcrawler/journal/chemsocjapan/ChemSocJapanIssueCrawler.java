@@ -24,9 +24,9 @@ import nu.xom.Node;
 
 import org.apache.log4j.Logger;
 
+import wwmm.pubcrawler.core.types.Doi;
 import wwmm.pubcrawler.core.crawler.IssueCrawler;
 import wwmm.pubcrawler.core.model.ArticleDescription;
-import wwmm.pubcrawler.core.model.DOI;
 import wwmm.pubcrawler.core.model.IssueDescription;
 import wwmm.pubcrawler.core.model.Journal;
 import wwmm.pubcrawler.core.utils.XPathUtils;
@@ -89,21 +89,19 @@ public class ChemSocJapanIssueCrawler extends IssueCrawler {
 	 * 
 	 */
 	@Override
-	public List<DOI> getDois(IssueDescription details) {
+	public List<Doi> getDois(IssueDescription details) {
 		String year = details.getYear();
 		String issueId = details.getIssueId();
 		String issueUrl = "http://www.chemistry.or.jp/journals/"+journal.getAbbreviation()+"/cl-cont/cl"+year+"-"+issueId+".html";
 		LOG.info("Started to find DOIs from "+journal.getFullTitle()+", year "+year+", issue "+issueId+".");
 		Document issueDoc = httpClient.getResourceHTML(issueUrl);
-		List<DOI> dois = new ArrayList<DOI>();
+		List<Doi> dois = new ArrayList<Doi>();
 		List<Node> doiNodes = XPathUtils.queryHTML(issueDoc, ".//x:a[contains(@href,'http://www.is.csj.jp/cgi-bin/journals/pr/index.cgi?n=li') and not(contains(@href,'li_s'))]/@href");
 		for (Node doiNode : doiNodes) {
 			String link = ((Attribute)doiNode).getValue();
 			int idx = link.indexOf("id=");
 			String articleId = link.substring(idx+3).replaceAll("/", ".");
-			String doiStr = "http://dx.doi.org/10.1246/"+articleId;
-			DOI doi = new DOI(doiStr);
-			dois.add(doi);
+			dois.add(new Doi("10.1246/"+articleId));
 		}
 		LOG.info("Finished finding issue DOIs: "+dois.size());
 		return dois;

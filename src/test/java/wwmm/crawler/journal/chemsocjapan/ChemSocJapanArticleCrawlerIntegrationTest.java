@@ -22,10 +22,10 @@ import java.util.List;
 
 import org.junit.Test;
 
+import wwmm.pubcrawler.core.types.Doi;
 import wwmm.pubcrawler.core.crawler.ArticleCrawler;
 import wwmm.pubcrawler.core.model.ArticleDescription;
 import wwmm.pubcrawler.core.model.ArticleReference;
-import wwmm.pubcrawler.core.model.DOI;
 import wwmm.pubcrawler.core.model.FullTextResourceDescription;
 import wwmm.pubcrawler.core.model.SupplementaryResourceDescription;
 import wwmm.pubcrawler.journal.chemsocjapan.ChemSocJapanArticleCrawler;
@@ -39,13 +39,13 @@ public class ChemSocJapanArticleCrawlerIntegrationTest {
 	 */
 	@Test
 	public void testGetArticleDetails() throws NullPointerException {
-		DOI doi = new DOI(DOI.DOI_SITE_URL+"/10.1246/cl.2008.682");
+		Doi doi = new Doi("10.1246/cl.2008.682");
 		ArticleCrawler crawler = new ChemSocJapanArticleCrawler(doi);
 		ArticleDescription details = crawler.getDetails();
 		assertNotNull(details);
 		String authors = details.getAuthors();
 		assertEquals("Koichiro Takao and Yasuhisa Ikeda", authors);
-		DOI detailsDoi = details.getDoi();
+		Doi detailsDoi = details.getDoi();
 		assertEquals(doi, detailsDoi);
 
 		List<FullTextResourceDescription> ftrds = details.getFullTextResources();

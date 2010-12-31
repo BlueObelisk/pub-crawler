@@ -22,10 +22,10 @@ import java.util.List;
 
 import org.junit.Test;
 
+import wwmm.pubcrawler.core.types.Doi;
 import wwmm.pubcrawler.core.crawler.ArticleCrawler;
 import wwmm.pubcrawler.core.model.ArticleDescription;
 import wwmm.pubcrawler.core.model.ArticleReference;
-import wwmm.pubcrawler.core.model.DOI;
 import wwmm.pubcrawler.core.model.FullTextResourceDescription;
 import wwmm.pubcrawler.core.model.SupplementaryResourceDescription;
 import wwmm.pubcrawler.journal.acta.ActaArticleCrawler;
@@ -39,13 +39,13 @@ public class ActaArticleCrawlerIntegrationTest {
 	 */
 	@Test
 	public void testGetArticleDetails() throws NullPointerException {
-		DOI doi = new DOI(DOI.DOI_SITE_URL+"/10.1107/S0108270109006118");
+		Doi doi = new Doi("10.1107/S0108270109006118");
 		ArticleCrawler crawler = new ActaArticleCrawler(doi);
 		ArticleDescription details = crawler.getDetails();
 		assertNotNull(details);
 		String authors = details.getAuthors();
 		assertEquals("Kim, Jinyoung and Ahn, Docheon and Kulshreshtha, Chandramouli and Sohn, Kee-Sun and Shin, Namsoo", authors);
-		DOI detailsDoi = details.getDoi();
+		Doi detailsDoi = details.getDoi();
 		assertEquals(doi, detailsDoi);
 
 		List<FullTextResourceDescription> ftrds = details.getFullTextResources();
@@ -94,7 +94,7 @@ public class ActaArticleCrawlerIntegrationTest {
 	 */
 	@Test
 	public void testGetMultipleCifsFromArticle() {
-		DOI doi = new DOI(DOI.DOI_SITE_URL+"/10.1107/S0108768109004066");
+		Doi doi = new Doi("10.1107/S0108768109004066");
 		ArticleCrawler crawler = new ActaArticleCrawler(doi);
 		ArticleDescription details = crawler.getDetails();
 		assertEquals(2, details.getSupplementaryResources().size());

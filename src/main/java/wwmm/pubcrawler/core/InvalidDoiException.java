@@ -15,23 +15,23 @@
  ******************************************************************************/
 package wwmm.pubcrawler.core;
 
-public class DOIRuntimeException extends RuntimeException {
+public class InvalidDoiException extends IllegalArgumentException {
 
 	private static final long serialVersionUID = -7665916963461146251L;
 
-	public DOIRuntimeException() {
+	public InvalidDoiException() {
 		super();
 	}
 
-	public DOIRuntimeException(String message, Throwable cause) {
+	public InvalidDoiException(String message, Throwable cause) {
 		super(message, cause);
 	}
 
-	public DOIRuntimeException(String message) {
+	public InvalidDoiException(String message) {
 		super(message);
 	}
 
-	public DOIRuntimeException(Throwable cause) {
+	public InvalidDoiException(Throwable cause) {
 		super(cause);
 	}
 	

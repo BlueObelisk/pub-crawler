@@ -109,7 +109,7 @@ public class NatureCompoundsCrawler {
 	private List<ArticleData> getArticleDatasFromArticleDetails(List<ArticleDescription> adList) {
 		List<ArticleData> articleDataList = new ArrayList<ArticleData>(adList.size());
 		for (ArticleDescription ad : adList) {
-			String doiPostfix = ad.getDoi().getPostfix();
+			String doiPostfix = ad.getDoi().getValue();
 			String natureId = doiPostfix.substring(doiPostfix.indexOf("/")+1);
 			String ciUrl = "http://www.nature.com/nchem/journal/v1/n5/compound/"+natureId+"_ci.html";
 			List<CompoundDetails> cdList = getCompoundDetailsList(ciUrl);
