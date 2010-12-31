@@ -24,12 +24,12 @@ import nu.xom.Node;
 
 import org.apache.log4j.Logger;
 
-import wwmm.pubcrawler.core.utils.Utils;
 import wwmm.pubcrawler.core.crawler.IssueCrawler;
 import wwmm.pubcrawler.core.model.ArticleDescription;
 import wwmm.pubcrawler.core.model.DOI;
 import wwmm.pubcrawler.core.model.IssueDescription;
 import wwmm.pubcrawler.core.model.Journal;
+import wwmm.pubcrawler.core.utils.XPathUtils;
 
 /**
  * <p>
@@ -96,7 +96,7 @@ public class ChemSocJapanIssueCrawler extends IssueCrawler {
 		LOG.info("Started to find DOIs from "+journal.getFullTitle()+", year "+year+", issue "+issueId+".");
 		Document issueDoc = httpClient.getResourceHTML(issueUrl);
 		List<DOI> dois = new ArrayList<DOI>();
-		List<Node> doiNodes = Utils.queryHTML(issueDoc, ".//x:a[contains(@href,'http://www.is.csj.jp/cgi-bin/journals/pr/index.cgi?n=li') and not(contains(@href,'li_s'))]/@href");
+		List<Node> doiNodes = XPathUtils.queryHTML(issueDoc, ".//x:a[contains(@href,'http://www.is.csj.jp/cgi-bin/journals/pr/index.cgi?n=li') and not(contains(@href,'li_s'))]/@href");
 		for (Node doiNode : doiNodes) {
 			String link = ((Attribute)doiNode).getValue();
 			int idx = link.indexOf("id=");

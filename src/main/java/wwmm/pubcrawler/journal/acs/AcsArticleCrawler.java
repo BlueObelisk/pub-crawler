@@ -16,7 +16,6 @@
 package wwmm.pubcrawler.journal.acs;
 
 import static wwmm.pubcrawler.core.utils.CrawlerConstants.ACS_HOMEPAGE_URL;
-import static wwmm.pubcrawler.core.utils.CrawlerConstants.X_XHTML;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -32,12 +31,13 @@ import nu.xom.Nodes;
 
 import org.apache.log4j.Logger;
 
-import wwmm.pubcrawler.core.utils.Utils;
 import wwmm.pubcrawler.core.crawler.ArticleCrawler;
 import wwmm.pubcrawler.core.model.ArticleDescription;
 import wwmm.pubcrawler.core.model.*;
 import wwmm.pubcrawler.core.model.DOI;
 import wwmm.pubcrawler.core.model.SupplementaryResourceDescription;
+import wwmm.pubcrawler.core.utils.XHtml;
+import wwmm.pubcrawler.core.utils.XPathUtils;
 
 /**
  * <p>
@@ -87,7 +87,7 @@ public class AcsArticleCrawler extends ArticleCrawler {
 		if (suppPageDoc == null) {
 			return Collections.EMPTY_LIST;
 		}
-		List<Node> suppLinks = Utils.queryHTML(suppPageDoc, ".//x:div[@id='supInfoBox']//x:a[contains(@href,'/suppl/')]");
+		List<Node> suppLinks = XPathUtils.queryHTML(suppPageDoc, ".//x:div[@id='supInfoBox']//x:a[contains(@href,'/suppl/')]");
 		List<SupplementaryResourceDescription> sfList = new ArrayList<SupplementaryResourceDescription>(suppLinks.size());
 		for (Node suppLink : suppLinks) {
 			Element link = (Element)suppLink;
@@ -133,7 +133,7 @@ public class AcsArticleCrawler extends ArticleCrawler {
 	 * 
 	 */
 	private Document getSupplementaryDataWebpage() {
-		Nodes suppPageLinks = articleAbstractHtml.query(".//x:a[contains(@title,'Supporting Information')]", X_XHTML);
+		Nodes suppPageLinks = articleAbstractHtml.query(".//x:a[contains(@title,'Supporting Information')]", XHtml.XPATH_CONTEXT);
 		if (suppPageLinks.size() == 0) {
 			return null;
 		} else if (suppPageLinks.size() > 1) {
@@ -154,7 +154,7 @@ public class AcsArticleCrawler extends ArticleCrawler {
 	 */
 	@Override
 	protected String getAuthors() {
-		Nodes authorNds = articleAbstractHtml.query(".//x:meta[@name='dc.Creator']", X_XHTML);
+		Nodes authorNds = articleAbstractHtml.query(".//x:meta[@name='dc.Creator']", XHtml.XPATH_CONTEXT);
 		if (authorNds.size() == 0) {
 			LOG.warn("Problem finding authors at: "+doi);
 			return null;
@@ -181,14 +181,14 @@ public class AcsArticleCrawler extends ArticleCrawler {
 	 */
 	@Override
 	protected ArticleReference getReference() {
-		Nodes citationNds = articleAbstractHtml.query(".//x:div[@id='citation']", X_XHTML);
+		Nodes citationNds = articleAbstractHtml.query(".//x:div[@id='citation']", XHtml.XPATH_CONTEXT);
 		if (citationNds.size() != 1) {
 			LOG.warn("Problem finding bibliographic text at: "+doi);
 			return null;
 		}
 
 		Element citationNd = (Element)citationNds.get(0);
-		Nodes journalNds = citationNd.query("./x:cite", X_XHTML);
+		Nodes journalNds = citationNd.query("./x:cite", XHtml.XPATH_CONTEXT);
 		String journal = null;
 		if (journalNds.size() != 1) {
 			LOG.warn("Problem finding journal text at: "+doi);
@@ -203,13 +203,13 @@ public class AcsArticleCrawler extends ArticleCrawler {
 		String pages = null;
 		if (!citationContent.contains("Article ASAP")) {
 			articleDetails.setHasBeenPublished(true);
-			Nodes yearNds = citationNd.query("./x:span[@class='citation_year']", X_XHTML);
+			Nodes yearNds = citationNd.query("./x:span[@class='citation_year']", XHtml.XPATH_CONTEXT);
 			if (yearNds.size() != 1) {
 				LOG.warn("Problem finding year text at: "+doi);
 			} else {
 				year = ((Element)yearNds.get(0)).getValue().trim();
 			}
-			Nodes volumeNds = citationNd.query("./x:span[@class='citation_volume']", X_XHTML);
+			Nodes volumeNds = citationNd.query("./x:span[@class='citation_volume']", XHtml.XPATH_CONTEXT);
 			if (volumeNds.size() != 1) {
 				LOG.warn("Problem finding volume text at: "+doi);
 			} else {
@@ -247,7 +247,7 @@ public class AcsArticleCrawler extends ArticleCrawler {
 	 */
 	@Override
 	protected String getTitle() {
-		Nodes titleNds = articleAbstractHtml.query(".//x:h1[@class='articleTitle']", X_XHTML);
+		Nodes titleNds = articleAbstractHtml.query(".//x:h1[@class='articleTitle']", XHtml.XPATH_CONTEXT);
 		if (titleNds.size() != 1) {
 			LOG.warn("Problem finding title at: "+doi);
 			return null;

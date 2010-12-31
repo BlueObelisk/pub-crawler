@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package wwmm.pubcrawler.core;
+package wwmm.pubcrawler.core.utils;
 
 import nu.xom.XPathContext;
 
@@ -47,7 +47,6 @@ public interface CrawlerConstants {
 	// contexts to be used for XPath queries
 	public static final XPathContext X_DC = new XPathContext("dc", DC_NS);
 	public static final XPathContext X_RSS1 = new XPathContext("rss1", RSS_1_NS);
-	public static final XPathContext X_XHTML = new XPathContext("x", XHTML_NS);
 	
 	public static final String CIF_CONTENT_TYPE = "chemical/x-cif";
 	public static final String HTML_CONTENT_TYPE = "text/html";

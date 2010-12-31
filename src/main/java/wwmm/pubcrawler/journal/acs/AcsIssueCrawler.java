@@ -26,11 +26,11 @@ import nu.xom.Node;
 
 import org.apache.log4j.Logger;
 
-import wwmm.pubcrawler.core.utils.Utils;
 import wwmm.pubcrawler.core.crawler.IssueCrawler;
 import wwmm.pubcrawler.core.model.DOI;
 import wwmm.pubcrawler.core.model.IssueDescription;
 import wwmm.pubcrawler.core.model.Journal;
+import wwmm.pubcrawler.core.utils.XPathUtils;
 
 /**
  * <p>
@@ -96,7 +96,7 @@ public class AcsIssueCrawler extends IssueCrawler {
 		String issueUrl = ACS_HOMEPAGE_URL+"/toc/"+journal.getAbbreviation()+"/"+volume+"/"+issueId;
 		LOG.info("Started to find DOIs from "+journal.getFullTitle()+", year "+year+", issue "+issueId+".");
 		Document issueDoc = httpClient.getResourceHTML(issueUrl);
-		List<Node> doiNodes = Utils.queryHTML(issueDoc, ".//x:div[@class='DOI']");
+		List<Node> doiNodes = XPathUtils.queryHTML(issueDoc, ".//x:div[@class='DOI']");
 		for (Node doiNode : doiNodes) {
 			String contents = ((Element)doiNode).getValue();
 			String doiPostfix = contents.replaceAll("DOI:", "").trim();

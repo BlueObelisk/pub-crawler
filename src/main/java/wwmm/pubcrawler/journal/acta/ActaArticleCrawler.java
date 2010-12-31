@@ -15,8 +15,6 @@
  ******************************************************************************/
 package wwmm.pubcrawler.journal.acta;
 
-import static wwmm.pubcrawler.core.utils.CrawlerConstants.X_XHTML;
-
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -39,6 +37,7 @@ import wwmm.pubcrawler.core.utils.BibtexTool;
 import wwmm.pubcrawler.core.model.DOI;
 import wwmm.pubcrawler.core.model.FullTextResourceDescription;
 import wwmm.pubcrawler.core.model.SupplementaryResourceDescription;
+import wwmm.pubcrawler.core.utils.XHtml;
 
 /**
  * <p>
@@ -138,7 +137,7 @@ public class ActaArticleCrawler extends ArticleCrawler {
 	 * 
 	 */
 	private String getArticleId() {
-		Nodes nds = articleAbstractHtml.query(".//x:input[@name='cnor']", X_XHTML);
+		Nodes nds = articleAbstractHtml.query(".//x:input[@name='cnor']", XHtml.XPATH_CONTEXT);
 		if (nds.size() == 0) {
 			LOG.warn("Could not find the article ID for "+doi.toString()+
 			" webpage structure may have changed.  Crawler may need rewriting!");
@@ -159,7 +158,7 @@ public class ActaArticleCrawler extends ArticleCrawler {
 	 */
 	@Override
 	protected List<SupplementaryResourceDescription> getSupplementaryFilesDetails() {
-		Nodes cifNds = articleAbstractHtml.query(".//x:a[contains(@href,'http://scripts.iucr.org/cgi-bin/sendcif') and not(contains(@href,'mime'))]", X_XHTML);
+		Nodes cifNds = articleAbstractHtml.query(".//x:a[contains(@href,'http://scripts.iucr.org/cgi-bin/sendcif') and not(contains(@href,'mime'))]", XHtml.XPATH_CONTEXT);
 		if (cifNds.size() == 0) {
 			return new ArrayList<SupplementaryResourceDescription>(0);
 		}
@@ -188,7 +187,7 @@ public class ActaArticleCrawler extends ArticleCrawler {
 		List<String> cifUriList = new ArrayList<String>();
 		if (uriPointsToCifListPage(uri)) {
 			Document pageDoc = httpClient.getResourceHTML(uri);
-			Nodes linkNds = pageDoc.query(".//x:a[contains(@href,'http://scripts.iucr.org/cgi-bin/sendcif')]", X_XHTML);
+			Nodes linkNds = pageDoc.query(".//x:a[contains(@href,'http://scripts.iucr.org/cgi-bin/sendcif')]", XHtml.XPATH_CONTEXT);
 			if (linkNds.size() == 0) {
 				LOG.warn("Could not find any CIF links at the supposed CIF list page: "+uri);
 			} else {

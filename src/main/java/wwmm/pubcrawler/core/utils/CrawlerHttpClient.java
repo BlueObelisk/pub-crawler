@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package wwmm.pubcrawler.core;
+package wwmm.pubcrawler.core.utils;
 
 import java.io.File;
 import java.io.IOException;
@@ -24,9 +24,6 @@ import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.log4j.Logger;
-
-import wwmm.pubcrawler.BasicHttpClient;
-import wwmm.pubcrawler.Utils;
 
 /**
  * <p>

@@ -16,7 +16,6 @@
 package wwmm.pubcrawler.journal.nature;
 
 import static wwmm.pubcrawler.core.utils.CrawlerConstants.NATURE_HOMEPAGE_URL;
-import static wwmm.pubcrawler.core.utils.CrawlerConstants.X_XHTML;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -30,13 +29,14 @@ import nu.xom.Nodes;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
 
-import wwmm.pubcrawler.core.utils.Utils;
 import wwmm.pubcrawler.core.crawler.ArticleCrawler;
 import wwmm.pubcrawler.core.model.*;
 import wwmm.pubcrawler.core.model.ArticleReference;
 import wwmm.pubcrawler.core.model.DOI;
 import wwmm.pubcrawler.core.model.FullTextResourceDescription;
 import wwmm.pubcrawler.core.model.SupplementaryResourceDescription;
+import wwmm.pubcrawler.core.utils.XHtml;
+import wwmm.pubcrawler.core.utils.XPathUtils;
 
 /**
  * <p>
@@ -195,7 +195,7 @@ public class NatureArticleCrawler extends ArticleCrawler {
 		if (suppPageDoc == null) {
 			return Collections.EMPTY_LIST;
 		}
-		List<Node> suppLinks = Utils.queryHTML(suppPageDoc, ".//x:a[contains(@href,'/extref/')]");
+		List<Node> suppLinks = XPathUtils.queryHTML(suppPageDoc, ".//x:a[contains(@href,'/extref/')]");
 		List<SupplementaryResourceDescription> sfList = new ArrayList<SupplementaryResourceDescription>(suppLinks.size());
 		for (Node suppLink : suppLinks) {
 			Element link = (Element)suppLink;
@@ -221,7 +221,7 @@ public class NatureArticleCrawler extends ArticleCrawler {
 	 * 
 	 */
 	private Document getSupplementaryDataWebpage() {
-		Nodes suppPageLinks = articleAbstractHtml.query(".//x:a[contains(@href,'/suppinfo/')]", X_XHTML);
+		Nodes suppPageLinks = articleAbstractHtml.query(".//x:a[contains(@href,'/suppinfo/')]", XHtml.XPATH_CONTEXT);
 		if (suppPageLinks.size() == 0) {
 			return null;
 		} else if (suppPageLinks.size() > 1) {
@@ -274,7 +274,7 @@ public class NatureArticleCrawler extends ArticleCrawler {
 	 * element.
 	 */
 	private String getMetaElementContent(String name) {
-		Nodes authorNds = articleAbstractHtml.query(".//x:meta[@name='"+name+"']", X_XHTML);
+		Nodes authorNds = articleAbstractHtml.query(".//x:meta[@name='"+name+"']", XHtml.XPATH_CONTEXT);
 		if (authorNds.size() == 0) {
 			LOG.info("No meta element found with name='"+name+"' at: "+doi);
 			return null;

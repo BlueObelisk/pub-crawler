@@ -15,8 +15,6 @@
  ******************************************************************************/
 package wwmm.pubcrawler.journal.rsc;
 
-import static wwmm.pubcrawler.core.utils.CrawlerConstants.X_XHTML;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -33,6 +31,7 @@ import wwmm.pubcrawler.core.model.ArticleReference;
 import wwmm.pubcrawler.core.model.*;
 import wwmm.pubcrawler.core.model.SupplementaryResourceDescription;
 import wwmm.pubcrawler.core.model.FullTextResourceDescription;
+import wwmm.pubcrawler.core.utils.XHtml;
 
 /**
  * <p>
@@ -136,7 +135,7 @@ public class RscArticleCrawler extends ArticleCrawler {
 	 */
 	@Override
 	protected List<SupplementaryResourceDescription> getSupplementaryFilesDetails() {
-		Nodes linkElements = articleAbstractHtml.query(".//x:a[contains(@href,'/suppdata/')]", X_XHTML);
+		Nodes linkElements = articleAbstractHtml.query(".//x:a[contains(@href,'/suppdata/')]", XHtml.XPATH_CONTEXT);
 		if (linkElements.size() == 0) {
 			return Collections.EMPTY_LIST;
 		}
@@ -260,7 +259,7 @@ public class RscArticleCrawler extends ArticleCrawler {
 	}
 	
 	private Nodes getMetaElements(String metaElementName) {
-		return articleAbstractHtml.query(".//x:meta[@name='"+metaElementName+"']", X_XHTML);
+		return articleAbstractHtml.query(".//x:meta[@name='"+metaElementName+"']", XHtml.XPATH_CONTEXT);
 	}
 
 	/**

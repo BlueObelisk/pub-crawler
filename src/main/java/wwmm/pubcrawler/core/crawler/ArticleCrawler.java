@@ -15,14 +15,10 @@
  ******************************************************************************/
 package wwmm.pubcrawler.core.crawler;
 
-import static wwmm.pubcrawler.core.utils.CrawlerConstants.X_XHTML;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-
-import wwmm.pubcrawler.core.utils.Utils;
 
 import nu.xom.Document;
 import nu.xom.Element;
@@ -30,6 +26,8 @@ import nu.xom.Node;
 import nu.xom.Nodes;
 import wwmm.pubcrawler.core.utils.BibtexTool;
 import wwmm.pubcrawler.core.model.*;
+import wwmm.pubcrawler.core.utils.XHtml;
+import wwmm.pubcrawler.core.utils.XPathUtils;
 
 /**
  * <p>
@@ -111,7 +109,7 @@ public abstract class ArticleCrawler extends Crawler {
 	 * 
 	 */
 	private void setHasDoiResolved() {
-		Nodes nodes = articleAbstractHtml.query(".//x:body[contains(.,'Error - DOI Not Found')]", X_XHTML);
+		Nodes nodes = articleAbstractHtml.query(".//x:body[contains(.,'Error - DOI Not Found')]", XHtml.XPATH_CONTEXT);
 		if (nodes.size() > 0) {
 			doiResolved = false;
 		} else {
@@ -183,7 +181,7 @@ public abstract class ArticleCrawler extends Crawler {
 			String xpath, String linkUrl, String linkText, String mimeType) {
 		FullTextResourceDescription ftrd = null;
 		if (xpath != null) {
-			List<Node> fullTextPdfLinks = Utils.queryHTML(articleAbstractHtml, xpath);
+			List<Node> fullTextPdfLinks = XPathUtils.queryHTML(articleAbstractHtml, xpath);
 			if (fullTextPdfLinks.size() == 0) {
 				LOG.warn("Problem getting full text PDF link: "+doi);
 				return null;

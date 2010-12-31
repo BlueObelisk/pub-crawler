@@ -27,11 +27,11 @@ import nu.xom.Node;
 
 import org.apache.log4j.Logger;
 
-import wwmm.pubcrawler.core.utils.Utils;
 import wwmm.pubcrawler.core.model.DOI;
 import wwmm.pubcrawler.core.crawler.IssueCrawler;
 import wwmm.pubcrawler.core.model.IssueDescription;
 import wwmm.pubcrawler.core.model.Journal;
+import wwmm.pubcrawler.core.utils.XPathUtils;
 
 /**
  * <p>
@@ -100,7 +100,7 @@ public class ActaIssueCrawler extends IssueCrawler {
 		+year+"/"+issueId.replaceAll("-", "/")+"/isscontsbdy.html";
 		LOG.info("Started to find article DOIs from "+journal.getFullTitle()+", year "+year+", issue "+issueId+".");
 		Document issueDoc = httpClient.getResourceHTML(issueUrl);
-		List<Node> doiNodes = Utils.queryHTML(issueDoc, ".//x:a[contains(@href,'"+DOI.DOI_SITE_URL+"/10.1107/')]/@href");
+		List<Node> doiNodes = XPathUtils.queryHTML(issueDoc, ".//x:a[contains(@href,'" + DOI.DOI_SITE_URL + "/10.1107/')]/@href");
 		for (Node doiNode : doiNodes) {
 			String doiStr = ((Attribute)doiNode).getValue();
 			DOI doi = new DOI(doiStr);
@@ -108,7 +108,7 @@ public class ActaIssueCrawler extends IssueCrawler {
 		}
 		// sometimes the DOIs aren't the href in an <a> tag, so we have to look
 		// at the text as well...
-		List<Node> textDoiNodes = Utils.queryHTML(issueDoc, ".//x:font[@size='2' and contains(.,'doi:10.1107/')]");
+		List<Node> textDoiNodes = XPathUtils.queryHTML(issueDoc, ".//x:font[@size='2' and contains(.,'doi:10.1107/')]");
 		for (Node doiNode : textDoiNodes) {
 			String doiPrefix = ((Element)doiNode).getValue().substring(4);
 			DOI doi = new DOI(DOI.DOI_SITE_URL+"/"+doiPrefix);

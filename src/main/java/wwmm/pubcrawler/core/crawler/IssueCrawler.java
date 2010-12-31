@@ -23,12 +23,11 @@ import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
 
-import wwmm.pubcrawler.core.utils.Utils;
-
 import nu.xom.Document;
 import nu.xom.Node;
 import wwmm.pubcrawler.core.CrawlerRuntimeException;
 import wwmm.pubcrawler.core.model.*;
+import wwmm.pubcrawler.core.utils.XPathUtils;
 
 /**
  * <p>
@@ -181,7 +180,7 @@ public abstract class IssueCrawler extends Crawler {
 
 	protected String getJournalInfo() throws IOException {
 		Document doc = getCurrentIssueHtml();
-		List<Node> journalInfoNodes = Utils.queryHTML(doc, issueInfo.infoPath);
+		List<Node> journalInfoNodes = XPathUtils.queryHTML(doc, issueInfo.infoPath);
 		int size = journalInfoNodes.size();
 		if (size != 1) {
 			throw new CrawlerRuntimeException("Expected to find 1 element containing" +
