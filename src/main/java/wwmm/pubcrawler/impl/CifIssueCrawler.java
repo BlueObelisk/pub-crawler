@@ -132,7 +132,7 @@ public abstract class CifIssueCrawler {
 	 * probably be based around pattern-matching of URIs.
 	 * </p>
 	 * 
-	 * @param details - details of the supplementary file to be investigated.
+	 * @param sfd - details of the supplementary file to be investigated.
 	 * 
 	 * @return whether the file is a CIF or not.
 	 */

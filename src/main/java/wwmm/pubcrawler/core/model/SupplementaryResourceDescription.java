@@ -48,7 +48,7 @@ public class SupplementaryResourceDescription {
 	 * automatically asserting the files ID from the URI alone.
 	 * </p>
 	 * 
-	 * @param uri - the URI that the resource resides at.
+	 * @param url - the URI that the resource resides at.
 	 * @param fileId - the site-specific identifier for the resource.
 	 * @param linkText - the text from the HTML link that points to the resource.
 	 * @param contentType - the Content-type of the resource from its HTTP headers.

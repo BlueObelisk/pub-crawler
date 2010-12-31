@@ -66,7 +66,7 @@ public class IssueDescription {
 	 * Make sure that the year is a four-digit String.
 	 * </p>
 	 * 
-	 * @param String of the year to be validated.
+	 * @param year String of the year to be validated.
 	 */
 	private void validateYear(String year) {
 		Pattern p = Pattern.compile("^\\d{4}$");
