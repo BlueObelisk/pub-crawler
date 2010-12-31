@@ -13,7 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package wwmm.pubcrawler.core;
+package wwmm.pubcrawler.core.model;
+
+import wwmm.pubcrawler.core.DOIRuntimeException;
 
 import java.net.URI;
 import java.net.URISyntaxException;

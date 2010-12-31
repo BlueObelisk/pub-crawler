@@ -18,11 +18,10 @@ package wwmm.pubcrawler.impl;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import wwmm.pubcrawler.core.ArticleDescription;
-import wwmm.pubcrawler.core.IssueCrawler;
-import wwmm.pubcrawler.core.Journal;
-import wwmm.pubcrawler.core.JournalIndex;
-import wwmm.pubcrawler.core.SupplementaryResourceDescription;
+import wwmm.pubcrawler.core.model.*;
+import wwmm.pubcrawler.core.crawler.IssueCrawler;
+import wwmm.pubcrawler.core.model.Journal;
+import wwmm.pubcrawler.core.model.ArticleDescription;
 import wwmm.pubcrawler.journal.acta.ActaIssueCrawler;
 import wwmm.pubcrawler.journal.acta.ActaJournalIndex;
 

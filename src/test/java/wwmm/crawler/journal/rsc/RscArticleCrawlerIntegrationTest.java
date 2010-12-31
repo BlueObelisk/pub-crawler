@@ -18,18 +18,17 @@ package wwmm.crawler.journal.rsc;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static wwmm.pubcrawler.core.CrawlerConstants.RSC_HOMEPAGE_URL;
 
 import java.util.List;
 
 import org.junit.Test;
 
-import wwmm.pubcrawler.core.ArticleCrawler;
-import wwmm.pubcrawler.core.ArticleDescription;
-import wwmm.pubcrawler.core.ArticleReference;
-import wwmm.pubcrawler.core.DOI;
-import wwmm.pubcrawler.core.FullTextResourceDescription;
-import wwmm.pubcrawler.core.SupplementaryResourceDescription;
+import wwmm.pubcrawler.core.crawler.ArticleCrawler;
+import wwmm.pubcrawler.core.model.ArticleDescription;
+import wwmm.pubcrawler.core.model.ArticleReference;
+import wwmm.pubcrawler.core.model.DOI;
+import wwmm.pubcrawler.core.model.FullTextResourceDescription;
+import wwmm.pubcrawler.core.model.*;
 import wwmm.pubcrawler.journal.rsc.RscArticleCrawler;
 
 public class RscArticleCrawlerIntegrationTest {

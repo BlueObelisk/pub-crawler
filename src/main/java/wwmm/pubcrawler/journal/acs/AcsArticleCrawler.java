@@ -33,11 +33,11 @@ import nu.xom.Nodes;
 import org.apache.log4j.Logger;
 
 import wwmm.pubcrawler.Utils;
-import wwmm.pubcrawler.core.ArticleCrawler;
-import wwmm.pubcrawler.core.ArticleDescription;
-import wwmm.pubcrawler.core.ArticleReference;
-import wwmm.pubcrawler.core.DOI;
-import wwmm.pubcrawler.core.SupplementaryResourceDescription;
+import wwmm.pubcrawler.core.crawler.ArticleCrawler;
+import wwmm.pubcrawler.core.model.ArticleDescription;
+import wwmm.pubcrawler.core.model.*;
+import wwmm.pubcrawler.core.model.DOI;
+import wwmm.pubcrawler.core.model.SupplementaryResourceDescription;
 
 /**
  * <p>

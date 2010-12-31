@@ -15,8 +15,8 @@
  ******************************************************************************/
 package wwmm.pubcrawler.journal.nature;
 
-import wwmm.pubcrawler.core.Journal;
-import wwmm.pubcrawler.core.JournalIndex;
+import wwmm.pubcrawler.core.model.Journal;
+import wwmm.pubcrawler.core.model.JournalIndex;
 
 /**
  * <p>

@@ -21,8 +21,8 @@ import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
-import wwmm.pubcrawler.core.IssueCrawler;
-import wwmm.pubcrawler.core.IssueDescription;
+import wwmm.pubcrawler.core.crawler.IssueCrawler;
+import wwmm.pubcrawler.core.model.IssueDescription;
 
 public class IssueDetailsTest {
 	

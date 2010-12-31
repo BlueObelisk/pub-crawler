@@ -19,7 +19,7 @@ import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
 
-import wwmm.pubcrawler.core.Journal;
+import wwmm.pubcrawler.core.model.Journal;
 import wwmm.pubcrawler.journal.rsc.RscJournalIndex;
 
 public class RscJournalTest {

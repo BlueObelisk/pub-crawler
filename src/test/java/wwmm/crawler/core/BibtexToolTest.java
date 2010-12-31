@@ -26,7 +26,7 @@ import java.util.Map;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 
-import wwmm.pubcrawler.core.ArticleReference;
+import wwmm.pubcrawler.core.model.ArticleReference;
 import wwmm.pubcrawler.core.BibtexTool;
 
 public class BibtexToolTest {

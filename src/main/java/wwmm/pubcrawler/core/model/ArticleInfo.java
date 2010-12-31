@@ -1,4 +1,4 @@
-package wwmm.pubcrawler.core;
+package wwmm.pubcrawler.core.model;
 
 public class ArticleInfo {
 

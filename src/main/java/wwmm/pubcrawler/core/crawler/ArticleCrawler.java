@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package wwmm.pubcrawler.core;
+package wwmm.pubcrawler.core.crawler;
 
 import static wwmm.pubcrawler.core.CrawlerConstants.X_XHTML;
 
@@ -28,6 +28,8 @@ import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Node;
 import nu.xom.Nodes;
+import wwmm.pubcrawler.core.BibtexTool;
+import wwmm.pubcrawler.core.model.*;
 
 /**
  * <p>

@@ -20,7 +20,7 @@ import static junit.framework.Assert.assertSame;
 
 import org.junit.Test;
 
-import wwmm.pubcrawler.core.ArticleReference;
+import wwmm.pubcrawler.core.model.ArticleReference;
 
 public class ArticleReferenceTest {
 	

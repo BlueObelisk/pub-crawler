@@ -15,6 +15,8 @@
  ******************************************************************************/
 package wwmm.pubcrawler.core;
 
+import wwmm.pubcrawler.core.model.ArticleReference;
+
 import java.util.HashMap;
 import java.util.Map;
 

@@ -20,11 +20,11 @@ import static wwmm.pubcrawler.core.CrawlerConstants.CIF_CONTENT_TYPE;
 import java.util.ArrayList;
 import java.util.List;
 
-import wwmm.pubcrawler.core.ArticleDescription;
-import wwmm.pubcrawler.core.DOI;
-import wwmm.pubcrawler.core.IssueCrawler;
-import wwmm.pubcrawler.core.IssueDescription;
-import wwmm.pubcrawler.core.SupplementaryResourceDescription;
+import wwmm.pubcrawler.core.crawler.IssueCrawler;
+import wwmm.pubcrawler.core.model.DOI;
+import wwmm.pubcrawler.core.model.SupplementaryResourceDescription;
+import wwmm.pubcrawler.core.model.ArticleDescription;
+import wwmm.pubcrawler.core.model.IssueDescription;
 
 /**
  * <p>
