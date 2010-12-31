@@ -31,10 +31,10 @@ import nu.xom.Nodes;
 
 import org.apache.log4j.Logger;
 
+import wwmm.pubcrawler.core.types.Doi;
 import wwmm.pubcrawler.core.model.ArticleDescription;
 import wwmm.pubcrawler.core.crawler.Crawler;
 import wwmm.pubcrawler.core.CrawlerRuntimeException;
-import wwmm.pubcrawler.core.model.DOI;
 import wwmm.pubcrawler.core.model.Journal;
 
 /**
@@ -109,7 +109,7 @@ public class RscRssCrawler extends Crawler {
 		for (Element entry : entries) {
 			Date entryDate = getEntryDate(entry);
 			if (needToCrawlArticle(entryDate)) {
-				DOI doi = getDOI(entry);
+				Doi doi = getDOI(entry);
 				ArticleDescription ad = new RscArticleCrawler(doi).getDetails();
 				adList.add(ad);
 			}
@@ -127,15 +127,14 @@ public class RscRssCrawler extends Crawler {
 	 * @return DOI for the article described by the RSS entry.
 	 * 
 	 */
-	private DOI getDOI(Element entry) {
+	private Doi getDOI(Element entry) {
 		Nodes nds = entry.query("./dc:identifier", X_DC);
 		if (nds.size() == 0) {
 			throw new CrawlerRuntimeException("Could not get DOI from entry:\n"+entry.toXML());
 		}
 		String value = ((Element)nds.get(0)).getValue();
 		String doiPrefix = value.replaceAll("DOI", "").trim();
-		String doi = DOI.DOI_SITE_URL+"/"+doiPrefix;
-		return new DOI(doi);
+		return new Doi(doiPrefix);
 	}
 	
 	/**

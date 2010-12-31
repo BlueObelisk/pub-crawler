@@ -20,8 +20,8 @@ import static wwmm.pubcrawler.core.utils.CrawlerConstants.CIF_CONTENT_TYPE;
 import java.util.ArrayList;
 import java.util.List;
 
+import wwmm.pubcrawler.core.types.Doi;
 import wwmm.pubcrawler.core.crawler.IssueCrawler;
-import wwmm.pubcrawler.core.model.DOI;
 import wwmm.pubcrawler.core.model.SupplementaryResourceDescription;
 import wwmm.pubcrawler.core.model.ArticleDescription;
 import wwmm.pubcrawler.core.model.IssueDescription;
@@ -73,7 +73,7 @@ public abstract class CifIssueCrawler {
 		return cifAdList;
 	}
 	
-	public List<ArticleDescription> getArticleDescriptions(List<DOI> dois) {
+	public List<ArticleDescription> getArticleDescriptions(List<Doi> dois) {
 		List<ArticleDescription> adList = crawler.getArticleDescriptions(dois);
 		List<ArticleDescription> cifAdList = new ArrayList<ArticleDescription>();
 		for (ArticleDescription ad : adList) {
@@ -138,11 +138,11 @@ public abstract class CifIssueCrawler {
 	 */
 	abstract protected boolean isCifFile(SupplementaryResourceDescription sfd);
 	
-	public List<DOI> getDois(IssueDescription issueDescription) {
+	public List<Doi> getDois(IssueDescription issueDescription) {
 		return crawler.getDois(issueDescription);
 	}
 	
-	public List<DOI> getCurrentArticlesDois() {
+	public List<Doi> getCurrentArticlesDois() {
 		return crawler.getDoisForCurrentArticles();
 	}
 	

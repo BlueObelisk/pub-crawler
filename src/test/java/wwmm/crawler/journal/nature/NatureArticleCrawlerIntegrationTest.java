@@ -23,11 +23,11 @@ import java.util.List;
 
 import org.junit.Test;
 
+import wwmm.pubcrawler.core.types.Doi;
 import wwmm.pubcrawler.core.model.ArticleDescription;
 import wwmm.pubcrawler.core.model.ArticleReference;
 import wwmm.pubcrawler.core.model.FullTextResourceDescription;
 import wwmm.pubcrawler.core.model.SupplementaryResourceDescription;
-import wwmm.pubcrawler.core.model.DOI;
 import wwmm.pubcrawler.journal.nature.NatureArticleCrawler;
 
 public class NatureArticleCrawlerIntegrationTest {
@@ -39,13 +39,13 @@ public class NatureArticleCrawlerIntegrationTest {
 	 */
 	@Test
 	public void testGetArticleDetails() throws NullPointerException {
-		DOI doi = new DOI(DOI.DOI_SITE_URL+"/10.1038/nchem.213");
+		Doi doi = new Doi("10.1038/nchem.213");
 		NatureArticleCrawler crawler = new NatureArticleCrawler(doi);
 		ArticleDescription details = crawler.getDetails();
 		assertNotNull(details);
 		String authors = details.getAuthors();
 		assertEquals("Tanya K. Ronson, Julie Fisher, Lindsay P. Harding, Pierre J. Rizkallah, John E. Warren, Michaele J. Hardie", authors);
-		DOI detailsDoi = details.getDoi();
+		Doi detailsDoi = details.getDoi();
 		assertEquals(doi, detailsDoi);
 
 		List<FullTextResourceDescription> ftrds = details.getFullTextResources();

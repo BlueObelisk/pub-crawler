@@ -24,8 +24,8 @@ import nu.xom.Document;
 
 import org.junit.Test;
 
+import wwmm.pubcrawler.core.types.Doi;
 import wwmm.pubcrawler.core.crawler.IssueCrawler;
-import wwmm.pubcrawler.core.model.DOI;
 import wwmm.pubcrawler.core.model.IssueDescription;
 import wwmm.pubcrawler.journal.nature.NatureIssueCrawler;
 import wwmm.pubcrawler.journal.nature.NatureJournalIndex;
@@ -42,9 +42,9 @@ public class NatureIssueCrawlerIntegrationTest {
 	public void testGetIssueDois() {
 		IssueDescription details = new IssueDescription("2009", "3");
 		IssueCrawler crawler = new NatureIssueCrawler(NatureJournalIndex.NATURE_CHEMISTRY);
-		List<DOI> doiList = crawler.getDois(details);
+		List<Doi> doiList = crawler.getDois(details);
 		assertEquals(23, doiList.size());
-		assertEquals(new DOI(DOI.DOI_SITE_URL+"/10.1038/nchem.223"), doiList.get(9));
+		assertEquals(new Doi("10.1038/nchem.223"), doiList.get(9));
 	}
 
 	/**

@@ -24,8 +24,8 @@ import nu.xom.Document;
 
 import org.junit.Test;
 
+import wwmm.pubcrawler.core.types.Doi;
 import wwmm.pubcrawler.core.crawler.IssueCrawler;
-import wwmm.pubcrawler.core.model.DOI;
 import wwmm.pubcrawler.core.model.IssueDescription;
 import wwmm.pubcrawler.journal.acs.AcsIssueCrawler;
 import wwmm.pubcrawler.journal.acs.AcsJournalIndex;
@@ -42,9 +42,9 @@ public class AcsIssueCrawlerIntegrationTest {
 	public void testGetIssueDois() {
 		IssueDescription details = new IssueDescription("2009", "2");
 		IssueCrawler crawler = new AcsIssueCrawler(AcsJournalIndex.THE_JOURNAL_OF_ORGANIC_CHEMISTRY);
-		List<DOI> doiList = crawler.getDois(details);
+		List<Doi> doiList = crawler.getDois(details);
 		assertEquals(66, doiList.size());
-		assertEquals(new DOI(DOI.DOI_SITE_URL+"/10.1021/jo8019237"), doiList.get(9));
+		assertEquals(new Doi("10.1021/jo8019237"), doiList.get(9));
 	}
 
 	/**

@@ -31,10 +31,10 @@ import nu.xom.Nodes;
 
 import org.apache.log4j.Logger;
 
+import wwmm.pubcrawler.core.types.Doi;
 import wwmm.pubcrawler.core.crawler.ArticleCrawler;
 import wwmm.pubcrawler.core.model.ArticleDescription;
 import wwmm.pubcrawler.core.model.*;
-import wwmm.pubcrawler.core.model.DOI;
 import wwmm.pubcrawler.core.model.SupplementaryResourceDescription;
 import wwmm.pubcrawler.core.utils.XHtml;
 import wwmm.pubcrawler.core.utils.XPathUtils;
@@ -58,7 +58,7 @@ public class AcsArticleCrawler extends ArticleCrawler {
 		;
 	}
 
-	public AcsArticleCrawler(DOI doi) {
+	public AcsArticleCrawler(Doi doi) {
 		super(doi);
 	}
 	
@@ -265,7 +265,7 @@ public class AcsArticleCrawler extends ArticleCrawler {
 	 * 
 	 */
 	public static void main(String[] args) throws IOException {
-		DOI doi = new DOI("http://dx.doi.org/10.1021/cg100078b");
+		Doi doi = new Doi("http://dx.doi.org/10.1021/cg100078b");
 		ArticleCrawler crawler = new AcsArticleCrawler(doi);
 		ArticleDescription ad = crawler.getDetails();
 		System.out.println(ad.toString());

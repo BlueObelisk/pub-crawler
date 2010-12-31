@@ -28,10 +28,10 @@ import nu.xom.Text;
 
 import org.apache.log4j.Logger;
 
+import wwmm.pubcrawler.core.types.Doi;
 import wwmm.pubcrawler.core.crawler.ArticleCrawler;
 import wwmm.pubcrawler.core.model.ArticleDescription;
 import wwmm.pubcrawler.core.utils.BibtexTool;
-import wwmm.pubcrawler.core.model.DOI;
 import wwmm.pubcrawler.core.model.FullTextResourceDescription;
 import wwmm.pubcrawler.core.model.SupplementaryResourceDescription;
 import wwmm.pubcrawler.core.utils.XHtml;
@@ -55,7 +55,7 @@ public class ChemSocJapanArticleCrawler extends ArticleCrawler {
 		;
 	}
 
-	public ChemSocJapanArticleCrawler(DOI doi) {
+	public ChemSocJapanArticleCrawler(Doi doi) {
 		super(doi);
 	}
 
@@ -207,7 +207,7 @@ public class ChemSocJapanArticleCrawler extends ArticleCrawler {
 	 * 
 	 */
 	public static void main(String[] args) {
-		DOI doi = new DOI("http://dx.doi.org/10.1246/cl.2008.682");
+		Doi doi = new Doi("http://dx.doi.org/10.1246/cl.2008.682");
 		ArticleCrawler crawler = new ChemSocJapanArticleCrawler(doi);
 		ArticleDescription ad = crawler.getDetails();
 		System.out.println(ad.toString());

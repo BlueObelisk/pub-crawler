@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import wwmm.pubcrawler.core.types.Doi;
 
 /**
  * <p>
@@ -34,7 +35,7 @@ import org.apache.commons.lang.StringUtils;
  */
 public class ArticleDescription {
 
-	private DOI doi;
+	private Doi doi;
 	private boolean doiResolved;
 
 	private String title;
@@ -165,7 +166,7 @@ public class ArticleDescription {
 	 * @param doi - the Digital Object Identifier of the
 	 * article.
 	 */
-	public void setDoi(DOI doi) {
+	public void setDoi(Doi doi) {
 		this.doi = doi;
 	}
 
@@ -176,7 +177,7 @@ public class ArticleDescription {
 	 * 
 	 * @return Digital Object Identifier for the article.
 	 */
-	public DOI getDoi() {
+	public Doi getDoi() {
 		return doi;
 	}
 

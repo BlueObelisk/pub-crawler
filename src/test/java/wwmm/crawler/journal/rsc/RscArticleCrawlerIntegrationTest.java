@@ -23,10 +23,10 @@ import java.util.List;
 
 import org.junit.Test;
 
+import wwmm.pubcrawler.core.types.Doi;
 import wwmm.pubcrawler.core.crawler.ArticleCrawler;
 import wwmm.pubcrawler.core.model.ArticleDescription;
 import wwmm.pubcrawler.core.model.ArticleReference;
-import wwmm.pubcrawler.core.model.DOI;
 import wwmm.pubcrawler.core.model.FullTextResourceDescription;
 import wwmm.pubcrawler.core.model.*;
 import wwmm.pubcrawler.journal.rsc.RscArticleCrawler;
@@ -40,13 +40,13 @@ public class RscArticleCrawlerIntegrationTest {
 	 */
 	@Test
 	public void testGetArticleDetails() throws NullPointerException {
-		DOI doi = new DOI("http://dx.doi.org/10.1039/C0CC01684E");
+		Doi doi = new Doi("10.1039/C0CC01684E");
 		ArticleCrawler crawler = new RscArticleCrawler(doi);
 		ArticleDescription details = crawler.getDetails();
 		assertNotNull("NULL article details", details);
 		String authors = details.getAuthors();
 		assertEquals("Article authors", "Nathalie Busschaert, Philip A. Gale, Cally J. E. Haynes, Mark E. Light, Stephen J. Moore, Christine C. Tong, Jeffery T. Davis, William A. Harrell, Jr.", authors);
-		DOI detailsDoi = details.getDoi();
+		Doi detailsDoi = details.getDoi();
 		assertEquals("Article DOI", doi, detailsDoi);
 
 		List<FullTextResourceDescription> ftrds = details.getFullTextResources();
@@ -109,7 +109,7 @@ public class RscArticleCrawlerIntegrationTest {
 	 */
 	@Test
 	public void testGetReference() {
-		DOI doi1 = new DOI("http://dx.doi.org/10.1039/C0CC01684E");
+		Doi doi1 = new Doi("10.1039/C0CC01684E");
 		ArticleCrawler crawler1 = new RscArticleCrawler(doi1);
 		ArticleDescription details1 = crawler1.getDetails();
 		ArticleReference ref1 = details1.getReference();
@@ -121,7 +121,7 @@ public class RscArticleCrawlerIntegrationTest {
 		assertNotNull("Not NULL volume", vol1);
 		String year1 = ref1.getYear();
 		assertEquals("Year in first reference", "2010", year1);
-		DOI doi2 = new DOI(DOI.DOI_SITE_URL+"/10.1039/b900026g");
+		Doi doi2 = new Doi("10.1039/b900026g");
 		ArticleCrawler crawler2 = new RscArticleCrawler(doi2);
 		ArticleDescription details2 = crawler2.getDetails();
 		ArticleReference ref2 = details2.getReference();

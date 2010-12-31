@@ -24,6 +24,7 @@ import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Node;
 import nu.xom.Nodes;
+import wwmm.pubcrawler.core.types.Doi;
 import wwmm.pubcrawler.core.utils.BibtexTool;
 import wwmm.pubcrawler.core.model.*;
 import wwmm.pubcrawler.core.utils.XHtml;
@@ -47,7 +48,7 @@ public abstract class ArticleCrawler extends Crawler {
 
 	private static Logger LOG = Logger.getLogger(ArticleCrawler.class);
 
-	protected DOI doi;
+	protected Doi doi;
 	protected Document articleAbstractHtml;
 	protected boolean doiResolved;
 	protected ArticleDescription articleDetails;
@@ -60,7 +61,7 @@ public abstract class ArticleCrawler extends Crawler {
 		readProperties();
 	}
 
-	public ArticleCrawler(DOI doi) {
+	public ArticleCrawler(Doi doi) {
 		this();
 		setDOI(doi);
 	}
@@ -83,7 +84,7 @@ public abstract class ArticleCrawler extends Crawler {
 	 * </p>
 	 * 
 	 */
-	public void setDOI(DOI doi) {
+	public void setDOI(Doi doi) {
 		this.doi = null;
 		this.articleAbstractHtml = null;
 		this.articleDetails = new ArticleDescription();
@@ -91,13 +92,13 @@ public abstract class ArticleCrawler extends Crawler {
 		this.doiResolved = false;
 		
 		this.doi = doi;
-		articleAbstractHtml = httpClient.getResourceHTML(doi.getURL());
+		articleAbstractHtml = httpClient.getResourceHTML(doi.getUrl().toString());
 		setHasDoiResolved();
 		articleDetails.setDoiResolved(doiResolved);
 		articleDetails.setDoi(doi);
 	}
 	
-	public DOI getDOI() {
+	public Doi getDOI() {
 		return this.doi;
 	}
 
@@ -256,7 +257,7 @@ public abstract class ArticleCrawler extends Crawler {
 	 */
 	public ArticleDescription getDetails() {
 		if (!doiResolved) {
-			LOG.warn("The DOI provided for the article abstract ("+doi.toString()+") has not resolved so we cannot get article details.");
+			LOG.warn("The DOI provided for the article abstract ("+doi+") has not resolved so we cannot get article details.");
 			return articleDetails;
 		}
 		LOG.info("Starting to find article details: "+doi);
@@ -271,7 +272,7 @@ public abstract class ArticleCrawler extends Crawler {
 		List<SupplementaryResourceDescription> suppFiles = getSupplementaryFilesDetails();
 		articleDetails.setSupplementaryResources(suppFiles);
 		articleDetails.setHasBeenPublished(true);
-		LOG.debug("Finished finding article details: "+doi.toString());
+		LOG.debug("Finished finding article details: "+doi);
 		return articleDetails;
 	}
 

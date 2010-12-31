@@ -26,8 +26,8 @@ import nu.xom.Node;
 
 import org.apache.log4j.Logger;
 
+import wwmm.pubcrawler.core.types.Doi;
 import wwmm.pubcrawler.core.crawler.IssueCrawler;
-import wwmm.pubcrawler.core.model.DOI;
 import wwmm.pubcrawler.core.model.IssueDescription;
 import wwmm.pubcrawler.core.model.Journal;
 import wwmm.pubcrawler.core.utils.XPathUtils;
@@ -102,10 +102,10 @@ public class NatureIssueCrawler extends IssueCrawler {
 	 * 
 	 */
 	@Override
-	public List<DOI> getDois(IssueDescription issueDetails) {
+	public List<Doi> getDois(IssueDescription issueDetails) {
 		String year = issueDetails.getYear();
 		String issueId = issueDetails.getIssueId();
-		List<DOI> dois = new ArrayList<DOI>();
+		List<Doi> dois = new ArrayList<Doi>();
 		String volumeYear = getVolumeFromYearVolume(year, issueInfo.useVolume);
 		String issueUrl = issueInfo.issueUrlStart+journal.getAbbreviation()+
 			issueInfo.issueUrlPreVolumeYear+volumeYear+issueInfo.issueUrlPreIssue+issueId+issueInfo.issueUrlEnd;
@@ -116,9 +116,7 @@ public class NatureIssueCrawler extends IssueCrawler {
 			Element span = (Element)doiNode;
 			String doiPostfix = span.getValue();
 			doiPostfix = (issueInfo.beheadDoi != null) ? doiPostfix.substring(issueInfo.beheadDoi) : doiPostfix;
-			String doiStr = DOI.DOI_SITE_URL+"/"+doiPostfix;
-			DOI doi = new DOI(doiStr); 
-			dois.add(doi);
+			dois.add(new Doi(doiPostfix));
 		}
 		LOG.info("Finished finding issue DOIs: "+dois.size());
 		return dois;

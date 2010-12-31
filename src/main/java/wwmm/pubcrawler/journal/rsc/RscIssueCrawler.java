@@ -31,7 +31,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.log4j.Logger;
 
-import wwmm.pubcrawler.core.model.DOI;
+import wwmm.pubcrawler.core.types.Doi;
 import wwmm.pubcrawler.core.crawler.IssueCrawler;
 import wwmm.pubcrawler.core.model.IssueDescription;
 import wwmm.pubcrawler.core.model.Journal;
@@ -134,7 +134,7 @@ public class RscIssueCrawler extends IssueCrawler {
 	 * 
 	 */
 	@Override
-	public List<DOI> getDois(IssueDescription details) {
+	public List<Doi> getDois(IssueDescription details) {
 		String year = details.getYear();
 		String issueId = details.getIssueId();
 		String rscIssueId = getRscIssueId(details);
@@ -148,7 +148,7 @@ public class RscIssueCrawler extends IssueCrawler {
 			articleNodes = XPathUtils.queryHTML(issueDoc, articleLinkXpath);
 		}
 
-		List<DOI> dois = new ArrayList<DOI>();
+		List<Doi> dois = new ArrayList<Doi>();
 		for (Node articleNode : articleNodes) {
 			Element articleElement = (Element)articleNode;
 			String articleId = articleElement.getAttributeValue("name");
@@ -160,9 +160,7 @@ public class RscIssueCrawler extends IssueCrawler {
 				continue;
 			}
 			 */
-			String doiStr = DOI.DOI_SITE_URL+"/10.1039/"+articleId;
-			DOI doi = new DOI(doiStr);
-			dois.add(doi);
+			dois.add(new Doi("10.1039/"+articleId));
 		}
 		LOG.info("Finished finding issue DOIs: "+dois.size());
 		return dois;
