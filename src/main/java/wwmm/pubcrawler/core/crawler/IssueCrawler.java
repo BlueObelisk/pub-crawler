@@ -23,7 +23,7 @@ import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
 
-import wwmm.pubcrawler.Utils;
+import wwmm.pubcrawler.core.utils.Utils;
 
 import nu.xom.Document;
 import nu.xom.Node;

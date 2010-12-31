@@ -15,9 +15,9 @@
  ******************************************************************************/
 package wwmm.pubcrawler.journal.chemsocjapan;
 
-import static wwmm.pubcrawler.core.CrawlerConstants.CHEMSOCJAPAN_HOMEPAGE_URL;
-import static wwmm.pubcrawler.core.CrawlerConstants.XHTML_NS;
-import static wwmm.pubcrawler.core.CrawlerConstants.X_XHTML;
+import static wwmm.pubcrawler.core.utils.CrawlerConstants.CHEMSOCJAPAN_HOMEPAGE_URL;
+import static wwmm.pubcrawler.core.utils.CrawlerConstants.XHTML_NS;
+import static wwmm.pubcrawler.core.utils.CrawlerConstants.X_XHTML;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +31,7 @@ import org.apache.log4j.Logger;
 
 import wwmm.pubcrawler.core.crawler.ArticleCrawler;
 import wwmm.pubcrawler.core.model.ArticleDescription;
-import wwmm.pubcrawler.core.BibtexTool;
+import wwmm.pubcrawler.core.utils.BibtexTool;
 import wwmm.pubcrawler.core.model.DOI;
 import wwmm.pubcrawler.core.model.FullTextResourceDescription;
 import wwmm.pubcrawler.core.model.SupplementaryResourceDescription;

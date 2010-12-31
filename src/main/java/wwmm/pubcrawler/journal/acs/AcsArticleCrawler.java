@@ -15,8 +15,8 @@
  ******************************************************************************/
 package wwmm.pubcrawler.journal.acs;
 
-import static wwmm.pubcrawler.core.CrawlerConstants.ACS_HOMEPAGE_URL;
-import static wwmm.pubcrawler.core.CrawlerConstants.X_XHTML;
+import static wwmm.pubcrawler.core.utils.CrawlerConstants.ACS_HOMEPAGE_URL;
+import static wwmm.pubcrawler.core.utils.CrawlerConstants.X_XHTML;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -32,7 +32,7 @@ import nu.xom.Nodes;
 
 import org.apache.log4j.Logger;
 
-import wwmm.pubcrawler.Utils;
+import wwmm.pubcrawler.core.utils.Utils;
 import wwmm.pubcrawler.core.crawler.ArticleCrawler;
 import wwmm.pubcrawler.core.model.ArticleDescription;
 import wwmm.pubcrawler.core.model.*;

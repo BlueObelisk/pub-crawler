@@ -15,9 +15,9 @@
  ******************************************************************************/
 package wwmm.pubcrawler.journal.rsc;
 
-import static wwmm.pubcrawler.core.CrawlerConstants.RSC_PUBS_URL;
-import static wwmm.pubcrawler.core.CrawlerConstants.X_DC;
-import static wwmm.pubcrawler.core.CrawlerConstants.X_RSS1;
+import static wwmm.pubcrawler.core.utils.CrawlerConstants.RSC_PUBS_URL;
+import static wwmm.pubcrawler.core.utils.CrawlerConstants.X_DC;
+import static wwmm.pubcrawler.core.utils.CrawlerConstants.X_RSS1;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

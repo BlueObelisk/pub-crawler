@@ -17,8 +17,8 @@ package wwmm.pubcrawler.core.crawler;
 
 import org.apache.log4j.Logger;
 
-import wwmm.pubcrawler.BasicHttpClient;
-import wwmm.pubcrawler.core.CrawlerHttpClient;
+import wwmm.pubcrawler.core.utils.BasicHttpClient;
+import wwmm.pubcrawler.core.utils.CrawlerHttpClient;
 
 /**
  * <p>

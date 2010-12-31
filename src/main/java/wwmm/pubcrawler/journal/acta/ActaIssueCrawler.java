@@ -27,7 +27,7 @@ import nu.xom.Node;
 
 import org.apache.log4j.Logger;
 
-import wwmm.pubcrawler.Utils;
+import wwmm.pubcrawler.core.utils.Utils;
 import wwmm.pubcrawler.core.model.DOI;
 import wwmm.pubcrawler.core.crawler.IssueCrawler;
 import wwmm.pubcrawler.core.model.IssueDescription;
