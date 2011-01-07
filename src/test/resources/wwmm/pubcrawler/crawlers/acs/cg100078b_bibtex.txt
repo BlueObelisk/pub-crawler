@@ -1,0 +1,15 @@
+
+
+@article{doi:10.1021/cg100078b,
+author = {Lama, Prem and Aijaz, Arshad and Neogi, Subhadip and Barbour, Leonard J. and Bharadwaj, Parimal K.},
+title = {Microporous La(III) Metal?Organic Framework Using a Semirigid Tricarboxylic Ligand: Synthesis, Single-Crystal to Single-Crystal Sorption Properties, and Gas Adsorption Studies},
+journal = {Crystal Growth & Design},
+volume = {10},
+number = {8},
+pages = {3410-3417},
+year = {2010},
+doi = {10.1021/cg100078b},
+URL = {http://pubs.acs.org/doi/abs/10.1021/cg100078b},
+eprint = {http://pubs.acs.org/doi/pdf/10.1021/cg100078b}
+}
+

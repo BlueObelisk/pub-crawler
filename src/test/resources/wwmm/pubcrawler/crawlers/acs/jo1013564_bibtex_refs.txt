@@ -1,0 +1,1585 @@
+
+
+@article{doi:10.1021/jo101758t,
+author = {Michalak, Karol and Michalak, Micha? and Wicha, Jerzy},
+title = {Construction of the Tricyclic 5?7?6 Scaffold of Fungi-Derived Diterpenoids. Total Synthesis of (±)-Heptemerone G and an Approach to Danishefsky’s Intermediate for Guanacastepene A Synthesis},
+journal = {The Journal of Organic Chemistry},
+volume = {75},
+number = {24},
+pages = {8337-8350},
+year = {2010},
+doi = {10.1021/jo101758t},
+URL = {http://pubs.acs.org/doi/abs/10.1021/jo101758t},
+eprint = {http://pubs.acs.org/doi/pdf/10.1021/jo101758t}
+}
+
+@article {,
+author = {Brase S.},
+author = {Encinas A.},
+author = {Keck J.},
+author = {Nising C. F.},
+title = {},
+journal = {Chem. Rev.},
+volume = {109},
+pages = {3903},
+year = {2009}
+}
+
+@article {,
+author = {Yet L.},
+title = {},
+journal = {Chem. Rev.},
+volume = {100},
+pages = {2963},
+year = {2000}
+}
+
+@article {,
+author = {Petasis N. A.},
+author = {Patane M. A.},
+title = {},
+journal = {Tetrahedron},
+volume = {48},
+pages = {5757},
+year = {1992}
+}
+
+@article {,
+author = {Maifeld S. V.},
+author = {Lee D.},
+title = {},
+journal = {Synlett},
+volume = {},
+pages = {1623},
+year = {2006}
+}
+
+@article {,
+author = {Hiersemann M.},
+author = {Helmboldt H.},
+title = {},
+journal = {Top. Curr. Chem.},
+volume = {243},
+pages = {73},
+year = {2004}
+}
+
+@article {,
+author = {Brady S. F.},
+author = {Singh M. P.},
+author = {Janso J. E.},
+author = {Clardy S.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {122},
+pages = {2116},
+year = {2000}
+}
+
+@article {,
+author = {Brady S. F.},
+author = {Bondi S. M.},
+author = {Clardy J.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {123},
+pages = {9900},
+year = {2001}
+}
+
+@article {,
+author = {Valdivia C.},
+author = {Kettering M.},
+author = {Anke H.},
+author = {Thines E.},
+author = {Sterner O.},
+title = {},
+journal = {Tetrahedron},
+volume = {61},
+pages = {9527},
+year = {2005}
+}
+
+@article {,
+author = {Singh M. P.},
+author = {Janso J. E.},
+author = {Luckman S. W.},
+author = {Brady S. F.},
+author = {Clardy J.},
+author = {Greenstein M.},
+author = {Maiese W. M.},
+title = {},
+journal = {J. Antibiot.},
+volume = {53},
+pages = {256},
+year = {2000}
+}
+
+@article {,
+author = {Kettering M.},
+author = {Valdivia C.},
+author = {Sterner O.},
+author = {Anke H.},
+author = {Thines E.},
+title = {},
+journal = {J. Antibiot.},
+volume = {58},
+pages = {390},
+year = {2005}
+}
+
+@article {,
+author = {Tan D. S.},
+author = {Dudley G. B.},
+author = {Danishefsky S. J.},
+title = {},
+journal = {Angew. Chem., Int. Ed.},
+volume = {41},
+pages = {2185},
+year = {2002}
+}
+
+@article {,
+author = {Lin S. N.},
+author = {Dudley G. B.},
+author = {Tan D. S.},
+author = {Danishefsky S. J.},
+title = {},
+journal = {Angew. Chem., Int. Ed.},
+volume = {41},
+pages = {2188},
+year = {2002}
+}
+
+@article {,
+author = {Mandal M.},
+author = {Yun H. D.},
+author = {Dudley G. B.},
+author = {Lin S. N.},
+author = {Tan D. S.},
+author = {Danishefsky S. J.},
+title = {},
+journal = {J. Org. Chem.},
+volume = {70},
+pages = {10619},
+year = {2005}
+}
+
+@article {,
+author = {Shipe W. D.},
+author = {Sorensen E. J.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {128},
+pages = {7025},
+year = {2006}
+}
+
+@article {,
+author = {Boyer F. D.},
+author = {Hanna I.},
+title = {},
+journal = {Tetrahedron Lett.},
+volume = {43},
+pages = {7469},
+year = {2002}
+}
+
+@article {,
+author = {Shi B.},
+author = {Hawryluk N. A.},
+author = {Snider B. B.},
+title = {},
+journal = {J. Org. Chem.},
+volume = {68},
+pages = {1030},
+year = {2003}
+}
+
+@article {,
+author = {Mehta G.},
+author = {Pallavi K.},
+author = {Umarye J. D.},
+title = {},
+journal = {J. Chem. Soc., Chem. Commun.},
+volume = {},
+pages = {4456},
+year = {2005}
+}
+
+@article {,
+author = {Iimura S.},
+author = {Overman L. E.},
+author = {Paulini R.},
+author = {Zakarian A.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {128},
+pages = {13095},
+year = {2006}
+}
+
+@article {,
+author = {Miller A. K.},
+author = {Hughes C. C.},
+author = {Kennedy-Smith J. J.},
+author = {Gradl S. N.},
+author = {Trauner D.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {128},
+pages = {17057},
+year = {2006}
+}
+
+@article {,
+author = {Fang X. J.},
+author = {Tong X. F.},
+title = {},
+journal = {Tetrahedron Lett.},
+volume = {51},
+pages = {317},
+year = {2010}
+}
+
+@article {,
+author = {Hashimoto T.},
+author = {Naganawa Y.},
+author = {Maruoka K.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {131},
+pages = {6614},
+year = {2009}
+}
+
+@article {,
+author = {Malik C. K.},
+author = {Ghosh S.},
+title = {},
+journal = {Org. Lett.},
+volume = {9},
+pages = {2537},
+year = {2007}
+}
+
+@article {,
+author = {McGowan C. A.},
+author = {Schmieder A. K.},
+author = {Roberts L.},
+author = {Greaney M. F.},
+title = {},
+journal = {Org. Biomol. Chem.},
+volume = {5},
+pages = {1522},
+year = {2007}
+}
+
+@article {,
+author = {Srikrishna A.},
+author = {Dethe D. H.},
+title = {},
+journal = {Org. Lett.},
+volume = {6},
+pages = {165},
+year = {2004}
+}
+
+@article {,
+author = {Michalak K.},
+author = {Michalak M.},
+author = {Wicha J.},
+title = {},
+journal = {Tetrahedron Lett.},
+volume = {49},
+pages = {6807},
+year = {2008}
+}
+
+@article {,
+author = {Michalak K.},
+author = {Michalak M.},
+author = {Wicha J.},
+title = {},
+journal = {Tetrahedron Lett.},
+volume = {51},
+pages = {4344},
+year = {2010}
+}
+
+@article {,
+author = {Grubbs R. H.},
+author = {Chang S.},
+title = {},
+journal = {Tetrahedron},
+volume = {54},
+pages = {4413},
+year = {1998}
+}
+
+@article {,
+author = {Michalak K.},
+author = {Michalak M.},
+author = {Wicha J.},
+title = {},
+journal = {Molecules},
+volume = {10},
+pages = {1084},
+year = {2005}
+}
+
+@article {,
+author = {Michalak M.},
+author = {Wicha J.},
+title = {},
+journal = {Synlett},
+volume = {},
+pages = {2277},
+year = {2005}
+}
+
+@article {,
+author = {Michalak K.},
+author = {Michalak M.},
+author = {Wicha J.},
+title = {},
+journal = {Tetrahedron Lett.},
+volume = {46},
+pages = {1149},
+year = {2005}
+}
+
+@article {,
+author = {Marczak S.},
+author = {Michalak K.},
+author = {Urbanczyk-Lipkowska Z.},
+author = {Wicha J.},
+title = {},
+journal = {J. Org. Chem.},
+volume = {63},
+pages = {2218},
+year = {1998}
+}
+
+@article {,
+author = {Brown S. P.},
+author = {Goodwin N. C.},
+author = {MacMillan D. W. C.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {125},
+pages = {1192},
+year = {2003}
+}
+
+@article {,
+author = {Bernardi A.},
+author = {Karamfilova K.},
+author = {Sanguinetti S.},
+author = {Scolastico C.},
+title = {},
+journal = {Tetrahedron},
+volume = {53},
+pages = {13009},
+year = {1997}
+}
+
+@article {,
+author = {Gorobets E.},
+author = {Stepanenko V.},
+author = {Wicha J.},
+title = {},
+journal = {Eur. J. Org. Chem.},
+volume = {},
+pages = {783},
+year = {2004}
+}
+
+@article {,
+author = {Tanis S. P.},
+author = {Robinson E. D.},
+author = {McMills M. C.},
+author = {Watt W.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {114},
+pages = {8349},
+year = {1992}
+}
+
+@article {,
+author = {Mehta G.},
+author = {Umarye J. D.},
+author = {Srinivas K.},
+title = {},
+journal = {Tetrahedron Lett.},
+volume = {44},
+pages = {4233},
+year = {2003}
+}
+
+@article {,
+author = {Crews P.},
+title = {},
+journal = {J. Chem. Soc., Chem. Commun.},
+volume = {},
+pages = {583},
+year = {1971}
+}
+
+@article {,
+author = {Pearson A. J.},
+author = {Bansal H. S.},
+title = {},
+journal = {Tetrahedron Lett.},
+volume = {27},
+pages = {287},
+year = {1986}
+}
+
+@article {,
+author = {Booker-Milburn K. I.},
+author = {Thompson D. F.},
+title = {},
+journal = {Tetrahedron},
+volume = {51},
+pages = {12955},
+year = {1995}
+}
+
+@article {,
+author = {Lee P. H.},
+author = {Lee K.},
+author = {Sung S. Y.},
+author = {Chang S.},
+title = {},
+journal = {J. Org. Chem.},
+volume = {66},
+pages = {8646},
+year = {2001}
+}
+
+@article {,
+author = {Lee P. H.},
+author = {Seomoon D.},
+author = {Kim S.},
+author = {Nagaiah K.},
+author = {Damle S. V.},
+author = {Lee K.},
+title = {},
+journal = {Synthesis},
+volume = {},
+pages = {2189},
+year = {2003}
+}
+
+@article {,
+author = {Narasaka K.},
+author = {Soai K.},
+author = {Aikawa Y.},
+author = {Mukaiyama T.},
+title = {},
+journal = {Bull. Chem. Soc. Jpn.},
+volume = {49},
+pages = {779},
+year = {1976}
+}
+
+@article {,
+author = {Michalak K.},
+author = {Wicha J.},
+title = {},
+journal = {Pol. J. Chem.},
+volume = {78},
+pages = {205},
+year = {2004}
+}
+
+@article {,
+author = {Scholl M.},
+author = {Ding S.},
+author = {Lee C. W.},
+author = {Grubbs R. H.},
+title = {},
+journal = {Org. Lett.},
+volume = {1},
+pages = {953},
+year = {1999}
+}
+
+@article {,
+author = {Rama Rao A. R.},
+author = {Bose D. S.},
+author = {Gurjar M. K.},
+author = {Ravindranathan T.},
+title = {},
+journal = {Tetrahedron},
+volume = {45},
+pages = {7031},
+year = {1989}
+}
+
+@article {,
+author = {Dallanoce C.},
+author = {De Amici M.},
+author = {Carrea G.},
+author = {Secundo F.},
+author = {Castellano S.},
+author = {De Micheli C.},
+title = {},
+journal = {Tetrahedron: Asymmetry},
+volume = {11},
+pages = {2741},
+year = {2000}
+}
+
+@article {,
+author = {Garber S. B.},
+author = {Kingsbury J. S.},
+author = {Gray B. L.},
+author = {Hoveyda A. H.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {122},
+pages = {8168},
+year = {2000}
+}
+
+@article {,
+author = {Gessler S.},
+author = {Randl S.},
+author = {Blechert S.},
+title = {},
+journal = {Tetrahedron Lett.},
+volume = {41},
+pages = {9973},
+year = {2000}
+}
+
+@article {,
+author = {Nicolaou K. C.},
+author = {Gray D. L. F.},
+author = {Montagnon T.},
+author = {Harrison S. T.},
+title = {},
+journal = {Angew. Chem., Int. Ed.},
+volume = {41},
+pages = {996},
+year = {2002}
+}
+
+@article {,
+author = {Babler J. H.},
+author = {Coghlan M. J.},
+title = {},
+journal = {Synth. Commun.},
+volume = {6},
+pages = {469},
+year = {1976}
+}
+
+@article {,
+author = {Dauben W. G.},
+author = {Michno D. M.},
+title = {},
+journal = {J. Org. Chem.},
+volume = {42},
+pages = {682},
+year = {1977}
+}
+
+@article {,
+author = {Corey E. J.},
+author = {Suggs J. W.},
+title = {},
+journal = {Tetrahedron Lett.},
+volume = {},
+pages = {2647},
+year = {1975}
+}
+
+@article {,
+author = {Barton D. H. R.},
+author = {Hay Motherwell R. S.},
+author = {Motherwell W. B.},
+title = {},
+journal = {J. Chem. Soc., Perkin Trans. 1},
+volume = {},
+pages = {2363},
+year = {1981}
+}
+
+@article {,
+author = {Wharton P.},
+author = {Bohlen D.},
+title = {},
+journal = {J. Org. Chem.},
+volume = {26},
+pages = {3615},
+year = {1961}
+}
+
+@article {,
+author = {Goto M.},
+author = {Miyoshi I.},
+author = {Ishii Y.},
+author = {Ogasawara Y.},
+author = {Kakimoto Y. I.},
+author = {Nagumo S.},
+author = {Nishida A.},
+author = {Kawahara N.},
+author = {Nishida M.},
+title = {},
+journal = {Tetrahedron},
+volume = {58},
+pages = {2339},
+year = {2002}
+}
+
+@article {,
+author = {Logusch E. W.},
+title = {},
+journal = {Tetrahedron Lett.},
+volume = {20},
+pages = {3365},
+year = {1979}
+}
+
+@article {,
+author = {Oikawa Y.},
+author = {Nishi T.},
+author = {Yonemitsu O.},
+title = {},
+journal = {J. Chem. Soc., Perkin Trans. 1},
+volume = {},
+pages = {7},
+year = {1985}
+}
+
+@article {,
+author = {Barton D. H. R.},
+author = {Stick R. V.},
+author = {Subramanian R.},
+title = {},
+journal = {J. Chem. Soc., Perkin Trans. 1},
+volume = {},
+pages = {2112},
+year = {1976}
+}
+
+@article {,
+author = {Attenburrow J.},
+author = {Cameron A. F. B.},
+author = {Chapman J. H.},
+author = {Evans R. M.},
+author = {Hems B. A.},
+author = {Jansen A. B. A.},
+author = {Walker T.},
+title = {},
+journal = {J. Chem. Soc.},
+volume = {},
+pages = {1094},
+year = {1952}
+}
+
+@article {,
+author = {Dess D. B.},
+author = {Martin J. C.},
+title = {},
+journal = {J. Org. Chem.},
+volume = {48},
+pages = {4155},
+year = {1983}
+}
+
+@article {,
+author = {Dess D. B.},
+author = {Martin J. C.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {113},
+pages = {7277},
+year = {1991}
+}
+
+@article {,
+author = {Dudley G. B.},
+author = {Tan D. S.},
+author = {Kim G.},
+author = {Tanski J. M.},
+author = {Danishefsky S. J.},
+title = {},
+journal = {Tetrahedron Lett.},
+volume = {42},
+pages = {6789},
+year = {2001}
+}
+
+@article {,
+author = {Corey E. J.},
+author = {Boaz N. W.},
+title = {},
+journal = {Tetrahedron Lett.},
+volume = {26},
+pages = {6019},
+year = {1985}
+}
+
+@article {,
+author = {Nakamura E.},
+author = {Kuwajima I.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {106},
+pages = {3368},
+year = {1984}
+}
+
+@article {,
+author = {Frantz D. E.},
+author = {Singleton D. A.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {122},
+pages = {3288},
+year = {2000}
+}
+
+@article {,
+author = {Stork G.},
+author = {Hudrlik P. F.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {90},
+pages = {4464},
+year = {1968}
+}
+
+@article {,
+author = {Hiroi K.},
+author = {Yamada S. I.},
+title = {},
+journal = {Chem. Pharm. Bull. Jpn.},
+volume = {21},
+pages = {54},
+year = {1973}
+}
+
+@article {,
+author = {Sharpless K. B.},
+author = {Lauer R. F.},
+author = {Teranishi A. Y.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {95},
+pages = {6137},
+year = {1973}
+}
+
+@article {,
+author = {Reich H. J.},
+author = {Renga J. M.},
+author = {Reich I. L.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {97},
+pages = {5434},
+year = {1975}
+}
+
+@article {,
+author = {Ryu I.},
+author = {Murai S.},
+author = {Niwa I.},
+author = {Sonda N.},
+title = {},
+journal = {Synthesis},
+volume = {},
+pages = {874},
+year = {1977}
+}
+
+@article {,
+author = {Wang H.},
+author = {Michalak K.},
+author = {Michalak M.},
+author = {Jime?nez-Ose?s G.},
+author = {Wicha J.},
+author = {Houk K. N.},
+title = {},
+journal = {J. Org. Chem.},
+volume = {75},
+pages = {762},
+year = {2010}
+}
+
+@article {,
+author = {Luche J.-L.},
+author = {Rodriguez-Hahn L.},
+author = {Crabbe P.},
+title = {},
+journal = {Chem. Commun.},
+volume = {},
+pages = {601},
+year = {1978}
+}
+
+@article {,
+author = {Ley S. V.},
+author = {Norman J.},
+author = {Griffith W. P.},
+author = {Marsden S. P.},
+title = {},
+journal = {Synthesis},
+volume = {},
+pages = {639},
+year = {1994}
+}
+
+@article {,
+author = {Rathke M. W.},
+author = {Lindert A.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {93},
+pages = {2318},
+year = {1971}
+}
+
+@article {,
+author = {Rathke M. W.},
+author = {Sullivan D. F.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {95},
+pages = {3050},
+year = {1973}
+}
+
+@article {,
+author = {De Mico A.},
+author = {Margarita R.},
+author = {Parlanti L.},
+author = {Vescovi A.},
+author = {Piancatelli G.},
+title = {},
+journal = {J. Org. Chem.},
+volume = {62},
+pages = {6974},
+year = {1997}
+}
+
+@article {,
+author = {Brase S.},
+author = {Encinas A.},
+author = {Keck J.},
+author = {Nising C. F.},
+title = {},
+journal = {Chem. Rev.},
+volume = {109},
+pages = {3903},
+year = {2009}
+}
+
+@article {,
+author = {Yet L.},
+title = {},
+journal = {Chem. Rev.},
+volume = {100},
+pages = {2963},
+year = {2000}
+}
+
+@article {,
+author = {Petasis N. A.},
+author = {Patane M. A.},
+title = {},
+journal = {Tetrahedron},
+volume = {48},
+pages = {5757},
+year = {1992}
+}
+
+@article {,
+author = {Maifeld S. V.},
+author = {Lee D.},
+title = {},
+journal = {Synlett},
+volume = {},
+pages = {1623},
+year = {2006}
+}
+
+@article {,
+author = {Hiersemann M.},
+author = {Helmboldt H.},
+title = {},
+journal = {Top. Curr. Chem.},
+volume = {243},
+pages = {73},
+year = {2004}
+}
+
+@article {,
+author = {Brady S. F.},
+author = {Singh M. P.},
+author = {Janso J. E.},
+author = {Clardy S.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {122},
+pages = {2116},
+year = {2000}
+}
+
+@article {,
+author = {Brady S. F.},
+author = {Bondi S. M.},
+author = {Clardy J.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {123},
+pages = {9900},
+year = {2001}
+}
+
+@article {,
+title = {},
+journal = {J. Org. Chem.},
+volume = {75},
+pages = {8337},
+year = {2010}
+}
+
+@article {,
+author = {Valdivia C.},
+author = {Kettering M.},
+author = {Anke H.},
+author = {Thines E.},
+author = {Sterner O.},
+title = {},
+journal = {Tetrahedron},
+volume = {61},
+pages = {9527},
+year = {2005}
+}
+
+@article {,
+author = {Singh M. P.},
+author = {Janso J. E.},
+author = {Luckman S. W.},
+author = {Brady S. F.},
+author = {Clardy J.},
+author = {Greenstein M.},
+author = {Maiese W. M.},
+title = {},
+journal = {J. Antibiot.},
+volume = {53},
+pages = {256},
+year = {2000}
+}
+
+@article {,
+author = {Kettering M.},
+author = {Valdivia C.},
+author = {Sterner O.},
+author = {Anke H.},
+author = {Thines E.},
+title = {},
+journal = {J. Antibiot.},
+volume = {58},
+pages = {390},
+year = {2005}
+}
+
+@article {,
+author = {Tan D. S.},
+author = {Dudley G. B.},
+author = {Danishefsky S.},
+title = {},
+journal = {J. Angew. Chem., Int. Ed.},
+volume = {41},
+pages = {2185},
+year = {2002}
+}
+
+@article {,
+author = {Lin S. N.},
+author = {Dudley G. B.},
+author = {Tan D. S.},
+author = {Danishefsky S.},
+title = {},
+journal = {J. Angew. Chem., Int. Ed.},
+volume = {41},
+pages = {2188},
+year = {2002}
+}
+
+@article {,
+author = {Mandal M.},
+author = {Yun H. D.},
+author = {Dudley G. B.},
+author = {Lin S. N.},
+author = {Tan D. S.},
+author = {Danishefsky S. J.},
+title = {},
+journal = {J. Org. Chem.},
+volume = {70},
+pages = {10619},
+year = {2005}
+}
+
+@article {,
+author = {Shipe W. D.},
+author = {Sorensen E. J.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {128},
+pages = {7025},
+year = {2006}
+}
+
+@article {,
+author = {Boyer F. D.},
+author = {Hanna I.},
+title = {},
+journal = {Tetrahedron Lett.},
+volume = {43},
+pages = {7469},
+year = {2002}
+}
+
+@article {,
+author = {Shi B.},
+author = {Hawryluk N. A.},
+author = {Snider B. B.},
+title = {},
+journal = {J. Org. Chem.},
+volume = {68},
+pages = {1030},
+year = {2003}
+}
+
+@article {,
+author = {Mehta G.},
+author = {Pallavi K.},
+author = {Umarye J. D.},
+title = {},
+journal = {J. Chem. Soc., Chem. Commun.},
+volume = {},
+pages = {4456},
+year = {2005}
+}
+
+@article {,
+author = {Iimura S.},
+author = {Overman L. E.},
+author = {Paulini R.},
+author = {Zakarian A.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {128},
+pages = {13095},
+year = {2006}
+}
+
+@article {,
+author = {Miller A. K.},
+author = {Hughes C. C.},
+author = {Kennedy-Smith J. J.},
+author = {Gradl S. N.},
+author = {Trauner D.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {128},
+pages = {17057},
+year = {2006}
+}
+
+@article {,
+author = {Recent },
+author = {Tong X. F.},
+title = {},
+journal = {Tetrahedron Lett.},
+volume = {51},
+pages = {317},
+year = {2010}
+}
+
+@article {,
+author = {Hashimoto T.},
+author = {Naganawa Y.},
+author = {Maruoka K.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {131},
+pages = {6614},
+year = {2009}
+}
+
+@article {,
+author = {Malik C. K.},
+author = {Ghosh S.},
+title = {},
+journal = {Org. Lett.},
+volume = {9},
+pages = {2537},
+year = {2007}
+}
+
+@article {,
+author = {McGowan C. A.},
+author = {Schmieder A. K.},
+author = {Roberts L.},
+author = {Greaney M. F.},
+title = {},
+journal = {Org. Biomol. Chem.},
+volume = {5},
+pages = {1522},
+year = {2007}
+}
+
+@article {,
+author = {Srikrishna A.},
+author = {Dethe D. H.},
+title = {},
+journal = {Org. Lett.},
+volume = {6},
+pages = {165},
+year = {2004}
+}
+
+@article {,
+author = {Michalak K.},
+author = {Michalak M.},
+author = {Wicha J.},
+title = {},
+journal = {Tetrahedron Lett.},
+volume = {49},
+pages = {6807},
+year = {2008}
+}
+
+@article {,
+author = {Michalak K.},
+author = {Michalak M.},
+author = {Wicha J.},
+title = {},
+journal = {Tetrahedron Lett.},
+volume = {51},
+pages = {4344},
+year = {2010}
+}
+
+@article {,
+author = {Grubbs R. H.},
+author = {Chang S.},
+title = {},
+journal = {Tetrahedron},
+volume = {54},
+pages = {4413},
+year = {1998}
+}
+
+@article {,
+author = {Michalak K.},
+author = {Michalak M.},
+author = {Wicha J.},
+title = {},
+journal = {Tetrahedron Lett.},
+volume = {46},
+pages = {1149},
+year = {2005}
+}
+
+@article {,
+author = {Marczak S.},
+author = {Michalak K.},
+author = {Urbanczyk-Lipkowska Z.},
+author = {Wicha J.},
+title = {},
+journal = {J. Org. Chem.},
+volume = {63},
+pages = {2218},
+year = {1998}
+}
+
+@article {,
+author = {Brown S. P.},
+author = {Goodwin N. C.},
+author = {MacMillan D. W. C.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {125},
+pages = {1192},
+year = {2003}
+}
+
+@article {,
+author = {Bernardi A.},
+author = {Karamfilova K.},
+author = {Sanguinetti S.},
+author = {Scolastico C.},
+title = {},
+journal = {Tetrahedron},
+volume = {53},
+pages = {13009},
+year = {1997}
+}
+
+@article {,
+author = {Gorobets E.},
+author = {Stepanenko V.},
+author = {Wicha J.},
+title = {},
+journal = {Eur. J. Org. Chem.},
+volume = {},
+pages = {783},
+year = {2004}
+}
+
+@article {,
+author = {Tanis S. P.},
+author = {Robinson E. D.},
+author = {McMills M. C.},
+author = {Watt W.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {114},
+pages = {8349},
+year = {1992}
+}
+
+@article {,
+author = {Mehta G.},
+author = {Umarye J. D.},
+author = {Srinivas K.},
+title = {},
+journal = {Tetrahedron Lett.},
+volume = {44},
+pages = {4233},
+year = {2003}
+}
+
+@article {,
+author = {Crews P.},
+title = {},
+journal = {J. Chem. Soc., Chem. Commun.},
+volume = {},
+pages = {583},
+year = {1971}
+}
+
+@article {,
+author = {Pearson A. J.},
+author = {Bansal H. S.},
+title = {},
+journal = {Tetrahedron Lett.},
+volume = {27},
+pages = {287},
+year = {1986}
+}
+
+@article {,
+author = {Booker-Milburn K. I.},
+author = {Thompson D. F.},
+title = {},
+journal = {Tetrahedron},
+volume = {51},
+pages = {12955},
+year = {1995}
+}
+
+@article {,
+author = {Lee P. H.},
+author = {Lee K.},
+author = {Sung S. Y.},
+author = {Chang S.},
+title = {},
+journal = {J. Org. Chem.},
+volume = {66},
+pages = {8646},
+year = {2001}
+}
+
+@article {,
+author = {Narasaka K.},
+author = {Soai K.},
+author = {Aikawa Y.},
+author = {Mukaiyama T.},
+title = {},
+journal = {Bull. Chem. Soc. Jpn.},
+volume = {49},
+pages = {779},
+year = {1976}
+}
+
+@article {,
+author = {Michalak K.},
+author = {Wicha J.},
+title = {},
+journal = {Pol. J. Chem.},
+volume = {78},
+pages = {205},
+year = {2004}
+}
+
+@article {,
+author = {Scholl M.},
+author = {Ding S.},
+author = {Lee C. W.},
+author = {Grubbs R. H.},
+title = {},
+journal = {Org. Lett.},
+volume = {1},
+pages = {953},
+year = {1999}
+}
+
+@article {,
+author = {Rama Rao A. R.},
+author = {Bose D. S.},
+author = {Gurjar M. K.},
+author = {Ravindranathan T.},
+title = {},
+journal = {Tetrahedron},
+volume = {45},
+pages = {7031},
+year = {1989}
+}
+
+@article {,
+author = {Dallanoce C.},
+author = {De Amici M.},
+author = {Carrea G.},
+author = {Secundo F.},
+author = {Castellano S.},
+author = {De Micheli C.},
+title = {},
+journal = {Tetrahedron: Asymmetry},
+volume = {11},
+pages = {2741},
+year = {2000}
+}
+
+@article {,
+author = {Garber S. B.},
+author = {Kingsbury J. S.},
+author = {Gray B. L.},
+author = {Hoveyda A. H.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {122},
+pages = {8168},
+year = {2000}
+}
+
+@article {,
+author = {Nicolaou K. C.},
+author = {Gray D. L. F.},
+author = {Montagnon T.},
+author = {Harrison S. T.},
+title = {},
+journal = {Angew. Chem., Int. Ed.},
+volume = {41},
+pages = {996},
+year = {2002}
+}
+
+@article {,
+author = {Babler J. H.},
+author = {Coghlan M.},
+title = {},
+journal = {J. Synth. Commun.},
+volume = {6},
+pages = {469},
+year = {1976}
+}
+
+@article {,
+author = {Barton D. H. R.},
+author = {Hay Motherwell R. S.},
+author = {Motherwell W. B.},
+title = {},
+journal = {J. Chem. Soc., Perkin Trans. 1},
+volume = {},
+pages = {2363},
+year = {1981}
+}
+
+@article {,
+author = {Goto M.},
+author = {Miyoshi I.},
+author = {Ishii Y.},
+author = {Ogasawara Y.},
+author = {Kakimoto Y. I.},
+author = {Nagumo S.},
+author = {Nishida A.},
+author = {Kawahara N.},
+author = {Nishida M.},
+title = {},
+journal = {Tetrahedron},
+volume = {58},
+pages = {2339},
+year = {2002}
+}
+
+@article {,
+author = {Logusch E. W.},
+title = {},
+journal = {Tetrahedron Lett.},
+volume = {20},
+pages = {3365},
+year = {1979}
+}
+
+@article {,
+author = {Barton D. H. R.},
+author = {Stick R. V.},
+author = {Subramanian R.},
+title = {},
+journal = {J. Chem. Soc., Perkin Trans. 1},
+volume = {},
+pages = {2112},
+year = {1976}
+}
+
+@article {,
+author = {Attenburrow J.},
+author = {Cameron A. F. B.},
+author = {Chapman J. H.},
+author = {Evans R. M.},
+author = {Hems B. A.},
+author = {Jansen A. B. A.},
+author = {Walker T.},
+title = {},
+journal = {J. Chem. Soc.},
+volume = {},
+pages = {1094},
+year = {1952}
+}
+
+@article {,
+author = {Dess D. B.},
+author = {Martin J. C.},
+title = {},
+journal = {J. Org. Chem.},
+volume = {48},
+pages = {4155},
+year = {1983}
+}
+
+@article {,
+author = {Dudley G. B.},
+author = {Tan D. S.},
+author = {Kim G.},
+author = {Tanski J. M.},
+author = {Danishefsky S.},
+title = {},
+journal = {J. Tetrahedron Lett.},
+volume = {42},
+pages = {6789},
+year = {2001}
+}
+
+@article {,
+author = {Corey E. J.},
+author = {Boaz N. W.},
+title = {},
+journal = {Tetrahedron Lett.},
+volume = {26},
+pages = {6019},
+year = {1985}
+}
+
+@article {,
+author = {Stork G.},
+author = {Hudrlik P. F.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {90},
+pages = {4464},
+year = {1968}
+}
+
+@article {,
+author = {Hiroi K.},
+author = {Yamada S. I.},
+title = {},
+journal = {Chem. Pharm. Bull. Jpn.},
+volume = {21},
+pages = {54},
+year = {1973}
+}
+
+@article {,
+author = {Sharpless K. B.},
+author = {Lauer R. F.},
+author = {Teranishi A. Y.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {95},
+pages = {6137},
+year = {1973}
+}
+
+@article {,
+author = {Wang H.},
+author = {Michalak K.},
+author = {Michalak M.},
+author = {Jimenez-Oses G.},
+author = {Wicha J.},
+author = {Houk K. N.},
+title = {},
+journal = {J. Org. Chem.},
+volume = {75},
+pages = {762},
+year = {2010}
+}
+
+@article {,
+author = {Luche J.-L.},
+author = {Rodriguez-Hahn L.},
+author = {Crabbe P.},
+title = {},
+journal = {Chem. Commun.},
+volume = {},
+pages = {601},
+year = {1978}
+}
+
+@article {,
+author = {Ley S. V.},
+author = {Norman J.},
+author = {Griffith W. P.},
+author = {Marsden S. P.},
+title = {},
+journal = {Synthesis},
+volume = {},
+pages = {639},
+year = {1994}
+}
+
+@article {,
+author = {Rathke M. W.},
+author = {Lindert A.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {93},
+pages = {2318},
+year = {1971}
+}
+
+@article {,
+author = {De Mico A.},
+author = {Margarita R.},
+author = {Parlanti L.},
+author = {Vescovi A.},
+author = {Piancatelli G.},
+title = {},
+journal = {J. Org. Chem.},
+volume = {62},
+pages = {6974},
+year = {1997}
+}
+

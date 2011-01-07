@@ -1,0 +1,5 @@
+add ActaArticleCrawlerTest for http://dx.doi.org/10.1107/S0909049510028451  (video resources)
+
+http://scripts.iucr.org/cgi-bin/sendsup?cnor=sn5079&type=powderdata
+http://scripts.iucr.org/cgi-bin/sendsup?cnor=bp5023&type=structurefactors
+http://scripts.iucr.org/cgi-bin/sendsup?cnor=bp5023&type=video

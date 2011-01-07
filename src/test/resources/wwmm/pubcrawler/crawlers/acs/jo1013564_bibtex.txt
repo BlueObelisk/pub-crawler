@@ -1,0 +1,15 @@
+
+
+@article{doi:10.1021/jo101758t,
+author = {Michalak, Karol and Michalak, Micha? and Wicha, Jerzy},
+title = {Construction of the Tricyclic 5?7?6 Scaffold of Fungi-Derived Diterpenoids. Total Synthesis of (±)-Heptemerone G and an Approach to Danishefsky’s Intermediate for Guanacastepene A Synthesis},
+journal = {The Journal of Organic Chemistry},
+volume = {75},
+number = {24},
+pages = {8337-8350},
+year = {2010},
+doi = {10.1021/jo101758t},
+URL = {http://pubs.acs.org/doi/abs/10.1021/jo101758t},
+eprint = {http://pubs.acs.org/doi/pdf/10.1021/jo101758t}
+}
+

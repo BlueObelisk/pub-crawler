@@ -1,0 +1,2883 @@
+
+
+@article{doi:10.1021/cg100078b,
+author = {Lama, Prem and Aijaz, Arshad and Neogi, Subhadip and Barbour, Leonard J. and Bharadwaj, Parimal K.},
+title = {Microporous La(III) Metal?Organic Framework Using a Semirigid Tricarboxylic Ligand: Synthesis, Single-Crystal to Single-Crystal Sorption Properties, and Gas Adsorption Studies},
+journal = {Crystal Growth & Design},
+volume = {10},
+number = {8},
+pages = {3410-3417},
+year = {2010},
+doi = {10.1021/cg100078b},
+URL = {http://pubs.acs.org/doi/abs/10.1021/cg100078b},
+eprint = {http://pubs.acs.org/doi/pdf/10.1021/cg100078b}
+}
+
+@article {,
+author = {Perry J. J.},
+author = {Perman J. A.},
+author = {Zaworotko M. J.},
+title = {},
+journal = {Chem. Soc. Rev.},
+volume = {38},
+pages = {1400},
+year = {2009}
+}
+
+@article {,
+author = {Li Q.},
+author = {Zhang W.},
+author = {Miljanic O. S.},
+author = {Sue C.-H.},
+author = {Zhao Y.-L.},
+author = {Liu L.},
+author = {Knobler C. B.},
+author = {Stoddart J. F.},
+author = {Yaghi O. M.},
+title = {},
+journal = {Science},
+volume = {325},
+pages = {855},
+year = {2009}
+}
+
+@article {,
+author = {Aijaz A.},
+author = {Barea E.},
+author = {Bharadwaj P. K.},
+title = {},
+journal = {Cryst. Growth Des.},
+volume = {9},
+pages = {4480},
+year = {2009}
+}
+
+@article {,
+author = {Das M. C.},
+author = {Bharadwaj P. K.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {131},
+pages = {10942},
+year = {2009}
+}
+
+@article {,
+author = {Murray L. J.},
+author = {Dinca M.},
+author = {Long J. R.},
+title = {},
+journal = {Chem. Soc. Rev.},
+volume = {38},
+pages = {1294},
+year = {2009}
+}
+
+@article {,
+author = {Ma L.},
+author = {Abney C.},
+author = {Lin W.},
+title = {},
+journal = {Chem. Soc. Rev.},
+volume = {38},
+pages = {1248},
+year = {2009}
+}
+
+@article {,
+author = {Mu B.},
+author = {Li F.},
+author = {Walton K. S.},
+title = {},
+journal = {Chem. Commun.},
+volume = {},
+pages = {2493},
+year = {2009}
+}
+
+@article {,
+author = {Finsy V.},
+author = {Kirschhock C. E. A.},
+author = {Vedts G.},
+author = {Maes M.},
+author = {Alaerts L.},
+author = {De Vos D. E.},
+author = {Baron G. V.},
+author = {Denayer J. F. M.},
+title = {},
+journal = {Chem.—Eur. J.},
+volume = {15},
+pages = {7724},
+year = {2009}
+}
+
+@article {,
+author = {Farrusseng D.},
+author = {Aguado S.},
+author = {Pinel C.},
+title = {},
+journal = {Angew. Chem., Int. Ed.},
+volume = {48},
+pages = {7502},
+year = {2009}
+}
+
+@article {,
+author = {Tonigold M.},
+author = {Lu Y.},
+author = {Bredenko?tter B.},
+author = {Rieger B.},
+author = {Bahnmu?ller S.},
+author = {Hitzbleck J.},
+author = {Langstein G.},
+author = {Volkmer D.},
+title = {},
+journal = {Angew. Chem., Int. Ed.},
+volume = {48},
+pages = {7546},
+year = {2009}
+}
+
+@article {,
+author = {Lee J. Y.},
+author = {Farha O. K.},
+author = {Roberts J.},
+author = {Scheidt K. A.},
+author = {Nguyen S. B. T.},
+author = {Hupp J. T.},
+title = {},
+journal = {Chem. Soc. Rev.},
+volume = {38},
+pages = {1450},
+year = {2009}
+}
+
+@article {,
+author = {Cui X.},
+author = {Khlobystov A. N.},
+author = {Chen X.},
+author = {Marsh D. H.},
+author = {Blake A. J.},
+author = {Lewis W.},
+author = {Champness N. R.},
+author = {Roberts C. J.},
+author = {Schroeder M.},
+title = {},
+journal = {Chem.—Eur. J.},
+volume = {15},
+pages = {8861},
+year = {2009}
+}
+
+@article {,
+author = {Li J.-R.},
+author = {Kuppler R. J.},
+author = {Zhou H.-C.},
+title = {},
+journal = {Chem. Soc. Rev.},
+volume = {38},
+pages = {1477},
+year = {2009}
+}
+
+@article {,
+author = {Rajput L.},
+author = {Biradha K.},
+title = {},
+journal = {Cryst. Growth Des.},
+volume = {9},
+pages = {40},
+year = {2009}
+}
+
+@article {,
+author = {Chen B.},
+author = {Wang L.},
+author = {Zapata F.},
+author = {Qian G.},
+author = {Lobkovsky E. B.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {130},
+pages = {6718},
+year = {2008}
+}
+
+@article {,
+author = {Chen B.},
+author = {Zhao X.},
+author = {Putkham A.},
+author = {Hong K.},
+author = {Lobkovsky E. B.},
+author = {Hurtado E. J.},
+author = {Fletcher A. J.},
+author = {Thomas K. M.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {130},
+pages = {6411},
+year = {2008}
+}
+
+@article {,
+author = {Allendorf M. D.},
+author = {Houk R. J. T.},
+author = {Andruszkiewicz L.},
+author = {Talin A. A.},
+author = {Pikarsky J.},
+author = {Choudhury A.},
+author = {Gall K. A.},
+author = {Hesketh P. J.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {130},
+pages = {14404},
+year = {2008}
+}
+
+@article {,
+author = {Navarro J. A. R.},
+author = {Barea E.},
+author = {Rodriguez-Dieguez A.},
+author = {Salas J. M.},
+author = {Ania C. O.},
+author = {Parra J. B.},
+author = {Masciocchi N.},
+author = {Galli S.},
+author = {Sironi A.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {130},
+pages = {3978},
+year = {2008}
+}
+
+@article {,
+author = {Zhang L.},
+author = {Qin Y.-Y.},
+author = {Li Z.-J.},
+author = {Lin Q.-P.},
+author = {Cheng J.-K.},
+author = {Zhang J.},
+author = {Yao Y.-G.},
+title = {},
+journal = {Inorg. Chem.},
+volume = {47},
+pages = {8286},
+year = {2008}
+}
+
+@article {,
+author = {Banerjee R.},
+author = {Phan A.},
+author = {Wang B.},
+author = {Knobler C.},
+author = {Furukawa H.},
+author = {O’Keeffe M.},
+author = {Yaghi O. M.},
+title = {},
+journal = {Science},
+volume = {319},
+pages = {939},
+year = {2008}
+}
+
+@article {,
+author = {Wang P.},
+author = {Ma J.-P.},
+author = {Dong Y.-B.},
+author = {Huang R.-Q.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {129},
+pages = {10620},
+year = {2007}
+}
+
+@article {,
+author = {Atwood J. L.},
+author = {Barbour L. J.},
+author = {Jerga A.},
+title = {},
+journal = {Angew. Chem., Int. Ed.},
+volume = {43},
+pages = {2948},
+year = {2004}
+}
+
+@article {,
+author = {Choi E.-Y.},
+author = {Park K.},
+author = {Yang C.-M.},
+author = {Kim H.},
+author = {Son J.-H.},
+author = {Lee S. W.},
+author = {Lee Y. H.},
+author = {Min D.},
+author = {Kwon Y.-U.},
+title = {},
+journal = {Chem.—Eur. J.},
+volume = {10},
+pages = {5535},
+year = {2004}
+}
+
+@article {,
+author = {Han L.},
+author = {Hong M.},
+author = {Wang R.},
+author = {Luo J.},
+author = {Lin Z.},
+author = {Yuan D.},
+title = {},
+journal = {Chem. Commun.},
+volume = {},
+pages = {2580},
+year = {2003}
+}
+
+@article {,
+author = {Fletcher A. J.},
+author = {Cussen E. J.},
+author = {Prior T. J.},
+author = {Rosseinsky M. J.},
+author = {Kepert C. J.},
+author = {Thomas K. M.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {123},
+pages = {10001},
+year = {2001}
+}
+
+@article {,
+author = {Janiak C.},
+title = {},
+journal = {Angew. Chem., Int. Ed.},
+volume = {36},
+pages = {1431},
+year = {1997}
+}
+
+@article {,
+author = {Koh K.},
+author = {Wong-Foy A. G.},
+author = {Matzger A. J.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {131},
+pages = {4184},
+year = {2009}
+}
+
+@article {,
+author = {Ma L.},
+author = {Lin W.},
+title = {},
+journal = {Angew. Chem., Int. Ed.},
+volume = {48},
+pages = {3637},
+year = {2009}
+}
+
+@article {,
+author = {Li J.-R.},
+author = {Timmons D. J.},
+author = {Zhou H.-C.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {131},
+pages = {6368},
+year = {2009}
+}
+
+@article {,
+author = {Jones S. C.},
+author = {Bauer C. A.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {131},
+pages = {12516},
+year = {2009}
+}
+
+@article {,
+author = {Wu S.},
+author = {Ma L.},
+author = {Long L.-S.},
+author = {Zheng L.-S.},
+author = {Lin W.},
+title = {},
+journal = {Inorg. Chem.},
+volume = {48},
+pages = {2436},
+year = {2009}
+}
+
+@article {,
+author = {Das S.},
+author = {Kim H.},
+author = {Kim K.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {131},
+pages = {3814},
+year = {2009}
+}
+
+@article {,
+author = {Mahata P.},
+author = {Ramya K. V.},
+author = {Natarajan S.},
+title = {},
+journal = {Inorg. Chem.},
+volume = {48},
+pages = {4942},
+year = {2009}
+}
+
+@article {,
+author = {Chun H.},
+author = {Jung H.},
+author = {Seo J.},
+title = {},
+journal = {Inorg. Chem.},
+volume = {48},
+pages = {2043},
+year = {2009}
+}
+
+@article {,
+author = {Gadzikwa T.},
+author = {Farha O. K.},
+author = {Malliakas C. D.},
+author = {Kanatzidis M. G.},
+author = {Hupp J. T.},
+author = {Nguyen S. T.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {131},
+pages = {13613},
+year = {2009}
+}
+
+@article {,
+author = {Lin X.},
+author = {Telepeni I.},
+author = {Blake A. J.},
+author = {Dailly A.},
+author = {Brown C. M.},
+author = {Simmons J. M.},
+author = {Zoppi M.},
+author = {Walker G. S.},
+author = {Thomas K. M.},
+author = {Mays T. J.},
+author = {Hubberstey P.},
+author = {Champness N. R.},
+author = {Schroder M.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {131},
+pages = {2159},
+year = {2009}
+}
+
+@article {,
+author = {Mulfort K. L.},
+author = {Farha O. K.},
+author = {Stern C. L.},
+author = {Sarjeant A. A.},
+author = {Hupp J. T.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {131},
+pages = {3866},
+year = {2009}
+}
+
+@article {,
+author = {Yang S.},
+author = {Lin X.},
+author = {Dailly A.},
+author = {Blake A. J.},
+author = {Hubberstey P.},
+author = {Champness N. R.},
+author = {Schroder M.},
+title = {},
+journal = {Chem.—Eur. J.},
+volume = {15},
+pages = {4829},
+year = {2009}
+}
+
+@article {,
+author = {Farha O. K.},
+author = {Mulfort K. L.},
+author = {Hupp J. T.},
+title = {},
+journal = {Inorg. Chem.},
+volume = {47},
+pages = {10223},
+year = {2008}
+}
+
+@article {,
+author = {Ma L.},
+author = {Lee J. Y.},
+author = {Li J.},
+author = {Lin W.},
+title = {},
+journal = {Inorg. Chem.},
+volume = {47},
+pages = {3955},
+year = {2008}
+}
+
+@article {,
+author = {Gu J.-Z.},
+author = {Lu W.-G.},
+author = {Jiang L.},
+author = {Zhou H.-C.},
+author = {Lu T.-B.},
+title = {},
+journal = {Inorg. Chem.},
+volume = {46},
+pages = {5835},
+year = {2007}
+}
+
+@article {,
+author = {Hu S.},
+author = {Zhang J.-P.},
+author = {Li H.-X.},
+author = {Tong M.-L.},
+author = {Chen X.-M.},
+author = {Kitagawa S.},
+title = {},
+journal = {Cryst. Growth Des.},
+volume = {7},
+pages = {2286},
+year = {2007}
+}
+
+@article {,
+author = {Rosi N. L.},
+author = {Kim J.},
+author = {Eddaoudi M.},
+author = {Chen B.},
+author = {O’Keeffe M.},
+author = {Yaghi O. M.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {127},
+pages = {1504},
+year = {2005}
+}
+
+@article {,
+author = {Chae H. K.},
+author = {Siberio-Perez D. Y.},
+author = {Kim J.},
+author = {Go Y. B.},
+author = {Eddaoudi M.},
+author = {Matzger A. J.},
+author = {O’Keeffe M.},
+author = {Yaghi O. M.},
+title = {},
+journal = {Nature},
+volume = {427},
+pages = {523},
+year = {2004}
+}
+
+@article {,
+author = {Eddaoudi M.},
+author = {Li H.},
+author = {Yaghi O. M.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {122},
+pages = {1391},
+year = {2000}
+}
+
+@article {,
+author = {Hong S.},
+author = {Oh M.},
+author = {Park M.},
+author = {Yoon J. W.},
+author = {Chang J.-S.},
+author = {Lah M. S.},
+title = {},
+journal = {Chem. Commun.},
+volume = {},
+pages = {5397},
+year = {2009}
+}
+
+@article {,
+author = {Ren P.},
+author = {Shi W.},
+author = {Cheng P.},
+title = {},
+journal = {Cryst. Growth Des.},
+volume = {8},
+pages = {1097},
+year = {2008}
+}
+
+@article {,
+author = {Zou R.-Q.},
+author = {Zhong R.-Q.},
+author = {Du M.o},
+author = {Kiyobayashi T.},
+author = {Xu Q.},
+title = {},
+journal = {Chem. Commun.},
+volume = {},
+pages = {2467},
+year = {2007}
+}
+
+@article {,
+author = {Li H.-L.},
+author = {Eddaoudi M.},
+author = {O’Keefe M.},
+author = {Yaghi O. M.},
+title = {},
+journal = {Nature},
+volume = {402},
+pages = {276},
+year = {1999}
+}
+
+@article {,
+author = {Nelson A. P.},
+author = {Parrish D. A.},
+author = {Cambrea L. R.},
+author = {Baldwin L. C.},
+author = {Trivedi N. J.},
+author = {Mulfort K. L.},
+author = {Farha O. K.},
+author = {Hupp J. T.},
+title = {},
+journal = {Cryst. Growth Des.},
+volume = {9},
+pages = {4588},
+year = {2009}
+}
+
+@article {,
+author = {Gurunatha K. L.},
+author = {Mohapatra S.},
+author = {Suchetan P. A.},
+author = {Maji T. K.},
+title = {},
+journal = {Cryst. Growth Des.},
+volume = {9},
+pages = {3844},
+year = {2009}
+}
+
+@article {,
+author = {Suh M. P.},
+author = {Cheon Y. E.},
+author = {Lee E. Y.},
+title = {},
+journal = {Chem.—Eur. J.},
+volume = {13},
+pages = {4208},
+year = {2007}
+}
+
+@article {,
+author = {Dobrzan’ska L.},
+author = {Lloyd G. O.},
+author = {Esterhuysen C.},
+author = {Barbour L. J.},
+title = {},
+journal = {Angew. Chem., Int. Ed.},
+volume = {45},
+pages = {5856},
+year = {2006}
+}
+
+@article {,
+author = {Nagarathinam M.},
+author = {Vittal J. J.},
+title = {},
+journal = {Angew. Chem., Int. Ed.},
+volume = {45},
+pages = {4337},
+year = {2006}
+}
+
+@article {,
+author = {Kitagawa S.},
+author = {Uemura K.},
+title = {},
+journal = {Chem. Soc. Rev.},
+volume = {34},
+pages = {109},
+year = {2005}
+}
+
+@article {,
+author = {Chu Q.},
+author = {Swenson D. C.},
+author = {MacGillivray L. R.},
+title = {},
+journal = {Angew. Chem., Int. Ed.},
+volume = {44},
+pages = {3569},
+year = {2005}
+}
+
+@article {,
+author = {Wu C.-D.},
+author = {Lin W.},
+title = {},
+journal = {Angew. Chem., Int. Ed.},
+volume = {44},
+pages = {1958},
+year = {2005}
+}
+
+@article {,
+author = {Halder G. J.},
+author = {Keppert C. J.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {127},
+pages = {7891},
+year = {2005}
+}
+
+@article {,
+author = {Kitagawa S.},
+author = {Kitaura R.},
+author = {Noro S.},
+title = {},
+journal = {Angew. Chem., Int. Ed.},
+volume = {43},
+pages = {2234},
+year = {2004}
+}
+
+@article {,
+author = {Hanson K.},
+author = {Calin N.},
+author = {Bugaris D.},
+author = {Scancella M.},
+author = {Sevov S. C.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {126},
+pages = {10502},
+year = {2004}
+}
+
+@article {,
+author = {Gao X.},
+author = {Friscic T.},
+author = {MacGillivray L. R.},
+title = {},
+journal = {Angew. Chem., Int. Ed.},
+volume = {43},
+pages = {232},
+year = {2004}
+}
+
+@article {,
+author = {Biradha K.},
+author = {Fujita M.},
+title = {},
+journal = {Angew. Chem., Int. Ed.},
+volume = {41},
+pages = {3392},
+year = {2002}
+}
+
+@article {,
+author = {Biradha K.},
+author = {Hongo Y.},
+author = {Fujita M.},
+title = {},
+journal = {Angew. Chem., Int. Ed.},
+volume = {41},
+pages = {3395},
+year = {2002}
+}
+
+@article {,
+author = {Xue D.-X.},
+author = {Zhang W.-X.},
+author = {Chen X.-M.},
+author = {Wang H.-Z.},
+title = {},
+journal = {Chem. Commun.},
+volume = {},
+pages = {1551},
+year = {2008}
+}
+
+@article {,
+author = {Klein N.},
+author = {Senkovska I.},
+author = {Gedrich K.},
+author = {Stoeck U.},
+author = {Henschel A.},
+author = {Mueller U.},
+author = {Kaskel S.},
+title = {},
+journal = {Angew. Chem., Int. Ed.},
+volume = {48},
+pages = {9954},
+year = {2009}
+}
+
+@article {,
+author = {Roy X.},
+author = {MacLachlan M. J.},
+title = {},
+journal = {Chem.—Eur. J.},
+volume = {15},
+pages = {6552},
+year = {2009}
+}
+
+@article {,
+author = {Nelson A. P.},
+author = {Farha O. K.},
+author = {Mulfort K. L.},
+author = {Hupp J. T.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {131},
+pages = {458},
+year = {2009}
+}
+
+@article {,
+author = {Koh K.},
+author = {Wong-Foy A. G.},
+author = {Matzger A. J.},
+title = {},
+journal = {Angew. Chem., Int. Ed.},
+volume = {47},
+pages = {677},
+year = {2008}
+}
+
+@article {,
+author = {Qiu L.-G.},
+author = {Xu T.},
+author = {Li Z.-Q.},
+author = {Wang W.},
+author = {Wu Y.},
+author = {Jiang X.},
+author = {Tian X.-Y.},
+author = {Zhang L.-D.},
+title = {},
+journal = {Angew. Chem., Int. Ed.},
+volume = {47},
+pages = {9487},
+year = {2008}
+}
+
+@article {,
+author = {Llewellyn P. L.},
+author = {Bourrelly S.},
+author = {Serre C.},
+author = {Vimont A.},
+author = {Daturi M.},
+author = {Hamon L.},
+author = {De Weireld G.},
+author = {Chang J.-S.},
+author = {Hong D.-Y.},
+author = {Hwang Y. K.},
+author = {Jhung S. H.},
+author = {Ferey G.},
+title = {},
+journal = {Langmuir},
+volume = {24},
+pages = {7245},
+year = {2008}
+}
+
+@article {,
+author = {Park Y. K.},
+author = {Choi S. B.},
+author = {Kim H.},
+author = {Kim K.},
+author = {Won B.-H.},
+author = {Choi K.},
+author = {Choi J.-S.},
+author = {Ahn W.-S.},
+author = {Won N.},
+author = {Kim S.},
+author = {Jung D. H.},
+author = {Choi S.-H.},
+author = {Kim G.-H.},
+author = {Cha S.-S.},
+author = {Jhon Y. H.},
+author = {Yang J. K.},
+title = {},
+journal = {Angew. Chem., Int. Ed.},
+volume = {46},
+pages = {8230},
+year = {2007}
+}
+
+@article {,
+author = {Fang Q.-R.},
+author = {Zhu G.-S.},
+author = {Jin Z.},
+author = {Ji Y.-Y.},
+author = {Ye J.-W.},
+author = {Xue M.},
+author = {Yang H.},
+author = {Wang Y.},
+author = {Qiu S.-L.},
+title = {},
+journal = {Angew. Chem., Int. Ed.},
+volume = {46},
+pages = {6638},
+year = {2007}
+}
+
+@article {,
+author = {Wang X.-S.},
+author = {Ma S.},
+author = {Sun D.},
+author = {Parkin S.},
+author = {Zhou H.-C.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {128},
+pages = {16474},
+year = {2006}
+}
+
+@article {,
+author = {Sun D.},
+author = {Ke Y.},
+author = {Mattox T. M.},
+author = {Parkin S.},
+author = {Zhou H.-C.},
+title = {},
+journal = {Inorg. Chem.},
+volume = {45},
+pages = {7566},
+year = {2006}
+}
+
+@article {,
+author = {Sudik A. C.},
+author = {Millward A. R.},
+author = {Ockwig N. W.},
+author = {Cote A. P.},
+author = {Kim J.},
+author = {Yaghi O. M.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {127},
+pages = {7110},
+year = {2005}
+}
+
+@article {,
+author = {Eddaoudi M.},
+author = {Kim J.},
+author = {Rosi N.},
+author = {Vodak D.},
+author = {Wachter J.},
+author = {O’Keeffe M.},
+author = {Yaghi O. M.},
+title = {},
+journal = {Science},
+volume = {295},
+pages = {469},
+year = {2002}
+}
+
+@article {,
+author = {Tranchemontagne D. J.},
+author = {Hunt J. R.},
+author = {Yaghi O. M.},
+title = {},
+journal = {Tetrahedron},
+volume = {64},
+pages = {8553},
+year = {2008}
+}
+
+@article {,
+author = {Huang W.},
+author = {Wu D.},
+author = {Zhou P.},
+author = {Yan W.},
+author = {Guo D.},
+author = {Duan C.},
+author = {Meng Q.},
+title = {},
+journal = {Cryst. Growth Des.},
+volume = {9},
+pages = {1361},
+year = {2009}
+}
+
+@article {,
+author = {Andruh M.},
+author = {Costes J.-P.},
+author = {Diaz C.},
+author = {Gao S.},
+title = {},
+journal = {Inorg. Chem.},
+volume = {48},
+pages = {3342},
+year = {2009}
+}
+
+@article {,
+author = {Harbuzaru B. V.},
+author = {Corma A.},
+author = {Rey F.},
+author = {Jorda J. L.},
+author = {Ananias D.},
+author = {Carlos L. D.},
+author = {Rocha J.},
+title = {},
+journal = {Angew. Chem., Int. Ed.},
+volume = {48},
+pages = {6476},
+year = {2009}
+}
+
+@article {,
+author = {Chen B.},
+author = {Wang L.},
+author = {Xiao Y.},
+author = {Fronczek F. R.},
+author = {Xue M.},
+author = {Cui Y.},
+author = {Qian G.},
+title = {},
+journal = {Angew. Chem., Int. Ed.},
+volume = {48},
+pages = {500},
+year = {2009}
+}
+
+@article {,
+author = {Ma S.},
+author = {Wang X.-S.},
+author = {Yuan D.},
+author = {Zhou H.-C.},
+title = {},
+journal = {Angew. Chem., Int. Ed.},
+volume = {47},
+pages = {4130},
+year = {2008}
+}
+
+@article {,
+author = {Li Z.},
+author = {Zhu G.},
+author = {Guo X.},
+author = {Zhao X.},
+author = {Jin Z.},
+author = {Qiu S.},
+title = {},
+journal = {Inorg. Chem.},
+volume = {46},
+pages = {5174},
+year = {2007}
+}
+
+@article {,
+author = {de Lill D. T},
+author = {Gunning N. S},
+author = {Cahill C. L.},
+title = {},
+journal = {Inorg. Chem.},
+volume = {44},
+pages = {258},
+year = {2005}
+}
+
+@article {,
+author = {Pan L.},
+author = {Adams K. M.},
+author = {Hernandez H. E.},
+author = {Wang X.},
+author = {Zheng C.},
+author = {Hattori Y.},
+author = {Kaneko K.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {125},
+pages = {3062},
+year = {2003}
+}
+
+@article {,
+author = {Ma B.-Q.},
+author = {Gao S.},
+author = {Su G.},
+author = {Xu G.-X.},
+title = {},
+journal = {Angew. Chem., Int. Ed.},
+volume = {40},
+pages = {434},
+year = {2001}
+}
+
+@article {,
+author = {Ma S.},
+author = {Yuan D.},
+author = {Wang X.-S.},
+author = {Zhou H.-C.},
+title = {},
+journal = {Inorg. Chem.},
+volume = {48},
+pages = {2072},
+year = {2009}
+}
+
+@article {,
+author = {Xia J.},
+author = {Zhao B.},
+author = {Wang H.-S.},
+author = {Shi W.},
+author = {Ma Y.},
+author = {Song H.-B.},
+author = {Cheng P.},
+author = {Liao D.-Z.},
+author = {Yan S.-P.},
+title = {},
+journal = {Inorg. Chem.},
+volume = {46},
+pages = {3450},
+year = {2007}
+}
+
+@article {,
+author = {Ghosh S. K.},
+author = {Bharadwaj P. K.},
+title = {},
+journal = {Inorg. Chem.},
+volume = {43},
+pages = {2293},
+year = {2004}
+}
+
+@article {,
+author = {Long D.-L.},
+author = {Blake A. J.},
+author = {Champness N. R.},
+author = {Wilson C.},
+author = {Schro?der M.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {123},
+pages = {3401},
+year = {2001}
+}
+
+@article {,
+author = {Li Q.},
+author = {Zhang W.},
+author = {Miljanic O. S.},
+author = {Knobler C. B.},
+author = {Stoddart J. F.},
+author = {Yaghi O. M.},
+title = {},
+journal = {Chem. Commun.},
+volume = {},
+pages = {380},
+year = {2010}
+}
+
+@article {,
+author = {An J.},
+author = {Geib S. J.},
+author = {Rosi N. L.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {132},
+pages = {38},
+year = {2010}
+}
+
+@article {,
+author = {Yue Q.},
+author = {Sun Q.},
+author = {Cheng A.-L.},
+author = {Gao E.-Q.},
+title = {},
+journal = {Cryst. Growth Des.},
+volume = {10},
+pages = {44},
+year = {2010}
+}
+
+@article {,
+author = {Lan A.},
+author = {Li K.},
+author = {Wu H.},
+author = {Kong L.},
+author = {Nijem N.},
+author = {Olson D. H.},
+author = {Emge T. J.},
+author = {Chabal Y. J.},
+author = {Langreth D. C.},
+author = {Hong M.},
+author = {Li J.},
+title = {},
+journal = {Inorg. Chem.},
+volume = {48},
+pages = {7165},
+year = {2009}
+}
+
+@article {,
+author = {Marchal C.},
+author = {Filinchuk Y.},
+author = {Imbert D.},
+author = {Bunzli J.-C. G.},
+author = {Mazzanti M.},
+title = {},
+journal = {Inorg. Chem.},
+volume = {46},
+pages = {6242},
+year = {2007}
+}
+
+@article {,
+author = {Devic T.},
+author = {Serre C.},
+author = {Audebrand N.},
+author = {Marrot J.},
+author = {Fe?rey G.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {127},
+pages = {12788},
+year = {2005}
+}
+
+@article {,
+author = {Ghosh S. K},
+author = {Bharadwaj P. K.},
+title = {},
+journal = {Inorg. Chem.},
+volume = {44},
+pages = {3156},
+year = {2005}
+}
+
+@article {,
+author = {Ghosh S. K.},
+author = {Bharadwaj P. K.},
+title = {},
+journal = {Inorg. Chem.},
+volume = {42},
+pages = {8250},
+year = {2003}
+}
+
+@article {,
+author = {Lama P.},
+author = {Aijaz A.},
+author = {San?udo E. C.},
+author = {Bharadwaj P. K.},
+title = {},
+journal = {Cryst. Growth Des.},
+volume = {10},
+pages = {283},
+year = {2010}
+}
+
+@article {,
+author = {Baggio R.},
+author = {Perec M.},
+title = {},
+journal = {Inorg. Chem.},
+volume = {43},
+pages = {6965},
+year = {2004}
+}
+
+@article {,
+author = {Benmerad B.},
+author = {Guehria-Lai?doudi A.},
+author = {Dahaoui S.},
+author = {Lecomte C.},
+title = {},
+journal = {Acta Crystallogr.},
+volume = {C60},
+pages = {m119},
+year = {2004}
+}
+
+@article {,
+author = {Heinl U.},
+author = {Hinse P.},
+author = {Mattes R.},
+title = {},
+journal = {Z. Anorg. Allg. Chem.},
+volume = {627},
+pages = {2173},
+year = {2001}
+}
+
+@article {,
+author = {Baggio R.},
+author = {Garland M. T.},
+author = {Perec M.},
+author = {Vega D.},
+title = {},
+journal = {Inorg. Chem.},
+volume = {35},
+pages = {2396},
+year = {1996}
+}
+
+@article {,
+author = {Luo J.},
+author = {Zhao Y.},
+author = {Xu H.},
+author = {Kinnibrugh T. L.},
+author = {Yang D.},
+author = {Timofeeva T. V.},
+author = {Daemen L. L.},
+author = {Zhang J.},
+author = {Bao W.},
+author = {Thompson J. D.},
+author = {Currier R. P.},
+title = {},
+journal = {Inorg. Chem.},
+volume = {46},
+pages = {9021},
+year = {2007}
+}
+
+@article {,
+author = {Jia H.-P.},
+author = {Li W.},
+author = {Ju Z.-F.},
+author = {Zhang J.},
+title = {},
+journal = {Inorg. Chem. Commun.},
+volume = {10},
+pages = {265},
+year = {2007}
+}
+
+@article {,
+author = {Lisnard L.},
+author = {Mialane P.},
+author = {Dolbecq A.},
+author = {Marrot J.},
+author = {Clemente-Juan J. M.},
+author = {Coronado E.},
+author = {Keita B.},
+author = {de Oliveira P.},
+author = {Nadjo L.},
+author = {Se?cheresse F.},
+title = {},
+journal = {Chem.—Eur. J.},
+volume = {13},
+pages = {3525},
+year = {2007}
+}
+
+@article {,
+author = {Song J.-F.},
+author = {Chen Y.},
+author = {Li Z.-G.},
+author = {Zhou R.-S.},
+author = {Xu X.-Y.},
+author = {Xu J.-Q.},
+title = {},
+journal = {J. Mol. Struct.},
+volume = {842},
+pages = {125},
+year = {2007}
+}
+
+@article {,
+author = {Taylor T. J.},
+author = {Burress C. N.},
+author = {Gabbai F. P.},
+title = {},
+journal = {Organometallics},
+volume = {26},
+pages = {5252},
+year = {2007}
+}
+
+@article {,
+author = {Webster C. E.},
+author = {Drago R. S.},
+author = {Zerner M. C.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {120},
+pages = {5509},
+year = {1998}
+}
+
+@article {,
+author = {Maji T. K.},
+author = {Matsuda R.},
+author = {Kitagawa S.},
+title = {},
+journal = {Nat. Mater.},
+volume = {6},
+pages = {142},
+year = {2007}
+}
+
+@article {,
+author = {Navarro J. A. R.},
+author = {Barea E.},
+author = {Salas J. M.},
+author = {Masciocchi N.},
+author = {Galli S.},
+author = {Sironi A.},
+author = {Ania C. O.},
+author = {Parra J. B.},
+title = {},
+journal = {J. Mater. Chem.},
+volume = {17},
+pages = {4826},
+year = {2007}
+}
+
+@article {,
+author = {Perry J. J.},
+author = {Perman J. A.},
+author = {Zaworotko M.},
+title = {},
+journal = {J. Chem. Soc. Rev.},
+volume = {38},
+pages = {1400},
+year = {2009}
+}
+
+@article {,
+author = {Li Q.},
+author = {Zhang W.},
+author = {Miljanic O. S.},
+author = {Sue C.-H.},
+author = {Zhao Y.-L.},
+author = {Liu L.},
+author = {Knobler C. B.},
+author = {Stoddart J. F.},
+author = {Yaghi O. M.},
+title = {},
+journal = {Science},
+volume = {325},
+pages = {855},
+year = {2009}
+}
+
+@article {,
+author = {Aijaz A.},
+author = {Barea E.},
+author = {Bharadwaj P. K.},
+title = {},
+journal = {Cryst. Growth Des.},
+volume = {9},
+pages = {4480},
+year = {2009}
+}
+
+@article {,
+author = {Das M. C.},
+author = {Bharadwaj P. K.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {131},
+pages = {10942},
+year = {2009}
+}
+
+@article {,
+author = {Murray L. J.},
+author = {Dinca M.},
+author = {Long J. R.},
+title = {},
+journal = {Chem. Soc. Rev.},
+volume = {38},
+pages = {1294},
+year = {2009}
+}
+
+@article {,
+author = {Ma L.},
+author = {Abney C.},
+author = {Lin W.},
+title = {},
+journal = {Chem. Soc. Rev.},
+volume = {38},
+pages = {1248},
+year = {2009}
+}
+
+@article {,
+author = {Mu B.},
+author = {Li F.},
+author = {Walton K. S.},
+title = {},
+journal = {Chem. Commun.},
+volume = {},
+pages = {2493},
+year = {2009}
+}
+
+@article {,
+author = {Finsy V.},
+author = {Kirschhock C. E. A.},
+author = {Vedts G.},
+author = {Maes M.},
+author = {Alaerts L.},
+author = {De Vos D. E.},
+author = {Baron G. V.},
+author = {Denayer J. F. M.},
+title = {},
+journal = {Chem.;Eur. J.},
+volume = {15},
+pages = {7724},
+year = {2009}
+}
+
+@article {,
+author = {Farrusseng D.},
+author = {Aguado S.},
+author = {Pinel C.},
+title = {},
+journal = {Angew. Chem., Int. Ed.},
+volume = {48},
+pages = {7502},
+year = {2009}
+}
+
+@article {,
+author = {Tonigold M.},
+author = {Lu Y.},
+author = {Bredenk€otter B.},
+author = {Rieger B.},
+author = {Bahnm€uller S.},
+author = {Hitzbleck J.},
+author = {Langstein G.},
+author = {Volkmer D.},
+title = {},
+journal = {Angew. Chem., Int. Ed.},
+volume = {48},
+pages = {7546},
+year = {2009}
+}
+
+@article {,
+author = {Lee J. Y.},
+author = {Farha O. K.},
+author = {Roberts J.},
+author = {Scheidt K. A.},
+author = {Nguyen S. B. T.},
+author = {Hupp J. T.},
+title = {},
+journal = {Chem. Soc. Rev.},
+volume = {38},
+pages = {1450},
+year = {2009}
+}
+
+@article {,
+author = {Cui X.},
+author = {Khlobystov A. N.},
+author = {Chen X.},
+author = {Marsh D. H.},
+author = {Blake A. J.},
+author = {Lewis W.},
+author = {Champness N. R.},
+author = {Roberts C. J.},
+author = {Schroeder M.},
+title = {},
+journal = {Chem.;Eur. J.},
+volume = {15},
+pages = {8861},
+year = {2009}
+}
+
+@article {,
+author = {Li J.-R.},
+author = {Kuppler R. J.},
+author = {Zhou H.-C.},
+title = {},
+journal = {Chem. Soc. Rev.},
+volume = {38},
+pages = {1477},
+year = {2009}
+}
+
+@article {,
+author = {Rajput L.},
+author = {Biradha K.},
+title = {},
+journal = {Cryst. Growth Des.},
+volume = {9},
+pages = {40},
+year = {2009}
+}
+
+@article {,
+author = {Chen B.},
+author = {Wang L.},
+author = {Zapata F.},
+author = {Qian G.},
+author = {Lobkovsky E. B.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {130},
+pages = {6718},
+year = {2008}
+}
+
+@article {,
+author = {Chen B.},
+author = {Zhao X.},
+author = {Putkham A.},
+author = {Hong K.},
+author = {Lobkovsky E. B.},
+author = {Hurtado E. J.},
+author = {Fletcher A. J.},
+author = {Thomas K. M.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {130},
+pages = {6411},
+year = {2008}
+}
+
+@article {,
+author = {Allendorf M. D.},
+author = {Houk R. J. T.},
+author = {Andruszkiewicz L.},
+author = {Talin A. A.},
+author = {Pikarsky J.},
+author = {Choudhury A.},
+author = {Gall K. A.},
+author = {Hesketh P. J.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {130},
+pages = {14404},
+year = {2008}
+}
+
+@article {,
+author = {Navarro J. A. R.},
+author = {Barea E.},
+author = {Rodriguez-Dieguez A.},
+author = {Salas J. M.},
+author = {Ania C. O.},
+author = {Parra J. B.},
+author = {Masciocchi N.},
+author = {Galli S.},
+author = {Sironi A.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {130},
+pages = {3978},
+year = {2008}
+}
+
+@article {,
+author = {Zhang L.},
+author = {Qin Y.-Y.},
+author = {Li Z.-J.},
+author = {Lin Q.-P.},
+author = {Cheng J.-K.},
+author = {Zhang J.},
+author = {Yao Y.-G.},
+title = {},
+journal = {Inorg. Chem.},
+volume = {47},
+pages = {8286},
+year = {2008}
+}
+
+@article {,
+author = {Banerjee R.},
+author = {Phan A.},
+author = {Wang B.},
+author = {Knobler C.},
+author = {Furukawa H.},
+author = {O'Keeffe M.},
+author = {Yaghi O. M.},
+title = {},
+journal = {Science},
+volume = {319},
+pages = {939},
+year = {2008}
+}
+
+@article {,
+author = {Wang P.},
+author = {Ma J.-P.},
+author = {Dong Y.-B.},
+author = {Huang R.-Q.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {129},
+pages = {10620},
+year = {2007}
+}
+
+@article {,
+author = {Atwood J. L.},
+author = {Barbour L. J.},
+author = {Jerga A.},
+title = {},
+journal = {Angew. Chem., Int. Ed.},
+volume = {43},
+pages = {2948},
+year = {2004}
+}
+
+@article {,
+author = {Choi E.-Y.},
+author = {Park K.},
+author = {Yang C.-M.},
+author = {Kim H.},
+author = {Son J.-H.},
+author = {Lee S. W.},
+author = {Lee Y. H.},
+author = {Min D.},
+author = {Kwon Y.-U.},
+title = {},
+journal = {Chem.;Eur. J.},
+volume = {10},
+pages = {5535},
+year = {2004}
+}
+
+@article {,
+title = {},
+journal = {Commun.},
+volume = {},
+pages = {2580},
+year = {2003}
+}
+
+@article {,
+author = {Rosseinsky M. J.},
+author = {Kepert C. J.},
+author = {Thomas K. M.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {},
+pages = {},
+year = {}
+}
+
+@article {,
+author = {Koh K.},
+author = {Wong-Foy A. G.},
+author = {Matzger A. J.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {131},
+pages = {4184},
+year = {2009}
+}
+
+@article {,
+author = {Ma L.},
+author = {Lin W.},
+title = {},
+journal = {Angew. Chem., Int. Ed.},
+volume = {48},
+pages = {3637},
+year = {2009}
+}
+
+@article {,
+author = {Li J.-R.},
+author = {Timmons D. J.},
+author = {Zhou H.-C.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {131},
+pages = {6368},
+year = {2009}
+}
+
+@article {,
+author = {Jones S. C.},
+author = {Bauer C. A.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {131},
+pages = {12516},
+year = {2009}
+}
+
+@article {,
+author = {Wu S.},
+author = {Ma L.},
+author = {Long L.-S.},
+author = {Zheng L.-S.},
+author = {Lin W.},
+title = {},
+journal = {Inorg. Chem.},
+volume = {48},
+pages = {2436},
+year = {2009}
+}
+
+@article {,
+author = {Das S.},
+author = {Kim H.},
+author = {Kim K.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {131},
+pages = {3814},
+year = {2009}
+}
+
+@article {,
+author = {Mahata P.},
+author = {Ramya K. V.},
+author = {Natarajan S.},
+title = {},
+journal = {Inorg. Chem.},
+volume = {48},
+pages = {4942},
+year = {2009}
+}
+
+@article {,
+author = {Chun H.},
+author = {Jung H.},
+author = {Seo J.},
+title = {},
+journal = {Inorg. Chem.},
+volume = {48},
+pages = {2043},
+year = {2009}
+}
+
+@article {,
+author = {Gadzikwa T.},
+author = {Farha O. K.},
+author = {Malliakas C. D.},
+author = {Kanatzidis M. G.},
+author = {Hupp J. T.},
+author = {Nguyen S. T.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {131},
+pages = {13613},
+year = {2009}
+}
+
+@article {,
+author = {Lin X.},
+author = {Telepeni I.},
+author = {Blake A. J.},
+author = {Dailly A.},
+author = {Brown C. M.},
+author = {Simmons J. M.},
+author = {Zoppi M.},
+author = {Walker G. S.},
+author = {Thomas K. M.},
+author = {Mays T. J.},
+author = {Hubberstey P.},
+author = {Champness N. R.},
+author = {Schroder M.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {131},
+pages = {2159},
+year = {2009}
+}
+
+@article {,
+author = {Mulfort K. L.},
+author = {Farha O. K.},
+author = {Stern C. L.},
+author = {Sarjeant A. A.},
+author = {Hupp J. T.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {131},
+pages = {3866},
+year = {2009}
+}
+
+@article {,
+author = {Yang S.},
+author = {Lin X.},
+author = {Dailly A.},
+author = {Blake A. J.},
+author = {Hubberstey P.},
+author = {Champness N. R.},
+author = {Schroder M.},
+title = {},
+journal = {Chem.;Eur. J.},
+volume = {15},
+pages = {4829},
+year = {2009}
+}
+
+@article {,
+author = {Farha O. K.},
+author = {Mulfort K. L.},
+author = {Hupp J. T.},
+title = {},
+journal = {Inorg. Chem.},
+volume = {47},
+pages = {10223},
+year = {2008}
+}
+
+@article {,
+author = {Ma L.},
+author = {Lee J. Y.},
+author = {Li J.},
+author = {Lin W.},
+title = {},
+journal = {Inorg. Chem.},
+volume = {47},
+pages = {3955},
+year = {2008}
+}
+
+@article {,
+author = {Gu J.-Z.},
+author = {Lu W.-G.},
+author = {Jiang L.},
+author = {Zhou H.-C.},
+author = {Lu T.-B.},
+title = {},
+journal = {Inorg. Chem.},
+volume = {46},
+pages = {5835},
+year = {2007}
+}
+
+@article {,
+author = {Hu S.},
+author = {Zhang J.-P.},
+author = {Li H.-X.},
+author = {Tong M.-L.},
+author = {Chen X.-M.},
+author = {Kitagawa S.},
+title = {},
+journal = {Cryst. Growth Des.},
+volume = {7},
+pages = {2286},
+year = {2007}
+}
+
+@article {,
+author = {Rosi N. L.},
+author = {Kim J.},
+author = {Eddaoudi M.},
+author = {Chen B.},
+author = {O'Keeffe M.},
+author = {Yaghi O. M.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {127},
+pages = {1504},
+year = {2005}
+}
+
+@article {,
+author = {Chae H. K.},
+author = {Siberio-Perez D. Y.},
+author = {Kim J.},
+author = {Go Y. B.},
+author = {Eddaoudi M.},
+author = {Matzger A. J.},
+author = {O'Keeffe M.},
+author = {Yaghi O. M.},
+title = {},
+journal = {Nature},
+volume = {427},
+pages = {523},
+year = {2004}
+}
+
+@article {,
+author = {Eddaoudi M.},
+author = {Li H.},
+author = {Yaghi O. M.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {122},
+pages = {1391},
+year = {2000}
+}
+
+@article {,
+author = {Hong S.},
+author = {Oh M.},
+author = {Park M.},
+author = {Yoon J. W.},
+author = {Chang J.-S.},
+author = {Lah M. S.},
+title = {},
+journal = {Chem. Commun.},
+volume = {},
+pages = {5397},
+year = {2009}
+}
+
+@article {,
+author = {Ren P.},
+author = {Shi W.},
+author = {Cheng P.},
+title = {},
+journal = {Cryst. Growth Des.},
+volume = {8},
+pages = {1097},
+year = {2008}
+}
+
+@article {,
+author = {Zou R.-Q.},
+author = {Zhong R.-Q.},
+author = {Du M.},
+author = {Kiyobayashi T.},
+author = {Xu Q.},
+title = {},
+journal = {Chem. Commun.},
+volume = {},
+pages = {2467},
+year = {2007}
+}
+
+@article {,
+author = {Li H.-L.},
+author = {Eddaoudi M.},
+author = {O'Keefe M.},
+author = {Yaghi O. M.},
+title = {},
+journal = {Nature},
+volume = {402},
+pages = {276},
+year = {1999}
+}
+
+@article {,
+author = {Nelson A. P.},
+author = {Parrish D. A.},
+author = {Cambrea L. R.},
+author = {Baldwin L. C.},
+author = {Trivedi N. J.},
+author = {Mulfort K. L.},
+author = {Farha O. K.},
+author = {Hupp J. T.},
+title = {},
+journal = {Cryst. Growth Des.},
+volume = {9},
+pages = {4588},
+year = {2009}
+}
+
+@article {,
+author = {Gurunatha K. L.},
+author = {Mohapatra S.},
+author = {Suchetan P. A.},
+author = {Maji T. K.},
+title = {},
+journal = {Cryst. Growth Des.},
+volume = {9},
+pages = {3844},
+year = {2009}
+}
+
+@article {,
+author = {Suh M. P.},
+author = {Cheon Y. E.},
+author = {Lee E. Y.},
+title = {},
+journal = {Chem.;Eur. J.},
+volume = {13},
+pages = {4208},
+year = {2007}
+}
+
+@article {,
+author = {Dobrzan'ska L.},
+author = {Lloyd G. O.},
+author = {Esterhuysen C.},
+author = {Barbour L.},
+title = {},
+journal = {J. Angew. Chem., Int. Ed.},
+volume = {45},
+pages = {5856},
+year = {2006}
+}
+
+@article {,
+author = {Nagarathinam M.},
+author = {Vittal J.},
+title = {},
+journal = {J. Angew. Chem., Int. Ed.},
+volume = {45},
+pages = {4337},
+year = {2006}
+}
+
+@article {,
+author = {Kitagawa S.},
+author = {Uemura K.},
+title = {},
+journal = {Chem. Soc. Rev.},
+volume = {34},
+pages = {109},
+year = {2005}
+}
+
+@article {,
+author = {Chu Q.},
+author = {Swenson D. C.},
+author = {MacGillivray L. R.},
+title = {},
+journal = {Angew. Chem., Int. Ed.},
+volume = {44},
+pages = {3569},
+year = {2005}
+}
+
+@article {,
+author = {Wu C.-D.},
+author = {Lin W.},
+title = {},
+journal = {Angew. Chem., Int. Ed.},
+volume = {44},
+pages = {1958},
+year = {2005}
+}
+
+@article {,
+author = {Halder G. J.},
+author = {Keppert C. J.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {127},
+pages = {7891},
+year = {2005}
+}
+
+@article {,
+author = {Kitagawa S.},
+author = {Kitaura R.},
+author = {Noro S.},
+title = {},
+journal = {Angew. Chem., Int. Ed.},
+volume = {43},
+pages = {2234},
+year = {2004}
+}
+
+@article {,
+author = {Hanson K.},
+author = {Calin N.},
+author = {Bugaris D.},
+author = {Scancella M.},
+author = {Sevov S. C.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {126},
+pages = {10502},
+year = {2004}
+}
+
+@article {,
+author = {Gao X.},
+author = {Friscic T.},
+author = {MacGillivray L. R.},
+title = {},
+journal = {Angew. Chem., Int. Ed.},
+volume = {43},
+pages = {232},
+year = {2004}
+}
+
+@article {,
+author = {Biradha K.},
+author = {Fujita M.},
+title = {},
+journal = {Angew. Chem., Int. Ed.},
+volume = {41},
+pages = {3392},
+year = {2002}
+}
+
+@article {,
+author = {Biradha K.},
+author = {Hongo Y.},
+author = {Fujita M.},
+title = {},
+journal = {Angew. Chem., Int. Ed.},
+volume = {41},
+pages = {3395},
+year = {2002}
+}
+
+@article {,
+author = {Xue D.-X.},
+author = {Zhang W.-X.},
+author = {Chen X.-M.},
+author = {Wang H.-Z.},
+title = {},
+journal = {Chem. Commun.},
+volume = {},
+pages = {1551},
+year = {2008}
+}
+
+@article {,
+author = {Klein N.},
+author = {Senkovska I.},
+author = {Gedrich K.},
+author = {Stoeck U.},
+author = {Henschel A.},
+author = {Mueller U.},
+author = {Kaskel S.},
+title = {},
+journal = {Angew. Chem., Int. Ed.},
+volume = {48},
+pages = {9954},
+year = {2009}
+}
+
+@article {,
+author = {Roy X.},
+author = {MacLachlan M. J.},
+title = {},
+journal = {Chem.;Eur. J.},
+volume = {15},
+pages = {6552},
+year = {2009}
+}
+
+@article {,
+author = {Nelson A. P.},
+author = {Farha O. K.},
+author = {Mulfort K. L.},
+author = {Hupp J. T.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {131},
+pages = {458},
+year = {2009}
+}
+
+@article {,
+author = {Koh K.},
+author = {Wong-Foy A. G.},
+author = {Matzger A.},
+title = {},
+journal = {J. Angew. Chem., Int. Ed.},
+volume = {47},
+pages = {677},
+year = {2008}
+}
+
+@article {,
+author = {Qiu L.-G.},
+author = {Xu T.},
+author = {Li Z.-Q.},
+author = {Wang W.},
+author = {Wu Y.},
+author = {Jiang X.},
+author = {Tian X.-Y.},
+author = {Zhang L.-D.},
+title = {},
+journal = {Angew. Chem., Int. Ed.},
+volume = {47},
+pages = {9487},
+year = {2008}
+}
+
+@article {,
+author = {Llewellyn P. L.},
+author = {Bourrelly S.},
+author = {Serre C.},
+author = {Vimont A.},
+author = {Daturi M.},
+author = {Hamon L.},
+author = {De Weireld G.},
+author = {Chang J.-S.},
+author = {Hong D.-Y.},
+author = {Hwang Y. K.},
+author = {Jhung S. H.},
+author = {Ferey G.},
+title = {},
+journal = {Langmuir},
+volume = {24},
+pages = {7245},
+year = {2008}
+}
+
+@article {,
+author = {Park Y. K.},
+author = {Choi S. B.},
+author = {Kim H.},
+author = {Kim K.},
+author = {Won B.-H.},
+author = {Choi K.},
+author = {Choi J.-S.},
+author = {Ahn W.-S.},
+author = {Won N.},
+author = {Kim S.},
+author = {Jung D. H.},
+author = {Choi S.-H.},
+author = {Kim G.-H.},
+author = {Cha S.-S.},
+author = {Jhon Y. H.},
+author = {Yang J. K.},
+title = {},
+journal = {Angew. Chem., Int. Ed.},
+volume = {46},
+pages = {8230},
+year = {2007}
+}
+
+@article {,
+author = {Fang Q.-R.},
+author = {Zhu G.-S.},
+author = {Jin Z.},
+author = {Ji Y.-Y.},
+author = {Ye J.-W.},
+author = {Xue M.},
+author = {Yang H.},
+author = {Wang Y.},
+author = {Qiu S.-L.},
+title = {},
+journal = {Angew. Chem., Int. Ed.},
+volume = {46},
+pages = {6638},
+year = {2007}
+}
+
+@article {,
+author = {Wang X.-S.},
+author = {Ma S.},
+author = {Sun D.},
+author = {Parkin S.},
+author = {Zhou H.-C.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {128},
+pages = {16474},
+year = {2006}
+}
+
+@article {,
+author = {Sun D.},
+author = {Ke Y.},
+author = {Mattox T. M.},
+author = {Parkin S.},
+author = {Zhou H.-C.},
+title = {},
+journal = {Inorg. Chem.},
+volume = {45},
+pages = {7566},
+year = {2006}
+}
+
+@article {,
+author = {Sudik A. C.},
+author = {Millward A. R.},
+author = {Ockwig N. W.},
+author = {Cote A. P.},
+author = {Kim J.},
+author = {Yaghi O. M.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {127},
+pages = {7110},
+year = {2005}
+}
+
+@article {,
+author = {Eddaoudi M.},
+author = {Kim J.},
+author = {Rosi N.},
+author = {Vodak D.},
+author = {Wachter J.},
+author = {O'Keeffe M.},
+author = {Yaghi O. M.},
+title = {},
+journal = {Science},
+volume = {295},
+pages = {469},
+year = {2002}
+}
+
+@article {,
+author = {Tranchemontagne D. J.},
+author = {Hunt J. R.},
+author = {Yaghi O. M.},
+title = {},
+journal = {Tetrahedron},
+volume = {64},
+pages = {8553},
+year = {2008}
+}
+
+@article {,
+author = {Huang W.},
+author = {Wu D.},
+author = {Zhou P.},
+author = {Yan W.},
+author = {Guo D.},
+author = {Duan C.},
+author = {Meng Q.},
+title = {},
+journal = {Cryst. Growth Des.},
+volume = {9},
+pages = {1361},
+year = {2009}
+}
+
+@article {,
+author = {Andruh M.},
+author = {Costes J.-P.},
+author = {Diaz C.},
+author = {Gao S.},
+title = {},
+journal = {Inorg. Chem.},
+volume = {48},
+pages = {3342},
+year = {2009}
+}
+
+@article {,
+author = {Harbuzaru B. V.},
+author = {Corma A.},
+author = {Rey F.},
+author = {Jorda J. L.},
+author = {Ananias D.},
+author = {Carlos L. D.},
+author = {Rocha J.},
+title = {},
+journal = {Angew. Chem., Int. Ed.},
+volume = {48},
+pages = {6476},
+year = {2009}
+}
+
+@article {,
+author = {Chen B.},
+author = {Wang L.},
+author = {Xiao Y.},
+author = {Fronczek F. R.},
+author = {Xue M.},
+author = {Cui Y.},
+author = {Qian G.},
+title = {},
+journal = {Angew. Chem., Int. Ed.},
+volume = {48},
+pages = {500},
+year = {2009}
+}
+
+@article {,
+author = {Ma S.},
+author = {Wang X.-S.},
+author = {Yuan D.},
+author = {Zhou H.-C.},
+title = {},
+journal = {Angew. Chem., Int. Ed.},
+volume = {47},
+pages = {4130},
+year = {2008}
+}
+
+@article {,
+author = {Li Z.},
+author = {Zhu G.},
+author = {Guo X.},
+author = {Zhao X.},
+author = {Jin Z.},
+author = {Qiu S.},
+title = {},
+journal = {Inorg. Chem.},
+volume = {46},
+pages = {5174},
+year = {2007}
+}
+
+@article {,
+author = {de Lill D.},
+author = {Gunning N.},
+author = {Cahill C. L.},
+title = {},
+journal = {Inorg. Chem.},
+volume = {44},
+pages = {258},
+year = {2005}
+}
+
+@article {,
+author = {Pan L.},
+author = {Adams K. M.},
+author = {Hernandez H. E.},
+author = {Wang X.},
+author = {Zheng C.},
+author = {Hattori Y.},
+author = {Kaneko K.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {125},
+pages = {3062},
+year = {2003}
+}
+
+@article {,
+author = {Ma B.-Q.},
+author = {Gao S.},
+author = {Su G.},
+author = {Xu G.-X.},
+title = {},
+journal = {Angew. Chem., Int. Ed.},
+volume = {40},
+pages = {434},
+year = {2001}
+}
+
+@article {,
+author = {Ma S.},
+author = {Yuan D.},
+author = {Wang X.-S.},
+author = {Zhou H.-C.},
+title = {},
+journal = {Inorg. Chem.},
+volume = {48},
+pages = {2072},
+year = {2009}
+}
+
+@article {,
+author = {Xia J.},
+author = {Zhao B.},
+author = {Wang H.-S.},
+author = {Shi W.},
+author = {Ma Y.},
+author = {Song H.-B.},
+author = {Cheng P.},
+author = {Liao D.-Z.},
+author = {Yan S.-P.},
+title = {},
+journal = {Inorg. Chem.},
+volume = {46},
+pages = {3450},
+year = {2007}
+}
+
+@article {,
+author = {Ghosh S. K.},
+author = {Bharadwaj P. K.},
+title = {},
+journal = {Inorg. Chem.},
+volume = {43},
+pages = {2293},
+year = {2004}
+}
+
+@article {,
+author = {Long D.-L.},
+author = {Blake A. J.},
+author = {Champness N. R.},
+author = {Wilson C.},
+author = {Schr€oder M.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {123},
+pages = {3401},
+year = {2001}
+}
+
+@article {,
+author = {Li Q.},
+author = {Zhang W.},
+author = {Miljanic O. S.},
+author = {Knobler C. B.},
+author = {Stoddart J. F.},
+author = {Yaghi O. M.},
+title = {},
+journal = {Chem. Commun.},
+volume = {},
+pages = {380},
+year = {2010}
+}
+
+@article {,
+author = {An J.},
+author = {Geib S. J.},
+author = {Rosi N. L.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {132},
+pages = {38},
+year = {2010}
+}
+
+@article {,
+author = {Yue Q.},
+author = {Sun Q.},
+author = {Cheng A.-L.},
+author = {Gao E.-Q.},
+title = {},
+journal = {Cryst. Growth Des.},
+volume = {10},
+pages = {44},
+year = {2010}
+}
+
+@article {,
+author = {Lan A.},
+author = {Li K.},
+author = {Wu H.},
+author = {Kong L.},
+author = {Nijem N.},
+author = {Olson D. H.},
+author = {Emge T. J.},
+author = {Chabal Y. J.},
+author = {Langreth D. C.},
+author = {Hong M.},
+author = {Li J.},
+title = {},
+journal = {Inorg. Chem.},
+volume = {48},
+pages = {7165},
+year = {2009}
+}
+
+@article {,
+author = {Marchal C.},
+author = {Filinchuk Y.},
+author = {Imbert D.},
+author = {Bunzli J.-C. G.},
+author = {Mazzanti M.},
+title = {},
+journal = {Inorg. Chem.},
+volume = {46},
+pages = {6242},
+year = {2007}
+}
+
+@article {,
+author = {Devic T.},
+author = {Serre C.},
+author = {Audebrand N.},
+author = {Marrot J.},
+author = {Ferey G.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {127},
+pages = {12788},
+year = {2005}
+}
+
+@article {,
+author = {Ghosh S.},
+author = {Bharadwaj P. K.},
+title = {},
+journal = {Inorg. Chem.},
+volume = {44},
+pages = {3156},
+year = {2005}
+}
+
+@article {,
+author = {Ghosh S. K.},
+author = {Bharadwaj P. K.},
+title = {},
+journal = {Inorg. Chem.},
+volume = {42},
+pages = {8250},
+year = {2003}
+}
+
+@article {,
+author = {Lama P.},
+author = {Aijaz A.},
+author = {Saudo E. C.},
+author = {Bharadwaj P. K.},
+title = {},
+journal = {Cryst. Growth Des.},
+volume = {10},
+pages = {283},
+year = {2010}
+}
+
+@article {,
+author = {Baggio R.},
+author = {Perec M.},
+title = {},
+journal = {Inorg. Chem.},
+volume = {43},
+pages = {6965},
+year = {2004}
+}
+
+@article {,
+author = {Benmerad B.},
+author = {Guehria-Laïdoudi A.},
+author = {Dahaoui S.},
+author = {Lecomte C.},
+title = {},
+journal = {Acta Crystallogr.},
+volume = {C60},
+pages = {m119},
+year = {2004}
+}
+
+@article {,
+author = {Heinl U.},
+author = {Hinse P.},
+author = {Mattes R.},
+title = {},
+journal = {Z. Anorg. Allg. Chem.},
+volume = {627},
+pages = {2173},
+year = {2001}
+}
+
+@article {,
+author = {Baggio R.},
+author = {Garland M. T.},
+author = {Perec M.},
+author = {Vega D.},
+title = {},
+journal = {Inorg. Chem.},
+volume = {35},
+pages = {2396},
+year = {1996}
+}
+
+@article {,
+author = {Luo J.},
+author = {Zhao Y.},
+author = {Xu H.},
+author = {Kinnibrugh T. L.},
+author = {Yang D.},
+author = {Timofeeva T. V.},
+author = {Daemen L. L.},
+author = {Zhang J.},
+author = {Bao W.},
+author = {Thompson J. D.},
+author = {Currier R. P.},
+title = {},
+journal = {Inorg. Chem.},
+volume = {46},
+pages = {9021},
+year = {2007}
+}
+
+@article {,
+author = {Jia H.-P.},
+author = {Li W.},
+author = {Ju Z.-F.},
+author = {Zhang J.},
+title = {},
+journal = {Inorg. Chem. Commun.},
+volume = {10},
+pages = {265},
+year = {2007}
+}
+
+@article {,
+author = {Lisnard L.},
+author = {Mialane P.},
+author = {Dolbecq A.},
+author = {Marrot J.},
+author = {Clemente-Juan J. M.},
+author = {Coronado E.},
+author = {Keita B.},
+author = {de Oliveira P.},
+author = {Nadjo L.},
+author = {Secheresse F.},
+title = {},
+journal = {Chem.; Eur. J.},
+volume = {13},
+pages = {3525},
+year = {2007}
+}
+
+@article {,
+author = {Song J.-F.},
+author = {Chen Y.},
+author = {Li Z.-G.},
+author = {Zhou R.-S.},
+author = {Xu X.-Y.},
+author = {Xu J.-Q.},
+title = {},
+journal = {J. Mol. Struct.},
+volume = {842},
+pages = {125},
+year = {2007}
+}
+
+@article {,
+author = {Taylor T. J.},
+author = {Burress C. N.},
+author = {Gabbai F. P.},
+title = {},
+journal = {Organometallics},
+volume = {26},
+pages = {5252},
+year = {2007}
+}
+
+@article {,
+author = {Webster C. E.},
+author = {Drago R. S.},
+author = {Zerner M. C.},
+title = {},
+journal = {J. Am. Chem. Soc.},
+volume = {120},
+pages = {5509},
+year = {1998}
+}
+
+@article {,
+author = {Maji T. K.},
+author = {Matsuda R.},
+author = {Kitagawa S.},
+title = {},
+journal = {Nat. Mater.},
+volume = {6},
+pages = {142},
+year = {2007}
+}
+
+@article {,
+author = {Navarro J. A. R.},
+author = {Barea E.},
+author = {Salas J. M.},
+author = {Masciocchi N.},
+author = {Galli S.},
+author = {Sironi A.},
+author = {Ania C. O.},
+author = {Parra J. B.},
+title = {},
+journal = {J. Mater. Chem.},
+volume = {17},
+pages = {4826},
+year = {2007}
+}
+
