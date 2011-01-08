@@ -137,7 +137,12 @@ public class AcsIssueCrawler extends AbstractIssueCrawler {
 
     public LocalDate getDate() {
         String text = XPathUtils.getString(getHtml(), ".//x:div[@id='tocMeta']/x:div[@id='date']");
-        DateTime dt = DateTimeFormat.forPattern("MMMM d, yyyy").parseDateTime(text);
+        DateTime dt;
+        if (text.contains(", ")) {
+            dt = DateTimeFormat.forPattern("MMMM d, yyyy").parseDateTime(text);
+        } else {
+            dt = DateTimeFormat.forPattern("MMMM yyyy").parseDateTime(text);
+        }
         return new LocalDate(dt);
     }
 
@@ -157,7 +162,7 @@ public class AcsIssueCrawler extends AbstractIssueCrawler {
         issue.setYear(getYear());
         issue.setVolume(getVolume());
         issue.setNumber(getNumber());
-        issue.setDate(getDate());
+//        issue.setDate(getDate());
         return issue;
     }
     

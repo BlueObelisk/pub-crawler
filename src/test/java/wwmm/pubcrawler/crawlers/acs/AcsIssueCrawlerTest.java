@@ -59,6 +59,25 @@ public class AcsIssueCrawlerTest extends AbstractCrawlerTest {
         return new AcsIssueCrawler(issue, context);
     }
 
+    private CrawlerResponse prepareInocajLegacyIssueResponse() throws IOException {
+        return prepareResponse("./inocaj-34-25.html",
+                URI.create("http://pubs.acs.org/toc/inocaj/34/25"));
+    }
+
+    protected AcsIssueCrawler getInocajLegacyIssue() throws IOException {
+        Issue issue = new Issue();
+        issue.setUrl(URI.create("http://pubs.acs.org/toc/inocaj/34/25"));
+
+        CrawlerResponse response = prepareInocajLegacyIssueResponse();
+
+        HttpCrawler crawler = Mockito.mock(HttpCrawler.class);
+        Mockito.when(crawler.execute(Mockito.any(CrawlerRequest.class)))
+                    .thenReturn(response);
+
+        CrawlerContext context = new CrawlerContext(null, crawler, null);
+        return new AcsIssueCrawler(issue, context);
+    }
+
     @Test
     public void testGetArticleIds() throws IOException {
         AcsIssueCrawler crawler = getJacsIssue132_51();
@@ -120,6 +139,13 @@ public class AcsIssueCrawlerTest extends AbstractCrawlerTest {
         assertEquals(64, issue.getArticles().size());
         assertNotNull(issue.getPreviousIssue());
         assertEquals("acs/jacsat/132/50", issue.getPreviousIssue().getId());
+    }
+
+
+    @Test
+    public void testGetYearFromLegacyIssue() throws IOException {
+        AcsIssueCrawler crawler = getInocajLegacyIssue();
+        assertEquals("1995", crawler.getYear());
     }
 
 }
