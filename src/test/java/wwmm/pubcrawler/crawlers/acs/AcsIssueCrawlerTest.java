@@ -53,7 +53,7 @@ public class AcsIssueCrawlerTest extends AbstractCrawlerTest {
 
         HttpCrawler crawler = Mockito.mock(HttpCrawler.class);
         Mockito.when(crawler.execute(Mockito.any(CrawlerRequest.class)))
-                    .thenReturn(response);
+                .thenReturn(response);
 
         CrawlerContext context = new CrawlerContext(null, crawler, null);
         return new AcsIssueCrawler(issue, context);
@@ -72,19 +72,53 @@ public class AcsIssueCrawlerTest extends AbstractCrawlerTest {
 
         HttpCrawler crawler = Mockito.mock(HttpCrawler.class);
         Mockito.when(crawler.execute(Mockito.any(CrawlerRequest.class)))
-                    .thenReturn(response);
+                .thenReturn(response);
 
         CrawlerContext context = new CrawlerContext(null, crawler, null);
         return new AcsIssueCrawler(issue, context);
     }
 
     @Test
-    public void testGetArticleIds() throws IOException {
+    public void testGetArticleDois() throws IOException {
         AcsIssueCrawler crawler = getJacsIssue132_51();
-        List<Article> ids = crawler.getArticles();
-        assertEquals(64, ids.size());
-        assertEquals(new Doi("10.1021/ja104809x"), ids.get(0).getDoi());
-        assertEquals(new Doi("10.1021/ja110154r"), ids.get(63).getDoi());
+        List<Article> articles = crawler.getArticles();
+        assertEquals(64, articles.size());
+        assertEquals(new Doi("10.1021/ja104809x"), articles.get(0).getDoi());
+        assertEquals(new Doi("10.1021/ja110154r"), articles.get(63).getDoi());
+    }
+
+    @Test
+    public void testGetBasicArticleHtmlTitles() throws IOException {
+        AcsIssueCrawler crawler = getJacsIssue132_51();
+        List<Article> articles = crawler.getArticles();
+        assertEquals(64, articles.size());
+        assertEquals("<h1 xmlns=\"http://www.w3.org/1999/xhtml\">Accumulative Charge Separation Inspired by Photosynthesis</h1>",
+                articles.get(0).getTitleHtml());
+    }
+
+    @Test
+    public void testGetArticleHtmlTitlesWithEntities() throws IOException {
+        AcsIssueCrawler crawler = getJacsIssue132_51();
+        List<Article> articles = crawler.getArticles();
+        assertEquals(64, articles.size());
+        assertEquals("<h1 xmlns=\"http://www.w3.org/1999/xhtml\">Direct Assembly of Polyarenes via C\u2212C Coupling Using PIFA/BF<sub>3</sub>\u00B7Et<sub>2</sub>O</h1>",
+                articles.get(1).getTitleHtml());
+    }
+
+    @Test
+    public void testGetArticleAuthorsWithEntities() throws IOException {
+        AcsIssueCrawler crawler = getJacsIssue132_51();
+        List<Article> articles = crawler.getArticles();
+        assertEquals(64, articles.size());
+        List<String> authors = articles.get(0).getAuthors();
+        assertEquals(7, authors.size());
+        assertEquals("Susanne Karlsson", authors.get(0));
+        assertEquals("Julien Boixel", authors.get(1));
+        assertEquals("Yann Pellegrin", authors.get(2));
+        assertEquals("Errol Blart", authors.get(3));
+        assertEquals("Hans-Christian Becker", authors.get(4));
+        assertEquals("Fabrice Odobel", authors.get(5));
+        assertEquals("Leif Hammarstr\u00f6m", authors.get(6));
     }
 
     @Test
@@ -125,7 +159,7 @@ public class AcsIssueCrawlerTest extends AbstractCrawlerTest {
         AcsIssueCrawler issue = getJacsIssue132_51();
         assertEquals(new LocalDate(2010, 12, 29), issue.getDate());
     }
-    
+
     @Test
     public void testToIssue() throws IOException {
         AcsIssueCrawler crawler = getJacsIssue132_51();

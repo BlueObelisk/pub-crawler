@@ -15,17 +15,17 @@
  */
 package wwmm.pubcrawler.crawlers.acs;
 
-import nu.xom.Attribute;
-import nu.xom.Document;
-import nu.xom.Node;
+import nu.xom.*;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import wwmm.pubcrawler.CrawlerContext;
+import wwmm.pubcrawler.CrawlerRuntimeException;
 import wwmm.pubcrawler.crawlers.AbstractIssueCrawler;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.Issue;
+import wwmm.pubcrawler.model.Reference;
 import wwmm.pubcrawler.types.Doi;
 import wwmm.pubcrawler.utils.XPathUtils;
 
@@ -49,6 +49,10 @@ public class AcsIssueCrawler extends AbstractIssueCrawler {
 
     private static final Logger LOG = Logger.getLogger(AcsIssueCrawler.class);
 
+    private String journalTitle;
+    private String volume;
+    private String number;
+
     /**
 	 * <p>Creates an instance of the AcsIssueCrawler class and
 	 * specifies the issue to be crawled.</p>
@@ -57,6 +61,9 @@ public class AcsIssueCrawler extends AbstractIssueCrawler {
 	 */
     public AcsIssueCrawler(Issue issue, CrawlerContext context) throws IOException {
         super(issue, context);
+        this.journalTitle = getJournalTitle();
+        this.volume = getVolume();
+        this.number = getNumber();
     }
 
     @Override
@@ -103,16 +110,74 @@ public class AcsIssueCrawler extends AbstractIssueCrawler {
         List<Article> idList = new ArrayList<Article>();
         List<Node> articleNodes = XPathUtils.queryHTML(getHtml(), ".//x:div[@class='articleBox']");
         for (Node articleNode : articleNodes) {
-            String s = XPathUtils.getString(articleNode, ".//x:div[@class='articleCheck']/x:input[@type='checkbox']/@value");
-            Doi doi = new Doi(s);
-            String articleId = issueId + '/' + doi.getSuffix();
-
-            Article article = new Article();
-            article.setId(articleId);
-            article.setDoi(doi);
+            Article article = getArticle(articleNode, issueId);
             idList.add(article);
         }
         return idList;
+    }
+
+    private Article getArticle(Node node, String issueId) {
+        Article article = new Article();
+        Doi doi = getDoi(node);
+        article.setDoi(doi);
+        String articleId = issueId + '/' + doi.getSuffix();
+        article.setId(articleId);
+        article.setTitleHtml(getTitle(node));
+        article.setAuthors(getAuthors(node));
+        Reference ref = getReference(node);
+        article.setReference(ref);
+        return article;
+    }
+
+    private Reference getReference(Node node) {
+        Reference ref = new Reference();
+        ref.setJournalTitle(journalTitle);
+        ref.setVolume(volume);
+        ref.setNumber(number);
+        ref.setPages(getPages(node));
+        return ref;
+    }
+
+    private String getPages(Node node) {
+        String pages = XPathUtils.getString(node, ".//x:div[starts-with(., 'pp ')]");
+        if (pages != null) {
+            return pages.substring(3);
+        }
+        pages = XPathUtils.getString(node, ".//x:div[starts-with(., 'p ')]");
+        if (pages != null) {
+            return pages.substring(2);
+        }
+        throw new CrawlerRuntimeException("Unable to find pages");
+    }
+
+    private List<String> getAuthors(Node node) {
+        List<String> authors = new ArrayList<String>();
+        Element names = (Element) XPathUtils.getNode(node, ".//x:div[@class='articleAuthors']");
+        if (names != null) {
+            Element copy = (Element) names.copy();
+            AcsTools.normaliseImages(copy);
+            for (String name : copy.getValue().split(" and |, (and )?")) {
+                authors.add(name.trim());
+            }
+        }
+        return authors;
+    }
+
+    private String getTitle(Node node) {
+        Element title = new Element("h1", "http://www.w3.org/1999/xhtml");
+        ParentNode source = (ParentNode) XPathUtils.getNode(node, ".//x:h2/x:a");
+        AcsTools.copyChildren(source, title);
+        return AcsTools.toHtml(title);
+    }
+
+    private Doi getDoi(Node node) {
+        String s = XPathUtils.getString(node, ".//x:input[@name='doi']/@value");
+        return new Doi(s);
+    }
+
+    private String getJournalTitle() {
+        String s = XPathUtils.getString(getHtml(), "/x:html/x:head/x:title");
+        return s.substring(s.indexOf(':'));
     }
 
     public String getVolume() {
