@@ -19,7 +19,6 @@ package wwmm.pubcrawler.data.gson;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.junit.Test;
-import wwmm.pubcrawler.types.Doi;
 import wwmm.pubcrawler.types.MediaType;
 
 import static org.junit.Assert.assertEquals;
