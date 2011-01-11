@@ -130,7 +130,7 @@ public class DataStore {
     }
 
     public String loadUtf8(String id) throws IOException {
-        File file = getFile(id);
+        File file = getFile(id, null);
         BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(file), "UTF-8"));
         try {
             String s = IOUtils.toString(in);
