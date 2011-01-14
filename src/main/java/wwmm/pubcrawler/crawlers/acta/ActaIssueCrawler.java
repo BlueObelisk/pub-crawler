@@ -95,7 +95,8 @@ public class ActaIssueCrawler extends AbstractIssueCrawler {
     public List<Article> getArticles() {
         String issueId = getIssueId();
         List<Article> articles = new ArrayList<Article>();
-        List<Node> nodes = XPathUtils.queryHTML(getHtml(), ".//x:font[@size='2' and contains(.,'doi:10.1107/')]");
+//        List<Node> nodes = XPathUtils.queryHTML(getHtml(), ".//x:font[@size='2' and contains(.,'doi:10.1107/')]");
+        List<Node> nodes = XPathUtils.queryHTML(getHtml(), ".//x:a[contains(@href,'dx.doi.org/10.1107/')]");
         for (Node node : nodes) {
             Doi doi = new Doi(node.getValue());
             String id = getArticleId(node);
@@ -110,7 +111,8 @@ public class ActaIssueCrawler extends AbstractIssueCrawler {
     }
 
     private String getArticleId(Node node) {
-        String idString = XPathUtils.getString(node, "../../x:p/x:a[./x:img/@alt='[HTML version]']/@href");
+        String idString = XPathUtils.getString(node, "ancestor::x:div/x:p/x:a[./x:img/@alt='[HTML version]']/@href");
+//        String idString = XPathUtils.getString(node, "../../x:p/x:a[./x:img/@alt='[HTML version]']/@href");
         if (idString == null) {
             throw new CrawlerRuntimeException("not found");
         }

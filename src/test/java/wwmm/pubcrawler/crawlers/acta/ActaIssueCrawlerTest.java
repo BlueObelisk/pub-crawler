@@ -39,6 +39,17 @@ import static org.junit.Assert.assertNotNull;
  */
 public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
 
+    private CrawlerResponse prepareActaE2004_11Head() throws IOException {
+        return prepareResponse("./e-2004-11-head.html",
+                URI.create("http://journals.iucr.org/e/issues/2004/11/00/isscontshdr.html"));
+    }
+
+    private CrawlerResponse prepareActaE2004_11Body() throws IOException {
+        return prepareResponse("./e-2004-11-body.html",
+                URI.create("http://journals.iucr.org/e/issues/2004/11/00/isscontsbdy.html"));
+    }
+
+
     private CrawlerResponse prepareActaA2010_06Head() throws IOException {
         return prepareResponse("./a-2010-06-head.html",
                 URI.create("http://journals.iucr.org/a/issues/2010/06/00/isscontshdr.html"));
@@ -58,6 +69,23 @@ public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
     private CrawlerResponse prepareActaB2010_01Head() throws IOException {
         return prepareResponse("./b-2010-01-head.html",
                 URI.create("http://journals.iucr.org/b/issues/2010/01/00/isscontshead.html"));
+    }
+
+
+    protected ActaIssueCrawler getActaE2004_11() throws IOException {
+        Issue issue = new Issue();
+        issue.setId("acta/e/2004/11-00");
+        issue.setUrl(URI.create("http://journals.iucr.org/e/issues/2004/11/00/isscontsbdy.html"));
+
+        CrawlerResponse response1 = prepareActaE2004_11Body();
+        CrawlerResponse response2 = prepareActaE2004_11Head();
+
+        HttpCrawler crawler = Mockito.mock(HttpCrawler.class);
+        Mockito.when(crawler.execute(Mockito.any(CrawlerRequest.class)))
+                .thenReturn(response1, response2);
+
+        CrawlerContext context = new CrawlerContext(null, crawler, null);
+        return new ActaIssueCrawler(issue, context);
     }
 
 
@@ -166,6 +194,32 @@ public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
         assertEquals(13, issue.getArticles().size());
         assertNotNull(issue.getPreviousIssue());
         assertEquals("acta/b/2009/06-00", issue.getPreviousIssue().getId());
+    }
+
+    @Test
+    public void testGetOldFormatIssueId() throws IOException {
+        ActaIssueCrawler crawler = getActaE2004_11();
+        assertEquals("acta/e/2004/11-00", crawler.getIssueId());
+    }
+
+    @Test
+    public void testGetOldFormatVolume() throws IOException {
+        ActaIssueCrawler crawler = getActaE2004_11();
+        assertEquals("60", crawler.getVolume());
+    }
+
+    @Test
+    public void testGetOldFormatNumber() throws IOException {
+        ActaIssueCrawler crawler = getActaE2004_11();
+        assertEquals("11", crawler.getNumber());
+    }
+
+    @Test
+    public void testGetOldFormatArticles() throws IOException {
+        ActaIssueCrawler crawler = getActaE2004_11();
+        List<Article> articles = crawler.getArticles();
+        assertNotNull(articles);
+        assertEquals(178, articles.size());
     }
 
 }
