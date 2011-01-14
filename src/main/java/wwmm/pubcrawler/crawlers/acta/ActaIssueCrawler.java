@@ -95,8 +95,10 @@ public class ActaIssueCrawler extends AbstractIssueCrawler {
     public List<Article> getArticles() {
         String issueId = getIssueId();
         List<Article> articles = new ArrayList<Article>();
-//        List<Node> nodes = XPathUtils.queryHTML(getHtml(), ".//x:font[@size='2' and contains(.,'doi:10.1107/')]");
-        List<Node> nodes = XPathUtils.queryHTML(getHtml(), ".//x:a[contains(@href,'dx.doi.org/10.1107/')]");
+        List<Node> nodes = XPathUtils.queryHTML(getHtml(), ".//x:font[@size='2' and contains(.,'doi:10.1107/')]");
+        if (nodes.isEmpty()) {
+            nodes = XPathUtils.queryHTML(getHtml(), ".//x:a[contains(@href,'dx.doi.org/10.1107/')]");
+        }
         for (Node node : nodes) {
             Doi doi = new Doi(node.getValue());
             String id = getArticleId(node);
