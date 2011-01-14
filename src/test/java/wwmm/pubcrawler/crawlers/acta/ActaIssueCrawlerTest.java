@@ -39,6 +39,17 @@ import static org.junit.Assert.assertNotNull;
  */
 public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
 
+    private CrawlerResponse prepareActaC2005_10Head() throws IOException {
+        return prepareResponse("./c-2005-10-head.html",
+                URI.create("http://journals.iucr.org/c/issues/2005/10/00/isscontshdr.html"));
+    }
+
+    private CrawlerResponse prepareActaC2005_10Body() throws IOException {
+        return prepareResponse("./c-2005-10-body.html",
+                URI.create("http://journals.iucr.org/c/issues/2005/10/00/isscontsbdy.html"));
+    }
+
+
     private CrawlerResponse prepareActaE2004_11Head() throws IOException {
         return prepareResponse("./e-2004-11-head.html",
                 URI.create("http://journals.iucr.org/e/issues/2004/11/00/isscontshdr.html"));
@@ -120,6 +131,24 @@ public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
         CrawlerContext context = new CrawlerContext(null, crawler, null);
         return new ActaIssueCrawler(issue, context);
     }
+
+
+    protected ActaIssueCrawler getActaC2005_10() throws IOException {
+        Issue issue = new Issue();
+        issue.setId("acta/c/2005/10-00");
+        issue.setUrl(URI.create("http://journals.iucr.org/c/issues/2005/10/00/isscontsbdy.html"));
+
+        CrawlerResponse response1 = prepareActaC2005_10Body();
+        CrawlerResponse response2 = prepareActaC2005_10Head();
+
+        HttpCrawler crawler = Mockito.mock(HttpCrawler.class);
+        Mockito.when(crawler.execute(Mockito.any(CrawlerRequest.class)))
+                .thenReturn(response1, response2);
+
+        CrawlerContext context = new CrawlerContext(null, crawler, null);
+        return new ActaIssueCrawler(issue, context);
+    }
+
 
     @Test
     public void testPageWithVolumeInTitle() throws IOException {
@@ -220,6 +249,14 @@ public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
         List<Article> articles = crawler.getArticles();
         assertNotNull(articles);
         assertEquals(178, articles.size());
+    }
+
+    @Test
+    public void testGetArticlesWithoutLink() throws IOException {
+        ActaIssueCrawler crawler = getActaC2005_10();
+        List<Article> articles = crawler.getArticles();
+        assertNotNull(articles);
+        assertEquals(21, articles.size());
     }
 
 }
