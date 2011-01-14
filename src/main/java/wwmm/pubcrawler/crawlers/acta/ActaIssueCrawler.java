@@ -143,7 +143,7 @@ public class ActaIssueCrawler extends AbstractIssueCrawler {
 //        String s = XPathUtils.getString(getHtml(), ".//x:h3[starts-with(., 'Volume')]");
         // http://journals.iucr.org/s/issues/2011/02/00/isscontsbdy.html
         // For publication in Volume 18, Part 2 (March 2011)
-        String s = XPathUtils.getString(getHtml(), ".//x:h3[contains(., 'Volume')]");
+        String s = XPathUtils.getString(getHtml(), ".//x:h3[contains(., 'Volume') and contains(., 'Part')]");
         if (s == null) {
             throw new CrawlerRuntimeException("Volume info not found");
         }
