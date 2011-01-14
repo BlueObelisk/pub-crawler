@@ -39,6 +39,17 @@ import static org.junit.Assert.assertNotNull;
  */
 public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
 
+    private CrawlerResponse prepareActaA2010_06Head() throws IOException {
+        return prepareResponse("./a-2010-06-head.html",
+                URI.create("http://journals.iucr.org/a/issues/2010/06/00/isscontshdr.html"));
+    }
+
+    private CrawlerResponse prepareActaA2010_06Body() throws IOException {
+        return prepareResponse("./a-2010-06-body.html",
+                URI.create("http://journals.iucr.org/a/issues/2010/06/00/isscontsbdy.html"));
+    }
+
+
     private CrawlerResponse prepareActaB2010_01Body() throws IOException {
         return prepareResponse("./b-2010-01-body.html",
                 URI.create("http://journals.iucr.org/b/issues/2010/01/00/isscontsbdy.html"));
@@ -48,6 +59,7 @@ public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
         return prepareResponse("./b-2010-01-head.html",
                 URI.create("http://journals.iucr.org/b/issues/2010/01/00/isscontshead.html"));
     }
+
 
     protected ActaIssueCrawler getActaB2010_01() throws IOException {
         Issue issue = new Issue();
@@ -59,10 +71,32 @@ public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
 
         HttpCrawler crawler = Mockito.mock(HttpCrawler.class);
         Mockito.when(crawler.execute(Mockito.any(CrawlerRequest.class)))
-                    .thenReturn(response1, response2);
+                .thenReturn(response1, response2);
 
         CrawlerContext context = new CrawlerContext(null, crawler, null);
         return new ActaIssueCrawler(issue, context);
+    }
+
+    protected ActaIssueCrawler getActaA2010_06() throws IOException {
+        Issue issue = new Issue();
+        issue.setId("acta/a/2010/06-00");
+        issue.setUrl(URI.create("http://journals.iucr.org/a/issues/2010/06/00/isscontsbdy.html"));
+
+        CrawlerResponse response1 = prepareActaA2010_06Body();
+        CrawlerResponse response2 = prepareActaA2010_06Head();
+
+        HttpCrawler crawler = Mockito.mock(HttpCrawler.class);
+        Mockito.when(crawler.execute(Mockito.any(CrawlerRequest.class)))
+                .thenReturn(response1, response2);
+
+        CrawlerContext context = new CrawlerContext(null, crawler, null);
+        return new ActaIssueCrawler(issue, context);
+    }
+
+    @Test
+    public void testPageWithVolumeInTitle() throws IOException {
+        ActaIssueCrawler crawler = getActaA2010_06();
+        assertEquals("66", crawler.getVolume());
     }
 
 
