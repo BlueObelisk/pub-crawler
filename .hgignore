@@ -9,3 +9,4 @@ target/*
 syntax: regexp
 ^\.pc/
 ^pub-crawler.log
+^tmp/
