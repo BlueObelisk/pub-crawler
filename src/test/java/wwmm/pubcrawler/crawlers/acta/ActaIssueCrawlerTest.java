@@ -25,6 +25,7 @@ import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.crawlers.AbstractCrawlerTest;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.Issue;
+import wwmm.pubcrawler.model.SupplementaryResource;
 import wwmm.pubcrawler.types.Doi;
 import wwmm.pubcrawler.httpcrawler.CrawlerRequest;
 import wwmm.pubcrawler.httpcrawler.CrawlerResponse;
@@ -242,6 +243,12 @@ public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
         assertEquals(Arrays.asList("C. H. G\u00f6rbitz"), articles.get(10).getAuthors());
         assertEquals(Arrays.asList("L. F\u00e1bi\u00e1n", "C. P. Brock"), articles.get(11).getAuthors());
         assertEquals(Arrays.asList(), articles.get(12).getAuthors());
+    }
+
+    @Test
+    @Given("#testGetArticles")
+    public void testArticleSuppInfo(List<Article> articles) throws IOException {
+        assertEquals(3, articles.get(0).getSupplementaryResources().size());
     }
 
     @Test
