@@ -52,7 +52,11 @@ public abstract class AbstractArticleCrawler extends AbstractCrawler {
         super(context);
         this.articleRef = article;
         this.html = fetchHtml(article);
-        this.url = URI.create(html.getBaseURI());
+        if (this.html != null) {
+            this.url = URI.create(html.getBaseURI());
+        } else {
+            this.url = null;
+        }
     }
 
     public Article getArticleRef() {

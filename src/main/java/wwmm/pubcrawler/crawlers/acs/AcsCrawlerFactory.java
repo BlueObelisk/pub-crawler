@@ -43,7 +43,7 @@ public class AcsCrawlerFactory extends AbstractCrawlerFactory {
 
     @Override
     public AbstractArticleCrawler createArticleCrawler(Article article, CrawlerContext context) throws IOException {
-        return new AcsArticleCrawler(article, context);
+        return new AcsSuppInfoCrawler(article, context);
     }
     
 }

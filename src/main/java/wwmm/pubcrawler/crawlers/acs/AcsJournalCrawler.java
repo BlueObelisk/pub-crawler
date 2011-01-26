@@ -62,6 +62,7 @@ public class AcsJournalCrawler extends AbstractJournalCrawler {
         for (Journal journal : AcsJournalIndex.getIndex().values()) {
             CrawlerContext context = new DefaultCrawlerContext(new AcsCrawlerFactory());
             AcsJournalCrawler crawler = new AcsJournalCrawler(journal, context);
+            crawler.setMinYear(2011);
             crawler.crawlJournal();
         }
 
