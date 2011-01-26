@@ -83,6 +83,15 @@ public class XPathUtils {
         return node == null ? null : node.getValue();
     }
 
+    public static List<String> getStrings(Node root, String xpath) {
+        Nodes nodes = root.query(xpath, XHtml.XPATH_CONTEXT);
+        List<String> strings = new ArrayList<String>();
+        for (int i = 0; i < nodes.size(); i++) {
+            strings.add(nodes.get(i).getValue());
+        }
+        return strings;
+    }
+
     public static Node getNode(Node root, String xpath) {
         Nodes nodes = root.query(xpath, XHtml.XPATH_CONTEXT);
         if (nodes.size() == 1) {
