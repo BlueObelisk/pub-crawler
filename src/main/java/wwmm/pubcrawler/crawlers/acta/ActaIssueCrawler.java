@@ -110,6 +110,11 @@ public class ActaIssueCrawler extends AbstractIssueCrawler {
             article.setDoi(doi);
             article.setTitleHtml(getArticleTitleHtml(node));
             article.setAuthors(getArticleAuthors(node));
+
+            List<Node> suppNodes = XPathUtils.queryHTML(node, "./x:p/x:a[x:img]");
+            ActaSuppInfoReader suppInfoReader = new ActaSuppInfoReader(getContext(), article);
+            article.setSupplementaryResources(suppInfoReader.getSupplementaryResources(suppNodes, getUrl()));
+
             articles.add(article);
         }
         return articles;

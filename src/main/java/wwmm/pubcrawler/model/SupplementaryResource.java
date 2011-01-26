@@ -67,5 +67,10 @@ public class SupplementaryResource {
     public void setFilePath(String filePath) {
         this.filePath = filePath;
     }
-    
+
+
+    public String toString() {
+        return getUrl()+"\n"+getLinkText()+"\n"+getContentType()+"\n";
+    }
+
 }
