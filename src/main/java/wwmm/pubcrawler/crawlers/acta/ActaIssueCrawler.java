@@ -16,9 +16,12 @@
 package wwmm.pubcrawler.crawlers.acta;
 
 import nu.xom.Document;
+import nu.xom.Element;
 import nu.xom.Node;
+import nu.xom.Serializer;
 import org.apache.log4j.Logger;
 import wwmm.pubcrawler.CrawlerRuntimeException;
+import wwmm.pubcrawler.HtmlUtil;
 import wwmm.pubcrawler.crawlers.AbstractIssueCrawler;
 import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.model.Article;
@@ -29,6 +32,7 @@ import wwmm.pubcrawler.utils.XPathUtils;
 import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -95,25 +99,47 @@ public class ActaIssueCrawler extends AbstractIssueCrawler {
     public List<Article> getArticles() {
         String issueId = getIssueId();
         List<Article> articles = new ArrayList<Article>();
-        List<Node> nodes = XPathUtils.queryHTML(getHtml(), ".//x:font[@size='2' and contains(.,'doi:10.1107/')]");
-        if (nodes.isEmpty()) {
-            nodes = XPathUtils.queryHTML(getHtml(), ".//x:a[contains(@href,'dx.doi.org/10.1107/')]");
-        }
+        List<Node> nodes = XPathUtils.queryHTML(getHtml(), ".//x:div[contains(@class, 'toc') and contains(@class, 'entry')]");
         for (Node node : nodes) {
-            Doi doi = new Doi(node.getValue());
+            Doi doi = getArticleDoi(node);
             String id = getArticleId(node);
             String articleId = issueId + '/' + id;
 
             Article article = new Article();
             article.setId(articleId);
             article.setDoi(doi);
+            article.setTitleHtml(getArticleTitleHtml(node));
+            article.setAuthors(getArticleAuthors(node));
             articles.add(article);
         }
         return articles;
     }
 
+    private Doi getArticleDoi(Node node) {
+        String doi = XPathUtils.getString(node, ".//x:font[@size='2' and contains(.,'doi:10.1107/')]");
+        if (doi == null) {
+            doi = XPathUtils.getString(node, ".//x:a[contains(@href,'dx.doi.org/10.1107/')]");
+        }
+        return new Doi(doi);
+    }
+
+    private String getArticleTitleHtml(Node node) {
+        Node heading = XPathUtils.getNode(node, "./x:h3[1]");
+        Element copy = (Element) heading.copy();
+        copy.setLocalName("h1");
+        ActaUtil.normaliseHtml(copy);
+        Document doc = new Document(copy);
+        String s = HtmlUtil.writeAscii(doc).trim();
+        return s;
+    }
+
+    private List<String> getArticleAuthors(Node node) {
+        List<String> authors = XPathUtils.getStrings(node, "./x:h3[2]/x:a");
+        return authors;
+    }
+
     private String getArticleId(Node node) {
-        String idString = XPathUtils.getString(node, "ancestor::x:div/x:p/x:a[./x:img/@alt='[HTML version]']/@href");
+        String idString = XPathUtils.getString(node, "./x:p/x:a[./x:img/@alt='[HTML version]']/@href");
 //        String idString = XPathUtils.getString(node, "../../x:p/x:a[./x:img/@alt='[HTML version]']/@href");
         if (idString == null) {
             throw new CrawlerRuntimeException("not found");
