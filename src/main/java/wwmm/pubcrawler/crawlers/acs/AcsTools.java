@@ -17,7 +17,7 @@
 package wwmm.pubcrawler.crawlers.acs;
 
 import nu.xom.*;
-import org.xml.sax.AttributeList;
+import org.apache.log4j.Logger;
 import wwmm.pubcrawler.utils.XPathUtils;
 
 import java.io.ByteArrayOutputStream;
@@ -27,6 +27,8 @@ import java.io.IOException;
  * @author Sam Adams
  */
 public class AcsTools {
+
+    private static final Logger LOG = Logger.getLogger(AcsTools.class);
 
     public static Element getTitleHtml(Node node) {
         Element element = (Element) XPathUtils.getNode(node, ".//x:h1[@class='articleTitle']");
@@ -184,7 +186,7 @@ public class AcsTools {
 
 
                     else {
-                        System.out.println(src);
+                        LOG.warn("Unknown ACS entity: "+src);
                     }
                 } else {
                     normaliseImages((Element)child);

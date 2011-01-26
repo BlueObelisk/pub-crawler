@@ -41,6 +41,7 @@ public class Article {
 
     private List<FullTextResource> fullTextResources;
     private List<SupplementaryResource> supplementaryResources;
+    private URI supplementaryResourceUrl;
 
     public String getId() {
         return id;
@@ -141,6 +142,14 @@ public class Article {
 
     public void setFullTextResources(List<FullTextResource> fullTextResources) {
         this.fullTextResources = fullTextResources;
+    }
+
+    public URI getSupplementaryResourceUrl() {
+        return supplementaryResourceUrl;
+    }
+
+    public void setSupplementaryResourceUrl(URI supplementaryResourceUrl) {
+        this.supplementaryResourceUrl = supplementaryResourceUrl;
     }
     
 }

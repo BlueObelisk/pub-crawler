@@ -124,9 +124,26 @@ public class AcsIssueCrawler extends AbstractIssueCrawler {
         article.setId(articleId);
         article.setTitleHtml(getTitle(node));
         article.setAuthors(getAuthors(node));
+        article.setUrl(getArticleUrl(node));
+        article.setSupplementaryResourceUrl(getSupportingInfoUrl(node));
         Reference ref = getReference(node);
         article.setReference(ref);
         return article;
+    }
+
+    private URI getArticleUrl(Node node) {
+        String s = XPathUtils.getString(node, "./x:div[@class='articleLinksIcons']//x:a[text() = 'Abstract']/@href");
+        URI url = getUrl().resolve(s);
+        return url;
+    }
+
+    private URI getSupportingInfoUrl(Node node) {
+        String s = XPathUtils.getString(node, "./x:div[@class='articleLinksIcons']//x:a[text() = 'Supporting Info']/@href");
+        if (s != null) {
+            URI url = getUrl().resolve(s);
+            return url;
+        }
+        return null;
     }
 
     private Reference getReference(Node node) {
