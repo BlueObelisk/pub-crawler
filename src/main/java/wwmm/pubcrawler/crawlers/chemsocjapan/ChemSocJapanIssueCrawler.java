@@ -16,6 +16,7 @@
 package wwmm.pubcrawler.crawlers.chemsocjapan;
 
 import nu.xom.Node;
+import nu.xom.Serializer;
 import org.apache.log4j.Logger;
 import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.CrawlerRuntimeException;
@@ -27,6 +28,7 @@ import wwmm.pubcrawler.utils.XPathUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -70,17 +72,30 @@ public class ChemSocJapanIssueCrawler extends AbstractIssueCrawler {
     public List<Article> getArticles() {
         String issueId = getIssueId();
         List<Article> articles = new ArrayList<Article>();
-        List<Node> doiNodes = XPathUtils.queryHTML(getHtml(), ".//x:a[starts-with(.,'Full Text')]/@href");
-        for (Node doiNode : doiNodes) {
+        List<Node> nodes = XPathUtils.queryHTML(getHtml(), ".//x:table[x:tr/x:td[@class='title']]");
+        for (Node node : nodes) {
+            Node doiNode = XPathUtils.getNode(node, ".//x:a[starts-with(.,'Full Text')]/@href");
             String link = doiNode.getValue();
             int idx = link.indexOf("id=");
             String articleId = link.substring(idx+3).replaceAll("/", ".");
             Article article = new Article();
             article.setId(issueId+'/'+articleId);
             article.setDoi(new Doi("10.1246/"+articleId));
+            article.setTitle(getArticleTitle(node));
+            article.setAuthors(getArticleAuthors(node));
             articles.add(article);
         }
         return articles;
+    }
+
+
+    public String getArticleTitle(Node node) {
+        return XPathUtils.getString(node, ".//x:td[@class='title']");
+    }
+
+    public List<String> getArticleAuthors(Node node) {
+        String s = XPathUtils.getString(node, ".//x:td[@class='authors']");
+        return Arrays.asList(s.split(", and |, | and "));
     }
 
     @Override
