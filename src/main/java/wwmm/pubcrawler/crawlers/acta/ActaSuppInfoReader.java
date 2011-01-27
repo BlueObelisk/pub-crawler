@@ -78,7 +78,6 @@ public class ActaSuppInfoReader extends AbstractCrawler {
             }
             String href = address.getAttributeValue("href");
             URI url = context.resolve(href);
-
             log().trace("resource: ["+href+"] "+alt);
             
             if (isCif(alt) && isMultiCif(href)) {

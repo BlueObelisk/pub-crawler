@@ -76,11 +76,11 @@ public class ActaArticleCrawlerTest extends AbstractCrawlerTest {
         article.setDoi(new Doi("10.1107/S1600536810045198"));
 
         CrawlerResponse response1 = prepareBt5401();
-        CrawlerResponse response2 = prepareBt5401Bibtex();
+//        CrawlerResponse response2 = prepareBt5401Bibtex();
 
         HttpCrawler crawler = Mockito.mock(HttpCrawler.class);
         Mockito.when(crawler.execute(Mockito.any(CrawlerRequest.class)))
-                .thenReturn(response1, response2);
+                .thenReturn(response1);
 
         CrawlerContext context = new CrawlerContext(null, crawler, null);
         return new ActaArticleCrawler(article, context);
@@ -92,13 +92,13 @@ public class ActaArticleCrawlerTest extends AbstractCrawlerTest {
         article.setDoi(new Doi("10.1107/S0108768109004066"));
 
         CrawlerResponse response1 = prepareBk5081();
-        CrawlerResponse response2 = prepareBk5081Bibtex();
+//        CrawlerResponse response2 = prepareBk5081Bibtex();
         CrawlerResponse response3 = prepareBk5081Cifs();
         CrawlerResponse response4 = prepareBk5081Supp();
 
         HttpCrawler crawler = Mockito.mock(HttpCrawler.class);
         Mockito.when(crawler.execute(Mockito.any(CrawlerRequest.class)))
-                .thenReturn(response1, response2, response3, response4);
+                .thenReturn(response1, response3, response4);
 
         CrawlerContext context = new CrawlerContext(null, crawler, null);
         return new ActaArticleCrawler(article, context);
@@ -136,9 +136,9 @@ public class ActaArticleCrawlerTest extends AbstractCrawlerTest {
         List<String> authors = crawler.getAuthors();
         assertNotNull(authors);
         assertEquals(3, authors.size());
-        assertEquals("Schurz, Christian M.", authors.get(0));
-        assertEquals("Schleid, Thomas", authors.get(1));
-        assertEquals("Meyer, Gerd", authors.get(2));
+        assertEquals("C. M.  Schurz", authors.get(0));
+        assertEquals("T.  Schleid", authors.get(1));
+        assertEquals("G.  Meyer", authors.get(2));
     }
 
     @Test
