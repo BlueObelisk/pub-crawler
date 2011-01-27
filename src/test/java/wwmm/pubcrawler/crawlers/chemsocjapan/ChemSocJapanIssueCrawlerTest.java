@@ -29,6 +29,7 @@ import wwmm.pubcrawler.httpcrawler.HttpCrawler;
 
 import java.io.IOException;
 import java.net.URI;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -97,6 +98,22 @@ public class ChemSocJapanIssueCrawlerTest extends AbstractCrawlerTest {
         Article a70 = articles.get(70);
         assertEquals("chemsocjapan/chem-lett/39/3/cl.2010.308", a70.getId());
         assertEquals(new Doi("10.1246/cl.2010.308"), a70.getDoi());
+    }
+
+    @Test
+    public void testGetArticleTitles() throws IOException {
+        ChemSocJapanIssueCrawler crawler = getCl2010_3();
+        List<Article> articles = crawler.getArticles();
+        assertEquals("Carotenoid Radicals: Cryptochemistry of Natural Colorants", articles.get(0).getTitle());
+        assertEquals("Ratiometric Fluorescent Sensor for 2,4,6-Trinitrotoluene Designed Based on Energy Transfer between Size-different Quantum Dots", articles.get(1).getTitle());
+    }
+
+    @Test
+    public void testGetArticleAuthors() throws IOException {
+        ChemSocJapanIssueCrawler crawler = getCl2010_3();
+        List<Article> articles = crawler.getArticles();
+        assertEquals(Arrays.asList("Lowell D. Kispert", "Nikolay E. Polyakov"), articles.get(0).getAuthors());
+        assertEquals(Arrays.asList("Tomohiro Shiraki", "Youichi Tsuchiya", "Seiji Shinkai"), articles.get(1).getAuthors());
     }
 
     @Test
