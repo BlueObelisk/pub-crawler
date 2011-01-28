@@ -16,20 +16,15 @@
 
 package wwmm.pubcrawler.crawlers.elsevier;
 
-import ch.unibe.jexample.Given;
-import ch.unibe.jexample.JExample;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.crawlers.AbstractCrawlerTest;
-import wwmm.pubcrawler.crawlers.springer.SpringerIssueCrawler;
 import wwmm.pubcrawler.httpcrawler.CrawlerRequest;
 import wwmm.pubcrawler.httpcrawler.CrawlerResponse;
 import wwmm.pubcrawler.httpcrawler.HttpCrawler;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.Issue;
-import wwmm.pubcrawler.model.Reference;
 
 import java.io.IOException;
 import java.net.URI;
@@ -42,7 +37,6 @@ import static org.junit.Assert.assertNotNull;
 /**
  * @author Sam Adams
  */
-@RunWith(JExample.class)
 public class ElsevierIssueCrawlerTest extends AbstractCrawlerTest {
 
     private CrawlerResponse prepareCompBioChemIssue34_4Response() throws IOException {
@@ -93,17 +87,17 @@ public class ElsevierIssueCrawlerTest extends AbstractCrawlerTest {
     }
 
     @Test
-    public List<Article> testGetArticles() throws IOException {
+    public void testGetArticles() throws IOException {
         ElsevierIssueCrawler crawler = getCompBioChemIssue34_4();
         List<Article> articles = crawler.getArticles();
         assertNotNull(articles);
         assertEquals(8, articles.size());
-        return articles;
     }
 
     @Test
-    @Given("#testGetArticles")
-    public void testGetArticleTitles(List<Article> articles) throws IOException {
+    public void testGetArticleTitles() throws IOException {
+        ElsevierIssueCrawler crawler = getCompBioChemIssue34_4();
+        List<Article> articles = crawler.getArticles();
         assertEquals("Editorial Board", articles.get(0).getTitle());
         assertEquals("Editorial Board", articles.get(1).getTitle());
         assertEquals("Stable feature selection for biomarker discovery", articles.get(2).getTitle());
@@ -115,8 +109,9 @@ public class ElsevierIssueCrawlerTest extends AbstractCrawlerTest {
     }
 
     @Test
-    @Given("#testGetArticles")
-    public void testGetArticleAuthors(List<Article> articles) throws IOException {
+    public void testGetArticleAuthors() throws IOException {
+        ElsevierIssueCrawler crawler = getCompBioChemIssue34_4();
+        List<Article> articles = crawler.getArticles();
         assertEquals(Arrays.asList(), articles.get(0).getAuthors());
         assertEquals(Arrays.asList(), articles.get(1).getAuthors());
         assertEquals(Arrays.asList("Zengyou He", "Weichuan Yu"), articles.get(2).getAuthors());
@@ -128,8 +123,9 @@ public class ElsevierIssueCrawlerTest extends AbstractCrawlerTest {
     }
 
     @Test
-    @Given("#testGetArticles")
-    public void testGetArticlePages(List<Article> articles) throws IOException {
+    public void testGetArticlePages() throws IOException {
+        ElsevierIssueCrawler crawler = getCompBioChemIssue34_4();
+        List<Article> articles = crawler.getArticles();
         assertEquals("CO2", articles.get(0).getReference().getPages());
         assertEquals("iii", articles.get(1).getReference().getPages());
         assertEquals("215-225", articles.get(2).getReference().getPages());
@@ -139,7 +135,5 @@ public class ElsevierIssueCrawlerTest extends AbstractCrawlerTest {
         assertEquals("244-250", articles.get(6).getReference().getPages());
         assertEquals("251-257", articles.get(7).getReference().getPages());
     }
-
-
 
 }

@@ -16,20 +16,16 @@
 
 package wwmm.pubcrawler.crawlers.acta;
 
-import ch.unibe.jexample.Given;
-import ch.unibe.jexample.JExample;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.crawlers.AbstractCrawlerTest;
-import wwmm.pubcrawler.model.Article;
-import wwmm.pubcrawler.model.Issue;
-import wwmm.pubcrawler.model.SupplementaryResource;
-import wwmm.pubcrawler.types.Doi;
 import wwmm.pubcrawler.httpcrawler.CrawlerRequest;
 import wwmm.pubcrawler.httpcrawler.CrawlerResponse;
 import wwmm.pubcrawler.httpcrawler.HttpCrawler;
+import wwmm.pubcrawler.model.Article;
+import wwmm.pubcrawler.model.Issue;
+import wwmm.pubcrawler.types.Doi;
 
 import java.io.IOException;
 import java.net.URI;
@@ -42,7 +38,6 @@ import static org.junit.Assert.assertNotNull;
 /**
  * @author Sam Adams
  */
-@RunWith(JExample.class)
 public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
 
     private CrawlerResponse prepareActaC2005_10Head() throws IOException {
@@ -188,7 +183,7 @@ public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
     }
 
     @Test
-    public List<Article> testGetArticles() throws IOException {
+    public void testGetArticles() throws IOException {
         ActaIssueCrawler crawler = getActaB2010_01();
         List<Article> articles = crawler.getArticles();
         assertNotNull(articles);
@@ -205,13 +200,12 @@ public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
         Article a12 = articles.get(12);
         assertEquals("acta/b/2010/01-00/me0395", a12.getId());
         assertEquals(new Doi("10.1107/S0108768109047855"), a12.getDoi());
-
-        return articles;
     }
 
     @Test
-    @Given("#testGetArticles")
-    public void testArticleTitles(List<Article> articles) throws IOException {
+    public void testArticleTitles() throws IOException {
+        ActaIssueCrawler crawler = getActaB2010_01();
+        List<Article> articles = crawler.getArticles();
         assertEquals("<h1>Polysomatic apatites</h1>", articles.get(0).getTitleHtml());
         assertEquals("<h1>A complicated quasicrystal approximant &#x3B5;<sub>16</sub> predicted by the strong-reflections approach</h1>", articles.get(1).getTitleHtml());
         assertEquals("<h1>Structures of incommensurate and commensurate composite crystals Rb<sub><i>x</i></sub>MnO<sub>2</sub> (<i>x</i> = 1.3711, 1.3636)</h1>", articles.get(2).getTitleHtml());
@@ -228,8 +222,9 @@ public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
     }
 
     @Test
-    @Given("#testGetArticles")
-    public void testArticleAuthors(List<Article> articles) throws IOException {
+    public void testArticleAuthors() throws IOException {
+        ActaIssueCrawler crawler = getActaB2010_01();
+        List<Article> articles = crawler.getArticles();
         assertEquals(Arrays.asList("T. Baikie", "S. S. Pramana", "C. Ferraris", "Y. Huang", "E. Kendrick", "K. Knight", "Z. Ahmad", "T. J. White"), articles.get(0).getAuthors());
         assertEquals(Arrays.asList("M. Li", "J. Sun", "P. Oleynikov", "S. Hovm\u00f6ller", "X. Zou", "B. Grushko"), articles.get(1).getAuthors());
         assertEquals(Arrays.asList("J. Nuss", "S. Pfeiffer", "S. van Smaalen", "M. Jansen"), articles.get(2).getAuthors());
@@ -246,8 +241,9 @@ public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
     }
 
     @Test
-    @Given("#testGetArticles")
-    public void testArticleSuppInfo(List<Article> articles) throws IOException {
+    public void testArticleSuppInfo() throws IOException {
+        ActaIssueCrawler crawler = getActaB2010_01();
+        List<Article> articles = crawler.getArticles();
         assertEquals(3, articles.get(0).getSupplementaryResources().size());
     }
 
