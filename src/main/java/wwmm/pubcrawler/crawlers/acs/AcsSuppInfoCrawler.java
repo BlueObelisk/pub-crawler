@@ -22,6 +22,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.log4j.Logger;
 import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.CrawlerRuntimeException;
+import wwmm.pubcrawler.DefaultCrawlerContext;
 import wwmm.pubcrawler.crawlers.AbstractArticleCrawler;
 import wwmm.pubcrawler.httpcrawler.CrawlerGetRequest;
 import wwmm.pubcrawler.httpcrawler.CrawlerPostRequest;
@@ -89,6 +90,9 @@ public class AcsSuppInfoCrawler extends AbstractArticleCrawler {
     }
 
     public Reference getReference() {
+        if (getHtml() == null) {
+            return getArticleRef().getReference();
+        }
         List<Node> nodes = XPathUtils.queryHTML(getHtml(), ".//x:div[@id='citation']");
 
         Element citation = (Element) nodes.get(0);
@@ -116,6 +120,9 @@ public class AcsSuppInfoCrawler extends AbstractArticleCrawler {
 
 
     public List<SupplementaryResource> getSupplementaryResources() {
+        if (getHtml() == null) {
+            return getArticleRef().getSupplementaryResources();
+        }
         List<SupplementaryResource> supplementaryResources = new ArrayList<SupplementaryResource>();
         if (getHtml() != null) {
             List<Node> headingNodes = XPathUtils.queryHTML(getHtml(), ".//x:div[@id='supInfoBox']/x:h3");
@@ -172,6 +179,9 @@ public class AcsSuppInfoCrawler extends AbstractArticleCrawler {
 
 
     public List<FullTextResource> getFullTextResources() {
+        if (getHtml() == null) {
+            return getArticleRef().getFullTextResources();
+        }
         List<FullTextResource> fullTextResources = new ArrayList<FullTextResource>();
         List<Node> links = XPathUtils.queryHTML(getHtml(), ".//x:div[@id='links']/x:ul[1]/x:li[1]/following-sibling::*/x:a");
         for (Node link : links) {
@@ -190,5 +200,5 @@ public class AcsSuppInfoCrawler extends AbstractArticleCrawler {
     public List<String> getAuthors() {
         return getArticleRef().getAuthors();
     }
-
+    
 }
