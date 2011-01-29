@@ -22,6 +22,14 @@
             <!--<id>jexample</id>-->
             <!--<url>http://scg.unibe.ch/download/jexample/maven/</url>-->
         <!--</repository>-->
+        <!--<repository>-->
+            <!--<id>apache-snapshots</id>-->
+            <!--<url>https://repository.apache.org/content/repositories/snapshots</url>-->
+        <!--</repository>-->
+        <!--<repository>-->
+            <!--<id>orientechnologies-repository</id>-->
+            <!--<url>http://www.orientechnologies.com/listing/m2</url>-->
+        <!--</repository>-->
     </repositories>
 
     <developers>
@@ -81,7 +89,6 @@
             <artifactId>gson</artifactId>
             <version>1.4</version>
         </dependency>
-
 
         <dependency>
             <groupId>junit</groupId>
