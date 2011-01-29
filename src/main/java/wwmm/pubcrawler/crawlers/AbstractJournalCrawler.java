@@ -84,6 +84,7 @@ public abstract class AbstractJournalCrawler extends AbstractCrawler {
                     }
                 } catch (Exception e) {
                     log().warn("error fetching issue", e);
+                    issue = null;
                 }
             } else {
                 issue = issueIterator.next();

@@ -123,9 +123,10 @@ public class ActaJournalCrawler extends AbstractJournalCrawler {
     public static void main(String[] args) throws IOException {
 
 //        for (Journal journal : ActaJournalIndex.getIndex().values()) {
-            Journal journal = ActaJournalIndex.ACTA_SECTION_A;
+            Journal journal = ActaJournalIndex.ACTA_SECTION_D;
             CrawlerContext context = new DefaultCrawlerContext(new ActaCrawlerFactory());
             ActaJournalCrawler crawler = new ActaJournalCrawler(journal, context);
+            crawler.setMinYear(2010);
             crawler.crawlJournal();
 //        }
 
