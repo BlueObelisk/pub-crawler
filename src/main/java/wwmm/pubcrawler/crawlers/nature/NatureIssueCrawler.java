@@ -30,6 +30,7 @@ import wwmm.pubcrawler.utils.XHtml;
 import wwmm.pubcrawler.utils.XPathUtils;
 
 import java.io.IOException;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -99,9 +100,15 @@ public class NatureIssueCrawler extends AbstractIssueCrawler {
             article.setDoi(doi);
             article.setTitle(getArticleTitle(node));
             article.setTitleHtml(getArticleTitleHtml(node));
+            article.setSupplementaryResourceUrl(getArticleSuppUrl(node));
             idList.add(article);
         }
         return idList;
+    }
+
+    private URI getArticleSuppUrl(Node node) {
+        String href = XPathUtils.getString(node, ".//x:a[text() = 'Supplementary information']/@href");
+        return href == null ? null : getUrl().resolve(href);
     }
 
     private Doi getArticleDoi(Node node) {

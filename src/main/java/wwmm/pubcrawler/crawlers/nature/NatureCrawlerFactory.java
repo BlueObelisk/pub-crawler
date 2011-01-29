@@ -43,7 +43,7 @@ public class NatureCrawlerFactory extends AbstractCrawlerFactory {
 
     @Override
     public AbstractArticleCrawler createArticleCrawler(Article article, CrawlerContext context) throws IOException {
-        return new NatureArticleCrawler(article, context);
+        return new NatureSuppInfoCrawler(article, context);
     }
     
 }
