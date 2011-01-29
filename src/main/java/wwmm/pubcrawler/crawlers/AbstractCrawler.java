@@ -119,7 +119,7 @@ public abstract class AbstractCrawler {
     private Document readDocument(CrawlerResponse response, Builder builder) throws IOException {
         try {
             Document doc = builder.build(response.getContent());
-            doc.setBaseURI(response.getUrl().toString());
+            setDocBaseUrl(response, doc);
             return doc;
         } catch (ParsingException e) {
             throw new IOException("Error reading XML", e);
@@ -130,11 +130,19 @@ public abstract class AbstractCrawler {
         try {
             InputStreamReader isr = new InputStreamReader(response.getContent(), encoding);
             Document doc = builder.build(isr);
-            doc.setBaseURI(response.getUrl().toString());
+            setDocBaseUrl(response, doc);
             return doc;
         } catch (ParsingException e) {
             throw new IOException("Error reading XML", e);
         }
+    }
+
+    private void setDocBaseUrl(CrawlerResponse response, Document doc) {
+        String url = response.getUrl().toString();
+        if (url.indexOf('#') != -1) {
+            url = url.substring(0, url.indexOf('#'));
+        }
+        doc.setBaseURI(url);
     }
 
     protected  Document readHtml(URI url, String id, Duration maxage) throws IOException {
