@@ -164,7 +164,7 @@ public class ActaIssueCrawler extends AbstractIssueCrawler {
 
     private String getIssueId(URI url) {
         // http://journals.iucr.org/e/issues/2011/01/00/isscontsbdy.html
-        Pattern p = Pattern.compile("journals.iucr.org/([^/]+)/issues/(\\d+)/(\\d+)/(\\d+)");
+        Pattern p = Pattern.compile("journals.iucr.org/([^/]+)/issues/(\\d+)/(\\w+)/(\\w+)");
         Matcher m = p.matcher(url.toString());
         if (!m.find()) {
             throw new CrawlerRuntimeException("Unable to parse URL: "+url);
@@ -182,7 +182,7 @@ public class ActaIssueCrawler extends AbstractIssueCrawler {
         if (s == null) {
             throw new CrawlerRuntimeException("Volume info not found");
         }
-        Pattern p = Pattern.compile("Volume (\\d+), Part (\\d+) +\\(\\S+ (\\d+)\\)");
+        Pattern p = Pattern.compile("Volume (\\d+), Part (\\d+) .*\\(\\S+ (\\d+)\\)");
         Matcher m = p.matcher(s);
         if (!m.find()) {
             throw new CrawlerRuntimeException("No match: "+s);
