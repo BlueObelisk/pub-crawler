@@ -120,11 +120,15 @@ public abstract class AbstractIssueCrawler extends AbstractCrawler {
         issue.setVolume(getVolume());
         issue.setNumber(getNumber());
         issue.setPreviousIssue(getPreviousIssue());
-        List<Article> articles = getArticles();
-        if (articles.isEmpty()) {
-//            throw new CrawlerRuntimeException("No articles found!");
+        try {
+            List<Article> articles = getArticles();
+//            if (articles.isEmpty()) {
+//                throw new CrawlerRuntimeException("No articles found!");
+//            }
+            issue.setArticles(articles);
+        } catch (Exception e) {
+            log().warn("Error reading articles for issue: "+issue.getId()+" ["+getUrl()+"]");
         }
-        issue.setArticles(articles);
         return issue;
     }
 
