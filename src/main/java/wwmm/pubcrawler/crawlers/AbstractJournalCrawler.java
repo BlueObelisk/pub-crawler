@@ -16,13 +16,12 @@
 package wwmm.pubcrawler.crawlers;
 
 import wwmm.pubcrawler.CrawlerContext;
-import wwmm.pubcrawler.model.Journal;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.Issue;
+import wwmm.pubcrawler.model.Journal;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author Sam Adams
@@ -35,6 +34,8 @@ public abstract class AbstractJournalCrawler extends AbstractCrawler {
     private int maxIssues = -1;
     private int minYear = -1;
 
+    private Set<String> visitedIssues = new LinkedHashSet<String>();
+
     protected AbstractJournalCrawler(Journal journal, CrawlerContext context) {
         super(context);
         this.journal = journal;
@@ -46,79 +47,64 @@ public abstract class AbstractJournalCrawler extends AbstractCrawler {
 
     public void crawlJournal() throws IOException {
         log().info("Crawling journal: "+getJournal().getFullTitle());
-        if (hasIndex()) {
-            crawlIndexedJournal();
-        } else {
-            crawlUnindexedJournal();
-        }
-        log().info("Crawl complete");
-    }
 
-    private void crawlUnindexedJournal() throws IOException {
+        List<Issue> issueIndex = fetchIssueList();
+        Iterator<Issue> issueIterator = issueIndex.iterator();
+
+        List<Issue> issues = new ArrayList<Issue>();
+
         Issue issue = fetchCurrentIssue();
         if (!getDataStore().hasData(issue.getId())) {
             log().debug("new issue: "+issue.getId());
             getDataStore().save(issue.getId(), issue);
         }
-        int i = 0;
-        List<Issue> issues = new ArrayList<Issue>();
-        while (issue != null) {
-            if (getMaxIssues() >= 0 && i >= getMaxIssues()) {
+
+        while (issue != null || issueIterator.hasNext()) {
+            if (getMaxIssues() >= 0 && issues.size() >= getMaxIssues()) {
                 break;
             }
-            if (getMinYear() > 0) {
+
+            if (issue != null) {
                 int year = Integer.valueOf(issue.getYear());
                 if (year < getMinYear()) {
                     break;
                 }
-            }
-            log().info("found issue: "+issue.getId());
-            issues.add(issue);
-            try {
-                issue = getPreviousIssue(issue);
-            } catch (Exception e) {
-                log().warn("error crawling issue: "+issue.getId(), e);
-                issue = null;
-            }
-            i++;
-        }
 
-        crawlArticles(issues);
-    }
-
-
-    private void crawlIndexedJournal() throws IOException {
-        List<Issue> issueList = fetchIssueList();
-        int i = 0;
-        List<Issue> issues = new ArrayList<Issue>();
-        for (Issue issue : issueList) {
-            if (getMaxIssues() >= 0 && i >= getMaxIssues()) {
-                break;
-            }
-            if (getMinYear() > 0) {
-                int year = Integer.valueOf(issue.getYear());
-                if (year < getMinYear()) {
-                    break;
+                if (visitedIssues.add(issue.getId())) {
+                    issues.add(issue);
+                    log().info("found issue: "+issue.getId());
                 }
-            }
-            log().info("found issue: "+issue.getId());
-            if (!getDataStore().hasData(issue.getId())) {
+
+                System.out.println(issue.getId()+"\t"+issue.getUrl());
+
                 try {
-                    issue = fetchIssue(issue);
+                    issue = getPreviousIssue(issue);
+                    if (issue != null && visitedIssues.contains(issue.getId())) {
+                        issue = null;
+                    }
                 } catch (Exception e) {
-                    log().warn("error crawling issue: "+issue.getId(), e);
-                    continue;
+                    log().warn("error fetching issue", e);
                 }
-                log().debug("new issue: "+issue.getId());
-                getDataStore().save(issue.getId(), issue);
+            } else {
+                issue = issueIterator.next();
+                if (!getDataStore().hasData(issue.getId())) {
+                    try {
+                        issue = fetchIssue(issue);
+                    } catch (Exception e) {
+                        log().warn("error crawling issue: "+issue.getId(), e);
+                        issue = null;
+                        continue;
+                    }
+                    log().debug("new issue: "+issue.getId());
+                    getDataStore().save(issue.getId(), issue);
+                }
             }
-            issues.add(issue);
-            i++;
         }
-        
-        crawlArticles(issues);
-    }
 
+        crawlArticles(issues);
+
+        log().info("Crawl complete: "+getJournal().getFullTitle());
+    }
 
     private Issue getPreviousIssue(Issue issue) throws IOException {
         Issue prev = issue.getPreviousIssue();
@@ -194,7 +180,7 @@ public abstract class AbstractJournalCrawler extends AbstractCrawler {
     }
 
     public List<Issue> fetchIssueList() throws IOException {
-        throw new UnsupportedOperationException();
+        return Collections.emptyList();
     }
 
 

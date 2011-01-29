@@ -35,7 +35,7 @@ public class HtmlUtil {
         try {
             AsciiSerializer ser = new AsciiSerializer(out);
             ser.write(html);
-            return out.toString("ASCII");
+            return out.toString("ASCII").trim();
         } catch (IOException e) {
             throw new RuntimeException("ASCII encoding not supported", e);
         }

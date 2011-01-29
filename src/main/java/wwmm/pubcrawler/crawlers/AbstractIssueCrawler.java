@@ -122,7 +122,7 @@ public abstract class AbstractIssueCrawler extends AbstractCrawler {
         issue.setPreviousIssue(getPreviousIssue());
         List<Article> articles = getArticles();
         if (articles.isEmpty()) {
-            throw new CrawlerRuntimeException("No articles found!");
+//            throw new CrawlerRuntimeException("No articles found!");
         }
         issue.setArticles(articles);
         return issue;
