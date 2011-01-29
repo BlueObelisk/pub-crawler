@@ -15,14 +15,18 @@
  */
 package wwmm.pubcrawler.crawlers.nature;
 
+import nu.xom.Document;
+import nu.xom.Element;
 import nu.xom.Node;
 import org.apache.log4j.Logger;
 import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.CrawlerRuntimeException;
+import wwmm.pubcrawler.HtmlUtil;
 import wwmm.pubcrawler.crawlers.AbstractIssueCrawler;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.types.Doi;
+import wwmm.pubcrawler.utils.XHtml;
 import wwmm.pubcrawler.utils.XPathUtils;
 
 import java.io.IOException;
@@ -85,18 +89,40 @@ public class NatureIssueCrawler extends AbstractIssueCrawler {
     public List<Article> getArticles() {
         String issueId = getIssueId();
         List<Article> idList = new ArrayList<Article>();
-        List<Node> articleNodes = XPathUtils.queryHTML(getHtml(), ".//x:span[@class='doi']']");
+        List<Node> articleNodes = XPathUtils.queryHTML(getHtml(), ".//x:div[@class='entry' or @class='compound']");
         for (Node node : articleNodes) {
-            String s = node.getValue();
-            Doi doi = new Doi(s);
+            Doi doi = getArticleDoi(node);
             String articleId = issueId + '/' + doi.getSuffix();
 
             Article article = new Article();
             article.setId(articleId);
             article.setDoi(doi);
+            article.setTitle(getArticleTitle(node));
+            article.setTitleHtml(getArticleTitleHtml(node));
             idList.add(article);
         }
         return idList;
+    }
+
+    private Doi getArticleDoi(Node node) {
+        String s = XPathUtils.getString(node, ".//x:span[@class='doi']']");
+        return new Doi(s);
+    }
+
+    private String getArticleTitle(Node node) {
+        StringBuilder s = new StringBuilder();
+        for (Node n : XPathUtils.queryHTML(node, "./x:h4/node()[./following-sibling::x:span[@class='hidden']]")) {
+            s.append(n.getValue());
+        }
+        return s.toString().trim();
+    }
+
+    private String getArticleTitleHtml(Node node) {
+        Element h = new Element("h1", XHtml.NAMESPACE);
+        for (Node n : XPathUtils.queryHTML(node, "./x:h4/node()[./following-sibling::x:span[@class='hidden']]")) {
+            h.appendChild(n.copy());
+        }
+        return HtmlUtil.writeAscii(new Document(h));
     }
 
     private String getBiblio(int i) {
