@@ -16,6 +16,7 @@
 package wwmm.pubcrawler.crawlers.acta;
 
 import nu.xom.Document;
+import nu.xom.Node;
 import org.apache.log4j.Logger;
 import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.CrawlerRuntimeException;
@@ -28,6 +29,8 @@ import wwmm.pubcrawler.journals.ActaJournalIndex;
 
 import java.io.IOException;
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -59,9 +62,35 @@ public class ActaJournalCrawler extends AbstractJournalCrawler {
         return fetchIssue(issue);
     }
 
+    @Override
+    public List<Issue> fetchIssueList() throws IOException {
+        log().debug("Fetching issue list for " + getJournal().getFullTitle());
+        URI url = getIssueListUrl();
+        Document html = readHtml(url, "acta/"+getJournal().getAbbreviation()+"_issuelist", AGE_1DAY);
+        List<Node> nodes = XPathUtils.queryHTML(html, ".//x:li[x:img]/x:a/@href");
+        List<Issue> issues = new ArrayList<Issue>();
+        for (Node node : nodes) {
+            String href = node.getValue();
+            if (href.contains("/issues/")) {
+                URI frameUrl = url.resolve(href);
+                Issue issue = new Issue();
+                issue.setId(getIssueId(frameUrl));
+                issue.setYear(getIssueYear(frameUrl));
+                issue.setUrl(frameUrl.resolve("./isscontsbdy.html"));
+                issues.add(issue);
+            }
+        }
+        return issues;
+    }
+
+    private URI getIssueListUrl() {
+        URI url = URI.create("http://journals.iucr.org/"+getJournal().getAbbreviation()+"/contents/backissuesbdy.html");
+        return url;
+    }
+
     private String getIssueYear(URI url) {
         // http://journals.iucr.org/e/issues/2011/01/00/issconts.html
-        Pattern p = Pattern.compile("/issues/(\\d+)/(\\d+)/(\\d+)/");
+        Pattern p = Pattern.compile("/issues/(\\d+)/");
         Matcher m = p.matcher(url.toString());
         if (!m.find()) {
             throw new CrawlerRuntimeException("No match: "+url);
@@ -71,7 +100,7 @@ public class ActaJournalCrawler extends AbstractJournalCrawler {
 
     private String getIssueId(URI url) {
         // http://journals.iucr.org/e/issues/2011/01/00/issconts.html
-        Pattern p = Pattern.compile("/issues/(\\d+)/(\\d+)/(\\d+)/");
+        Pattern p = Pattern.compile("/issues/(\\w+)/(\\w+)/(\\w+)/");
         Matcher m = p.matcher(url.toString());
         if (!m.find()) {
             throw new CrawlerRuntimeException("No match: "+url);
@@ -93,11 +122,12 @@ public class ActaJournalCrawler extends AbstractJournalCrawler {
 
     public static void main(String[] args) throws IOException {
 
-        for (Journal journal : ActaJournalIndex.getIndex().values()) {
+//        for (Journal journal : ActaJournalIndex.getIndex().values()) {
+            Journal journal = ActaJournalIndex.ACTA_SECTION_A;
             CrawlerContext context = new DefaultCrawlerContext(new ActaCrawlerFactory());
             ActaJournalCrawler crawler = new ActaJournalCrawler(journal, context);
             crawler.crawlJournal();
-        }
+//        }
 
     }
 
