@@ -64,10 +64,28 @@ public class NatureIssueCrawlerTest extends AbstractCrawlerTest {
     @Test
     public void testGetArticleIds() throws IOException {
         NatureIssueCrawler crawler = getNchem3_1();
-        List<Article> ids = crawler.getArticles();
-        assertEquals(25, ids.size());
-        assertEquals(new Doi("10.1038/nchem.933"), ids.get(0).getDoi());
-        assertEquals(new Doi("10.1038/nchem.944"), ids.get(24).getDoi());
+        List<Article> articles = crawler.getArticles();
+        assertEquals(25, articles.size());
+        assertEquals(new Doi("10.1038/nchem.933"), articles.get(0).getDoi());
+        assertEquals(new Doi("10.1038/nchem.944"), articles.get(24).getDoi());
+    }
+
+    @Test
+    public void testGetArticleTitle() throws IOException {
+        NatureIssueCrawler crawler = getNchem3_1();
+        List<Article> articles = crawler.getArticles();
+        assertEquals("Chemistry's year", articles.get(0).getTitle());
+        assertEquals("The emergence of emergence", articles.get(1).getTitle());
+        assertEquals("Control and imaging of O(1D2) precession", articles.get(13).getTitle());
+    }
+
+    @Test
+    public void testGetArticleTitleHtml() throws IOException {
+        NatureIssueCrawler crawler = getNchem3_1();
+        List<Article> articles = crawler.getArticles();
+        assertEquals("<h1>Chemistry's year </h1>", articles.get(0).getTitleHtml());
+        assertEquals("<h1>The emergence of emergence </h1>", articles.get(1).getTitleHtml());
+        assertEquals("<h1>Control and imaging of O(<sup>1</sup><i>D</i><sub>2</sub>) precession </h1>", articles.get(13).getTitleHtml());
     }
 
     @Test
