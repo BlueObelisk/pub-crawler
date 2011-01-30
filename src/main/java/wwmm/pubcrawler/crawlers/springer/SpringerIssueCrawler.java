@@ -89,27 +89,27 @@ public class SpringerIssueCrawler extends AbstractIssueCrawler {
         return title;
     }
 
+    @Override
+    protected List<Node> getArticleNodes() {
+        return XPathUtils.queryHTML(getHtml(), "//x:li[contains(@class, 'journalArticle')]");
+    }
 
     @Override
-    protected List<Article> getArticles() {
-        List<Node> nodes = XPathUtils.queryHTML(getHtml(), "//x:li[contains(@class, 'journalArticle')]");
-        List<Article> articles = new ArrayList<Article>();
+    protected Article getArticleDetails(Node context, String issueId) {
+        Element li = (Element) context;
+        Article article = new Article();
+        article.setTitle(getArticleTitle(li));
+        article.setAuthors(getArticleAuthors(li));
+        article.setUrl(getArticleUrl(li));
+        article.setReference(getArticleReference(li));
+        return article;
+    }
+
+    private Reference getArticleReference(Element context) {
         String title = getJournalTitle();
         String volume = getVolume();
         String number = getNumber();
-        for (Node node : nodes) {
-            Element li = (Element) node;
-            Article article = new Article();
-            article.setTitle(getArticleTitle(li));
-            article.setAuthors(getArticleAuthors(li));
-            article.setUrl(getArticleUrl(li));
-            article.setReference(getArticleReference(li, title, volume, number));
-            articles.add(article);
-        }
-        return articles;
-    }
 
-    private Reference getArticleReference(Element context, String title, String volume, String number) {
         String pages = XPathUtils.getString(context, "x:p[@class='contextTag']");
         Reference ref = new Reference();
         ref.setJournalTitle(title);

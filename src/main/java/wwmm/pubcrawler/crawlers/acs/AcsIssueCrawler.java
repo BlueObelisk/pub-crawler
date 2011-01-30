@@ -105,18 +105,11 @@ public class AcsIssueCrawler extends AbstractIssueCrawler {
     }
 
     @Override
-    public List<Article> getArticles() {
-        String issueId = getIssueId();
-        List<Article> idList = new ArrayList<Article>();
-        List<Node> articleNodes = XPathUtils.queryHTML(getHtml(), ".//x:div[@class='articleBox']");
-        for (Node articleNode : articleNodes) {
-            Article article = getArticle(articleNode, issueId);
-            idList.add(article);
-        }
-        return idList;
+    protected List<Node> getArticleNodes() {
+        return XPathUtils.queryHTML(getHtml(), ".//x:div[@class='articleBox']");
     }
 
-    private Article getArticle(Node node, String issueId) {
+    public Article getArticleDetails(Node node, String issueId) {
         Article article = new Article();
         Doi doi = getDoi(node);
         article.setDoi(doi);

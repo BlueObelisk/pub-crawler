@@ -94,30 +94,27 @@ public class ActaIssueCrawler extends AbstractIssueCrawler {
         return issue;
     }
 
+    @Override
+    protected List<Node> getArticleNodes() {
+        return XPathUtils.queryHTML(getHtml(), ".//x:div[contains(@class, 'toc') and contains(@class, 'entry')]");
+    }
 
     @Override
-    public List<Article> getArticles() {
-        String issueId = getIssueId();
-        List<Article> articles = new ArrayList<Article>();
-        List<Node> nodes = XPathUtils.queryHTML(getHtml(), ".//x:div[contains(@class, 'toc') and contains(@class, 'entry')]");
-        for (Node node : nodes) {
-            Doi doi = getArticleDoi(node);
-            String id = getArticleId(node);
-            String articleId = issueId + '/' + id;
+    protected Article getArticleDetails(Node context, String issueId) {
+        Doi doi = getArticleDoi(context);
+        String id = getArticleId(context);
+        String articleId = issueId + '/' + id;
 
-            Article article = new Article();
-            article.setId(articleId);
-            article.setDoi(doi);
-            article.setTitleHtml(getArticleTitleHtml(node));
-            article.setAuthors(getArticleAuthors(node));
+        Article article = new Article();
+        article.setId(articleId);
+        article.setDoi(doi);
+        article.setTitleHtml(getArticleTitleHtml(context));
+        article.setAuthors(getArticleAuthors(context));
 
-            List<Node> suppNodes = XPathUtils.queryHTML(node, "./x:p/x:a[x:img]");
-            ActaSuppInfoReader suppInfoReader = new ActaSuppInfoReader(getContext(), article);
-            article.setSupplementaryResources(suppInfoReader.getSupplementaryResources(suppNodes, getUrl()));
-
-            articles.add(article);
-        }
-        return articles;
+        List<Node> suppNodes = XPathUtils.queryHTML(context, "./x:p/x:a[x:img]");
+        ActaSuppInfoReader suppInfoReader = new ActaSuppInfoReader(getContext(), article);
+        article.setSupplementaryResources(suppInfoReader.getSupplementaryResources(suppNodes, getUrl()));
+        return article;
     }
 
     private Doi getArticleDoi(Node node) {
