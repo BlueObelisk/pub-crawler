@@ -73,7 +73,8 @@ public class ActaSuppInfoReader extends AbstractCrawler {
                     || "similar papers".equalsIgnoreCase(alt)
                     || "Open access".equalsIgnoreCase(alt)
                     || "cited in".equalsIgnoreCase(alt)
-                    || "3d view".equalsIgnoreCase(alt)) {
+                    || "3d view".equalsIgnoreCase(alt)
+                    || "buy article online".equalsIgnoreCase(alt)) {
                 continue;
             }
             String href = address.getAttributeValue("href");

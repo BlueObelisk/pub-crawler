@@ -25,6 +25,7 @@ import wwmm.pubcrawler.httpcrawler.CrawlerResponse;
 import wwmm.pubcrawler.httpcrawler.HttpCrawler;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.Issue;
+import wwmm.pubcrawler.model.SupplementaryResource;
 import wwmm.pubcrawler.types.Doi;
 
 import java.io.IOException;
@@ -50,6 +51,15 @@ public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
                 URI.create("http://journals.iucr.org/c/issues/2005/10/00/isscontsbdy.html"));
     }
 
+    private CrawlerResponse prepareActaB1997_01Head() throws IOException {
+        return prepareResponse("./b-1997-01-head.html",
+                URI.create("http://journals.iucr.org/b/issues/1997/01/00/isscontshdr.html"));
+    }
+
+    private CrawlerResponse prepareActaB1997_01Body() throws IOException {
+        return prepareResponse("./b-1997-01-body.html",
+                URI.create("http://journals.iucr.org/b/issues/1997/01/00/isscontsbdy.html"));
+    }
 
     private CrawlerResponse prepareActaE2004_11Head() throws IOException {
         return prepareResponse("./e-2004-11-head.html",
@@ -100,6 +110,21 @@ public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
         return new ActaIssueCrawler(issue, context);
     }
 
+    protected ActaIssueCrawler getActaB1997_01() throws IOException {
+        Issue issue = new Issue();
+        issue.setId("acta/b/1997/01-00");
+        issue.setUrl(URI.create("http://journals.iucr.org/b/issues/1997/01/00/isscontsbdy.html"));
+
+        CrawlerResponse response1 = prepareActaB1997_01Body();
+        CrawlerResponse response2 = prepareActaB1997_01Head();
+
+        HttpCrawler crawler = Mockito.mock(HttpCrawler.class);
+        Mockito.when(crawler.execute(Mockito.any(CrawlerRequest.class)))
+                .thenReturn(response1, response2);
+
+        CrawlerContext context = new CrawlerContext(null, crawler, null);
+        return new ActaIssueCrawler(issue, context);
+    }
 
     protected ActaIssueCrawler getActaB2010_01() throws IOException {
         Issue issue = new Issue();
@@ -303,6 +328,20 @@ public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
         List<Article> articles = crawler.getArticles();
         assertNotNull(articles);
         assertEquals(21, articles.size());
+    }
+
+    @Test
+    public void testReadActaB1997_01GetArticles() throws IOException {
+        ActaIssueCrawler crawler = getActaB1997_01();
+        List<Article> articles = crawler.getArticles();
+        assertEquals(21, articles.size());
+    }
+
+    @Test
+    public void testReadActaB1997_01GetArticleSuppInfo() throws IOException {
+        ActaIssueCrawler crawler = getActaB1997_01();
+        List<Article> articles = crawler.getArticles();
+        assertEquals(2, articles.get(1).getSupplementaryResources().size());
     }
 
 }
