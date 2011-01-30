@@ -341,7 +341,27 @@ public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
     public void testReadActaB1997_01GetArticleSuppInfo() throws IOException {
         ActaIssueCrawler crawler = getActaB1997_01();
         List<Article> articles = crawler.getArticles();
+        assertEquals(0, articles.get(0).getSupplementaryResources().size());
         assertEquals(2, articles.get(1).getSupplementaryResources().size());
+        assertEquals(1, articles.get(2).getSupplementaryResources().size());
+        assertEquals(1, articles.get(3).getSupplementaryResources().size());
+        assertEquals(0, articles.get(4).getSupplementaryResources().size());
+        assertEquals(0, articles.get(5).getSupplementaryResources().size());
+        assertEquals(1, articles.get(6).getSupplementaryResources().size());
+        assertEquals(1, articles.get(7).getSupplementaryResources().size());
+        assertEquals(1, articles.get(8).getSupplementaryResources().size());
+        assertEquals(0, articles.get(9).getSupplementaryResources().size());
+        assertEquals(1, articles.get(10).getSupplementaryResources().size());
+        assertEquals(1, articles.get(11).getSupplementaryResources().size());
+        assertEquals(0, articles.get(12).getSupplementaryResources().size());
+        assertEquals(1, articles.get(13).getSupplementaryResources().size());
+        assertEquals(1, articles.get(14).getSupplementaryResources().size());
+        assertEquals(0, articles.get(15).getSupplementaryResources().size());
+        assertEquals(2, articles.get(16).getSupplementaryResources().size());
+        assertEquals(0, articles.get(17).getSupplementaryResources().size());
+        assertEquals(1, articles.get(18).getSupplementaryResources().size());
+        assertEquals(1, articles.get(19).getSupplementaryResources().size());
+        assertEquals(0, articles.get(20).getSupplementaryResources().size());
     }
 
 }
