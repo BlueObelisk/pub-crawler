@@ -73,31 +73,31 @@ public class ElsevierIssueCrawler extends AbstractIssueCrawler {
     }
 
     @Override
-    protected List<Article> getArticles() {
-        List<Node> nodes = XPathUtils.queryHTML(getHtml(), "//x:table[@class='resultRow']//x:td[@width='95%']");
+    protected List<Node> getArticleNodes() {
+        return XPathUtils.queryHTML(getHtml(), "//x:table[@class='resultRow']//x:td[@width='95%']");
+    }
 
+    @Override
+    protected Article getArticleDetails(Node context, String issueId) {
+        Element addr = (Element) XPathUtils.getNode(context, "x:a");
+        String href = addr.getAttributeValue("href");
+        URI url = getUrl().resolve(href);
+        String title = addr.getValue().trim();
+
+        Reference ref = getArticleReference(context);
+        Article article = new Article();
+        article.setTitle(title);
+        article.setAuthors(getArticleAuthors(context));
+        article.setUrl(url);
+        article.setReference(ref);
+        return article;
+    }
+
+    private Reference getArticleReference(Node node) {
         String journalTitle = getJournalTitle();
         String volume = getVolume();
         String number = getNumber();
-        List<Article> articles = new ArrayList<Article>();
-        for (Node node : nodes) {
-            Element addr = (Element) XPathUtils.getNode(node, "x:a");
-            String href = addr.getAttributeValue("href");
-            URI url = getUrl().resolve(href);
-            String title = addr.getValue().trim();
 
-            Reference ref = getArticleReference(node, journalTitle, volume, number);
-            Article article = new Article();
-            article.setTitle(title);
-            article.setAuthors(getArticleAuthors(node));
-            article.setUrl(url);
-            article.setReference(ref);
-            articles.add(article);
-        }
-        return articles;
-    }
-
-    public Reference getArticleReference(Node node, String journalTitle, String volume, String number) {
         String pages = getArticlePages(node);
         Reference ref = new Reference();
         ref.setJournalTitle(journalTitle);

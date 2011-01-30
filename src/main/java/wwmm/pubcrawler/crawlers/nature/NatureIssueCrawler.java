@@ -87,23 +87,22 @@ public class NatureIssueCrawler extends AbstractIssueCrawler {
     }
 
     @Override
-    public List<Article> getArticles() {
-        String issueId = getIssueId();
-        List<Article> idList = new ArrayList<Article>();
-        List<Node> articleNodes = XPathUtils.queryHTML(getHtml(), ".//x:div[@class='entry' or @class='compound']");
-        for (Node node : articleNodes) {
-            Doi doi = getArticleDoi(node);
-            String articleId = issueId + '/' + doi.getSuffix();
+    protected List<Node> getArticleNodes() {
+        return XPathUtils.queryHTML(getHtml(), ".//x:div[@class='entry' or @class='compound']");
+    }
 
-            Article article = new Article();
-            article.setId(articleId);
-            article.setDoi(doi);
-            article.setTitle(getArticleTitle(node));
-            article.setTitleHtml(getArticleTitleHtml(node));
-            article.setSupplementaryResourceUrl(getArticleSuppUrl(node));
-            idList.add(article);
-        }
-        return idList;
+    @Override
+    protected Article getArticleDetails(Node context, String issueId) {
+        Doi doi = getArticleDoi(context);
+        String articleId = issueId + '/' + doi.getSuffix();
+
+        Article article = new Article();
+        article.setId(articleId);
+        article.setDoi(doi);
+        article.setTitle(getArticleTitle(context));
+        article.setTitleHtml(getArticleTitleHtml(context));
+        article.setSupplementaryResourceUrl(getArticleSuppUrl(context));
+        return article;
     }
 
     private URI getArticleSuppUrl(Node node) {

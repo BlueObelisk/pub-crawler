@@ -67,27 +67,24 @@ public class ChemSocJapanIssueCrawler extends AbstractIssueCrawler {
         return null;
     }
 
-
     @Override
-    public List<Article> getArticles() {
-        String issueId = getIssueId();
-        List<Article> articles = new ArrayList<Article>();
-        List<Node> nodes = XPathUtils.queryHTML(getHtml(), ".//x:table[x:tr/x:td[@class='title']]");
-        for (Node node : nodes) {
-            Node doiNode = XPathUtils.getNode(node, ".//x:a[starts-with(.,'Full Text')]/@href");
-            String link = doiNode.getValue();
-            int idx = link.indexOf("id=");
-            String articleId = link.substring(idx+3).replaceAll("/", ".");
-            Article article = new Article();
-            article.setId(issueId+'/'+articleId);
-            article.setDoi(new Doi("10.1246/"+articleId));
-            article.setTitle(getArticleTitle(node));
-            article.setAuthors(getArticleAuthors(node));
-            articles.add(article);
-        }
-        return articles;
+    protected List<Node> getArticleNodes() {
+        return XPathUtils.queryHTML(getHtml(), ".//x:table[x:tr/x:td[@class='title']]");
     }
 
+    @Override
+    protected Article getArticleDetails(Node context, String issueId) {
+        Node doiNode = XPathUtils.getNode(context, ".//x:a[starts-with(.,'Full Text')]/@href");
+        String link = doiNode.getValue();
+        int idx = link.indexOf("id=");
+        String articleId = link.substring(idx+3).replaceAll("/", ".");
+        Article article = new Article();
+        article.setId(issueId+'/'+articleId);
+        article.setDoi(new Doi("10.1246/"+articleId));
+        article.setTitle(getArticleTitle(context));
+        article.setAuthors(getArticleAuthors(context));
+        return article;
+    }
 
     public String getArticleTitle(Node node) {
         return XPathUtils.getString(node, ".//x:td[@class='title']");

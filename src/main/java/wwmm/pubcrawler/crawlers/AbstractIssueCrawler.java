@@ -16,15 +16,18 @@
 package wwmm.pubcrawler.crawlers;
 
 import nu.xom.Document;
+import nu.xom.Node;
 import org.joda.time.Duration;
 import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.CrawlerRuntimeException;
 import wwmm.pubcrawler.model.Journal;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.Issue;
+import wwmm.pubcrawler.utils.XPathUtils;
 
 import java.io.IOException;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -95,7 +98,24 @@ public abstract class AbstractIssueCrawler extends AbstractCrawler {
      *
 	 * @return a list of descriptions of the articles for the issue.
      */
-    protected abstract List<Article> getArticles();
+    public final List<Article> getArticles() {
+        String issueId = getIssueId();
+        List<Article> articles = new ArrayList<Article>();
+        List<Node> articleNodes = getArticleNodes();
+        for (Node articleNode : articleNodes) {
+            try {
+                Article article = getArticleDetails(articleNode, issueId);
+                articles.add(article);
+            } catch (Exception e) {
+                log().warn("Error reading article details from " + issueId);
+            }
+        }
+        return articles;
+    }
+
+    protected abstract List<Node> getArticleNodes();
+
+    protected abstract Article getArticleDetails(Node context, String issueId);
 
     /**
      * <p>Gets a description of the previous issue of the journal being

@@ -105,24 +105,21 @@ public class RscIssueCrawler extends AbstractIssueCrawler {
         return request;
     }
 
-
+    @Override
+    protected List<Node> getArticleNodes() {
+        return XPathUtils.queryHTML(getHtml(), ".//x:input[@class='toCheck']/@id");
+    }
 
     @Override
-    public List<Article> getArticles() {
-        String issueId = getIssueId();
-        List<Article> articles = new ArrayList<Article>();
-        List<Node> nodes = XPathUtils.queryHTML(getHtml(), ".//x:input[@class='toCheck']/@id");
-        for (Node node : nodes) {
-            Attribute attr = (Attribute) node;
-            String id = attr.getValue();
-            String articleId = issueId + '/' + id;
+    protected Article getArticleDetails(Node context, String issueId) {
+        Attribute attr = (Attribute) context;
+        String id = attr.getValue();
+        String articleId = issueId + '/' + id;
 
-            Article article = new Article();
-            article.setId(articleId);
-            article.setDoi(new Doi(RSC_DOI_PREFIX + id));
-            articles.add(article);
-        }
-        return articles;
+        Article article = new Article();
+        article.setId(articleId);
+        article.setDoi(new Doi(RSC_DOI_PREFIX + id));
+        return article;
     }
 
     @Override
