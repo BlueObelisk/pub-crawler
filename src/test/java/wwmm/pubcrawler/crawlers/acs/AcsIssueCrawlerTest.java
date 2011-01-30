@@ -45,6 +45,16 @@ public class AcsIssueCrawlerTest extends AbstractCrawlerTest {
                 URI.create("http://pubs.acs.org/toc/jacsat/132/51"));
     }
 
+    private CrawlerResponse prepareInocajLegacyIssueResponse() throws IOException {
+        return prepareResponse("./inocaj-34-25.html",
+                URI.create("http://pubs.acs.org/toc/inocaj/34/25"));
+    }
+
+    private CrawlerResponse prepareInocajIssue39_19Response() throws IOException {
+        return prepareResponse("./inocaj-39-19.html",
+                URI.create("http://pubs.acs.org/toc/inocaj/39/19"));
+    }
+
     protected AcsIssueCrawler getJacsIssue132_51() throws IOException {
         Issue issue = new Issue();
         issue.setUrl(URI.create("http://pubs.acs.org/toc/jacsat/132/51"));
@@ -59,16 +69,25 @@ public class AcsIssueCrawlerTest extends AbstractCrawlerTest {
         return new AcsIssueCrawler(issue, context);
     }
 
-    private CrawlerResponse prepareInocajLegacyIssueResponse() throws IOException {
-        return prepareResponse("./inocaj-34-25.html",
-                URI.create("http://pubs.acs.org/toc/inocaj/34/25"));
-    }
-
     protected AcsIssueCrawler getInocajLegacyIssue() throws IOException {
         Issue issue = new Issue();
         issue.setUrl(URI.create("http://pubs.acs.org/toc/inocaj/34/25"));
 
         CrawlerResponse response = prepareInocajLegacyIssueResponse();
+
+        HttpCrawler crawler = Mockito.mock(HttpCrawler.class);
+        Mockito.when(crawler.execute(Mockito.any(CrawlerRequest.class)))
+                .thenReturn(response);
+
+        CrawlerContext context = new CrawlerContext(null, crawler, null);
+        return new AcsIssueCrawler(issue, context);
+    }
+
+    protected AcsIssueCrawler getInocajIssue39_19() throws IOException {
+        Issue issue = new Issue();
+        issue.setUrl(URI.create("http://pubs.acs.org/toc/inocaj/39/19"));
+
+        CrawlerResponse response = prepareInocajIssue39_19Response();
 
         HttpCrawler crawler = Mockito.mock(HttpCrawler.class);
         Mockito.when(crawler.execute(Mockito.any(CrawlerRequest.class)))
@@ -180,6 +199,13 @@ public class AcsIssueCrawlerTest extends AbstractCrawlerTest {
     public void testGetYearFromLegacyIssue() throws IOException {
         AcsIssueCrawler crawler = getInocajLegacyIssue();
         assertEquals("1995", crawler.getYear());
+    }
+
+    @Test
+    public void testGetInocaj39_19ArticleDois() throws IOException {
+        AcsIssueCrawler crawler = getInocajIssue39_19();
+        List<Article> articles = crawler.getArticles();
+        assertEquals(30, articles.size());
     }
 
 }
