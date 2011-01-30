@@ -96,7 +96,19 @@ public class ActaIssueCrawler extends AbstractIssueCrawler {
 
     @Override
     protected List<Node> getArticleNodes() {
-        return XPathUtils.queryHTML(getHtml(), ".//x:div[contains(@class, 'toc') and contains(@class, 'entry')]");
+        List<Node> nodes = XPathUtils.queryHTML(getHtml(), ".//x:div[contains(@class, 'toc') and contains(@class, 'entry')]");
+        if (nodes.isEmpty()) {
+            List<Node> xx = XPathUtils.queryHTML(getHtml(), ".//x:a[@id]");
+            for (Node n : xx) {
+                String id = ((Element)n).getAttributeValue("id");
+                Element node = new Element("foo");
+                for (Node x : XPathUtils.queryHTML(n, "./following-sibling::*[./preceding-sibling::x:a[@id][1]/@id = '"+id+"']")) {
+                    node.appendChild(x.copy());
+                }
+                nodes.add(node);
+            }
+        }
+        return nodes;
     }
 
     @Override
@@ -111,7 +123,7 @@ public class ActaIssueCrawler extends AbstractIssueCrawler {
         article.setTitleHtml(getArticleTitleHtml(context));
         article.setAuthors(getArticleAuthors(context));
 
-        List<Node> suppNodes = XPathUtils.queryHTML(context, "./x:p/x:a[x:img]");
+        List<Node> suppNodes = XPathUtils.queryHTML(context, ".//x:a[x:img]");
         ActaSuppInfoReader suppInfoReader = new ActaSuppInfoReader(getContext(), article);
         article.setSupplementaryResources(suppInfoReader.getSupplementaryResources(suppNodes, getUrl()));
         return article;
@@ -131,7 +143,7 @@ public class ActaIssueCrawler extends AbstractIssueCrawler {
         copy.setLocalName("h1");
         ActaUtil.normaliseHtml(copy);
         Document doc = new Document(copy);
-        String s = HtmlUtil.writeAscii(doc).trim();
+        String s = HtmlUtil.writeAscii(doc);
         return s;
     }
 
@@ -141,12 +153,11 @@ public class ActaIssueCrawler extends AbstractIssueCrawler {
     }
 
     private String getArticleId(Node node) {
-        String idString = XPathUtils.getString(node, "./x:p/x:a[./x:img/@alt='[HTML version]']/@href");
-//        String idString = XPathUtils.getString(node, "../../x:p/x:a[./x:img/@alt='[HTML version]']/@href");
+        String idString = XPathUtils.getString(node, ".//x:a[./x:img[contains(@alt, 'pdf version') or contains(@alt, 'PDF version')]]/@href");
         if (idString == null) {
             throw new CrawlerRuntimeException("not found");
         }
-        Pattern p = Pattern.compile("/([^/]+)/index.html");
+        Pattern p = Pattern.compile("/([^/]+)/[^/]+\\.pdf");
         Matcher m = p.matcher(idString);
         if (!m.find()) {
             throw new CrawlerRuntimeException("No match: "+idString);
