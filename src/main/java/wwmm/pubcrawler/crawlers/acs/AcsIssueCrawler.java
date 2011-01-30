@@ -181,10 +181,15 @@ public class AcsIssueCrawler extends AbstractIssueCrawler {
     }
 
     private String getTitle(Node node) {
-        Element title = new Element("h1", "http://www.w3.org/1999/xhtml");
+        // Additions and Corrections have no title
+        // e.g. http://pubs.acs.org/toc/inocaj/39/19
         ParentNode source = (ParentNode) XPathUtils.getNode(node, ".//x:h2/x:a");
-        AcsTools.copyChildren(source, title);
-        return AcsTools.toHtml(title);
+        if (source != null) {
+            Element title = new Element("h1", "http://www.w3.org/1999/xhtml");
+            AcsTools.copyChildren(source, title);
+            return AcsTools.toHtml(title);
+        }
+        return null;
     }
 
     private Doi getDoi(Node node) {
