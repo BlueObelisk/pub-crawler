@@ -16,27 +16,20 @@
 
 package wwmm.pubcrawler.crawlers.acs;
 
-import nu.xom.*;
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
+import nu.xom.Document;
+import nu.xom.Element;
+import nu.xom.Node;
 import org.apache.log4j.Logger;
 import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.CrawlerRuntimeException;
-import wwmm.pubcrawler.DefaultCrawlerContext;
 import wwmm.pubcrawler.crawlers.AbstractArticleCrawler;
-import wwmm.pubcrawler.httpcrawler.CrawlerGetRequest;
-import wwmm.pubcrawler.httpcrawler.CrawlerPostRequest;
-import wwmm.pubcrawler.httpcrawler.CrawlerResponse;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.FullTextResource;
 import wwmm.pubcrawler.model.Reference;
 import wwmm.pubcrawler.model.SupplementaryResource;
-import wwmm.pubcrawler.types.Doi;
 import wwmm.pubcrawler.types.MediaType;
-import wwmm.pubcrawler.utils.BibtexTool;
 import wwmm.pubcrawler.utils.XPathUtils;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;

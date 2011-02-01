@@ -19,11 +19,11 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpProtocolParams;
-import wwmm.pubcrawler.data.DataStore;
-import wwmm.pubcrawler.httpcrawler.HttpCrawler;
-import wwmm.pubcrawler.httpcrawler.cache.HttpCache;
+import uk.ac.cam.ch.wwmm.httpcrawler.httpcrawler.HttpCrawler;
+import uk.ac.cam.ch.wwmm.httpcrawler.httpcrawler.cache.HttpCache;
+import uk.ac.cam.ch.wwmm.httpcrawler.httpcrawler.cache.file.FileSystemCache;
 import wwmm.pubcrawler.crawlers.AbstractCrawlerFactory;
-import wwmm.pubcrawler.httpcrawler.cache.file.FileSystemCache;
+import wwmm.pubcrawler.data.DataStore;
 
 import java.io.File;
 import java.io.IOException;

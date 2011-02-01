@@ -16,13 +16,13 @@
 package wwmm.pubcrawler.crawlers.nature;
 
 import wwmm.pubcrawler.CrawlerContext;
-import wwmm.pubcrawler.model.Journal;
-import wwmm.pubcrawler.model.Article;
-import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.crawlers.AbstractArticleCrawler;
 import wwmm.pubcrawler.crawlers.AbstractCrawlerFactory;
 import wwmm.pubcrawler.crawlers.AbstractIssueCrawler;
 import wwmm.pubcrawler.crawlers.AbstractJournalCrawler;
+import wwmm.pubcrawler.model.Article;
+import wwmm.pubcrawler.model.Issue;
+import wwmm.pubcrawler.model.Journal;
 
 import java.io.IOException;
 

@@ -19,8 +19,8 @@ package wwmm.pubcrawler.crawlers.rsc;
 import org.junit.Test;
 import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.crawlers.AbstractCrawlerTest;
-import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.journals.RscJournalIndex;
+import wwmm.pubcrawler.model.Issue;
 
 import java.io.IOException;
 

@@ -20,9 +20,9 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.params.HttpConnectionParams;
+import uk.ac.cam.ch.wwmm.httpcrawler.httpcrawler.CrawlerResponse;
+import uk.ac.cam.ch.wwmm.httpcrawler.httpcrawler.HttpCrawler;
 import wwmm.pubcrawler.utils.ResourceUtil;
-import wwmm.pubcrawler.httpcrawler.CrawlerResponse;
-import wwmm.pubcrawler.httpcrawler.HttpCrawler;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;

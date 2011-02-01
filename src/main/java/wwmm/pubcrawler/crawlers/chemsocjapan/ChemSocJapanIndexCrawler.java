@@ -22,10 +22,10 @@ import org.apache.log4j.Logger;
 import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.CrawlerRuntimeException;
 import wwmm.pubcrawler.crawlers.AbstractCrawler;
-import wwmm.pubcrawler.model.Journal;
-import wwmm.pubcrawler.model.Issue;
-import wwmm.pubcrawler.utils.XPathUtils;
 import wwmm.pubcrawler.journals.ChemSocJapanJournalIndex;
+import wwmm.pubcrawler.model.Issue;
+import wwmm.pubcrawler.model.Journal;
+import wwmm.pubcrawler.utils.XPathUtils;
 
 import java.io.IOException;
 import java.net.URI;

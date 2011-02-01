@@ -24,8 +24,6 @@ import wwmm.pubcrawler.types.Doi;
 
 import java.io.IOException;
 
-import static org.junit.Assert.assertNotNull;
-
 /**
  * @author Sam Adams
  */

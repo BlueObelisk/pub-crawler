@@ -24,7 +24,6 @@ import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.CrawlerRuntimeException;
 import wwmm.pubcrawler.crawlers.AbstractCrawler;
 import wwmm.pubcrawler.model.Article;
-import wwmm.pubcrawler.model.FullTextResource;
 import wwmm.pubcrawler.model.SupplementaryResource;
 import wwmm.pubcrawler.types.MediaType;
 import wwmm.pubcrawler.utils.XHtml;

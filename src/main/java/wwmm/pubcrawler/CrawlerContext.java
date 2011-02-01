@@ -15,9 +15,9 @@
  */
 package wwmm.pubcrawler;
 
-import wwmm.pubcrawler.data.DataStore;
-import wwmm.pubcrawler.httpcrawler.HttpCrawler;
+import uk.ac.cam.ch.wwmm.httpcrawler.httpcrawler.HttpCrawler;
 import wwmm.pubcrawler.crawlers.AbstractCrawlerFactory;
+import wwmm.pubcrawler.data.DataStore;
 
 /**
  * @author Sam Adams

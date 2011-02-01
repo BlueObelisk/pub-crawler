@@ -20,9 +20,9 @@ import org.apache.log4j.Logger;
 import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.DefaultCrawlerContext;
 import wwmm.pubcrawler.crawlers.AbstractJournalCrawler;
-import wwmm.pubcrawler.model.Journal;
-import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.journals.RscJournalIndex;
+import wwmm.pubcrawler.model.Issue;
+import wwmm.pubcrawler.model.Journal;
 
 import java.io.IOException;
 import java.net.URI;
