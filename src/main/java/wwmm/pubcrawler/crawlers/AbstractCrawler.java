@@ -137,7 +137,7 @@ public abstract class AbstractCrawler {
         }
     }
 
-    private void setDocBaseUrl(CrawlerResponse response, Document doc) {
+    protected void setDocBaseUrl(CrawlerResponse response, Document doc) {
         String url = response.getUrl().toString();
         if (url.indexOf('#') != -1) {
             url = url.substring(0, url.indexOf('#'));
@@ -181,7 +181,7 @@ public abstract class AbstractCrawler {
     }
 
 
-    private static String getEntityCharset(CrawlerResponse response) {
+    protected static String getEntityCharset(CrawlerResponse response) {
         Header contentType = response.getContentType();
         if (contentType != null) {
             // e.g. text/html; charset=utf-8
