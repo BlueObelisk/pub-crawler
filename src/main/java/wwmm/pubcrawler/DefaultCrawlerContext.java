@@ -23,6 +23,7 @@ import wwmm.pubcrawler.data.DataStore;
 import wwmm.pubcrawler.httpcrawler.HttpCrawler;
 import wwmm.pubcrawler.httpcrawler.cache.HttpCache;
 import wwmm.pubcrawler.crawlers.AbstractCrawlerFactory;
+import wwmm.pubcrawler.httpcrawler.cache.file.FileSystemCache;
 
 import java.io.File;
 import java.io.IOException;
@@ -45,7 +46,7 @@ public class DefaultCrawlerContext extends CrawlerContext {
         HttpConnectionParams.setSoTimeout(client.getParams(), socketTimeoutMillis);
         HttpProtocolParams.setUserAgent(client.getParams(), "pubcrawler/0.3");
 
-        HttpCache cache = new HttpCache(new File("../cache/"));
+        HttpCache cache = new FileSystemCache(new File("../cache/"));
         return new HttpCrawler(client, cache);
     }
 
