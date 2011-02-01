@@ -31,6 +31,7 @@ import wwmm.pubcrawler.httpcrawler.CrawlerRequest;
 import wwmm.pubcrawler.httpcrawler.CrawlerResponse;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.Issue;
+import wwmm.pubcrawler.model.Journal;
 import wwmm.pubcrawler.model.Reference;
 import wwmm.pubcrawler.utils.XPathUtils;
 
@@ -56,8 +57,8 @@ public class ElsevierIssueCrawler extends AbstractIssueCrawler {
 
     private final String bibtex;
 
-    public ElsevierIssueCrawler(Issue issue, CrawlerContext context) throws IOException {
-        super(issue, context);
+    public ElsevierIssueCrawler(Issue issue, Journal journal, CrawlerContext context) throws IOException {
+        super(issue, journal, context);
         this.bibtex = fetchBibtex();
     }
 
@@ -221,11 +222,12 @@ public class ElsevierIssueCrawler extends AbstractIssueCrawler {
 
     @Override
     protected Issue getPreviousIssue() {
-        Node node = XPathUtils.getNode(getHtml(), ".//x:a[@title='Previous volume/issue'][1]");
-        if (node != null) {
-            Element addr = (Element) node;
+        List<Node> nodes = XPathUtils.queryHTML(getHtml(), ".//x:a[@title='Previous volume/issue'][1]");
+        if (!nodes.isEmpty()) {
+            Element addr = (Element) nodes.get(0);
             String href = addr.getAttributeValue("href");
             Issue issue = new Issue();
+            issue.setId("elsevier/"+getJournal().getAbbreviation()+"/"+getVolume()+"/"+getNumber()+"_prev");
             issue.setUrl(getUrl().resolve(href));
             return issue;
         }
@@ -234,7 +236,7 @@ public class ElsevierIssueCrawler extends AbstractIssueCrawler {
 
     private String[] getBib() {
         String s = XPathUtils.getString(getHtml(), "/x:html/x:head/x:title");
-        Pattern p = Pattern.compile("Volume (\\d+), Issue (\\d+), .*? \\(\\S+ (\\d{4})\\)");
+        Pattern p = Pattern.compile("Volume (\\d+), Issues? (\\S+), .*? \\(\\S+ (\\d{4})\\)");
         Matcher m = p.matcher(s);
         if (!m.find()) {
             throw new CrawlerRuntimeException("No match: "+s);
@@ -246,14 +248,6 @@ public class ElsevierIssueCrawler extends AbstractIssueCrawler {
     @Override
     protected String getIssueId() {
         return getIssueRef().getId();
-    }
-
-    public static void main(String[] args) throws IOException {
-        Issue issue = new Issue();
-        issue.setId("elsevier/00-xx");
-        issue.setUrl(URI.create("http://www.sciencedirect.com/science/publication?issn=10472797&volume=18&issue=7"));
-
-        ElsevierIssueCrawler crawler = new ElsevierIssueCrawler(issue, new DefaultCrawlerContext(null));
     }
 
 }

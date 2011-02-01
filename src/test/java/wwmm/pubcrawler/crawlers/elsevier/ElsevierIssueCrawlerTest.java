@@ -25,6 +25,7 @@ import wwmm.pubcrawler.httpcrawler.CrawlerResponse;
 import wwmm.pubcrawler.httpcrawler.HttpCrawler;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.Issue;
+import wwmm.pubcrawler.model.Journal;
 
 import java.io.IOException;
 import java.net.URI;
@@ -59,7 +60,7 @@ public class ElsevierIssueCrawlerTest extends AbstractCrawlerTest {
                 .thenReturn(response);
 
         CrawlerContext context = new CrawlerContext(null, crawler, null);
-        return new ElsevierIssueCrawler(issue, context);
+        return new ElsevierIssueCrawler(issue, new Journal("foo", "Acta Foo"), context);
     }
 
     @Test

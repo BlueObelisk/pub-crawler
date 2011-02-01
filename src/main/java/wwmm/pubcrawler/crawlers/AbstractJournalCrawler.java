@@ -54,9 +54,11 @@ public abstract class AbstractJournalCrawler extends AbstractCrawler {
         List<Issue> issues = new ArrayList<Issue>();
 
         Issue issue = fetchCurrentIssue();
-        if (!getDataStore().hasData(issue.getId())) {
-            log().debug("new issue: "+issue.getId());
-            getDataStore().save(issue.getId(), issue);
+        if (issue != null) {
+            if (!getDataStore().hasData(issue.getId())) {
+                log().debug("new issue: "+issue.getId());
+                getDataStore().save(issue.getId(), issue);
+            }
         }
 
         while (issue != null || issueIterator.hasNext()) {
@@ -172,7 +174,10 @@ public abstract class AbstractJournalCrawler extends AbstractCrawler {
 
     public Article fetchArticle(Article article) throws IOException {
         AbstractArticleCrawler crawler = getFactory().createArticleCrawler(article, getContext());
-        return crawler.toArticle();
+        if (crawler != null) {
+            return crawler.toArticle();
+        }
+        return article;
     }
 
 
