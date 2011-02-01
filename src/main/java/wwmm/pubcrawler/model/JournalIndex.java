@@ -16,17 +16,14 @@
 
 package wwmm.pubcrawler.model;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author sea36
  */
 public class JournalIndex {
 
-    private final Map<String,Journal> journalMap = new HashMap<String, Journal>();
+    private final Map<String,Journal> journalMap = new LinkedHashMap<String, Journal>();
 
     public Journal register(String abbreviation, String fullTitle) {
 		return register(abbreviation, fullTitle, null);
