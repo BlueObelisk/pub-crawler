@@ -16,20 +16,28 @@
 
 package wwmm.pubcrawler.crawlers.elsevier;
 
-import nu.xom.Element;
-import nu.xom.Node;
-import nu.xom.Text;
+import nu.xom.*;
+import org.apache.commons.io.IOUtils;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.utils.URLEncodedUtils;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.log4j.Logger;
 import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.CrawlerRuntimeException;
+import wwmm.pubcrawler.DefaultCrawlerContext;
 import wwmm.pubcrawler.crawlers.AbstractIssueCrawler;
+import wwmm.pubcrawler.httpcrawler.CrawlerPostRequest;
+import wwmm.pubcrawler.httpcrawler.CrawlerRequest;
+import wwmm.pubcrawler.httpcrawler.CrawlerResponse;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.model.Reference;
 import wwmm.pubcrawler.utils.XPathUtils;
 
 import java.io.IOException;
+import java.io.StringReader;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -43,9 +51,93 @@ import java.util.regex.Pattern;
 public class ElsevierIssueCrawler extends AbstractIssueCrawler {
 
     private static final Logger LOG = Logger.getLogger(ElsevierIssueCrawler.class);
-    
+
+    private boolean fetchBibtex = true;
+
+    private final String bibtex;
+
     public ElsevierIssueCrawler(Issue issue, CrawlerContext context) throws IOException {
         super(issue, context);
+        this.bibtex = fetchBibtex();
+    }
+
+    @Override
+    protected Document readHtml(CrawlerRequest request) throws IOException {
+        CrawlerResponse response = getHttpCrawler().execute(request);
+        String s;
+        try {
+            String encoding = getEntityCharset(response);
+            if (encoding != null) {
+                s = IOUtils.toString(response.getContent(), encoding);
+            } else {
+                s = IOUtils.toString(response.getContent());
+            }
+        } finally {
+            response.close();
+        }
+
+        // Fix broken DTD!
+        s = s.replace("_http://www.w3.org/TR/html4/loose.dtd", "http://www.w3.org/TR/html4/loose.dtd");
+
+        try {
+            Builder builder = newTagSoupBuilder();
+            Document doc = builder.build(new StringReader(s));
+            setDocBaseUrl(response, doc);
+            return doc;
+        } catch (ParsingException e) {
+            throw new IOException("Error reading XML", e);
+        }
+    }
+
+    private String fetchBibtex() throws IOException {
+        if (!fetchBibtex) {
+            return null;
+        }
+
+        Document html = getDownloadPage();
+
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        List<Node> fields = XPathUtils.queryHTML(html, "//x:form[@name='exportCite']/x:input");
+        for (Node node : fields) {
+            Element input = (Element)node;
+            String name = input.getAttributeValue("name");
+            String value = input.getAttributeValue("value");
+            params.add(new BasicNameValuePair(name, value));
+        }
+        params.add(new BasicNameValuePair("format", "cite-abs"));
+        params.add(new BasicNameValuePair("citation-type", "BIBTEX"));
+        params.add(new BasicNameValuePair("Export", "Export"));
+
+        URI url = URI.create("http://www.sciencedirect.com/science");
+
+        String s = readString(new CrawlerPostRequest(url, params, getIssueId()+"_bibtex.txt", AGE_MAX));
+        return s;
+    }
+
+    private Document getDownloadPage() throws IOException {
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        List<Node> fields = XPathUtils.queryHTML(getHtml(), "//x:form[@name='Tag']/x:input");
+        for (Node node : fields) {
+            Element input = (Element)node;
+            String name = input.getAttributeValue("name");
+            String value = input.getAttributeValue("value");
+            params.add(new BasicNameValuePair(name, value));
+        }
+        params.add(new BasicNameValuePair("export", "Export citations"));
+        params.add(new BasicNameValuePair("pdfDownload", ""));
+
+        List<Node> articles = XPathUtils.queryHTML(getHtml(), "//x:form[@name='Tag']//x:input[@name='art']");
+        for (Node node : articles) {
+            Element input = (Element)node;
+            String articleId = input.getAttributeValue("value");
+            params.add(new BasicNameValuePair("art", articleId));
+        }
+
+        String query = URLEncodedUtils.format(params, "UTF-8");
+
+        URI url = URI.create("http://www.sciencedirect.com/science?"+query);
+        Document html = readHtml(url, getIssueId()+"_bibtex.html", AGE_MAX);
+        return html;
     }
 
     @Override
@@ -153,8 +245,15 @@ public class ElsevierIssueCrawler extends AbstractIssueCrawler {
 
     @Override
     protected String getIssueId() {
-        return null;
+        return getIssueRef().getId();
     }
 
+    public static void main(String[] args) throws IOException {
+        Issue issue = new Issue();
+        issue.setId("elsevier/00-xx");
+        issue.setUrl(URI.create("http://www.sciencedirect.com/science/publication?issn=10472797&volume=18&issue=7"));
+
+        ElsevierIssueCrawler crawler = new ElsevierIssueCrawler(issue, new DefaultCrawlerContext(null));
+    }
 
 }
