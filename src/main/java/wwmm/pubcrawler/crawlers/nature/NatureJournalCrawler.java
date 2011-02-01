@@ -21,10 +21,10 @@ import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.CrawlerRuntimeException;
 import wwmm.pubcrawler.DefaultCrawlerContext;
 import wwmm.pubcrawler.crawlers.AbstractJournalCrawler;
-import wwmm.pubcrawler.model.Journal;
-import wwmm.pubcrawler.model.Issue;
-import wwmm.pubcrawler.utils.XPathUtils;
 import wwmm.pubcrawler.journals.NatureJournalIndex;
+import wwmm.pubcrawler.model.Issue;
+import wwmm.pubcrawler.model.Journal;
+import wwmm.pubcrawler.utils.XPathUtils;
 
 import java.io.IOException;
 import java.net.URI;

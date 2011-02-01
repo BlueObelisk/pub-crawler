@@ -18,15 +18,15 @@ package wwmm.pubcrawler.crawlers.rsc;
 
 import org.junit.Test;
 import org.mockito.Mockito;
-import wwmm.pubcrawler.crawlers.AbstractCrawlerTest;
+import uk.ac.cam.ch.wwmm.httpcrawler.httpcrawler.CrawlerRequest;
+import uk.ac.cam.ch.wwmm.httpcrawler.httpcrawler.CrawlerResponse;
+import uk.ac.cam.ch.wwmm.httpcrawler.httpcrawler.HttpCrawler;
 import wwmm.pubcrawler.CrawlerContext;
+import wwmm.pubcrawler.crawlers.AbstractCrawlerTest;
+import wwmm.pubcrawler.journals.RscJournalIndex;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.types.Doi;
-import wwmm.pubcrawler.httpcrawler.CrawlerRequest;
-import wwmm.pubcrawler.httpcrawler.CrawlerResponse;
-import wwmm.pubcrawler.httpcrawler.HttpCrawler;
-import wwmm.pubcrawler.journals.RscJournalIndex;
 
 import java.io.IOException;
 import java.net.URI;

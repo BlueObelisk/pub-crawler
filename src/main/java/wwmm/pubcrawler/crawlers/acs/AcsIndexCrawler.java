@@ -25,10 +25,10 @@ import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.CrawlerRuntimeException;
 import wwmm.pubcrawler.crawlers.AbstractCrawler;
 import wwmm.pubcrawler.data.DataStore;
-import wwmm.pubcrawler.model.Journal;
-import wwmm.pubcrawler.model.Issue;
-import wwmm.pubcrawler.utils.XPathUtils;
 import wwmm.pubcrawler.journals.AcsJournalIndex;
+import wwmm.pubcrawler.model.Issue;
+import wwmm.pubcrawler.model.Journal;
+import wwmm.pubcrawler.utils.XPathUtils;
 
 import java.io.File;
 import java.io.IOException;

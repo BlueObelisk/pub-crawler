@@ -25,12 +25,12 @@ import org.joda.time.Duration;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
+import uk.ac.cam.ch.wwmm.httpcrawler.httpcrawler.CrawlerGetRequest;
+import uk.ac.cam.ch.wwmm.httpcrawler.httpcrawler.CrawlerRequest;
+import uk.ac.cam.ch.wwmm.httpcrawler.httpcrawler.CrawlerResponse;
+import uk.ac.cam.ch.wwmm.httpcrawler.httpcrawler.HttpCrawler;
 import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.data.DataStore;
-import wwmm.pubcrawler.httpcrawler.CrawlerGetRequest;
-import wwmm.pubcrawler.httpcrawler.CrawlerRequest;
-import wwmm.pubcrawler.httpcrawler.CrawlerResponse;
-import wwmm.pubcrawler.httpcrawler.HttpCrawler;
 
 import java.io.IOException;
 import java.io.InputStreamReader;

@@ -16,9 +16,9 @@
 package wwmm.pubcrawler.crawlers;
 
 import wwmm.pubcrawler.CrawlerContext;
-import wwmm.pubcrawler.model.Journal;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.Issue;
+import wwmm.pubcrawler.model.Journal;
 
 import java.io.IOException;
 

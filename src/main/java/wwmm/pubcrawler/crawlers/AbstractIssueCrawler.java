@@ -19,11 +19,9 @@ import nu.xom.Document;
 import nu.xom.Node;
 import org.joda.time.Duration;
 import wwmm.pubcrawler.CrawlerContext;
-import wwmm.pubcrawler.CrawlerRuntimeException;
-import wwmm.pubcrawler.model.Journal;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.Issue;
-import wwmm.pubcrawler.utils.XPathUtils;
+import wwmm.pubcrawler.model.Journal;
 
 import java.io.IOException;
 import java.net.URI;

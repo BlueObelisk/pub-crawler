@@ -18,14 +18,14 @@ package wwmm.pubcrawler.crawlers.nature;
 
 import org.junit.Test;
 import org.mockito.Mockito;
+import uk.ac.cam.ch.wwmm.httpcrawler.httpcrawler.CrawlerRequest;
+import uk.ac.cam.ch.wwmm.httpcrawler.httpcrawler.CrawlerResponse;
+import uk.ac.cam.ch.wwmm.httpcrawler.httpcrawler.HttpCrawler;
 import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.crawlers.AbstractCrawlerTest;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.types.Doi;
-import wwmm.pubcrawler.httpcrawler.CrawlerRequest;
-import wwmm.pubcrawler.httpcrawler.CrawlerResponse;
-import wwmm.pubcrawler.httpcrawler.HttpCrawler;
 
 import java.io.IOException;
 import java.net.URI;

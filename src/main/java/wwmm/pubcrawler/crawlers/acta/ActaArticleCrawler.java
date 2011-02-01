@@ -18,6 +18,7 @@ package wwmm.pubcrawler.crawlers.acta;
 import nu.xom.*;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.log4j.Logger;
+import uk.ac.cam.ch.wwmm.httpcrawler.httpcrawler.CrawlerPostRequest;
 import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.CrawlerRuntimeException;
 import wwmm.pubcrawler.crawlers.AbstractArticleCrawler;
@@ -26,14 +27,14 @@ import wwmm.pubcrawler.model.FullTextResource;
 import wwmm.pubcrawler.model.Reference;
 import wwmm.pubcrawler.model.SupplementaryResource;
 import wwmm.pubcrawler.utils.BibtexTool;
-import wwmm.pubcrawler.utils.XHtml;
 import wwmm.pubcrawler.utils.XPathUtils;
-import wwmm.pubcrawler.httpcrawler.CrawlerPostRequest;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URI;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

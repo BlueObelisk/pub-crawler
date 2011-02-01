@@ -21,21 +21,20 @@ import nu.xom.Node;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.log4j.Logger;
 import org.joda.time.Duration;
+import uk.ac.cam.ch.wwmm.httpcrawler.httpcrawler.CrawlerPostRequest;
+import uk.ac.cam.ch.wwmm.httpcrawler.httpcrawler.CrawlerRequest;
+import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.CrawlerRuntimeException;
 import wwmm.pubcrawler.crawlers.AbstractIssueCrawler;
-import wwmm.pubcrawler.CrawlerContext;
-import wwmm.pubcrawler.model.Journal;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.Issue;
+import wwmm.pubcrawler.model.Journal;
 import wwmm.pubcrawler.types.Doi;
 import wwmm.pubcrawler.utils.XPathUtils;
-import wwmm.pubcrawler.httpcrawler.CrawlerPostRequest;
-import wwmm.pubcrawler.httpcrawler.CrawlerRequest;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -74,7 +73,7 @@ public class RscIssueCrawler extends AbstractIssueCrawler {
     @Override
     protected Document fetchHtml(Issue issue) throws IOException {
         String rscId = issue.getUrl().toString();
-        CrawlerRequest request; 
+        CrawlerRequest request;
         if (issue.isCurrent()) {
             request = createIssueRequest(rscId, issue.getId()+".html", AGE_1DAY);
         } else {

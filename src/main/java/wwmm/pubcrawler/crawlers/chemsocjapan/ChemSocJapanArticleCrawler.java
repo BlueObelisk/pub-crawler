@@ -17,9 +17,9 @@ package wwmm.pubcrawler.crawlers.chemsocjapan;
 
 import nu.xom.*;
 import org.apache.log4j.Logger;
+import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.CrawlerRuntimeException;
 import wwmm.pubcrawler.crawlers.AbstractArticleCrawler;
-import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.FullTextResource;
 import wwmm.pubcrawler.model.Reference;

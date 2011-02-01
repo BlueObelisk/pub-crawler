@@ -16,7 +16,6 @@
 package wwmm.pubcrawler.crawlers.chemsocjapan;
 
 import nu.xom.Node;
-import nu.xom.Serializer;
 import org.apache.log4j.Logger;
 import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.CrawlerRuntimeException;
@@ -27,7 +26,6 @@ import wwmm.pubcrawler.types.Doi;
 import wwmm.pubcrawler.utils.XPathUtils;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
