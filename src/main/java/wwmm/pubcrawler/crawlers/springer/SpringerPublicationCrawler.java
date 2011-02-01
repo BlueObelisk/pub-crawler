@@ -21,7 +21,9 @@ import nu.xom.Element;
 import nu.xom.Node;
 import org.apache.log4j.Logger;
 import wwmm.pubcrawler.CrawlerContext;
+import wwmm.pubcrawler.DefaultCrawlerContext;
 import wwmm.pubcrawler.crawlers.AbstractCrawler;
+import wwmm.pubcrawler.model.Journal;
 import wwmm.pubcrawler.utils.XPathUtils;
 
 import java.io.IOException;
@@ -30,6 +32,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author Sam Adams
@@ -45,6 +49,7 @@ public class SpringerPublicationCrawler extends AbstractCrawler {
     ));
 
     private List<Document> pages = new ArrayList<Document>();
+    private static final Pattern P_JOURNAL_ID = Pattern.compile("/content/([^/]+)/");
 
     public SpringerPublicationCrawler(CrawlerContext context) throws IOException {
         super(context);
@@ -58,9 +63,6 @@ public class SpringerPublicationCrawler extends AbstractCrawler {
             while (uri != null) {
                 Document html = this.readHtml(uri, "springer/00-journalindex/"+key+"_"+page, AGE_28DAYS);
                 pages.add(html);
-
-                getTitles(uri, html);
-
                 List<Node> nodes = XPathUtils.queryHTML(html, "//x:a[text() = 'Next']");
                 if (!nodes.isEmpty()) {
                     Element addr = (Element) nodes.get(0);
@@ -70,13 +72,25 @@ public class SpringerPublicationCrawler extends AbstractCrawler {
                 } else {
                     uri = null;
                 }
-
             }
         }
 
     }
 
-    private void getTitles(URI uri, Document html) {
+    protected List<Document> getPages() {
+        return pages;
+    }
+
+    public List<Journal> getJournals() {
+        List<Journal> list = new ArrayList<Journal>();
+        for (Document page : getPages()) {
+            URI uri = URI.create(page.getBaseURI());
+            getTitles(list, uri, page);
+        }
+        return list;
+    }
+
+    private void getTitles(List<Journal> list, URI uri, Document html) {
         List<Node> nodes = XPathUtils.queryHTML(html, "//x:p[@class='title']/x:a");
         for (Node node : nodes) {
             Element addr = (Element) node;
@@ -84,13 +98,28 @@ public class SpringerPublicationCrawler extends AbstractCrawler {
             URI url = uri.resolve(href);
             String title = addr.getValue().trim();
 
-            // TODO generate object
+            Matcher m = P_JOURNAL_ID.matcher(href);
+            if (!m.find()) {
+                log().warn("Unable to find journal id: "+href);
+                continue;
+            }
+
+            String id = m.group(1);
+
+            Journal journal = new Journal(id, title);
+            list.add(journal);
         }
     }
 
     @Override
     protected Logger log() {
         return LOG;
+    }
+
+    public static void main(String[] args) throws IOException {
+        for (Journal journal : new SpringerPublicationCrawler(new DefaultCrawlerContext(null)).getJournals()) {
+            System.out.println(journal.getFullTitle());
+        }
     }
 
 }

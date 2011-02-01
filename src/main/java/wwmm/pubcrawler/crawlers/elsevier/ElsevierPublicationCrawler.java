@@ -21,11 +21,14 @@ import nu.xom.Element;
 import nu.xom.Node;
 import org.apache.log4j.Logger;
 import wwmm.pubcrawler.CrawlerContext;
+import wwmm.pubcrawler.DefaultCrawlerContext;
 import wwmm.pubcrawler.crawlers.AbstractCrawler;
+import wwmm.pubcrawler.model.Journal;
 import wwmm.pubcrawler.utils.XPathUtils;
 
 import java.io.IOException;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -37,25 +40,45 @@ public class ElsevierPublicationCrawler extends AbstractCrawler {
 
     private static final URI OPML_URI = URI.create("http://feeds.sciencedirect.com/opml.xml");
 
+    private final Document doc;
+    private final URI url;
+
     public ElsevierPublicationCrawler(CrawlerContext context) throws IOException {
         super(context);
 
-        Document doc = readDocument(OPML_URI, "elsevier/opml", AGE_28DAYS);
+        this.doc = readDocument(OPML_URI, "elsevier/opml", AGE_28DAYS);
+        this.url = OPML_URI;
+    }
+
+    public List<Journal> getJournals() {
+        List<Journal> list = new ArrayList<Journal>();
+
         List<Node> nodes = XPathUtils.queryHTML(doc, "//outline");
         int i = 1;
         for (Node node : nodes) {
             Element outline = (Element) node;
-            URI url = URI.create(outline.getAttributeValue("htmlUrl"));
+            String u = outline.getAttributeValue("htmlUrl");
+            URI url = URI.create(u);
             String title = outline.getAttributeValue("text");
 
-            // TODO generate object
+            String id = u.substring(u.lastIndexOf('/')+1);
+
+            Journal journal = new Journal(id, title);
+            list.add(journal);
         }
 
+        return list;
     }
 
     @Override
     protected Logger log() {
         return LOG;
+    }
+
+    public static void main(String[] args) throws IOException {
+        for (Journal j : new ElsevierPublicationCrawler(new DefaultCrawlerContext(null)).getJournals()) {
+            System.out.println(j.getFullTitle());
+        }
     }
 
 }
