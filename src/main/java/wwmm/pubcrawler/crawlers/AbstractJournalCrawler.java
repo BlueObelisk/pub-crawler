@@ -77,8 +77,6 @@ public abstract class AbstractJournalCrawler extends AbstractCrawler {
                     log().info("found issue: "+issue.getId());
                 }
 
-                System.out.println(issue.getId()+"\t"+issue.getUrl());
-
                 try {
                     issue = getPreviousIssue(issue);
                     if (issue != null && visitedIssues.contains(issue.getId())) {
