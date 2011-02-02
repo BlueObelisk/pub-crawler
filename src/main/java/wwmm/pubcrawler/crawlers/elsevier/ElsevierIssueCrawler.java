@@ -72,7 +72,7 @@ public class ElsevierIssueCrawler extends AbstractIssueCrawler {
                 s = IOUtils.toString(response.getContent());
             }
         } finally {
-            response.close();
+            response.closeQuietly();
         }
 
         // Fix broken DTD!

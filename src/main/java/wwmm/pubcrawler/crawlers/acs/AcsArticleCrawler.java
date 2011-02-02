@@ -99,7 +99,7 @@ public class AcsArticleCrawler extends AbstractArticleCrawler {
         URI url = URI.create("http://pubs.acs.org/action/showCitFormats?doi="+doi.getValue());
         CrawlerGetRequest request = new CrawlerGetRequest(url, getArticleId()+"_bib_touch", AGE_MAX);
         CrawlerResponse response = getHttpCrawler().execute(request);
-        response.close();
+        response.closeQuietly();
     }
 
 
