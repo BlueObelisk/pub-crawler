@@ -47,17 +47,29 @@ public class ElsevierIssueCrawlerTest extends AbstractCrawlerTest {
                         +"&_acct=C000050221&_version=1&_urlVersion=0&_userid=10&md5=cd07924074df81e203366810e8242eb2"));
     }
 
+    private CrawlerResponse prepareCompBioChemIssue34_4DownloadResponse() throws IOException {
+        return prepareResponse("./compbiochem-34-4-download.html",
+                URI.create("http://www.sciencedirect.com/science?_ob=DownloadURL&_method=confirm&_tockey=%23toc%2311514%232010%23999659995%232526737%23FLA%23&_auth=y&_version=1&refSource=toc&_pubType=J&PDF_DDM_MAX=20&_cdi=11514&chunk=0&view=c&go=&count=8&export=Export+citations&pdfDownload=&count=8&_acct=C000053194&_version=1&_userid=1495569&md5=58b8fcd21e7a5845f6cf4105ce3cd6ca"));
+    }
+
+    private CrawlerResponse prepareCompBioChemIssue34_4BibtexResponse() throws IOException {
+        return prepareResponse("./compbiochem-34-4-bibtex.txt",
+                URI.create("http://www.sciencedirect.com/science"));
+    }
+
     protected ElsevierIssueCrawler getCompBioChemIssue34_4() throws IOException {
         Issue issue = new Issue();
         issue.setUrl(URI.create("http://www.sciencedirect.com/science?_ob=PublicationURL&_tockey="
                         +"%23TOC%2311514%232010%23999659995%232526737%23FLA%23&_cdi=11514&_pubType=J&_auth=y&_prev=y"
                         +"&_acct=C000050221&_version=1&_urlVersion=0&_userid=10&md5=cd07924074df81e203366810e8242eb2"));
 
-        CrawlerResponse response = prepareCompBioChemIssue34_4Response();
+        CrawlerResponse response1 = prepareCompBioChemIssue34_4Response();
+        CrawlerResponse response2 = prepareCompBioChemIssue34_4DownloadResponse();
+        CrawlerResponse response3 = prepareCompBioChemIssue34_4BibtexResponse();
 
         HttpCrawler crawler = Mockito.mock(HttpCrawler.class);
         Mockito.when(crawler.execute(Mockito.any(CrawlerRequest.class)))
-                .thenReturn(response);
+                .thenReturn(response1, response2, response3);
 
         CrawlerContext context = new CrawlerContext(null, crawler, null);
         return new ElsevierIssueCrawler(issue, new Journal("foo", "Acta Foo"), context);
