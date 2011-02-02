@@ -133,12 +133,12 @@ public abstract class AbstractJournalCrawler extends AbstractCrawler {
     private void crawlArticles(Issue issue) {
         int i = 0;
         List<Article> articles = issue.getArticles();
-        log().debug("crawling "+articles.size()+" articles");
+        log().info("crawling "+articles.size()+" articles from "+issue.getId());
         for (Article article : articles) {
             if (getMaxArticlesPerIssue() >= 0 && i >= getMaxArticlesPerIssue()) {
                 break;
             }
-            log().info("found article ("+i+"/"+articles.size()+"): "+article.getId() + " ["+article.getDoi()+"]");
+            log().debug("found article ("+i+"/"+articles.size()+"): "+article.getId() + " ["+article.getDoi()+"]");
             try {
                 crawlArticle(article);
             } catch (Exception e) {
