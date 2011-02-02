@@ -84,7 +84,7 @@ public abstract class AbstractCrawler {
         try {
             return readString(response);
         } finally {
-            response.close();
+            response.closeQuietly();
         }
     }
 
@@ -112,7 +112,7 @@ public abstract class AbstractCrawler {
                 return readDocument(response, new Builder(), encoding);
             }
         } finally {
-            response.close();
+            response.closeQuietly();
         }
     }
 
@@ -160,7 +160,7 @@ public abstract class AbstractCrawler {
                 return readDocument(response, newTagSoupBuilder(), encoding);
             }
         } finally {
-            response.close();
+            response.closeQuietly();
         }
     }
 
