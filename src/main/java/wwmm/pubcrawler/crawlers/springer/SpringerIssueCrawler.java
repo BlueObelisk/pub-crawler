@@ -159,7 +159,7 @@ public class SpringerIssueCrawler extends AbstractIssueCrawler {
 
     protected String[] getBib() {
         String s = XPathUtils.getString(getHtml(), "//x:h2[@class='filters']");
-        Pattern p = Pattern.compile("Volume (\\d+), Number (\\d+) / .*? (\\d{4})");
+        Pattern p = Pattern.compile("Volume (\\d+), Numbers? (\\S+) / .*? (\\d{4})");
         Matcher m = p.matcher(s);
         m.find();
         return new String[] {

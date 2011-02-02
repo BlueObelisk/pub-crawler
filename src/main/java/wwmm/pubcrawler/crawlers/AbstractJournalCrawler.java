@@ -100,6 +100,7 @@ public abstract class AbstractJournalCrawler extends AbstractCrawler {
                     getDataStore().save(issue.getId(), issue);
                 }
             }
+            Thread.yield();
         }
 
         crawlArticles(issues);
@@ -143,6 +144,7 @@ public abstract class AbstractJournalCrawler extends AbstractCrawler {
             } catch (Exception e) {
                 log().warn("Error crawling article: "+article.getId() + " ["+article.getDoi()+"]", e);
             }
+            Thread.yield();
             i++;
         }
     }
