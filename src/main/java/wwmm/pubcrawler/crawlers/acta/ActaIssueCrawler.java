@@ -131,6 +131,13 @@ public class ActaIssueCrawler extends AbstractIssueCrawler {
         if (doi == null) {
             doi = XPathUtils.getString(node, ".//x:a[contains(@href,'dx.doi.org/10.1107/')]");
         }
+        if (doi == null) {
+            // e.g. http://journals.iucr.org/b/issues/2006/02/00/issconts.html
+            doi = XPathUtils.getString(node, ".//x:span[starts-with(text(), 'doi:')]");
+        }
+        if (doi == null) {
+            throw new CrawlerRuntimeException("Unable to locate DOI in issue: "+getIssueId());
+        }
         return new Doi(doi);
     }
 
