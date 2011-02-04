@@ -21,6 +21,7 @@ import nu.xom.Element;
 import nu.xom.Node;
 import org.apache.log4j.Logger;
 import wwmm.pubcrawler.CrawlerContext;
+import wwmm.pubcrawler.CrawlerRuntimeException;
 import wwmm.pubcrawler.crawlers.AbstractIssueCrawler;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.Issue;
@@ -159,9 +160,11 @@ public class SpringerIssueCrawler extends AbstractIssueCrawler {
 
     protected String[] getBib() {
         String s = XPathUtils.getString(getHtml(), "//x:h2[@class='filters']");
-        Pattern p = Pattern.compile("Volume (\\d+), Numbers? (\\S+) / .*? (\\d{4})");
+        Pattern p = Pattern.compile("Volume (\\S+), Numbers? (\\S+(?:\\s+-\\s*\\S)?) / .*? (\\d{4})");
         Matcher m = p.matcher(s);
-        m.find();
+        if (!m.find()) {
+            throw new CrawlerRuntimeException("No match: "+s);
+        }
         return new String[] {
                 m.group(1), m.group(2), m.group(3)
         };

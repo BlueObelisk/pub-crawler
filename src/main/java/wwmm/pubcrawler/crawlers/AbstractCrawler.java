@@ -43,7 +43,7 @@ import java.util.concurrent.TimeUnit;
 public abstract class AbstractCrawler {
 
     public static final Duration AGE_0 = new Duration(0);
-    public static final Duration AGE_1DAY = new Duration(TimeUnit.DAYS.toMillis(1));
+    public static final Duration AGE_1DAY = new Duration(TimeUnit.DAYS.toMillis(7));
     public static final Duration AGE_28DAYS = new Duration(TimeUnit.DAYS.toMillis(28));
     public static final Duration AGE_MAX = new Duration(Long.MAX_VALUE);
 

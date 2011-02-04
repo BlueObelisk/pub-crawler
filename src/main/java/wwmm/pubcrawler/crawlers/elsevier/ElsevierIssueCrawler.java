@@ -168,15 +168,26 @@ public class ElsevierIssueCrawler extends AbstractIssueCrawler {
         return XPathUtils.queryHTML(getHtml(), "//x:table[@class='resultRow']//x:td[@width='95%']");
     }
 
+    private static final Pattern P_ID = Pattern.compile("udi=(.*?)&");
+
     @Override
     protected Article getArticleDetails(Node context, String issueId) {
+        Article article = new Article();
+
         Element addr = (Element) XPathUtils.getNode(context, "x:a");
         String href = addr.getAttributeValue("href");
+        Matcher m = P_ID.matcher(href);
+        if (m.find()) {
+            String id = getIssueId()+"/"+m.group(1);
+            article.setId(id);
+        } else {
+            log().warn("Unable to locate article ID: "+getIssueId());
+        }
+
         URI url = getUrl().resolve(href);
         String title = addr.getValue().trim();
 
         Reference ref = getArticleReference(context);
-        Article article = new Article();
         article.setTitle(title);
         article.setAuthors(getArticleAuthors(context));
         article.setUrl(url);
@@ -209,7 +220,7 @@ public class ElsevierIssueCrawler extends AbstractIssueCrawler {
     }
     
     private String getArticlePages(Node node) {
-        String s = XPathUtils.getString(node, "x:i");
+        String s = XPathUtils.getString(node, "x:i[starts-with(text(), 'Page')]");
         Pattern p = Pattern.compile("Pages? (\\S+)");
         Matcher m = p.matcher(s);
         if (!m.find()) {
