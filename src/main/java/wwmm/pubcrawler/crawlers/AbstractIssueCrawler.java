@@ -142,9 +142,9 @@ public abstract class AbstractIssueCrawler extends AbstractCrawler {
         issue.setPreviousIssue(getPreviousIssue());
         try {
             List<Article> articles = getArticles();
-//            if (articles.isEmpty()) {
-//                throw new CrawlerRuntimeException("No articles found!");
-//            }
+            if (articles.isEmpty()) {
+                log().warn("No articles found in issue: "+issue.getId());
+            }
             issue.setArticles(articles);
         } catch (Exception e) {
             log().warn("Error reading articles for issue: "+issue.getId()+" ["+getUrl()+"]");

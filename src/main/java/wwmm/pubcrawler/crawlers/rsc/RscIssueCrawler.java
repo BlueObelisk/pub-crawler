@@ -159,7 +159,8 @@ public class RscIssueCrawler extends AbstractIssueCrawler {
         Pattern p = Pattern.compile("IssueNo='(\\d+)'");
         Matcher m = p.matcher(s);
         if (!m.find()) {
-            throw new CrawlerRuntimeException("No match: "+getIdString());
+            log().warn("Unable to locate issue number: "+getIdString());
+            return "0";
         }
         return m.group(1);
     }
