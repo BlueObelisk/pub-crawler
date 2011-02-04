@@ -125,6 +125,40 @@ public class AcsTools {
         map.put("/entityImage/?text=006f,0308", Unicode.Latin1_Supplement.  Latin_Small_Letter_O_With_Diaeresis);
         map.put("/entityImage/?text=0075,0308", Unicode.Latin1_Supplement.  Latin_Small_Letter_U_With_Diaeresis);
 
+
+        // 030a = ring above
+
+        map.put("/entityImage/?text=0041,030a", Unicode.Latin1_Supplement.  Latin_Capital_Letter_A_With_Ring_Above);
+
+        // 030c = caron
+
+        map.put("/entityImage/?text=005a,030c", Unicode.LatinExtendedA.     Latin_Capital_Letter_Z_With_Caron);
+
+        map.put("/entityImage/?text=0061,030c", Unicode.LatinExtendedB.     Latin_Small_Letter_A_With_Caron);
+        map.put("/entityImage/?text=0065,030c", Unicode.LatinExtendedA.     Latin_Small_Letter_E_With_Caron);
+        map.put("/entityImage/?text=006c,030c", Unicode.LatinExtendedA.     Latin_Small_Letter_L_With_Caron);
+        map.put("/entityImage/?text=006e,030c", Unicode.LatinExtendedA.     Latin_Small_Letter_N_With_Caron);
+        map.put("/entityImage/?text=0072,030c", Unicode.LatinExtendedA.     Latin_Small_Letter_R_With_Caron);
+        map.put("/entityImage/?text=007a,030c", Unicode.LatinExtendedA.     Latin_Small_Letter_Z_With_Caron);
+
+
+        // 0327 = cedilla
+
+        // TODO small letter a with cedilla
+        // http://pubs.acs.org/entityImage/?text=0061,0327
+
+        map.put("/entityImage/?text=0073,0327", Unicode.LatinExtendedA.     Latin_Capital_Letter_S_With_Cedilla);
+
+
+
+        // others
+
+        // TODO check these
+        map.put("/appl/literatum/publisher/achs/journals/entities/2009.gif", '\u2009');
+        map.put("/appl/literatum/publisher/achs/journals/entities/02BC.gif", '\u02bc');
+        map.put("/appl/literatum/publisher/achs/journals/entities/01E7.gif", '\u01e7');
+
+
         ENTITY_MAP = Collections.unmodifiableMap(map);
     }
 

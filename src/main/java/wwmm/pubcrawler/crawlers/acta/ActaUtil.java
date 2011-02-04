@@ -40,6 +40,10 @@ public class ActaUtil {
 
         map.put("...", Unicode.ELIPSIS);
 
+        map.put("less-than or equal to", Unicode.MathematicalOperators.Less_Than_Or_Equal_To);
+        map.put("rightwards arrow", Unicode.Arrows.Rightwards_Arrow);
+        map.put("triple bond", Unicode.MathematicalOperators.Identical_To);
+
         map.put("[alpha]",   Unicode.GREEK_ALPHA_LC);
         map.put("[beta]",    Unicode.GREEK_BETA_LC);
         map.put("[gamma]",   Unicode.GREEK_GAMMA_LC);
@@ -61,10 +65,12 @@ public class ActaUtil {
         map.put("[sigma]",   Unicode.GREEK_SIGMA_LC);
         map.put("[tau]",     Unicode.GREEK_TAU_LC);
         map.put("[upsilon]", Unicode.GREEK_UPSILON_LC);
-        map.put("[phi]",     Unicode.GREEK_PHI_LC);
+//        map.put("[phi]",     Unicode.GREEK_PHI_LC);
         map.put("[chi]",     Unicode.GREEK_CHI_LC);
         map.put("[psi]",     Unicode.GREEK_PSI_LC);
         map.put("[omega]",   Unicode.GREEK_OMEGA_LC);
+
+        map.put("[varphi]", Unicode.GREEK_PHI_LC);
 
         map.put("[Alpha]",   Unicode.GREEK_ALPHA_UC);
         map.put("[Beta]",    Unicode.GREEK_BETA_UC);
