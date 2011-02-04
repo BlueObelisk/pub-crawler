@@ -103,7 +103,9 @@ public abstract class AbstractIssueCrawler extends AbstractCrawler {
         for (Node articleNode : articleNodes) {
             try {
                 Article article = getArticleDetails(articleNode, issueId);
-                articles.add(article);
+                if (article != null) {
+                    articles.add(article);
+                }
             } catch (Exception e) {
                 log().warn("Error reading article details from " + issueId, e);
             }

@@ -45,7 +45,7 @@ public class SpringerJournalIndexCrawler extends AbstractCrawler {
     private final URI url;
     private final String id;
     private static final Pattern P__VOLUME = Pattern.compile("Volume\\s+(\\S+)");
-    private static final Pattern P_ISSUE = Pattern.compile("Number\\s+(\\S+) .*? (\\d{4})");
+    private static final Pattern P_ISSUE = Pattern.compile("Numbers?\\s+(\\S+) .*? (\\d{4})");
 
     public SpringerJournalIndexCrawler(CrawlerContext context, URI url, String id) throws IOException {
         super(context);
