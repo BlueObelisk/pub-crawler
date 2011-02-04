@@ -162,7 +162,10 @@ public class AcsIssueCrawler extends AbstractIssueCrawler {
         if (pages != null) {
             return pages.substring(2);
         }
-        throw new CrawlerRuntimeException("Unable to find pages");
+        // Some articles have no page numbers in TOC:
+        // http://pubs.acs.org/toc/chreay/110/6
+        log().warn("Unable to find article pages: "+getIssueId());
+        return null;
     }
 
     private List<String> getAuthors(Node node) {

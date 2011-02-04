@@ -46,6 +46,7 @@ public class SpringerJournalIndexCrawler extends AbstractCrawler {
     private final String id;
     private static final Pattern P__VOLUME = Pattern.compile("Volume\\s+(\\S+)");
     private static final Pattern P_ISSUE = Pattern.compile("Numbers?\\s+(\\S+) .*? (\\d{4})");
+    private static final Pattern P_SUPP = Pattern.compile("Supplement\\s+(\\S+) .*? (\\d{4})");
 
     public SpringerJournalIndexCrawler(CrawlerContext context, URI url, String id) throws IOException {
         super(context);
@@ -109,14 +110,24 @@ public class SpringerJournalIndexCrawler extends AbstractCrawler {
                     log().warn("Unable to locate issue descriptor in index "+this.url);
                 }
 
+                String number;
+                String year;
                 Matcher m1 = P_ISSUE.matcher(s);
-                if (!m1.find()) {
-                    log().warn("Unable to locate issue identifiers: "+s);
-                    continue;
+                if (m1.find()) {
+                    number = m1.group(1);
+                    year = m1.group(2);
+                } else {
+                    m1 = P_SUPP.matcher(s);
+                    if (m1.find()) {
+                        number = "supp"+m1.group(1);
+                        year = m1.group(2);
+                    } else {
+                        log().warn("Unable to locate issue identifiers: "+s);
+                        continue;
+                    }
                 }
 
-                String number = m1.group(1);
-                String year = m1.group(2);
+
 
                 URI url = this.url.resolve(href);
                 Issue issue = new Issue();
