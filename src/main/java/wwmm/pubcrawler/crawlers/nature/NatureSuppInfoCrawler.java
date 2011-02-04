@@ -159,16 +159,23 @@ public class NatureSuppInfoCrawler extends AbstractArticleCrawler {
         if (getHtml() == null) {
             return getArticleRef().getReference();
         }
-        Node citation = XPathUtils.getNode(getHtml(), ".//x:dl[@class='citation']");
 
         String journalName = XPathUtils.getString(getHtml(), "/x:html/x:head/x:meta[@name='citation_journal_title']/@content");
         String volume = XPathUtils.getString(getHtml(), "/x:html/x:head/x:meta[@name='citation_volume']/@content");
         String number = XPathUtils.getString(getHtml(), "/x:html/x:head/x:meta[@name='citation_issue']/@content");
 
-        String year = XPathUtils.getString(citation, "/x:html/x:head/x:meta[@name='prism.publicationDate']/@content");
+        String year = XPathUtils.getString(getHtml(), "/x:html/x:head/x:meta[@name='prism.publicationDate']/@content");
         year = year.substring(0, year.indexOf('-'));
 
-        String pages = XPathUtils.getString(citation, "./x:dd[@class='page']");
+//        Node citation = XPathUtils.getNode(getHtml(), ".//x:dl[@class='citation']");
+//        String pages = XPathUtils.getString(citation, "./x:dd[@class='page']");
+        String start = XPathUtils.getString(getHtml(), "/x:html/x:head/x:meta[@name='prism.startingPage']/@content");
+        String end = XPathUtils.getString(getHtml(), "/x:html/x:head/x:meta[@name='prism.endingPage']/@content");
+
+        if (start == null || end == null) {
+            log().warn("Unable to find pages for article: "+getArticleId());
+        }
+        String pages = start+"-"+end;
 
         Reference ref = new Reference();
         ref.setJournalTitle(journalName);
