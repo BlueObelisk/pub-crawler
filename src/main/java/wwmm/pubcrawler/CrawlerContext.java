@@ -15,7 +15,7 @@
  */
 package wwmm.pubcrawler;
 
-import uk.ac.cam.ch.wwmm.httpcrawler.httpcrawler.HttpCrawler;
+import uk.ac.cam.ch.wwmm.httpcrawler.HttpCrawler;
 import wwmm.pubcrawler.crawlers.AbstractCrawlerFactory;
 import wwmm.pubcrawler.data.DataStore;
 

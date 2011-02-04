@@ -18,7 +18,7 @@ package wwmm.pubcrawler.crawlers.acta;
 import nu.xom.*;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.log4j.Logger;
-import uk.ac.cam.ch.wwmm.httpcrawler.httpcrawler.CrawlerPostRequest;
+import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerPostRequest;
 import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.CrawlerRuntimeException;
 import wwmm.pubcrawler.crawlers.AbstractArticleCrawler;

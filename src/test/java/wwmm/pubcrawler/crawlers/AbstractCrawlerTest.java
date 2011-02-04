@@ -20,8 +20,8 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.params.HttpConnectionParams;
-import uk.ac.cam.ch.wwmm.httpcrawler.httpcrawler.CrawlerResponse;
-import uk.ac.cam.ch.wwmm.httpcrawler.httpcrawler.HttpCrawler;
+import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerResponse;
+import uk.ac.cam.ch.wwmm.httpcrawler.HttpCrawler;
 import wwmm.pubcrawler.utils.ResourceUtil;
 
 import java.io.ByteArrayInputStream;
@@ -51,7 +51,7 @@ public abstract class AbstractCrawlerTest {
         byte[] bytes = ResourceUtil.readBytes(getClass(), path);
         InputStream content = new ByteArrayInputStream(bytes);
         List<BasicHeader> headers = Arrays.asList(new BasicHeader("Content-type", "text/html; charset=UTF-8"));
-        CrawlerResponse response = new CrawlerResponse(url, headers, content);
+        CrawlerResponse response = new CrawlerResponse(url, headers, content, false);
         return response;
     }
 
