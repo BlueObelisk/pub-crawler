@@ -18,9 +18,9 @@ package wwmm.pubcrawler.crawlers.acta;
 
 import org.junit.Test;
 import org.mockito.Mockito;
-import uk.ac.cam.ch.wwmm.httpcrawler.httpcrawler.CrawlerRequest;
-import uk.ac.cam.ch.wwmm.httpcrawler.httpcrawler.CrawlerResponse;
-import uk.ac.cam.ch.wwmm.httpcrawler.httpcrawler.HttpCrawler;
+import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerRequest;
+import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerResponse;
+import uk.ac.cam.ch.wwmm.httpcrawler.HttpCrawler;
 import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.crawlers.AbstractCrawlerTest;
 import wwmm.pubcrawler.model.Article;

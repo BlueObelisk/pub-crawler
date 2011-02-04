@@ -19,9 +19,9 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpProtocolParams;
-import uk.ac.cam.ch.wwmm.httpcrawler.httpcrawler.HttpCrawler;
-import uk.ac.cam.ch.wwmm.httpcrawler.httpcrawler.cache.HttpCache;
-import uk.ac.cam.ch.wwmm.httpcrawler.httpcrawler.cache.file.FileSystemCache;
+import uk.ac.cam.ch.wwmm.httpcrawler.HttpCrawler;
+import uk.ac.cam.ch.wwmm.httpcrawler.cache.HttpCache;
+import uk.ac.cam.ch.wwmm.httpcrawler.cache.file.FileSystemCache;
 import wwmm.pubcrawler.crawlers.AbstractCrawlerFactory;
 import wwmm.pubcrawler.data.DataStore;
 
