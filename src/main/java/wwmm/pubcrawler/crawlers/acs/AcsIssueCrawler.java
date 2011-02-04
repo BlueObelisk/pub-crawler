@@ -112,16 +112,21 @@ public class AcsIssueCrawler extends AbstractIssueCrawler {
     public Article getArticleDetails(Node node, String issueId) {
         Article article = new Article();
         Doi doi = getDoi(node);
-        article.setDoi(doi);
-        String articleId = issueId + '/' + doi.getSuffix();
-        article.setId(articleId);
-        article.setTitleHtml(getTitle(node));
-        article.setAuthors(getAuthors(node));
-        article.setUrl(getArticleUrl(node));
-        article.setSupplementaryResourceUrl(getSupportingInfoUrl(node));
-        Reference ref = getReference(node);
-        article.setReference(ref);
-        return article;
+        try {
+            article.setDoi(doi);
+            String articleId = issueId + '/' + doi.getSuffix();
+            article.setId(articleId);
+            article.setTitleHtml(getTitle(node));
+            article.setAuthors(getAuthors(node));
+            article.setUrl(getArticleUrl(node));
+            article.setSupplementaryResourceUrl(getSupportingInfoUrl(node));
+            Reference ref = getReference(node);
+            article.setReference(ref);
+            return article;
+        } catch (Exception e) {
+            log().warn("Error reading article details: "+doi, e);
+            return null;
+        }
     }
 
     private URI getArticleUrl(Node node) {
@@ -149,11 +154,11 @@ public class AcsIssueCrawler extends AbstractIssueCrawler {
     }
 
     private String getPages(Node node) {
-        String pages = XPathUtils.getString(node, ".//x:div[starts-with(., 'pp ')]");
+        String pages = XPathUtils.getString(node, ".//x:div[starts-with(text(), 'pp ')]");
         if (pages != null) {
             return pages.substring(3);
         }
-        pages = XPathUtils.getString(node, ".//x:div[starts-with(., 'p ')]");
+        pages = XPathUtils.getString(node, ".//x:div[starts-with(text(), 'p ')]");
         if (pages != null) {
             return pages.substring(2);
         }
@@ -211,12 +216,24 @@ public class AcsIssueCrawler extends AbstractIssueCrawler {
         return m.group(1);
     }
 
+    private static final Pattern P_YEAR = Pattern.compile("\\b(\\d{4})\\b");
+
     public String getYear() {
-        return Integer.toString(getDate().getYear());
+        String text = getDateBlock();
+        Matcher m = P_YEAR.matcher(text);
+        if (m.find()) {
+            return m.group(1);
+        }
+        log().warn("Unable to locate year: "+text);
+        return null;
+    }
+
+    private String getDateBlock() {
+        return XPathUtils.getString(getHtml(), ".//x:div[@id='tocMeta']/x:div[@id='date']");
     }
 
     public LocalDate getDate() {
-        String text = XPathUtils.getString(getHtml(), ".//x:div[@id='tocMeta']/x:div[@id='date']");
+        String text = getDateBlock();
         DateTime dt;
         if (text.contains(", ")) {
             dt = DateTimeFormat.forPattern("MMMM d, yyyy").parseDateTime(text);

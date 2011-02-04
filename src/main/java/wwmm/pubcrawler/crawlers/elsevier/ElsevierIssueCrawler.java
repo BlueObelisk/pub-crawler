@@ -57,7 +57,7 @@ public class ElsevierIssueCrawler extends AbstractIssueCrawler {
 
     public ElsevierIssueCrawler(Issue issue, Journal journal, CrawlerContext context) throws IOException {
         super(issue, journal, context);
-        this.bibtex = fetchBibtex();
+         this.bibtex = fetchBibtex();
     }
 
     @Override
@@ -234,7 +234,8 @@ public class ElsevierIssueCrawler extends AbstractIssueCrawler {
 
     private String[] getBib() {
         String s = XPathUtils.getString(getHtml(), "/x:html/x:head/x:title");
-        Pattern p = Pattern.compile("Volume (\\d+), Issues? (\\S+), .*? \\(\\S+ (\\d{4})\\)");
+        // Acta Histochemica, Volume 110, Issue 5, Pages 351-432 (8 September 2008
+        Pattern p = Pattern.compile("Volume (\\d+), Issues? (\\S+), .*? \\(.+ (\\d{4})\\)");
         Matcher m = p.matcher(s);
         if (!m.find()) {
             throw new CrawlerRuntimeException("No match: "+s);
