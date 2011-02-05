@@ -210,7 +210,7 @@ public class ElsevierIssueCrawler extends AbstractIssueCrawler {
     }
 
     private List<String> getArticleAuthors(Node node) {
-        Node n = XPathUtils.getNode(node, "./x:i/following-sibling::x:br/following-sibling::text()");
+        Node n = XPathUtils.getNode(node, "./x:i[starts-with(text(), 'Page')]/following-sibling::x:br/following-sibling::text()");
         if (n != null) {
             Text text = (Text) n;
             String s = text.getValue();

@@ -19,6 +19,7 @@ import nu.xom.Document;
 import nu.xom.Node;
 import org.joda.time.Duration;
 import wwmm.pubcrawler.CrawlerContext;
+import wwmm.pubcrawler.crawlers.wiley.WileyIssueCrawler;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.model.Journal;
@@ -142,7 +143,7 @@ public abstract class AbstractIssueCrawler extends AbstractCrawler {
         issue.setPreviousIssue(getPreviousIssue());
         try {
             List<Article> articles = getArticles();
-            if (articles.isEmpty()) {
+            if (articles.isEmpty() && !(this instanceof WileyIssueCrawler)) {
                 log().warn("No articles found in issue: "+issue.getId());
             }
             issue.setArticles(articles);
