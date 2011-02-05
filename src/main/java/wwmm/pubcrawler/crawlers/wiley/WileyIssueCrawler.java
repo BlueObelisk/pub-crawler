@@ -90,8 +90,11 @@ public class WileyIssueCrawler extends AbstractIssueCrawler {
         return null;
     }
 
+    // /doi/10.1002/cmmi.v5:5/issuetoc
+    // /doi/10.1002/ctpp.v50.10/issuetoc
+
     private static final Pattern P_PREV = Pattern.compile("(\\d+)\\.issue-(\\S+)");
-    private static final Pattern P_PREV1 = Pattern.compile("\\.v(\\d+):(\\d+)/");
+    private static final Pattern P_PREV1 = Pattern.compile("\\.v(\\d+)[.:](\\d+)/");
 
     @Override
     protected Issue getPreviousIssue() {

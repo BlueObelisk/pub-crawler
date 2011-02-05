@@ -98,12 +98,15 @@ public class SpringerJournalIndexCrawler extends AbstractCrawler {
         if (issues.isEmpty() && fetchArchiveIndexes) {
             findArchiveIssues(list, node, volume);
         } else {
+            boolean first = true;
             for (Node n : issues) {
                 String href = XPathUtils.getString(n, "./x:a/@href");
-                if (href == null) {
+                // First is often current page, and therefore not clickable
+                if (href == null && !first) {
                     log().warn("Unable to locate issue href in index "+this.url);
                     continue;
                 }
+                first = false;
 
                 String s = XPathUtils.getString(n, "./x:a/x:span/text()");
                 if (s == null) {
