@@ -102,7 +102,10 @@ public class WileyIssueCrawler extends AbstractIssueCrawler {
         if (href != null) {
             Matcher m = P_PREV.matcher(href);
             if (!m.find()) {
-                throw new CrawlerRuntimeException("Cannot locate prev issue ID: "+href);
+                m = P_PREV1.matcher(href);
+                if (!m.find()) {
+                    throw new CrawlerRuntimeException("Cannot locate prev issue ID: "+href);
+                }
             }
             Issue issue = new Issue();
             issue.setId("wiley/"+getJournal().getAbbreviation()+"/"+m.group(1)+"/"+m.group(2));

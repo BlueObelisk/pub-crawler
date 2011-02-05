@@ -102,8 +102,12 @@ public class SpringerJournalIndexCrawler extends AbstractCrawler {
             for (Node n : issues) {
                 String href = XPathUtils.getString(n, "./x:a/@href");
                 // First is often current page, and therefore not clickable
-                if (href == null && !first) {
-                    log().warn("Unable to locate issue href in index "+this.url);
+                if (href == null) {
+                    if (first) {
+                        first = false;
+                    } else {
+                        log().warn("Unable to locate issue href in index "+this.url);
+                    }
                     continue;
                 }
                 first = false;
