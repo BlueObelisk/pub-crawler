@@ -210,6 +210,8 @@ public class ElsevierIssueCrawler extends AbstractIssueCrawler {
     }
 
     private List<String> getArticleAuthors(Node node) {
+        // TODO e.g. italics in name
+        // http://www.sciencedirect.com/science?_ob=PublicationURL&_tockey=%23TOC%2356481%232010%23999519996%232414745%23FLP%23&_cdi=56481&_pubType=J&_auth=y&_acct=C000053194&_version=1&_urlVersion=0&_userid=1495569&md5=499d6ade479e102277248101889f472a
         Node n = XPathUtils.getNode(node, "./x:i[starts-with(text(), 'Page')]/following-sibling::x:br/following-sibling::text()");
         if (n != null) {
             Text text = (Text) n;
@@ -246,7 +248,8 @@ public class ElsevierIssueCrawler extends AbstractIssueCrawler {
     private String[] getBib() {
         String s = XPathUtils.getString(getHtml(), "/x:html/x:head/x:title");
         // Acta Histochemica, Volume 110, Issue 5, Pages 351-432 (8 September 2008
-        Pattern p = Pattern.compile("Volume (\\d+), Issues? (\\S+), .*? \\(.+ (\\d{4})\\)");
+        // ... , Volume 101, Issue 8, Pages 657-738 (2010)
+        Pattern p = Pattern.compile("Volume (\\d+), Issues? (\\S+), .*? \\(.*\\b(\\d{4})\\)");
         Matcher m = p.matcher(s);
         if (!m.find()) {
             throw new CrawlerRuntimeException("No match: "+s);
