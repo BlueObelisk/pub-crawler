@@ -15,96 +15,88 @@
  */
 package wwmm.pubcrawler.model;
 
-import org.joda.time.LocalDate;
-
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author Sam Adams
  */
-public class Issue {
-
-    private String id;
-    private URI url;
-    private List<Article> articles;
-
-    private String year;
-    private String volume;
-    private String number;
-    private LocalDate date;
-
-    private Issue previousIssue;
+public class Issue extends MongoDBObject {
 
     private transient boolean current;
 
+
     public String getId() {
-        return id;
+        return getString("id");
     }
 
     public void setId(String id) {
-        this.id = id;
+        put("id", id);
     }
 
+
     public URI getUrl() {
-        return url;
+        String s = getString("url");
+        return s == null ? null : URI.create(s);
     }
 
     public void setUrl(URI url) {
-        this.url = url;
+        String s = url == null ? null : url.toString();
+        put("url", s);
     }
 
+
     public List<Article> getArticles() {
-        if (articles == null) {
-            articles = new ArrayList<Article>();
-        }
-        return articles;
+        return (List<Article>) get("articles");
     }
 
     public void setArticles(List<Article> articles) {
-        this.articles = articles;
+        put("articles", articles);
     }
 
+
     public Issue getPreviousIssue() {
-        return previousIssue;
+        return (Issue) get("previousIssue");
     }
 
     public void setPreviousIssue(Issue previousIssue) {
-        this.previousIssue = previousIssue;
+        put("previousIssue", previousIssue);
     }
 
 
     public String getYear() {
-        return year;
+        return getString("year");
     }
 
     public void setYear(String year) {
-        this.year = year;
+        put("year", year);
     }
 
+
     public String getVolume() {
-        return volume;
+        return getString("volume");
     }
 
     public void setVolume(String volume) {
-        this.volume = volume;
+        put("volume", volume);
     }
 
+
     public String getNumber() {
-        return number;
+        return getString("number");
     }
 
     public void setNumber(String number) {
-        this.number = number;
+        put("number", number);
     }
 
-    public LocalDate getDate() {
-        return date;
+
+    public String getDate() {
+        return getString("date");
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
+    public void setDate(String date) {
+        put("date", date);
     }
 
 

@@ -46,7 +46,7 @@ public class AcsJournalCrawler extends AbstractJournalCrawler {
     public Issue fetchCurrentIssue() throws IOException {
         log().debug("Fetching current issue of " + getJournal().getFullTitle());
         Issue issue = new Issue();
-        issue.setId("acs/"+getJournal().getAbbreviation()+"/current");
+        issue.setId("acs/"+getJournal().getAbbreviation()+"/!current");
         issue.setCurrent(true);
         issue.setUrl(getCurrentIssueUrl());
         return fetchIssue(issue);

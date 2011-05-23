@@ -17,7 +17,6 @@
 package wwmm.pubcrawler.crawlers.wiley;
 
 import nu.xom.Document;
-import nu.xom.Element;
 import nu.xom.Node;
 import org.apache.log4j.Logger;
 import wwmm.pubcrawler.CrawlerContext;

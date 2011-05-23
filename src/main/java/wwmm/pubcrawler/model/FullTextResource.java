@@ -20,34 +20,34 @@ import java.net.URI;
 /**
  * @author Sam Adams
  */
-public class FullTextResource {
-
-    private URI url;
-	private String linkText;
-	private String contentType;
+public class FullTextResource extends MongoDBObject {
 
     public URI getUrl() {
-        return url;
+        String s = getString("url");
+        return s == null ? null : URI.create(s);
     }
 
     public void setUrl(URI url) {
-        this.url = url;
+        String s = url == null ? null : url.toString();
+        put("url", s);
     }
 
+
     public String getLinkText() {
-        return linkText;
+        return getString("linkText");
     }
 
     public void setLinkText(String linkText) {
-        this.linkText = linkText;
+        put("linkText", linkText);
     }
 
+
     public String getContentType() {
-        return contentType;
+        return getString("contentType");
     }
 
     public void setContentType(String contentType) {
-        this.contentType = contentType;
+        put("contentType", contentType);
     }
     
 }

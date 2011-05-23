@@ -18,138 +18,125 @@ package wwmm.pubcrawler.model;
 import wwmm.pubcrawler.types.Doi;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author Sam Adams
  */
-public class Article {
+public class Article extends MongoDBObject {
 
-    private String id;
-    private URI url;
-    private String title;
-    private List<String> authors;
-
-    private Reference reference;
-    
-    private String abstractText;
-    private Doi doi;
-
-    private String titleHtml;
-    private String abstractHtml;
-
-    private List<FullTextResource> fullTextResources;
-    private List<SupplementaryResource> supplementaryResources;
-    private URI supplementaryResourceUrl;
 
     public String getId() {
-        return id;
+        return getString("id");
     }
 
     public void setId(String id) {
-        this.id = id;
+        put("id", id);
     }
 
 
     public String getTitle() {
-        return title;
+        return getString("title");
     }
 
     public void setTitle(String title) {
-        this.title = title;
+        put("title", title);
     }
 
+
     public List<String> getAuthors() {
-        return authors;
+        return (List<String>) get("authors");
     }
 
     public void setAuthors(List<String> authors) {
-        this.authors = authors;
+        put("authors", authors);
     }
 
+
     public Reference getReference() {
-        return reference;
+        return (Reference) get("reference");
     }
 
     public void setReference(Reference reference) {
-        this.reference = reference;
+        put("reference", reference);
     }
-    
+
+
 
     public String getAbstractText() {
-        return abstractText;
+        return getString("abstract");
     }
 
     public void setAbstractText(String abstractText) {
-        this.abstractText = abstractText;
+        put("abstract", abstractText);
     }
 
 
     public Doi getDoi() {
-        return doi;
+        String s = getString("doi");
+        return s == null ? null : new Doi(s);
     }
 
     public void setDoi(Doi doi) {
-        this.doi = doi;
+        put("doi", doi == null ? null : doi.getValue());
     }
 
 
     public URI getUrl() {
-        return url;
+        String s = getString("url");
+        return s == null ? null : URI.create(s);
     }
 
     public void setUrl(URI url) {
-        this.url = url;
+        String s = url == null ? null : url.toString();
+        put("url", s);
     }
 
 
     public String getTitleHtml() {
-        return titleHtml;
+        return getString("title-html");
     }
 
     public void setTitleHtml(String titleHtml) {
-        this.titleHtml = titleHtml;
+        put("title-html", titleHtml);
     }
 
+
     public String getAbstractHtml() {
-        return abstractHtml;
+        return getString("abstact-html");
     }
 
     public void setAbstractHtml(String abstractHtml) {
-        this.abstractHtml = abstractHtml;
+        put("abstract-html", abstractHtml);
     }
 
 
     public List<SupplementaryResource> getSupplementaryResources() {
-        if (supplementaryResources == null) {
-            supplementaryResources = new ArrayList<SupplementaryResource>();
-        }
-        return supplementaryResources;
+        return (List<SupplementaryResource>) get("suppResources");
     }
 
     public void setSupplementaryResources(List<SupplementaryResource> supplementaryResources) {
-        this.supplementaryResources = supplementaryResources;
+        put("suppResources", supplementaryResources);
     }
 
 
     public List<FullTextResource> getFullTextResources() {
-        if (fullTextResources == null) {
-            fullTextResources = new ArrayList<FullTextResource>();
-        }
-        return fullTextResources;
+        return (List<FullTextResource>) get("fullText");
     }
 
     public void setFullTextResources(List<FullTextResource> fullTextResources) {
-        this.fullTextResources = fullTextResources;
+        put("fullText", fullTextResources);
     }
+
 
     public URI getSupplementaryResourceUrl() {
-        return supplementaryResourceUrl;
+        String s = getString("suppUrl");
+        return s == null ? null : URI.create(s);
     }
 
-    public void setSupplementaryResourceUrl(URI supplementaryResourceUrl) {
-        this.supplementaryResourceUrl = supplementaryResourceUrl;
+    public void setSupplementaryResourceUrl(URI url) {
+        String s = url == null ? null : url.toString();
+        put("suppUrl", s);
     }
     
 }

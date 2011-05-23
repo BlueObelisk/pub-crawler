@@ -20,52 +20,53 @@ import java.net.URI;
 /**
  * @author Sam Adams
  */
-public class SupplementaryResource {
+public class SupplementaryResource extends MongoDBObject {
 
-    private URI url;
-    private String filePath;
-    private String contentType;
-    private String linkText;
-    private Long length;
 
     public URI getUrl() {
-        return url;
+        String s = getString("url");
+        return s == null ? null : URI.create(s);
     }
 
     public void setUrl(URI url) {
-        this.url = url;
+        String s = url == null ? null : url.toString();
+        put("url", s);
     }
 
+
     public String getContentType() {
-        return contentType;
+        return getString("contentType");
     }
 
     public void setContentType(String contentType) {
-        this.contentType = contentType;
+        put("contentType", contentType);
     }
 
+
     public String getLinkText() {
-        return linkText;
+        return getString("linkText");
     }
 
     public void setLinkText(String linkText) {
-        this.linkText = linkText;
+        put("linkText", linkText);
     }
 
+
     public Long getLength() {
-        return length;
+        return getLong("length");
     }
 
     public void setLength(Long length) {
-        this.length = length;
+        put("length", length);
     }
 
+
     public String getFilePath() {
-        return filePath;
+        return getString("filepath");
     }
 
     public void setFilePath(String filePath) {
-        this.filePath = filePath;
+        put("filepath", filePath);
     }
 
 

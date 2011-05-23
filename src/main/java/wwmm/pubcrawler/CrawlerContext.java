@@ -17,24 +17,24 @@ package wwmm.pubcrawler;
 
 import uk.ac.cam.ch.wwmm.httpcrawler.HttpCrawler;
 import wwmm.pubcrawler.crawlers.AbstractCrawlerFactory;
-import wwmm.pubcrawler.data.DataStore;
+import wwmm.pubcrawler.data.mongo.MongoStore;
 
 /**
  * @author Sam Adams
  */
 public class CrawlerContext {
 
-    private final DataStore dataStore;
+    private final MongoStore dataStore;
     private final HttpCrawler httpCrawler;
     private final AbstractCrawlerFactory crawlerFactory;
 
-    public CrawlerContext(DataStore dataStore, HttpCrawler httpCrawler, AbstractCrawlerFactory crawlerFactory) {
+    public CrawlerContext(MongoStore dataStore, HttpCrawler httpCrawler, AbstractCrawlerFactory crawlerFactory) {
         this.dataStore = dataStore;
         this.httpCrawler = httpCrawler;
         this.crawlerFactory = crawlerFactory;
     }
 
-    public DataStore getDataStore() {
+    public MongoStore getDataStore() {
         return dataStore;
     }
 

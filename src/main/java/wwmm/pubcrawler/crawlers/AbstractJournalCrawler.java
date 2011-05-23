@@ -53,11 +53,16 @@ public abstract class AbstractJournalCrawler extends AbstractCrawler {
 
         List<Issue> issues = new ArrayList<Issue>();
 
-        Issue issue = fetchCurrentIssue();
+        Issue issue;
+        try {
+            issue = fetchCurrentIssue();
+        } catch (Exception e) {
+            throw new RuntimeException("Error fetching current issue: "+getJournal().getFullTitle(), e);
+        }
         if (issue != null) {
-            if (!getDataStore().hasData(issue.getId())) {
+            if (!getDataStore().containsIssue(issue.getId())) {
                 log().debug("new issue: "+issue.getId());
-                getDataStore().save(issue.getId(), issue);
+                getDataStore().saveIssue(issue);
             }
         }
 
@@ -88,7 +93,7 @@ public abstract class AbstractJournalCrawler extends AbstractCrawler {
                 }
             } else {
                 issue = issueIterator.next();
-                if (!getDataStore().hasData(issue.getId())) {
+                if (!getDataStore().containsIssue(issue.getId())) {
                     try {
                         issue = fetchIssue(issue);
                     } catch (Exception e) {
@@ -97,7 +102,7 @@ public abstract class AbstractJournalCrawler extends AbstractCrawler {
                         continue;
                     }
                     log().debug("new issue: "+issue.getId());
-                    getDataStore().save(issue.getId(), issue);
+                    getDataStore().saveIssue(issue);
                 }
             }
             Thread.yield();
@@ -114,12 +119,13 @@ public abstract class AbstractJournalCrawler extends AbstractCrawler {
             return null;
         }
 
-        if (getDataStore().hasData(prev.getId())) {
-            return getDataStore().load(prev.getId(), Issue.class);
-        } else {
+        Issue prevIssue = getDataStore().findIssue(prev.getId());
+        if (prevIssue == null) {
             prev = fetchIssue(prev);
-            getDataStore().save(prev.getId(), prev);
+            getDataStore().saveIssue(prev);
             return prev;
+        } else {
+            return prevIssue;
         }
     }
 
@@ -149,20 +155,20 @@ public abstract class AbstractJournalCrawler extends AbstractCrawler {
         }
     }
 
-    protected Article crawlArticle(Article article) throws IOException {
-        if (!getDataStore().hasData(article.getId())) {
+    protected void crawlArticle(Article article) throws IOException {
+        if (!getDataStore().containsArticle(article.getId())) {
             try {
                 article = fetchArticle(article);
             } catch (Exception e) {
-                log().warn("error crawling article: "+article.getId() + " [" + article.getDoi() + "]", e);
-                return null;
+                log().warn("error fetching article: "+article.getId() + " [" + article.getDoi() + "]", e);
+                return;
             }
             log().debug("new article: "+article.getId());
-            getDataStore().save(article.getId(), article);
-        } else {
-            article = getDataStore().load(article.getId(), Article.class);
+            getDataStore().saveArticle(article);
+//        } else {
+//            article = getDataStore().findArticle(article.getId());
         }
-        return article;
+//        return article;
     }
 
     public abstract Issue fetchCurrentIssue() throws IOException;

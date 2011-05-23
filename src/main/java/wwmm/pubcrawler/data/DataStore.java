@@ -30,7 +30,7 @@ import java.io.*;
 /**
  * @author Sam Adams
  */
-public class DataStore {
+class DataStore {
 
     private File root;
     private Gson gson;
