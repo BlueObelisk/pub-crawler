@@ -3,13 +3,7 @@ package wwmm.pubcrawler.data.mongo;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
-import com.mongodb.gridfs.GridFS;
-import com.mongodb.gridfs.GridFSDBFile;
-import com.mongodb.gridfs.GridFSInputFile;
-import org.apache.commons.io.IOUtils;
 import wwmm.pubcrawler.model.*;
-
-import java.io.IOException;
 
 /**
  * @author sea36
@@ -20,7 +14,6 @@ public class MongoStore {
     private DBCollection articles;
     private DBCollection issues;
 //    private DBCollection journals;
-    private GridFS gridFs;
 
     public MongoStore(DB db) {
         this.db = db;
@@ -39,22 +32,6 @@ public class MongoStore {
 //        journals.setObjectClass(Journal.class);
 //        journals.setInternalClass("issues", Issue.class);
 
-        this.gridFs = new GridFS(db);
-    }
-
-
-    public byte[] loadFile(String id) throws IOException {
-        GridFSDBFile f = gridFs.findOne(id);
-        if (f != null) {
-            return IOUtils.toByteArray(f.getInputStream());
-        }
-        return null;
-    }
-
-    public void saveFile(String id, byte[] bytes) {
-        GridFSInputFile file = gridFs.createFile(bytes);
-        file.setFilename(id);
-        file.save();
     }
 
 
