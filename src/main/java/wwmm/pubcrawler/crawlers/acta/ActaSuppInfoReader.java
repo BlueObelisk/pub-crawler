@@ -153,23 +153,39 @@ public class ActaSuppInfoReader extends AbstractCrawler {
     private List<SupplementaryResource> getCifs(URI url) throws IOException {
         List<SupplementaryResource> resources = new ArrayList<SupplementaryResource>();
         Document html = readHtml(url, getArticleId()+"_cifs.html", AGE_MAX);
-        List<Node> nodes = XPathUtils.queryHTML(html, ".//x:ul/x:li");
+//        List<Node> nodes = XPathUtils.queryHTML(html, ".//x:ul/x:li");
+//        for (Node node : nodes) {
+//            Element li = (Element) node;
+//            Element address = li.getFirstChildElement("a", XHtml.NAMESPACE);
+//            String href = address.getAttributeValue("href");
+//            String linkText = address.getValue();
+//            int n = li.indexOf(address);
+//            StringBuilder s = new StringBuilder();
+//            for (int i = n+1; i < li.getChildCount(); i++) {
+//                s.append(li.getChild(i).getValue());
+//            }
+//            String contentType = s.toString().trim();
+//            String filePath = getCifFilePath(href);
+//
+//            SupplementaryResource resource = new SupplementaryResource();
+//            resource.setUrl(URI.create(href));
+//            resource.setLinkText(linkText);
+//            resource.setContentType(contentType);
+//            resource.setFilePath(filePath);
+//            resources.add(resource);
+//        }
+        List<Node> nodes = XPathUtils.queryHTML(html, ".//x:td[@width='400']");
         for (Node node : nodes) {
             Element li = (Element) node;
             Element address = li.getFirstChildElement("a", XHtml.NAMESPACE);
             String href = address.getAttributeValue("href");
-            String linkText = address.getValue();
-            int n = li.indexOf(address);
-            StringBuilder s = new StringBuilder();
-            for (int i = n+1; i < li.getChildCount(); i++) {
-                s.append(li.getChild(i).getValue());
-            }
-            String contentType = s.toString().trim();
+
+            String s = li.getFirstChildElement("p", XHtml.NAMESPACE).getValue();
+            String contentType = s.substring(s.indexOf(']')+1).trim();
             String filePath = getCifFilePath(href);
 
             SupplementaryResource resource = new SupplementaryResource();
             resource.setUrl(URI.create(href));
-            resource.setLinkText(linkText);
             resource.setContentType(contentType);
             resource.setFilePath(filePath);
             resources.add(resource);

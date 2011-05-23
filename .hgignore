@@ -5,8 +5,13 @@ syntax: glob
 *.settings/*
 target/*
 
+*.iml
+
 # switch to regexp syntax.
 syntax: regexp
 ^\.pc/
 ^pub-crawler.log
 ^tmp/
+
+^\.idea/
+
