@@ -1,6 +1,7 @@
 package wwmm.pubcrawler.data.mongo;
 
 import com.mongodb.BasicDBObject;
+import com.mongodb.BasicDBObjectBuilder;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import wwmm.pubcrawler.model.*;
@@ -23,11 +24,13 @@ public class MongoStore {
         this.articles.setInternalClass("reference", Reference.class);
         this.articles.setInternalClass("suppResources", SupplementaryResource.class);
         this.articles.setInternalClass("fullText", FullTextResource.class);
+        this.articles.ensureIndex(BasicDBObjectBuilder.start().add("id", 1).add("unique", true).get());
 
         this.issues = db.getCollection("issues");
         this.issues.setObjectClass(Issue.class);
         this.issues.setInternalClass("articles", Article.class);
         this.issues.setInternalClass("previousIssue", Issue.class);
+        this.issues.ensureIndex(BasicDBObjectBuilder.start().add("id", 1).add("unique", true).get());
 
 //        this.journals = db.getCollection("journals");
 //        journals.setObjectClass(Journal.class);
