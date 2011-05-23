@@ -102,12 +102,14 @@ public abstract class AbstractArticleCrawler extends AbstractCrawler {
     }
 
     private void checkSupplementaryResources(List<SupplementaryResource> supplementaryResources) {
-        for (SupplementaryResource resource : supplementaryResources) {
-            if (resource.getUrl() == null) {
-                throw new CrawlerRuntimeException("Supplementary resource missing URL");
-            }
-            if (resource.getFilePath() == null) {
-                throw new CrawlerRuntimeException("Supplementary resource missing file path");
+        if (supplementaryResources != null) {
+            for (SupplementaryResource resource : supplementaryResources) {
+                if (resource.getUrl() == null) {
+                    throw new CrawlerRuntimeException("Supplementary resource missing URL");
+                }
+                if (resource.getFilePath() == null) {
+                    throw new CrawlerRuntimeException("Supplementary resource missing file path");
+                }
             }
         }
     }
