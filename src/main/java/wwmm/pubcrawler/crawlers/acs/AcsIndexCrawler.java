@@ -18,19 +18,14 @@ package wwmm.pubcrawler.crawlers.acs;
 import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Node;
-import org.apache.http.client.HttpClient;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.log4j.Logger;
 import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.CrawlerRuntimeException;
 import wwmm.pubcrawler.crawlers.AbstractCrawler;
-import wwmm.pubcrawler.data.DataStore;
-import wwmm.pubcrawler.journals.AcsJournalIndex;
 import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.model.Journal;
 import wwmm.pubcrawler.utils.XPathUtils;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
@@ -116,17 +111,6 @@ private static final Logger LOG = Logger.getLogger(AcsIndexCrawler.class);
 
     private String generateIssueId(String volume, String number) {
         return "acs/"+getJournal().getAbbreviation()+'/'+volume+'/'+number;
-    }
-
-
-    public static void main(String[] args) throws IOException {
-        HttpClient client = new DefaultHttpClient();
-        DataStore store = new DataStore(new File("data/"));
-        CrawlerContext context = new CrawlerContext(store, null, new AcsCrawlerFactory());
-
-        for (Issue issue : new AcsIndexCrawler(AcsJournalIndex.BIOCHEMISTRY, context).getIssues()) {
-            System.out.println(issue.getId()+"\t"+issue.getUrl());
-        }
     }
 
 }

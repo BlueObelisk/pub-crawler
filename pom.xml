@@ -19,16 +19,16 @@
             <url>https://maven.ch.cam.ac.uk/m2repo</url>
         </repository>
         <!--<repository>-->
-            <!--<id>jexample</id>-->
-            <!--<url>http://scg.unibe.ch/download/jexample/maven/</url>-->
+        <!--<id>jexample</id>-->
+        <!--<url>http://scg.unibe.ch/download/jexample/maven/</url>-->
         <!--</repository>-->
         <!--<repository>-->
-            <!--<id>apache-snapshots</id>-->
-            <!--<url>https://repository.apache.org/content/repositories/snapshots</url>-->
+        <!--<id>apache-snapshots</id>-->
+        <!--<url>https://repository.apache.org/content/repositories/snapshots</url>-->
         <!--</repository>-->
         <!--<repository>-->
-            <!--<id>orientechnologies-repository</id>-->
-            <!--<url>http://www.orientechnologies.com/listing/m2</url>-->
+        <!--<id>orientechnologies-repository</id>-->
+        <!--<url>http://www.orientechnologies.com/listing/m2</url>-->
         <!--</repository>-->
     </repositories>
 
@@ -103,10 +103,16 @@
             <scope>test</scope>
         </dependency>
         <!--<dependency>-->
-            <!--<groupId>ch.unibe.jexample</groupId>-->
-            <!--<artifactId>jexample</artifactId>-->
-            <!--<version>4.4-378</version>-->
+        <!--<groupId>ch.unibe.jexample</groupId>-->
+        <!--<artifactId>jexample</artifactId>-->
+        <!--<version>4.4-378</version>-->
         <!--</dependency>-->
+
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongo-java-driver</artifactId>
+            <version>2.5.3</version>
+        </dependency>
 
     </dependencies>
 
@@ -125,7 +131,7 @@
             </plugin>
         </plugins>
     </build>
-    
+
     <profiles>
         <profile>
             <id>online</id>

@@ -16,8 +16,6 @@
 
 package wwmm.pubcrawler.crawlers.bmc;
 
-import com.sun.jndi.toolkit.url.Uri;
-
 import java.net.URI;
 
 /**

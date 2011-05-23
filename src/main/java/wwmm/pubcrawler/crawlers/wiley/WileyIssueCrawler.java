@@ -16,29 +16,17 @@
 
 package wwmm.pubcrawler.crawlers.wiley;
 
-import nu.xom.*;
-import org.apache.commons.io.IOUtils;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.utils.URLEncodedUtils;
-import org.apache.http.message.BasicNameValuePair;
+import nu.xom.Node;
 import org.apache.log4j.Logger;
-import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerPostRequest;
-import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerRequest;
-import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerResponse;
 import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.CrawlerRuntimeException;
 import wwmm.pubcrawler.crawlers.AbstractIssueCrawler;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.model.Journal;
-import wwmm.pubcrawler.model.Reference;
 import wwmm.pubcrawler.utils.XPathUtils;
 
 import java.io.IOException;
-import java.io.StringReader;
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;

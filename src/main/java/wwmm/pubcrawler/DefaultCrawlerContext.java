@@ -15,6 +15,8 @@
  */
 package wwmm.pubcrawler;
 
+import com.mongodb.DB;
+import com.mongodb.Mongo;
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.HttpConnectionParams;
@@ -23,7 +25,7 @@ import uk.ac.cam.ch.wwmm.httpcrawler.HttpCrawler;
 import uk.ac.cam.ch.wwmm.httpcrawler.cache.HttpCache;
 import uk.ac.cam.ch.wwmm.httpcrawler.cache.file.FileSystemCache;
 import wwmm.pubcrawler.crawlers.AbstractCrawlerFactory;
-import wwmm.pubcrawler.data.DataStore;
+import wwmm.pubcrawler.data.mongo.MongoStore;
 
 import java.io.File;
 import java.io.IOException;
@@ -50,8 +52,10 @@ public class DefaultCrawlerContext extends CrawlerContext {
         return new HttpCrawler(client, cache);
     }
 
-    private static DataStore createDataStore() throws IOException {
-        DataStore store = new DataStore(new File("../data/"));
+    private static MongoStore createDataStore() throws IOException {
+        Mongo mongo = new Mongo();
+        DB db = mongo.getDB("crawler");
+        MongoStore store = new MongoStore(db);
         return store;
     }
 

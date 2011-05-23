@@ -30,7 +30,7 @@ import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerRequest;
 import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerResponse;
 import uk.ac.cam.ch.wwmm.httpcrawler.HttpCrawler;
 import wwmm.pubcrawler.CrawlerContext;
-import wwmm.pubcrawler.data.DataStore;
+import wwmm.pubcrawler.data.mongo.MongoStore;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -61,7 +61,7 @@ public abstract class AbstractCrawler {
         return context;
     }
 
-    protected DataStore getDataStore() {
+    protected MongoStore getDataStore() {
         return context.getDataStore();
     }
 

@@ -29,17 +29,7 @@ package wwmm.pubcrawler.model;
  * @version 1.1
  * 
  */
-public class Reference {
-
-	private String journalTitle;
-	private String year;
-	private String volume;
-	private String number;
-	private String pages;
-
-	public Reference() {
-		;
-	}
+public class Reference extends MongoDBObject {
 
 	/**
 	 * Get the title of the journal the article was 
@@ -49,7 +39,7 @@ public class Reference {
 	 * published in.
 	 */
 	public String getJournalTitle() {
-		return journalTitle;
+		return getString("journal");
 	}
 
 	/**
@@ -60,8 +50,9 @@ public class Reference {
 	 * article was published in.
 	 */
 	public void setJournalTitle(String journalTitle) {
-		this.journalTitle = journalTitle;
+		put("journal", journalTitle);
 	}
+
 
 	/**
 	 * Get the year the article was published.
@@ -69,7 +60,7 @@ public class Reference {
 	 * @return year the article was published.
 	 */
 	public String getYear() {
-		return year;
+		return getString("year");
 	}
 
 	/**
@@ -78,8 +69,9 @@ public class Reference {
 	 * @param year the article was published.
 	 */
 	public void setYear(String year) {
-		this.year = year;
+		put("year", year);
 	}
+
 
 	/**
 	 * Get the volume of the journal the article was
@@ -89,7 +81,7 @@ public class Reference {
 	 * article was published in.
 	 */
 	public String getVolume() {
-		return volume;
+		return getString("volume");
 	}
 
 	/**
@@ -100,7 +92,7 @@ public class Reference {
 	 * published in.
 	 */
 	public void setVolume(String volume) {
-		this.volume = volume;
+		put("volume", volume);
 	}
 
 	/**
@@ -111,7 +103,7 @@ public class Reference {
 	 * was published in.
 	 */
 	public String getNumber() {
-		return number;
+		return getString("number");
 	}
 
 	/**
@@ -122,7 +114,7 @@ public class Reference {
 	 * article was published in.
 	 */
 	public void setNumber(String number) {
-		this.number = number;
+		put("number", number);
 	}
 
 	/**
@@ -133,7 +125,7 @@ public class Reference {
 	 * found on.
 	 */
 	public String getPages() {
-		return pages;
+		return getString("pages");
 	}
 
 	/**
@@ -144,7 +136,7 @@ public class Reference {
 	 * found on.
 	 */
 	public void setPages(String pages) {
-		this.pages = pages;
+		put("pages", pages);
 	}
 
 	/**
@@ -160,30 +152,30 @@ public class Reference {
 	 */
 	public String getRefString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append(this.journalTitle);
+		sb.append(getJournalTitle());
 		sb.append(", ");
-		if (year != null) {
-			sb.append(this.year);
+		if (getYear() != null) {
+			sb.append(getYear());
 			sb.append(", ");
 		}
-		if (volume != null) {
-			sb.append(this.volume);
-			if (number == null) {
+		if (getVolume() != null) {
+			sb.append(getVolume());
+			if (getNumber() == null) {
 				sb.append(", ");
 			}
 		}
-		if (number != null) {
-			if (volume != null) {
+		if (getNumber() != null) {
+			if (getVolume() != null) {
 				sb.append(" (");
-				sb.append(this.number);
+				sb.append(getNumber());
 				sb.append(")");
 			} else {
-				sb.append(this.number);
+				sb.append(getNumber());
 			}
 			sb.append(", ");
 		}
-		if (pages != null) {
-			sb.append(this.pages);
+		if (getPages() != null) {
+			sb.append(getPages());
 		}
 		return sb.toString();
 	}
