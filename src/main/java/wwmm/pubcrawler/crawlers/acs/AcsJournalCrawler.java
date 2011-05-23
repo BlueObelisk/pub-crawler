@@ -56,15 +56,4 @@ public class AcsJournalCrawler extends AbstractJournalCrawler {
         return URI.create("http://pubs.acs.org/toc/" + getJournal().getAbbreviation() + "/current");
     }
 
-    public static void main(String[] args) throws IOException {
-
-        for (Journal journal : AcsJournalIndex.getIndex().values()) {
-            CrawlerContext context = new DefaultCrawlerContext(new AcsCrawlerFactory());
-            AcsJournalCrawler crawler = new AcsJournalCrawler(journal, context);
-            crawler.setMinYear(2011);
-            crawler.crawlJournal();
-        }
-
-    }
-
 }

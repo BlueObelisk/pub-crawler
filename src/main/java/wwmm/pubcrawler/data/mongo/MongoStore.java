@@ -27,6 +27,7 @@ public class MongoStore {
         this.issues = db.getCollection("issues");
         this.issues.setObjectClass(Issue.class);
         this.issues.setInternalClass("articles", Article.class);
+        this.issues.setInternalClass("previousIssue", Issue.class);
 
 //        this.journals = db.getCollection("journals");
 //        journals.setObjectClass(Journal.class);
