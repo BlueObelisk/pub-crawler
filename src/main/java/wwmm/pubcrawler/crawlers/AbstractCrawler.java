@@ -153,6 +153,12 @@ public abstract class AbstractCrawler {
     protected Document readHtml(CrawlerRequest request) throws IOException {
         CrawlerResponse response = getHttpCrawler().execute(request);
         try {
+            if (response.isFromCache()) {
+                log().debug("Retrieved "+response.getUrl()+" from cache");
+            } else {
+                log().info("Downloaded "+response.getUrl());
+            }
+
             String encoding = getEntityCharset(response);
             if (encoding == null) {
                 return readDocument(response, newTagSoupBuilder());

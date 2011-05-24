@@ -51,7 +51,7 @@ public abstract class AbstractCrawlerTest {
         byte[] bytes = ResourceUtil.readBytes(getClass(), path);
         InputStream content = new ByteArrayInputStream(bytes);
         List<BasicHeader> headers = Arrays.asList(new BasicHeader("Content-type", "text/html; charset=UTF-8"));
-        CrawlerResponse response = new CrawlerResponse(url, headers, content, false);
+        CrawlerResponse response = new CrawlerResponse(url, headers, content, false, false);
         return response;
     }
 

@@ -22,15 +22,22 @@ public class MongoStore {
         this.articles = db.getCollection("articles");
         this.articles.setObjectClass(Article.class);
         this.articles.setInternalClass("reference", Reference.class);
-        this.articles.setInternalClass("suppResources", SupplementaryResource.class);
-        this.articles.setInternalClass("fullText", FullTextResource.class);
         this.articles.ensureIndex(BasicDBObjectBuilder.start().add("id", 1).add("unique", true).get());
 
         this.issues = db.getCollection("issues");
         this.issues.setObjectClass(Issue.class);
-        this.issues.setInternalClass("articles", Article.class);
         this.issues.setInternalClass("previousIssue", Issue.class);
         this.issues.ensureIndex(BasicDBObjectBuilder.start().add("id", 1).add("unique", true).get());
+
+        // Horrible hack!
+        for (int i = 0; i < 20; i++) {
+            this.articles.setInternalClass("suppResources."+i, SupplementaryResource.class);
+            this.articles.setInternalClass("fullText."+i, FullTextResource.class);
+        }
+        for (int i = 0; i < 100; i++) {
+            this.issues.setInternalClass("articles."+i, Article.class);
+            this.issues.setInternalClass("articles."+i+".reference", Reference.class);
+        }
 
 //        this.journals = db.getCollection("journals");
 //        journals.setObjectClass(Journal.class);

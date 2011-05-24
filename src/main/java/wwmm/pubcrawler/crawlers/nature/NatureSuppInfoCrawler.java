@@ -21,6 +21,7 @@ import nu.xom.Node;
 import nu.xom.Serializer;
 import org.apache.log4j.Logger;
 import wwmm.pubcrawler.CrawlerContext;
+import wwmm.pubcrawler.CrawlerRuntimeException;
 import wwmm.pubcrawler.crawlers.AbstractArticleCrawler;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.FullTextResource;
@@ -33,6 +34,8 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * <p>
@@ -160,17 +163,35 @@ public class NatureSuppInfoCrawler extends AbstractArticleCrawler {
             return getArticleRef().getReference();
         }
 
-        String journalName = XPathUtils.getString(getHtml(), "/x:html/x:head/x:meta[@name='citation_journal_title']/@content");
-        String volume = XPathUtils.getString(getHtml(), "/x:html/x:head/x:meta[@name='citation_volume']/@content");
+        String journalName = findJournalName();
+        String volume = findJournalVolume();
         String number = XPathUtils.getString(getHtml(), "/x:html/x:head/x:meta[@name='citation_issue']/@content");
 
         String year = XPathUtils.getString(getHtml(), "/x:html/x:head/x:meta[@name='prism.publicationDate']/@content");
-        year = year.substring(0, year.indexOf('-'));
+        String start = null, end = null;
+        if (year != null) {
+            year = year.substring(0, year.indexOf('-'));
+            start = XPathUtils.getString(getHtml(), "/x:html/x:head/x:meta[@name='prism.startingPage']/@content");
+            end = XPathUtils.getString(getHtml(), "/x:html/x:head/x:meta[@name='prism.endingPage']/@content");
+        } else {
+            String s = XPathUtils.getString(getHtml(), "//x:p[@class='journal']");
+            if (s != null) {
+                Pattern p = Pattern.compile("(\\d+) *- *(\\d+) *\\((\\d{4})\\)");
+                Matcher m = p.matcher(s);
+                if (m.find()) {
+                    year = m.group(3);
+                    start = m.group(1);
+                    end = m.group(2);
+                } else {
+                    log().warn("Unable to find year for article: "+getArticleId() + " ["+s+"]");
+                }
+            } else {
+                log().warn("Unable to find year for article: "+getArticleId());
+            }
+        }
 
 //        Node citation = XPathUtils.getNode(getHtml(), ".//x:dl[@class='citation']");
 //        String pages = XPathUtils.getString(citation, "./x:dd[@class='page']");
-        String start = XPathUtils.getString(getHtml(), "/x:html/x:head/x:meta[@name='prism.startingPage']/@content");
-        String end = XPathUtils.getString(getHtml(), "/x:html/x:head/x:meta[@name='prism.endingPage']/@content");
 
         if (start == null || end == null) {
             log().warn("Unable to find pages for article: "+getArticleId());
@@ -186,6 +207,32 @@ public class NatureSuppInfoCrawler extends AbstractArticleCrawler {
         return ref;
     }
 
+    private String findJournalVolume() {
+        String volume = XPathUtils.getString(getHtml(), "/x:html/x:head/x:meta[@name='citation_volume']/@content");
+        if (volume == null) {
+            volume = XPathUtils.getString(getHtml(), "//x:p[@class='journal']/x:span[@class='journalnumber']");
+        }
+        if (volume == null) {
+            log().warn("Unable to find journal volume: "+getArticleId());
+        } else {
+            volume = volume.trim();
+        }
+        return volume;
+    }
+
+    private String findJournalName() {
+        String journalName = XPathUtils.getString(getHtml(), "/x:html/x:head/x:meta[@name='citation_journal_title']/@content");
+        if (journalName == null) {
+            journalName = XPathUtils.getString(getHtml(), "//x:p[@class='journal']/x:span[@class='journalname']");
+        }
+        if (journalName == null) {
+            log().warn("Unable to find journal name: "+getArticleId());
+        } else {
+            journalName = journalName.trim();
+        }
+        return journalName;
+    }
+
 
     public List<SupplementaryResource> getSupplementaryResources() {
         if (getHtml() == null) {
@@ -193,9 +240,12 @@ public class NatureSuppInfoCrawler extends AbstractArticleCrawler {
         }
         List<SupplementaryResource> resources = new ArrayList<SupplementaryResource>();
         List<Node> nodes = XPathUtils.queryHTML(getHtml(), ".//x:div[@id='supplementary-information']//x:dt/x:a");
+        if (nodes.isEmpty()) {
+            nodes = XPathUtils.queryHTML(getHtml(), ".//x:div[@class='container-supplementary']//x:a");
+        }
         for (Node node : nodes) {
             Element address = (Element) node;
-            String linkText = address.getValue();
+            String linkText = address.getValue().replaceAll("\\s+", " ").trim();
             String href = address.getAttributeValue("href");
 
             SupplementaryResource resource = new SupplementaryResource();
@@ -220,11 +270,13 @@ public class NatureSuppInfoCrawler extends AbstractArticleCrawler {
     }
 
     public String getTitleHtmlString() {
-        return toHtml(getTitleHtml());
+        Element titleHtml = getTitleHtml();
+        return titleHtml == null ? null : toHtml(titleHtml);
     }
 
     public String getAbstractHtmlString() {
-        return toHtml(getAbstractHtml());
+        Element abstractHtml = getAbstractHtml();
+        return abstractHtml == null ? null : toHtml(abstractHtml);
     }
 
     private String toHtml(Element element) {
