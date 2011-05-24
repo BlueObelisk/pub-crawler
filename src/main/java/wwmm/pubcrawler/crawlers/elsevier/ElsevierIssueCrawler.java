@@ -165,10 +165,12 @@ public class ElsevierIssueCrawler extends AbstractIssueCrawler {
 
     @Override
     protected List<Node> getArticleNodes() {
-        return XPathUtils.queryHTML(getHtml(), "//x:table[@class='resultRow']//x:td[@width='95%']");
+        return XPathUtils.queryHTML(getHtml(), "//x:table[@class='resultRow']//x:td[@width='95%' and @colspan='2']");
     }
 
-    private static final Pattern P_ID = Pattern.compile("udi=(.*?)&");
+//    private static final Pattern P_ID = Pattern.compile("udi=(.*?)&");
+
+    private static final Pattern P_ID = Pattern.compile("/pii/(.*?)\\?");
 
     @Override
     protected Article getArticleDetails(Node context, String issueId) {
@@ -181,7 +183,7 @@ public class ElsevierIssueCrawler extends AbstractIssueCrawler {
             String id = getIssueId()+"/"+m.group(1);
             article.setId(id);
         } else {
-            log().warn("Unable to locate article ID: "+getIssueId());
+            log().warn("Unable to locate article ID: "+getIssueId()+" ["+href+"]");
         }
 
         URI url = getUrl().resolve(href);

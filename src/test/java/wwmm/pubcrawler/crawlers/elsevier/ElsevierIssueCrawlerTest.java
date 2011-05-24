@@ -16,6 +16,7 @@
 
 package wwmm.pubcrawler.crawlers.elsevier;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mockito;
 import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerRequest;
@@ -26,6 +27,8 @@ import wwmm.pubcrawler.crawlers.AbstractCrawlerTest;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.model.Journal;
+import wwmm.pubcrawler.types.Doi;
+import wwmm.pubcrawler.types.DoiTest;
 
 import java.io.IOException;
 import java.net.URI;
@@ -119,6 +122,22 @@ public class ElsevierIssueCrawlerTest extends AbstractCrawlerTest {
         assertEquals("Ped_Outlier software for automatic identification of within-family outliers", articles.get(5).getTitle());
         assertEquals("Compact cancer biomarkers discovery using a swarm intelligence feature selection algorithm", articles.get(6).getTitle());
         assertEquals("Systematic analysis of an amidase domain CHAP in 12 Staphylococcus aureus genomes and 44 staphylococcal phage genomes", articles.get(7).getTitle());
+    }
+
+    @Test
+    @Ignore
+    public void testGetArticleDois() throws IOException {
+        ElsevierIssueCrawler crawler = getCompBioChemIssue34_4();
+        List<Article> articles = crawler.getArticles();
+        assertEquals(new Doi("10.1016/S1476-9271(10)00080-0"), articles.get(0).getDoi());
+        assertEquals(new Doi("10.1016/S1476-9271(10)00082-4"), articles.get(1).getDoi());
+        assertEquals(new Doi("10.1016/j.compbiolchem.2010.07.002"), articles.get(2).getDoi());
+        assertEquals(new Doi("10.1016/j.compbiolchem.2010.08.002"), articles.get(3).getDoi());
+        assertEquals(new Doi("10.1016/j.compbiolchem.2010.08.001"), articles.get(4).getDoi());
+        assertEquals(new Doi("10.1016/j.compbiolchem.2010.08.004"), articles.get(5).getDoi());
+        assertEquals(new Doi("10.1016/j.compbiolchem.2010.08.003"), articles.get(6).getDoi());
+        assertEquals(new Doi("10.1016/j.compbiolchem.2010.07.001"), articles.get(7).getDoi());
+
     }
 
     @Test

@@ -9,7 +9,7 @@
 
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<!-- TRANSKEY: 02/02/2011 10:42:01 EST#2841_005#264659#131.111.121.143 -->
+<!-- TRANSKEY: 05/24/2011 09:35:30 EDT#1841_001#92774#109.145.103.254 -->
 <meta name="robots" content="NOINDEX,NOFOLLOW,NOARCHIVE">
 <link rel="shortcut icon" href="/scidirimg/faviconSD.ico" type="image/x-icon">
 
@@ -29,26 +29,39 @@ document.styleSheets[0].cssRules[0].style["display"] = "";
 </script>
 
 
-<link rel="stylesheet" Title="Default Styles" href="/science/page/static/stylesheets/css_gen_v01.css" type="text/css">
+<link rel="stylesheet" Title="Default Styles" href="/scidirimg/css/css_gen_v01_112.css" type="text/css">
 <!--[if  IE 7]>
-<link rel="stylesheet" Title="Default Styles" href="/science/page/static/stylesheets/css_gen_ie7_v01.css" type="text/css">
+<link rel="stylesheet" Title="Default Styles" href="/scidirimg/css/css_gen_ie7_v01_112.css" type="text/css">
 <![endif]-->
 <!--[if lte IE 6]>
-<link rel="stylesheet" Title="Default Styles" href="/science/page/static/stylesheets/css_gen_ie6_v01.css" type="text/css">
+<link rel="stylesheet" Title="Default Styles" href="/scidirimg/css/css_gen_ie6_v01_112.css" type="text/css">
 <![endif]-->
 
-     <!-- if not logged in -->
 
-        <meta http-equiv="Set-Cookie" content="BROWSER_SUPPORTS_COOKIES=1; path=/">
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.4/themes/base/jquery-ui.css" type="text/css">
 
+<script>var SD_URL_QUALIFIER = "science";</script>
+
+ <script src="/scidirimg/js/sdX_112.js"></script>
+
+<script src="/scidirimg/js/sd_112.js"></script>
+
+
+
+
+
+<!-- if not logged in -->
+   
+  <meta http-equiv="Set-Cookie" content="BROWSER_SUPPORTS_COOKIES=1; path=/">
+  
 
 
 <!-- Template Name: downloadConfirm.tmpl -->
 <title>ScienceDirect - Export Documents</title>
-
 </head>
 
 <body bgcolor="#ffffff" text="#000000">
+
 <script language="javascript" type="text/javascript">
 <!--
 
@@ -130,7 +143,7 @@ function checkLimit(){
             count += determineCount(selectNum);
         }
     }
-    else {
+    else { 
         if (rdoc > 0) {
             count = 1;
         }
@@ -140,7 +153,7 @@ function checkLimit(){
     }
 
     if(count > 50) { return true; }
-
+  
     return false;
 }
 
@@ -149,96 +162,12 @@ function checkLimit(){
 
 
 <div id="header" class="outerWrapper">
-<script src="/science/page/javascript/prototype.js" type="text/javascript"></script>
-<script src="/science/page/javascript/effects.js" type="text/javascript"></script>
-<script src="/science/page/javascript/controls_mod.js" type="text/javascript"></script>
-<script src="/science/page/javascript/openWindow.js" type="text/javascript"></script>
-<SCRIPT LANGUAGE="Javascript" type="text/javascript"><!--
-
-function flip(e){
-  var menustyle = eval(getStyleObj(e))
-    if (menustyle.display=="none"){
-      menustyle.display='';
-         if (e == "alertSettings") {
-            document.getElementById("registrationOptional").innerHTML = "Hide alert & other settings. <img src=\"/scidirimg/sign_minus.gif\"/>";
-            document.getElementById("textRow").style.background = '#f7f7f7';
-         }
-    }
-    else{
-      menustyle.display="none"
-         if (e == "alertSettings") {
-             document.getElementById("registrationOptional").innerHTML = "Show alert & other settings. <img src=\"/scidirimg/sign_plus.gif\"/>";
-             document.getElementById("textRow").style.background = '#efefef';
-         }
-    }
-}
-
-function getStyleObj(elem,parent) {
-   if (document.layers) {
-   if (parent) {
-      return "document."+parent+".document."+elem;
-   } else {
-      return "document."+elem + ".style";
-   }
-   } else if (document.all) {
-     return "document.all."+elem + ".style";
-   } else if (document.getElementById) {
-     return "document.getElementById('"+elem+"').style";
-   }
-}
-function flipLogin(e,button){
-  var t = eval(getStyleObj(e));
-  var u = $('loginPlus');
-  var v = $('userPlus');
-  var userbox = $('userBox');
-  var j = $('loginPlusScript');
-  if(button == null){
-    if (t.display=="none"){
-      t.display = 'block';
-      j.removeClassName('plus');
-      j.addClassName('minus');
-    }
-    else{
-      t.display = 'none';
-      j.removeClassName('minus');
-      j.addClassName('plus');
-    }
-  }
-  else if (button == "userPlus" ) {
-    if (t.display=="none" ){
-      t.display = 'block';
-      v.removeClassName('userPlus');
-      v.addClassName('userMinus');
-    }
-    else{
-      t.display = 'none';
-      v.removeClassName('userMinus');
-      v.addClassName('userPlus');
-    }
-  }
-  else{
-    if (t.display=="none" ){
-      t.display = 'block';
-      userbox.style.display ='none';
-      v.removeClassName('userMinus');
-      v.addClassName('userPlus');
-    }
-    else{
-      t.display = 'none';
-    }
-  }
-}
-
-
-//--></SCRIPT>
-
-
 <div style="background-color:#FFFFFF;position:relative;z-index:2;" class="outerWrapper" >
 <div id="masthead">
 
 <!-- INSERTS THE TEMPLATE VARIABLES POPULATED FROM DB for SCIVERSE and PRODUCT labels -->
 
-<div id="logoSciVerse"><a href="/science?_ob=RedirectURL&_method=outwardLink&_activity=SciVerse&_origin=export_citation&_zone=logo&_targetURL=http%3A%2F%2Fhub.sciverse.com&_acct=C000053194&_version=1&_userid=1495569&md5=68bb5aaacc86e032e82d5ccad5206e2a"><img src="/scidirimg/logo_SciVerse.gif" border="0" alt="SciVerse Home" title="SciVerse - Elsevier's product suite for search and discovery"/>
+<div id="logoSciVerse"><a href="/science?_ob=RedirectURL&_method=outwardLink&_activity=SciVerse&_origin=export_citation&_zone=logo&_targetURL=http%3A%2F%2Fhub.sciverse.com&_acct=C000050221&_version=1&_userid=10&md5=d15abcba5386c3cbd03af843aeda74a4"><img src="/scidirimg/logo_SciVerse.gif" border="0" alt="SciVerse Home" title="SciVerse - Elsevier's product suite for search and discovery"/>
 </a></div><div id="logoScienceDirect"><a href="http://www.sciencedirect.com/science">
 <img border="0" alt="ScienceDirect&reg; Home" title="ScienceDirect -The world's leading full-text scientific database" src="/scidirimg/logo_ScienceDirect.gif"/></a></div>
 
@@ -247,29 +176,29 @@ function flipLogin(e,button){
 <ul class="suites"><li><a href="http://www.hub.sciverse.com/action/home" title="Hub - SciVerse's integrated search">Hub</a></li><li><a title="ScienceDirect - the world's leading full-text scientific database" class="selected">ScienceDirect</a></li><li><a href="http://www.scopus.com" title="Scopus - the largest abstract and citation database of research literature and quality web sources">Scopus</a></li><li><a href="http://www.scitopics.com" title="SciTopics - Distilled, authoritative and up-to-date information for researchers on scientific technical and medical topic">SciTopics</a></li><li><a href="http://www.applications.sciverse.com/action/userhome" title=" Applications - SciVerse Applications" class="last">Applications</a></li></ul>
 
 </div>
-<div>
+<div>		
 
      <!-- if not logged in -->
+	   
 
-
-
+			
 
     <div id="login" class="clearfix">
     	<ul>
 		<li>
-
-      <a href="https://www.sciencedirect.com/science?_ob=RegistrationURL&_method=display&_type=ip&_returnURL=http%3A%2F%2Fwww.sciencedirect.com%2Fscience%3F_ob%3DDownloadURL%26_method%3Dconfirm%26_tockey%3D%23toc%2311514%232010%23999659995%232526737%23FLA%23%26_auth%3Dy%26_version%3D1%26refSource%3Dtoc%26_pubType%3DJ%26PDF_DDM_MAX%3D20%26_cdi%3D11514%26chunk%3D0%26view%3Dc%26go%3D%26count%3D8%26export%3DExport%2Bcitations%26pdfDownload%3D%26count%3D8%26_acct%3DC000053194%26_version%3D1%26_userid%3D1495569%26md5%3D58b8fcd21e7a5845f6cf4105ce3cd6ca&_acct=C000053194&_version=1&_userid=1495569&md5=e13108d581121379f50da519aa9a2343" target="_top" title="Register a ScienceDirect username and password for using alerts and other personal features">Register</a>
-
+    
+      <a href="https://www.sciencedirect.com/science?_ob=RegistrationURL&_method=display&_type=guest&_returnURL=http%3A%2F%2Fwww.sciencedirect.com%2Fscience%3F_ob%3DDownloadURL%26_method%3Dconfirm%26_tockey%3D%23toc%2311514%232010%23999659995%232526737%23FLA%23%26_auth%3Dy%26_version%3D1%26refSource%3Dtoc%26_pubType%3DJ%26PDF_DDM_MAX%3D20%26_cdi%3D11514%26chunk%3D0%26view%3Dc%26go%3D%26count%3D8%26export%3DExport%2Bcitations%26count%3D8%26_subId%3D13247194%26_acct%3DC000050221%26_version%3D1%26_userid%3D10%26md5%3Dae32048a63658bc567938e938f44a2dc&_acct=C000050221&_version=1&_userid=10&md5=d7532340202be6a77f07b7ca7eaf5371" target="_top" title="Register a ScienceDirect username and password for using alerts and other personal features" >Register</a>
+    
   </li>
   <!--top right widget-->
-  <li class="login " id="loginPlus"><a href="javascript:flipLogin('loginBox',null);" title="Login to ScienceDirect" class="novisit plus nojs" id="loginPlusScript">Login</a><noscript><a href="/science?_ob=HomePageURL&_method=userHomePage&_fl=y&_acct=C000053194&_version=1&_urlVersion=0&_userid=1495569&md5=35dd179c85f120c64d061a9880a9953f" title="Open the Login Box" class="plus" id="loginPlusNoScript">Login</a></noscript>
+  <li class="login " id="loginPlus"><a href="javascript:LoginBox.flipLogin('loginBox',null);" title="Login to ScienceDirect" class="novisit plus nojs" id="loginPlusScript" >Login</a><noscript><a href="/science?_ob=HomePageURL&_method=userHomePage&_fl=y&_acct=C000050221&_version=1&_urlVersion=0&_userid=10&md5=33a74972cccbbcf0367e51ea9615957b" title="Open the Login Box" class="plus" id="loginPlusNoScript" >Login</a></noscript>
 
   </li>
-
-           <li class="last"><a href="http://www.scival.com" title="Go to SciVal Suite">Go to SciVal Suite</a></li>
+           
+           <li class="last"><a href="http://www.scival.com" title="Go to SciVal Suite" >Go to SciVal Suite</a></li> 
         </ul>
     </div>
-
+    
 	<div id="loginBox" style="display:none;">
         <div class="padding" style="padding-top:10px;">
             <form name="sdLogin" method="POST" action="https://www.sciencedirect.com/science/login" id="login-box-form" style="margin:0;">
@@ -277,355 +206,245 @@ function flipLogin(e,button){
             <div>
 
 			<label for="username"><span style="text-align:right;">Username:</span>
-            <input id="username" type="text" name="userid" title="Please enter your user name here" /></label>
+            <input id="username" type="text" name="userid" title="Please enter your username here" /></label>
             </div>
-
+            
             <div style="margin-top:2px;">
             <label for="password"><span style="text-align:right;">Password:</span>
             <input id="password" type="password" name="password" maxlength="20" title="Please enter your password here" onkeypress="if(13==event.keyCode)this.form.submit();if (13==event.keyCode)return false;"/></label>
             </div>
-
-
-
+                   
+                       
+			
 			<div class="remember">
 
 			<input type="checkbox" checked name="rememberid" id="rememberMe" value="Y" class="allCheck top2fix" title="Checking this option will log you in automatically next time you visit ScienceDirect"/>
 			<label for="rememberMe" title="Checking this option will log you in automatically next time you visit ScienceDirect">Remember me</label>
 			</div>
-
+            
 			<input type="hidden" name="_ob" value="MiamiLogonURL">
-			<input type="hidden" name="targetURL" value="http://www.sciencedirect.com/science?_ob=DownloadURL&_method=confirm&_tockey=%23toc%2311514%232010%23999659995%232526737%23FLA%23&_auth=y&_version=1&refSource=toc&_pubType=J&PDF_DDM_MAX=20&_cdi=11514&chunk=0&view=c&go=&count=8&export=Export+citations&pdfDownload=&count=8&_acct=C000053194&_version=1&_userid=1495569&md5=58b8fcd21e7a5845f6cf4105ce3cd6ca" >
-			<input type="hidden" name="returnURL" value="http://www.sciencedirect.com/science?_ob=DownloadURL&_method=confirm&_tockey=%23toc%2311514%232010%23999659995%232526737%23FLA%23&_auth=y&_version=1&refSource=toc&_pubType=J&PDF_DDM_MAX=20&_cdi=11514&chunk=0&view=c&go=&count=8&export=Export+citations&pdfDownload=&count=8&_acct=C000053194&_version=1&_userid=1495569&md5=58b8fcd21e7a5845f6cf4105ce3cd6ca" >
+			<input type="hidden" name="targetURL" value="http://www.sciencedirect.com/science?_ob=DownloadURL&_method=confirm&_tockey=%23toc%2311514%232010%23999659995%232526737%23FLA%23&_auth=y&_version=1&refSource=toc&_pubType=J&PDF_DDM_MAX=20&_cdi=11514&chunk=0&view=c&go=&count=8&export=Export+citations&count=8&_subId=13247194&_acct=C000050221&_version=1&_userid=10&md5=ae32048a63658bc567938e938f44a2dc" >
+			<input type="hidden" name="returnURL" value="http://www.sciencedirect.com/science?_ob=DownloadURL&_method=confirm&_tockey=%23toc%2311514%232010%23999659995%232526737%23FLA%23&_auth=y&_version=1&refSource=toc&_pubType=J&PDF_DDM_MAX=20&_cdi=11514&chunk=0&view=c&go=&count=8&export=Export+citations&count=8&_subId=13247194&_acct=C000050221&_version=1&_userid=10&md5=ae32048a63658bc567938e938f44a2dc" >
             <div class="submit" >
-
+			
 			<div style="float:left;padding-left:0px;"><input class="button" type="Submit" name="arrow" alt="Login to ScienceDirect" title="Login to ScienceDirect" value="Login"/></div>
 
-
-
-			<div class="notRegistered"><span class="astPad">| </span><span><a href="https://www.sciencedirect.com/science?_ob=RegistrationURL&_method=display&_type=ip&_returnURL=http%3A%2F%2Fwww.sciencedirect.com%2Fscience%3F_ob%3DDownloadURL%26_method%3Dconfirm%26_tockey%3D%23toc%2311514%232010%23999659995%232526737%23FLA%23%26_auth%3Dy%26_version%3D1%26refSource%3Dtoc%26_pubType%3DJ%26PDF_DDM_MAX%3D20%26_cdi%3D11514%26chunk%3D0%26view%3Dc%26go%3D%26count%3D8%26export%3DExport%2Bcitations%26pdfDownload%3D%26count%3D8%26_acct%3DC000053194%26_version%3D1%26_userid%3D1495569%26md5%3D58b8fcd21e7a5845f6cf4105ce3cd6ca&_acct=C000053194&_version=1&_userid=1495569&md5=e13108d581121379f50da519aa9a2343" title="" target="_top">Not Registered?</a></span></div>
-
-
-
+        
+			
+			
+			<div class="notRegistered" ><span class="astPad">| </span><span><a href="https://www.sciencedirect.com/science?_ob=RegistrationURL&_method=display&_type=guest&_returnURL=http%3A%2F%2Fwww.sciencedirect.com%2Fscience%3F_ob%3DDownloadURL%26_method%3Dconfirm%26_tockey%3D%23toc%2311514%232010%23999659995%232526737%23FLA%23%26_auth%3Dy%26_version%3D1%26refSource%3Dtoc%26_pubType%3DJ%26PDF_DDM_MAX%3D20%26_cdi%3D11514%26chunk%3D0%26view%3Dc%26go%3D%26count%3D8%26export%3DExport%2Bcitations%26count%3D8%26_subId%3D13247194%26_acct%3DC000050221%26_version%3D1%26_userid%3D10%26md5%3Dae32048a63658bc567938e938f44a2dc&_acct=C000050221&_version=1&_userid=10&md5=d7532340202be6a77f07b7ca7eaf5371" title="Register a username and password for using alerts and other personal features" target="_top">Not Registered?</a></span></div>
+			
+			
+			
             </div>
 			<div style="clear:both;"></div>
             </form>
             <div class="forgotpass">
-			<a href="/science?_ob=ReminderURL&_method=display&_acct=C000053194&_version=1&_userid=1495569&md5=f70ff15bcfbe2beea387524ed3d9501f" target="passwd" onClick="var remindWin;remindWin=window.open('','passwd','scrollbars=yes,resizable=yes,directories=no,toolbar=n,menubar=no,status=no,width=650,height=300');" title="Click here for help in recovering your ScienceDirect access">Forgotten your username or password?</a>
+			<a href="/science?_ob=ReminderURL&_method=display&_acct=C000050221&_version=1&_userid=10&md5=340075608c2fef24d4a7760e4cdfc3e0" target="passwd" onClick="var remindWin;remindWin=window.open('','passwd','scrollbars=yes,resizable=yes,directories=no,toolbar=n,menubar=no,status=no,width=650,height=300');" title="Click here for help in recovering your ScienceDirect access">Forgotten your username or password?</a>
             </div>
 
         </div>
         <div class="institutiontext">
-
-
-
-		<a href="/science?_ob=FederationURL&_method=display&_type=f&_acct=C000053194&_version=1&_userid=1495569&md5=60b57a86ca519572312b8cf8f9ecebaf"title="Go to Athens/ Institution login">Go to Athens / Institution login</a>
-
+        
+		
+		
+		<a href="/science?_ob=FederationURL&_method=display&_type=f&_acct=C000050221&_version=1&_userid=10&md5=72fe293848689e52a10d612dfcfa3bd4"title="Go to Athens/ Institution login">Go to Athens / Institution login</a>
+		
+        </div>		
+				
+		
+                  
+                    <div class="institutiontext">
+                    <a href="http://www.sciencedirect.com/science/activateaccess" title="Remote access activation">Remote access activation</a>
+                    </div>
+                  
+                
         </div>
 
-    </div>
-
 	<!-- logged in -->
+	     
 
 
-
-
-    <div id="banner-top">
-
-
-
-
-                    <a href="http://www.lib.cam.ac.uk/" onclick="openNS('http://www.lib.cam.ac.uk/'); return false;">
-                        <img src="http://www.cam.ac.uk/global/images/identifier4.gif" border="0" />
-
+			
+    <div id="banner-top">		
+    
+        
+            
+                
+                    <a href="http://www.info.sciencedirect.com/licensing/access/guest_user/" onclick="openNS('http://www.info.sciencedirect.com/licensing/access/guest_user/'); return false;">
+                        <img src="http://www.sciencedirect.com/science/page/static/science/dynamic_scidir_home_guest_user.gif" alt="You have guest access to ScienceDirect. Find out more." title="You have guest access to ScienceDirect. Find out more." border="0" />
                     </a>
-
-
-
-
-
+                
+ 
+            
+        
+    
     </div>
 	</div>
 	</div>
-
 
 <div id="navigationTop" class="clearfix">
         <ul class="nav main">
-            <li class="last"><a  href="/science?_ob=HomePageURL&_method=userHomePage&_btn=Y&_zone=TopNavBar&_origin=export_citation&_acct=C000053194&_version=1&_urlVersion=0&_userid=1495569&md5=25e69f8e76d8db77533ac1f403b4a30c" target="_top" name="Home" title="Home">Home</a></li>
+            <li class="last"><a  href="/science?_ob=HomePageURL&_method=userHomePage&_btn=Y&_zone=TopNavBar&_origin=export_citation&_acct=C000050221&_version=1&_urlVersion=0&_userid=10&md5=23a6fc16a2e5dbc4b72d48be0c296bb6" target="_top" name="Home" title="Home" >Home</a></li>
             <li>
-
-			<a  href="/science?_ob=BrowseListURL&_type=all&_auth=y&_btn=Y&_zone=TopNavBar&_origin=export_citation&_acct=C000053194&_version=1&_urlVersion=0&_userid=1495569&md5=6227b892df5c74a4498a91bcae65668a" target="_top" name="Browse"  title="Browse">Browse</a>
+			<a  href="/science?_ob=BrowseListURL&_type=all&_auth=y&_btn=Y&_zone=TopNavBar&_origin=export_citation&_acct=C000050221&_version=1&_urlVersion=0&_userid=10&md5=8be1c5b8a266616ec59363ccb843526e" target="_top" name="Browse"  title="Browse" >Browse</a>
 		    </li>
+			
+			<li><a  href="/science?_ob=MiamiSearchURL&_method=requestForm&_btn=Y&_zone=TopNavBar&_origin=export_citation&_acct=C000050221&_version=1&_urlVersion=1&_userid=10&md5=994090b1b1864b91d12b073674b10016" target="_top" name="Search" title="Search" >Search</a></li>
 
-			<li><a  href="/science?_ob=MiamiSearchURL&_method=requestForm&_btn=Y&_zone=TopNavBar&_origin=export_citation&_acct=C000053194&_version=1&_urlVersion=1&_userid=1495569&md5=77af955f6a1df0e32100d56e9c2453a0" target="_top" name="Search" title="Search">Search</a></li>
+      <li><a  href="/science?_ob=UserSubscriptionURL&_method=begin&_btn=Y&_zone=TopNavBar&_origin=export_citation&_acct=C000050221&_version=1&_urlVersion=1&_userid=10&md5=f8e54f2fdce5ea6a95222d3295c59db8" target="_top" name="account" title="My settings" >My settings</a></li>
 
 
-      <li><a  href="/science?_ob=UserSubscriptionURL&_method=begin&_btn=Y&_zone=TopNavBar&_origin=export_citation&_acct=C000053194&_version=1&_urlVersion=1&_userid=1495569&md5=ea82d3cd4f4add46bc2aff5f77e1a337" target="_top" name="account" title="My settings">My settings</a></li>
+      
 
-      <li><a  href="/science?_ob=MiamiSDIURL&_method=listAlerts&_btn=Y&_zone=TopNavBar&_origin=export_citation&_acct=C000053194&_version=1&_urlVersion=0&_userid=1495569&md5=9cb9ba2f759139a7e8110fc157a532f2" target="_top" name="alert" title="Alerts">My alerts</a></li>
+      <li><a  href="/science?_ob=MiamiSDIURL&_method=listAlerts&_btn=Y&_zone=TopNavBar&_origin=export_citation&_acct=C000050221&_version=1&_urlVersion=0&_userid=10&md5=a4ed4fce488326ceec56f58646f80b2d" target="_top" name="alert" title="Alerts" >My alerts</a></li>
 
+      <li><a  href="/science?_ob=ShoppingCartURL&_method=display&_zone=TopNavBar&_origin=export_citation&_acct=C000050221&_version=1&_userid=10&md5=3add6c3eda46171e3310f8e07d57165a" target="_top" name="cart" title="Shopping Cart" >Shopping cart</a></li>  	           
 
         </ul>
-
+        
         <ul class="nav misc">
+			
+		 <li class="last"><a href="/science?_ob=HelpURL&_file=art_export.htm&_btn=Y&_zone=TopNavBar&_origin=export_citation&_acct=C000050221&_version=1&_urlVersion=0&_userid=10&md5=078484a9176ac8eb802e7af26bb20eaf" target="sdhelp" title="Help (Opens new window)" onClick="var helpWin; helpWin=window.open('/science?_ob=HelpURL&_file=art_export.htm&_btn=Y&_zone=TopNavBar&_origin=export_citation&_acct=C000050221&_version=1&_urlVersion=0&_userid=10&md5=078484a9176ac8eb802e7af26bb20eaf','sdhelp','scrollbars=yes,resizable=yes,directories=no,toolbar=no,menubar=no,status=no,width=760,height=570'); helpWin.focus(); return false" >Help</a></li>      
 
-		 <li class="last"><a href="/science?_ob=HelpURL&_file=art_export.htm&_btn=Y&_zone=TopNavBar&_origin=export_citation&_acct=C000053194&_version=1&_urlVersion=0&_userid=1495569&md5=4a490397ac058d419b686e1d68e06a69" target="sdhelp" title="Help (Opens new window)" onClick="var helpWin; helpWin=window.open('/science?_ob=HelpURL&_file=art_export.htm&_btn=Y&_zone=TopNavBar&_origin=export_citation&_acct=C000053194&_version=1&_urlVersion=0&_userid=1495569&md5=4a490397ac058d419b686e1d68e06a69','sdhelp','scrollbars=yes,resizable=yes,directories=no,toolbar=no,menubar=no,status=no,width=760,height=570'); helpWin.focus(); return false">Help</a></li>
-
+	  	  
         </ul>
+
   </div>
 </div>
 
   <table id="sdQuickSearch" width="100%" border="0" cellpadding="0" cellspacing="0" class="outerWrapper" ><tr><td>
-  <a name="Skip Buttons"></a><script language="javascript" type="text/javascript">
-<!--
-function getElementsByClassName(oElm, strTagName, strClassName){
-  var arrElements = (strTagName == "*" && oElm.all)? oElm.all : oElm.getElementsByTagName(strTagName);
-  var arrReturnElements = new Array();
-  strClassName = strClassName.replace(/\-/g, "\\-");
-  var oRegExp = new RegExp("(^|\\s)" + strClassName + "(\\s|$)");
-  var oElement;
-  for(var i=0; i<arrElements.length; i++){
-   oElement = arrElements[i];
-   if(oRegExp.test(oElement.className)){
-    arrReturnElements.push(oElement);
-   }
-  }
-  return (arrReturnElements);
-}
-function clearQSForm() {
-    document.qkSrch.qs_tak.value="";
-    document.qkSrch.qs_author.value="";
-    document.qkSrch.qs_title.value="";
-    document.qkSrch.qs_vol.value="";
-    document.qkSrch.qs_issue.value="";
-    document.qkSrch.qs_pages.value="";
-}
-function changeFields(field) {
-    var quckSrch = getElementsByClassName(document, 'td', 'toggleQukSrch');
-    if(field == "i") {
-        for (i=0; i<quckSrch.length; i++) {
-            quckSrch[i].style.display = 'none';
-            i++;
-        }
-        document.getElementById("fieldLabel").innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;Images";
-        document.getElementById("qs_all").title = "e.g. figures, tables, videos etc";
-        if (document.getElementById("qs_all").value == "")
-        {
-           document.getElementById("qs_all").value = "e.g. figures, tables, videos etc";
-           document.getElementById("qs_all").style.color ="#9b9b9b";
-        }
-        document.getElementById("volField").style.display = "none";
-        document.getElementById("qs_vol").style.display = "none";
-        document.getElementById("issueField").style.display = "none";
-        document.getElementById("qs_issue").style.display = "none";
-        document.getElementById("pageField").style.display = "none";
-        document.getElementById("qs_pages").style.display = "none";
-        if (/MSIE (\d+\.\d+);/.test(navigator.userAgent)){
-           document.getElementById("submit_search").style.marginLeft = "7px";
-        }
-    } else {
-        for (i=0; i<quckSrch.length; i++) {
-            quckSrch[i].style.display = '';
-            i++;
-        }
-        document.getElementById("fieldLabel").innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;All Fields";
-        document.getElementById("qs_all").title = "For Example. Heart Attack and Behaviour";
-        if (document.getElementById("qs_all").value == "e.g. figures, tables, videos etc")
-        {
-            document.getElementById("qs_all").value = "";
-            document.getElementById("qs_all").style.color ="#000000";
-        }
-        document.getElementById("volField").style.display = "";
-        document.getElementById("qs_vol").style.display = "";
-        document.getElementById("issueField").style.display = "";
-        document.getElementById("qs_issue").style.display = "";
-        document.getElementById("pageField").style.display = "";
-        document.getElementById("qs_pages").style.display = "";
-        if (/MSIE (\d+\.\d+);/.test(navigator.userAgent)){
-           document.getElementById("submit_search").style.marginLeft = "14px";
-        }
-
-    }
-}
-
-function clearValues() {
-    if (document.getElementById("Images").checked ==  true) {
-        if (document.getElementById("qs_all").value == "e.g. figures, tables, videos etc") {
-            document.getElementById("qs_all").value = "";
-            document.getElementById("qs_all").style.color ="#000000";
-        }
-    }
-}
-
-function setValues() {
-    if (document.getElementById("Images").checked ==  true) {
-        if (document.getElementById("qs_all").value == "") {
-            document.getElementById("qs_all").value = "e.g. figures, tables, videos etc";
-            document.getElementById("qs_all").style.color ="#9b9b9b";
-        }
-    }
-}
-//-->
-
-</script>
-
-<div >
+  <a name="Skip Buttons"></a><div>
 <form name="qkSrch" method="get" target="_top" action="/science" style="margin:0px;">
 <input type="hidden" name="_ob" value="QuickSearchURL">
 <input type="hidden" name="_method" value="submitForm">
-<input type="hidden" name="_acct" value="C000053194">
+<input type="hidden" name="_acct" value="C000050221">
 <input type="hidden" name="_origin" value="export_citation">
 <input type="hidden" name="_zone" value="qSearch">
-<input type="hidden" name="md5" value="280ad19f9097cb478f092b5a848087b6">
+<input type="hidden" name="md5" value="9ef5f1ea146d37ec035575626b97383b">
 
 <table border="0" width="100%" cellpadding="0" cellspacing="0" style="margin: 0;">
+
 <tr valign="middle">
-
-<!-- JS enabled. Code for Articles -->
-
-    <td align="center" nowrap="nowrap" >
-
-    <label for="Articles" style="cursor:pointer;padding-right:0;margin-left:2px;" class="nojs">Articles</label>
-    <input type="radio" name="searchtype" id="Articles" value="a" onClick="changeFields(this.value);" checked="checked" style="" class="nojs artRadio"/>
-    <noscript>
-    <!-- JS disabled. Code for Articles -->
-    <span style="margin-left:13px;">Articles</span>
-    </noscript>
-    </td>
-
 
 <!-- Code related for toggling labels -->
 
-
-    <td align="right"><label for="qs_all" id="fieldLabel">&nbsp;&nbsp;&nbsp;&nbsp;All fields</label></td>
-    <td align="left"><input class="textbox qsinput xpstyle" type="text" name="qs_all" id="qs_all" value="" size="30" maxlength="450" title="For example: heart attack AND behavior?" tabindex="1" onfocus="clearValues();" onblur="setValues();"></td>
-
-
+   <td align="right"><label for="qs_all" id="fieldLabel">&nbsp;&nbsp;&nbsp;&nbsp;All fields</label></td>
+   <td align="left"><input class="textbox qsinput xpstyle" type="text" name="qs_all" id="qs_all" value="" size="30" maxlength="450" title="For example: heart attack AND behavior?" tabindex="1"></td>
 
 
 
    <td align="right"><label for="qs_author">&nbsp;&nbsp;&nbsp;&nbsp;Author</label></td>
    <td align="left" colspan="5"><input class="textbox qsinput xpstyle" type="text" name="qs_author" id="qs_author" value="" size="33" maxlength="450" title="e.g. J S Smith or John Smith or Smith JS" tabindex="2" style="_width:100%"></td>
+
    <td nowrap="nowrap">
 
    </td><td></td><td></td>
    <td align="right" nowrap="nowrap" width="90%" valign="middle">
-   <a href="/science?_ob=MiamiSearchURL&_method=requestForm&_btn=Y&_acct=C000053194&_version=1&_urlVersion=1&_userid=1495569&md5=351d8d1615369567dd2c7cd31518a80b" style="vertical-align:bottom;font-size:0.92em;">Advanced search</a>
+   <a href="/science?_ob=MiamiSearchURL&_method=requestForm&_btn=Y&_acct=C000050221&_version=1&_urlVersion=1&_userid=10&md5=fe779b358da3b1319506f8c0ef7324dd" style="vertical-align:bottom;font-size:0.92em;" >Advanced search</a>
    </td>
-
 </tr>
 <tr>
 
-<!-- JS enabled. Code for images -->
-
-    <td align="center" nowrap="nowrap" >
-    <label for="Images" style="cursor:pointer;padding-right:0;" class="nojs">Images</label>
-   <input type="radio" name="searchtype" id="Images" value="i" onClick="changeFields(this.value);" class="nojs artImages"/>
-   <noscript>
-   <!-- JS disabled. Code for Images -->
-   <span style="margin-left:13px;"><a href="/science?_ob=DownloadURL&_method=confirm&_tockey=%23toc%2311514%232010%23999659995%232526737%23FLA%23&_auth=y&_version=1&refSource=toc&_pubType=J&PDF_DDM_MAX=20&_cdi=11514&chunk=0&view=c&go=&count=8&export=Export+citations&pdfDownload=&count=8&_acct=C000053194&_version=1&_userid=1495569&md5=58b8fcd21e7a5845f6cf4105ce3cd6ca&imgSel=Y" >Images</a></span>
-   </noscript>
-   </td>
-
-
    <td align="right"><label for="qs_title">&nbsp;&nbsp;&nbsp;&nbsp;Journal/Book&nbsp;title</label></td>
-   <td align="left"><div class="auto_complete nojs" id="qsPub_autoComp"></div><input class="textbox qsinput xpstyle" type="text" id="qs_title" name="qs_title" value="" size="30" maxlength="450" title="For example: journal of molecular biology" tabindex="3"></td>
 
+   <td align="left"><input class="textbox qsinput xpstyle" type="text" id="qs_title" name="qs_title" value="" size="30" maxlength="450" title="For example: journal of molecular biology" tabindex="3"></td>
 
-   <td align="right" class="toggleQukSrch"><label for="qs_vol" id="volField">&nbsp;&nbsp;&nbsp;&nbsp;Volume</label></td>
+   <td align="right" class="toggleQukSrch2"><label for="qs_vol" id="volField">&nbsp;&nbsp;&nbsp;&nbsp;Volume</label></td>
    <td align="left" class="toggleQukSrch"><input class="textbox qsinput xpstyle" type="text" name="qs_vol" id="qs_vol" value="" size="3" maxlength="10" style="width:30px;" tabindex="4"></td>
-   <td align="right" class="toggleQukSrch"><label for="qs_issue" id="issueField">&nbsp;&nbsp;Issue</label></td>
-
+   <td align="right" class="toggleQukSrch2"><label for="qs_issue" id="issueField">&nbsp;&nbsp;Issue</label></td>
    <td align="left" class="toggleQukSrch"><input class="textbox qsinput xpstyle" type="text" name="qs_issue" id="qs_issue" value="" size="3" maxlength="10" style="width:30px" tabindex="5"></td>
-   <td align="right" class="toggleQukSrch"><label for="qs_pages" id="pageField">&nbsp;&nbsp;Page</label></td>
+   <td align="right" class="toggleQukSrch2"><label for="qs_pages" id="pageField">&nbsp;&nbsp;Page</label></td>
    <td align="right" class="toggleQukSrch"><input class="textbox qsinput xpstyle" type="text" name="qs_pages" id="qs_pages" value="" size="3" maxlength="10" title="For example: 14-27" style="width:30px" tabindex="6"></td>
-
 
    <td  align="right" nowrap="nowrap">
    <input class="button" id="submit_search" type="Submit" alt="Submit Quick Search" title="Submit Quick Search" value="Search ScienceDirect" tabindex="8" name="sdSearch">
-   </td>
-
-
-
-
-
+   </td> 
+     
+            
+       
  <td align="right" nowrap="nowrap" colspan="8"  valign="bottom">
-      <a class="icon_qmarkHelpsci_dir" href="/science?_ob=HelpURL&_file=qs_tips.htm&_acct=C000053194&_version=1&_urlVersion=0&_userid=1495569&md5=03db897d4e68f933961b13806d4b966a" target="sdhelp" onMouseOver="window.status='Help is Available';return true" onMouseOut="window.status='';return true" onClick="var helpWin;helpWin=window.open('/science?_ob=HelpURL&_file=qs_tips.htm&_acct=C000053194&_version=1&_urlVersion=0&_userid=1495569&md5=03db897d4e68f933961b13806d4b966a','sdhelp','scrollbars=yes,resizable=yes,directories=no,toolbar=no,menubar=no,status=no,width=760,height=570');helpWin.focus();return false" tabindex="9" style="font-size:0.92em;padding-right:0;">Search tips</a>
-
-   <script type="text/javascript">
-//<![CDATA[
-function sdAutoComplete(inputField, outputField, serviceURL) {
-    var qsPub_autoComp = new Ajax.Autocompleter(inputField,outputField,serviceURL,{ minChars:2, frequency: 0.15 })
-}
-//]]>
-function ccAutoComplete(inputField, outputField, validCostCodes) {
-    var costcode_list = new Autocompleter.Local(inputField,outputField,validCostCodes,{ minChars:2, partialSearch:false }) }
-//]]>
-</script>
-
-<script type="text/javascript">
-//<![CDATA[
-    sdAutoComplete('qs_title','qsPub_autoComp','/science/jfind/auto');
-//]]>
-</script>
+      <a class="icon_qmarkHelpsci_dir" href="/science?_ob=HelpURL&_file=qs_tips.htm&_acct=C000050221&_version=1&_urlVersion=0&_userid=10&md5=f6c371af00211a946caf438b85111035" target="sdhelp" onMouseOver="window.status='Help is Available';return true" onMouseOut="window.status='';return true" onClick="var helpWin;helpWin=window.open('/science?_ob=HelpURL&_file=qs_tips.htm&_acct=C000050221&_version=1&_urlVersion=0&_userid=10&md5=f6c371af00211a946caf438b85111035','sdhelp','scrollbars=yes,resizable=yes,directories=no,toolbar=no,menubar=no,status=no,width=760,height=570');helpWin.focus();return false" tabindex="9" style="font-size:0.92em;padding-right:0;" >Search tips</a>
    </td>
    </tr>
-
 </table>
 </form></div>
+
+
+  <script>autoCompleteInit();</script>
 
 
   </td></tr></table>
 
 
 
+<div style="width:100%; padding:0.1em 0;text-align:center;" id="leaderboard"><noscript>
+<a href="http://ad.doubleclick.net/jump/els.SDguest/ISSNgeneral;pg=unknown;sz=728x90,1000x50;ord=506051?" target="_blank" >
+<img src="http://ad.doubleclick.net/ad/els.SDguest/ISSNgeneral;ISSN=general;pg=unknown;sz=728x90,1000x50;ord=506051?" border="0" alt="" /></a>
+</noscript></div>
+
+
 
 <div id="sdHeader" class="outerWrapper">
+
 <div id="sciverseCanvasArea" style="width:100%">
+
+
+<script type="text/javascript">
+document.write('<div style="min-width:925px; width: expression(body.clientWidth > 925 ? \'100%\':\'925px\');" >');
+</script>
+
+<div class="nojs" style="width:120px;float:right;"><span id="skyscraper"></span></div>
+<script type="text/javascript">
+document.write('<div style="min-width:800px; margin-right:133px; padding-right: 2px; ">');
+</script>
 
 
 
 
 
 <div id="sdBody" class="pageText">
+
 <div class="pageHeading">
   Export citations
 </div>
 <div class="pageContent">
-
   <table width="66%" cellspacing="0" cellpadding="0" class="pageSubHead">
-
-
-
-        <tr><td colspan=2>To export the 8 <b>citation + links</b>, select your preferred formats and click <b>Export</b>.<br/><b>Tip:</b> To export specific <b>citation + links</b>, click Cancel and return to your results list.</td></tr>
-
-
-
+  
+    
+       
+        <tr><td colspan=2>To export the 8 selected <b>citation + links</b>, select your preferred formats and click <b>Export</b>.</td></tr>  
+       
+    
+  
   </table>
   <div>
 
    <form name="exportCite" method=post onSubmit="return checkExportFormat('Y');" action=science target="">
     <input type=hidden name=_ob value=DownloadURL>
        <input type=hidden name=_method value=finish>
-
-       <input type=hidden name=_acct value=C000053194>
-
-
-       <input type=hidden name=_userid value=1495569>
-
-
-
-
-
-
+       
+       <input type=hidden name=_acct value=C000050221>
+       
+       
+       <input type=hidden name=_userid value=10>
+       
+       
+       
+       
+       
+           <input type=hidden name=_subId value=13247194>
+       
+       
            <input type=hidden name=_tockey value=#toc#11514#2010#999659995#2526737#FLA#>
-
-
-
-
+       
+       
+       
+       
            <input type=hidden name=count value=8>
-
-
-       <input type=hidden name=md5 value=7828a64ec1f02c7d2d9d9a6362761749>
+       
+       
+       <input type=hidden name=md5 value=f13cb1763c20f5e6059c37c8dab5cd6a>
 
        <input type=hidden name=JAVASCRIPT_ON value="">
 
@@ -638,10 +457,10 @@ function ccAutoComplete(inputField, outputField, validCostCodes) {
   <tr><td>
   <div class="tableFmBgGray" style="padding-top:8px;">
      <table width="100%"   style="padding:10px;">
-
+      
        <colgroup>
-         <col width="0">
 
+         <col width="0">
          <col width="100%">
        </colgroup>
        <tr>
@@ -649,8 +468,8 @@ function ccAutoComplete(inputField, outputField, validCostCodes) {
          <td><input type="radio" id="cite" name="format" value="cite" checked class="artRadio expRadio">&nbsp;<label for="cite">Citations Only</label></td>
        </tr>
        <tr>
-         <td class="tableFmCell"></td>
 
+         <td class="tableFmCell"></td>
          <td><input type="radio" id="cite-abs" name="format" value="cite-abs"  class="artRadio expRadio">&nbsp;<label for="cite-abs">Citations and Abstracts</label>
          </td>
        </tr>
@@ -658,42 +477,42 @@ function ccAutoComplete(inputField, outputField, validCostCodes) {
          <td colspan="2"></td>
        </tr>
        <tr>
-         <td nowrap class="tableFmCell">Export format:</td>
 
+         <td nowrap class="tableFmCell">Export format:</td>
          <td><input type="radio" id="RIS" name="citation-type" value="RIS" checked class="artRadio expRadio">&nbsp;<label for="RIS">RIS format (for Reference Manager, ProCite, EndNote)</label>
          </td>
        </tr>
-
+       
          <tr>
            <td class="tableFmCell"></td>
            <td nowrap><input type="radio" id="REFWX" name="citation-type" value="REFWX"  class="artRadio expRadio">&nbsp;<label for="REFWX">RefWorks Direct Export&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-           <a href="/science?_ob=HelpURL&_file=about_refworks.htm&_btn=Y&_acct=C000053194&_version=1&_urlVersion=0&_userid=1495569&md5=e1cd4a43ffb803bad0f27411542039a5" target="sdhelp" onClick="var helpWin; helpWin=window.open('/science?_ob=HelpURL&_file=about_refworks.htm&_btn=Y&_acct=C000053194&_version=1&_urlVersion=0&_userid=1495569&md5=e1cd4a43ffb803bad0f27411542039a5','sdhelp','scrollbars=yes,resizable=yes,directories=no,toolbar=no,menubar=no,status=no,width=760 ,height=570'); helpWin.focus()" class="icon_qmarkHelpsci_dir">About Refworks</a></label></td>
 
-
+           <a href="/science?_ob=HelpURL&_file=about_refworks.htm&_btn=Y&_acct=C000050221&_version=1&_urlVersion=0&_userid=10&md5=bd661dd90a91f08fa29b86e40d9c965f" target="sdhelp" onClick="var helpWin; helpWin=window.open('/science?_ob=HelpURL&_file=about_refworks.htm&_btn=Y&_acct=C000050221&_version=1&_urlVersion=0&_userid=10&md5=bd661dd90a91f08fa29b86e40d9c965f','sdhelp','scrollbars=yes,resizable=yes,directories=no,toolbar=no,menubar=no,status=no,width=760 ,height=570'); helpWin.focus()" class="icon_qmarkHelpsci_dir">About Refworks</a></label></td>
+            
          </tr>
-
-
+         
+       
        <tr>
          <td class="tableFmCell"></td>
          <td><input type="radio" id="ASCII" name="citation-type" value="ASCII"  class="artRadio expRadio">&nbsp;<label for="ASCII">ASCII format</label>
          </td>
        </tr>
        <tr>
-         <td class="tableFmCell"></td>
 
+         <td class="tableFmCell"></td>
          <td><input type="radio" id="BIBTEX" name="citation-type" value="BIBTEX"  class="artRadio expRadio">&nbsp;<label for="BIBTEX">BibTeX format</label>
          </td>
        </tr>
        </table>
        <div class="downBtn" style=""><div><div style="float:left;">
 		 <input type="submit" value="Export" name="Export" alt="Export" class="button"/></div>
-<div class="astPad" style="float:left;margin-top:2px;">|</div><div class="astPad" style="float:left; margin-top:2px;"> <a href="http://www.sciencedirect.com/science?_ob=PublicationURL&_tockey=%23TOC%2311514%232010%23999659995%232526737%23FLA%23&_cdi=11514&_pubType=J&_auth=y&_prev=y&_acct=C000050221&_version=1&_urlVersion=0&_userid=10&md5=cd07924074df81e203366810e8242eb2" >Cancel</a></div></div><div style="clear:both;">	</div>
+<div class="astPad" style="float:left;margin-top:2px;">|</div><div class="astPad" style="float:left; margin-top:2px;"> <a href="http://www.sciencedirect.com/science?_ob=PublicationURL&_tockey=%23TOC%2311514%232010%23999659995%232526737%23FLA%23&_cdi=11514&_pubType=J&_auth=y&_acct=C000050221&_version=1&_urlVersion=0&_userid=10&md5=f7570c12e163d877a7913e0b399173ad" >Cancel</a></div></div><div style="clear:both;">	</div>
 
 	</div>
   </div>
   </td></tr>
   </table>
-  <input type=hidden name=RETURN_URL value=http://www.sciencedirect.com/science?_ob=PublicationURL&_tockey=%23TOC%2311514%232010%23999659995%232526737%23FLA%23&_cdi=11514&_pubType=J&_auth=y&_prev=y&_acct=C000050221&_version=1&_urlVersion=0&_userid=10&md5=cd07924074df81e203366810e8242eb2>
+  <input type=hidden name=RETURN_URL value=http://www.sciencedirect.com/science?_ob=PublicationURL&_tockey=%23TOC%2311514%232010%23999659995%232526737%23FLA%23&_cdi=11514&_pubType=J&_auth=y&_acct=C000050221&_version=1&_urlVersion=0&_userid=10&md5=f7570c12e163d877a7913e0b399173ad>
 </form>
   </div>
 </div>
@@ -704,6 +523,9 @@ function ccAutoComplete(inputField, outputField, validCostCodes) {
 document.write("<\/div>");
 </script>
 
+</div>
+<div style="clear:both;"></div>
+
 <script type="text/javascript">
 document.write("<\/div>");
 </script>
@@ -713,42 +535,46 @@ document.write("<\/div>");
 <div id="footer" class="outerWrapper">
 <div id="navigationBottom" class="clearfix">
         <ul class="nav main">
-            <li class="last"><a  href="/science?_ob=HomePageURL&_method=userHomePage&_btn=Y&_zone=BotNavBar&_origin=export_citation&_acct=C000053194&_version=1&_urlVersion=0&_userid=1495569&md5=6d5a73b4bc1e6f11afadcfb199bbb417" target="_top" name="Home" title="Home">Home</a></li>
+            <li class="last"><a  href="/science?_ob=HomePageURL&_method=userHomePage&_btn=Y&_zone=BotNavBar&_origin=export_citation&_acct=C000050221&_version=1&_urlVersion=0&_userid=10&md5=4f6a0dcb803af656f00ecaca58a05b2d" target="_top" name="Home" title="Home" >Home</a></li>
+
             <li>
-
-			<a  href="/science?_ob=BrowseListURL&_type=all&_auth=y&_btn=Y&_zone=BotNavBar&_origin=export_citation&_acct=C000053194&_version=1&_urlVersion=0&_userid=1495569&md5=71c6c99618ac3e23c0f7b13c5f3b7ade" target="_top" name="Browse" title="Browse">Browse</a>
+			<a  href="/science?_ob=BrowseListURL&_type=all&_auth=y&_btn=Y&_zone=BotNavBar&_origin=export_citation&_acct=C000050221&_version=1&_urlVersion=0&_userid=10&md5=6340a4dc39f4739da8e2ec4611cfea52" target="_top" name="Browse" title="Browse" >Browse</a>
 			</li>
+			
+			<li><a  href="/science?_ob=MiamiSearchURL&_method=requestForm&_btn=Y&_zone=BotNavBar&_origin=export_citation&_acct=C000050221&_version=1&_urlVersion=1&_userid=10&md5=3fc155744bc573727786807a3509d844" target="_top" name="Search" title="Search" >Search</a></li>
 
-			<li><a  href="/science?_ob=MiamiSearchURL&_method=requestForm&_btn=Y&_zone=BotNavBar&_origin=export_citation&_acct=C000053194&_version=1&_urlVersion=1&_userid=1495569&md5=542f5d81dad5f47d3553945d4ac634f5" target="_top" name="Search" title="Search">Search</a></li>
+
+      <li><a  href="/science?_ob=UserSubscriptionURL&_method=begin&_btn=Y&_zone=BotNavBar&_origin=export_citation&_acct=C000050221&_version=1&_urlVersion=1&_userid=10&md5=f7604bd2483d23e0c4a40045c7f8def4" target="_top" name="account" title="My settings" >My settings</a></li>
 
 
-      <li><a  href="/science?_ob=UserSubscriptionURL&_method=begin&_btn=Y&_zone=BotNavBar&_origin=export_citation&_acct=C000053194&_version=1&_urlVersion=1&_userid=1495569&md5=093337e59647bbc095453875556757c6" target="_top" name="account" title="My settings">My settings</a></li>
+      
 
-      <li><a  href="/science?_ob=MiamiSDIURL&_method=listAlerts&_btn=Y&_zone=BotNavBar&_origin=export_citation&_acct=C000053194&_version=1&_urlVersion=0&_userid=1495569&md5=7395c0beb00e3c871628f85c0f4f808b" target="_top" name="alert" title="Alerts">My alerts</a></li>
+      <li><a  href="/science?_ob=MiamiSDIURL&_method=listAlerts&_btn=Y&_zone=BotNavBar&_origin=export_citation&_acct=C000050221&_version=1&_urlVersion=0&_userid=10&md5=c552a1a3db334ce597766c6a529bbb4f" target="_top" name="alert" title="Alerts" >My alerts</a></li>
 
+      <li><a  href="/science?_ob=ShoppingCartURL&_method=display&_zone=BotNavBar&_origin=export_citation&_acct=C000050221&_version=1&_userid=10&md5=cc9a41be853a4bada4d1284cd24fbea7" target="_top" name="cart" title="Shopping Cart" >Shopping cart</a></li>  	           
 
         </ul>
-
-        <ul class="nav misc">
-		 <li class="last"><a href="/science?_ob=HelpURL&_file=art_export.htm&_btn=Y&_zone=BotNavBar&_origin=export_citation&_acct=C000053194&_version=1&_urlVersion=0&_userid=1495569&md5=91e4e84383d6d1da1949347215770bd9" target="sdhelp" title="Help (Opens new window)" onClick="var helpWin; helpWin=window.open('/science?_ob=HelpURL&_file=art_export.htm&_btn=Y&_zone=BotNavBar&_origin=export_citation&_acct=C000053194&_version=1&_urlVersion=0&_userid=1495569&md5=91e4e84383d6d1da1949347215770bd9','sdhelp','scrollbars=yes,resizable=yes,directories=no,toolbar=no,menubar=no,status=no,width=760,height=570'); helpWin.focus(); return false">Help</a></li>
-
+        
+        <ul class="nav misc">		
+		 <li class="last"><a href="/science?_ob=HelpURL&_file=art_export.htm&_btn=Y&_zone=BotNavBar&_origin=export_citation&_acct=C000050221&_version=1&_urlVersion=0&_userid=10&md5=9dd73c9c3fce5eb71b93359da66be4dc" target="sdhelp" title="Help (Opens new window)" onClick="var helpWin; helpWin=window.open('/science?_ob=HelpURL&_file=art_export.htm&_btn=Y&_zone=BotNavBar&_origin=export_citation&_acct=C000050221&_version=1&_urlVersion=0&_userid=10&md5=9dd73c9c3fce5eb71b93359da66be4dc','sdhelp','scrollbars=yes,resizable=yes,directories=no,toolbar=no,menubar=no,status=no,width=760,height=570'); helpWin.focus(); return false" >Help</a></li>      
+	  	  
         </ul>
   </div>
-
+  
 
   <div class="padding">
+
       <div id="linkArea">
       	<div class="padding">
 		    <div style="float:left;width:0;height:1px;"></div>
-
         	<div id="banner-bottom">
 				<a href="http://www.elsevier.com" target="_blank"><img src="/scidirimg/logo_Elsevier.gif" alt="Elsevier homepage (opens in a new window)" width="65" height="71"  title="Elsevier homepage (opens in a new window)"></a>
-			</div>
+			</div>	
 			<ul class="col1">
 <li><strong>About ScienceDirect</strong></li>
 <li><ul class="txtSmaller"><li><a href="http://www.info.sciverse.com/sciencedirect">What is ScienceDirect</a></li><li><a href="http://www.info.sciencedirect.com/content/journals">Content details</a></li><li><a href="http://www.info.sciencedirect.com/implementation/quicktips">Set up</a></li><li><a href="http://www.info.sciencedirect.com/using/Make-ScienceDirect-yours">How to use</a></li><li><a href="http://www.info.sciencedirect.com/buying/primary_license_options">Subscriptions</a></li><li><a href="http://www.developer.sciverse.com">Developers</a></li></ul></li>
-</ul>
 
+</ul>
 <ul class="col2">
 <li><strong>Contact and Support</strong></li>
 <li><ul class="txtSmaller"><li><a href="http://www.sciencedirect.com/science/contactus">Contact and Support</a></li></ul></li>
@@ -756,8 +582,8 @@ document.write("<\/div>");
 <ul class="col3">
 <li><strong>About Elsevier</strong></li>
 <li><ul class="txtSmaller"><li><a href="http://www.elsevier.com">About Elsevier</a></li><li><a href="http://info.sciverse.com">About SciVerse</a></li><li><a href="http://www.scival.com">About SciVal</a></li><li><a href="http://www.sciencedirect.com/science/termsandcond">Terms and Conditions</a></li><li><a href="http://www.sciencedirect.com/science/privacy">Privacy policy</a></li><li><a href="http://www.elsevierscitech.com/forms/sd/form.html">Information for advertisers</a></li></ul></li>
-</ul>
 
+</ul>
           <div class="clear"></div>
 		  <!-- CSAS will be providing the links-->
         </div>
@@ -771,11 +597,49 @@ document.write("<\/div>");
   </div>
 
  </div> <!-- footer div will be closed on copyright.tmpl -->
+ 
+<div style="display:none" id="leaderboard2"><!-- begin LEADERBOARD ad tag 20110331 -->
+<script type="text/javascript">
+if(typeof(cachebuster) == "undefined"){var cachebuster = Math.floor(Math.random()*10000000000)}
+if(typeof(dcopt) == "undefined"){var dcopt = "dcopt=ist;"} else {var dcopt = ""}
+if(LEADERBOARD_LAUNCHED == undefined) { var LEADERBOARD_LAUNCHED=0; }
+if(typeof(tile) == "undefined"){var tile = 1} else {if(LEADERBOARD_LAUNCHED==0){tile++;}}
+function launchLeaderboard() {
+if(LEADERBOARD_LAUNCHED==1){return;}
+else { LEADERBOARD_LAUNCHED=1;}
+document.write('<script src=\"http://ad.doubleclick.net/adj/els.SDguest/ISSNgeneral;ISSN=general;pg=unknown;' + dcopt + ';tile=' + tile + ';sz=728x90,1000x50;ord=' + cachebuster + '?"></scr'+'ipt>');
+}
+launchLeaderboard();
+</script>
+
+
+<!-- end LEADERBOARD ad tag -->
+<!-- START Nielsen Online SiteCensus V5.3 --> 
+<!-- COPYRIGHT 2009 Nielsen Online -->
+
+<script type="text/javascript"> var _rsCI="us-sciencedirect"; var _rsCG="0"; var _rsDN="//secure-us.imrworldwide.com/"; var _rsPLfl=0; </script>
+<script type="text/javascript" src="//secure-us.imrworldwide.com/v53.js"></script>
+<noscript> <div><img src="//secure-us.imrworldwide.com/cgi-bin/m?ci=us-sciencedirect&amp;cg=0&amp;cc=1" alt=""/></div> </noscript> 
+<!-- END Nielsen Online SiteCensus V5.3 --></div>
+<div style="display:none" id="skyscraper2"><!-- begin SKYSCRAPER ad tag -->
+<script type="text/javascript"> 
+if(typeof(cachebuster) == "undefined"){var cachebuster = Math.floor(Math.random()*10000000000)}
+if(typeof(dcopt) == "undefined"){var dcopt = "dcopt=ist;"} else {var dcopt = ""}
+if(typeof(tile) == "undefined"){var tile = 1} else {tile++}
+document.write('<script src="http://ad.doubleclick.net/adj/els.SDguest/ISSNgeneral;ISSN=general;pg=unknown;' + dcopt + ';tile=' + tile + ';sz=120x600;ord=' + cachebuster + '?"></scr'+'ipt>');
+</script>
+<noscript>
+<a href="http://ad.doubleclick.net/jump/els.SDguest/ISSNgeneral;ISSN=general;pg=unknown;sz=120x600;ord=506051?" target="_blank" >
+<img src="http://ad.doubleclick.net/ad/els.SDguest/ISSNgeneral;ISSN=general;pg=unknown;sz=120x600;ord=506051?" border="0" alt="" /></a>
+</noscript>
+<!-- end SKYSCRAPER ad tag --></div>
 
 
 
+  
 
-
+<script type="text/javascript">displayAds();</script>
+  
 
 
 
