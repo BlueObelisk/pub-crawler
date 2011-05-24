@@ -253,7 +253,7 @@ public class NatureSuppInfoCrawler extends AbstractArticleCrawler {
             resource.setLinkText(linkText);
             resource.setFilePath(getFilePath(href));
 
-            String description = XPathUtils.getString(node, "../following-sibling:x:dd");
+            String description = XPathUtils.getString(node, "../following-sibling::x:dd");
             resource.setDescription(description);
 
             resources.add(resource);
