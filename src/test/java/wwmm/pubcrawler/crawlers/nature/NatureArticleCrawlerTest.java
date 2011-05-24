@@ -132,5 +132,5 @@ public class NatureArticleCrawlerTest extends AbstractCrawlerTest {
         NatureArticleCrawler crawler = getNchem943();
         assertFalse(crawler.isOpenAccess());
     }
-    
+
 }

@@ -216,7 +216,8 @@ public class ActaArticleCrawler extends AbstractArticleCrawler {
         Pattern p = Pattern.compile(", (\\w+)");
         Matcher m = p.matcher(s);
         if (!m.find()) {
-            throw new CrawlerRuntimeException("No match: "+s);
+            log().warn("Unable to find pages ["+getArticleId()+"]: "+s);
+            return null;
         }
         return m.group(1);
     }
