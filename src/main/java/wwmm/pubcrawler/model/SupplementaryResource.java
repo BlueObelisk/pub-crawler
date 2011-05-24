@@ -52,6 +52,15 @@ public class SupplementaryResource extends MongoDBObject {
     }
 
 
+    public String getDescription() {
+        return getString("description");
+    }
+
+    public void setDescription(String description) {
+        put("description", description);
+    }
+
+
     public Long getLength() {
         return getLong("length");
     }
