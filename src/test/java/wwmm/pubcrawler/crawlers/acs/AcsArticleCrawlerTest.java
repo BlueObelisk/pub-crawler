@@ -76,7 +76,7 @@ public class AcsArticleCrawlerTest extends AbstractCrawlerTest {
     }
 
     private CrawlerResponse prepareBlankResponse() {
-        return new CrawlerResponse(URI.create("http://example.com"), Collections.<Header>emptyList(), new NullInputStream(0), false);
+        return new CrawlerResponse(URI.create("http://example.com"), Collections.<Header>emptyList(), new NullInputStream(0), true, false);
     }
 
     protected AcsArticleCrawler getArticleCg100078b() throws IOException {
