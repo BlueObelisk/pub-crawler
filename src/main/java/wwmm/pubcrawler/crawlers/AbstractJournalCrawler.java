@@ -136,7 +136,7 @@ public abstract class AbstractJournalCrawler extends AbstractCrawler {
         }
     }
 
-    private void crawlArticles(Issue issue) {
+    protected void crawlArticles(Issue issue) {
         int i = 0;
         List<Article> articles = issue.getArticles();
         log().info("crawling "+articles.size()+" articles from "+issue.getId());
@@ -155,20 +155,20 @@ public abstract class AbstractJournalCrawler extends AbstractCrawler {
         }
     }
 
-    protected void crawlArticle(Article article) throws IOException {
-        if (!getDataStore().containsArticle(article.getId())) {
+    protected Article crawlArticle(Article article) throws IOException {
+        if (getDataStore().containsArticle(article.getId())) {
+            article = getDataStore().findArticle(article.getId());
+        } else {
             try {
                 article = fetchArticle(article);
             } catch (Exception e) {
                 log().warn("error fetching article: "+article.getId() + " [" + article.getDoi() + "]", e);
-                return;
+                return null;
             }
             log().debug("new article: "+article.getId());
             getDataStore().saveArticle(article);
-//        } else {
-//            article = getDataStore().findArticle(article.getId());
         }
-//        return article;
+        return article;
     }
 
     public abstract Issue fetchCurrentIssue() throws IOException;
