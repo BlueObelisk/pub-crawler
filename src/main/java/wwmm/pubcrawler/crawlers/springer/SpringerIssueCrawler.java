@@ -161,7 +161,7 @@ public class SpringerIssueCrawler extends AbstractIssueCrawler {
     protected String[] getBib() {
         // TODO Volume 48, Supplement 1 / January 2005
         String s = XPathUtils.getString(getHtml(), "//x:h2[@class='filters']");
-        Pattern p = Pattern.compile("Volume (\\S+), Numbers? (\\S+(?:\\s+-\\s*\\S)?) / .*? (\\d{4})");
+        Pattern p = Pattern.compile("Volume (\\S+), (?:Numbers?|Supplement) (\\S+(?:\\s+-\\s*\\S)?) / .*? (\\d{4})");
         Matcher m = p.matcher(s);
         if (!m.find()) {
             throw new CrawlerRuntimeException("No match: "+s);
