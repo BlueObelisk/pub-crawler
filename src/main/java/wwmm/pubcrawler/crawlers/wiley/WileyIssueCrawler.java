@@ -24,6 +24,7 @@ import wwmm.pubcrawler.crawlers.AbstractIssueCrawler;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.model.Journal;
+import wwmm.pubcrawler.types.Doi;
 import wwmm.pubcrawler.utils.XPathUtils;
 
 import java.io.IOException;
@@ -70,13 +71,28 @@ public class WileyIssueCrawler extends AbstractIssueCrawler {
 
     @Override
     protected List<Node> getArticleNodes() {
-        return Collections.emptyList();
+        return XPathUtils.queryHTML(getHtml(), "//x:ol[@id='issueTocGroups']//x:ol[@class='articles']/x:li");
     }
 
     @Override
     protected Article getArticleDetails(Node context, String issueId) {
-        return null;
+        Article article = new Article();
+
+        Doi doi = getDoi(context);
+        article.setDoi(doi);
+        article.setId(issueId+'/'+doi.getSuffix());
+
+        return article;
     }
+
+    private Doi getDoi(Node context) {
+        String s = XPathUtils.getString(context, ".//x:input[@name='doi']/@value");
+        if (s == null) {
+            throw new CrawlerRuntimeException("Unable to find DOI in issue: "+getIssueId());
+        }
+        return new Doi(s);
+    }
+
 
     // /doi/10.1002/cmmi.v5:5/issuetoc
     // /doi/10.1002/ctpp.v50.10/issuetoc
