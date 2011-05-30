@@ -37,6 +37,10 @@ public class MongoStore {
         for (int i = 0; i < 100; i++) {
             this.issues.setInternalClass("articles."+i, Article.class);
             this.issues.setInternalClass("articles."+i+".reference", Reference.class);
+            for (int j = 0; j < 20; j++) {
+                this.issues.setInternalClass("articles."+i+".suppResources."+j, SupplementaryResource.class);
+                this.issues.setInternalClass("articles."+i+".fullText."+j, FullTextResource.class);
+            }
         }
 
 //        this.journals = db.getCollection("journals");
