@@ -20,12 +20,12 @@ import org.apache.log4j.Logger;
 import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.CrawlerRuntimeException;
 import wwmm.pubcrawler.crawlers.AbstractIssueCrawler;
-import wwmm.pubcrawler.model.Article;
-import wwmm.pubcrawler.model.Issue;
+import wwmm.pubcrawler.model.*;
 import wwmm.pubcrawler.types.Doi;
 import wwmm.pubcrawler.utils.XPathUtils;
 
 import java.io.IOException;
+import java.net.URI;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -71,27 +71,61 @@ public class ChemSocJapanIssueCrawler extends AbstractIssueCrawler {
     }
 
     @Override
-    protected Article getArticleDetails(Node context, String issueId) {
+    protected String getArticleId(Node articleNode, String issueId) {
+        Doi doi = getArticleDoi(null, articleNode);
+        return issueId + '/' + doi.getSuffix();
+    }
+
+    @Override
+    protected Doi getArticleDoi(Article article, Node context) {
         Node doiNode = XPathUtils.getNode(context, ".//x:a[starts-with(.,'Full Text')]/@href");
         String link = doiNode.getValue();
         int idx = link.indexOf("id=");
         String articleId = link.substring(idx+3).replaceAll("/", ".");
-        Article article = new Article();
-        article.setId(issueId+'/'+articleId);
-        article.setDoi(new Doi("10.1246/"+articleId));
-        article.setTitle(getArticleTitle(context));
-        article.setAuthors(getArticleAuthors(context));
-        return article;
+        return new Doi("10.1246/"+articleId);
     }
 
-    public String getArticleTitle(Node node) {
+    @Override
+    protected URI getArticleUrl(Article article, Node articleNode) {
+        return null;
+    }
+
+    @Override
+    protected URI getArticleSupportingInfoUrl(Article article, Node articleNode) {
+        return null;
+    }
+
+    @Override
+    protected String getArticleTitle(Article article, Node node) {
         return XPathUtils.getString(node, ".//x:td[@class='title']");
     }
 
-    public List<String> getArticleAuthors(Node node) {
+    @Override
+    protected String getArticleTitleHtml(Article article, Node articleNode) {
+        return null;
+    }
+
+    @Override
+    protected List<String> getArticleAuthors(Article article, Node node) {
         String s = XPathUtils.getString(node, ".//x:td[@class='authors']");
         return Arrays.asList(s.split(", and |, | and "));
     }
+
+    @Override
+    protected Reference getArticleReference(Article article, Node articleNode) {
+        return null;
+    }
+
+    @Override
+    protected List<SupplementaryResource> getArticleSupplementaryResources(Article article, Node articleNode) {
+        return null;
+    }
+
+    @Override
+    protected List<FullTextResource> getArticleFullTextResources(Article article, Node articleNode) {
+        return null;
+    }
+
 
     @Override
     public String getIssueId() {

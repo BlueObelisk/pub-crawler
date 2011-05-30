@@ -23,8 +23,7 @@ import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.CrawlerRuntimeException;
 import wwmm.pubcrawler.HtmlUtil;
 import wwmm.pubcrawler.crawlers.AbstractIssueCrawler;
-import wwmm.pubcrawler.model.Article;
-import wwmm.pubcrawler.model.Issue;
+import wwmm.pubcrawler.model.*;
 import wwmm.pubcrawler.types.Doi;
 import wwmm.pubcrawler.utils.XHtml;
 import wwmm.pubcrawler.utils.XPathUtils;
@@ -90,31 +89,47 @@ public class NatureIssueCrawler extends AbstractIssueCrawler {
         return XPathUtils.queryHTML(getHtml(), ".//x:div[@class='entry' or @class='compound']");
     }
 
+//    @Override
+//    protected Article initArticle(Node context, String issueId) {
+//        Doi doi = getArticleDoi(context);
+//        String articleId = issueId + '/' + doi.getSuffix();
+//
+//        Article article = new Article();
+//        article.setId(articleId);
+//        article.setDoi(doi);
+//        article.setTitle(getArticleTitle(context));
+//        article.setTitleHtml(getArticleTitleHtml(context));
+//        article.setSupplementaryResourceUrl(getArticleSuppUrl(context));
+//        return article;
+//    }
+
+
     @Override
-    protected Article getArticleDetails(Node context, String issueId) {
-        Doi doi = getArticleDoi(context);
-        String articleId = issueId + '/' + doi.getSuffix();
-
-        Article article = new Article();
-        article.setId(articleId);
-        article.setDoi(doi);
-        article.setTitle(getArticleTitle(context));
-        article.setTitleHtml(getArticleTitleHtml(context));
-        article.setSupplementaryResourceUrl(getArticleSuppUrl(context));
-        return article;
+    protected String getArticleId(Node articleNode, String issueId) {
+        Doi doi = getArticleDoi(null, articleNode);
+        return issueId + '/' + doi.getSuffix();
     }
 
-    private URI getArticleSuppUrl(Node node) {
-        String href = XPathUtils.getString(node, ".//x:a[text() = 'Supplementary information']/@href");
-        return href == null ? null : getUrl().resolve(href);
-    }
-
-    private Doi getArticleDoi(Node node) {
+    @Override
+    protected Doi getArticleDoi(Article article, Node node) {
         String s = XPathUtils.getString(node, ".//x:span[@class='doi']']");
         return new Doi(s);
     }
 
-    private String getArticleTitle(Node node) {
+    @Override
+    protected URI getArticleUrl(Article article, Node articleNode) {
+        // TODO
+        return null;
+    }
+
+    @Override
+    protected URI getArticleSupportingInfoUrl(Article article, Node node) {
+        String href = XPathUtils.getString(node, ".//x:a[text() = 'Supplementary information']/@href");
+        return href == null ? null : getUrl().resolve(href);
+    }
+
+    @Override
+    protected String getArticleTitle(Article article, Node node) {
         StringBuilder s = new StringBuilder();
         for (Node n : XPathUtils.queryHTML(node, "./x:h4/node()[./following-sibling::x:span[@class='hidden']]")) {
             s.append(n.getValue());
@@ -122,12 +137,36 @@ public class NatureIssueCrawler extends AbstractIssueCrawler {
         return s.toString().trim();
     }
 
-    private String getArticleTitleHtml(Node node) {
+    @Override
+    protected String getArticleTitleHtml(Article article, Node node) {
         Element h = new Element("h1", XHtml.NAMESPACE);
         for (Node n : XPathUtils.queryHTML(node, "./x:h4/node()[./following-sibling::x:span[@class='hidden']]")) {
             h.appendChild(n.copy());
         }
         return HtmlUtil.writeAscii(new Document(h));
+    }
+
+    @Override
+    protected List<String> getArticleAuthors(Article article, Node articleNode) {
+        // TODO
+        return null;
+    }
+
+    @Override
+    protected Reference getArticleReference(Article article, Node articleNode) {
+        // TODO
+        return null;
+    }
+
+    @Override
+    protected List<SupplementaryResource> getArticleSupplementaryResources(Article article, Node articleNode) {
+        return null;
+    }
+
+    @Override
+    protected List<FullTextResource> getArticleFullTextResources(Article article, Node articleNode) {
+        // TODO
+        return null;
     }
 
     private String getBiblio(int i) {

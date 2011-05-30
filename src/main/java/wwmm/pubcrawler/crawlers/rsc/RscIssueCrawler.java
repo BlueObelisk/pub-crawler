@@ -26,9 +26,7 @@ import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerRequest;
 import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.CrawlerRuntimeException;
 import wwmm.pubcrawler.crawlers.AbstractIssueCrawler;
-import wwmm.pubcrawler.model.Article;
-import wwmm.pubcrawler.model.Issue;
-import wwmm.pubcrawler.model.Journal;
+import wwmm.pubcrawler.model.*;
 import wwmm.pubcrawler.types.Doi;
 import wwmm.pubcrawler.utils.XPathUtils;
 
@@ -109,16 +107,67 @@ public class RscIssueCrawler extends AbstractIssueCrawler {
         return XPathUtils.queryHTML(getHtml(), ".//x:input[@class='toCheck']/@id");
     }
 
+
     @Override
-    protected Article getArticleDetails(Node context, String issueId) {
+    protected String getArticleId(Node context, String issueId) {
         Attribute attr = (Attribute) context;
         String id = attr.getValue();
-        String articleId = issueId + '/' + id;
+        return issueId + '/' + id;
+    }
 
-        Article article = new Article();
-        article.setId(articleId);
-        article.setDoi(new Doi(RSC_DOI_PREFIX + id));
-        return article;
+    @Override
+    protected Doi getArticleDoi(Article article, Node context) {
+        Attribute attr = (Attribute) context;
+        String id = attr.getValue();
+        return new Doi(RSC_DOI_PREFIX + id);
+    }
+
+    @Override
+    protected URI getArticleUrl(Article article, Node articleNode) {
+        // TODO
+        return null;
+    }
+
+    @Override
+    protected URI getArticleSupportingInfoUrl(Article article, Node articleNode) {
+        // TODO
+        return null;
+    }
+
+    @Override
+    protected String getArticleTitle(Article article, Node articleNode) {
+        // TODO
+        return null;
+    }
+
+    @Override
+    protected String getArticleTitleHtml(Article article, Node articleNode) {
+        // TODO
+        return null;
+    }
+
+    @Override
+    protected List<String> getArticleAuthors(Article article, Node articleNode) {
+        // TODO
+        return null;
+    }
+
+    @Override
+    protected Reference getArticleReference(Article article, Node articleNode) {
+        // TODO
+        return null;
+    }
+
+    @Override
+    protected List<SupplementaryResource> getArticleSupplementaryResources(Article article, Node articleNode) {
+        // TODO
+        return null;
+    }
+
+    @Override
+    protected List<FullTextResource> getArticleFullTextResources(Article article, Node articleNode) {
+        // TODO
+        return null;
     }
 
     @Override

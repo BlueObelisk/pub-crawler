@@ -23,8 +23,7 @@ import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.CrawlerRuntimeException;
 import wwmm.pubcrawler.HtmlUtil;
 import wwmm.pubcrawler.crawlers.AbstractIssueCrawler;
-import wwmm.pubcrawler.model.Article;
-import wwmm.pubcrawler.model.Issue;
+import wwmm.pubcrawler.model.*;
 import wwmm.pubcrawler.types.Doi;
 import wwmm.pubcrawler.utils.XPathUtils;
 
@@ -109,24 +108,21 @@ public class ActaIssueCrawler extends AbstractIssueCrawler {
     }
 
     @Override
-    protected Article getArticleDetails(Node context, String issueId) {
-        Doi doi = getArticleDoi(context);
-        String id = getArticleId(context);
-        String articleId = issueId + '/' + id;
-
-        Article article = new Article();
-        article.setId(articleId);
-        article.setDoi(doi);
-        article.setTitleHtml(getArticleTitleHtml(context));
-        article.setAuthors(getArticleAuthors(context));
-
-        List<Node> suppNodes = XPathUtils.queryHTML(context, ".//x:a[x:img]");
-        ActaSuppInfoReader suppInfoReader = new ActaSuppInfoReader(getContext(), article);
-        article.setSupplementaryResources(suppInfoReader.getSupplementaryResources(suppNodes, getUrl()));
-        return article;
+    protected String getArticleId(Node node, String issueId) {
+        String idString = XPathUtils.getString(node, ".//x:a[./x:img[contains(@alt, 'pdf version') or contains(@alt, 'PDF version')]]/@href");
+        if (idString == null) {
+            throw new CrawlerRuntimeException("not found");
+        }
+        Pattern p = Pattern.compile("/([^/]+)/[^/]+\\.pdf");
+        Matcher m = p.matcher(idString);
+        if (!m.find()) {
+            throw new CrawlerRuntimeException("No match: "+idString);
+        }
+        return issueId + '/' + m.group(1);
     }
 
-    private Doi getArticleDoi(Node node) {
+    @Override
+    protected Doi getArticleDoi(Article article, Node node) {
         String doi = XPathUtils.getString(node, ".//x:font[@size='2' and contains(.,'doi:10.1107/')]");
         if (doi == null) {
             doi = XPathUtils.getString(node, ".//x:a[contains(@href,'dx.doi.org/10.1107/')]");
@@ -141,7 +137,27 @@ public class ActaIssueCrawler extends AbstractIssueCrawler {
         return new Doi(doi);
     }
 
-    private String getArticleTitleHtml(Node node) {
+    @Override
+    protected URI getArticleUrl(Article article, Node articleNode) {
+        // TODO
+        return null;
+    }
+
+    @Override
+    protected URI getArticleSupportingInfoUrl(Article article, Node articleNode) {
+        return null;
+    }
+
+    @Override
+    protected String getArticleTitle(Article article, Node node) {
+        Node heading = XPathUtils.getNode(node, "./x:h3[1]");
+        Element copy = (Element) heading.copy();
+        ActaUtil.normaliseHtml(copy);
+        return copy.getValue();
+    }
+
+    @Override
+    protected String getArticleTitleHtml(Article article, Node node) {
         Node heading = XPathUtils.getNode(node, "./x:h3[1]");
         Element copy = (Element) heading.copy();
         copy.setLocalName("h1");
@@ -151,23 +167,32 @@ public class ActaIssueCrawler extends AbstractIssueCrawler {
         return s;
     }
 
-    private List<String> getArticleAuthors(Node node) {
-        List<String> authors = XPathUtils.getStrings(node, "./x:h3[2]/x:a");
+    @Override
+    protected List<String> getArticleAuthors(Article article, Node articleNode) {
+        List<String> authors = XPathUtils.getStrings(articleNode, "./x:h3[2]/x:a");
         return authors;
     }
 
-    private String getArticleId(Node node) {
-        String idString = XPathUtils.getString(node, ".//x:a[./x:img[contains(@alt, 'pdf version') or contains(@alt, 'PDF version')]]/@href");
-        if (idString == null) {
-            throw new CrawlerRuntimeException("not found");
-        }
-        Pattern p = Pattern.compile("/([^/]+)/[^/]+\\.pdf");
-        Matcher m = p.matcher(idString);
-        if (!m.find()) {
-            throw new CrawlerRuntimeException("No match: "+idString);
-        }
-        return m.group(1);
+    @Override
+    protected Reference getArticleReference(Article article, Node articleNode) {
+        // TODO
+        return null;
     }
+
+    @Override
+    protected List<SupplementaryResource> getArticleSupplementaryResources(Article article, Node context) {
+        List<Node> suppNodes = XPathUtils.queryHTML(context, ".//x:a[x:img]");
+        ActaSuppInfoReader suppInfoReader = new ActaSuppInfoReader(getContext(), article);
+        return suppInfoReader.getSupplementaryResources(suppNodes, getUrl());
+    }
+
+    @Override
+    protected List<FullTextResource> getArticleFullTextResources(Article article, Node articleNode) {
+        // TODO
+        return null;
+    }
+
+
 
     @Override
     public String getIssueId() {

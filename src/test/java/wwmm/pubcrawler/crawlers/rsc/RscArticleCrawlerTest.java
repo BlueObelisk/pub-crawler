@@ -16,6 +16,7 @@
 
 package wwmm.pubcrawler.crawlers.rsc;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mockito;
 import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerRequest;
@@ -39,6 +40,7 @@ import static org.junit.Assert.assertNotNull;
 /**
  * @author Sam Adams
  */
+@Ignore
 public class RscArticleCrawlerTest extends AbstractCrawlerTest {
 
     private CrawlerResponse prepareC0CC03247FResponse() throws IOException {

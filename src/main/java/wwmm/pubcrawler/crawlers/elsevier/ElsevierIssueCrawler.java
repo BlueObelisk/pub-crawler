@@ -28,10 +28,8 @@ import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerResponse;
 import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.CrawlerRuntimeException;
 import wwmm.pubcrawler.crawlers.AbstractIssueCrawler;
-import wwmm.pubcrawler.model.Article;
-import wwmm.pubcrawler.model.Issue;
-import wwmm.pubcrawler.model.Journal;
-import wwmm.pubcrawler.model.Reference;
+import wwmm.pubcrawler.model.*;
+import wwmm.pubcrawler.types.Doi;
 import wwmm.pubcrawler.utils.XPathUtils;
 
 import java.io.IOException;
@@ -172,32 +170,87 @@ public class ElsevierIssueCrawler extends AbstractIssueCrawler {
 
     private static final Pattern P_ID = Pattern.compile("/pii/(.*?)\\?");
 
-    @Override
-    protected Article getArticleDetails(Node context, String issueId) {
-        Article article = new Article();
+//    @Override
+//    protected Article initArticle(Node context, String issueId) {
+//        Article article = new Article();
+//
+//        Element addr = (Element) XPathUtils.getNode(context, "x:a");
+//        String href = addr.getAttributeValue("href");
+//        Matcher m = P_ID.matcher(href);
+//        if (m.find()) {
+//            String id = getIssueId()+"/"+m.group(1);
+//            article.setId(id);
+//        } else {
+//            log().warn("Unable to locate article ID: "+getIssueId()+" ["+href+"]");
+//        }
+//
+//        URI url = getUrl().resolve(href);
+//        String title = addr.getValue().trim();
+//
+//        Reference ref = getArticleReference(context);
+//        article.setTitle(title);
+//        article.setAuthors(getArticleAuthors(context));
+//        article.setUrl(url);
+//        article.setReference(ref);
+//        return article;
+//    }
 
+
+    @Override
+    protected String getArticleId(Node context, String issueId) {
         Element addr = (Element) XPathUtils.getNode(context, "x:a");
         String href = addr.getAttributeValue("href");
         Matcher m = P_ID.matcher(href);
         if (m.find()) {
-            String id = getIssueId()+"/"+m.group(1);
-            article.setId(id);
+            return getIssueId()+"/"+m.group(1);
         } else {
-            log().warn("Unable to locate article ID: "+getIssueId()+" ["+href+"]");
+            throw new CrawlerRuntimeException("No match for ID: "+href);
         }
-
-        URI url = getUrl().resolve(href);
-        String title = addr.getValue().trim();
-
-        Reference ref = getArticleReference(context);
-        article.setTitle(title);
-        article.setAuthors(getArticleAuthors(context));
-        article.setUrl(url);
-        article.setReference(ref);
-        return article;
     }
 
-    private Reference getArticleReference(Node node) {
+    @Override
+    protected Doi getArticleDoi(Article article, Node articleNode) {
+        return null;
+    }
+
+    @Override
+    protected URI getArticleUrl(Article article, Node context) {
+        Element addr = (Element) XPathUtils.getNode(context, "x:a");
+        String href = addr.getAttributeValue("href");
+        return getUrl().resolve(href);
+    }
+
+    @Override
+    protected URI getArticleSupportingInfoUrl(Article article, Node articleNode) {
+        return null;
+    }
+
+    @Override
+    protected String getArticleTitle(Article article, Node context) {
+        Element addr = (Element) XPathUtils.getNode(context, "x:a");
+        return addr.getValue().trim();
+    }
+
+    @Override
+    protected String getArticleTitleHtml(Article article, Node articleNode) {
+        return null;
+    }
+
+    @Override
+    protected List<String> getArticleAuthors(Article article, Node node) {
+        // TODO e.g. italics in name
+        // http://www.sciencedirect.com/science?_ob=PublicationURL&_tockey=%23TOC%2356481%232010%23999519996%232414745%23FLP%23&_cdi=56481&_pubType=J&_auth=y&_acct=C000053194&_version=1&_urlVersion=0&_userid=1495569&md5=499d6ade479e102277248101889f472a
+        Node n = XPathUtils.getNode(node, "./x:i[starts-with(text(), 'Page')]/following-sibling::x:br/following-sibling::text()");
+        if (n != null) {
+            Text text = (Text) n;
+            String s = text.getValue();
+            return Arrays.asList(s.split(", "));
+        }
+        return Collections.emptyList();
+    }
+
+    @Override
+    protected Reference getArticleReference(Article article, Node node) {
         String journalTitle = getJournalTitle();
         String volume = getVolume();
         String number = getNumber();
@@ -211,18 +264,18 @@ public class ElsevierIssueCrawler extends AbstractIssueCrawler {
         return ref;
     }
 
-    private List<String> getArticleAuthors(Node node) {
-        // TODO e.g. italics in name
-        // http://www.sciencedirect.com/science?_ob=PublicationURL&_tockey=%23TOC%2356481%232010%23999519996%232414745%23FLP%23&_cdi=56481&_pubType=J&_auth=y&_acct=C000053194&_version=1&_urlVersion=0&_userid=1495569&md5=499d6ade479e102277248101889f472a
-        Node n = XPathUtils.getNode(node, "./x:i[starts-with(text(), 'Page')]/following-sibling::x:br/following-sibling::text()");
-        if (n != null) {
-            Text text = (Text) n;
-            String s = text.getValue();
-            return Arrays.asList(s.split(", "));
-        }
-        return Collections.emptyList();
+    @Override
+    protected List<SupplementaryResource> getArticleSupplementaryResources(Article article, Node articleNode) {
+        return null;
     }
-    
+
+    @Override
+    protected List<FullTextResource> getArticleFullTextResources(Article article, Node articleNode) {
+        return null;
+    }
+
+
+
     private String getArticlePages(Node node) {
         String s = XPathUtils.getString(node, "x:i[starts-with(text(), 'Page')]");
         Pattern p = Pattern.compile("Pages? (\\S+)");

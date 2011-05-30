@@ -21,14 +21,12 @@ import org.apache.log4j.Logger;
 import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.CrawlerRuntimeException;
 import wwmm.pubcrawler.crawlers.AbstractIssueCrawler;
-import wwmm.pubcrawler.model.Article;
-import wwmm.pubcrawler.model.Issue;
-import wwmm.pubcrawler.model.Journal;
+import wwmm.pubcrawler.model.*;
 import wwmm.pubcrawler.types.Doi;
 import wwmm.pubcrawler.utils.XPathUtils;
 
 import java.io.IOException;
-import java.util.Collections;
+import java.net.URI;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -75,24 +73,67 @@ public class WileyIssueCrawler extends AbstractIssueCrawler {
     }
 
     @Override
-    protected Article getArticleDetails(Node context, String issueId) {
-        Article article = new Article();
-
-        Doi doi = getDoi(context);
-        article.setDoi(doi);
-        article.setId(issueId+'/'+doi.getSuffix());
-
-        return article;
+    protected String getArticleId(Node articleNode, String issueId) {
+        Doi doi = getArticleDoi(null, articleNode);
+        return issueId + '/' + doi.getSuffix();
     }
 
-    private Doi getDoi(Node context) {
-        String s = XPathUtils.getString(context, ".//x:input[@name='doi']/@value");
+    @Override
+    protected Doi getArticleDoi(Article article, Node articleNode) {
+        String s = XPathUtils.getString(articleNode, ".//x:input[@name='doi']/@value");
         if (s == null) {
             throw new CrawlerRuntimeException("Unable to find DOI in issue: "+getIssueId());
         }
         return new Doi(s);
     }
 
+    @Override
+    protected URI getArticleUrl(Article article, Node articleNode) {
+        // TODO
+        return null;
+    }
+
+    @Override
+    protected URI getArticleSupportingInfoUrl(Article article, Node articleNode) {
+        // TODO
+        return null;
+    }
+
+    @Override
+    protected String getArticleTitle(Article article, Node articleNode) {
+        // TODO
+        return null;
+    }
+
+    @Override
+    protected String getArticleTitleHtml(Article article, Node articleNode) {
+        // TODO
+        return null;
+    }
+
+    @Override
+    protected List<String> getArticleAuthors(Article article, Node articleNode) {
+        // TODO
+        return null;
+    }
+
+    @Override
+    protected Reference getArticleReference(Article article, Node articleNode) {
+        // TODO
+        return null;
+    }
+
+    @Override
+    protected List<SupplementaryResource> getArticleSupplementaryResources(Article article, Node articleNode) {
+        // TODO
+        return null;
+    }
+
+    @Override
+    protected List<FullTextResource> getArticleFullTextResources(Article article, Node articleNode) {
+        // TODO
+        return null;
+    }
 
     // /doi/10.1002/cmmi.v5:5/issuetoc
     // /doi/10.1002/ctpp.v50.10/issuetoc

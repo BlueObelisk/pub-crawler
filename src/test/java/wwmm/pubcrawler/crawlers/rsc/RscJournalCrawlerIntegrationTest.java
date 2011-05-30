@@ -16,6 +16,7 @@
 
 package wwmm.pubcrawler.crawlers.rsc;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.crawlers.AbstractCrawlerTest;
@@ -30,6 +31,7 @@ import static org.junit.Assert.assertNotNull;
 /**
  * @author Sam Adams
  */
+@Ignore
 public class RscJournalCrawlerIntegrationTest extends AbstractCrawlerTest {
 
     @Test
