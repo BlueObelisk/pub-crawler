@@ -19,10 +19,10 @@ import nu.xom.Document;
 import nu.xom.Node;
 import org.joda.time.Duration;
 import wwmm.pubcrawler.CrawlerContext;
+import wwmm.pubcrawler.CrawlerRuntimeException;
 import wwmm.pubcrawler.crawlers.wiley.WileyIssueCrawler;
-import wwmm.pubcrawler.model.Article;
-import wwmm.pubcrawler.model.Issue;
-import wwmm.pubcrawler.model.Journal;
+import wwmm.pubcrawler.model.*;
+import wwmm.pubcrawler.types.Doi;
 
 import java.io.IOException;
 import java.net.URI;
@@ -103,7 +103,7 @@ public abstract class AbstractIssueCrawler extends AbstractCrawler {
         List<Node> articleNodes = getArticleNodes();
         for (Node articleNode : articleNodes) {
             try {
-                Article article = getArticleDetails(articleNode, issueId);
+                Article article = getArticle(articleNode, issueId);
                 if (article != null) {
                     articles.add(article);
                 }
@@ -116,7 +116,122 @@ public abstract class AbstractIssueCrawler extends AbstractCrawler {
 
     protected abstract List<Node> getArticleNodes();
 
-    protected abstract Article getArticleDetails(Node context, String issueId);
+
+    protected final Article getArticle(Node articleNode, String issueId) {
+
+        Article article = new Article();
+
+        String articleId;
+        try {
+            articleId = getArticleId(articleNode, issueId);
+            if (articleId == null) {
+                throw new CrawlerRuntimeException("Unable to locate article ID [issue: "+issueId+"]");
+            }
+            article.setId(articleId);
+        } catch (Exception e) {
+            throw new CrawlerRuntimeException("Error locating article ID [issue: "+issueId+"]", e);
+        }
+
+        try {
+            Doi doi = getArticleDoi(article, articleNode);
+            article.setDoi(doi);
+        } catch (Exception e) {
+            throw new CrawlerRuntimeException("Error locating DOI [issue: "+issueId+" | article: "+articleId+"]", e);
+        }
+
+        try {
+            URI url = getArticleUrl(article, articleNode);
+            article.setUrl(url);
+        } catch (Exception e) {
+            throw new CrawlerRuntimeException("Error locating URL [issue: "+issueId+" | article: "+articleId+"]", e);
+        }
+
+        try {
+            URI suppUrl = getArticleSupportingInfoUrl(article, articleNode);
+            article.setSupplementaryResourceUrl(suppUrl);
+        } catch (Exception e) {
+            throw new CrawlerRuntimeException("Error locating supp info URL [issue: "+issueId+" | article: "+articleId+"]", e);
+        }
+
+        try {
+            String title = getArticleTitle(article, articleNode);
+            if (title != null) {
+                article.setTitle(title);
+            }
+        } catch (Exception e) {
+            throw new CrawlerRuntimeException("Error locating title [issue: "+issueId+" | article: "+articleId+"]", e);
+        }
+
+        try {
+            String titleHtml = getArticleTitleHtml(article, articleNode);
+            if (titleHtml != null) {
+                article.setTitleHtml(titleHtml);
+            }
+        } catch (Exception e) {
+            throw new CrawlerRuntimeException("Error locating HTML title [issue: "+issueId+" | article: "+articleId+"]", e);
+        }
+
+        try {
+            List<String> authors = getArticleAuthors(article, articleNode);
+            if (authors != null) {
+                article.setAuthors(authors);
+            }
+        } catch (Exception e) {
+            throw new CrawlerRuntimeException("Error locating authors [issue: "+issueId+" | article: "+articleId+"]", e);
+        }
+
+        try {
+            Reference reference = getArticleReference(article, articleNode);
+            if (reference != null) {
+                article.setReference(reference);
+            }
+        } catch (Exception e) {
+            throw new CrawlerRuntimeException("Error locating reference [issue: "+issueId+" | article: "+articleId+"]", e);
+        }
+
+        try {
+            List<SupplementaryResource> supplementaryResources = getArticleSupplementaryResources(article, articleNode);
+            if (supplementaryResources != null) {
+                article.setSupplementaryResources(supplementaryResources);
+            }
+        } catch (Exception e) {
+            throw new CrawlerRuntimeException("Error locating supp info [issue: "+issueId+" | article: "+articleId+"]", e);
+        }
+
+        try {
+            List<FullTextResource> fullTextResources = getArticleFullTextResources(article, articleNode);
+            if (fullTextResources != null) {
+                article.setFullTextResources(fullTextResources);
+            }
+        } catch (Exception e) {
+            throw new CrawlerRuntimeException("Error locating full text [issue: "+issueId+" | article: "+articleId+"]", e);
+        }
+
+        return article;
+    }
+
+
+    protected abstract String getArticleId(Node articleNode, String issueId);
+
+    protected abstract Doi getArticleDoi(Article article, Node articleNode);
+
+    protected abstract URI getArticleUrl(Article article, Node articleNode);
+
+    protected abstract URI getArticleSupportingInfoUrl(Article article, Node articleNode);
+
+    protected abstract String getArticleTitle(Article article, Node articleNode);
+
+    protected abstract String getArticleTitleHtml(Article article, Node articleNode);
+
+    protected abstract List<String> getArticleAuthors(Article article, Node articleNode);
+
+    protected abstract Reference getArticleReference(Article article, Node articleNode);
+
+    protected abstract List<SupplementaryResource> getArticleSupplementaryResources(Article article, Node articleNode);
+
+    protected abstract List<FullTextResource> getArticleFullTextResources(Article article, Node articleNode);
+
+
 
     /**
      * <p>Gets a description of the previous issue of the journal being

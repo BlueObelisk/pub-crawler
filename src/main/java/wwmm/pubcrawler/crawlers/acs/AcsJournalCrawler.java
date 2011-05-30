@@ -17,9 +17,7 @@ package wwmm.pubcrawler.crawlers.acs;
 
 import org.apache.log4j.Logger;
 import wwmm.pubcrawler.CrawlerContext;
-import wwmm.pubcrawler.DefaultCrawlerContext;
 import wwmm.pubcrawler.crawlers.AbstractJournalCrawler;
-import wwmm.pubcrawler.journals.AcsJournalIndex;
 import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.model.Journal;
 

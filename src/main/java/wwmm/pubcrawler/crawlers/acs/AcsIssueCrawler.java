@@ -22,9 +22,7 @@ import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.crawlers.AbstractIssueCrawler;
-import wwmm.pubcrawler.model.Article;
-import wwmm.pubcrawler.model.Issue;
-import wwmm.pubcrawler.model.Reference;
+import wwmm.pubcrawler.model.*;
 import wwmm.pubcrawler.types.Doi;
 import wwmm.pubcrawler.utils.XPathUtils;
 
@@ -108,34 +106,30 @@ public class AcsIssueCrawler extends AbstractIssueCrawler {
         return XPathUtils.queryHTML(getHtml(), ".//x:div[@class='articleBox']");
     }
 
-    public Article getArticleDetails(Node node, String issueId) {
-        Article article = new Article();
-        Doi doi = getDoi(node);
-        try {
-            article.setDoi(doi);
-            String articleId = issueId + '/' + doi.getSuffix();
-            article.setId(articleId);
-            article.setTitleHtml(getTitle(node));
-            article.setAuthors(getAuthors(node));
-            article.setUrl(getArticleUrl(node));
-            article.setSupplementaryResourceUrl(getSupportingInfoUrl(node));
-            Reference ref = getReference(node);
-            article.setReference(ref);
-            return article;
-        } catch (Exception e) {
-            log().warn("Error reading article details: "+doi, e);
-            return null;
-        }
+
+
+    @Override
+    protected String getArticleId(Node articleNode, String issueId) {
+        Doi doi = getArticleDoi(null, articleNode);
+        return issueId + '/' + doi.getSuffix();
     }
 
-    private URI getArticleUrl(Node node) {
-        String s = XPathUtils.getString(node, "./x:div[@class='articleLinksIcons']//x:a[text() = 'Abstract']/@href");
+    @Override
+    protected Doi getArticleDoi(Article article, Node node) {
+        String s = XPathUtils.getString(node, ".//x:input[@name='doi']/@value");
+        return new Doi(s);
+    }
+
+    @Override
+    protected URI getArticleUrl(Article article, Node articleNode) {
+        String s = XPathUtils.getString(articleNode, "./x:div[@class='articleLinksIcons']//x:a[text() = 'Abstract']/@href");
         URI url = getUrl().resolve(s);
         return url;
     }
 
-    private URI getSupportingInfoUrl(Node node) {
-        String s = XPathUtils.getString(node, "./x:div[@class='articleLinksIcons']//x:a[text() = 'Supporting Info']/@href");
+    @Override
+    protected URI getArticleSupportingInfoUrl(Article article, Node articleNode) {
+        String s = XPathUtils.getString(articleNode, "./x:div[@class='articleLinksIcons']//x:a[text() = 'Supporting Info']/@href");
         if (s != null) {
             URI url = getUrl().resolve(s);
             return url;
@@ -143,13 +137,66 @@ public class AcsIssueCrawler extends AbstractIssueCrawler {
         return null;
     }
 
-    private Reference getReference(Node node) {
+    @Override
+    protected String getArticleTitle(Article article, Node articleNode) {
+        // Additions and Corrections have no title
+        // e.g. http://pubs.acs.org/toc/inocaj/39/19
+        ParentNode source = (ParentNode) XPathUtils.getNode(articleNode, ".//x:h2/x:a");
+        if (source != null) {
+            return source.getValue();
+        }
+        return null;
+
+    }
+
+    @Override
+    protected String getArticleTitleHtml(Article article, Node articleNode) {
+        // Additions and Corrections have no title
+        // e.g. http://pubs.acs.org/toc/inocaj/39/19
+        ParentNode source = (ParentNode) XPathUtils.getNode(articleNode, ".//x:h2/x:a");
+        if (source != null) {
+            Element title = new Element("h1", "http://www.w3.org/1999/xhtml");
+            AcsTools.copyChildren(source, title);
+            return AcsTools.toHtml(title);
+        }
+        return null;
+    }
+
+    @Override
+    protected List<String> getArticleAuthors(Article article, Node node) {
+        List<String> authors = new ArrayList<String>();
+        Element names = (Element) XPathUtils.getNode(node, ".//x:div[@class='articleAuthors']");
+        if (names != null) {
+            Element copy = (Element) names.copy();
+            AcsTools.normaliseImages(copy);
+            for (String name : copy.getValue().split(" and |, (and )?")) {
+                authors.add(name.trim());
+            }
+        }
+        return authors;
+
+    }
+
+    @Override
+    protected Reference getArticleReference(Article article, Node articleNode) {
         Reference ref = new Reference();
         ref.setJournalTitle(journalTitle);
         ref.setVolume(volume);
         ref.setNumber(number);
-        ref.setPages(getPages(node));
+        ref.setPages(getPages(articleNode));
         return ref;
+
+    }
+
+    @Override
+    protected List<SupplementaryResource> getArticleSupplementaryResources(Article article, Node articleNode) {
+        return null;
+    }
+
+    @Override
+    protected List<FullTextResource> getArticleFullTextResources(Article article, Node articleNode) {
+        // TODO
+        return null;
     }
 
     private String getPages(Node node) {
@@ -167,35 +214,8 @@ public class AcsIssueCrawler extends AbstractIssueCrawler {
         return null;
     }
 
-    private List<String> getAuthors(Node node) {
-        List<String> authors = new ArrayList<String>();
-        Element names = (Element) XPathUtils.getNode(node, ".//x:div[@class='articleAuthors']");
-        if (names != null) {
-            Element copy = (Element) names.copy();
-            AcsTools.normaliseImages(copy);
-            for (String name : copy.getValue().split(" and |, (and )?")) {
-                authors.add(name.trim());
-            }
-        }
-        return authors;
-    }
 
-    private String getTitle(Node node) {
-        // Additions and Corrections have no title
-        // e.g. http://pubs.acs.org/toc/inocaj/39/19
-        ParentNode source = (ParentNode) XPathUtils.getNode(node, ".//x:h2/x:a");
-        if (source != null) {
-            Element title = new Element("h1", "http://www.w3.org/1999/xhtml");
-            AcsTools.copyChildren(source, title);
-            return AcsTools.toHtml(title);
-        }
-        return null;
-    }
 
-    private Doi getDoi(Node node) {
-        String s = XPathUtils.getString(node, ".//x:input[@name='doi']/@value");
-        return new Doi(s);
-    }
 
     private String getJournalTitle() {
         String s = XPathUtils.getString(getHtml(), "/x:html/x:head/x:title");

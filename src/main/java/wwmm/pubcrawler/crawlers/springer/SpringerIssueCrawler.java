@@ -17,15 +17,13 @@
 package wwmm.pubcrawler.crawlers.springer;
 
 import nu.xom.Document;
-import nu.xom.Element;
 import nu.xom.Node;
 import org.apache.log4j.Logger;
 import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.CrawlerRuntimeException;
 import wwmm.pubcrawler.crawlers.AbstractIssueCrawler;
-import wwmm.pubcrawler.model.Article;
-import wwmm.pubcrawler.model.Issue;
-import wwmm.pubcrawler.model.Reference;
+import wwmm.pubcrawler.model.*;
+import wwmm.pubcrawler.types.Doi;
 import wwmm.pubcrawler.utils.XPathUtils;
 
 import java.io.IOException;
@@ -95,18 +93,65 @@ public class SpringerIssueCrawler extends AbstractIssueCrawler {
         return XPathUtils.queryHTML(getHtml(), "//x:li[contains(@class, 'journalArticle')]");
     }
 
+//    @Override
+//    protected Article initArticle(Node context, String issueId) {
+//        Element li = (Element) context;
+//        Article article = new Article();
+//        article.setTitle(getArticleTitle(li));
+//        article.setAuthors(getArticleAuthors(li));
+//        article.setUrl(getArticleUrl(li));
+//        article.setReference(getArticleReference(li));
+//        return article;
+//    }
+
+
     @Override
-    protected Article getArticleDetails(Node context, String issueId) {
-        Element li = (Element) context;
-        Article article = new Article();
-        article.setTitle(getArticleTitle(li));
-        article.setAuthors(getArticleAuthors(li));
-        article.setUrl(getArticleUrl(li));
-        article.setReference(getArticleReference(li));
-        return article;
+    protected String getArticleId(Node articleNode, String issueId) {
+        URI url = getArticleUrl(null, articleNode);
+        String s = url.toString();
+        int i0 = s.lastIndexOf('/');
+        int i1 = s.lastIndexOf('/', i0-1);
+        return issueId + '/' + s.substring(i1+1, i0);
     }
 
-    private Reference getArticleReference(Element context) {
+    @Override
+    protected Doi getArticleDoi(Article article, Node articleNode) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    protected URI getArticleUrl(Article article, Node context) {
+        String u = XPathUtils.getString(context, "x:p[@class='title']/x:a/@href");
+        return getUrl().resolve(u);
+    }
+
+    @Override
+    protected URI getArticleSupportingInfoUrl(Article article, Node articleNode) {
+        return null;
+    }
+
+    @Override
+    protected String getArticleTitle(Article article, Node context) {
+        return XPathUtils.getString(context, "x:p[@class='title']").trim().replaceAll("\\s+", " ");
+    }
+
+    @Override
+    protected String getArticleTitleHtml(Article article, Node articleNode) {
+        return null;
+    }
+
+    @Override
+    protected List<String> getArticleAuthors(Article article, Node context) {
+        List<Node> nodes = XPathUtils.queryHTML(context, "x:p[@class='authors']/x:a");
+        List<String> authors = new ArrayList<String>();
+        for (Node node : nodes) {
+            authors.add(node.getValue().trim());
+        }
+        return authors;
+    }
+
+    @Override
+    protected Reference getArticleReference(Article article, Node context) {
         String title = getJournalTitle();
         String volume = getVolume();
         String number = getNumber();
@@ -120,22 +165,14 @@ public class SpringerIssueCrawler extends AbstractIssueCrawler {
         return ref;
     }
 
-    private String getArticleTitle(Element context) {
-        return XPathUtils.getString(context, "x:p[@class='title']").trim().replaceAll("\\s+", " ");
+    @Override
+    protected List<SupplementaryResource> getArticleSupplementaryResources(Article article, Node articleNode) {
+        return null;
     }
 
-    private URI getArticleUrl(Element context) {
-        String u = XPathUtils.getString(context, "x:p[@class='title']/x:a/@href");
-        return getUrl().resolve(u);
-    }
-
-    private List<String> getArticleAuthors(Element context) {
-        List<Node> nodes = XPathUtils.queryHTML(context, "x:p[@class='authors']/x:a");
-        List<String> authors = new ArrayList<String>();
-        for (Node node : nodes) {
-            authors.add(node.getValue().trim());
-        }
-        return authors;
+    @Override
+    protected List<FullTextResource> getArticleFullTextResources(Article article, Node articleNode) {
+        return null;
     }
 
     @Override
