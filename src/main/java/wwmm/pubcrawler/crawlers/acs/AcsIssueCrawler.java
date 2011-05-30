@@ -122,7 +122,8 @@ public class AcsIssueCrawler extends AbstractIssueCrawler {
 
     @Override
     protected URI getArticleUrl(Article article, Node articleNode) {
-        String s = XPathUtils.getString(articleNode, "./x:div[@class='articleLinksIcons']//x:a[text() = 'Abstract']/@href");
+//        String s = XPathUtils.getString(articleNode, "./x:div[@class='articleLinksIcons']//x:a[text() = 'Abstract' | text() = 'First Page']/@href");
+        String s = XPathUtils.getString(articleNode, "./x:div[@class='articleLinksIcons']//x:a[@class = 'articleLink']/@href");
         URI url = getUrl().resolve(s);
         return url;
     }
