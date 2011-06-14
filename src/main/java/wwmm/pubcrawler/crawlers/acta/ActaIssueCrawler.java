@@ -150,7 +150,7 @@ public class ActaIssueCrawler extends AbstractIssueCrawler {
 
     @Override
     protected String getArticleTitle(Article article, Node node) {
-        Node heading = XPathUtils.getNode(node, "./x:h3[1]");
+        Node heading = XPathUtils.getNode(node, "./x:h3[normalize-space(text()) != \"\"][1]");
         Element copy = (Element) heading.copy();
         ActaUtil.normaliseHtml(copy);
         return copy.getValue();
@@ -169,7 +169,7 @@ public class ActaIssueCrawler extends AbstractIssueCrawler {
 
     @Override
     protected List<String> getArticleAuthors(Article article, Node articleNode) {
-        List<String> authors = XPathUtils.getStrings(articleNode, "./x:h3[2]/x:a");
+        List<String> authors = XPathUtils.getStrings(articleNode, "./x:h3/x:a[contains(@href, \"http://scripts.iucr.org/cgi-bin/citedin\")]");
         return authors;
     }
 

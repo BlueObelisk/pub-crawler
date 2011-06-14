@@ -102,11 +102,11 @@
             <version>1.7</version>
             <scope>test</scope>
         </dependency>
-        <!--<dependency>-->
-        <!--<groupId>ch.unibe.jexample</groupId>-->
-        <!--<artifactId>jexample</artifactId>-->
-        <!--<version>4.4-378</version>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>ch.unibe.jexample</groupId>
+            <artifactId>jexample</artifactId>
+            <version>4.4-378</version>
+        </dependency>
 
         <dependency>
             <groupId>org.mongodb</groupId>
@@ -127,6 +127,7 @@
                     <excludes>
                         <exclude>**/*IntegrationTest.java</exclude>
                     </excludes>
+                    <forkMode>always</forkMode>
                 </configuration>
             </plugin>
         </plugins>

@@ -16,7 +16,12 @@
 
 package wwmm.pubcrawler.crawlers.acta;
 
+import ch.unibe.jexample.Given;
+import ch.unibe.jexample.Injection;
+import ch.unibe.jexample.InjectionPolicy;
+import ch.unibe.jexample.JExample;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerRequest;
 import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerResponse;
@@ -38,6 +43,8 @@ import static org.junit.Assert.assertNotNull;
 /**
  * @author Sam Adams
  */
+@RunWith(JExample.class)
+@Injection(InjectionPolicy.NONE)
 public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
 
     private CrawlerResponse prepareActaC2005_10Head() throws IOException {
@@ -68,6 +75,16 @@ public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
     private CrawlerResponse prepareActaE2004_11Body() throws IOException {
         return prepareResponse("./e-2004-11-body.html",
                 URI.create("http://journals.iucr.org/e/issues/2004/11/00/isscontsbdy.html"));
+    }
+
+    private CrawlerResponse prepareActaE2011_03Head() throws IOException {
+        return prepareResponse("./e-2011-03-head.html",
+                URI.create("http://journals.iucr.org/3/issues/2011/03/00/isscontshdr.html"));
+    }
+
+    private CrawlerResponse prepareActaE2011_03Body() throws IOException {
+        return prepareResponse("./e-2011-03-body.html",
+                URI.create("http://journals.iucr.org/3/issues/2011/03/00/isscontsbdy.html"));
     }
 
 
@@ -108,6 +125,23 @@ public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
         CrawlerContext context = new CrawlerContext(null, crawler, null);
         return new ActaIssueCrawler(issue, context);
     }
+
+    protected ActaIssueCrawler getActaE2011_03() throws IOException {
+        Issue issue = new Issue();
+        issue.setId("acta/e/2011/03-00");
+        issue.setUrl(URI.create("http://journals.iucr.org/e/issues/2011/03/00/isscontsbdy.html"));
+
+        CrawlerResponse response1 = prepareActaE2011_03Body();
+        CrawlerResponse response2 = prepareActaE2011_03Head();
+
+        HttpCrawler crawler = Mockito.mock(HttpCrawler.class);
+        Mockito.when(crawler.execute(Mockito.any(CrawlerRequest.class)))
+                .thenReturn(response1, response2);
+
+        CrawlerContext context = new CrawlerContext(null, crawler, null);
+        return new ActaIssueCrawler(issue, context);
+    }
+
 
     protected ActaIssueCrawler getActaB1997_01() throws IOException {
         Issue issue = new Issue();
@@ -174,41 +208,52 @@ public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
         return new ActaIssueCrawler(issue, context);
     }
 
+    @Test
+    public ActaIssueCrawler testCrawlA201006() throws IOException {
+        ActaIssueCrawler crawler = getActaA2010_06();
+        return crawler;
+    }
 
     @Test
-    public void testPageWithVolumeInTitle() throws IOException {
-        ActaIssueCrawler crawler = getActaA2010_06();
+    public ActaIssueCrawler testCrawlB201001() throws IOException {
+        ActaIssueCrawler crawler = getActaB2010_01();
+        return crawler;
+    }
+
+    @Test
+    @Given("#testCrawlA201006")
+    public void testPageWithVolumeInTitle(ActaIssueCrawler crawler) {
         assertEquals("66", crawler.getVolume());
     }
 
 
     @Test
-    public void testGetIssueId() throws IOException {
-        ActaIssueCrawler crawler = getActaB2010_01();
+    @Given("#testCrawlB201001")
+    public void testGetIssueId(ActaIssueCrawler crawler) throws IOException {
         assertEquals("acta/b/2010/01-00", crawler.getIssueId());
     }
 
     @Test
-    public void testGetVolume() throws IOException {
-        ActaIssueCrawler crawler = getActaB2010_01();
+    @Given("#testCrawlA201006")
+    public void testGetVolume(ActaIssueCrawler crawler) throws IOException {
         assertEquals("66", crawler.getVolume());
     }
 
     @Test
-    public void testGetNumber() throws IOException {
-        ActaIssueCrawler crawler = getActaB2010_01();
+    @Given("#testCrawlB201001")
+    public void testGetNumber(ActaIssueCrawler crawler) throws IOException {
         assertEquals("1", crawler.getNumber());
     }
 
     @Test
-    public void testGetYear() throws IOException {
-        ActaIssueCrawler crawler = getActaB2010_01();
+    @Given("#testCrawlB201001")
+    public void testGetYear(ActaIssueCrawler crawler) throws IOException {
         assertEquals("2010", crawler.getYear());
     }
 
     @Test
-    public void testGetArticles() throws IOException {
-        ActaIssueCrawler crawler = getActaB2010_01();
+    @Given("#testCrawlB201001")
+    public void testGetArticles(ActaIssueCrawler crawler) throws IOException {
         List<Article> articles = crawler.getArticles();
         assertNotNull(articles);
         assertEquals(13, articles.size());
@@ -227,8 +272,8 @@ public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
     }
 
     @Test
-    public void testArticleTitles() throws IOException {
-        ActaIssueCrawler crawler = getActaB2010_01();
+    @Given("#testCrawlB201001")
+    public void testArticleTitles(ActaIssueCrawler crawler) throws IOException {
         List<Article> articles = crawler.getArticles();
         assertEquals("<h1>Polysomatic apatites</h1>", articles.get(0).getTitleHtml());
         assertEquals("<h1>A complicated quasicrystal approximant &#x3B5;<sub>16</sub> predicted by the strong-reflections approach</h1>", articles.get(1).getTitleHtml());
@@ -246,8 +291,8 @@ public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
     }
 
     @Test
-    public void testArticleAuthors() throws IOException {
-        ActaIssueCrawler crawler = getActaB2010_01();
+    @Given("#testCrawlB201001")
+    public void testArticleAuthors(ActaIssueCrawler crawler) throws IOException {
         List<Article> articles = crawler.getArticles();
         assertEquals(Arrays.asList("T. Baikie", "S. S. Pramana", "C. Ferraris", "Y. Huang", "E. Kendrick", "K. Knight", "Z. Ahmad", "T. J. White"), articles.get(0).getAuthors());
         assertEquals(Arrays.asList("M. Li", "J. Sun", "P. Oleynikov", "S. Hovm\u00f6ller", "X. Zou", "B. Grushko"), articles.get(1).getAuthors());
@@ -265,15 +310,15 @@ public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
     }
 
     @Test
-    public void testArticleSuppInfo() throws IOException {
-        ActaIssueCrawler crawler = getActaB2010_01();
+    @Given("#testCrawlB201001")
+    public void testArticleSuppInfo(ActaIssueCrawler crawler) throws IOException {
         List<Article> articles = crawler.getArticles();
         assertEquals(3, articles.get(0).getSupplementaryResources().size());
     }
 
     @Test
-    public void testGetPreviousIssue() throws IOException {
-        ActaIssueCrawler crawler = getActaB2010_01();
+    @Given("#testCrawlB201001")
+    public void testGetPreviousIssue(ActaIssueCrawler crawler) throws IOException {
         Issue prev = crawler.getPreviousIssue();
         assertNotNull(prev);
         assertEquals("acta/b/2009/06-00", prev.getId());
@@ -281,8 +326,8 @@ public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
     }
 
     @Test
-    public void testToIssue() throws IOException {
-        ActaIssueCrawler crawler = getActaB2010_01();
+    @Given("#testCrawlB201001")
+    public void testToIssue(ActaIssueCrawler crawler) throws IOException {
         Issue issue = crawler.toIssue();
         assertEquals("acta/b/2010/01-00", issue.getId());
         assertEquals(URI.create("http://journals.iucr.org/b/issues/2010/01/00/isscontsbdy.html"), issue.getUrl());
@@ -296,26 +341,32 @@ public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
     }
 
     @Test
-    public void testGetOldFormatIssueId() throws IOException {
+    public ActaIssueCrawler testCrawlE200411() throws IOException {
         ActaIssueCrawler crawler = getActaE2004_11();
+        return crawler;
+    }
+
+    @Test
+    @Given("#testCrawlE200411")
+    public void testGetOldFormatIssueId(ActaIssueCrawler crawler) throws IOException {
         assertEquals("acta/e/2004/11-00", crawler.getIssueId());
     }
 
     @Test
-    public void testGetOldFormatVolume() throws IOException {
-        ActaIssueCrawler crawler = getActaE2004_11();
+    @Given("#testCrawlE200411")
+    public void testGetOldFormatVolume(ActaIssueCrawler crawler) throws IOException {
         assertEquals("60", crawler.getVolume());
     }
 
     @Test
-    public void testGetOldFormatNumber() throws IOException {
-        ActaIssueCrawler crawler = getActaE2004_11();
+    @Given("#testCrawlE200411")
+    public void testGetOldFormatNumber(ActaIssueCrawler crawler) throws IOException {
         assertEquals("11", crawler.getNumber());
     }
 
     @Test
-    public void testGetOldFormatArticles() throws IOException {
-        ActaIssueCrawler crawler = getActaE2004_11();
+    @Given("#testCrawlE200411")
+    public void testGetOldFormatArticles(ActaIssueCrawler crawler) throws IOException {
         List<Article> articles = crawler.getArticles();
         assertNotNull(articles);
         assertEquals(178, articles.size());
@@ -363,4 +414,40 @@ public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
         assertEquals(0, articles.get(20).getSupplementaryResources().size());
     }
 
+
+    @Test
+    public ActaIssueCrawler testCrawlE201103() throws IOException {
+        ActaIssueCrawler crawler = getActaE2011_03();
+        return crawler;
+    }
+
+    @Test
+    @Given("#testCrawlE201103")
+    public List<Article> testGetE201103Articles(ActaIssueCrawler crawler) {
+        List<Article> articles = crawler.getArticles();
+        assertNotNull(articles);
+        assertEquals(257, articles.size());
+        return articles;
+    }
+
+    @Test
+    @Given("#testGetE201103Articles")
+    public void testGetE201103ArticleTitles(List<Article> articles) {
+        assertEquals("Vanadium(V) oxide arsenate(V), VOAsO4", articles.get(0).getTitle());
+        assertEquals("Redetermination of AgPO3", articles.get(1).getTitle());
+    }
+
+    @Test
+    @Given("#testGetE201103Articles")
+    public void testGetE201103ArticleAuthors(List<Article> articles) {
+        assertEquals(Arrays.asList("S. Ezzine Yahmed", "M. F. Zid", "A. Driss"), articles.get(0).getAuthors());
+        assertEquals(Arrays.asList("K. V. Terebilenko", "I. V. Zatovsky", "I. V. Ogorodnyk", "V. N. Baumer", "N. S. Slobodyanik"), articles.get(1).getAuthors());
+    }
+
+    @Test
+    @Given("#testGetE201103Articles")
+    public void testGetE201103ArticleDois(List<Article> articles) {
+        assertEquals(new Doi("10.1107/S1600536811004053"), articles.get(0).getDoi());
+        assertEquals(new Doi("10.1107/S1600536811003977"), articles.get(1).getDoi());
+    }
 }
