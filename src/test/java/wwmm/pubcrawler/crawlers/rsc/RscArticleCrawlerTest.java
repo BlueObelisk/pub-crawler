@@ -78,14 +78,14 @@ public class RscArticleCrawlerTest extends AbstractCrawlerTest {
         assertEquals(2, resources.size());
 
         SupplementaryResource r0 = resources.get(0);
-        assertEquals(URI.create("http://www.rsc.org/suppdata/CC/C0/C0CC03247F/C0CC03247F.PDF"), r0.getUrl());
+        assertEquals(URI.create("http://www.rsc.org/suppdata/cc/c0/c0cc03247f/c0cc03247f.pdf"), r0.getUrl());
         assertEquals("Experimental details, spectroscopic data, notations and IUPAC numbering of isomers and DFT calculated LUMO and EA", r0.getLinkText());
-        assertEquals("C0CC03247F.PDF", r0.getFilePath());
+        assertEquals("c0cc03247f.pdf", r0.getFilePath());
 
         SupplementaryResource r1 = resources.get(1);
-        assertEquals(URI.create("http://www.rsc.org/suppdata/CC/C0/C0CC03247F/C0CC03247F.TXT"), r1.getUrl());
+        assertEquals(URI.create("http://www.rsc.org/suppdata/cc/c0/c0cc03247f/c0cc03247f.txt"), r1.getUrl());
         assertEquals("Crystal structure data", r1.getLinkText());
-        assertEquals("C0CC03247F.TXT", r1.getFilePath());
+        assertEquals("c0cc03247f.txt", r1.getFilePath());
     }
 
     @Test
@@ -96,10 +96,10 @@ public class RscArticleCrawlerTest extends AbstractCrawlerTest {
         assertEquals(2, resources.size());
 
         FullTextResource r0 = resources.get(0);
-        assertEquals(URI.create("http://pubs.rsc.org/en/Content/ArticleHTML/2011/CC/C0CC03247F"), r0.getUrl());
+        assertEquals(URI.create("http://pubs.rsc.org/en/content/articlehtml/2011/cc/c0cc03247f"), r0.getUrl());
 
         FullTextResource r1 = resources.get(1);
-        assertEquals(URI.create("http://pubs.rsc.org/en/Content/ArticlePDF/2011/CC/C0CC03247F"), r1.getUrl());
+        assertEquals(URI.create("http://pubs.rsc.org/en/content/articlepdf/2011/cc/c0cc03247f"), r1.getUrl());
     }
 
 

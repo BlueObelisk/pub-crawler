@@ -34,7 +34,7 @@ public class RscArticleCrawlerIntegrationTest extends RscArticleCrawlerTest {
     @BeforeClass
     public static void setUp() throws IOException {
         Article article = new Article();
-        article.setId("rsc/CC/47/3/C0CC03247F");
+        article.setId("rsc/cc/47/3/C0CC03247F");
         article.setDoi(new Doi("10.1039/C0CC03247F"));
 
         CrawlerContext context = new CrawlerContext(null, getHttpCrawler(), null);

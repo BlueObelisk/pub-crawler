@@ -61,7 +61,7 @@ public class RscIssueCrawlerIntegrationTest extends RscIssueCrawlerTest {
     @Test
     public void testCrawlLatestCc() throws IOException {
         Issue issue = new Issue();
-        issue.setId("rsc/CC/Latest");
+        issue.setId("rsc/cc/Latest");
         issue.setCurrent(true);
         issue.setUrl(URI.create("Latest"));
         CrawlerContext context = new CrawlerContext(null, getHttpCrawler(), null);
@@ -70,6 +70,11 @@ public class RscIssueCrawlerIntegrationTest extends RscIssueCrawlerTest {
         List<Article> articles = crawler.getArticles();
         assertNotNull(articles);
         assertFalse(articles.isEmpty());
+
+        Issue previousIssue = crawler.getPreviousIssue();
+        assertNotNull(previousIssue);
+        assertNotNull(previousIssue.getId());
+        assertNotNull(previousIssue.getUrl());
     }
 
 }
