@@ -34,7 +34,7 @@ public class MongoStore {
             this.articles.setInternalClass("suppResources."+i, SupplementaryResource.class);
             this.articles.setInternalClass("fullText."+i, FullTextResource.class);
         }
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 1000; i++) {
             this.issues.setInternalClass("articles."+i, Article.class);
             this.issues.setInternalClass("articles."+i+".reference", Reference.class);
             for (int j = 0; j < 20; j++) {
