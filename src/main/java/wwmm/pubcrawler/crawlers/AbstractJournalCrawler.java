@@ -93,16 +93,20 @@ public abstract class AbstractJournalCrawler extends AbstractCrawler {
                 }
             } else {
                 issue = issueIterator.next();
-                if (!getDataStore().containsIssue(issue.getId())) {
-                    try {
-                        issue = fetchIssue(issue);
-                    } catch (Exception e) {
-                        log().warn("error crawling issue: "+issue.getId(), e);
-                        issue = null;
-                        continue;
+
+                if (!visitedIssues.contains(issue.getId())) {
+                    issue = getDataStore().findIssue(issue.getId());
+                    if (issue == null) {
+                        try {
+                            issue = fetchIssue(issue);
+                        } catch (Exception e) {
+                            log().warn("error crawling issue: "+issue.getId(), e);
+                            issue = null;
+                            continue;
+                        }
+                        log().debug("new issue: " + issue.getId());
+                        getDataStore().saveIssue(issue);
                     }
-                    log().debug("new issue: "+issue.getId());
-                    getDataStore().saveIssue(issue);
                 }
             }
             Thread.yield();

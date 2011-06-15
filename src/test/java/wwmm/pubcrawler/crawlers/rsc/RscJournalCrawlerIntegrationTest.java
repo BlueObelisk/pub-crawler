@@ -16,7 +16,6 @@
 
 package wwmm.pubcrawler.crawlers.rsc;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.crawlers.AbstractCrawlerTest;
@@ -38,7 +37,6 @@ public class RscJournalCrawlerIntegrationTest extends AbstractCrawlerTest {
         CrawlerContext context = new CrawlerContext(null, getHttpCrawler(), new RscCrawlerFactory());
         RscJournalCrawler crawler = new RscJournalCrawler(RscJournalIndex.CHEMICAL_COMMUNICATIONS, context);
         Issue issue = crawler.fetchCurrentIssue();
-        System.err.println(issue.toMap());
         assertNotNull(issue);
         assertNotNull(issue.getId());
         assertNotNull(issue.getArticles());

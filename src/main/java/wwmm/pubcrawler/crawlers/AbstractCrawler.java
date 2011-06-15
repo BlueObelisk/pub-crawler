@@ -32,6 +32,7 @@ import uk.ac.cam.ch.wwmm.httpcrawler.HttpCrawler;
 import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.data.mongo.MongoStore;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URI;

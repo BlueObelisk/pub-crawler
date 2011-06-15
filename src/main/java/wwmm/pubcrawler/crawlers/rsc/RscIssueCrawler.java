@@ -19,11 +19,13 @@ import nu.xom.Attribute;
 import nu.xom.Document;
 import nu.xom.Node;
 import nu.xom.Serializer;
+import org.apache.commons.io.IOUtils;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.log4j.Logger;
 import org.joda.time.Duration;
 import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerPostRequest;
 import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerRequest;
+import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerResponse;
 import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.CrawlerRuntimeException;
 import wwmm.pubcrawler.crawlers.AbstractIssueCrawler;
@@ -31,6 +33,7 @@ import wwmm.pubcrawler.model.*;
 import wwmm.pubcrawler.types.Doi;
 import wwmm.pubcrawler.utils.XPathUtils;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
@@ -78,10 +81,8 @@ public class RscIssueCrawler extends AbstractIssueCrawler {
         } else {
             request = createIssueRequest(rscId, issue.getId()+".html", AGE_MAX);
         }
+
         Document doc = readHtml(request);
-//        Serializer ser = new Serializer(System.out);
-//        ser.setIndent(2);
-//        ser.write(doc);
         log().trace("done");
         return doc;
     }

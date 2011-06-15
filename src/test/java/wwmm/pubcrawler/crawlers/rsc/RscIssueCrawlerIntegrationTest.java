@@ -41,8 +41,8 @@ public class RscIssueCrawlerIntegrationTest extends RscIssueCrawlerTest {
     @BeforeClass
     public static void setUp() throws IOException {
         Issue issue = new Issue();
-        issue.setId("rsc/CC/47/3");
-        issue.setUrl(URI.create("CC047003"));
+        issue.setId("rsc/cc/47/3");
+        issue.setUrl(URI.create("cc047003"));
 
         CrawlerContext context = new CrawlerContext(null, getHttpCrawler(), null);
         crawler = new RscIssueCrawler(issue, RscJournalIndex.CHEMICAL_COMMUNICATIONS, context);
