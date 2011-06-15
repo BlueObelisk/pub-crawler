@@ -150,7 +150,7 @@ public class RscArticleCrawler extends AbstractArticleCrawler {
 
 
     public Element getTitleHtml() {
-        Element element = (Element) XPathUtils.getNode(getHtml(), ".//x:div[@class='peptide_title_s9']/x:h1");
+        Element element = (Element) XPathUtils.getNode(getHtml(), ".//x:div[@class='article_chemsoc_txt_s13']/x:h1");
         Element copy = new Element("h1", "http://www.w3.org/1999/xhtml");
         for (int i = 0; i < element.getChildCount(); i++) {
             copy.appendChild(element.getChild(i).copy());

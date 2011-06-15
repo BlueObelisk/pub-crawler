@@ -47,8 +47,8 @@ public class RscIssueCrawlerTest extends AbstractCrawlerTest {
 
     protected RscIssueCrawler getCcIssue() throws IOException {
         Issue issue = new Issue();
-        issue.setId("rsc/CC/47/3");
-        issue.setUrl(URI.create("CC047002"));
+        issue.setId("rsc/cc/47/3");
+        issue.setUrl(URI.create("/en/journals/journal/cc?issueid=cc047003&issnprint=1359-7345"));
 
         CrawlerResponse response = prepareCcIssueResponse();
 
@@ -74,8 +74,8 @@ public class RscIssueCrawlerTest extends AbstractCrawlerTest {
         RscIssueCrawler crawler = getCcIssue();
         Issue prev = crawler.getPreviousIssue();
         assertNotNull(prev);
-        assertEquals("rsc/CC/47/2", prev.getId());
-        assertEquals(URI.create("CC047002"), prev.getUrl());
+        assertEquals("rsc/cc/47/2", prev.getId());
+        assertEquals(URI.create("/en/journals/journal/cc?issueid=cc047002&issnprint=1359-7345"), prev.getUrl());
     }
 
     @Test
@@ -113,14 +113,14 @@ public class RscIssueCrawlerTest extends AbstractCrawlerTest {
         RscIssueCrawler crawler = getCcIssue();
         Issue issue = crawler.toIssue();
         assertNotNull(issue);
-        assertEquals("rsc/CC/47/3", issue.getId());
+        assertEquals("rsc/cc/47/3", issue.getId());
         assertEquals("2011", issue.getYear());
         assertEquals("47", issue.getVolume());
         assertEquals("3", issue.getNumber());
         assertNotNull(issue.getArticles());
         assertEquals(74, issue.getArticles().size());
         assertNotNull(issue.getPreviousIssue());
-        assertEquals("rsc/CC/47/2", issue.getPreviousIssue().getId());
+        assertEquals("rsc/cc/47/2", issue.getPreviousIssue().getId());
     }
 
 }

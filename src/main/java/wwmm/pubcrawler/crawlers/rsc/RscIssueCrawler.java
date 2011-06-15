@@ -18,6 +18,7 @@ package wwmm.pubcrawler.crawlers.rsc;
 import nu.xom.Attribute;
 import nu.xom.Document;
 import nu.xom.Node;
+import nu.xom.Serializer;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.log4j.Logger;
 import org.joda.time.Duration;
@@ -78,6 +79,9 @@ public class RscIssueCrawler extends AbstractIssueCrawler {
             request = createIssueRequest(rscId, issue.getId()+".html", AGE_MAX);
         }
         Document doc = readHtml(request);
+//        Serializer ser = new Serializer(System.out);
+//        ser.setIndent(2);
+//        ser.write(doc);
         log().trace("done");
         return doc;
     }
@@ -177,7 +181,7 @@ public class RscIssueCrawler extends AbstractIssueCrawler {
             return null;
         }
         // TODO /en/Journals/Journal/AC?issueID=OB008999&issnprint=1359-7337
-        Pattern p = Pattern.compile("(.+)(\\d{3})(\\d{3})$");
+        Pattern p = Pattern.compile("issueid=(.+)(\\d{3})(\\d{3})($|&issnprint)", Pattern.CASE_INSENSITIVE);
         Matcher m = p.matcher(s);
         if (!m.find()) {
             throw new CrawlerRuntimeException("No match: "+s);
