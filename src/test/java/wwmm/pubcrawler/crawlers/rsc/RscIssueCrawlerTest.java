@@ -75,7 +75,7 @@ public class RscIssueCrawlerTest extends AbstractCrawlerTest {
         Issue prev = crawler.getPreviousIssue();
         assertNotNull(prev);
         assertEquals("rsc/cc/47/2", prev.getId());
-        assertEquals(URI.create("/en/journals/journal/cc?issueid=cc047002&issnprint=1359-7345"), prev.getUrl());
+        assertEquals(URI.create("cc047002"), prev.getUrl());
     }
 
     @Test
