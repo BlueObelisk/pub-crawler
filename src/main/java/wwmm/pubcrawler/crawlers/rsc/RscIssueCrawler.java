@@ -33,6 +33,7 @@ import wwmm.pubcrawler.model.*;
 import wwmm.pubcrawler.types.Doi;
 import wwmm.pubcrawler.utils.XPathUtils;
 
+import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -83,6 +84,11 @@ public class RscIssueCrawler extends AbstractIssueCrawler {
         }
 
         Document doc = readHtml(request);
+        BufferedOutputStream f = new BufferedOutputStream(new FileOutputStream("target/"+issue.getId().replace('/', '_')+".html"));
+        Serializer ser = new Serializer(f);
+        ser.write(doc);
+        f.close();
+
         log().trace("done");
         return doc;
     }
@@ -97,13 +103,15 @@ public class RscIssueCrawler extends AbstractIssueCrawler {
         CrawlerPostRequest request = new CrawlerPostRequest(
                 URI.create("http://pubs.rsc.org/en/Journals/issues"),
                 Arrays.asList(
-                    new BasicNameValuePair("name", getJournal().getAbbreviation()),
-                    new BasicNameValuePair("issueID", issueId),
+                    new BasicNameValuePair("name", getJournal().getAbbreviation().toUpperCase()),
+                    new BasicNameValuePair("issueid", issueId),
                     new BasicNameValuePair("jname", getJournal().getFullTitle()),
-                    new BasicNameValuePair("isArchive", "False"),
+                    new BasicNameValuePair("isarchive", "False"),
                     new BasicNameValuePair("issnprint", ""),
-                    new BasicNameValuePair("isContentAvailable", "True")
+                    new BasicNameValuePair("issnonline", ""),
+                    new BasicNameValuePair("iscontentavailable", "True")
                 ), id, maxAge);
+
         return request;
     }
 
@@ -181,8 +189,8 @@ public class RscIssueCrawler extends AbstractIssueCrawler {
         if (s == null) {
             return null;
         }
-        // TODO /en/Journals/Journal/AC?issueID=OB008999&issnprint=1359-7337
-        Pattern p = Pattern.compile("issueid=(.+)(\\d{3})(\\d{3})($|&issnprint)", Pattern.CASE_INSENSITIVE);
+        // /en/journals/journal/cc?issueid=cc047024&amp;issnprint=1359-7345
+        Pattern p = Pattern.compile("issueid=([a-z]+)(\\d{3})(\\d{3})($|&issnprint)", Pattern.CASE_INSENSITIVE);
         Matcher m = p.matcher(s);
         if (!m.find()) {
             throw new CrawlerRuntimeException("No match: "+s);
@@ -190,7 +198,7 @@ public class RscIssueCrawler extends AbstractIssueCrawler {
         String issueId = "rsc/"+m.group(1)+'/'+Integer.parseInt(m.group(2))+'/'+Integer.parseInt(m.group(3));
         Issue prev = new Issue();
         prev.setId(issueId);
-        prev.setUrl(URI.create(s));
+        prev.setUrl(URI.create(m.group(1)+m.group(2)+m.group(3)));
         return prev;
     }
 
