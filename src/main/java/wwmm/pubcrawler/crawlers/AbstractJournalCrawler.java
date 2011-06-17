@@ -72,9 +72,15 @@ public abstract class AbstractJournalCrawler extends AbstractCrawler {
             }
 
             if (issue != null) {
-                int year = Integer.valueOf(issue.getYear());
-                if (year < getMinYear()) {
-                    break;
+
+                int year;
+                try {
+                    year = Integer.valueOf(issue.getYear());
+                    if (year < getMinYear()) {
+                        break;
+                    }
+                } catch (NumberFormatException e) {
+                    log().warn("Error parsing year: "+issue.getYear()+" ["+issue.getId()+"]");
                 }
 
                 if (visitedIssues.add(issue.getId())) {
