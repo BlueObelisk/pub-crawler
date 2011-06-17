@@ -58,6 +58,24 @@ public class MongoStore {
     public Article findArticle(String id) {
         return (Article) articles.findOne(new BasicDBObject("id", id));
     }
+    
+    public Article findArticleByDoi(String doi){
+    	doi=cleanDoi(doi);
+		return (Article) articles.findOne(new BasicDBObject("doi",doi));
+    }
+    
+    private String cleanDoi(String doi){
+    	String prefix="http://dx.doi.org/";
+    	if(doi.startsWith(prefix)){
+    		doi=doi.substring(prefix.length());
+    	}
+    	return doi;
+    }
+    
+    public boolean containsDoi(String doi){
+    	doi=cleanDoi(doi);
+    	return articles.findOne(new BasicDBObject("doi", doi), new BasicDBObject("doi", 1)) != null;
+    }
 
     public boolean containsArticle(String id) {
         return articles.findOne(new BasicDBObject("id", id), new BasicDBObject("id", 1)) != null;
