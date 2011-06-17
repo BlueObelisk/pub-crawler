@@ -55,6 +55,16 @@ public class AcsIssueCrawlerTest extends AbstractCrawlerTest {
                 URI.create("http://pubs.acs.org/toc/inocaj/39/19"));
     }
 
+    private CrawlerResponse prepareJceaax55_9Response() throws IOException {
+        return prepareResponse("./jceaax_55_9.html",
+                URI.create("http://pubs.acs.org/toc/jceaax/55/9"));
+    }
+
+    private CrawlerResponse prepareJceaax53_9Response() throws IOException {
+        return prepareResponse("./jceaax_53_9.html",
+                URI.create("http://pubs.acs.org/toc/jceaax/53/9"));
+    }
+
     protected AcsIssueCrawler getJacsIssue132_51() throws IOException {
         Issue issue = new Issue();
         issue.setUrl(URI.create("http://pubs.acs.org/toc/jacsat/132/51"));
@@ -74,6 +84,34 @@ public class AcsIssueCrawlerTest extends AbstractCrawlerTest {
         issue.setUrl(URI.create("http://pubs.acs.org/toc/inocaj/34/25"));
 
         CrawlerResponse response = prepareInocajLegacyIssueResponse();
+
+        HttpCrawler crawler = Mockito.mock(HttpCrawler.class);
+        Mockito.when(crawler.execute(Mockito.any(CrawlerRequest.class)))
+                .thenReturn(response);
+
+        CrawlerContext context = new CrawlerContext(null, crawler, null);
+        return new AcsIssueCrawler(issue, context);
+    }
+
+    protected AcsIssueCrawler getJceaaxIssue55_9() throws IOException {
+        Issue issue = new Issue();
+        issue.setUrl(URI.create("http://pubs.acs.org/toc/jceaax/55/9"));
+
+        CrawlerResponse response = prepareJceaax55_9Response();
+
+        HttpCrawler crawler = Mockito.mock(HttpCrawler.class);
+        Mockito.when(crawler.execute(Mockito.any(CrawlerRequest.class)))
+                .thenReturn(response);
+
+        CrawlerContext context = new CrawlerContext(null, crawler, null);
+        return new AcsIssueCrawler(issue, context);
+    }
+
+    protected AcsIssueCrawler getJceaaxIssue53_9() throws IOException {
+        Issue issue = new Issue();
+        issue.setUrl(URI.create("http://pubs.acs.org/toc/jceaax/53/9"));
+
+        CrawlerResponse response = prepareJceaax53_9Response();
 
         HttpCrawler crawler = Mockito.mock(HttpCrawler.class);
         Mockito.when(crawler.execute(Mockito.any(CrawlerRequest.class)))
@@ -206,6 +244,19 @@ public class AcsIssueCrawlerTest extends AbstractCrawlerTest {
         AcsIssueCrawler crawler = getInocajIssue39_19();
         List<Article> articles = crawler.getArticles();
         assertEquals(30, articles.size());
+    }
+
+
+    @Test
+    public void testGetJceaax55_9_Year() throws IOException {
+        AcsIssueCrawler crawler = getJceaaxIssue55_9();
+        assertEquals("2010", crawler.getYear());
+    }
+
+    @Test
+    public void testGetJceaax53_9_Year() throws IOException {
+        AcsIssueCrawler crawler = getJceaaxIssue53_9();
+        assertEquals(null, crawler.getYear());
     }
 
 }

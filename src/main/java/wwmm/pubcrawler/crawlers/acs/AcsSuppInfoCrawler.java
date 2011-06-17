@@ -118,7 +118,8 @@ public class AcsSuppInfoCrawler extends AbstractArticleCrawler {
         }
         List<SupplementaryResource> supplementaryResources = new ArrayList<SupplementaryResource>();
         if (getHtml() != null) {
-            List<Node> headingNodes = XPathUtils.queryHTML(getHtml(), ".//x:div[@id='supInfoBox']/x:h3");
+
+            List<Node> headingNodes = XPathUtils.queryHTML(getHtml(), "//x:div[@id='supInfoBox']/x:h3");
             for (Node heading : headingNodes) {
                 String title = heading.getValue();
 
