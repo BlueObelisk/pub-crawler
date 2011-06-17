@@ -60,6 +60,26 @@ public class RscIssueCrawlerTest extends AbstractCrawlerTest {
         return new RscIssueCrawler(issue, RscJournalIndex.CHEMICAL_COMMUNICATIONS, context);
     }
 
+    private CrawlerResponse prepareJm1527IssueResponse() throws IOException {
+        return prepareResponse("./jm-issue-15-2728.html",
+                URI.create("http://pubs.rsc.org/en/Journals/JournalIssues/JM"));
+    }
+
+    protected RscIssueCrawler getJm1527Issue() throws IOException {
+        Issue issue = new Issue();
+        issue.setId("rsc/jm/15/27");
+        issue.setUrl(URI.create("http://pubs.rsc.org/en/journals/journalissues/jm015026"));
+
+        CrawlerResponse response = prepareJm1527IssueResponse();
+
+        HttpCrawler crawler = Mockito.mock(HttpCrawler.class);
+        Mockito.when(crawler.execute(Mockito.any(CrawlerRequest.class)))
+                    .thenReturn(response);
+
+        CrawlerContext context = new CrawlerContext(null, crawler, null);
+        return new RscIssueCrawler(issue, RscJournalIndex.JOURNAL_OF_MATERIALS_CHEMISTRY, context);
+    }
+
     @Test
     public void testGetArticleIds() throws IOException {
         RscIssueCrawler crawler = getCcIssue();
@@ -121,6 +141,35 @@ public class RscIssueCrawlerTest extends AbstractCrawlerTest {
         assertEquals(74, issue.getArticles().size());
         assertNotNull(issue.getPreviousIssue());
         assertEquals("rsc/cc/47/2", issue.getPreviousIssue().getId());
+    }
+
+
+    @Test
+    public void testGetJm1527Year() throws IOException {
+        RscIssueCrawler crawler = getJm1527Issue();
+        assertEquals("2005", crawler.getYear());
+
+    }
+
+    @Test
+    public void testGetJm1527Volume() throws IOException {
+        RscIssueCrawler crawler = getJm1527Issue();
+        assertEquals("15", crawler.getVolume());
+    }
+
+    @Test
+    public void testGetJm1527Number() throws IOException {
+        RscIssueCrawler crawler = getJm1527Issue();
+        assertEquals("27-28", crawler.getNumber());
+    }
+
+    @Test
+    public void testGetJm1527Previous() throws IOException {
+        RscIssueCrawler crawler = getJm1527Issue();
+        Issue prev = crawler.getPreviousIssue();
+        assertNotNull(prev);
+        assertEquals("rsc/jm/15/26", prev.getId());
+        assertEquals(URI.create("jm015026"), prev.getUrl());
     }
 
 }

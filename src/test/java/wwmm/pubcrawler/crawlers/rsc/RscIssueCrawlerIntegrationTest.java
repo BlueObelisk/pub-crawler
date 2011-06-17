@@ -36,7 +36,8 @@ import static org.junit.Assert.assertNotNull;
  */
 public class RscIssueCrawlerIntegrationTest extends RscIssueCrawlerTest {
 
-    private static RscIssueCrawler crawler;
+    private static RscIssueCrawler cc_47_03_crawler;
+    private static RscIssueCrawler jm_15_2728_crawler;
 
     @BeforeClass
     public static void setUp() throws IOException {
@@ -45,17 +46,32 @@ public class RscIssueCrawlerIntegrationTest extends RscIssueCrawlerTest {
         issue.setUrl(URI.create("cc047003"));
 
         CrawlerContext context = new CrawlerContext(null, getHttpCrawler(), null);
-        crawler = new RscIssueCrawler(issue, RscJournalIndex.CHEMICAL_COMMUNICATIONS, context);
+        cc_47_03_crawler = new RscIssueCrawler(issue, RscJournalIndex.CHEMICAL_COMMUNICATIONS, context);
+    }
+
+    @BeforeClass
+    public static void setUp2() throws IOException {
+        Issue issue = new Issue();
+        issue.setId("rsc/jm/15/27");
+        issue.setUrl(URI.create("jm015027"));
+
+        CrawlerContext context = new CrawlerContext(null, getHttpCrawler(), null);
+        jm_15_2728_crawler = new RscIssueCrawler(issue, RscJournalIndex.JOURNAL_OF_MATERIALS_CHEMISTRY, context);
     }
 
     @AfterClass
     public static void cleanUp() {
-        crawler = null;
+        cc_47_03_crawler = null;
     }
 
     @Override
     protected RscIssueCrawler getCcIssue() throws IOException {
-        return crawler;
+        return cc_47_03_crawler;
+    }
+
+    @Override
+    protected RscIssueCrawler getJm1527Issue() throws IOException {
+        return jm_15_2728_crawler;
     }
 
     @Test

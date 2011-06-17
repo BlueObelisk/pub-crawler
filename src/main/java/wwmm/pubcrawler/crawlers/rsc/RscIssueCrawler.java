@@ -190,10 +190,10 @@ public class RscIssueCrawler extends AbstractIssueCrawler {
             return null;
         }
         // /en/journals/journal/cc?issueid=cc047024&amp;issnprint=1359-7345
-        Pattern p = Pattern.compile("issueid=([a-z]+)(\\d{3})(\\d{3})($|&issnprint)", Pattern.CASE_INSENSITIVE);
+        Pattern p = Pattern.compile("\\b([a-z]+)(\\d{3})(\\d{3})($|&issnprint)", Pattern.CASE_INSENSITIVE);
         Matcher m = p.matcher(s);
         if (!m.find()) {
-            throw new CrawlerRuntimeException("No match: "+s);
+            throw new CrawlerRuntimeException("No match: ["+s+"]");
         }
         String issueId = "rsc/"+m.group(1)+'/'+Integer.parseInt(m.group(2))+'/'+Integer.parseInt(m.group(3));
         Issue prev = new Issue();
@@ -218,10 +218,10 @@ public class RscIssueCrawler extends AbstractIssueCrawler {
 
     public String getNumber() {
         String s = getScriptText();
-        Pattern p = Pattern.compile("IssueNo='(\\d+)'");
+        Pattern p = Pattern.compile("IssueNo='(\\d+(-\\d+)?)'");
         Matcher m = p.matcher(s);
         if (!m.find()) {
-            log().warn("Unable to locate issue number: "+getIdString());
+            log().warn("Unable to locate issue number: "+s);
             return "0";
         }
         return m.group(1);
