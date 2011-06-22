@@ -31,6 +31,7 @@ import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerResponse;
 import uk.ac.cam.ch.wwmm.httpcrawler.HttpCrawler;
 import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.data.mongo.MongoStore;
+import wwmm.pubcrawler.model.id.Id;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -76,8 +77,8 @@ public abstract class AbstractCrawler {
     }
 
 
-    protected String readString(URI url, String id, Duration maxage) throws IOException {
-        CrawlerGetRequest request = new CrawlerGetRequest(url, id, maxage);
+    protected String readString(URI url, Id id, String qualifier, Duration maxage) throws IOException {
+        CrawlerGetRequest request = new CrawlerGetRequest(url, id.getValue()+"_"+qualifier, maxage);
         return readString(request);
     }
 
@@ -147,8 +148,13 @@ public abstract class AbstractCrawler {
         doc.setBaseURI(url);
     }
 
-    protected  Document readHtml(URI url, String id, Duration maxage) throws IOException {
-        CrawlerGetRequest request = new CrawlerGetRequest(url, id, maxage);
+    protected  Document readHtml(URI url, Id id, Duration maxage) throws IOException {
+        CrawlerGetRequest request = new CrawlerGetRequest(url, id.getValue()+".html", maxage);
+        return readHtml(request);
+    }
+
+    protected  Document readHtml(URI url, Id id, String qualifier, Duration maxage) throws IOException {
+        CrawlerGetRequest request = new CrawlerGetRequest(url, id.getValue()+"_"+qualifier+".html", maxage);
         return readHtml(request);
     }
 

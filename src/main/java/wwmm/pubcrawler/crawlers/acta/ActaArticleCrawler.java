@@ -26,6 +26,7 @@ import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.FullTextResource;
 import wwmm.pubcrawler.model.Reference;
 import wwmm.pubcrawler.model.SupplementaryResource;
+import wwmm.pubcrawler.model.id.ArticleId;
 import wwmm.pubcrawler.utils.BibtexTool;
 import wwmm.pubcrawler.utils.XPathUtils;
 
@@ -271,7 +272,7 @@ public class ActaArticleCrawler extends AbstractArticleCrawler {
 
 
     @Override
-    protected String getArticleId() {
+    protected ArticleId getArticleId() {
         return getArticleRef().getId();
     }
 

@@ -20,6 +20,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.model.Article;
+import wwmm.pubcrawler.model.id.ArticleId;
 import wwmm.pubcrawler.types.Doi;
 
 import java.io.IOException;
@@ -35,7 +36,7 @@ public class AcsArticleCrawlerIntegrationTest extends AcsArticleCrawlerTest {
     @BeforeClass
     public static void setUpCg100078b() throws IOException {
         Article article = new Article();
-        article.setId("acs/cgdefu/10/8/cg100078b");
+        article.setId(new ArticleId("acs/cgdefu/10/8/cg100078b"));
         article.setDoi(new Doi("10.1021/cg100078b"));
         CrawlerContext context = new CrawlerContext(null, getHttpCrawler(), null);
         crawlerCg100078b = new AcsArticleCrawler(article, context);
@@ -44,7 +45,7 @@ public class AcsArticleCrawlerIntegrationTest extends AcsArticleCrawlerTest {
     @BeforeClass
     public static void setUpJo1013564() throws IOException {
         Article article = new Article();
-        article.setId("acs/joceah/75/23/jo1013564");
+        article.setId(new ArticleId("acs/joceah/75/23/jo1013564"));
         article.setDoi(new Doi("10.1021/jo1013564"));
         CrawlerContext context = new CrawlerContext(null, getHttpCrawler(), null);
         crawlerJo1013564 = new AcsArticleCrawler(article, context);

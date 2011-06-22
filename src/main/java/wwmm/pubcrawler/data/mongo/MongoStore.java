@@ -5,6 +5,9 @@ import com.mongodb.BasicDBObjectBuilder;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import wwmm.pubcrawler.model.*;
+import wwmm.pubcrawler.model.id.ArticleId;
+import wwmm.pubcrawler.model.id.IssueId;
+import wwmm.pubcrawler.types.Doi;
 
 /**
  * @author sea36
@@ -49,48 +52,38 @@ public class MongoStore {
 
 
     public void saveArticle(Article article) {
-        String id = article.getId();
-        articles.update(new BasicDBObject("id", id), article, true, false);
+        ArticleId id = article.getId();
+        articles.update(new BasicDBObject("id", id.getValue()), article, true, false);
     }
 
-    public Article findArticle(String id) {
-        return (Article) articles.findOne(new BasicDBObject("id", id));
+    public Article findArticle(ArticleId id) {
+        return (Article) articles.findOne(new BasicDBObject("id", id.getValue()));
     }
     
-    public Article findArticleByDoi(String doi){
-    	doi=cleanDoi(doi);
-		return (Article) articles.findOne(new BasicDBObject("doi",doi));
+    public Article findArticleByDoi(Doi doi){
+		return (Article) articles.findOne(new BasicDBObject("doi", doi.getValue()));
     }
     
-    private String cleanDoi(String doi){
-    	String prefix="http://dx.doi.org/";
-    	if(doi.startsWith(prefix)){
-    		doi=doi.substring(prefix.length());
-    	}
-    	return doi;
-    }
-    
-    public boolean containsDoi(String doi){
-    	doi=cleanDoi(doi);
-    	return articles.findOne(new BasicDBObject("doi", doi), new BasicDBObject("doi", 1)) != null;
+    public boolean containsDoi(Doi doi){
+    	return articles.findOne(new BasicDBObject("doi", doi.getValue()), new BasicDBObject("doi", 1)) != null;
     }
 
-    public boolean containsArticle(String id) {
-        return articles.findOne(new BasicDBObject("id", id), new BasicDBObject("id", 1)) != null;
+    public boolean containsArticle(ArticleId id) {
+        return articles.findOne(new BasicDBObject("id", id.getValue()), new BasicDBObject("id", 1)) != null;
     }
 
 
     public void saveIssue(Issue issue) {
-        String id = issue.getId();
-        issues.update(new BasicDBObject("id", id), issue, true, false);
+        IssueId id = issue.getId();
+        issues.update(new BasicDBObject("id", id.getValue()), issue, true, false);
     }
 
-    public Issue findIssue(String id) {
-        return (Issue) issues.findOne(new BasicDBObject("id", id));
+    public Issue findIssue(IssueId id) {
+        return (Issue) issues.findOne(new BasicDBObject("id", id.getValue()));
     }
 
-    public boolean containsIssue(String id) {
-        return issues.findOne(new BasicDBObject("id", id), new BasicDBObject("id", 1)) != null;
+    public boolean containsIssue(IssueId id) {
+        return issues.findOne(new BasicDBObject("id", id.getValue()), new BasicDBObject("id", 1)) != null;
     }
 
 

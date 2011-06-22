@@ -21,6 +21,7 @@ import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.crawlers.AbstractJournalCrawler;
 import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.model.Journal;
+import wwmm.pubcrawler.model.id.IssueId;
 
 import java.io.IOException;
 import java.net.URI;
@@ -40,7 +41,7 @@ public class WileyJournalCrawler extends AbstractJournalCrawler {
     public Issue fetchCurrentIssue() throws IOException {
         log().debug("Fetching current issue of " + getJournal().getFullTitle());
         Issue issue = new Issue();
-        issue.setId("wiley/"+getJournal().getAbbreviation()+"/current");
+        issue.setId(new IssueId("wiley/"+getJournal().getAbbreviation()+"/current"));
         issue.setCurrent(true);
         issue.setUrl(getCurrentIssueUrl());
         return fetchIssue(issue);

@@ -24,6 +24,8 @@ import wwmm.pubcrawler.CrawlerRuntimeException;
 import wwmm.pubcrawler.HtmlUtil;
 import wwmm.pubcrawler.crawlers.AbstractIssueCrawler;
 import wwmm.pubcrawler.model.*;
+import wwmm.pubcrawler.model.id.ArticleId;
+import wwmm.pubcrawler.model.id.IssueId;
 import wwmm.pubcrawler.types.Doi;
 import wwmm.pubcrawler.utils.XPathUtils;
 
@@ -62,7 +64,7 @@ public class ActaIssueCrawler extends AbstractIssueCrawler {
 
     private Document getHeadHtml() throws IOException {
         this.headerUrl = getUrl().resolve("./isscontshdr.html");
-        return readHtml(headerUrl, getIssueId()+"_head.html", AGE_MAX);
+        return readHtml(headerUrl, getIssueId(), "head", AGE_MAX);
     }
 
     @Override
@@ -72,7 +74,7 @@ public class ActaIssueCrawler extends AbstractIssueCrawler {
 
     @Override
     protected Document fetchHtml(Issue issue) throws IOException {
-        return readHtml(issue.getUrl(), getIssueId(issue.getUrl())+".html", AGE_MAX);
+        return readHtml(issue.getUrl(), issue.getId(), AGE_MAX);
     }
 
 
@@ -108,7 +110,7 @@ public class ActaIssueCrawler extends AbstractIssueCrawler {
     }
 
     @Override
-    protected String getArticleId(Node node, String issueId) {
+    protected ArticleId getArticleId(Node node, IssueId issueId) {
         String idString = XPathUtils.getString(node, ".//x:a[./x:img[contains(@alt, 'pdf version') or contains(@alt, 'PDF version')]]/@href");
         if (idString == null) {
             throw new CrawlerRuntimeException("not found");
@@ -118,7 +120,7 @@ public class ActaIssueCrawler extends AbstractIssueCrawler {
         if (!m.find()) {
             throw new CrawlerRuntimeException("No match: "+idString);
         }
-        return issueId + '/' + m.group(1);
+        return new ArticleId(issueId, m.group(1));
     }
 
     @Override
@@ -195,18 +197,18 @@ public class ActaIssueCrawler extends AbstractIssueCrawler {
 
 
     @Override
-    public String getIssueId() {
+    public IssueId getIssueId() {
         return getIssueId(getUrl());
     }
 
-    private String getIssueId(URI url) {
+    private IssueId getIssueId(URI url) {
         // http://journals.iucr.org/e/issues/2011/01/00/isscontsbdy.html
         Pattern p = Pattern.compile("journals.iucr.org/([^/]+)/issues/(\\d+)/(\\w+)/(\\w+)");
         Matcher m = p.matcher(url.toString());
         if (!m.find()) {
             throw new CrawlerRuntimeException("Unable to parse URL: "+url);
         }
-        return "acta/" + m.group(1) + '/' + m.group(2) + '/' + m.group(3) + '-' + m.group(4);
+        return new IssueId("acta/" + m.group(1) + '/' + m.group(2) + '/' + m.group(3) + '-' + m.group(4));
     }
 
 

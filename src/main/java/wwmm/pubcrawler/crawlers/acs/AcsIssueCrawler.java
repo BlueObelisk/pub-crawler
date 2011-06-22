@@ -23,6 +23,8 @@ import org.joda.time.format.DateTimeFormat;
 import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.crawlers.AbstractIssueCrawler;
 import wwmm.pubcrawler.model.*;
+import wwmm.pubcrawler.model.id.ArticleId;
+import wwmm.pubcrawler.model.id.IssueId;
 import wwmm.pubcrawler.types.Doi;
 import wwmm.pubcrawler.utils.XPathUtils;
 
@@ -71,16 +73,16 @@ public class AcsIssueCrawler extends AbstractIssueCrawler {
     @Override
     protected Document fetchHtml(Issue issue) throws IOException {
         if (issue.isCurrent()) {
-            return readHtml(issue.getUrl(), issue.getId()+".html", AGE_1DAY);
+            return readHtml(issue.getUrl(), issue.getId(), AGE_1DAY);
         } else {
-            return readHtml(issue.getUrl(), issue.getId()+".html", AGE_MAX);
+            return readHtml(issue.getUrl(), issue.getId(), AGE_MAX);
         }
     }
 
 
     @Override
-    public String getIssueId() {
-        return "acs/" + getJournalAbbreviation() + '/' + getVolume() + '/' + getNumber();
+    public IssueId getIssueId() {
+        return new IssueId("acs/" + getJournalAbbreviation() + '/' + getVolume() + '/' + getNumber());
     }
 
     @Override
@@ -93,7 +95,7 @@ public class AcsIssueCrawler extends AbstractIssueCrawler {
                 URI url = getUrl().resolve(href);
 
                 Issue issue = new Issue();
-                issue.setId(id);
+                issue.setId(new IssueId(id));
                 issue.setUrl(url);
                 return issue;
             }
@@ -109,9 +111,9 @@ public class AcsIssueCrawler extends AbstractIssueCrawler {
 
 
     @Override
-    protected String getArticleId(Node articleNode, String issueId) {
+    protected ArticleId getArticleId(Node articleNode, IssueId issueId) {
         Doi doi = getArticleDoi(null, articleNode);
-        return issueId + '/' + doi.getSuffix();
+        return new ArticleId(issueId, doi.getSuffix());
     }
 
     @Override

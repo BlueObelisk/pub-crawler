@@ -23,6 +23,8 @@ import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.CrawlerRuntimeException;
 import wwmm.pubcrawler.crawlers.AbstractIssueCrawler;
 import wwmm.pubcrawler.model.*;
+import wwmm.pubcrawler.model.id.ArticleId;
+import wwmm.pubcrawler.model.id.IssueId;
 import wwmm.pubcrawler.types.Doi;
 import wwmm.pubcrawler.utils.XPathUtils;
 
@@ -71,8 +73,8 @@ public class SpringerIssueCrawler extends AbstractIssueCrawler {
     }
 
     @Override
-    public String getIssueId() {
-        return "springer/" + getIssn() + '/' + getVolume() + '/' + getNumber();
+    public IssueId getIssueId() {
+        return new IssueId("springer/" + getIssn() + '/' + getVolume() + '/' + getNumber());
     }
 
     public String getIssn() {
@@ -106,12 +108,12 @@ public class SpringerIssueCrawler extends AbstractIssueCrawler {
 
 
     @Override
-    protected String getArticleId(Node articleNode, String issueId) {
+    protected ArticleId getArticleId(Node articleNode, IssueId issueId) {
         URI url = getArticleUrl(null, articleNode);
         String s = url.toString();
         int i0 = s.lastIndexOf('/');
         int i1 = s.lastIndexOf('/', i0-1);
-        return issueId + '/' + s.substring(i1+1, i0);
+        return new ArticleId(issueId, s.substring(i1+1, i0));
     }
 
     @Override

@@ -22,6 +22,8 @@ import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.CrawlerRuntimeException;
 import wwmm.pubcrawler.crawlers.AbstractIssueCrawler;
 import wwmm.pubcrawler.model.*;
+import wwmm.pubcrawler.model.id.ArticleId;
+import wwmm.pubcrawler.model.id.IssueId;
 import wwmm.pubcrawler.types.Doi;
 import wwmm.pubcrawler.utils.XPathUtils;
 
@@ -73,9 +75,9 @@ public class WileyIssueCrawler extends AbstractIssueCrawler {
     }
 
     @Override
-    protected String getArticleId(Node articleNode, String issueId) {
+    protected ArticleId getArticleId(Node articleNode, IssueId issueId) {
         Doi doi = getArticleDoi(null, articleNode);
-        return issueId + '/' + doi.getSuffix();
+        return new ArticleId(issueId, doi.getSuffix());
     }
 
     @Override
@@ -153,7 +155,7 @@ public class WileyIssueCrawler extends AbstractIssueCrawler {
                 }
             }
             Issue issue = new Issue();
-            issue.setId("wiley/"+getJournal().getAbbreviation()+"/"+m.group(1)+"/"+m.group(2));
+            issue.setId(new IssueId("wiley/"+getJournal().getAbbreviation()+"/"+m.group(1)+"/"+m.group(2)));
             issue.setUrl(getUrl().resolve(href));
             return issue;
         }
@@ -161,7 +163,7 @@ public class WileyIssueCrawler extends AbstractIssueCrawler {
     }
 
     @Override
-    protected String getIssueId() {
+    protected IssueId getIssueId() {
         return getIssueRef().getId();
     }
 

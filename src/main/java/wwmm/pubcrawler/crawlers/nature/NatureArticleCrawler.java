@@ -26,6 +26,7 @@ import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.FullTextResource;
 import wwmm.pubcrawler.model.Reference;
 import wwmm.pubcrawler.model.SupplementaryResource;
+import wwmm.pubcrawler.model.id.ArticleId;
 import wwmm.pubcrawler.utils.XPathUtils;
 
 import java.io.ByteArrayOutputStream;
@@ -55,7 +56,7 @@ public class NatureArticleCrawler extends AbstractArticleCrawler {
 
     private static final Logger LOG = Logger.getLogger(NatureArticleCrawler.class);
 
-    private String articleId;
+    private ArticleId articleId;
 
     public NatureArticleCrawler(Article article, CrawlerContext context) throws IOException {
         super(article, context);
@@ -67,7 +68,7 @@ public class NatureArticleCrawler extends AbstractArticleCrawler {
         return LOG;
     }
 
-    public String getArticleId() {
+    public ArticleId getArticleId() {
         return articleId;
     }
 

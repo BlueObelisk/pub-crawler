@@ -26,6 +26,7 @@ import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.FullTextResource;
 import wwmm.pubcrawler.model.Reference;
 import wwmm.pubcrawler.model.SupplementaryResource;
+import wwmm.pubcrawler.model.id.ArticleId;
 import wwmm.pubcrawler.utils.XPathUtils;
 
 import java.io.ByteArrayOutputStream;
@@ -58,7 +59,7 @@ public class NatureSuppInfoCrawler extends AbstractArticleCrawler {
 
     private static final Logger LOG = Logger.getLogger(NatureSuppInfoCrawler.class);
 
-    private String articleId;
+    private ArticleId articleId;
 
     public NatureSuppInfoCrawler(Article article, CrawlerContext context) throws IOException {
         super(article, context);
@@ -69,7 +70,7 @@ public class NatureSuppInfoCrawler extends AbstractArticleCrawler {
     public Document fetchHtml(Article article) throws IOException {
         URI url = article.getSupplementaryResourceUrl();
         if (url != null) {
-            return readHtml(url, article.getId()+"_supp.html", AGE_MAX);
+            return readHtml(url, article.getId(), "supp", AGE_MAX);
         }
         return null;
     }
@@ -79,7 +80,7 @@ public class NatureSuppInfoCrawler extends AbstractArticleCrawler {
         return LOG;
     }
 
-    public String getArticleId() {
+    public ArticleId getArticleId() {
         return articleId;
     }
 

@@ -19,6 +19,7 @@ import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.model.Journal;
+import wwmm.pubcrawler.model.id.IssueId;
 
 import java.io.IOException;
 import java.util.*;
@@ -34,7 +35,7 @@ public abstract class AbstractJournalCrawler extends AbstractCrawler {
     private int maxIssues = -1;
     private int minYear = -1;
 
-    private Set<String> visitedIssues = new LinkedHashSet<String>();
+    private Set<IssueId> visitedIssues = new LinkedHashSet<IssueId>();
 
     protected AbstractJournalCrawler(Journal journal, CrawlerContext context) {
         super(context);

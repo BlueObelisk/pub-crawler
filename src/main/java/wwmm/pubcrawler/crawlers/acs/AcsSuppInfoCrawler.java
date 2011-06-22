@@ -27,6 +27,7 @@ import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.FullTextResource;
 import wwmm.pubcrawler.model.Reference;
 import wwmm.pubcrawler.model.SupplementaryResource;
+import wwmm.pubcrawler.model.id.ArticleId;
 import wwmm.pubcrawler.types.MediaType;
 import wwmm.pubcrawler.utils.XPathUtils;
 
@@ -52,7 +53,7 @@ public class AcsSuppInfoCrawler extends AbstractArticleCrawler {
 
     private static final Logger LOG = Logger.getLogger(AcsSuppInfoCrawler.class);
 
-    private String articleId;
+    private ArticleId articleId;
 
     public AcsSuppInfoCrawler(Article article, CrawlerContext context) throws IOException {
         super(article, context);
@@ -63,7 +64,7 @@ public class AcsSuppInfoCrawler extends AbstractArticleCrawler {
     public Document fetchHtml(Article article) throws IOException {
         URI url = article.getSupplementaryResourceUrl();
         if (url != null) {
-            return readHtml(url, article.getId()+"_supp.html", AGE_MAX);
+            return readHtml(url, article.getId(), "supp", AGE_MAX);
         }
         return null;
     }
@@ -73,7 +74,8 @@ public class AcsSuppInfoCrawler extends AbstractArticleCrawler {
         return LOG;
     }
 
-    public String getArticleId() {
+    @Override
+    public ArticleId getArticleId() {
         return articleId;
     }
 

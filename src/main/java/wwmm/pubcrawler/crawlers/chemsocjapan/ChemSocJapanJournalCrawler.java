@@ -23,6 +23,7 @@ import wwmm.pubcrawler.crawlers.AbstractJournalCrawler;
 import wwmm.pubcrawler.journals.ChemSocJapanJournalIndex;
 import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.model.Journal;
+import wwmm.pubcrawler.model.id.IssueId;
 import wwmm.pubcrawler.utils.XPathUtils;
 
 import java.io.IOException;
@@ -57,7 +58,7 @@ public class ChemSocJapanJournalCrawler extends AbstractJournalCrawler {
 
     private URI getCurrentIssueUrl() throws IOException {
         URI url = getHomepageUrl();
-        Document html = readHtml(url, "chemsocjapan/chem-lett/current.html", AGE_1DAY);
+        Document html = readHtml(url, new IssueId("chemsocjapan/chem-lett/current"), AGE_1DAY);
         String href = XPathUtils.getString(html, ".//x:a[.='Current issue']/@href");
         URI frameUri = url.resolve(href);
         return frameUri.resolve("./isscontsbdy.html");

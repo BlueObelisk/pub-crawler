@@ -25,6 +25,8 @@ import wwmm.pubcrawler.crawlers.AbstractCrawler;
 import wwmm.pubcrawler.journals.ChemSocJapanJournalIndex;
 import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.model.Journal;
+import wwmm.pubcrawler.model.id.IssueId;
+import wwmm.pubcrawler.model.id.JournalId;
 import wwmm.pubcrawler.utils.XPathUtils;
 
 import java.io.IOException;
@@ -78,7 +80,7 @@ public class ChemSocJapanIndexCrawler extends AbstractCrawler {
         } else {
             throw new CrawlerRuntimeException("Unsupported journal: "+journal.getFullTitle());
         }
-        return readHtml(url, "chemsocjapan/chem-lett/index.html", AGE_1DAY);
+        return readHtml(url, new JournalId("chemsocjapan/chem-lett"), "index", AGE_1DAY);
     }
 
     public List<Issue> getIssues() {
@@ -123,8 +125,8 @@ public class ChemSocJapanIndexCrawler extends AbstractCrawler {
         return issues;
     }
 
-    private String generateIssueId(String volume, String number) {
-        return "chemsocjapan/"+getJournal().getAbbreviation()+'/'+volume+'/'+number;
+    private IssueId generateIssueId(String volume, String number) {
+        return new IssueId("chemsocjapan/"+getJournal().getAbbreviation()+'/'+volume+'/'+number);
     }
 
 }

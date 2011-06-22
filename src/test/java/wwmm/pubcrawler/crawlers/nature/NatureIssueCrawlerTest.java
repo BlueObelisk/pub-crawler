@@ -25,6 +25,7 @@ import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.crawlers.AbstractCrawlerTest;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.Issue;
+import wwmm.pubcrawler.model.id.IssueId;
 import wwmm.pubcrawler.types.Doi;
 
 import java.io.IOException;
@@ -46,7 +47,7 @@ public class NatureIssueCrawlerTest extends AbstractCrawlerTest {
 
     protected NatureIssueCrawler getNchem3_1() throws IOException {
         Issue issue = new Issue();
-        issue.setId("nature/nchem/3/1");
+        issue.setId(new IssueId("nature/nchem/3/1"));
         issue.setUrl(URI.create("http://www.nature.com/nchem/journal/v3/n1/index.html"));
 
         CrawlerResponse response = prepareJacsIssueResponse();

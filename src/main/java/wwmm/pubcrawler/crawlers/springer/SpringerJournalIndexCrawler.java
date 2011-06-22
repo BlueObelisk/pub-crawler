@@ -23,6 +23,8 @@ import org.apache.log4j.Logger;
 import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.crawlers.AbstractCrawler;
 import wwmm.pubcrawler.model.Issue;
+import wwmm.pubcrawler.model.id.IssueId;
+import wwmm.pubcrawler.model.id.JournalId;
 import wwmm.pubcrawler.utils.XPathUtils;
 
 import java.io.IOException;
@@ -43,20 +45,20 @@ public class SpringerJournalIndexCrawler extends AbstractCrawler {
 
     private final Document html;
     private final URI url;
-    private final String id;
+    private final JournalId id;
     private static final Pattern P__VOLUME = Pattern.compile("Volume\\s+(\\S+)");
     private static final Pattern P_ISSUE = Pattern.compile("Numbers?\\s+(\\S+) .*? (\\d{4})");
     private static final Pattern P_SUPP = Pattern.compile("Supplement\\s+(\\S+) .*? (\\d{4})");
 
-    public SpringerJournalIndexCrawler(CrawlerContext context, URI url, String id) throws IOException {
+    public SpringerJournalIndexCrawler(CrawlerContext context, URI url, JournalId id) throws IOException {
         super(context);
         this.id = id;
-        this.html = fetchHtml(url, id+"/index.html");
+        this.html = fetchHtml(url, id, "journal-index");
         this.url = URI.create(html.getBaseURI());
     }
 
-    protected Document fetchHtml(URI url, String id) throws IOException {
-        return readHtml(url, id, AGE_1DAY);
+    protected Document fetchHtml(URI url, JournalId id, String qualifier) throws IOException {
+        return readHtml(url, id, qualifier, AGE_1DAY);
     }
 
 
@@ -138,7 +140,7 @@ public class SpringerJournalIndexCrawler extends AbstractCrawler {
 
                 URI url = this.url.resolve(href);
                 Issue issue = new Issue();
-                issue.setId(this.id+'/'+volume+'/'+number);
+                issue.setId(new IssueId(this.id, volume, number));
                 issue.setUrl(url);
                 issue.setVolume(volume);
                 issue.setNumber(number);
@@ -153,7 +155,7 @@ public class SpringerJournalIndexCrawler extends AbstractCrawler {
         List<Node> issues;
         String href = XPathUtils.getString(node, "./x:a/@href");
         URI url = this.url.resolve(href);
-        Document html = readHtml(url, this.id+"_"+volume+".html", AGE_MAX);
+        Document html = readHtml(url, this.id, volume, AGE_MAX);
 
         issues = XPathUtils.queryHTML(html, "//x:p[@class='title']/x:a");
         for (Node n : issues) {
@@ -172,7 +174,7 @@ public class SpringerJournalIndexCrawler extends AbstractCrawler {
 
             URI u = url.resolve(h);
             Issue issue = new Issue();
-            issue.setId(this.id+'/'+volume+'/'+number);
+            issue.setId(new IssueId(this.id, volume, number));
             issue.setUrl(u);
             issue.setVolume(volume);
             issue.setNumber(number);

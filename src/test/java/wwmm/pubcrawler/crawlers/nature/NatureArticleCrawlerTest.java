@@ -26,6 +26,7 @@ import wwmm.pubcrawler.crawlers.AbstractCrawlerTest;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.Reference;
 import wwmm.pubcrawler.model.SupplementaryResource;
+import wwmm.pubcrawler.model.id.ArticleId;
 import wwmm.pubcrawler.types.Doi;
 
 import java.io.IOException;
@@ -46,7 +47,7 @@ public class NatureArticleCrawlerTest extends AbstractCrawlerTest {
 
     protected NatureArticleCrawler getNchem943() throws IOException {
         Article article = new Article();
-        article.setId("nature/nchem/3/1/nchem.943");
+        article.setId(new ArticleId("nature/nchem/3/1/nchem.943"));
         article.setDoi(new Doi("10.1038/nchem.943"));
 
         CrawlerResponse response = prepareNchem943();

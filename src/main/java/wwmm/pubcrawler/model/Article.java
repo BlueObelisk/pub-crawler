@@ -15,6 +15,7 @@
  */
 package wwmm.pubcrawler.model;
 
+import wwmm.pubcrawler.model.id.ArticleId;
 import wwmm.pubcrawler.types.Doi;
 
 import java.net.URI;
@@ -23,17 +24,12 @@ import java.util.List;
 /**
  * @author Sam Adams
  */
-public class Article extends MongoDBObject {
+public class Article extends PubcrawlerObject<ArticleId> {
 
-
-    public String getId() {
-        return getString("id");
+    @Override
+    protected ArticleId createId(String id) {
+        return new ArticleId(id);
     }
-
-    public void setId(String id) {
-        put("id", id);
-    }
-
 
     public String getTitle() {
         return getString("title");

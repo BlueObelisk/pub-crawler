@@ -24,6 +24,8 @@ import wwmm.pubcrawler.CrawlerRuntimeException;
 import wwmm.pubcrawler.crawlers.AbstractCrawler;
 import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.model.Journal;
+import wwmm.pubcrawler.model.id.IssueId;
+import wwmm.pubcrawler.model.id.JournalId;
 import wwmm.pubcrawler.utils.XPathUtils;
 
 import java.io.IOException;
@@ -72,7 +74,8 @@ private static final Logger LOG = Logger.getLogger(AcsIndexCrawler.class);
 
     private Document fetchHtml() throws IOException {
         URI url = URI.create("http://pubs.acs.org/loi/"+getJournal().getAbbreviation());
-        return readHtml(url, "acs/"+getJournal().getAbbreviation()+"_index.html", AGE_1DAY);
+        JournalId journalId = new JournalId("acs/" + getJournal().getAbbreviation());
+        return readHtml(url, journalId, "index", AGE_1DAY);
     }
 
     public List<Issue> getIssues() {
@@ -109,8 +112,8 @@ private static final Logger LOG = Logger.getLogger(AcsIndexCrawler.class);
         return issues;
     }
 
-    private String generateIssueId(String volume, String number) {
-        return "acs/"+getJournal().getAbbreviation()+'/'+volume+'/'+number;
+    private IssueId generateIssueId(String volume, String number) {
+        return new IssueId("acs/"+getJournal().getAbbreviation()+'/'+volume+'/'+number);
     }
 
 }

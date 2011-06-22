@@ -23,6 +23,7 @@ import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.journals.RscJournalIndex;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.Issue;
+import wwmm.pubcrawler.model.id.IssueId;
 
 import java.io.IOException;
 import java.net.URI;
@@ -42,7 +43,7 @@ public class RscIssueCrawlerIntegrationTest extends RscIssueCrawlerTest {
     @BeforeClass
     public static void setUp() throws IOException {
         Issue issue = new Issue();
-        issue.setId("rsc/cc/47/3");
+        issue.setId(new IssueId("rsc/cc/47/3"));
         issue.setUrl(URI.create("cc047003"));
 
         CrawlerContext context = new CrawlerContext(null, getHttpCrawler(), null);
@@ -52,7 +53,7 @@ public class RscIssueCrawlerIntegrationTest extends RscIssueCrawlerTest {
     @BeforeClass
     public static void setUp2() throws IOException {
         Issue issue = new Issue();
-        issue.setId("rsc/jm/15/27");
+        issue.setId(new IssueId("rsc/jm/15/27"));
         issue.setUrl(URI.create("jm015027"));
 
         CrawlerContext context = new CrawlerContext(null, getHttpCrawler(), null);
@@ -77,7 +78,7 @@ public class RscIssueCrawlerIntegrationTest extends RscIssueCrawlerTest {
     @Test
     public void testCrawlLatestCc() throws IOException {
         Issue issue = new Issue();
-        issue.setId("rsc/cc/Latest");
+        issue.setId(new IssueId("rsc/cc/Latest"));
         issue.setCurrent(true);
         issue.setUrl(URI.create("Latest"));
         CrawlerContext context = new CrawlerContext(null, getHttpCrawler(), null);

@@ -25,6 +25,8 @@ import wwmm.pubcrawler.crawlers.AbstractJournalCrawler;
 import wwmm.pubcrawler.journals.ActaJournalIndex;
 import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.model.Journal;
+import wwmm.pubcrawler.model.id.IssueId;
+import wwmm.pubcrawler.model.id.JournalId;
 import wwmm.pubcrawler.utils.XPathUtils;
 
 import java.io.IOException;
@@ -66,7 +68,8 @@ public class ActaJournalCrawler extends AbstractJournalCrawler {
     public List<Issue> fetchIssueList() throws IOException {
         log().debug("Fetching issue list for " + getJournal().getFullTitle());
         URI url = getIssueListUrl();
-        Document html = readHtml(url, "acta/"+getJournal().getAbbreviation()+"_issuelist", AGE_1DAY);
+        JournalId journalId = new JournalId("acta/"+getJournal().getAbbreviation());
+        Document html = readHtml(url, journalId, "issuelist", AGE_1DAY);
         List<Node> nodes = XPathUtils.queryHTML(html, ".//x:li[x:img]/x:a/@href");
         List<Issue> issues = new ArrayList<Issue>();
         for (Node node : nodes) {
@@ -98,19 +101,20 @@ public class ActaJournalCrawler extends AbstractJournalCrawler {
         return m.group(1);
     }
 
-    private String getIssueId(URI url) {
+    private IssueId getIssueId(URI url) {
         // http://journals.iucr.org/e/issues/2011/01/00/issconts.html
         Pattern p = Pattern.compile("/issues/(\\w+)/(\\w+)/(\\w+)/");
         Matcher m = p.matcher(url.toString());
         if (!m.find()) {
             throw new CrawlerRuntimeException("No match: "+url);
         }
-        return "acta/"+getJournal().getAbbreviation()+'/'+m.group(1)+'/'+m.group(2)+'-'+m.group(3);
+        return new IssueId("acta/"+getJournal().getAbbreviation()+'/'+m.group(1)+'/'+m.group(2)+'-'+m.group(3));
     }
 
     private URI getCurrentIssueUrl() throws IOException {
         URI url = getHomepageUrl();
-        Document html = readHtml(url, "acta/"+getJournal().getAbbreviation()+"_home.html", AGE_1DAY);
+        JournalId journalId = new JournalId("acta/"+getJournal().getAbbreviation());
+        Document html = readHtml(url, journalId, "home", AGE_1DAY);
         String href = XPathUtils.getString(html, ".//x:a[.='Current issue']/@href");
         URI frameUri = url.resolve(href);
         return frameUri.resolve("./isscontsbdy.html");

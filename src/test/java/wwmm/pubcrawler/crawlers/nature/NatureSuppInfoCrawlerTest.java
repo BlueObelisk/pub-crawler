@@ -22,18 +22,19 @@ import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerRequest;
 import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerResponse;
 import uk.ac.cam.ch.wwmm.httpcrawler.HttpCrawler;
 import wwmm.pubcrawler.CrawlerContext;
-import wwmm.pubcrawler.crawlers.AbstractArticleCrawler;
 import wwmm.pubcrawler.crawlers.AbstractCrawlerTest;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.Reference;
 import wwmm.pubcrawler.model.SupplementaryResource;
+import wwmm.pubcrawler.model.id.ArticleId;
 import wwmm.pubcrawler.types.Doi;
 
 import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * @author Sam Adams
@@ -47,7 +48,7 @@ public class NatureSuppInfoCrawlerTest extends AbstractCrawlerTest {
 
     protected NatureSuppInfoCrawler getNchem111() throws IOException {
         Article article = new Article();
-        article.setId("nature/nchem/1/1/nchem.111");
+        article.setId(new ArticleId("nature/nchem/1/1/nchem.111"));
         article.setDoi(new Doi("10.1038/nchem.111"));
         article.setSupplementaryResourceUrl(URI.create("http://www.nature.com/nchem/journal/v1/n1/suppinfo/nchem.111_S1.html"));
 

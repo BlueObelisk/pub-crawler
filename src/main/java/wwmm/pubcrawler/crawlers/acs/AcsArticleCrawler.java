@@ -29,6 +29,7 @@ import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.FullTextResource;
 import wwmm.pubcrawler.model.Reference;
 import wwmm.pubcrawler.model.SupplementaryResource;
+import wwmm.pubcrawler.model.id.ArticleId;
 import wwmm.pubcrawler.types.Doi;
 import wwmm.pubcrawler.utils.BibtexTool;
 import wwmm.pubcrawler.utils.XPathUtils;
@@ -61,7 +62,7 @@ public class AcsArticleCrawler extends AbstractArticleCrawler {
 
     private final BibtexTool bibtex;
 
-    private String articleId;
+    private ArticleId articleId;
 
     public AcsArticleCrawler(Article article, CrawlerContext context) throws IOException {
         super(article, context);
@@ -113,7 +114,7 @@ public class AcsArticleCrawler extends AbstractArticleCrawler {
         if (supportingInfoUrl == null) {
             return null;
         }
-        return readHtml(supportingInfoUrl, getArticleRef().getId()+"_supp.html", AGE_MAX);
+        return readHtml(supportingInfoUrl, getArticleRef().getId(), "supp", AGE_MAX);
     }
 
     /**
@@ -140,7 +141,7 @@ public class AcsArticleCrawler extends AbstractArticleCrawler {
     }
 
 
-    public String getArticleId() {
+    public ArticleId getArticleId() {
         return articleId;
     }
 

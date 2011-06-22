@@ -20,6 +20,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.model.Article;
+import wwmm.pubcrawler.model.id.ArticleId;
 import wwmm.pubcrawler.types.Doi;
 
 import java.io.IOException;
@@ -36,7 +37,7 @@ public class ActaArticleCrawlerIntegrationTest extends ActaArticleCrawlerTest {
     @BeforeClass
     public static void setUpBt5401() throws IOException {
         Article article = new Article();
-        article.setId("acta/e/2010/12-00/bt5401");
+        article.setId(new ArticleId("acta/e/2010/12-00/bt5401"));
         article.setDoi(new Doi("10.1107/S1600536810045198"));
         CrawlerContext context = new CrawlerContext(null, getHttpCrawler(), null);
         crawlerBt5401 = new ActaArticleCrawler(article, context);
@@ -45,7 +46,7 @@ public class ActaArticleCrawlerIntegrationTest extends ActaArticleCrawlerTest {
     @BeforeClass
     public static void setUpBk5801() throws IOException {
         Article article = new Article();
-        article.setId("acta/b/2009/02-00/bk5081");
+        article.setId(new ArticleId("acta/b/2009/02-00/bk5081"));
         article.setDoi(new Doi("10.1107/S0108768109004066"));
         CrawlerContext context = new CrawlerContext(null, getHttpCrawler(), null);
         crawlerBk5081 = new ActaArticleCrawler(article, context);
