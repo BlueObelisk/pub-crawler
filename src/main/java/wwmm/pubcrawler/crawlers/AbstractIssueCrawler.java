@@ -22,6 +22,8 @@ import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.CrawlerRuntimeException;
 import wwmm.pubcrawler.crawlers.wiley.WileyIssueCrawler;
 import wwmm.pubcrawler.model.*;
+import wwmm.pubcrawler.model.id.ArticleId;
+import wwmm.pubcrawler.model.id.IssueId;
 import wwmm.pubcrawler.types.Doi;
 
 import java.io.IOException;
@@ -68,7 +70,7 @@ public abstract class AbstractIssueCrawler extends AbstractCrawler {
         } else {
             maxAge = AGE_MAX;
         }
-        return readHtml(issue.getUrl(), issue.getId()+".html", maxAge);
+        return readHtml(issue.getUrl(), new IssueId(issue.getId().getValue()+".html"), maxAge); // TODO
     }
 
 
@@ -89,7 +91,7 @@ public abstract class AbstractIssueCrawler extends AbstractCrawler {
      *
      * @return unique identifier of the issue.
      */
-    protected abstract String getIssueId();
+    protected abstract IssueId getIssueId();
 
     /**
      * <p>Gets descriptions of all of the articles in the journal issue being
@@ -98,7 +100,7 @@ public abstract class AbstractIssueCrawler extends AbstractCrawler {
 	 * @return a list of descriptions of the articles for the issue.
      */
     public final List<Article> getArticles() {
-        String issueId = getIssueId();
+        IssueId issueId = getIssueId();
         List<Article> articles = new ArrayList<Article>();
         List<Node> articleNodes = getArticleNodes();
         for (Node articleNode : articleNodes) {
@@ -117,11 +119,11 @@ public abstract class AbstractIssueCrawler extends AbstractCrawler {
     protected abstract List<Node> getArticleNodes();
 
 
-    protected final Article getArticle(Node articleNode, String issueId) {
+    protected final Article getArticle(Node articleNode, IssueId issueId) {
 
         Article article = new Article();
 
-        String articleId;
+        ArticleId articleId;
         try {
             articleId = getArticleId(articleNode, issueId);
             if (articleId == null) {
@@ -211,7 +213,7 @@ public abstract class AbstractIssueCrawler extends AbstractCrawler {
     }
 
 
-    protected abstract String getArticleId(Node articleNode, String issueId);
+    protected abstract ArticleId getArticleId(Node articleNode, IssueId issueId);
 
     protected abstract Doi getArticleDoi(Article article, Node articleNode);
 

@@ -22,6 +22,7 @@ import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.FullTextResource;
 import wwmm.pubcrawler.model.Reference;
 import wwmm.pubcrawler.model.SupplementaryResource;
+import wwmm.pubcrawler.model.id.ArticleId;
 import wwmm.pubcrawler.types.Doi;
 
 import java.io.IOException;
@@ -68,7 +69,7 @@ public abstract class AbstractArticleCrawler extends AbstractCrawler {
         if (doi == null) {
             throw new CrawlerRuntimeException("Article missing DOI: " + article);
         }
-        return readHtml(doi.getUrl(), article.getId()+".html", AGE_MAX);
+        return readHtml(doi.getUrl(), article.getId(), AGE_MAX);
     }
 
 
@@ -80,7 +81,7 @@ public abstract class AbstractArticleCrawler extends AbstractCrawler {
         return url;
     }
 
-    protected String getArticleId() {
+    protected ArticleId getArticleId() {
         return getArticleRef().getId();
     }
 

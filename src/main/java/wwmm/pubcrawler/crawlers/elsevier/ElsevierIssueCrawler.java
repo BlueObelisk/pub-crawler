@@ -29,6 +29,8 @@ import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.CrawlerRuntimeException;
 import wwmm.pubcrawler.crawlers.AbstractIssueCrawler;
 import wwmm.pubcrawler.model.*;
+import wwmm.pubcrawler.model.id.ArticleId;
+import wwmm.pubcrawler.model.id.IssueId;
 import wwmm.pubcrawler.types.Doi;
 import wwmm.pubcrawler.utils.XPathUtils;
 
@@ -133,7 +135,7 @@ public class ElsevierIssueCrawler extends AbstractIssueCrawler {
         String query = URLEncodedUtils.format(params, "UTF-8");
 
         URI url = URI.create("http://www.sciencedirect.com/science?"+query);
-        Document html = readHtml(url, getIssueId()+"_bibtex.html", AGE_MAX);
+        Document html = readHtml(url, getIssueId(), "bibtex", AGE_MAX);
         return html;
     }
 
@@ -197,12 +199,12 @@ public class ElsevierIssueCrawler extends AbstractIssueCrawler {
 
 
     @Override
-    protected String getArticleId(Node context, String issueId) {
+    protected ArticleId getArticleId(Node context, IssueId issueId) {
         Element addr = (Element) XPathUtils.getNode(context, "x:a");
         String href = addr.getAttributeValue("href");
         Matcher m = P_ID.matcher(href);
         if (m.find()) {
-            return getIssueId()+"/"+m.group(1);
+            return new ArticleId(getIssueId(), m.group(1));
         } else {
             throw new CrawlerRuntimeException("No match for ID: "+href);
         }
@@ -293,7 +295,7 @@ public class ElsevierIssueCrawler extends AbstractIssueCrawler {
             Element addr = (Element) nodes.get(0);
             String href = addr.getAttributeValue("href");
             Issue issue = new Issue();
-            issue.setId("elsevier/"+getJournal().getAbbreviation()+"/"+getVolume()+"/"+getNumber()+"_prev");
+            issue.setId(new IssueId("elsevier/"+getJournal().getAbbreviation()+"/"+getVolume()+"/"+getNumber()+"_prev"));
             issue.setUrl(getUrl().resolve(href));
             return issue;
         }
@@ -314,7 +316,7 @@ public class ElsevierIssueCrawler extends AbstractIssueCrawler {
 
 
     @Override
-    protected String getIssueId() {
+    protected IssueId getIssueId() {
         return getIssueRef().getId();
     }
 

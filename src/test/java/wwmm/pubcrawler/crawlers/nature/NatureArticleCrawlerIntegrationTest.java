@@ -20,6 +20,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.model.Article;
+import wwmm.pubcrawler.model.id.ArticleId;
 import wwmm.pubcrawler.types.Doi;
 
 import java.io.IOException;
@@ -34,7 +35,7 @@ public class NatureArticleCrawlerIntegrationTest extends NatureArticleCrawlerTes
     @BeforeClass
     public static void setUp() throws IOException {
         Article article = new Article();
-        article.setId("nature/nchem/3/1/nchem.943");
+        article.setId(new ArticleId("nature/nchem/3/1/nchem.943"));
         article.setDoi(new Doi("10.1038/nchem.943"));
         CrawlerContext context = new CrawlerContext(null, getHttpCrawler(), null);
         crawler = new NatureArticleCrawler(article, context);

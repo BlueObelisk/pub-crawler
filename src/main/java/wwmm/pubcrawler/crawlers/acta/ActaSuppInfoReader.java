@@ -25,6 +25,7 @@ import wwmm.pubcrawler.CrawlerRuntimeException;
 import wwmm.pubcrawler.crawlers.AbstractCrawler;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.SupplementaryResource;
+import wwmm.pubcrawler.model.id.ArticleId;
 import wwmm.pubcrawler.types.MediaType;
 import wwmm.pubcrawler.utils.XHtml;
 import wwmm.pubcrawler.utils.XPathUtils;
@@ -53,7 +54,7 @@ public class ActaSuppInfoReader extends AbstractCrawler {
         return LOG;
     }
 
-    protected String getArticleId() {
+    protected ArticleId getArticleId() {
         return articleRef.getId();
     }
 
@@ -129,7 +130,7 @@ public class ActaSuppInfoReader extends AbstractCrawler {
 
     private List<SupplementaryResource> getResources(URI url) throws IOException {
         List<SupplementaryResource> resources = new ArrayList<SupplementaryResource>();
-        Document html = readHtml(url, getArticleId()+"_suppl.html", AGE_MAX);
+        Document html = readHtml(url, getArticleId(), "suppl", AGE_MAX);
         List<Node> nodes = XPathUtils.queryHTML(html, ".//x:td[@width='400']");
         for (Node node : nodes) {
             String href = XPathUtils.getString(node, "./x:a[./x:img[@alt='display file' or @alt='play file']]/@href");
@@ -152,7 +153,7 @@ public class ActaSuppInfoReader extends AbstractCrawler {
 
     private List<SupplementaryResource> getCifs(URI url) throws IOException {
         List<SupplementaryResource> resources = new ArrayList<SupplementaryResource>();
-        Document html = readHtml(url, getArticleId()+"_cifs.html", AGE_MAX);
+        Document html = readHtml(url, getArticleId(), "cifs", AGE_MAX);
 //        List<Node> nodes = XPathUtils.queryHTML(html, ".//x:ul/x:li");
 //        for (Node node : nodes) {
 //            Element li = (Element) node;

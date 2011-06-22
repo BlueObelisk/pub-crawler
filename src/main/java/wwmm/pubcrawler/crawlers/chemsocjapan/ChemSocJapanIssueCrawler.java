@@ -21,6 +21,8 @@ import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.CrawlerRuntimeException;
 import wwmm.pubcrawler.crawlers.AbstractIssueCrawler;
 import wwmm.pubcrawler.model.*;
+import wwmm.pubcrawler.model.id.ArticleId;
+import wwmm.pubcrawler.model.id.IssueId;
 import wwmm.pubcrawler.types.Doi;
 import wwmm.pubcrawler.utils.XPathUtils;
 
@@ -71,9 +73,9 @@ public class ChemSocJapanIssueCrawler extends AbstractIssueCrawler {
     }
 
     @Override
-    protected String getArticleId(Node articleNode, String issueId) {
+    protected ArticleId getArticleId(Node articleNode, IssueId issueId) {
         Doi doi = getArticleDoi(null, articleNode);
-        return issueId + '/' + doi.getSuffix();
+        return new ArticleId(issueId, doi.getSuffix());
     }
 
     @Override
@@ -128,8 +130,8 @@ public class ChemSocJapanIssueCrawler extends AbstractIssueCrawler {
 
 
     @Override
-    public String getIssueId() {
-        return "chemsocjapan/chem-lett/"+getVolume()+'/'+getNumber();
+    public IssueId getIssueId() {
+        return new IssueId("chemsocjapan/chem-lett/"+getVolume()+'/'+getNumber());
     }
 
 

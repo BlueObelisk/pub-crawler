@@ -24,6 +24,8 @@ import wwmm.pubcrawler.crawlers.AbstractJournalCrawler;
 import wwmm.pubcrawler.journals.NatureJournalIndex;
 import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.model.Journal;
+import wwmm.pubcrawler.model.id.IssueId;
+import wwmm.pubcrawler.model.id.JournalId;
 import wwmm.pubcrawler.utils.XPathUtils;
 
 import java.io.IOException;
@@ -57,19 +59,20 @@ public class NatureJournalCrawler extends AbstractJournalCrawler {
         return fetchIssue(issue);
     }
 
-    private String getIssueId(URI url) {
+    private IssueId getIssueId(URI url) {
         // http://www.nature.com/nchem/journal/v3/n1/
         Pattern p = Pattern.compile("www.nature.com/(\\S+)/journal/v(\\d+)/n(\\d+)/");
         Matcher m = p.matcher(url.toString());
         if (!m.find()) {
             throw new CrawlerRuntimeException("No match: "+url.toString());
         };
-        return "nature/"+m.group(1)+'/'+m.group(2)+'/'+m.group(3);
+        return new IssueId("nature/"+m.group(1)+'/'+m.group(2)+'/'+m.group(3));
     }
 
     protected URI getCurrentIssueUrl() throws IOException {
         URI homepageUrl = getHomepageUrl();
-        Document html = readHtml(homepageUrl, "nature/"+getJournal().getAbbreviation()+"_home.html", AGE_1DAY);
+        JournalId journalId = new JournalId("nature/"+getJournal().getAbbreviation());
+        Document html = readHtml(homepageUrl, journalId, "home", AGE_1DAY);
         String href = XPathUtils.getString(html, ".//x:a[text() = 'Current issue table of contents']/@href");
         return homepageUrl.resolve(href);
     }

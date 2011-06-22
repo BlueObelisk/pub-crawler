@@ -24,6 +24,7 @@ import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.DefaultCrawlerContext;
 import wwmm.pubcrawler.crawlers.AbstractCrawler;
 import wwmm.pubcrawler.model.Journal;
+import wwmm.pubcrawler.model.id.PublisherId;
 import wwmm.pubcrawler.utils.XPathUtils;
 
 import java.io.IOException;
@@ -61,7 +62,7 @@ public class SpringerPublicationCrawler extends AbstractCrawler {
             // Fetch pages
             int page = 1;
             while (uri != null) {
-                Document html = this.readHtml(uri, "springer/00-journalindex/"+key+"_"+page, AGE_28DAYS);
+                Document html = this.readHtml(uri, new PublisherId("springer"), "journalindex-"+key+"-"+page, AGE_28DAYS);
                 pages.add(html);
                 List<Node> nodes = XPathUtils.queryHTML(html, "//x:a[text() = 'Next']");
                 if (!nodes.isEmpty()) {

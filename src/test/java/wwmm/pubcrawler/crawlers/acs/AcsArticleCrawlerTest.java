@@ -30,6 +30,7 @@ import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.FullTextResource;
 import wwmm.pubcrawler.model.Reference;
 import wwmm.pubcrawler.model.SupplementaryResource;
+import wwmm.pubcrawler.model.id.ArticleId;
 import wwmm.pubcrawler.types.Doi;
 import wwmm.pubcrawler.utils.BibtexTool;
 
@@ -81,7 +82,7 @@ public class AcsArticleCrawlerTest extends AbstractCrawlerTest {
 
     protected AcsArticleCrawler getArticleCg100078b() throws IOException {
         Article article = new Article();
-        article.setId("acs/cgdefu/10/8/cg100078b");
+        article.setId(new ArticleId("acs/cgdefu/10/8/cg100078b"));
         article.setDoi(new Doi("10.1021/cg100078b"));
 
         CrawlerResponse response1 = prepareCg100078bResponse();
@@ -98,7 +99,7 @@ public class AcsArticleCrawlerTest extends AbstractCrawlerTest {
 
     protected AcsArticleCrawler getArticleJo1013564() throws IOException {
         Article article = new Article();
-        article.setId("acs/joceah/75/23/jo1013564");
+        article.setId(new ArticleId("acs/joceah/75/23/jo1013564"));
         article.setDoi(new Doi("10.1021/jo1013564"));
 
         CrawlerResponse response1 = prepareJo1013564Response();

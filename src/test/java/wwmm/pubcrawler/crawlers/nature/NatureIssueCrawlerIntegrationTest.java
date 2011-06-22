@@ -20,6 +20,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.model.Issue;
+import wwmm.pubcrawler.model.id.IssueId;
 
 import java.io.IOException;
 import java.net.URI;
@@ -34,7 +35,7 @@ public class NatureIssueCrawlerIntegrationTest extends NatureIssueCrawlerTest {
     @BeforeClass
     public static void setUp() throws IOException {
         Issue issue = new Issue();
-        issue.setId("nature/nchem/3/1");
+        issue.setId(new IssueId("nature/nchem/3/1"));
         issue.setUrl(URI.create("http://www.nature.com/nchem/journal/v3/n1/index.html"));
         CrawlerContext context = new CrawlerContext(null, getHttpCrawler(), null);
         crawler = new NatureIssueCrawler(issue, context);

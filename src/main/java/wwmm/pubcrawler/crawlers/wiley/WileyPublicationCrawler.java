@@ -23,6 +23,7 @@ import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.DefaultCrawlerContext;
 import wwmm.pubcrawler.crawlers.AbstractCrawler;
 import wwmm.pubcrawler.model.Journal;
+import wwmm.pubcrawler.model.id.PublisherId;
 import wwmm.pubcrawler.utils.XPathUtils;
 
 import java.io.IOException;
@@ -44,7 +45,7 @@ public class WileyPublicationCrawler extends AbstractCrawler {
 
     public WileyPublicationCrawler(CrawlerContext context) throws IOException {
         super(context);
-        this.html = readHtml(PUBS_URI, "wiley/index.html", AGE_28DAYS);
+        this.html = readHtml(PUBS_URI, new PublisherId("wiley"), "journal-index", AGE_28DAYS);
         this.url = URI.create(html.getBaseURI());
     }
 

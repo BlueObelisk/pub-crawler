@@ -27,6 +27,7 @@ import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.FullTextResource;
 import wwmm.pubcrawler.model.Reference;
 import wwmm.pubcrawler.model.SupplementaryResource;
+import wwmm.pubcrawler.model.id.ArticleId;
 import wwmm.pubcrawler.types.Doi;
 
 import java.io.IOException;
@@ -72,7 +73,7 @@ public class ChemSocJapanArticleCrawlerTest extends AbstractCrawlerTest {
 
     protected ChemSocJapanArticleCrawler getCl2010_156() throws IOException {
         Article article = new Article();
-        article.setId("chemsocjapan/cl/39/3/cl.2010.156");
+        article.setId(new ArticleId("chemsocjapan/cl/39/3/cl.2010.156"));
         article.setDoi(new Doi("10.1246/cl.2010.156"));
 
         CrawlerResponse response1 = prepareCl2010_156();
@@ -89,7 +90,7 @@ public class ChemSocJapanArticleCrawlerTest extends AbstractCrawlerTest {
 
     protected ChemSocJapanArticleCrawler getCl2008_682() throws IOException {
         Article article = new Article();
-        article.setId("chemsocjapan/cl/37/7/cl.2008.682");
+        article.setId(new ArticleId("chemsocjapan/cl/37/7/cl.2008.682"));
         article.setDoi(new Doi("10.1246/cl.2008.682"));
 
         CrawlerResponse response1 = prepareCl2008_682();

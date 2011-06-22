@@ -30,6 +30,8 @@ import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.CrawlerRuntimeException;
 import wwmm.pubcrawler.crawlers.AbstractIssueCrawler;
 import wwmm.pubcrawler.model.*;
+import wwmm.pubcrawler.model.id.ArticleId;
+import wwmm.pubcrawler.model.id.IssueId;
 import wwmm.pubcrawler.types.Doi;
 import wwmm.pubcrawler.utils.XPathUtils;
 
@@ -84,18 +86,14 @@ public class RscIssueCrawler extends AbstractIssueCrawler {
         }
 
         Document doc = readHtml(request);
-        BufferedOutputStream f = new BufferedOutputStream(new FileOutputStream("target/"+issue.getId().replace('/', '_')+".html"));
-        Serializer ser = new Serializer(f);
-        ser.write(doc);
-        f.close();
 
         log().trace("done");
         return doc;
     }
 
     @Override
-    public String getIssueId() {
-        return "rsc/" + getJournal().getAbbreviation() + '/' + getVolume() + '/' + getNumber();
+    public IssueId getIssueId() {
+        return new IssueId("rsc/" + getJournal().getAbbreviation() + '/' + getVolume() + '/' + getNumber());
     }
 
     private CrawlerRequest createIssueRequest(String issueId, String id, Duration maxAge) throws UnsupportedEncodingException {
@@ -122,10 +120,10 @@ public class RscIssueCrawler extends AbstractIssueCrawler {
 
 
     @Override
-    protected String getArticleId(Node context, String issueId) {
+    protected ArticleId getArticleId(Node context, IssueId issueId) {
         Attribute attr = (Attribute) context;
         String id = attr.getValue();
-        return issueId + '/' + id;
+        return new ArticleId(issueId, "/" + id);
     }
 
     @Override
@@ -197,7 +195,7 @@ public class RscIssueCrawler extends AbstractIssueCrawler {
         }
         String issueId = "rsc/"+m.group(1)+'/'+Integer.parseInt(m.group(2))+'/'+Integer.parseInt(m.group(3));
         Issue prev = new Issue();
-        prev.setId(issueId);
+        prev.setId(new IssueId(issueId));
         prev.setUrl(URI.create(m.group(1)+m.group(2)+m.group(3)));
         return prev;
     }

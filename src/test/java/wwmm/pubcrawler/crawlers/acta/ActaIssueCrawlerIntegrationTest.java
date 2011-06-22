@@ -20,6 +20,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.model.Issue;
+import wwmm.pubcrawler.model.id.IssueId;
 
 import java.io.IOException;
 import java.net.URI;
@@ -34,7 +35,7 @@ public class ActaIssueCrawlerIntegrationTest extends ActaIssueCrawlerTest {
     @BeforeClass
     public static void setUp() throws IOException {
         Issue issue = new Issue();
-        issue.setId("acta/e/2010/01-00");
+        issue.setId(new IssueId("acta/e/2010/01-00"));
         issue.setUrl(URI.create("http://journals.iucr.org/b/issues/2010/01/00/isscontsbdy.html"));
         CrawlerContext context = new CrawlerContext(null, getHttpCrawler(), null);
         crawler = new ActaIssueCrawler(issue, context);

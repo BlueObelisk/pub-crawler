@@ -15,25 +15,23 @@
  */
 package wwmm.pubcrawler.model;
 
+import wwmm.pubcrawler.model.id.Id;
+import wwmm.pubcrawler.model.id.IssueId;
+
 import java.net.URI;
 import java.util.List;
 
 /**
  * @author Sam Adams
  */
-public class Issue extends MongoDBObject {
+public class Issue extends PubcrawlerObject<IssueId> {
 
     private transient boolean current;
 
-
-    public String getId() {
-        return getString("id");
+    @Override
+    protected IssueId createId(String id) {
+        return new IssueId(id);
     }
-
-    public void setId(String id) {
-        put("id", id);
-    }
-
 
     public URI getUrl() {
         String s = getString("url");

@@ -26,6 +26,7 @@ import wwmm.pubcrawler.crawlers.AbstractCrawlerTest;
 import wwmm.pubcrawler.journals.RscJournalIndex;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.Issue;
+import wwmm.pubcrawler.model.id.IssueId;
 import wwmm.pubcrawler.types.Doi;
 
 import java.io.IOException;
@@ -47,7 +48,7 @@ public class RscIssueCrawlerTest extends AbstractCrawlerTest {
 
     protected RscIssueCrawler getCcIssue() throws IOException {
         Issue issue = new Issue();
-        issue.setId("rsc/cc/47/3");
+        issue.setId(new IssueId("rsc/cc/47/3"));
         issue.setUrl(URI.create("/en/journals/journal/cc?issueid=cc047003&issnprint=1359-7345"));
 
         CrawlerResponse response = prepareCcIssueResponse();
@@ -67,7 +68,7 @@ public class RscIssueCrawlerTest extends AbstractCrawlerTest {
 
     protected RscIssueCrawler getJm1527Issue() throws IOException {
         Issue issue = new Issue();
-        issue.setId("rsc/jm/15/27");
+        issue.setId(new IssueId("rsc/jm/15/27"));
         issue.setUrl(URI.create("http://pubs.rsc.org/en/journals/journalissues/jm015026"));
 
         CrawlerResponse response = prepareJm1527IssueResponse();

@@ -23,6 +23,7 @@ import wwmm.pubcrawler.crawlers.AbstractJournalCrawler;
 import wwmm.pubcrawler.journals.RscJournalIndex;
 import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.model.Journal;
+import wwmm.pubcrawler.model.id.IssueId;
 
 import java.io.IOException;
 import java.net.URI;
@@ -49,7 +50,7 @@ public class RscJournalCrawler extends AbstractJournalCrawler {
     public Issue fetchCurrentIssue() throws IOException {
         log().debug("Fetching current issue of " + getJournal().getFullTitle());
         Issue issue = new Issue();
-        issue.setId("rsc/"+getJournal().getAbbreviation()+"/latest");
+        issue.setId(new IssueId("rsc/"+getJournal().getAbbreviation()+"/latest"));
         issue.setCurrent(true);
         issue.setUrl(URI.create(CURRENT_ISSUE_IDENTIFIER));
         return fetchIssue(issue);

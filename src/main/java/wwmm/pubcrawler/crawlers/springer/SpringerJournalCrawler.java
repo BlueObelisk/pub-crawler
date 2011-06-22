@@ -21,6 +21,7 @@ import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.crawlers.AbstractJournalCrawler;
 import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.model.Journal;
+import wwmm.pubcrawler.model.id.JournalId;
 
 import java.io.IOException;
 import java.net.URI;
@@ -44,7 +45,7 @@ public class SpringerJournalCrawler extends AbstractJournalCrawler {
 
     @Override
     public List<Issue> fetchIssueList() throws IOException {
-        String id = "springer/"+getJournal().getAbbreviation();
+        JournalId id = new JournalId("springer/"+getJournal().getAbbreviation());
         URI url = getJournalIndexUrl();
         SpringerJournalIndexCrawler crawler = new SpringerJournalIndexCrawler(getContext(), url, id);
         return crawler.listIssues();

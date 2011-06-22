@@ -30,6 +30,7 @@ import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.crawlers.AbstractCrawlerTest;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.Issue;
+import wwmm.pubcrawler.model.id.IssueId;
 import wwmm.pubcrawler.types.Doi;
 
 import java.io.IOException;
@@ -112,7 +113,7 @@ public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
 
     protected ActaIssueCrawler getActaE2004_11() throws IOException {
         Issue issue = new Issue();
-        issue.setId("acta/e/2004/11-00");
+        issue.setId(new IssueId("acta/e/2004/11-00"));
         issue.setUrl(URI.create("http://journals.iucr.org/e/issues/2004/11/00/isscontsbdy.html"));
 
         CrawlerResponse response1 = prepareActaE2004_11Body();
@@ -128,7 +129,7 @@ public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
 
     protected ActaIssueCrawler getActaE2011_03() throws IOException {
         Issue issue = new Issue();
-        issue.setId("acta/e/2011/03-00");
+        issue.setId(new IssueId("acta/e/2011/03-00"));
         issue.setUrl(URI.create("http://journals.iucr.org/e/issues/2011/03/00/isscontsbdy.html"));
 
         CrawlerResponse response1 = prepareActaE2011_03Body();
@@ -145,7 +146,7 @@ public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
 
     protected ActaIssueCrawler getActaB1997_01() throws IOException {
         Issue issue = new Issue();
-        issue.setId("acta/b/1997/01-00");
+        issue.setId(new IssueId("acta/b/1997/01-00"));
         issue.setUrl(URI.create("http://journals.iucr.org/b/issues/1997/01/00/isscontsbdy.html"));
 
         CrawlerResponse response1 = prepareActaB1997_01Body();
@@ -161,7 +162,7 @@ public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
 
     protected ActaIssueCrawler getActaB2010_01() throws IOException {
         Issue issue = new Issue();
-        issue.setId("acta/e/2010/01-00");
+        issue.setId(new IssueId("acta/e/2010/01-00"));
         issue.setUrl(URI.create("http://journals.iucr.org/b/issues/2010/01/00/isscontsbdy.html"));
 
         CrawlerResponse response1 = prepareActaB2010_01Body();
@@ -177,7 +178,7 @@ public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
 
     protected ActaIssueCrawler getActaA2010_06() throws IOException {
         Issue issue = new Issue();
-        issue.setId("acta/a/2010/06-00");
+        issue.setId(new IssueId("acta/a/2010/06-00"));
         issue.setUrl(URI.create("http://journals.iucr.org/a/issues/2010/06/00/isscontsbdy.html"));
 
         CrawlerResponse response1 = prepareActaA2010_06Body();
@@ -194,7 +195,7 @@ public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
 
     protected ActaIssueCrawler getActaC2005_10() throws IOException {
         Issue issue = new Issue();
-        issue.setId("acta/c/2005/10-00");
+        issue.setId(new IssueId("acta/c/2005/10-00"));
         issue.setUrl(URI.create("http://journals.iucr.org/c/issues/2005/10/00/isscontsbdy.html"));
 
         CrawlerResponse response1 = prepareActaC2005_10Body();

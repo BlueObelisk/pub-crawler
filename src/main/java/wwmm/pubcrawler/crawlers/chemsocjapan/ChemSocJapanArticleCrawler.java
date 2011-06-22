@@ -24,6 +24,7 @@ import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.FullTextResource;
 import wwmm.pubcrawler.model.Reference;
 import wwmm.pubcrawler.model.SupplementaryResource;
+import wwmm.pubcrawler.model.id.ArticleId;
 import wwmm.pubcrawler.types.Doi;
 import wwmm.pubcrawler.utils.BibtexTool;
 import wwmm.pubcrawler.utils.XHtml;
@@ -67,7 +68,7 @@ public class ChemSocJapanArticleCrawler extends AbstractArticleCrawler {
             return null;
         }
         URI url = getUrl().resolve(href);
-        return readHtml(url, getArticleId()+"_supp.html", AGE_MAX);
+        return readHtml(url, getArticleId(), "supp", AGE_MAX);
     }
 
     private Document fetchReferencesHtml() throws IOException {
@@ -76,7 +77,7 @@ public class ChemSocJapanArticleCrawler extends AbstractArticleCrawler {
             throw new CrawlerRuntimeException("not found");
         }
         URI url = getUrl().resolve(href);
-        return readHtml(url, getArticleId()+"_refs.html", AGE_MAX);
+        return readHtml(url, getArticleId(), "refs", AGE_MAX);
     }
 
     private BibtexTool fetchBibtex() throws IOException {
@@ -85,7 +86,7 @@ public class ChemSocJapanArticleCrawler extends AbstractArticleCrawler {
             throw new CrawlerRuntimeException("not found");
         }
         URI url = getUrl().resolve(href);
-        String bibtex = readString(url, getArticleId()+"_bibtex.txt", AGE_MAX);
+        String bibtex = readString(url, getArticleId(), "bibtex.txt", AGE_MAX);
         return new BibtexTool(bibtex);
     }
 
@@ -141,7 +142,7 @@ public class ChemSocJapanArticleCrawler extends AbstractArticleCrawler {
         if (doi == null) {
             throw new CrawlerRuntimeException("Article missing DOI: " + article);
         }
-        return readHtml(doi.getUrl(), getArticleId()+".html", AGE_MAX);
+        return readHtml(doi.getUrl(), getArticleId(), AGE_MAX);
     }
 
 
@@ -274,7 +275,7 @@ public class ChemSocJapanArticleCrawler extends AbstractArticleCrawler {
     }
 
     @Override
-    protected String getArticleId() {
+    protected ArticleId getArticleId() {
         return getArticleRef().getId();
     }
 

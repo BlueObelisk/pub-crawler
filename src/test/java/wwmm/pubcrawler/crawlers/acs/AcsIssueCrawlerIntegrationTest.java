@@ -20,6 +20,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.model.Issue;
+import wwmm.pubcrawler.model.id.IssueId;
 
 import java.io.IOException;
 import java.net.URI;
@@ -34,7 +35,7 @@ public class AcsIssueCrawlerIntegrationTest extends AcsIssueCrawlerTest {
     @BeforeClass
     public static void setUp() throws IOException {
         Issue issue = new Issue();
-        issue.setId("acs/jacsat/132/51");
+        issue.setId(new IssueId("acs/jacsat/132/51"));
         issue.setUrl(URI.create("http://pubs.acs.org/toc/jacsat/132/51"));
         CrawlerContext context = new CrawlerContext(null, getHttpCrawler(), null);
         crawler = new AcsIssueCrawler(issue, context);

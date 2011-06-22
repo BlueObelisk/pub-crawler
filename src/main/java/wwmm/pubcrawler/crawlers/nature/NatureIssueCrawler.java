@@ -24,6 +24,8 @@ import wwmm.pubcrawler.CrawlerRuntimeException;
 import wwmm.pubcrawler.HtmlUtil;
 import wwmm.pubcrawler.crawlers.AbstractIssueCrawler;
 import wwmm.pubcrawler.model.*;
+import wwmm.pubcrawler.model.id.ArticleId;
+import wwmm.pubcrawler.model.id.IssueId;
 import wwmm.pubcrawler.types.Doi;
 import wwmm.pubcrawler.utils.XHtml;
 import wwmm.pubcrawler.utils.XPathUtils;
@@ -63,8 +65,8 @@ public class NatureIssueCrawler extends AbstractIssueCrawler {
     }
 
     @Override
-    public String getIssueId() {
-        return "nature/" + getJournalAbbreviation() + '/' + getVolume() + '/' + getNumber();
+    public IssueId getIssueId() {
+        return new IssueId("nature/" + getJournalAbbreviation() + '/' + getVolume() + '/' + getNumber());
     }
 
     @Override
@@ -79,7 +81,7 @@ public class NatureIssueCrawler extends AbstractIssueCrawler {
         String volume = m.group(1);
         String number = m.group(2);
         Issue prev = new Issue();
-        prev.setId("nature/"+getJournalAbbreviation()+"/"+volume+"/"+number);
+        prev.setId(new IssueId("nature/"+getJournalAbbreviation()+"/"+volume+"/"+number));
         prev.setUrl(getUrl().resolve(href));
         return prev;
     }
@@ -105,9 +107,9 @@ public class NatureIssueCrawler extends AbstractIssueCrawler {
 
 
     @Override
-    protected String getArticleId(Node articleNode, String issueId) {
+    protected ArticleId getArticleId(Node articleNode, IssueId issueId) {
         Doi doi = getArticleDoi(null, articleNode);
-        return issueId + '/' + doi.getSuffix();
+        return new ArticleId(issueId, doi.getSuffix());
     }
 
     @Override

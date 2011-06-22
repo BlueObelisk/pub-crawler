@@ -24,6 +24,7 @@ import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.FullTextResource;
 import wwmm.pubcrawler.model.Reference;
 import wwmm.pubcrawler.model.SupplementaryResource;
+import wwmm.pubcrawler.model.id.ArticleId;
 import wwmm.pubcrawler.types.Doi;
 import wwmm.pubcrawler.utils.XPathUtils;
 
@@ -48,7 +49,7 @@ public class RscArticleCrawler extends AbstractArticleCrawler {
 
     private static final Logger LOG = Logger.getLogger(RscArticleCrawler.class);
 
-    private String articleId;
+    private ArticleId articleId;
 
     public RscArticleCrawler(Article article, CrawlerContext context) throws IOException {
         super(article, context);
@@ -66,11 +67,11 @@ public class RscArticleCrawler extends AbstractArticleCrawler {
         if (doi == null) {
             throw new CrawlerRuntimeException("Article missing DOI: " + article);
         }
-        return readHtml(doi.getUrl(), getArticleRef().getId()+".html", AGE_MAX);
+        return readHtml(doi.getUrl(), getArticleRef().getId(), AGE_MAX);
     }
 
     @Override
-    protected String getArticleId() {
+    protected ArticleId getArticleId() {
         return articleId;
     }
 
