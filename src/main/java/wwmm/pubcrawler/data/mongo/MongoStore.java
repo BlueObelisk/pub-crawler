@@ -14,7 +14,7 @@ public class MongoStore {
     private DB db;
     private DBCollection articles;
     private DBCollection issues;
-//    private DBCollection journals;
+    private DBCollection journals;
 
     public MongoStore(DB db) {
         this.db = db;
@@ -43,10 +43,8 @@ public class MongoStore {
             }
         }
 
-//        this.journals = db.getCollection("journals");
-//        journals.setObjectClass(Journal.class);
-//        journals.setInternalClass("issues", Issue.class);
-
+        this.journals = db.getCollection("journals");
+        this.journals.setObjectClass(Journal.class);
     }
 
 
@@ -93,6 +91,13 @@ public class MongoStore {
 
     public boolean containsIssue(String id) {
         return issues.findOne(new BasicDBObject("id", id), new BasicDBObject("id", 1)) != null;
+    }
+
+
+    public void addIssueToJournal(String journalId, String issueId) {
+        BasicDBObject query = new BasicDBObject("journalId", journalId);
+        BasicDBObject update = new BasicDBObject("$addToSet", new BasicDBObject("issues", issueId));
+        this.journals.findAndModify(query, update);
     }
 
 }
