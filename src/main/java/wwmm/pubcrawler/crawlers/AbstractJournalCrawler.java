@@ -49,6 +49,10 @@ public abstract class AbstractJournalCrawler extends AbstractCrawler {
     public void crawlJournal() throws IOException {
         log().info("Crawling journal: "+getJournal().getTitle());
 
+        if (!getDataStore().containsJournal(journal.getId())) {
+            getDataStore().saveJournal(journal);
+        }
+
         List<Issue> issueIndex = fetchIssueList();
         Iterator<Issue> issueIterator = issueIndex.iterator();
 
@@ -64,6 +68,7 @@ public abstract class AbstractJournalCrawler extends AbstractCrawler {
             if (!getDataStore().containsIssue(issue.getId())) {
                 log().debug("new issue: "+issue.getId());
                 getDataStore().saveIssue(issue);
+                getDataStore().addIssueToJournal(journal, issue);
             }
         }
 
@@ -113,6 +118,7 @@ public abstract class AbstractJournalCrawler extends AbstractCrawler {
                         }
                         log().debug("new issue: " + issue.getId());
                         getDataStore().saveIssue(issue);
+                        getDataStore().addIssueToJournal(journal, issue);
                     }
                 }
             }
@@ -134,6 +140,7 @@ public abstract class AbstractJournalCrawler extends AbstractCrawler {
         if (prevIssue == null) {
             prev = fetchIssue(prev);
             getDataStore().saveIssue(prev);
+            getDataStore().addIssueToJournal(journal, issue);
             return prev;
         } else {
             return prevIssue;
