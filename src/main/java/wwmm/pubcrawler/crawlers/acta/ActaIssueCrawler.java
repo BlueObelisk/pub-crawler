@@ -169,7 +169,7 @@ public class ActaIssueCrawler extends AbstractIssueCrawler {
 
     @Override
     protected String getArticleTitle(Article article, Node node) {
-        Node heading = XPathUtils.getNode(node, "./x:h3[normalize-space(text()) != \"\"][1]");
+        Node heading = XPathUtils.getNode(node, ".//x:h3[normalize-space(.) != \"\"][1]");
         Element copy = (Element) heading.copy();
         ActaUtil.normaliseHtml(copy);
         return copy.getValue();

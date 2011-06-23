@@ -122,6 +122,17 @@ public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
     }
 
 
+    private CrawlerResponse prepareActaA2009_06Body() throws IOException {
+        return prepareResponse("./a-2009-06-body.html",
+                URI.create("http://journals.iucr.org/a/issues/2009/06/00/isscontsbdy.html"));
+    }
+
+    private CrawlerResponse prepareActaA2009_06Head() throws IOException {
+        return prepareResponse("./a-2009-06-head.html",
+                URI.create("http://journals.iucr.org/a/issues/2009/06/00/isscontshead.html"));
+    }
+
+
     protected ActaIssueCrawler getActaC1997_03() throws IOException {
         Issue issue = new Issue();
         issue.setId(new IssueId("acta/c/1997/03-00"));
@@ -129,6 +140,22 @@ public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
 
         CrawlerResponse response1 = prepareActaC1997_03Body();
         CrawlerResponse response2 = prepareActaC1997_03Head();
+
+        HttpCrawler crawler = Mockito.mock(HttpCrawler.class);
+        Mockito.when(crawler.execute(Mockito.any(CrawlerRequest.class)))
+                .thenReturn(response1, response2);
+
+        CrawlerContext context = new CrawlerContext(null, crawler, null);
+        return new ActaIssueCrawler(issue, context);
+    }
+
+    protected ActaIssueCrawler getActaA2009_06() throws IOException {
+        Issue issue = new Issue();
+        issue.setId(new IssueId("acta/a/2009/06-00"));
+        issue.setUrl(URI.create("http://journals.iucr.org/a/issues/2009/06/00/isscontsbdy.html"));
+
+        CrawlerResponse response1 = prepareActaA2009_06Body();
+        CrawlerResponse response2 = prepareActaA2009_06Head();
 
         HttpCrawler crawler = Mockito.mock(HttpCrawler.class);
         Mockito.when(crawler.execute(Mockito.any(CrawlerRequest.class)))
@@ -511,5 +538,40 @@ public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
         assertNotNull(articles);
         assertEquals(58, articles.size());
     }
+
+    @Test
+    public ActaIssueCrawler testCrawlA200906() throws IOException {
+        ActaIssueCrawler crawler = getActaA2009_06();
+        return crawler;
+    }
+
+    @Test
+    @Given("#testCrawlA200906")
+    public void testGetA200906Volume(ActaIssueCrawler crawler) {
+        assertEquals("65", crawler.getVolume());
+    }
+
+    @Test
+    @Given("#testCrawlA200906")
+    public void testGetA200906Number(ActaIssueCrawler crawler) {
+        assertEquals("6", crawler.getNumber());
+    }
+
+    @Test
+    @Given("#testCrawlA200906")
+    public void testGetA200906Year(ActaIssueCrawler crawler) {
+        assertEquals("2009", crawler.getYear());
+    }
+
+    @Test
+    @Given("#testCrawlA200906")
+    public void testGetA200906Articles(ActaIssueCrawler crawler) {
+        List<Article> articles = crawler.getArticles();
+        assertNotNull(articles);
+        assertEquals(11, articles.size());
+
+        assertEquals("Foundations of Crystallography with Computer Applications", articles.get(8).getTitle());
+    }
+
 
 }
