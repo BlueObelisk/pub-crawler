@@ -19,7 +19,6 @@ package wwmm.pubcrawler.crawlers.rsc;
 import org.junit.Test;
 import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.crawlers.AbstractCrawlerTest;
-import wwmm.pubcrawler.journals.RscInfo;
 import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.model.Journal;
 import wwmm.pubcrawler.model.id.PublisherId;
@@ -39,7 +38,7 @@ public class RscJournalCrawlerIntegrationTest extends AbstractCrawlerTest {
     @Test
     public void testGetCurrentIssueChemicalCommunications() throws IOException {
         CrawlerContext context = new CrawlerContext(null, getHttpCrawler(), new RscCrawlerFactory());
-        RscJournalCrawler crawler = new RscJournalCrawler(CHEM_COMM, context);
+        RscJournalHandler crawler = new RscJournalHandler(CHEM_COMM, context);
         Issue issue = crawler.fetchCurrentIssue();
         assertNotNull(issue);
         assertNotNull(issue.getId());

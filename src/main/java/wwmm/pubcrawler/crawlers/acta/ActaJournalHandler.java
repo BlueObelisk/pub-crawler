@@ -20,7 +20,7 @@ import nu.xom.Node;
 import org.apache.log4j.Logger;
 import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.CrawlerRuntimeException;
-import wwmm.pubcrawler.crawlers.JournalHandler;
+import wwmm.pubcrawler.crawlers.AbstractJournalHandler;
 import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.model.Journal;
 import wwmm.pubcrawler.model.id.IssueId;
@@ -37,11 +37,11 @@ import java.util.regex.Pattern;
 /**
  * @author Sam Adams
  */
-public class ActaJournalCrawler extends JournalHandler {
+public class ActaJournalHandler extends AbstractJournalHandler {
 
-    private static final Logger LOG = Logger.getLogger(ActaJournalCrawler.class);
+    private static final Logger LOG = Logger.getLogger(ActaJournalHandler.class);
 
-    public ActaJournalCrawler(Journal journal, CrawlerContext context) {
+    public ActaJournalHandler(Journal journal, CrawlerContext context) {
         super(journal, context);
     }
 
@@ -50,7 +50,6 @@ public class ActaJournalCrawler extends JournalHandler {
         return LOG;
     }
 
-    @Override
     public Issue fetchCurrentIssue() throws IOException {
         log().debug("Fetching current issue of " + getJournal().getTitle());
         URI url = getCurrentIssueUrl();

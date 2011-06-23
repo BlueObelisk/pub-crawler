@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package wwmm.pubcrawler.crawlers.elsevier;
+package wwmm.pubcrawler.crawlers.wiley;
 
 import org.apache.log4j.Logger;
 import wwmm.pubcrawler.CrawlerContext;
-import wwmm.pubcrawler.crawlers.JournalHandler;
+import wwmm.pubcrawler.crawlers.AbstractJournalHandler;
 import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.model.Journal;
 import wwmm.pubcrawler.model.id.IssueId;
@@ -29,26 +29,25 @@ import java.net.URI;
 /**
  * @author Sam Adams
  */
-public class ElsevierJournalCrawler extends JournalHandler {
+public class WileyJournalHandler extends AbstractJournalHandler {
 
-    private static final Logger LOG = Logger.getLogger(ElsevierJournalCrawler.class);
+    private static final Logger LOG = Logger.getLogger(WileyJournalHandler.class);
 
-    public ElsevierJournalCrawler(Journal journal, CrawlerContext context) {
+    public WileyJournalHandler(Journal journal, CrawlerContext context) {
         super(journal, context);
     }
 
-    @Override
     public Issue fetchCurrentIssue() throws IOException {
         log().debug("Fetching current issue of " + getJournal().getTitle());
         Issue issue = new Issue();
-        issue.setId(new IssueId("elsevier/"+getJournal().getAbbreviation()+"/current"));
+        issue.setId(new IssueId("wiley/"+getJournal().getAbbreviation()+"/current"));
         issue.setCurrent(true);
         issue.setUrl(getCurrentIssueUrl());
         return fetchIssue(issue);
     }
 
     private URI getCurrentIssueUrl() {
-        return URI.create("http://www.sciencedirect.com/science/journal/"+getJournal().getAbbreviation());
+        return URI.create("http://onlinelibrary.wiley.com/journal/"+getJournal().getAbbreviation()+"/currentissue");
     }
 
     @Override

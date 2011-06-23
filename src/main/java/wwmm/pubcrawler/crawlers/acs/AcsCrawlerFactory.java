@@ -16,10 +16,7 @@
 package wwmm.pubcrawler.crawlers.acs;
 
 import wwmm.pubcrawler.CrawlerContext;
-import wwmm.pubcrawler.crawlers.AbstractArticleCrawler;
-import wwmm.pubcrawler.crawlers.AbstractCrawlerFactory;
-import wwmm.pubcrawler.crawlers.AbstractIssueCrawler;
-import wwmm.pubcrawler.crawlers.JournalHandler;
+import wwmm.pubcrawler.crawlers.*;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.model.Journal;
@@ -33,7 +30,7 @@ public class AcsCrawlerFactory extends AbstractCrawlerFactory {
 
     @Override
     public JournalHandler createJournalCrawler(Journal journal, CrawlerContext context) throws IOException {
-        return new AcsJournalCrawler(journal, context);
+        return new AcsJournalHandler(journal, context);
     }
 
     @Override

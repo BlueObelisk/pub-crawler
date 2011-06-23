@@ -17,7 +17,7 @@ package wwmm.pubcrawler.crawlers.rsc;
 
 import org.apache.log4j.Logger;
 import wwmm.pubcrawler.CrawlerContext;
-import wwmm.pubcrawler.crawlers.JournalHandler;
+import wwmm.pubcrawler.crawlers.AbstractJournalHandler;
 import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.model.Journal;
 import wwmm.pubcrawler.model.id.IssueId;
@@ -28,13 +28,13 @@ import java.net.URI;
 /**
  * @author Sam Adams
  */
-public class RscJournalCrawler extends JournalHandler {
+public class RscJournalHandler extends AbstractJournalHandler {
 
-    private static final Logger LOG = Logger.getLogger(RscJournalCrawler.class);
+    private static final Logger LOG = Logger.getLogger(RscJournalHandler.class);
 
     private static final String CURRENT_ISSUE_IDENTIFIER = "Latest";
 
-    public RscJournalCrawler(Journal journal, CrawlerContext context) {
+    public RscJournalHandler(Journal journal, CrawlerContext context) {
         super(journal, context);
     }
 
@@ -43,7 +43,6 @@ public class RscJournalCrawler extends JournalHandler {
         return LOG;
     }
 
-    @Override
     public Issue fetchCurrentIssue() throws IOException {
         log().debug("Fetching current issue of " + getJournal().getTitle());
         Issue issue = new Issue();

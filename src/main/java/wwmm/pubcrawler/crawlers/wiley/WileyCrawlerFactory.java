@@ -17,10 +17,7 @@
 package wwmm.pubcrawler.crawlers.wiley;
 
 import wwmm.pubcrawler.CrawlerContext;
-import wwmm.pubcrawler.crawlers.AbstractArticleCrawler;
-import wwmm.pubcrawler.crawlers.AbstractCrawlerFactory;
-import wwmm.pubcrawler.crawlers.AbstractIssueCrawler;
-import wwmm.pubcrawler.crawlers.JournalHandler;
+import wwmm.pubcrawler.crawlers.*;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.model.Journal;
@@ -34,7 +31,7 @@ public class WileyCrawlerFactory extends AbstractCrawlerFactory {
 
     @Override
     public JournalHandler createJournalCrawler(Journal journal, CrawlerContext context) throws IOException {
-        return new WileyJournalCrawler(journal, context);
+        return new WileyJournalHandler(journal, context);
     }
 
     @Override

@@ -18,7 +18,7 @@ package wwmm.pubcrawler.crawlers.springer;
 
 import org.apache.log4j.Logger;
 import wwmm.pubcrawler.CrawlerContext;
-import wwmm.pubcrawler.crawlers.JournalHandler;
+import wwmm.pubcrawler.crawlers.AbstractJournalHandler;
 import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.model.Journal;
 import wwmm.pubcrawler.model.id.JournalId;
@@ -30,15 +30,14 @@ import java.util.List;
 /**
  * @author Sam Adams
  */
-public class SpringerJournalCrawler extends JournalHandler {
+public class SpringerJournalHandler extends AbstractJournalHandler {
 
-    private static final Logger LOG = Logger.getLogger(SpringerJournalCrawler.class);
+    private static final Logger LOG = Logger.getLogger(SpringerJournalHandler.class);
 
-    public SpringerJournalCrawler(Journal journal, CrawlerContext context) {
+    public SpringerJournalHandler(Journal journal, CrawlerContext context) {
         super(journal, context);
     }
 
-    @Override
     public Issue fetchCurrentIssue() throws IOException {
         return null;
     }
