@@ -33,6 +33,7 @@ import wwmm.pubcrawler.crawlers.AbstractIssueCrawler;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.model.Journal;
+import wwmm.pubcrawler.model.id.IssueId;
 import wwmm.pubcrawler.types.Doi;
 import wwmm.pubcrawler.types.DoiTest;
 
@@ -70,6 +71,7 @@ public class ElsevierIssueCrawlerTest extends AbstractCrawlerTest {
 
     protected ElsevierIssueCrawler getCompBioChemIssue34_4() throws IOException {
         Issue issue = new Issue();
+        issue.setId(new IssueId("elsevier/compbiochem/34/4"));
         issue.setUrl(URI.create("http://www.sciencedirect.com/science?_ob=PublicationURL&_tockey="
                         +"%23TOC%2311514%232010%23999659995%232526737%23FLA%23&_cdi=11514&_pubType=J&_auth=y&_prev=y"
                         +"&_acct=C000050221&_version=1&_urlVersion=0&_userid=10&md5=cd07924074df81e203366810e8242eb2"));

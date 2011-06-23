@@ -11,6 +11,7 @@ import wwmm.pubcrawler.crawlers.springer.SpringerIssueCrawler;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.model.Journal;
+import wwmm.pubcrawler.model.id.IssueId;
 import wwmm.pubcrawler.types.Doi;
 
 import java.io.IOException;
@@ -31,6 +32,7 @@ public class WileyIssueCrawlerTest extends AbstractCrawlerTest {
 
     protected WileyIssueCrawler getAbacusIssue46_4() throws IOException {
         Issue issue = new Issue();
+        issue.setId(new IssueId("wiley/abac/46/4"));
         issue.setUrl(URI.create("http://onlinelibrary.wiley.com/doi/10.1111/abac.2010.46.issue-4/issuetoc"));
 
         CrawlerResponse response = prepareAbacus_46_4Response();

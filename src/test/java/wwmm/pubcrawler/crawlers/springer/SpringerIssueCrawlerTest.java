@@ -25,6 +25,7 @@ import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.crawlers.AbstractCrawlerTest;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.Issue;
+import wwmm.pubcrawler.model.id.IssueId;
 
 import java.io.IOException;
 import java.net.URI;
@@ -46,6 +47,7 @@ public class SpringerIssueCrawlerTest extends AbstractCrawlerTest {
 
     protected SpringerIssueCrawler getZoomorphologyIssue118_2() throws IOException {
         Issue issue = new Issue();
+        issue.setId(new IssueId("springer/zoomorphology/118/2"));
         issue.setUrl(URI.create("http://www.springerlink.com/content/0720-213x/118/2/"));
 
         CrawlerResponse response = prepareZoomorphology_118_2Response();

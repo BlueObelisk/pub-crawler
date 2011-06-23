@@ -95,7 +95,7 @@ public class RscIssueCrawlerTest extends AbstractCrawlerTest {
         RscIssueCrawler crawler = getCcIssue();
         Issue prev = crawler.getPreviousIssue();
         assertNotNull(prev);
-        assertEquals("rsc/cc/47/2", prev.getId());
+        assertEquals("rsc/cc/47/2", prev.getId().getValue());
         assertEquals(URI.create("cc047002"), prev.getUrl());
     }
 
@@ -134,14 +134,14 @@ public class RscIssueCrawlerTest extends AbstractCrawlerTest {
         RscIssueCrawler crawler = getCcIssue();
         Issue issue = crawler.toIssue();
         assertNotNull(issue);
-        assertEquals("rsc/cc/47/3", issue.getId());
+        assertEquals("rsc/cc/47/3", issue.getId().getValue());
         assertEquals("2011", issue.getYear());
         assertEquals("47", issue.getVolume());
         assertEquals("3", issue.getNumber());
         assertNotNull(issue.getArticles());
         assertEquals(74, issue.getArticles().size());
         assertNotNull(issue.getPreviousIssue());
-        assertEquals("rsc/cc/47/2", issue.getPreviousIssue().getId());
+        assertEquals("rsc/cc/47/2", issue.getPreviousIssue().getId().getValue());
     }
 
 
@@ -169,7 +169,7 @@ public class RscIssueCrawlerTest extends AbstractCrawlerTest {
         RscIssueCrawler crawler = getJm1527Issue();
         Issue prev = crawler.getPreviousIssue();
         assertNotNull(prev);
-        assertEquals("rsc/jm/15/26", prev.getId());
+        assertEquals("rsc/jm/15/26", prev.getId().getValue());
         assertEquals(URI.create("jm015026"), prev.getUrl());
     }
 
