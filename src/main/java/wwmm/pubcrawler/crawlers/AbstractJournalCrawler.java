@@ -154,10 +154,20 @@ public abstract class AbstractJournalCrawler extends AbstractCrawler {
         }
     }
 
-    protected void crawlArticles(Issue issue) {
+    protected final void crawlArticles(Issue issue) {
+        if (getMaxArticlesPerIssue() > 0) {
+            List<Article> articles = issue.getArticles();
+            if (issue.getArticles().isEmpty()) {
+                log().warn("No articles found [issue: "+issue.getId()+"]");
+            } else {
+                log().info("crawling "+articles.size()+" articles from "+issue.getId());
+                crawlArticles(articles, issue);
+            }
+        }
+    }
+
+    private void crawlArticles(List<Article> articles, Issue issue) {
         int i = 0;
-        List<Article> articles = issue.getArticles();
-        log().info("crawling "+articles.size()+" articles from "+issue.getId());
         for (Article article : articles) {
             if (getMaxArticlesPerIssue() >= 0 && i >= getMaxArticlesPerIssue()) {
                 break;
