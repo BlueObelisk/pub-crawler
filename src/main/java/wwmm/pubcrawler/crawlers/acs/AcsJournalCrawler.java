@@ -17,7 +17,7 @@ package wwmm.pubcrawler.crawlers.acs;
 
 import org.apache.log4j.Logger;
 import wwmm.pubcrawler.CrawlerContext;
-import wwmm.pubcrawler.crawlers.AbstractJournalCrawler;
+import wwmm.pubcrawler.crawlers.JournalHandler;
 import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.model.Journal;
 import wwmm.pubcrawler.model.id.IssueId;
@@ -28,7 +28,7 @@ import java.net.URI;
 /**
  * @author Sam Adams
  */
-public class AcsJournalCrawler extends AbstractJournalCrawler {
+public class AcsJournalCrawler extends JournalHandler {
 
     private static final Logger LOG = Logger.getLogger(AcsJournalCrawler.class);
 

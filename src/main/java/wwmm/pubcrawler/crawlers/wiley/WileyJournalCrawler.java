@@ -18,7 +18,7 @@ package wwmm.pubcrawler.crawlers.wiley;
 
 import org.apache.log4j.Logger;
 import wwmm.pubcrawler.CrawlerContext;
-import wwmm.pubcrawler.crawlers.AbstractJournalCrawler;
+import wwmm.pubcrawler.crawlers.JournalHandler;
 import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.model.Journal;
 import wwmm.pubcrawler.model.id.IssueId;
@@ -29,7 +29,7 @@ import java.net.URI;
 /**
  * @author Sam Adams
  */
-public class WileyJournalCrawler extends AbstractJournalCrawler {
+public class WileyJournalCrawler extends JournalHandler {
 
     private static final Logger LOG = Logger.getLogger(WileyJournalCrawler.class);
 

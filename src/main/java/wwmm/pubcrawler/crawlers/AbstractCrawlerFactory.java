@@ -27,7 +27,7 @@ import java.io.IOException;
  */
 public abstract class AbstractCrawlerFactory {
 
-    public abstract AbstractJournalCrawler createJournalCrawler(Journal journal, CrawlerContext context) throws IOException;
+    public abstract JournalHandler createJournalCrawler(Journal journal, CrawlerContext context) throws IOException;
 
     public abstract AbstractIssueCrawler createIssueCrawler(Issue issue, Journal journal, CrawlerContext context) throws IOException;
 
