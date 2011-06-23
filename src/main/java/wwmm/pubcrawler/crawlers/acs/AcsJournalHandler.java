@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,12 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package wwmm.pubcrawler.crawlers.wiley;
+package wwmm.pubcrawler.crawlers.acs;
 
 import org.apache.log4j.Logger;
 import wwmm.pubcrawler.CrawlerContext;
-import wwmm.pubcrawler.crawlers.JournalHandler;
+import wwmm.pubcrawler.crawlers.AbstractJournalHandler;
 import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.model.Journal;
 import wwmm.pubcrawler.model.id.IssueId;
@@ -29,31 +28,30 @@ import java.net.URI;
 /**
  * @author Sam Adams
  */
-public class WileyJournalCrawler extends JournalHandler {
+public class AcsJournalHandler extends AbstractJournalHandler {
 
-    private static final Logger LOG = Logger.getLogger(WileyJournalCrawler.class);
+    private static final Logger LOG = Logger.getLogger(AcsJournalHandler.class);
 
-    public WileyJournalCrawler(Journal journal, CrawlerContext context) {
+    public AcsJournalHandler(Journal journal, CrawlerContext context) {
         super(journal, context);
     }
 
     @Override
+    protected Logger log() {
+        return LOG;
+    }
+
     public Issue fetchCurrentIssue() throws IOException {
         log().debug("Fetching current issue of " + getJournal().getTitle());
         Issue issue = new Issue();
-        issue.setId(new IssueId("wiley/"+getJournal().getAbbreviation()+"/current"));
+        issue.setId(new IssueId("acs/"+getJournal().getAbbreviation()+"/!current"));
         issue.setCurrent(true);
         issue.setUrl(getCurrentIssueUrl());
         return fetchIssue(issue);
     }
 
     private URI getCurrentIssueUrl() {
-        return URI.create("http://onlinelibrary.wiley.com/journal/"+getJournal().getAbbreviation()+"/currentissue");
-    }
-
-    @Override
-    protected Logger log() {
-        return LOG;
+        return URI.create("http://pubs.acs.org/toc/" + getJournal().getAbbreviation() + "/current");
     }
 
 }

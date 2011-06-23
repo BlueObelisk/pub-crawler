@@ -27,11 +27,11 @@ import java.util.List;
 /**
  * @author Sam Adams
  */
-public abstract class JournalHandler extends AbstractCrawler {
+public abstract class AbstractJournalHandler extends AbstractCrawler implements JournalHandler {
 
     private final Journal journal;
 
-    protected JournalHandler(Journal journal, CrawlerContext context) {
+    protected AbstractJournalHandler(Journal journal, CrawlerContext context) {
         super(context);
         this.journal = journal;
     }
@@ -55,8 +55,6 @@ public abstract class JournalHandler extends AbstractCrawler {
         }
         return article;
     }
-
-    public abstract Issue fetchCurrentIssue() throws IOException;
 
     public Issue fetchIssue(Issue issue) throws IOException {
         AbstractIssueCrawler crawler = getFactory().createIssueCrawler(issue, getJournal(), getContext());

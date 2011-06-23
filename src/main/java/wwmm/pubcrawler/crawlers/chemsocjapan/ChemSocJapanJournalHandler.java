@@ -18,7 +18,7 @@ package wwmm.pubcrawler.crawlers.chemsocjapan;
 import nu.xom.Document;
 import org.apache.log4j.Logger;
 import wwmm.pubcrawler.CrawlerContext;
-import wwmm.pubcrawler.crawlers.JournalHandler;
+import wwmm.pubcrawler.crawlers.AbstractJournalHandler;
 import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.model.Journal;
 import wwmm.pubcrawler.model.id.IssueId;
@@ -31,11 +31,11 @@ import java.util.List;
 /**
  * @author Sam Adams
  */
-public class ChemSocJapanJournalCrawler extends JournalHandler {
+public class ChemSocJapanJournalHandler extends AbstractJournalHandler {
 
-    private static final Logger LOG = Logger.getLogger(ChemSocJapanJournalCrawler.class);
+    private static final Logger LOG = Logger.getLogger(ChemSocJapanJournalHandler.class);
 
-    public ChemSocJapanJournalCrawler(Journal journal, CrawlerContext context) {
+    public ChemSocJapanJournalHandler(Journal journal, CrawlerContext context) {
         super(journal, context);
     }
 
@@ -44,7 +44,6 @@ public class ChemSocJapanJournalCrawler extends JournalHandler {
         return LOG;
     }
 
-    @Override
     public Issue fetchCurrentIssue() throws IOException {
         log().debug("Fetching current issue of " + getJournal().getTitle());
         URI url = getCurrentIssueUrl();
