@@ -18,9 +18,7 @@ package wwmm.pubcrawler.crawlers.chemsocjapan;
 import nu.xom.Document;
 import org.apache.log4j.Logger;
 import wwmm.pubcrawler.CrawlerContext;
-import wwmm.pubcrawler.DefaultCrawlerContext;
-import wwmm.pubcrawler.crawlers.AbstractJournalCrawler;
-import wwmm.pubcrawler.journals.ChemSocJapanInfo;
+import wwmm.pubcrawler.crawlers.JournalHandler;
 import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.model.Journal;
 import wwmm.pubcrawler.model.id.IssueId;
@@ -33,7 +31,7 @@ import java.util.List;
 /**
  * @author Sam Adams
  */
-public class ChemSocJapanJournalCrawler extends AbstractJournalCrawler {
+public class ChemSocJapanJournalCrawler extends JournalHandler {
 
     private static final Logger LOG = Logger.getLogger(ChemSocJapanJournalCrawler.class);
 
@@ -68,11 +66,6 @@ public class ChemSocJapanJournalCrawler extends AbstractJournalCrawler {
         return URI.create("http://www.chemistry.or.jp/journals/chem-lett/cl-cont/newissue.html");
     }
 
-
-    @Override
-    public boolean hasIndex() {
-        return true;
-    }
 
     @Override
     public List<Issue> fetchIssueList() throws IOException {

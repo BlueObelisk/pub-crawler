@@ -20,9 +20,7 @@ import nu.xom.Node;
 import org.apache.log4j.Logger;
 import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.CrawlerRuntimeException;
-import wwmm.pubcrawler.DefaultCrawlerContext;
-import wwmm.pubcrawler.crawlers.AbstractJournalCrawler;
-import wwmm.pubcrawler.journals.ActaInfo;
+import wwmm.pubcrawler.crawlers.JournalHandler;
 import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.model.Journal;
 import wwmm.pubcrawler.model.id.IssueId;
@@ -39,7 +37,7 @@ import java.util.regex.Pattern;
 /**
  * @author Sam Adams
  */
-public class ActaJournalCrawler extends AbstractJournalCrawler {
+public class ActaJournalCrawler extends JournalHandler {
 
     private static final Logger LOG = Logger.getLogger(ActaJournalCrawler.class);
 

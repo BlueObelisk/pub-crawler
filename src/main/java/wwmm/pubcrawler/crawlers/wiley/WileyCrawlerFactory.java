@@ -20,7 +20,7 @@ import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.crawlers.AbstractArticleCrawler;
 import wwmm.pubcrawler.crawlers.AbstractCrawlerFactory;
 import wwmm.pubcrawler.crawlers.AbstractIssueCrawler;
-import wwmm.pubcrawler.crawlers.AbstractJournalCrawler;
+import wwmm.pubcrawler.crawlers.JournalHandler;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.model.Journal;
@@ -33,7 +33,7 @@ import java.io.IOException;
 public class WileyCrawlerFactory extends AbstractCrawlerFactory {
 
     @Override
-    public AbstractJournalCrawler createJournalCrawler(Journal journal, CrawlerContext context) throws IOException {
+    public JournalHandler createJournalCrawler(Journal journal, CrawlerContext context) throws IOException {
         return new WileyJournalCrawler(journal, context);
     }
 

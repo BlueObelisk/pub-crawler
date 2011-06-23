@@ -18,7 +18,7 @@ package wwmm.pubcrawler.crawlers.springer;
 
 import org.apache.log4j.Logger;
 import wwmm.pubcrawler.CrawlerContext;
-import wwmm.pubcrawler.crawlers.AbstractJournalCrawler;
+import wwmm.pubcrawler.crawlers.JournalHandler;
 import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.model.Journal;
 import wwmm.pubcrawler.model.id.JournalId;
@@ -30,7 +30,7 @@ import java.util.List;
 /**
  * @author Sam Adams
  */
-public class SpringerJournalCrawler extends AbstractJournalCrawler {
+public class SpringerJournalCrawler extends JournalHandler {
 
     private static final Logger LOG = Logger.getLogger(SpringerJournalCrawler.class);
 
