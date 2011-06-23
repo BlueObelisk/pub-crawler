@@ -49,6 +49,8 @@ public class ActaIssueCrawler extends AbstractIssueCrawler {
 
     private static final Logger LOG = Logger.getLogger(ActaIssueCrawler.class);
 
+    public static final Pattern P_PAGES = Pattern.compile("\\d+(-\\d+)?");
+
     private final Document headHtml;
     private URI headerUrl;
 
@@ -194,7 +196,23 @@ public class ActaIssueCrawler extends AbstractIssueCrawler {
 
     @Override
     protected Reference getArticleReference(Article article, Node articleNode) {
-        // TODO
+        Reference reference = new Reference();
+        reference.setVolume(getVolume());
+        reference.setNumber(getNumber());
+        reference.setYear(getYear());
+        reference.setPages(getPages(articleNode));
+        return reference;
+    }
+
+    private String getPages(Node articleNode) {
+        List<Node> nodes = XPathUtils.queryHTML(articleNode, ".//x:p[x:i]/x:b/following-sibling::text()[1]");
+        if (!nodes.isEmpty()) {
+            String s = nodes.get(0).getValue();
+            Matcher m = P_PAGES.matcher(s);
+            if (m.find()) {
+                return m.group(0);
+            }
+        }
         return null;
     }
 

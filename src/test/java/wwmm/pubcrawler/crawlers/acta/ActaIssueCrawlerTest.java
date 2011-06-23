@@ -308,23 +308,52 @@ public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
 
     @Test
     @Given("#testCrawlB201001")
-    public void testGetArticles(ActaIssueCrawler crawler) throws IOException {
+    public List<Article> testGetArticles(ActaIssueCrawler crawler) throws IOException {
         List<Article> articles = crawler.getArticles();
         assertNotNull(articles);
         assertEquals(13, articles.size());
+        return articles;
+    }
 
+    @Test
+    @Given("#testGetArticles")
+    public void testGetArticleIds(List<Article> articles) {
         Article a0 = articles.get(0);
         assertEquals("acta/b/2010/01-00/bk5091", a0.getId().getValue());
-        assertEquals(new Doi("10.1107/S0108768109053981"), a0.getDoi());
 
         Article a7 = articles.get(7);
         assertEquals("acta/b/2010/01-00/zb5008", a7.getId().getValue());
-        assertEquals(new Doi("10.1107/S0108768109048769"), a7.getDoi());
 
         Article a12 = articles.get(12);
         assertEquals("acta/b/2010/01-00/me0395", a12.getId().getValue());
+    }
+
+    @Test
+    @Given("#testGetArticles")
+    public void testGetArticleDois(List<Article> articles) {
+        Article a0 = articles.get(0);
+        assertEquals(new Doi("10.1107/S0108768109053981"), a0.getDoi());
+
+        Article a7 = articles.get(7);
+        assertEquals(new Doi("10.1107/S0108768109048769"), a7.getDoi());
+
+        Article a12 = articles.get(12);
         assertEquals(new Doi("10.1107/S0108768109047855"), a12.getDoi());
     }
+
+    @Test
+    @Given("#testGetArticles")
+    public void testGetArticleReferences(List<Article> articles) {
+        Article a0 = articles.get(0);
+        assertEquals("1-16", a0.getReference().getPages());
+
+        Article a7 = articles.get(7);
+        assertEquals("69-75", a7.getReference().getPages());
+
+        Article a12 = articles.get(12);
+        assertEquals("104-108", a12.getReference().getPages());
+    }
+
 
     @Test
     @Given("#testCrawlB201001")
