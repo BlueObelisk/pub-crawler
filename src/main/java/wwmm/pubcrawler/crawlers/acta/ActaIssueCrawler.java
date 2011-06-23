@@ -18,6 +18,7 @@ package wwmm.pubcrawler.crawlers.acta;
 import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Node;
+import nu.xom.Nodes;
 import org.apache.log4j.Logger;
 import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.CrawlerRuntimeException;
@@ -104,6 +105,22 @@ public class ActaIssueCrawler extends AbstractIssueCrawler {
                     node.appendChild(x.copy());
                 }
                 nodes.add(node);
+            }
+            if (nodes.isEmpty()) {
+                // Handle e.g. http://journals.iucr.org/c/issues/1997/03/00/issconts.html
+                xx = XPathUtils.queryHTML(getHtml(), ".//x:div[@class='buttonlinks']");
+                for (Node n : xx) {
+                    Element node = new Element("foo");
+                    node.appendChild(n.copy());
+                    for (Node x : XPathUtils.queryHTML(n, "./following-sibling::*")) {
+                        Element e = (Element) x;
+                        if ("div".equals(e.getLocalName()) && "buttonlinks".equals(e.getAttributeValue("class"))) {
+                            break;
+                        }
+                        node.appendChild(x.copy());
+                    }
+                    nodes.add(node);
+                }
             }
         }
         return nodes;

@@ -111,6 +111,33 @@ public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
     }
 
 
+    private CrawlerResponse prepareActaC1997_03Body() throws IOException {
+        return prepareResponse("./c-1997-03-body.html",
+                URI.create("http://journals.iucr.org/c/issues/1997/03/00/isscontsbdy.html"));
+    }
+
+    private CrawlerResponse prepareActaC1997_03Head() throws IOException {
+        return prepareResponse("./c-1997-03-head.html",
+                URI.create("http://journals.iucr.org/c/issues/1997/03/00/isscontshead.html"));
+    }
+
+
+    protected ActaIssueCrawler getActaC1997_03() throws IOException {
+        Issue issue = new Issue();
+        issue.setId(new IssueId("acta/c/1997/03-00"));
+        issue.setUrl(URI.create("http://journals.iucr.org/c/issues/1997/03/00/isscontsbdy.html"));
+
+        CrawlerResponse response1 = prepareActaC1997_03Body();
+        CrawlerResponse response2 = prepareActaC1997_03Head();
+
+        HttpCrawler crawler = Mockito.mock(HttpCrawler.class);
+        Mockito.when(crawler.execute(Mockito.any(CrawlerRequest.class)))
+                .thenReturn(response1, response2);
+
+        CrawlerContext context = new CrawlerContext(null, crawler, null);
+        return new ActaIssueCrawler(issue, context);
+    }
+
     protected ActaIssueCrawler getActaE2004_11() throws IOException {
         Issue issue = new Issue();
         issue.setId(new IssueId("acta/e/2004/11-00"));
@@ -451,4 +478,38 @@ public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
         assertEquals(new Doi("10.1107/S1600536811004053"), articles.get(0).getDoi());
         assertEquals(new Doi("10.1107/S1600536811003977"), articles.get(1).getDoi());
     }
+
+
+    @Test
+    public ActaIssueCrawler testCrawlC199703() throws IOException {
+        ActaIssueCrawler crawler = getActaC1997_03();
+        return crawler;
+    }
+
+    @Test
+    @Given("#testCrawlC199703")
+    public void testGetC199703Volume(ActaIssueCrawler crawler) {
+        assertEquals("53", crawler.getVolume());
+    }
+
+    @Test
+    @Given("#testCrawlC199703")
+    public void testGetC199703Number(ActaIssueCrawler crawler) {
+        assertEquals("3", crawler.getNumber());
+    }
+
+    @Test
+    @Given("#testCrawlC199703")
+    public void testGetC199703Year(ActaIssueCrawler crawler) {
+        assertEquals("1997", crawler.getYear());
+    }
+
+    @Test
+    @Given("#testCrawlC199703")
+    public void testGetC199703Articles(ActaIssueCrawler crawler) {
+        List<Article> articles = crawler.getArticles();
+        assertNotNull(articles);
+        assertEquals(58, articles.size());
+    }
+
 }

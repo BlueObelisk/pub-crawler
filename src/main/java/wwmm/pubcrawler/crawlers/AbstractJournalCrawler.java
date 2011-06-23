@@ -140,7 +140,7 @@ public abstract class AbstractJournalCrawler extends AbstractCrawler {
         if (prevIssue == null) {
             prev = fetchIssue(prev);
             getDataStore().saveIssue(prev);
-            getDataStore().addIssueToJournal(journal, issue);
+            getDataStore().addIssueToJournal(journal, prev);
             return prev;
         } else {
             return prevIssue;

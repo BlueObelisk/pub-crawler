@@ -31,6 +31,7 @@ public class Journal extends PubcrawlerObject<JournalId> {
         setId(new JournalId(publisherId, abbreviation));
 		this.abbreviation = abbreviation;
 		this.title = title;
+        put("issues", new String[0]);
 	}
 
     public Journal(PublisherId publisherId, String abbreviation, String title) {
