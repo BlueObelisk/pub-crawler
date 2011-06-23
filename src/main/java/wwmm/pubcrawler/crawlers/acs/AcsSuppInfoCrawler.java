@@ -28,6 +28,7 @@ import wwmm.pubcrawler.model.FullTextResource;
 import wwmm.pubcrawler.model.Reference;
 import wwmm.pubcrawler.model.SupplementaryResource;
 import wwmm.pubcrawler.model.id.ArticleId;
+import wwmm.pubcrawler.model.id.ResourceId;
 import wwmm.pubcrawler.types.MediaType;
 import wwmm.pubcrawler.utils.XPathUtils;
 
@@ -144,12 +145,10 @@ public class AcsSuppInfoCrawler extends AbstractArticleCrawler {
                     String linkText = address.getValue();
 
                     String filepath = getSuppFilePath(href);
-
-                    SupplementaryResource supplementaryResource = new SupplementaryResource();
+                    ResourceId id = new ResourceId(articleId, filepath);
+                    SupplementaryResource supplementaryResource = new SupplementaryResource(id, resourceUrl, filepath);
                     supplementaryResource.setContentType(mediaType == null ? title : mediaType.getName());
-                    supplementaryResource.setUrl(resourceUrl);
                     supplementaryResource.setLinkText(linkText);
-                    supplementaryResource.setFilePath(filepath);
                     supplementaryResources.add(supplementaryResource);
                 }
             }

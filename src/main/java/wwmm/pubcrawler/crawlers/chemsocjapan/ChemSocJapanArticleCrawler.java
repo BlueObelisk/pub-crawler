@@ -25,6 +25,7 @@ import wwmm.pubcrawler.model.FullTextResource;
 import wwmm.pubcrawler.model.Reference;
 import wwmm.pubcrawler.model.SupplementaryResource;
 import wwmm.pubcrawler.model.id.ArticleId;
+import wwmm.pubcrawler.model.id.ResourceId;
 import wwmm.pubcrawler.types.Doi;
 import wwmm.pubcrawler.utils.BibtexTool;
 import wwmm.pubcrawler.utils.XHtml;
@@ -234,6 +235,8 @@ public class ChemSocJapanArticleCrawler extends AbstractArticleCrawler {
     }
 
     public List<SupplementaryResource> getSupplementaryResources() {
+        ArticleId articleId = getArticleId();
+
         List<SupplementaryResource> resources = new ArrayList<SupplementaryResource>();
         if (suppHtml != null) {
             List<Node> rows = XPathUtils.queryHTML(suppHtml, ".//x:th[text()='Supplementary Materials']/../following-sibling::*[.//x:a]");
@@ -243,11 +246,12 @@ public class ChemSocJapanArticleCrawler extends AbstractArticleCrawler {
                 String contentType = XPathUtils.getString(row, "./x:td[2]");
                 URI url = getUrl().resolve(href);
 
-                SupplementaryResource resource = new SupplementaryResource();
+                String path = getFilePath(href);
+                ResourceId id = new ResourceId(articleId, path);
+
+                SupplementaryResource resource = new SupplementaryResource(id, url, path);
                 resource.setLinkText(linkText.replace('\u00a0', ' ').trim());       // Trim &nbsp;
                 resource.setContentType(contentType);
-                resource.setUrl(url);
-                resource.setFilePath(getFilePath(href));
                 resources.add(resource);
             }
         }

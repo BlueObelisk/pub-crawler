@@ -17,10 +17,20 @@ package wwmm.pubcrawler.model;
 
 import wwmm.pubcrawler.model.id.ResourceId;
 
+import java.net.URI;
+
 /**
  * @author Sam Adams
  */
 public abstract class AbstractResource extends PubcrawlerObject<ResourceId> {
+
+    protected AbstractResource() { }
+
+    protected AbstractResource(ResourceId id, URI url) {
+        setId(id);
+        setUrl(url);
+    }
+
 
     @Override
     protected ResourceId createId(String id) {
