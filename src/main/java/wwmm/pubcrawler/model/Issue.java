@@ -33,16 +33,6 @@ public class Issue extends PubcrawlerObject<IssueId> {
         return new IssueId(id);
     }
 
-    public URI getUrl() {
-        String s = getString("url");
-        return s == null ? null : URI.create(s);
-    }
-
-    public void setUrl(URI url) {
-        String s = url == null ? null : url.toString();
-        put("url", s);
-    }
-
 
     public List<Article> getArticles() {
         return (List<Article>) get("articles");

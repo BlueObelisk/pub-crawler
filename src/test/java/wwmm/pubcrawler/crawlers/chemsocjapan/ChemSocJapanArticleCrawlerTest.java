@@ -109,7 +109,7 @@ public class ChemSocJapanArticleCrawlerTest extends AbstractCrawlerTest {
     @Test
     public void testGetArticleId() throws IOException {
         ChemSocJapanArticleCrawler crawler = getCl2010_156();
-        assertEquals("chemsocjapan/cl/39/3/cl.2010.156", crawler.getArticleId());
+        assertEquals("chemsocjapan/cl/39/3/cl.2010.156", crawler.getArticleId().getValue());
     }
 
     @Test
@@ -189,7 +189,7 @@ public class ChemSocJapanArticleCrawlerTest extends AbstractCrawlerTest {
     @Test
     public void testGetArticleId_Cl2008_682() throws IOException {
         ChemSocJapanArticleCrawler crawler = getCl2008_682();
-        assertEquals("chemsocjapan/cl/37/7/cl.2008.682", crawler.getArticleId());
+        assertEquals("chemsocjapan/cl/37/7/cl.2008.682", crawler.getArticleId().getValue());
     }
 
     @Test

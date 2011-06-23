@@ -108,7 +108,7 @@ public class ActaArticleCrawlerTest extends AbstractCrawlerTest {
     @Test
     public void testGetArticleId() throws IOException {
         ActaArticleCrawler crawler = getBt5401();
-        assertEquals("acta/e/2010/12-00/bt5401", crawler.getArticleId());
+        assertEquals("acta/e/2010/12-00/bt5401", crawler.getArticleId().getValue());
     }
 
     @Test

@@ -25,6 +25,7 @@ import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.crawlers.AbstractCrawlerTest;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.SupplementaryResource;
+import wwmm.pubcrawler.model.id.ArticleId;
 
 import java.io.IOException;
 import java.net.URI;
@@ -45,6 +46,7 @@ public class AcsSuppInfoCrawlerTest extends AbstractCrawlerTest {
 
     protected AcsSuppInfoCrawler getJe100001bSuppInfo() throws IOException {
         Article article = new Article();
+        article.setId(new ArticleId("acs/foo/1/2/je100001b"));
         article.setSupplementaryResourceUrl(URI.create("http://pubs.acs.org/doi/suppl/10.1021/je100001b"));
 
         CrawlerResponse response = prepareJe100001bSuppInfoResponse();

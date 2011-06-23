@@ -26,6 +26,7 @@ import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.crawlers.AbstractCrawlerTest;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.Issue;
+import wwmm.pubcrawler.model.id.IssueId;
 import wwmm.pubcrawler.types.Doi;
 
 import java.io.IOException;
@@ -67,6 +68,7 @@ public class AcsIssueCrawlerTest extends AbstractCrawlerTest {
 
     protected AcsIssueCrawler getJacsIssue132_51() throws IOException {
         Issue issue = new Issue();
+        issue.setId(new IssueId("acs/jacsat/132/51"));
         issue.setUrl(URI.create("http://pubs.acs.org/toc/jacsat/132/51"));
 
         CrawlerResponse response = prepareJacsIssueResponse();
@@ -81,6 +83,7 @@ public class AcsIssueCrawlerTest extends AbstractCrawlerTest {
 
     protected AcsIssueCrawler getInocajLegacyIssue() throws IOException {
         Issue issue = new Issue();
+        issue.setId(new IssueId("acs/inocaj/34/35"));
         issue.setUrl(URI.create("http://pubs.acs.org/toc/inocaj/34/25"));
 
         CrawlerResponse response = prepareInocajLegacyIssueResponse();
@@ -95,6 +98,7 @@ public class AcsIssueCrawlerTest extends AbstractCrawlerTest {
 
     protected AcsIssueCrawler getJceaaxIssue55_9() throws IOException {
         Issue issue = new Issue();
+        issue.setId(new IssueId("acs/jceaax/55/9"));
         issue.setUrl(URI.create("http://pubs.acs.org/toc/jceaax/55/9"));
 
         CrawlerResponse response = prepareJceaax55_9Response();
@@ -109,6 +113,7 @@ public class AcsIssueCrawlerTest extends AbstractCrawlerTest {
 
     protected AcsIssueCrawler getJceaaxIssue53_9() throws IOException {
         Issue issue = new Issue();
+        issue.setId(new IssueId("acs/jceaxx/53/9"));
         issue.setUrl(URI.create("http://pubs.acs.org/toc/jceaax/53/9"));
 
         CrawlerResponse response = prepareJceaax53_9Response();
@@ -123,6 +128,7 @@ public class AcsIssueCrawlerTest extends AbstractCrawlerTest {
 
     protected AcsIssueCrawler getInocajIssue39_19() throws IOException {
         Issue issue = new Issue();
+        issue.setId(new IssueId("acs/inocaj/39/19"));
         issue.setUrl(URI.create("http://pubs.acs.org/toc/inocaj/39/19"));
 
         CrawlerResponse response = prepareInocajIssue39_19Response();
@@ -183,7 +189,7 @@ public class AcsIssueCrawlerTest extends AbstractCrawlerTest {
         AcsIssueCrawler crawler = getJacsIssue132_51();
         Issue prev = crawler.getPreviousIssue();
         assertNotNull(prev);
-        assertEquals("acs/jacsat/132/50", prev.getId());
+        assertEquals("acs/jacsat/132/50", prev.getId().getValue());
         assertEquals(URI.create("http://pubs.acs.org/toc/jacsat/132/50"), prev.getUrl());
     }
 
@@ -222,14 +228,14 @@ public class AcsIssueCrawlerTest extends AbstractCrawlerTest {
         AcsIssueCrawler crawler = getJacsIssue132_51();
         Issue issue = crawler.toIssue();
         assertNotNull(issue);
-        assertEquals("acs/jacsat/132/51", issue.getId());
+        assertEquals("acs/jacsat/132/51", issue.getId().getValue());
         assertEquals("2010", issue.getYear());
         assertEquals("132", issue.getVolume());
         assertEquals("51", issue.getNumber());
         assertNotNull(issue.getArticles());
         assertEquals(64, issue.getArticles().size());
         assertNotNull(issue.getPreviousIssue());
-        assertEquals("acs/jacsat/132/50", issue.getPreviousIssue().getId());
+        assertEquals("acs/jacsat/132/50", issue.getPreviousIssue().getId().getValue());
     }
 
 

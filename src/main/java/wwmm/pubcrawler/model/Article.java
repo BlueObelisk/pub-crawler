@@ -78,17 +78,6 @@ public class Article extends PubcrawlerObject<ArticleId> {
     }
 
 
-    public URI getUrl() {
-        String s = getString("url");
-        return s == null ? null : URI.create(s);
-    }
-
-    public void setUrl(URI url) {
-        String s = url == null ? null : url.toString();
-        put("url", s);
-    }
-
-
     public String getTitleHtml() {
         return getString("title-html");
     }

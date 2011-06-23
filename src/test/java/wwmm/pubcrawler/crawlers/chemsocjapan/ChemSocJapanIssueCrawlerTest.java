@@ -64,7 +64,7 @@ public class ChemSocJapanIssueCrawlerTest extends AbstractCrawlerTest {
     @Test
     public void testGetIssueId() throws IOException {
         ChemSocJapanIssueCrawler crawler = getCl2010_3();
-        assertEquals("chemsocjapan/chem-lett/39/3", crawler.getIssueId());
+        assertEquals("chemsocjapan/chem-lett/39/3", crawler.getIssueId().getValue());
     }
 
     @Test
@@ -93,11 +93,11 @@ public class ChemSocJapanIssueCrawlerTest extends AbstractCrawlerTest {
         assertEquals(71, articles.size());
 
         Article a0 = articles.get(0);
-        assertEquals("chemsocjapan/chem-lett/39/3/cl.2010.148", a0.getId());
+        assertEquals("chemsocjapan/chem-lett/39/3/cl.2010.148", a0.getId().getValue());
         assertEquals(new Doi("10.1246/cl.2010.148"), a0.getDoi());
 
         Article a70 = articles.get(70);
-        assertEquals("chemsocjapan/chem-lett/39/3/cl.2010.308", a70.getId());
+        assertEquals("chemsocjapan/chem-lett/39/3/cl.2010.308", a70.getId().getValue());
         assertEquals(new Doi("10.1246/cl.2010.308"), a70.getDoi());
     }
 
@@ -128,7 +128,7 @@ public class ChemSocJapanIssueCrawlerTest extends AbstractCrawlerTest {
     public void testToIssue() throws IOException {
         ChemSocJapanIssueCrawler crawler = getCl2010_3();
         Issue issue = crawler.toIssue();
-        assertEquals("chemsocjapan/chem-lett/39/3", issue.getId());
+        assertEquals("chemsocjapan/chem-lett/39/3", issue.getId().getValue());
         assertEquals(URI.create("http://www.csj.jp/journals/chem-lett/cl-cont/cl2010-3.html"), issue.getUrl());
         assertEquals("2010", issue.getYear());
         assertEquals("39", issue.getVolume());

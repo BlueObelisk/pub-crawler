@@ -63,7 +63,7 @@ public class NatureArticleCrawlerTest extends AbstractCrawlerTest {
     @Test
     public void testGetArticleId() throws IOException {
         NatureArticleCrawler crawler = getNchem943();
-        assertEquals("nature/nchem/3/1/nchem.943", crawler.getArticleId());
+        assertEquals("nature/nchem/3/1/nchem.943", crawler.getArticleId().getValue());
     }
 
     @Test

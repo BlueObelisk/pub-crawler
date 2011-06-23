@@ -15,39 +15,10 @@
  */
 package wwmm.pubcrawler.model;
 
-import java.net.URI;
-
 /**
  * @author Sam Adams
  */
-public class FullTextResource extends MongoDBObject {
-
-    public URI getUrl() {
-        String s = getString("url");
-        return s == null ? null : URI.create(s);
-    }
-
-    public void setUrl(URI url) {
-        String s = url == null ? null : url.toString();
-        put("url", s);
-    }
+public class FullTextResource extends AbstractResource {
 
 
-    public String getLinkText() {
-        return getString("linkText");
-    }
-
-    public void setLinkText(String linkText) {
-        put("linkText", linkText);
-    }
-
-
-    public String getContentType() {
-        return getString("contentType");
-    }
-
-    public void setContentType(String contentType) {
-        put("contentType", contentType);
-    }
-    
 }

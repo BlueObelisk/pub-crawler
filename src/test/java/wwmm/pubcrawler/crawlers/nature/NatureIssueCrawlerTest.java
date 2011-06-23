@@ -94,7 +94,7 @@ public class NatureIssueCrawlerTest extends AbstractCrawlerTest {
         NatureIssueCrawler crawler = getNchem3_1();
         Issue prev = crawler.getPreviousIssue();
         assertNotNull(prev);
-        assertEquals("nature/nchem/2/12", prev.getId());
+        assertEquals("nature/nchem/2/12", prev.getId().getValue());
         assertEquals(URI.create("http://www.nature.com/nchem/journal/v2/n12/index.html"), prev.getUrl());
     }
 
@@ -127,14 +127,14 @@ public class NatureIssueCrawlerTest extends AbstractCrawlerTest {
         NatureIssueCrawler crawler = getNchem3_1();
         Issue issue = crawler.toIssue();
         assertNotNull(issue);
-        assertEquals("nature/nchem/3/1", issue.getId());
+        assertEquals("nature/nchem/3/1", issue.getId().getValue());
         assertEquals("2011", issue.getYear());
         assertEquals("3", issue.getVolume());
         assertEquals("1", issue.getNumber());
         assertNotNull(issue.getArticles());
         assertEquals(25, issue.getArticles().size());
         assertNotNull(issue.getPreviousIssue());
-        assertEquals("nature/nchem/2/12", issue.getPreviousIssue().getId());
+        assertEquals("nature/nchem/2/12", issue.getPreviousIssue().getId().getValue());
     }
 
 }

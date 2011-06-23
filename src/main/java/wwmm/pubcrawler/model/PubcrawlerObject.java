@@ -3,6 +3,8 @@ package wwmm.pubcrawler.model;
 import wwmm.pubcrawler.model.id.Id;
 import wwmm.pubcrawler.model.id.IssueId;
 
+import java.net.URI;
+
 public abstract class PubcrawlerObject<ID extends Id<ID>> extends MongoDBObject {
 
     public ID getId() {
@@ -16,5 +18,15 @@ public abstract class PubcrawlerObject<ID extends Id<ID>> extends MongoDBObject 
 
     protected abstract ID createId(String id);
 
+
+    public URI getUrl() {
+        String s = getString("url");
+        return s == null ? null : URI.create(s);
+    }
+
+    public void setUrl(URI url) {
+        String s = url == null ? null : url.toString();
+        put("url", s);
+    }
 
 }
