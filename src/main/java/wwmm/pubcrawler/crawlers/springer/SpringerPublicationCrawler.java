@@ -119,7 +119,7 @@ public class SpringerPublicationCrawler extends AbstractCrawler {
 
     public static void main(String[] args) throws IOException {
         for (Journal journal : new SpringerPublicationCrawler(new DefaultCrawlerContext(null)).getJournals()) {
-            System.out.println(journal.getFullTitle());
+            System.out.println(journal.getTitle());
         }
     }
 

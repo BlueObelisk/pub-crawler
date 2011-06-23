@@ -20,7 +20,7 @@ import org.apache.log4j.Logger;
 import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.DefaultCrawlerContext;
 import wwmm.pubcrawler.crawlers.AbstractJournalCrawler;
-import wwmm.pubcrawler.journals.RscJournalIndex;
+import wwmm.pubcrawler.journals.RscInfo;
 import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.model.Journal;
 import wwmm.pubcrawler.model.id.IssueId;
@@ -48,22 +48,12 @@ public class RscJournalCrawler extends AbstractJournalCrawler {
 
     @Override
     public Issue fetchCurrentIssue() throws IOException {
-        log().debug("Fetching current issue of " + getJournal().getFullTitle());
+        log().debug("Fetching current issue of " + getJournal().getTitle());
         Issue issue = new Issue();
         issue.setId(new IssueId("rsc/"+getJournal().getAbbreviation()+"/latest"));
         issue.setCurrent(true);
         issue.setUrl(URI.create(CURRENT_ISSUE_IDENTIFIER));
         return fetchIssue(issue);
-    }
-
-    public static void main(String[] args) throws IOException, ParsingException {
-
-        for (Journal journal : RscJournalIndex.getIndex().values()) {
-            CrawlerContext context = new DefaultCrawlerContext(new RscCrawlerFactory());
-            RscJournalCrawler crawler = new RscJournalCrawler(journal, context);
-            crawler.crawlJournal();
-        }
-
     }
 
 }

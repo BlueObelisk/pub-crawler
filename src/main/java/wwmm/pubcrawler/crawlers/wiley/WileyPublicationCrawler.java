@@ -75,7 +75,7 @@ public class WileyPublicationCrawler extends AbstractCrawler {
 
     public static void main(String[] args) throws IOException {
         for (Journal j : new WileyPublicationCrawler(new DefaultCrawlerContext(null)).getJournals()) {
-            System.out.println(j.getAbbreviation() +"\t"+ j.getFullTitle());
+            System.out.println(j.getAbbreviation() +"\t"+ j.getTitle());
         }
     }
 

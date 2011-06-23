@@ -20,7 +20,7 @@ import org.apache.log4j.Logger;
 import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.DefaultCrawlerContext;
 import wwmm.pubcrawler.crawlers.AbstractJournalCrawler;
-import wwmm.pubcrawler.journals.ChemSocJapanJournalIndex;
+import wwmm.pubcrawler.journals.ChemSocJapanInfo;
 import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.model.Journal;
 import wwmm.pubcrawler.model.id.IssueId;
@@ -48,7 +48,7 @@ public class ChemSocJapanJournalCrawler extends AbstractJournalCrawler {
 
     @Override
     public Issue fetchCurrentIssue() throws IOException {
-        log().debug("Fetching current issue of " + getJournal().getFullTitle());
+        log().debug("Fetching current issue of " + getJournal().getTitle());
         URI url = getCurrentIssueUrl();
         log().debug("current issue URL: "+url);
         Issue issue = new Issue();
@@ -79,17 +79,5 @@ public class ChemSocJapanJournalCrawler extends AbstractJournalCrawler {
         ChemSocJapanIndexCrawler crawler = new ChemSocJapanIndexCrawler(getJournal(), getContext());
         return crawler.getIssues();
     }
-
-
-    public static void main(String[] args) throws IOException {
-
-        for (Journal journal : ChemSocJapanJournalIndex.getIndex().values()) {
-            CrawlerContext context = new DefaultCrawlerContext(new ChemSocJapanCrawlerFactory());
-            ChemSocJapanJournalCrawler crawler = new ChemSocJapanJournalCrawler(journal, context);
-            crawler.crawlJournal();
-        }
-
-    }
-
 
 }

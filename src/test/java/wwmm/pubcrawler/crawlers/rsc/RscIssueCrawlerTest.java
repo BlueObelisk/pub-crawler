@@ -23,10 +23,12 @@ import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerResponse;
 import uk.ac.cam.ch.wwmm.httpcrawler.HttpCrawler;
 import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.crawlers.AbstractCrawlerTest;
-import wwmm.pubcrawler.journals.RscJournalIndex;
+import wwmm.pubcrawler.journals.RscInfo;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.Issue;
+import wwmm.pubcrawler.model.Journal;
 import wwmm.pubcrawler.model.id.IssueId;
+import wwmm.pubcrawler.model.id.PublisherId;
 import wwmm.pubcrawler.types.Doi;
 
 import java.io.IOException;
@@ -40,6 +42,10 @@ import static org.junit.Assert.assertNotNull;
  * @author Sam Adams
  */
 public class RscIssueCrawlerTest extends AbstractCrawlerTest {
+
+    public static final Journal CHEM_COMM = new Journal(new PublisherId("rsc"), "cc", "Chemical communications");
+
+    public static final Journal J_MAT_CHEM = new Journal(new PublisherId("rsc"), "jm", "Journal of Materials Chemistry");
 
     private CrawlerResponse prepareCcIssueResponse() throws IOException {
         return prepareResponse("./cc-issue-47-03.html",
@@ -58,7 +64,7 @@ public class RscIssueCrawlerTest extends AbstractCrawlerTest {
                     .thenReturn(response);
 
         CrawlerContext context = new CrawlerContext(null, crawler, null);
-        return new RscIssueCrawler(issue, RscJournalIndex.CHEMICAL_COMMUNICATIONS, context);
+        return new RscIssueCrawler(issue, CHEM_COMM, context);
     }
 
     private CrawlerResponse prepareJm1527IssueResponse() throws IOException {
@@ -78,7 +84,7 @@ public class RscIssueCrawlerTest extends AbstractCrawlerTest {
                     .thenReturn(response);
 
         CrawlerContext context = new CrawlerContext(null, crawler, null);
-        return new RscIssueCrawler(issue, RscJournalIndex.JOURNAL_OF_MATERIALS_CHEMISTRY, context);
+        return new RscIssueCrawler(issue, J_MAT_CHEM, context);
     }
 
     @Test

@@ -21,7 +21,7 @@ import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.CrawlerRuntimeException;
 import wwmm.pubcrawler.DefaultCrawlerContext;
 import wwmm.pubcrawler.crawlers.AbstractJournalCrawler;
-import wwmm.pubcrawler.journals.NatureJournalIndex;
+import wwmm.pubcrawler.journals.NatureInfo;
 import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.model.Journal;
 import wwmm.pubcrawler.model.id.IssueId;
@@ -51,7 +51,7 @@ public class NatureJournalCrawler extends AbstractJournalCrawler {
 
     @Override
     public Issue fetchCurrentIssue() throws IOException {
-        log().debug("Fetching current issue of " + getJournal().getFullTitle());
+        log().debug("Fetching current issue of " + getJournal().getTitle());
         URI url = getCurrentIssueUrl();
         Issue issue = new Issue();
         issue.setId(getIssueId(url));
@@ -81,13 +81,4 @@ public class NatureJournalCrawler extends AbstractJournalCrawler {
         return URI.create("http://www.nature.com/" + getJournal().getAbbreviation() + "/");
     }
 
-    public static void main(String[] args) throws IOException {
-
-        for (Journal journal : NatureJournalIndex.getIndex().values()) {
-            CrawlerContext context = new DefaultCrawlerContext(new NatureCrawlerFactory());
-            NatureJournalCrawler crawler = new NatureJournalCrawler(journal, context);
-            crawler.crawlJournal();
-        }
-
-    }
 }

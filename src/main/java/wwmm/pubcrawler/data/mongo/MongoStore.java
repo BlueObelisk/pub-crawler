@@ -7,6 +7,7 @@ import com.mongodb.DBCollection;
 import wwmm.pubcrawler.model.*;
 import wwmm.pubcrawler.model.id.ArticleId;
 import wwmm.pubcrawler.model.id.IssueId;
+import wwmm.pubcrawler.model.id.JournalId;
 import wwmm.pubcrawler.types.Doi;
 
 /**
@@ -48,6 +49,7 @@ public class MongoStore {
 
         this.journals = db.getCollection("journals");
         this.journals.setObjectClass(Journal.class);
+        this.journals.ensureIndex(BasicDBObjectBuilder.start().add("id", 1).add("unique", true).get());
     }
 
 
@@ -84,6 +86,12 @@ public class MongoStore {
 
     public boolean containsIssue(IssueId id) {
         return issues.findOne(new BasicDBObject("id", id.getValue()), new BasicDBObject("id", 1)) != null;
+    }
+
+
+    public void saveJournal(Journal journal) {
+        JournalId id = journal.getId();
+        journals.update(new BasicDBObject("id", id.getValue()), journal, true, false);
     }
 
 

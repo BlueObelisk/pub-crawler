@@ -20,10 +20,12 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import wwmm.pubcrawler.CrawlerContext;
-import wwmm.pubcrawler.journals.RscJournalIndex;
+import wwmm.pubcrawler.journals.RscInfo;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.Issue;
+import wwmm.pubcrawler.model.Journal;
 import wwmm.pubcrawler.model.id.IssueId;
+import wwmm.pubcrawler.model.id.PublisherId;
 
 import java.io.IOException;
 import java.net.URI;
@@ -37,6 +39,8 @@ import static org.junit.Assert.assertNotNull;
  */
 public class RscIssueCrawlerIntegrationTest extends RscIssueCrawlerTest {
 
+    public static final Journal CHEM_COMM = new Journal(new PublisherId("rsc"), "cc", "Chemical communications");
+
     private static RscIssueCrawler cc_47_03_crawler;
     private static RscIssueCrawler jm_15_2728_crawler;
 
@@ -47,7 +51,7 @@ public class RscIssueCrawlerIntegrationTest extends RscIssueCrawlerTest {
         issue.setUrl(URI.create("cc047003"));
 
         CrawlerContext context = new CrawlerContext(null, getHttpCrawler(), null);
-        cc_47_03_crawler = new RscIssueCrawler(issue, RscJournalIndex.CHEMICAL_COMMUNICATIONS, context);
+        cc_47_03_crawler = new RscIssueCrawler(issue, CHEM_COMM, context);
     }
 
     @BeforeClass
@@ -57,7 +61,7 @@ public class RscIssueCrawlerIntegrationTest extends RscIssueCrawlerTest {
         issue.setUrl(URI.create("jm015027"));
 
         CrawlerContext context = new CrawlerContext(null, getHttpCrawler(), null);
-        jm_15_2728_crawler = new RscIssueCrawler(issue, RscJournalIndex.JOURNAL_OF_MATERIALS_CHEMISTRY, context);
+        jm_15_2728_crawler = new RscIssueCrawler(issue, J_MAT_CHEM, context);
     }
 
     @AfterClass
@@ -82,7 +86,7 @@ public class RscIssueCrawlerIntegrationTest extends RscIssueCrawlerTest {
         issue.setCurrent(true);
         issue.setUrl(URI.create("Latest"));
         CrawlerContext context = new CrawlerContext(null, getHttpCrawler(), null);
-        RscIssueCrawler crawler = new RscIssueCrawler(issue, RscJournalIndex.CHEMICAL_COMMUNICATIONS, context);
+        RscIssueCrawler crawler = new RscIssueCrawler(issue, CHEM_COMM, context);
 
         List<Article> articles = crawler.getArticles();
         assertNotNull(articles);
