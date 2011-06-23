@@ -95,10 +95,14 @@ public class MongoStore {
     }
 
 
-    public void addIssueToJournal(String journalId, String issueId) {
-        BasicDBObject query = new BasicDBObject("journalId", journalId);
-        BasicDBObject update = new BasicDBObject("$addToSet", new BasicDBObject("issues", issueId));
+    public void addIssueToJournal(Journal journal, Issue issue) {
+        BasicDBObject query = new BasicDBObject("id", journal.getId().getValue());
+        BasicDBObject update = new BasicDBObject("$addToSet", new BasicDBObject("issues", issue.getId().getValue()));
         this.journals.findAndModify(query, update);
+    }
+
+    public boolean containsJournal(JournalId id) {
+        return journals.findOne(new BasicDBObject("id", id.getValue()), new BasicDBObject("id", 1)) != null;
     }
 
 }
