@@ -37,4 +37,9 @@ public abstract class Id<T extends Id> implements Comparable<T> {
         return getValue().compareTo(o.getValue());
     }
 
+    @Override
+    public String toString() {
+        return "{"+value+"}";
+    }
+
 }
