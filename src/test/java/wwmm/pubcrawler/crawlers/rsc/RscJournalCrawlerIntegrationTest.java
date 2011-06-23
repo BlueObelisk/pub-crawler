@@ -19,8 +19,10 @@ package wwmm.pubcrawler.crawlers.rsc;
 import org.junit.Test;
 import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.crawlers.AbstractCrawlerTest;
-import wwmm.pubcrawler.journals.RscJournalIndex;
+import wwmm.pubcrawler.journals.RscInfo;
 import wwmm.pubcrawler.model.Issue;
+import wwmm.pubcrawler.model.Journal;
+import wwmm.pubcrawler.model.id.PublisherId;
 
 import java.io.IOException;
 
@@ -32,10 +34,12 @@ import static org.junit.Assert.assertNotNull;
  */
 public class RscJournalCrawlerIntegrationTest extends AbstractCrawlerTest {
 
+    public static final Journal CHEM_COMM = new Journal(new PublisherId("rsc"), "cc", "Chemical communications");
+
     @Test
     public void testGetCurrentIssueChemicalCommunications() throws IOException {
         CrawlerContext context = new CrawlerContext(null, getHttpCrawler(), new RscCrawlerFactory());
-        RscJournalCrawler crawler = new RscJournalCrawler(RscJournalIndex.CHEMICAL_COMMUNICATIONS, context);
+        RscJournalCrawler crawler = new RscJournalCrawler(CHEM_COMM, context);
         Issue issue = crawler.fetchCurrentIssue();
         assertNotNull(issue);
         assertNotNull(issue.getId());

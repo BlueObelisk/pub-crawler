@@ -17,27 +17,32 @@ package wwmm.pubcrawler.journals;
 
 import wwmm.pubcrawler.model.Journal;
 import wwmm.pubcrawler.model.JournalIndex;
+import wwmm.pubcrawler.model.id.PublisherId;
 
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>
- * The <code>ChemSocJapanJournal</code> enum is meant to 
- * enumerate useful details about journals of interest from 
- * the Chemical Society of Japan.
+ * The <code>NatureJournal</code> enum is meant to enumerate useful 
+ * details about journals of interest from the Nature Publishing
+ * Group.
  * </p>
  * 
  * @author Nick Day
- * @version 1.1
+ * @version 0.1
  * 
  */
-public class ChemSocJapanJournalIndex {
+public class NatureInfo {
 
-    private static final JournalIndex INDEX = new JournalIndex();
+    private static final PublisherId NATURE_ID = new PublisherId("nature");
 
-    public static final Journal CHEMISTRY_LETTERS = INDEX.register("chem-lett", "Chemistry Letters");
+    public static List<Journal> getJournals() {
+        List<Journal> journals = new ArrayList<Journal>();
 
-    public static JournalIndex getIndex() {
-        return INDEX;
+        journals.add(new Journal(NATURE_ID, "nchem", "Nature Chemistry", 2008));
+
+        return journals;
     }
-    
+
 }

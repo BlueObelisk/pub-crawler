@@ -47,7 +47,7 @@ public abstract class AbstractJournalCrawler extends AbstractCrawler {
     }
 
     public void crawlJournal() throws IOException {
-        log().info("Crawling journal: "+getJournal().getFullTitle());
+        log().info("Crawling journal: "+getJournal().getTitle());
 
         List<Issue> issueIndex = fetchIssueList();
         Iterator<Issue> issueIterator = issueIndex.iterator();
@@ -58,7 +58,7 @@ public abstract class AbstractJournalCrawler extends AbstractCrawler {
         try {
             issue = fetchCurrentIssue();
         } catch (Exception e) {
-            throw new RuntimeException("Error fetching current issue: "+getJournal().getFullTitle(), e);
+            throw new RuntimeException("Error fetching current issue: "+getJournal().getTitle(), e);
         }
         if (issue != null) {
             if (!getDataStore().containsIssue(issue.getId())) {
@@ -121,7 +121,7 @@ public abstract class AbstractJournalCrawler extends AbstractCrawler {
 
         crawlArticles(issues);
 
-        log().info("Crawl complete: "+getJournal().getFullTitle());
+        log().info("Crawl complete: "+getJournal().getTitle());
     }
 
     private Issue getPreviousIssue(Issue issue) throws IOException {

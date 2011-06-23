@@ -39,7 +39,7 @@ public class ElsevierJournalCrawler extends AbstractJournalCrawler {
 
     @Override
     public Issue fetchCurrentIssue() throws IOException {
-        log().debug("Fetching current issue of " + getJournal().getFullTitle());
+        log().debug("Fetching current issue of " + getJournal().getTitle());
         Issue issue = new Issue();
         issue.setId(new IssueId("elsevier/"+getJournal().getAbbreviation()+"/current"));
         issue.setCurrent(true);

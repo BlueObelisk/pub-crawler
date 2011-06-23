@@ -16,37 +16,43 @@
 
 package wwmm.pubcrawler.model;
 
-public class Journal {
+import wwmm.pubcrawler.model.id.JournalId;
+import wwmm.pubcrawler.model.id.PublisherId;
 
-	public final String abbreviation;
-	protected final String fullTitle;
+public class Journal extends PubcrawlerObject<JournalId> {
 
-	public Journal(String abbreviation, String fullTitle) {
+	private String abbreviation;
+    private String title;
+    private Integer offset;
+
+    public Journal() { }
+
+    public Journal(PublisherId publisherId, String abbreviation, String title, Integer offset) {
+        setId(new JournalId(publisherId, abbreviation));
 		this.abbreviation = abbreviation;
-		this.fullTitle = fullTitle;
+		this.title = title;
 	}
 
-	/**
-	 * <p>
-	 * Gets the complete journal title.
-	 * </p>
-	 * 
-	 * @return String of the complete journal title.
-	 * 
-	 */
-	public String getFullTitle() {
-		return this.fullTitle;
+    public Journal(PublisherId publisherId, String abbreviation, String title) {
+        setId(new JournalId(publisherId, abbreviation));
+		this.abbreviation = abbreviation;
+		this.title = title;
 	}
 
-	/**
-	 * <p>
-	 * Gets the journal abbreviation (as used by the publisher
-	 * on their website).
-	 * </p>
-	 * 
-	 * @return String of the journal abbreviation.
-	 * 
-	 */
+    public Journal(String abbreviation, String title) {
+		this.abbreviation = abbreviation;
+		this.title = title;
+	}
+
+    @Override
+    protected JournalId createId(String id) {
+        return new JournalId(id);
+    }
+
+    public String getTitle() {
+		return this.title;
+	}
+
 	public String getAbbreviation() {
 		return this.abbreviation;
 	}

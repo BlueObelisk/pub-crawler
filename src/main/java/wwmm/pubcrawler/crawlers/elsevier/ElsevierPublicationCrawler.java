@@ -77,7 +77,7 @@ public class ElsevierPublicationCrawler extends AbstractCrawler {
 
     public static void main(String[] args) throws IOException {
         for (Journal j : new ElsevierPublicationCrawler(new DefaultCrawlerContext(null)).getJournals()) {
-            System.out.println(j.getFullTitle());
+            System.out.println(j.getTitle());
         }
     }
 

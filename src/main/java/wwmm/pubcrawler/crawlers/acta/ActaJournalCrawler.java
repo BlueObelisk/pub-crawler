@@ -22,7 +22,7 @@ import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.CrawlerRuntimeException;
 import wwmm.pubcrawler.DefaultCrawlerContext;
 import wwmm.pubcrawler.crawlers.AbstractJournalCrawler;
-import wwmm.pubcrawler.journals.ActaJournalIndex;
+import wwmm.pubcrawler.journals.ActaInfo;
 import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.model.Journal;
 import wwmm.pubcrawler.model.id.IssueId;
@@ -54,7 +54,7 @@ public class ActaJournalCrawler extends AbstractJournalCrawler {
 
     @Override
     public Issue fetchCurrentIssue() throws IOException {
-        log().debug("Fetching current issue of " + getJournal().getFullTitle());
+        log().debug("Fetching current issue of " + getJournal().getTitle());
         URI url = getCurrentIssueUrl();
         log().debug("current issue URL: "+url);
         Issue issue = new Issue();
@@ -66,7 +66,7 @@ public class ActaJournalCrawler extends AbstractJournalCrawler {
 
     @Override
     public List<Issue> fetchIssueList() throws IOException {
-        log().debug("Fetching issue list for " + getJournal().getFullTitle());
+        log().debug("Fetching issue list for " + getJournal().getTitle());
         URI url = getIssueListUrl();
         JournalId journalId = new JournalId("acta/"+getJournal().getAbbreviation());
         Document html = readHtml(url, journalId, "issuelist", AGE_1DAY);
@@ -122,18 +122,6 @@ public class ActaJournalCrawler extends AbstractJournalCrawler {
 
     private URI getHomepageUrl() {
         return URI.create("http://journals.iucr.org/" + getJournal().getAbbreviation() + "/journalhomepagebdy.html");
-    }
-
-    public static void main(String[] args) throws IOException {
-
-//        for (Journal journal : ActaJournalIndex.getIndex().values()) {
-            Journal journal = ActaJournalIndex.ACTA_SECTION_D;
-            CrawlerContext context = new DefaultCrawlerContext(new ActaCrawlerFactory());
-            ActaJournalCrawler crawler = new ActaJournalCrawler(journal, context);
-            crawler.setMinYear(2010);
-            crawler.crawlJournal();
-//        }
-
     }
 
 }

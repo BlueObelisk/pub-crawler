@@ -22,7 +22,7 @@ import org.apache.log4j.Logger;
 import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.CrawlerRuntimeException;
 import wwmm.pubcrawler.crawlers.AbstractCrawler;
-import wwmm.pubcrawler.journals.ChemSocJapanJournalIndex;
+import wwmm.pubcrawler.journals.ChemSocJapanInfo;
 import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.model.Journal;
 import wwmm.pubcrawler.model.id.IssueId;
@@ -42,6 +42,7 @@ import java.util.regex.Pattern;
 public class ChemSocJapanIndexCrawler extends AbstractCrawler {
 
     private static final Logger LOG = Logger.getLogger(ChemSocJapanIndexCrawler.class);
+    public static final JournalId CHEM_LETT = new JournalId("chemsocjapan/chem-lett");
 
     private Document html;
     private URI url;
@@ -75,10 +76,10 @@ public class ChemSocJapanIndexCrawler extends AbstractCrawler {
 
     private Document fetchHtml() throws IOException {
         URI url;
-        if (ChemSocJapanJournalIndex.CHEMISTRY_LETTERS.equals(getJournal())) {
+        if (CHEM_LETT.equals(getJournal().getId())) {
             url = URI.create("http://www.chemistry.or.jp/gakujutu/chem-lett/cl-cont/cl_list.html");
         } else {
-            throw new CrawlerRuntimeException("Unsupported journal: "+journal.getFullTitle());
+            throw new CrawlerRuntimeException("Unsupported journal: "+journal.getTitle());
         }
         return readHtml(url, new JournalId("chemsocjapan/chem-lett"), "index", AGE_1DAY);
     }
