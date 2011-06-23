@@ -1,9 +1,6 @@
 package wwmm.pubcrawler.data.mongo;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.BasicDBObjectBuilder;
-import com.mongodb.DB;
-import com.mongodb.DBCollection;
+import com.mongodb.*;
 import wwmm.pubcrawler.model.*;
 import wwmm.pubcrawler.model.id.ArticleId;
 import wwmm.pubcrawler.model.id.IssueId;
@@ -98,7 +95,7 @@ public class MongoStore {
     public void addIssueToJournal(Journal journal, Issue issue) {
         BasicDBObject query = new BasicDBObject("id", journal.getId().getValue());
         BasicDBObject update = new BasicDBObject("$addToSet", new BasicDBObject("issues", issue.getId().getValue()));
-        this.journals.findAndModify(query, update);
+        DBObject r = this.journals.findAndModify(query, update);
     }
 
     public boolean containsJournal(JournalId id) {
