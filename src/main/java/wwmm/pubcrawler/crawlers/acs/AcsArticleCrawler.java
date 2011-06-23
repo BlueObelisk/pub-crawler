@@ -30,6 +30,7 @@ import wwmm.pubcrawler.model.FullTextResource;
 import wwmm.pubcrawler.model.Reference;
 import wwmm.pubcrawler.model.SupplementaryResource;
 import wwmm.pubcrawler.model.id.ArticleId;
+import wwmm.pubcrawler.model.id.ResourceId;
 import wwmm.pubcrawler.types.Doi;
 import wwmm.pubcrawler.utils.BibtexTool;
 import wwmm.pubcrawler.utils.XPathUtils;
@@ -37,6 +38,7 @@ import wwmm.pubcrawler.utils.XPathUtils;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URI;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -253,12 +255,10 @@ public class AcsArticleCrawler extends AbstractArticleCrawler {
                     String linkText = address.getValue();
 
                     String filepath = getSuppFilePath(href);
-
-                    SupplementaryResource supplementaryResource = new SupplementaryResource();
+                    ResourceId id = new ResourceId(articleId, filepath);
+                    SupplementaryResource supplementaryResource = new SupplementaryResource(id, resourceUrl, filepath);
                     supplementaryResource.setContentType(title);
-                    supplementaryResource.setUrl(resourceUrl);
                     supplementaryResource.setLinkText(linkText);
-                    supplementaryResource.setFilePath(filepath);
                     supplementaryResources.add(supplementaryResource);
                 }
             }

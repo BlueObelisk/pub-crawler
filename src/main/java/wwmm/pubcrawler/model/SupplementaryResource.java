@@ -15,10 +15,21 @@
  */
 package wwmm.pubcrawler.model;
 
+import wwmm.pubcrawler.model.id.ResourceId;
+
+import java.net.URI;
+
 /**
  * @author Sam Adams
  */
 public class SupplementaryResource extends AbstractResource {
+
+    public SupplementaryResource() { }
+
+    public SupplementaryResource(ResourceId id, URI url, String path) {
+        super(id, url);
+        setFilePath(path);
+    }
 
     public String toString() {
         return getUrl()+"\n"+getLinkText()+"\n"+getContentType()+"\n";

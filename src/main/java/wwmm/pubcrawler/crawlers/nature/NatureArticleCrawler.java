@@ -27,6 +27,7 @@ import wwmm.pubcrawler.model.FullTextResource;
 import wwmm.pubcrawler.model.Reference;
 import wwmm.pubcrawler.model.SupplementaryResource;
 import wwmm.pubcrawler.model.id.ArticleId;
+import wwmm.pubcrawler.model.id.ResourceId;
 import wwmm.pubcrawler.utils.XPathUtils;
 
 import java.io.ByteArrayOutputStream;
@@ -168,11 +169,10 @@ public class NatureArticleCrawler extends AbstractArticleCrawler {
             Element address = (Element) node;
             String linkText = address.getValue();
             String href = address.getAttributeValue("href");
-
-            SupplementaryResource resource = new SupplementaryResource();
-            resource.setUrl(getUrl().resolve(href));
+            String filePath = getFilePath(href);
+            ResourceId id = new ResourceId(articleId, filePath);
+            SupplementaryResource resource = new SupplementaryResource(id, getUrl().resolve(href), filePath);
             resource.setLinkText(linkText);
-            resource.setFilePath(getFilePath(href));
             resources.add(resource);
         }
         return resources;

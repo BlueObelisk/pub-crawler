@@ -26,6 +26,7 @@ import wwmm.pubcrawler.crawlers.AbstractCrawler;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.SupplementaryResource;
 import wwmm.pubcrawler.model.id.ArticleId;
+import wwmm.pubcrawler.model.id.ResourceId;
 import wwmm.pubcrawler.types.MediaType;
 import wwmm.pubcrawler.utils.XHtml;
 import wwmm.pubcrawler.utils.XPathUtils;
@@ -95,16 +96,10 @@ public class ActaSuppInfoReader extends AbstractCrawler {
                     throw new CrawlerRuntimeException("Error retrieving resource links: "+url, e);
                 }
             } else {
-                SupplementaryResource resource = new SupplementaryResource();
+                String path = getFilePath(href);
+                ResourceId id = new ResourceId(articleRef.getId(), path);
+                SupplementaryResource resource = new SupplementaryResource(id, url, path);
                 resource.setLinkText(alt);
-                resource.setUrl(url);
-                if (href.contains("sendcif?")) {
-                    resource.setFilePath(getCifFilePath(href));
-                } else if (isCheckCif(href)) {
-                    resource.setFilePath(getCheckCifFilePath(href));
-                } else {
-                    resource.setFilePath(href.substring(href.lastIndexOf('/')+1));
-                }
                 if ("CIF".equals(alt)) {
                     resource.setContentType(MediaType.CHEMICAL_CIF.getName());
                 }
@@ -116,6 +111,16 @@ public class ActaSuppInfoReader extends AbstractCrawler {
             }
         }
         return resources;
+    }
+
+    private String getFilePath(String href) {
+        if (href.contains("sendcif?")) {
+            return getCifFilePath(href);
+        }
+        if (isCheckCif(href)) {
+            return getCheckCifFilePath(href);
+        }
+        return href.substring(href.lastIndexOf('/')+1);
     }
 
     private static String getCheckCifFilePath(String href) {
@@ -139,12 +144,10 @@ public class ActaSuppInfoReader extends AbstractCrawler {
             String linkText = s.substring(s.indexOf(']')+1).trim();
             int i = href.indexOf("file=");
             String filePath = href.substring(i+5, href.indexOf('&', i));
-
-            SupplementaryResource resource = new SupplementaryResource();
-            resource.setUrl(url.resolve(href));
+            ResourceId id = new ResourceId(articleRef.getId(), filePath);
+            SupplementaryResource resource = new SupplementaryResource(id, url.resolve(href), filePath);
             resource.setContentType(contentType);
             resource.setLinkText(linkText);
-            resource.setFilePath(filePath);
 
             resources.add(resource);
         }
@@ -184,11 +187,9 @@ public class ActaSuppInfoReader extends AbstractCrawler {
             String s = li.getFirstChildElement("p", XHtml.NAMESPACE).getValue();
             String contentType = s.substring(s.indexOf(']')+1).trim();
             String filePath = getCifFilePath(href);
-
-            SupplementaryResource resource = new SupplementaryResource();
-            resource.setUrl(URI.create(href));
+            ResourceId id = new ResourceId(articleRef.getId(), filePath);
+            SupplementaryResource resource = new SupplementaryResource(id, url.resolve(href), filePath);
             resource.setContentType(contentType);
-            resource.setFilePath(filePath);
             resources.add(resource);
         }
         return resources;

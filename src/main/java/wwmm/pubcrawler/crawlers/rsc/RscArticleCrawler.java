@@ -25,6 +25,7 @@ import wwmm.pubcrawler.model.FullTextResource;
 import wwmm.pubcrawler.model.Reference;
 import wwmm.pubcrawler.model.SupplementaryResource;
 import wwmm.pubcrawler.model.id.ArticleId;
+import wwmm.pubcrawler.model.id.ResourceId;
 import wwmm.pubcrawler.types.Doi;
 import wwmm.pubcrawler.utils.XPathUtils;
 
@@ -106,10 +107,12 @@ public class RscArticleCrawler extends AbstractArticleCrawler {
             Element address = (Element) node;
             String href = address.getAttributeValue("href");
             String text = address.getValue();
-            SupplementaryResource resource = new SupplementaryResource();
-            resource.setUrl(URI.create(href));
+
+            URI url = URI.create(href);
+            String filePath = getFilePath(href);
+            ResourceId id = new ResourceId(articleId, filePath);
+            SupplementaryResource resource = new SupplementaryResource(id, url, filePath);
             resource.setLinkText(text.trim());
-            resource.setFilePath(getFilePath(href));
             resources.add(resource);
         }
         return resources;
