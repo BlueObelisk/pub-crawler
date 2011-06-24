@@ -55,11 +55,11 @@ public class ActaIssueCrawler extends AbstractIssueCrawler {
     private URI headerUrl;
 
     /**
-	 * <p>Creates an instance of the ActaIssueCrawler class and
-	 * specifies the issue to be crawled.</p>
-	 *
-	 * @param issue the issue to be crawled.
-	 */
+     * <p>Creates an instance of the ActaIssueCrawler class and
+     * specifies the issue to be crawled.</p>
+     *
+     * @param issue the issue to be crawled.
+     */
     public ActaIssueCrawler(Issue issue, CrawlerContext context) throws IOException {
         super(issue, context);
         this.headHtml = getHeadHtml();
@@ -101,12 +101,18 @@ public class ActaIssueCrawler extends AbstractIssueCrawler {
         if (nodes.isEmpty()) {
             List<Node> xx = XPathUtils.queryHTML(getHtml(), ".//x:a[@id]");
             for (Node n : xx) {
-                String id = ((Element)n).getAttributeValue("id");
                 Element node = new Element("foo");
-                for (Node x : XPathUtils.queryHTML(n, "./following-sibling::*[./preceding-sibling::x:a[@id][1]/@id = '"+id+"']")) {
-                    node.appendChild(x.copy());
+                String id = ((Element)n).getAttributeValue("id");
+                if (id.length() == 6) {
+                    for (Node x : XPathUtils.queryHTML(n, "./following-sibling::*")) {
+                        Element e = (Element) x;
+                        if ("hr".equals(e.getLocalName())) {
+                            break;
+                        }
+                        node.appendChild(x.copy());
+                    }
+                    nodes.add(node);
                 }
-                nodes.add(node);
             }
             if (nodes.isEmpty()) {
                 // Handle e.g. http://journals.iucr.org/c/issues/1997/03/00/issconts.html
@@ -132,7 +138,7 @@ public class ActaIssueCrawler extends AbstractIssueCrawler {
     protected ArticleId getArticleId(Node node, IssueId issueId) {
         String idString = XPathUtils.getString(node, ".//x:a[./x:img[contains(@alt, 'pdf version') or contains(@alt, 'PDF version')]]/@href");
         if (idString == null) {
-            throw new CrawlerRuntimeException("not found");
+            throw new CrawlerRuntimeException("Unable to locate PDF file:\n"+node.toXML());
         }
         Pattern p = Pattern.compile("/([^/]+)/[^/]+\\.pdf");
         Matcher m = p.matcher(idString);
@@ -275,5 +281,5 @@ public class ActaIssueCrawler extends AbstractIssueCrawler {
     public String getYear() {
         return getBib(3);
     }
-    
+
 }

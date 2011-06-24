@@ -30,6 +30,7 @@ import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.crawlers.AbstractCrawlerTest;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.Issue;
+import wwmm.pubcrawler.model.id.ArticleId;
 import wwmm.pubcrawler.model.id.IssueId;
 import wwmm.pubcrawler.types.Doi;
 
@@ -130,6 +131,17 @@ public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
     private CrawlerResponse prepareActaA2009_06Head() throws IOException {
         return prepareResponse("./a-2009-06-head.html",
                 URI.create("http://journals.iucr.org/a/issues/2009/06/00/isscontshead.html"));
+    }
+
+
+    private CrawlerResponse prepareActaC1991_10Body() throws IOException {
+        return prepareResponse("./c-1991-10-body.html",
+                URI.create("http://journals.iucr.org/c/issues/1991/10/00/isscontsbdy.html"));
+    }
+
+    private CrawlerResponse prepareActaC1991_10Head() throws IOException {
+        return prepareResponse("./c-1991-10-head.html",
+                URI.create("http://journals.iucr.org/c/issues/1991/10/00/isscontshead.html"));
     }
 
 
@@ -262,6 +274,24 @@ public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
         CrawlerContext context = new CrawlerContext(null, crawler, null);
         return new ActaIssueCrawler(issue, context);
     }
+
+
+    protected ActaIssueCrawler getActaC1991_10() throws IOException {
+        Issue issue = new Issue();
+        issue.setId(new IssueId("acta/c/1991/10-00"));
+        issue.setUrl(URI.create("http://journals.iucr.org/c/issues/1991/10/00/isscontsbdy.html"));
+
+        CrawlerResponse response1 = prepareActaC1991_10Body();
+        CrawlerResponse response2 = prepareActaC1991_10Head();
+
+        HttpCrawler crawler = Mockito.mock(HttpCrawler.class);
+        Mockito.when(crawler.execute(Mockito.any(CrawlerRequest.class)))
+                .thenReturn(response1, response2);
+
+        CrawlerContext context = new CrawlerContext(null, crawler, null);
+        return new ActaIssueCrawler(issue, context);
+    }
+
 
     @Test
     public ActaIssueCrawler testCrawlA201006() throws IOException {
@@ -602,5 +632,26 @@ public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
         assertEquals("Foundations of Crystallography with Computer Applications", articles.get(8).getTitle());
     }
 
+
+    @Test
+    public ActaIssueCrawler testCrawlC199110() throws IOException {
+        ActaIssueCrawler crawler = getActaC1991_10();
+        return crawler;
+    }
+
+    @Test
+    @Given("#testCrawlC199110")
+    public List<Article> testGetC199110Articles(ActaIssueCrawler crawler) {
+        List<Article> articles = crawler.getArticles();
+        assertNotNull(articles);
+        assertEquals(93, articles.size());
+        return articles;
+    }
+
+    @Test
+    @Given("#testGetC199110Articles")
+    public void testGetC199101ArticleIds(List<Article> articles) {
+        assertEquals(new ArticleId("acta/c/1991/10-00/du0272"), articles.get(0).getId());
+    }
 
 }

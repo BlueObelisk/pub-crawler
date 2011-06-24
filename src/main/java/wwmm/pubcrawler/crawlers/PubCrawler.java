@@ -21,7 +21,6 @@ public class PubCrawler {
     private int maxArticlesPerIssue = -1;
     private int maxIssues = -1;
     private int minYear = -1;
-    ;
 
     public PubCrawler(Journal journal, JournalHandler journalHandler, CrawlerContext context) {
         this.journal = journal;
@@ -64,7 +63,7 @@ public class PubCrawler {
     }
 
 
-    public void run() {
+    public synchronized void run() {
 
         LOG.info("Crawling journal: "+getJournal().getTitle()+" "+getJournal().getId());
 
@@ -75,23 +74,41 @@ public class PubCrawler {
         List<Issue> queue = initialiseQueue();
 
         Set<IssueId> visited = new HashSet<IssueId>();
-        List<Issue> issueList = new ArrayList<Issue>();
+        Set<IssueId> issueList = new LinkedHashSet<IssueId>();
 
         while (!queue.isEmpty()) {
 
             // Check issue count
             if (getMaxIssues() >= 0 && visited.size() >= getMaxIssues()) {
+                LOG.info("Stopping crawl - max issues reached: " + getMaxIssues());
                 break;
             }
 
             Issue issue = queue.remove(0);
-            if (isVisited(issue, visited)) {
+            if (visited.contains(issue.getId())) {
                 continue;
             }
-            visited.add(issue.getId());
+            if (isSkip(issue)) {
+                continue;
+            }
+
+            if (issue.getYear() != null) {
+                try {
+                    int year = Integer.valueOf(issue.getYear());
+                    if (year < getMinYear()) {
+                        continue;
+                    }
+                } catch (NumberFormatException e) {
+                    LOG.warn("Error parsing year: "+issue.getYear()+" ["+issue.getId()+"]");
+                }
+            }
 
             issue = fetchIssue(issue);
             if (issue == null) {
+                continue;
+            }
+            visited.add(issue.getId());
+            if (isSkip(issue)) {
                 continue;
             }
 
@@ -109,9 +126,11 @@ public class PubCrawler {
                 LOG.debug("new issue: "+issue.getId());
                 getDataStore().saveIssue(issue);
                 getDataStore().addIssueToJournal(journal, issue);
+            } else {
+                LOG.debug("found issue: "+issue.getId());
             }
 
-            issueList.add(issue);
+            issueList.add(issue.getId());
 
             // Queue previous issue
             Issue prev = issue.getPreviousIssue();
@@ -129,24 +148,25 @@ public class PubCrawler {
         LOG.info("Crawl complete: "+getJournal().getTitle());
     }
 
-    protected boolean isVisited(Issue issue, Set<IssueId> visited) {
-        return visited.contains(issue.getId());
+    protected boolean isSkip(Issue issue) {
+        return false;
     }
 
     protected List<Issue> initialiseQueue() {
         List<Issue> queue = new LinkedList<Issue>();
+
+        Issue currentIssue = fetchCurrentIssue();
+        if (currentIssue != null) {
+            queue.add(currentIssue);
+        }
 
         List<Issue> issueIndex = fetchIssueList();
         if (issueIndex != null) {
             queue.addAll(issueIndex);
         }
 
-        sortQueue(queue);
+//        sortQueue(queue);
 
-        Issue currentIssue = fetchCurrentIssue();
-        if (currentIssue != null) {
-            queue.add(currentIssue);
-        }
         return queue;
     }
 
@@ -197,9 +217,12 @@ public class PubCrawler {
 
 
 
-    private void crawlArticles(List<Issue> issues) {
-        for (Issue issue : issues) {
-            crawlArticles(issue);
+    private void crawlArticles(Collection<IssueId> issues) {
+        for (IssueId issueId : issues) {
+            Issue issue = getDataStore().findIssue(issueId);
+            if (issue != null) {
+                crawlArticles(issue);
+            }
         }
     }
 
