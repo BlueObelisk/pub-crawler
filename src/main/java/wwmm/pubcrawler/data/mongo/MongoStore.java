@@ -95,7 +95,7 @@ public class MongoStore {
     public void addIssueToJournal(Journal journal, Issue issue) {
         BasicDBObject query = new BasicDBObject("id", journal.getId().getValue());
         BasicDBObject update = new BasicDBObject("$addToSet", new BasicDBObject("issues", issue.getId().getValue()));
-        DBObject r = this.journals.findAndModify(query, update);
+        this.journals.update(query, update);
     }
 
     public boolean containsJournal(JournalId id) {

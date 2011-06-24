@@ -15,10 +15,7 @@
  */
 package wwmm.pubcrawler.crawlers.acta;
 
-import nu.xom.Document;
-import nu.xom.Element;
-import nu.xom.Node;
-import nu.xom.Nodes;
+import nu.xom.*;
 import org.apache.log4j.Logger;
 import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.CrawlerRuntimeException;

@@ -77,14 +77,13 @@ public class PubCrawler {
         Set<IssueId> issueList = new LinkedHashSet<IssueId>();
 
         while (!queue.isEmpty()) {
-
             // Check issue count
             if (getMaxIssues() >= 0 && visited.size() >= getMaxIssues()) {
                 LOG.info("Stopping crawl - max issues reached: " + getMaxIssues());
                 break;
             }
 
-            Issue issue = queue.remove(0);
+            Issue issue = queue.remove(queue.size()-1);
             if (visited.contains(issue.getId())) {
                 continue;
             }
@@ -107,6 +106,7 @@ public class PubCrawler {
             if (issue == null) {
                 continue;
             }
+
             visited.add(issue.getId());
             if (isSkip(issue)) {
                 continue;
@@ -139,7 +139,6 @@ public class PubCrawler {
                     queue.add(prev);
                 }
             }
-
             Thread.yield();
         }
 
@@ -153,16 +152,16 @@ public class PubCrawler {
     }
 
     protected List<Issue> initialiseQueue() {
-        List<Issue> queue = new LinkedList<Issue>();
-
-        Issue currentIssue = fetchCurrentIssue();
-        if (currentIssue != null) {
-            queue.add(currentIssue);
-        }
+        List<Issue> queue = new ArrayList<Issue>();
 
         List<Issue> issueIndex = fetchIssueList();
         if (issueIndex != null) {
             queue.addAll(issueIndex);
+        }
+
+        Issue currentIssue = fetchCurrentIssue();
+        if (currentIssue != null) {
+            queue.add(currentIssue);
         }
 
 //        sortQueue(queue);
