@@ -63,6 +63,11 @@ public class PubCrawler {
     }
 
 
+    protected CrawlerContext getContext() {
+        return context;
+    }
+
+
     public synchronized void run() {
 
         LOG.info("Crawling journal: "+getJournal().getTitle()+" "+getJournal().getId());
