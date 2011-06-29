@@ -1,6 +1,10 @@
 package wwmm.pubcrawler.data.mongo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.mongodb.*;
+
 import wwmm.pubcrawler.model.*;
 import wwmm.pubcrawler.model.id.ArticleId;
 import wwmm.pubcrawler.model.id.IssueId;
@@ -100,6 +104,20 @@ public class MongoStore {
 
     public boolean containsJournal(JournalId id) {
         return journals.findOne(new BasicDBObject("id", id.getValue()), new BasicDBObject("id", 1)) != null;
+    }
+    
+    public Journal findJournal(JournalId id){
+    	return (Journal) journals.findOne(new BasicDBObject("id", id.getValue()));
+    }
+    
+    public List<Journal> listJournals(){
+    	List<Journal> results=new ArrayList<Journal>();
+    	DBCursor cursor=journals.find(new BasicDBObject(),new BasicDBObject("id",1));
+    	for(DBObject object:cursor){
+    		Journal journal=(Journal) object;
+    		results.add(journal);
+    	}
+		return results;
     }
 
 }
