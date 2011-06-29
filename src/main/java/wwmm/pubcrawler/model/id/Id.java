@@ -17,7 +17,7 @@ public abstract class Id<T extends Id> implements Comparable<T> {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null) {
+        if (o == this) {
             return true;
         }
         if (o != null) {
