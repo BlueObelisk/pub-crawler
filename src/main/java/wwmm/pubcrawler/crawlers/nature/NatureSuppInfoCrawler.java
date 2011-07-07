@@ -237,6 +237,9 @@ public class NatureSuppInfoCrawler extends AbstractArticleCrawler {
 
     public List<SupplementaryResource> getSupplementaryResources() {
         if (getHtml() == null) {
+            if  (getArticleRef().getSupplementaryResources() == null) {
+                return new ArrayList<SupplementaryResource>(1);
+            }
             return getArticleRef().getSupplementaryResources();
         }
         List<SupplementaryResource> resources = new ArrayList<SupplementaryResource>();
