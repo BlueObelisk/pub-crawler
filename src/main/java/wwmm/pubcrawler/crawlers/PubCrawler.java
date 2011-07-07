@@ -231,7 +231,7 @@ public class PubCrawler {
     }
 
     protected final void crawlArticles(Issue issue) {
-        if (getMaxArticlesPerIssue() > 0) {
+        if (getMaxArticlesPerIssue() != 0) {
             List<Article> articles = issue.getArticles();
             if (issue.getArticles().isEmpty()) {
                 LOG.warn("No articles found [issue: "+issue.getId()+"]");

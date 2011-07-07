@@ -117,7 +117,11 @@ public class AcsSuppInfoCrawler extends AbstractArticleCrawler {
 
     public List<SupplementaryResource> getSupplementaryResources() {
         if (getHtml() == null) {
-            return getArticleRef().getSupplementaryResources();
+            List<SupplementaryResource> supplementaryResources =  getArticleRef().getSupplementaryResources();
+            if (supplementaryResources == null) {
+                supplementaryResources = new ArrayList<SupplementaryResource>(1);
+            }
+            return supplementaryResources;
         }
         List<SupplementaryResource> supplementaryResources = new ArrayList<SupplementaryResource>();
         if (getHtml() != null) {
