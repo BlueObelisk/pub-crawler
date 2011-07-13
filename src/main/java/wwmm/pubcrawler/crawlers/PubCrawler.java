@@ -164,6 +164,7 @@ public class PubCrawler {
             queue.addAll(issueIndex);
         }
 
+        System.err.println("fetch current issue...");
         Issue currentIssue = fetchCurrentIssue();
         if (currentIssue != null) {
             queue.add(currentIssue);
@@ -270,18 +271,16 @@ public class PubCrawler {
 
 
     protected Issue fetchIssue(Issue issue) {
-
         Issue tmp = getDataStore().findIssue(issue.getId());
         if (tmp == null) {
             try {
-                AbstractIssueCrawler crawler = context.getCrawlerFactory().createIssueCrawler(issue, journal, context);
-                tmp = crawler.toIssue();
+                Issue issue_ = journalHandler.fetchIssue(issue);
+                return issue_;
             } catch (Exception e) {
                 LOG.error("Error fetching issue " + issue.getId(), e);
             }
         }
         return tmp;
-
     }
 
     public Article fetchArticle(Article article) {
