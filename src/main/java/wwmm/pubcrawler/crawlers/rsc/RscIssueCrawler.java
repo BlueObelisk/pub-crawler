@@ -15,9 +15,7 @@
  */
 package wwmm.pubcrawler.crawlers.rsc;
 
-import nu.xom.Attribute;
-import nu.xom.Document;
-import nu.xom.Node;
+import nu.xom.*;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.log4j.Logger;
 import org.joda.time.Duration;
@@ -32,6 +30,8 @@ import wwmm.pubcrawler.model.id.IssueId;
 import wwmm.pubcrawler.types.Doi;
 import wwmm.pubcrawler.utils.XPathUtils;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
@@ -93,17 +93,23 @@ public class RscIssueCrawler extends AbstractIssueCrawler {
 
     private CrawlerRequest createIssueRequest(String issueId, String id, Duration maxAge) throws UnsupportedEncodingException {
         log().trace("fetching issue: "+issueId);
+
+        maxAge = AGE_1DAY;
+
+        List<BasicNameValuePair> parameters = Arrays.asList(
+                new BasicNameValuePair("name", getJournal().getAbbreviation().toUpperCase()),
+                new BasicNameValuePair("issueid", issueId),
+                new BasicNameValuePair("jname", ""),    // getJournal().getTitle()),
+                new BasicNameValuePair("isarchive", "False"),
+                new BasicNameValuePair("issnprint", ""),
+                new BasicNameValuePair("issnonline", ""),
+                new BasicNameValuePair("iscontentavailable", "True")
+        );
+        System.err.println("args: "+parameters);
+
         CrawlerPostRequest request = new CrawlerPostRequest(
-                URI.create("http://pubs.rsc.org/en/Journals/issues"),
-                Arrays.asList(
-                    new BasicNameValuePair("name", getJournal().getAbbreviation().toUpperCase()),
-                    new BasicNameValuePair("issueid", issueId),
-                    new BasicNameValuePair("jname", getJournal().getTitle()),
-                    new BasicNameValuePair("isarchive", "False"),
-                    new BasicNameValuePair("issnprint", ""),
-                    new BasicNameValuePair("issnonline", ""),
-                    new BasicNameValuePair("iscontentavailable", "True")
-                ), id, maxAge);
+                URI.create("http://pubs.rsc.org/en/journals/issues"),
+                parameters, id, maxAge);
 
         return request;
     }
@@ -178,10 +184,11 @@ public class RscIssueCrawler extends AbstractIssueCrawler {
 
     @Override
     public Issue getPreviousIssue() {
-        String s = XPathUtils.getString(getHtml(), ".//x:a[@title='Previous Issue']/@href");
-        if (s == null) {
+        Element node = (Element) XPathUtils.getNode(getHtml(), ".//x:a[@title='Previous Issue']");
+        if (node == null) {
             return null;
         }
+        String s = node.getAttributeValue("href");
         // /en/journals/journal/cc?issueid=cc047024&amp;issnprint=1359-7345
         Pattern p = Pattern.compile("\\b([a-z]+)(\\d{3})(\\d{3})($|&issnprint)", Pattern.CASE_INSENSITIVE);
         Matcher m = p.matcher(s);
@@ -191,7 +198,11 @@ public class RscIssueCrawler extends AbstractIssueCrawler {
         String issueId = "rsc/"+m.group(1)+'/'+Integer.parseInt(m.group(2))+'/'+Integer.parseInt(m.group(3));
         Issue prev = new Issue();
         prev.setId(new IssueId(issueId));
-        prev.setUrl(URI.create(m.group(1)+m.group(2)+m.group(3)));
+        if (node.getAttributeValue("url") != null) {
+            prev.setUrl(URI.create(node.getAttributeValue("url")));
+        } else {
+            prev.setUrl(URI.create(m.group(1) + m.group(2) + m.group(3)));
+        }
         return prev;
     }
 
@@ -225,6 +236,13 @@ public class RscIssueCrawler extends AbstractIssueCrawler {
         Pattern p = Pattern.compile("IssueId='([^']+)'");
         Matcher m = p.matcher(s);
         if (!m.find()) {
+            File file = new File("rsc.html");
+            try {
+                Serializer ser = new Serializer(new FileOutputStream(file));
+                ser.write(getHtml());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             throw new CrawlerRuntimeException("No match: "+s);
         }
         return m.group(1);
@@ -236,6 +254,11 @@ public class RscIssueCrawler extends AbstractIssueCrawler {
         Matcher m = p.matcher(s);
         m.find();
         return m.group(1);
+    }
+
+    @Override
+    protected URI getUrl() {
+        return getIssueRef().getUrl();
     }
 
 }

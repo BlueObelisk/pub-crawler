@@ -102,7 +102,7 @@ public class RscArticleCrawler extends AbstractArticleCrawler {
     @Override
     public List<SupplementaryResource> getSupplementaryResources() {
         List<SupplementaryResource> resources = new ArrayList<SupplementaryResource>();
-        List<Node> nodes = XPathUtils.queryHTML(getHtml(), ".//x:li[@class='ESIright_highlight_txt_red']/x:a");
+        List<Node> nodes = XPathUtils.queryHTML(getHtml(), ".//x:li[contains(@class, 'ESIright_highlight_txt_red')]/x:a");
         for (Node node : nodes) {
             Element address = (Element) node;
             String href = address.getAttributeValue("href");

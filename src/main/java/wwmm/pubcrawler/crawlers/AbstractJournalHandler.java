@@ -57,8 +57,11 @@ public abstract class AbstractJournalHandler extends AbstractCrawler implements 
     }
 
     public Issue fetchIssue(Issue issue) throws IOException {
+//        System.err.println("fetch(handler): "+issue.getUrl());
         AbstractIssueCrawler crawler = getFactory().createIssueCrawler(issue, getJournal(), getContext());
-        return crawler.toIssue();
+        Issue result = crawler.toIssue();
+//        System.err.println("result:"+result);
+        return result;
     }
 
     public Article fetchArticle(Article article) throws IOException {
