@@ -176,7 +176,7 @@ public class RscIssueCrawlerTest extends AbstractCrawlerTest {
         Issue prev = crawler.getPreviousIssue();
         assertNotNull(prev);
         assertEquals("rsc/jm/15/26", prev.getId().getValue());
-        assertEquals(URI.create("jm015026"), prev.getUrl());
+        assertEquals(URI.create("JM015026"), prev.getUrl());
     }
 
 }
