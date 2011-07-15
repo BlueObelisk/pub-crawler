@@ -20,7 +20,9 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.model.Issue;
+import wwmm.pubcrawler.model.Journal;
 import wwmm.pubcrawler.model.id.IssueId;
+import wwmm.pubcrawler.model.id.PublisherId;
 
 import java.io.IOException;
 import java.net.URI;
@@ -35,10 +37,10 @@ public class ChemSocJapanIssueCrawlerIntegrationTest extends ChemSocJapanIssueCr
     @BeforeClass
     public static void setUp() throws IOException {
         Issue issue = new Issue();
-        issue.setId(new IssueId("chemsocjapan/cl/37/7/3"));
+        issue.setId(new IssueId("chemsocjapan/chem-lett/37/7/3"));
         issue.setUrl(URI.create("http://www.csj.jp/journals/chem-lett/cl-cont/cl2010-3.html"));
         CrawlerContext context = new CrawlerContext(null, getHttpCrawler(), null);
-        crawler = new ChemSocJapanIssueCrawler(issue, context);
+        crawler = new ChemSocJapanIssueCrawler(issue, CHEMLETT, context);
     }
 
     @AfterClass

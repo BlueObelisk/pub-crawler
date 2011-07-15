@@ -52,8 +52,8 @@ public class ChemSocJapanIssueCrawler extends AbstractIssueCrawler {
 	 *
 	 * @param issue the issue to be crawled.
 	 */
-    public ChemSocJapanIssueCrawler(Issue issue, CrawlerContext context) throws IOException {
-        super(issue, context);
+    public ChemSocJapanIssueCrawler(Issue issue, Journal journal, CrawlerContext context) throws IOException {
+        super(issue, journal, context);
     }
 
     @Override

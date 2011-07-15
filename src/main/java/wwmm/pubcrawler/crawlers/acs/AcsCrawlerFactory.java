@@ -35,7 +35,7 @@ public class AcsCrawlerFactory extends AbstractCrawlerFactory {
 
     @Override
     public AbstractIssueCrawler createIssueCrawler(Issue issue, Journal journal, CrawlerContext context) throws IOException {
-        return new AcsIssueCrawler(issue, context);
+        return new AcsIssueCrawler(issue, journal, context);
     }
 
     @Override

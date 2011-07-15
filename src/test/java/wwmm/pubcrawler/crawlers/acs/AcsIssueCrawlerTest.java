@@ -24,9 +24,12 @@ import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerResponse;
 import uk.ac.cam.ch.wwmm.httpcrawler.HttpCrawler;
 import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.crawlers.AbstractCrawlerTest;
+import wwmm.pubcrawler.journals.AcsInfo;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.Issue;
+import wwmm.pubcrawler.model.Journal;
 import wwmm.pubcrawler.model.id.IssueId;
+import wwmm.pubcrawler.model.id.PublisherId;
 import wwmm.pubcrawler.types.Doi;
 
 import java.io.IOException;
@@ -40,6 +43,11 @@ import static org.junit.Assert.assertNotNull;
  * @author Sam Adams
  */
 public class AcsIssueCrawlerTest extends AbstractCrawlerTest {
+
+    public static final PublisherId ACS = new PublisherId("acs");
+    public static final Journal JACSAT = new Journal(ACS, "jacsat", "Journal of the American Chemical Society");
+    public static final Journal INOCAJ = new Journal(ACS, "inocaj", "Inorganic Chemistry");
+    public static final Journal JCEAXX = new Journal(ACS, "jceaax", "Journal of Chemical & Engineering Data");
 
     private CrawlerResponse prepareJacsIssueResponse() throws IOException {
         return prepareResponse("./jacs-132-51.html",
@@ -78,7 +86,7 @@ public class AcsIssueCrawlerTest extends AbstractCrawlerTest {
                 .thenReturn(response);
 
         CrawlerContext context = new CrawlerContext(null, crawler, null);
-        return new AcsIssueCrawler(issue, context);
+        return new AcsIssueCrawler(issue, JACSAT, context);
     }
 
     protected AcsIssueCrawler getInocajLegacyIssue() throws IOException {
@@ -93,7 +101,7 @@ public class AcsIssueCrawlerTest extends AbstractCrawlerTest {
                 .thenReturn(response);
 
         CrawlerContext context = new CrawlerContext(null, crawler, null);
-        return new AcsIssueCrawler(issue, context);
+        return new AcsIssueCrawler(issue, INOCAJ, context);
     }
 
     protected AcsIssueCrawler getJceaaxIssue55_9() throws IOException {
@@ -108,7 +116,7 @@ public class AcsIssueCrawlerTest extends AbstractCrawlerTest {
                 .thenReturn(response);
 
         CrawlerContext context = new CrawlerContext(null, crawler, null);
-        return new AcsIssueCrawler(issue, context);
+        return new AcsIssueCrawler(issue, JCEAXX, context);
     }
 
     protected AcsIssueCrawler getJceaaxIssue53_9() throws IOException {
@@ -123,7 +131,7 @@ public class AcsIssueCrawlerTest extends AbstractCrawlerTest {
                 .thenReturn(response);
 
         CrawlerContext context = new CrawlerContext(null, crawler, null);
-        return new AcsIssueCrawler(issue, context);
+        return new AcsIssueCrawler(issue, JCEAXX, context);
     }
 
     protected AcsIssueCrawler getInocajIssue39_19() throws IOException {
@@ -138,7 +146,7 @@ public class AcsIssueCrawlerTest extends AbstractCrawlerTest {
                 .thenReturn(response);
 
         CrawlerContext context = new CrawlerContext(null, crawler, null);
-        return new AcsIssueCrawler(issue, context);
+        return new AcsIssueCrawler(issue, INOCAJ, context);
     }
 
     @Test

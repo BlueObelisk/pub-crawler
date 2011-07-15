@@ -23,6 +23,7 @@ import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerResponse;
 import uk.ac.cam.ch.wwmm.httpcrawler.HttpCrawler;
 import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.crawlers.AbstractCrawlerTest;
+import wwmm.pubcrawler.journals.NatureInfo;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.model.id.IssueId;
@@ -59,7 +60,7 @@ public class NatureIssueCrawlerTest extends AbstractCrawlerTest {
 //                    .thenReturn(response);
 
         CrawlerContext context = new CrawlerContext(null, crawler, null);
-        return new NatureIssueCrawler(issue, context);
+        return new NatureIssueCrawler(issue, NatureInfo.NCHEM, context);
     }
 
     @Test
