@@ -113,7 +113,7 @@ private static final Logger LOG = Logger.getLogger(AcsIndexCrawler.class);
     }
 
     private IssueId generateIssueId(String volume, String number) {
-        return new IssueId("acs/"+getJournal().getAbbreviation()+'/'+volume+'/'+number);
+        return new IssueId(getJournal().getId(), volume, number);
     }
 
 }

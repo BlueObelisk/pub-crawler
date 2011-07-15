@@ -11,6 +11,23 @@ public abstract class Id<T extends Id> implements Comparable<T> {
         this.value = value;
     }
 
+    protected Id(Id id, String value) {
+        if (value.contains("/") || value.length() == 0) {
+            throw new IllegalArgumentException("Bad ID: ["+value+"]");
+        }
+        this.value = id.getValue() + '/' + value;
+    }
+
+    protected Id(Id id, String value1, String value2) {
+        if (value1.contains("/") || value1.length() == 0) {
+            throw new IllegalArgumentException("Bad ID: "+id+"["+value1+"]["+value2+"]");
+        }
+        if (value2.contains("/") || value2.length() == 0) {
+            throw new IllegalArgumentException("Bad ID: "+id+"["+value1+"]["+value2+"]");
+        }
+        this.value = id.getValue() + '/' + value1 + '/' + value2;
+    }
+
     public String getValue() {
         return value;
     }

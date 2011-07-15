@@ -88,7 +88,7 @@ public class RscIssueCrawler extends AbstractIssueCrawler {
 
     @Override
     public IssueId getIssueId() {
-        return new IssueId("rsc/" + getJournal().getAbbreviation() + '/' + getVolume() + '/' + getNumber());
+        return new IssueId(getJournal().getId(), getVolume(), getNumber());
     }
 
     private CrawlerRequest createIssueRequest(String issueId, String id, Duration maxAge) throws UnsupportedEncodingException {
@@ -124,7 +124,7 @@ public class RscIssueCrawler extends AbstractIssueCrawler {
     protected ArticleId getArticleId(Node context, IssueId issueId) {
         Attribute attr = (Attribute) context;
         String id = attr.getValue();
-        return new ArticleId(issueId, "/" + id);
+        return new ArticleId(issueId, id);
     }
 
     @Override

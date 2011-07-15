@@ -10,7 +10,7 @@ public class ResourceId extends Id<ResourceId> {
     }
 
     public ResourceId(ArticleId articleId, String path) {
-        super(articleId.getValue()+"/"+path);
+        super(articleId, path);
     }
 
 }
