@@ -57,8 +57,8 @@ public class ActaIssueCrawler extends AbstractIssueCrawler {
      *
      * @param issue the issue to be crawled.
      */
-    public ActaIssueCrawler(Issue issue, CrawlerContext context) throws IOException {
-        super(issue, context);
+    public ActaIssueCrawler(Issue issue, Journal journal, CrawlerContext context) throws IOException {
+        super(issue, journal, context);
         this.headHtml = getHeadHtml();
     }
 

@@ -19,6 +19,7 @@ package wwmm.pubcrawler.crawlers.acta;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import wwmm.pubcrawler.CrawlerContext;
+import wwmm.pubcrawler.journals.ActaInfo;
 import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.model.id.IssueId;
 
@@ -38,7 +39,7 @@ public class ActaIssueCrawlerIntegrationTest extends ActaIssueCrawlerTest {
         issue.setId(new IssueId("acta/e/2010/01-00"));
         issue.setUrl(URI.create("http://journals.iucr.org/b/issues/2010/01/00/isscontsbdy.html"));
         CrawlerContext context = new CrawlerContext(null, getHttpCrawler(), null);
-        crawler = new ActaIssueCrawler(issue, context);
+        crawler = new ActaIssueCrawler(issue, ActaInfo.E, context);
     }
 
     @AfterClass

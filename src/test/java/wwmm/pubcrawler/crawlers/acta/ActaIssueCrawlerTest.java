@@ -28,6 +28,7 @@ import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerResponse;
 import uk.ac.cam.ch.wwmm.httpcrawler.HttpCrawler;
 import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.crawlers.AbstractCrawlerTest;
+import wwmm.pubcrawler.journals.ActaInfo;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.model.id.ArticleId;
@@ -158,7 +159,7 @@ public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
                 .thenReturn(response1, response2);
 
         CrawlerContext context = new CrawlerContext(null, crawler, null);
-        return new ActaIssueCrawler(issue, context);
+        return new ActaIssueCrawler(issue, ActaInfo.C, context);
     }
 
     protected ActaIssueCrawler getActaA2009_06() throws IOException {
@@ -174,7 +175,7 @@ public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
                 .thenReturn(response1, response2);
 
         CrawlerContext context = new CrawlerContext(null, crawler, null);
-        return new ActaIssueCrawler(issue, context);
+        return new ActaIssueCrawler(issue, ActaInfo.A, context);
     }
 
     protected ActaIssueCrawler getActaE2004_11() throws IOException {
@@ -190,7 +191,7 @@ public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
                 .thenReturn(response1, response2);
 
         CrawlerContext context = new CrawlerContext(null, crawler, null);
-        return new ActaIssueCrawler(issue, context);
+        return new ActaIssueCrawler(issue, ActaInfo.E, context);
     }
 
     protected ActaIssueCrawler getActaE2011_03() throws IOException {
@@ -206,7 +207,7 @@ public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
                 .thenReturn(response1, response2);
 
         CrawlerContext context = new CrawlerContext(null, crawler, null);
-        return new ActaIssueCrawler(issue, context);
+        return new ActaIssueCrawler(issue, ActaInfo.E, context);
     }
 
 
@@ -223,12 +224,12 @@ public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
                 .thenReturn(response1, response2);
 
         CrawlerContext context = new CrawlerContext(null, crawler, null);
-        return new ActaIssueCrawler(issue, context);
+        return new ActaIssueCrawler(issue, ActaInfo.B, context);
     }
 
     protected ActaIssueCrawler getActaB2010_01() throws IOException {
         Issue issue = new Issue();
-        issue.setId(new IssueId("acta/e/2010/01-00"));
+        issue.setId(new IssueId("acta/b/2010/01-00"));
         issue.setUrl(URI.create("http://journals.iucr.org/b/issues/2010/01/00/isscontsbdy.html"));
 
         CrawlerResponse response1 = prepareActaB2010_01Body();
@@ -239,7 +240,7 @@ public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
                 .thenReturn(response1, response2);
 
         CrawlerContext context = new CrawlerContext(null, crawler, null);
-        return new ActaIssueCrawler(issue, context);
+        return new ActaIssueCrawler(issue, ActaInfo.B, context);
     }
 
     protected ActaIssueCrawler getActaA2010_06() throws IOException {
@@ -255,7 +256,7 @@ public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
                 .thenReturn(response1, response2);
 
         CrawlerContext context = new CrawlerContext(null, crawler, null);
-        return new ActaIssueCrawler(issue, context);
+        return new ActaIssueCrawler(issue, ActaInfo.A, context);
     }
 
 
@@ -272,7 +273,7 @@ public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
                 .thenReturn(response1, response2);
 
         CrawlerContext context = new CrawlerContext(null, crawler, null);
-        return new ActaIssueCrawler(issue, context);
+        return new ActaIssueCrawler(issue, ActaInfo.C, context);
     }
 
 
@@ -289,7 +290,7 @@ public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
                 .thenReturn(response1, response2);
 
         CrawlerContext context = new CrawlerContext(null, crawler, null);
-        return new ActaIssueCrawler(issue, context);
+        return new ActaIssueCrawler(issue, ActaInfo.C, context);
     }
 
 

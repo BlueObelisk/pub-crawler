@@ -35,7 +35,7 @@ public class ChemSocJapanCrawlerFactory extends AbstractCrawlerFactory {
 
     @Override
     public AbstractIssueCrawler createIssueCrawler(Issue issue, Journal journal, CrawlerContext context) throws IOException {
-        return new ChemSocJapanIssueCrawler(issue, context);
+        return new ChemSocJapanIssueCrawler(issue, journal, context);
     }
 
     @Override

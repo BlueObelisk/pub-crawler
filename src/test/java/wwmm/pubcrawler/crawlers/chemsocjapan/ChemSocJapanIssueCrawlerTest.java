@@ -25,7 +25,9 @@ import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.crawlers.AbstractCrawlerTest;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.Issue;
+import wwmm.pubcrawler.model.Journal;
 import wwmm.pubcrawler.model.id.IssueId;
+import wwmm.pubcrawler.model.id.PublisherId;
 import wwmm.pubcrawler.types.Doi;
 
 import java.io.IOException;
@@ -39,6 +41,8 @@ import static org.junit.Assert.*;
  * @author Sam Adams
  */
 public class ChemSocJapanIssueCrawlerTest extends AbstractCrawlerTest {
+
+    public static final Journal CHEMLETT = new Journal(new PublisherId("chemsocjapan"), "chem-lett", "Chemical Letters");
 
     private CrawlerResponse prepareCl2010_3() throws IOException {
         return prepareResponse("./cl-2010-3.html",
@@ -57,7 +61,7 @@ public class ChemSocJapanIssueCrawlerTest extends AbstractCrawlerTest {
                     .thenReturn(response);
 
         CrawlerContext context = new CrawlerContext(null, crawler, null);
-        return new ChemSocJapanIssueCrawler(issue, context);
+        return new ChemSocJapanIssueCrawler(issue, CHEMLETT, context);
     }
 
 

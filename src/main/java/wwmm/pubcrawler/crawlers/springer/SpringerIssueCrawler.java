@@ -56,8 +56,8 @@ public class SpringerIssueCrawler extends AbstractIssueCrawler {
      *
      * @param issue the issue to be crawled.
      */
-    public SpringerIssueCrawler(Issue issue, CrawlerContext context) throws IOException {
-        super(issue, context);
+    public SpringerIssueCrawler(Issue issue, Journal journal, CrawlerContext context) throws IOException {
+        super(issue, journal, context);
     }
 
     @Override

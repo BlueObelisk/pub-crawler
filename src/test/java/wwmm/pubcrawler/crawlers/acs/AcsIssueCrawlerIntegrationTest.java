@@ -38,7 +38,7 @@ public class AcsIssueCrawlerIntegrationTest extends AcsIssueCrawlerTest {
         issue.setId(new IssueId("acs/jacsat/132/51"));
         issue.setUrl(URI.create("http://pubs.acs.org/toc/jacsat/132/51"));
         CrawlerContext context = new CrawlerContext(null, getHttpCrawler(), null);
-        crawler = new AcsIssueCrawler(issue, context);
+        crawler = new AcsIssueCrawler(issue, JACSAT, context);
     }
 
     @AfterClass

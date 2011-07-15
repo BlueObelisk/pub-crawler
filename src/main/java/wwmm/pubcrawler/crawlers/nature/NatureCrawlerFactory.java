@@ -35,7 +35,7 @@ public class NatureCrawlerFactory extends AbstractCrawlerFactory {
 
     @Override
     public AbstractIssueCrawler createIssueCrawler(Issue issue, Journal journal, CrawlerContext context) throws IOException {
-        return new NatureIssueCrawler(issue, context);
+        return new NatureIssueCrawler(issue, journal, context);
     }
 
     @Override

@@ -25,7 +25,9 @@ import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.crawlers.AbstractCrawlerTest;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.Issue;
+import wwmm.pubcrawler.model.Journal;
 import wwmm.pubcrawler.model.id.IssueId;
+import wwmm.pubcrawler.model.id.PublisherId;
 
 import java.io.IOException;
 import java.net.URI;
@@ -39,6 +41,8 @@ import static org.junit.Assert.assertNotNull;
  * @author Sam Adams
  */
 public class SpringerIssueCrawlerTest extends AbstractCrawlerTest {
+
+    private static final Journal ZOOMORPHOLOGY = new Journal(new PublisherId("springer"), "zoomorphology", "Zoomorphology");
 
     private CrawlerResponse prepareZoomorphology_118_2Response() throws IOException {
         return prepareResponse("./zoomorphology-118-2.html",
@@ -57,7 +61,7 @@ public class SpringerIssueCrawlerTest extends AbstractCrawlerTest {
                 .thenReturn(response);
 
         CrawlerContext context = new CrawlerContext(null, crawler, null);
-        return new SpringerIssueCrawler(issue, context);
+        return new SpringerIssueCrawler(issue, ZOOMORPHOLOGY, context);
     }
 
     @Test

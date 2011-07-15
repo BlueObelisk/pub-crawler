@@ -36,7 +36,7 @@ public class SpringerCrawlerFactory extends AbstractCrawlerFactory {
 
     @Override
     public AbstractIssueCrawler createIssueCrawler(Issue issue, Journal journal, CrawlerContext context) throws IOException {
-        return new SpringerIssueCrawler(issue, context);
+        return new SpringerIssueCrawler(issue, journal, context);
     }
 
     @Override

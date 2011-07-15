@@ -19,6 +19,7 @@ package wwmm.pubcrawler.crawlers.nature;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import wwmm.pubcrawler.CrawlerContext;
+import wwmm.pubcrawler.journals.NatureInfo;
 import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.model.id.IssueId;
 
@@ -38,7 +39,7 @@ public class NatureIssueCrawlerIntegrationTest extends NatureIssueCrawlerTest {
         issue.setId(new IssueId("nature/nchem/3/1"));
         issue.setUrl(URI.create("http://www.nature.com/nchem/journal/v3/n1/index.html"));
         CrawlerContext context = new CrawlerContext(null, getHttpCrawler(), null);
-        crawler = new NatureIssueCrawler(issue, context);
+        crawler = new NatureIssueCrawler(issue, NatureInfo.NCHEM, context);
     }
 
     @AfterClass

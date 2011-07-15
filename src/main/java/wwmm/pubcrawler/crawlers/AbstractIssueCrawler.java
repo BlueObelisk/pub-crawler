@@ -47,9 +47,9 @@ public abstract class AbstractIssueCrawler extends AbstractCrawler {
 
     private final Journal journal;
 
-    protected AbstractIssueCrawler(Issue issue, CrawlerContext context) throws IOException {
-        this(issue, null, context);
-    }
+//    protected AbstractIssueCrawler(Issue issue, CrawlerContext context) throws IOException {
+//        this(issue, null, context);
+//    }
 
     protected AbstractIssueCrawler(Issue issue, Journal journal, CrawlerContext context) throws IOException {
         super(context);

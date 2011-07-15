@@ -58,8 +58,8 @@ public class AcsIssueCrawler extends AbstractIssueCrawler {
 	 *
 	 * @param issue the issue to be crawled.
 	 */
-    public AcsIssueCrawler(Issue issue, CrawlerContext context) throws IOException {
-        super(issue, context);
+    public AcsIssueCrawler(Issue issue, Journal journal, CrawlerContext context) throws IOException {
+        super(issue, journal, context);
         this.journalTitle = getJournalTitle();
         this.volume = getVolume();
         this.number = getNumber();

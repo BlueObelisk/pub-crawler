@@ -37,10 +37,12 @@ public class NatureInfo {
 
     private static final PublisherId NATURE_ID = new PublisherId("nature");
 
+    public static final Journal NCHEM = new Journal(NATURE_ID, "nchem", "Nature Chemistry", 2008);
+
     public static List<Journal> getJournals() {
         List<Journal> journals = new ArrayList<Journal>();
 
-        journals.add(new Journal(NATURE_ID, "nchem", "Nature Chemistry", 2008));
+        journals.add(NCHEM);
 
         return journals;
     }

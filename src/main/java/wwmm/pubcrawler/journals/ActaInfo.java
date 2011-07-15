@@ -36,17 +36,26 @@ public class ActaInfo {
 
     private static final PublisherId ACTA_ID = new PublisherId("acta");
 
+    public static final Journal A = new Journal(ACTA_ID, "a", "Section A: Foundations of Crystallography");
+    public static final Journal B = new Journal(ACTA_ID, "b", "Section B: Structural Science");
+    public static final Journal C = new Journal(ACTA_ID, "c", "Section C: Crystal Structure Communications");
+    public static final Journal D = new Journal(ACTA_ID, "d", "Section D: Biological Crystallography");
+    public static final Journal E = new Journal(ACTA_ID, "e", "Section E: Structure Reports");
+    public static final Journal F = new Journal(ACTA_ID, "f", "Section F: Structural Biology and Crystallization Communications");
+    public static final Journal J = new Journal(ACTA_ID, "j", "Section J: Applied Crystallography");
+    public static final Journal S = new Journal(ACTA_ID, "s", "Section S: Synchrotron Radiation");
+
     public static List<Journal> getJournals() {
         List<Journal> journals = new ArrayList<Journal>();
 
-        journals.add(new Journal(ACTA_ID, "a", "Section A: Foundations of Crystallography"));
-        journals.add(new Journal(ACTA_ID, "b", "Section B: Structural Science"));
-        journals.add(new Journal(ACTA_ID, "c", "Section C: Crystal Structure Communications"));
-        journals.add(new Journal(ACTA_ID, "d", "Section D: Biological Crystallography"));
-        journals.add(new Journal(ACTA_ID, "e", "Section E: Structure Reports"));
-        journals.add(new Journal(ACTA_ID, "f", "Section F: Structural Biology and Crystallization Communications"));
-        journals.add(new Journal(ACTA_ID, "j", "Section J: Applied Crystallography"));
-        journals.add(new Journal(ACTA_ID, "s", "Section S: Synchrotron Radiation"));
+        journals.add(A);
+        journals.add(B);
+        journals.add(C);
+        journals.add(D);
+        journals.add(E);
+        journals.add(F);
+        journals.add(J);
+        journals.add(S);
 
         return journals;
     }
