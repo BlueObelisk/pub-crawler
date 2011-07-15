@@ -10,7 +10,7 @@ public class JournalId extends Id<JournalId> {
     }
 
     public JournalId(PublisherId publisherId, String abbreviation) {
-        super(publisherId.getValue()+"/"+abbreviation);
+        super(publisherId, abbreviation);
     }
 
 }

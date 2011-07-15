@@ -44,7 +44,7 @@ public class AcsJournalHandler extends AbstractJournalHandler {
     public Issue fetchCurrentIssue() throws IOException {
         log().debug("Fetching current issue of " + getJournal().getTitle());
         Issue issue = new Issue();
-        issue.setId(new IssueId("acs/"+getJournal().getAbbreviation()+"/!current"));
+        issue.setId(new IssueId(getJournal().getId(), "!", "!current"));
         issue.setCurrent(true);
         issue.setUrl(getCurrentIssueUrl());
         return fetchIssue(issue);

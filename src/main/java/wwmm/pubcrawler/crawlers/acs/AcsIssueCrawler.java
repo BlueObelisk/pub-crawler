@@ -82,7 +82,7 @@ public class AcsIssueCrawler extends AbstractIssueCrawler {
 
     @Override
     public IssueId getIssueId() {
-        return new IssueId("acs/" + getJournalAbbreviation() + '/' + getVolume() + '/' + getNumber());
+        return new IssueId(getJournal().getId(), getVolume(), getNumber());
     }
 
     @Override

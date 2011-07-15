@@ -12,7 +12,7 @@ public class IssueId extends Id<IssueId> {
     }
 
     public IssueId(JournalId journalId, String volume, String number) {
-        super(journalId.getValue()+"/"+volume+"/"+number);
+        super(journalId, volume, number);
     }
 
 }
