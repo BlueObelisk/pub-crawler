@@ -88,6 +88,8 @@ public class RscIssueCrawlerIntegrationTest extends RscIssueCrawlerTest {
         CrawlerContext context = new CrawlerContext(null, getHttpCrawler(), null);
         RscIssueCrawler crawler = new RscIssueCrawler(issue, CHEM_COMM, context);
 
+        assertNotNull(crawler.toIssue());
+
         List<Article> articles = crawler.getArticles();
         assertNotNull(articles);
         assertFalse(articles.isEmpty());
