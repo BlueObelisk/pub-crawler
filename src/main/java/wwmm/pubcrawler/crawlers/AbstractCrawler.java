@@ -65,15 +65,15 @@ public abstract class AbstractCrawler {
     }
 
     protected MongoStore getDataStore() {
-        return context.getDataStore();
+        return getContext().getDataStore();
     }
 
     protected HttpCrawler getHttpCrawler() {
-        return context.getHttpCrawler();
+        return getContext().getHttpCrawler();
     }
 
     protected AbstractCrawlerFactory getFactory() {
-        return context.getCrawlerFactory();
+        return getContext().getCrawlerFactory();
     }
 
 
@@ -176,6 +176,11 @@ public abstract class AbstractCrawler {
         } finally {
             response.closeQuietly();
         }
+    }
+
+    protected void touch(CrawlerRequest request) throws IOException {
+        CrawlerResponse response = getHttpCrawler().execute(request);
+        response.closeQuietly();
     }
 
 
