@@ -243,7 +243,7 @@ public class AcsArticleCrawler extends AbstractArticleCrawler {
     public List<SupplementaryResource> getSupplementaryResources() {
         List<SupplementaryResource> supplementaryResources = new ArrayList<SupplementaryResource>();
         if (getSuppHtml() != null) {
-            List<Node> headingNodes = XPathUtils.queryHTML(getSuppHtml(), ".//x:div[@id='supInfoBox']/x:h3");
+            List<Node> headingNodes = XPathUtils.queryHTML(getSuppHtml(), ".//x:div[@id='supInfoBox']//x:h3");
             for (Node heading : headingNodes) {
                 String title = heading.getValue();
 
@@ -257,8 +257,8 @@ public class AcsArticleCrawler extends AbstractArticleCrawler {
                     String filepath = getSuppFilePath(href);
                     ResourceId id = new ResourceId(articleId, filepath);
                     SupplementaryResource supplementaryResource = new SupplementaryResource(id, resourceUrl, filepath);
-                    supplementaryResource.setContentType(title);
-                    supplementaryResource.setLinkText(linkText);
+                    supplementaryResource.setContentType(title == null ? null : title.trim());
+                    supplementaryResource.setLinkText(linkText == null ? null : linkText.trim());
                     supplementaryResources.add(supplementaryResource);
                 }
             }

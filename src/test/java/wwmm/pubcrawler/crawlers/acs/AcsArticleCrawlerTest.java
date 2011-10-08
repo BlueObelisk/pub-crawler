@@ -137,15 +137,22 @@ public class AcsArticleCrawlerTest extends AbstractCrawlerTest {
 
         SupplementaryResource r0 = resources.get(0);
         assertEquals(URI.create("http://pubs.acs.org/doi/suppl/10.1021/cg100078b/suppl_file/cg100078b_si_001.pdf"), r0.getUrl());
-        assertEquals("cg100078b_si_001.pdf (850 KB)", r0.getLinkText());
+        assertEquals("cg100078b_si_001.pdf (849.93 kB)", clean(r0.getLinkText()));
         assertEquals("PDF", r0.getContentType());
         assertEquals("cg100078b_si_001.pdf", r0.getFilePath());
 
         SupplementaryResource r1 = resources.get(1);
         assertEquals(URI.create("http://pubs.acs.org/doi/suppl/10.1021/cg100078b/suppl_file/cg100078b_si_002.cif"), r1.getUrl());
-        assertEquals("cg100078b_si_002.cif (111 KB)", r1.getLinkText());
+        assertEquals("cg100078b_si_002.cif (111.39 kB)", clean(r1.getLinkText()));
         assertEquals("Crystallographic Information File", r1.getContentType());
         assertEquals("cg100078b_si_002.cif", r1.getFilePath());
+    }
+
+    private String clean(String linkText) {
+        if (linkText == null) {
+            return null;
+        }
+        return linkText.trim().replaceAll("\\s+", " ");
     }
 
     @Test
