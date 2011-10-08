@@ -60,65 +60,16 @@ public class RscJournalInfo extends AbstractCrawler {
         return readHtml(request);
     }
 
-    protected Document readHtml(CrawlerRequest request) throws IOException {
-        CrawlerResponse response = getHttpCrawler().execute(request);
-        try {
-            if (response.isFromCache()) {
-                log().debug("Retrieved "+response.getUrl()+" from cache");
-            } else {
-                log().info("Downloaded "+response.getUrl());
-            }
 
-            String encoding = getEntityCharset(response);
-            if (encoding == null) {
-                return readDocument(response, newTagSoupBuilder());
-            } else {
-                return readDocument(response, newTagSoupBuilder(), encoding);
-            }
-        } finally {
-            response.closeQuietly();
-        }
-    }
 
     protected Document readDocument(URI url, String id, Duration maxage) throws IOException {
         CrawlerGetRequest request = new CrawlerGetRequest(url, id, maxage);
         return readDocument(request);
     }
 
-    protected Document readDocument(CrawlerRequest request) throws IOException {
-        CrawlerResponse response = getHttpCrawler().execute(request);
-        try {
-            String encoding = getEntityCharset(response);
-            if (encoding == null) {
-                return readDocument(response, new Builder());
-            } else {
-                return readDocument(response, new Builder(), encoding);
-            }
-        } finally {
-            response.closeQuietly();
-        }
-    }
 
-    private Document readDocument(CrawlerResponse response, Builder builder) throws IOException {
-        try {
-            Document doc = builder.build(response.getContent());
-            setDocBaseUrl(response, doc);
-            return doc;
-        } catch (ParsingException e) {
-            throw new IOException("Error reading XML", e);
-        }
-    }
 
-    private Document readDocument(CrawlerResponse response, Builder builder, String encoding) throws IOException {
-        try {
-            InputStreamReader isr = new InputStreamReader(response.getContent(), encoding);
-            Document doc = builder.build(isr);
-            setDocBaseUrl(response, doc);
-            return doc;
-        } catch (ParsingException e) {
-            throw new IOException("Error reading XML", e);
-        }
-    }
+
 
     protected Document getHtml() {
         return html;
