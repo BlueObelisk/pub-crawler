@@ -20,15 +20,15 @@ import nu.xom.Document;
 import nu.xom.ParsingException;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.Header;
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.params.HttpParams;
 import org.apache.log4j.Logger;
 import org.joda.time.Duration;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
-import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerGetRequest;
-import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerRequest;
-import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerResponse;
-import uk.ac.cam.ch.wwmm.httpcrawler.HttpCrawler;
+import uk.ac.cam.ch.wwmm.httpcrawler.*;
 import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.data.mongo.MongoStore;
 import wwmm.pubcrawler.model.id.Id;
@@ -37,6 +37,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URI;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -77,12 +78,17 @@ public abstract class AbstractCrawler {
     }
 
 
-    protected String readString(URI url, Id id, String qualifier, Duration maxage) throws IOException {
-        CrawlerGetRequest request = new CrawlerGetRequest(url, id.getValue()+"_"+qualifier, maxage);
+    protected String readString(URI url, Id<?> id, String filename, Duration maxage) throws IOException {
+        CrawlerGetRequest request = new CrawlerGetRequest(url, getCacheId(id, filename), maxage);
         return readString(request);
     }
 
-    protected String readString(CrawlerRequest request) throws IOException {
+    protected String readStringPost(URI url, List<? extends NameValuePair> params, Id<?> id, String filename, Duration maxage) throws IOException {
+        CrawlerPostRequest request = new CrawlerPostRequest(url, params, getCacheId(id, filename), maxage);
+        return readString(request);
+    }
+
+    private String readString(CrawlerRequest request) throws IOException {
         CrawlerResponse response = getHttpCrawler().execute(request);
         try {
             return readString(response);
@@ -100,12 +106,12 @@ public abstract class AbstractCrawler {
         }
     }
 
-    protected Document readDocument(URI url, String id, Duration maxage) throws IOException {
-        CrawlerGetRequest request = new CrawlerGetRequest(url, id, maxage);
+    protected Document readDocument(URI url, Id<?> id, String filename, Duration maxage) throws IOException {
+        CrawlerGetRequest request = new CrawlerGetRequest(url, getCacheId(id, filename), maxage);
         return readDocument(request);
     }
 
-    protected Document readDocument(CrawlerRequest request) throws IOException {
+    private Document readDocument(CrawlerRequest request) throws IOException {
         CrawlerResponse response = getHttpCrawler().execute(request);
         try {
             String encoding = getEntityCharset(response);
@@ -140,7 +146,7 @@ public abstract class AbstractCrawler {
         }
     }
 
-    protected void setDocBaseUrl(CrawlerResponse response, Document doc) {
+    protected static void setDocBaseUrl(CrawlerResponse response, Document doc) {
         String url = response.getUrl().toString();
         if (url.indexOf('#') != -1) {
             url = url.substring(0, url.indexOf('#'));
@@ -148,13 +154,13 @@ public abstract class AbstractCrawler {
         doc.setBaseURI(url);
     }
 
-    protected  Document readHtml(URI url, Id id, Duration maxage) throws IOException {
-        CrawlerGetRequest request = new CrawlerGetRequest(url, id.getValue()+".html", maxage);
+    protected  Document readHtml(URI url, Id<?> id, String filename, Duration maxage) throws IOException {
+        CrawlerGetRequest request = new CrawlerGetRequest(url, getCacheId(id, filename), maxage);
         return readHtml(request);
     }
 
-    protected  Document readHtml(URI url, Id id, String qualifier, Duration maxage) throws IOException {
-        CrawlerGetRequest request = new CrawlerGetRequest(url, id.getValue()+"_"+qualifier+".html", maxage);
+    protected  Document readHtmlPost(URI url, List<? extends NameValuePair> params, Id<?> id, String filename, Duration maxage) throws IOException {
+        CrawlerPostRequest request = new CrawlerPostRequest(url, params, getCacheId(id, filename), maxage);
         return readHtml(request);
     }
 
@@ -212,6 +218,10 @@ public abstract class AbstractCrawler {
             }
         }
         return null;
+    }
+
+    protected static String getCacheId(Id<?> id, String filename) {
+        return id.getValue()+"::"+filename;
     }
 
 }

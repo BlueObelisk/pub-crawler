@@ -70,7 +70,7 @@ public abstract class AbstractIssueCrawler extends AbstractCrawler {
         } else {
             maxAge = AGE_MAX;
         }
-        return readHtml(issue.getUrl(), issue.getId(), maxAge);
+        return readHtml(issue.getUrl(), issue.getId(), "toc.html", maxAge);
     }
 
 

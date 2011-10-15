@@ -39,7 +39,8 @@ public abstract class Id<T extends Id> implements Comparable<T> {
         }
         if (o != null) {
             if (this.getClass() == o.getClass()) {
-                return getValue().equals(((Id)o).getValue());
+                Id other = (Id) o;
+                return getValue().equals(other.getValue());
             }
         }
         return false;

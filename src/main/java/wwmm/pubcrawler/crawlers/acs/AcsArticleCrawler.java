@@ -93,8 +93,7 @@ public class AcsArticleCrawler extends AbstractArticleCrawler {
         params.add(new BasicNameValuePair("submit", "Download Citation(s)"));
 
         URI url = URI.create("http://pubs.acs.org/action/downloadCitation");
-        CrawlerPostRequest request = new CrawlerPostRequest(url, params, getArticleId()+"_bibtex.txt", AGE_MAX);
-        String bibtex = readString(request);
+        String bibtex = readStringPost(url, params, getArticleId(), "bibtex.txt", AGE_MAX);
         return new BibtexTool(bibtex);
     }
         

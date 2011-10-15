@@ -26,6 +26,7 @@ import wwmm.pubcrawler.CrawlerRuntimeException;
 import wwmm.pubcrawler.crawlers.AbstractIssueCrawler;
 import wwmm.pubcrawler.model.*;
 import wwmm.pubcrawler.model.id.ArticleId;
+import wwmm.pubcrawler.model.id.Id;
 import wwmm.pubcrawler.model.id.IssueId;
 import wwmm.pubcrawler.types.Doi;
 import wwmm.pubcrawler.utils.XPathUtils;
@@ -73,14 +74,26 @@ public class RscIssueCrawler extends AbstractIssueCrawler {
     @Override
     protected Document fetchHtml(Issue issue) throws IOException {
         String rscId = issue.getUrl().toString();
+
+        Duration maxAge;
         CrawlerRequest request;
         if (issue.isCurrent()) {
-            request = createIssueRequest(rscId, issue.getId()+".html", AGE_1DAY);
+            maxAge = AGE_1DAY;
         } else {
-            request = createIssueRequest(rscId, issue.getId()+".html", AGE_MAX);
+            maxAge = AGE_MAX;
         }
 
-        Document doc = readHtml(request);
+        Document doc = readHtmlPost(
+                URI.create("http://pubs.rsc.org/en/journals/issues"),
+                Arrays.asList(
+                    new BasicNameValuePair("name", getJournal().getAbbreviation().toUpperCase()),
+                    new BasicNameValuePair("issueid", rscId),
+                    new BasicNameValuePair("jname", ""),    // getJournal().getTitle()),
+                    new BasicNameValuePair("isarchive", "False"),
+                    new BasicNameValuePair("issnprint", ""),
+                    new BasicNameValuePair("issnonline", ""),
+                    new BasicNameValuePair("iscontentavailable", "True")
+                ), issue.getId(), "toc.html", maxAge);
 
         log().trace("done");
         return doc;
@@ -91,28 +104,6 @@ public class RscIssueCrawler extends AbstractIssueCrawler {
         return new IssueId(getJournal().getId(), getVolume(), getNumber());
     }
 
-    private CrawlerRequest createIssueRequest(String issueId, String id, Duration maxAge) throws UnsupportedEncodingException {
-        log().trace("fetching issue: "+issueId);
-
-        maxAge = AGE_1DAY;
-
-        List<BasicNameValuePair> parameters = Arrays.asList(
-                new BasicNameValuePair("name", getJournal().getAbbreviation().toUpperCase()),
-                new BasicNameValuePair("issueid", issueId),
-                new BasicNameValuePair("jname", ""),    // getJournal().getTitle()),
-                new BasicNameValuePair("isarchive", "False"),
-                new BasicNameValuePair("issnprint", ""),
-                new BasicNameValuePair("issnonline", ""),
-                new BasicNameValuePair("iscontentavailable", "True")
-        );
-        System.err.println("args: "+parameters);
-
-        CrawlerPostRequest request = new CrawlerPostRequest(
-                URI.create("http://pubs.rsc.org/en/journals/issues"),
-                parameters, id, maxAge);
-
-        return request;
-    }
 
     @Override
     protected List<Node> getArticleNodes() {

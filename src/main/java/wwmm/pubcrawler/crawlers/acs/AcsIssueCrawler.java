@@ -73,9 +73,9 @@ public class AcsIssueCrawler extends AbstractIssueCrawler {
     @Override
     protected Document fetchHtml(Issue issue) throws IOException {
         if (issue.isCurrent()) {
-            return readHtml(issue.getUrl(), issue.getId(), AGE_1DAY);
+            return readHtml(issue.getUrl(), issue.getId(), "toc.html", AGE_1DAY);
         } else {
-            return readHtml(issue.getUrl(), issue.getId(), AGE_MAX);
+            return readHtml(issue.getUrl(), issue.getId(), "toc.html", AGE_MAX);
         }
     }
 

@@ -55,7 +55,7 @@ public class ChemSocJapanJournalHandler extends AbstractJournalHandler {
 
     private URI getCurrentIssueUrl() throws IOException {
         URI url = getHomepageUrl();
-        Document html = readHtml(url, new IssueId("chemsocjapan/chem-lett/current"), AGE_1DAY);
+        Document html = readHtml(url, new IssueId("chemsocjapan/chem-lett/current"), "home.html", AGE_1DAY);
         String href = XPathUtils.getString(html, ".//x:a[.='Current issue']/@href");
         URI frameUri = url.resolve(href);
         return frameUri.resolve("./isscontsbdy.html");

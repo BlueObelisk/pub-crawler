@@ -16,6 +16,7 @@
 package wwmm.pubcrawler.crawlers.acta;
 
 import nu.xom.*;
+import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.log4j.Logger;
 import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerPostRequest;
@@ -67,15 +68,15 @@ public class ActaArticleCrawler extends AbstractArticleCrawler {
         String articleId = id.substring(id.lastIndexOf('/')+1);
         log().trace("fetching bibtex: "+articleId);
 
-        CrawlerPostRequest request = new CrawlerPostRequest(
+        String text = readStringPost(
                 URI.create("http://scripts.iucr.org/cgi-bin/biblio"),
                 Arrays.asList(
                         new BasicNameValuePair("name", "saveas"),
                         new BasicNameValuePair("cnor", articleId),
                         new BasicNameValuePair("Action", "download")
-                ), getArticleRef().getId()+"_bibtex.txt", AGE_MAX);
+                ),
+                getArticleRef().getId(), "bibtex.txt", AGE_MAX);
 
-        String text = readString(request);
         return new BibtexTool(text);
     }
 

@@ -69,7 +69,7 @@ public abstract class AbstractArticleCrawler extends AbstractCrawler {
         if (doi == null) {
             throw new CrawlerRuntimeException("Article missing DOI: " + article);
         }
-        return readHtml(doi.getUrl(), article.getId(), AGE_MAX);
+        return readHtml(doi.getUrl(), article.getId(), "abstract.html", AGE_MAX);
     }
 
 
