@@ -69,7 +69,7 @@ public class ChemSocJapanArticleCrawler extends AbstractArticleCrawler {
             return null;
         }
         URI url = getUrl().resolve(href);
-        return readHtml(url, getArticleId(), "supp", AGE_MAX);
+        return readHtml(url, getArticleId(), "supp.html", AGE_MAX);
     }
 
     private Document fetchReferencesHtml() throws IOException {
@@ -78,7 +78,7 @@ public class ChemSocJapanArticleCrawler extends AbstractArticleCrawler {
             throw new CrawlerRuntimeException("not found");
         }
         URI url = getUrl().resolve(href);
-        return readHtml(url, getArticleId(), "refs", AGE_MAX);
+        return readHtml(url, getArticleId(), "refs.html", AGE_MAX);
     }
 
     private BibtexTool fetchBibtex() throws IOException {
@@ -135,15 +135,6 @@ public class ChemSocJapanArticleCrawler extends AbstractArticleCrawler {
     @Override
     protected Logger log() {
         return LOG;
-    }
-
-    @Override
-    public Document fetchHtml(Article article) throws IOException {
-        Doi doi = article.getDoi();
-        if (doi == null) {
-            throw new CrawlerRuntimeException("Article missing DOI: " + article);
-        }
-        return readHtml(doi.getUrl(), getArticleId(), AGE_MAX);
     }
 
 

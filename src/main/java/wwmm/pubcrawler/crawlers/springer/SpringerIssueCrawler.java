@@ -66,13 +66,6 @@ public class SpringerIssueCrawler extends AbstractIssueCrawler {
     }
 
     @Override
-    protected Document fetchHtml(Issue issue) throws IOException {
-        URI url = issue.getUrl();
-        Document doc = readHtml(url, issue.getId(), AGE_MAX);
-        return doc;
-    }
-
-    @Override
     public IssueId getIssueId() {
         return new IssueId("springer/" + getIssn() + '/' + getVolume() + '/' + getNumber());
     }

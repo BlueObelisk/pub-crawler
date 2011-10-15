@@ -24,6 +24,7 @@ import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.DefaultCrawlerContext;
 import wwmm.pubcrawler.crawlers.AbstractCrawler;
 import wwmm.pubcrawler.model.Journal;
+import wwmm.pubcrawler.model.id.PublisherId;
 import wwmm.pubcrawler.utils.XPathUtils;
 
 import java.io.IOException;
@@ -40,13 +41,15 @@ public class ElsevierPublicationCrawler extends AbstractCrawler {
 
     private static final URI OPML_URI = URI.create("http://feeds.sciencedirect.com/opml.xml");
 
+    private static final PublisherId ELSEVIER_ID = new PublisherId("elsevier");
+
     private final Document doc;
     private final URI url;
 
     public ElsevierPublicationCrawler(CrawlerContext context) throws IOException {
         super(context);
 
-        this.doc = readDocument(OPML_URI, "elsevier/opml", AGE_28DAYS);
+        this.doc = readDocument(OPML_URI, ELSEVIER_ID, "opml.xml", AGE_28DAYS);
         this.url = OPML_URI;
     }
 

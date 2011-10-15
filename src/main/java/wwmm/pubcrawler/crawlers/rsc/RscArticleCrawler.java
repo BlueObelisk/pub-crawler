@@ -63,15 +63,6 @@ public class RscArticleCrawler extends AbstractArticleCrawler {
     }
 
     @Override
-    public Document fetchHtml(Article article) throws IOException {
-        Doi doi = article.getDoi();
-        if (doi == null) {
-            throw new CrawlerRuntimeException("Article missing DOI: " + article);
-        }
-        return readHtml(doi.getUrl(), getArticleRef().getId(), AGE_MAX);
-    }
-
-    @Override
     protected ArticleId getArticleId() {
         return articleId;
     }

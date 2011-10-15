@@ -64,7 +64,7 @@ public class ActaIssueCrawler extends AbstractIssueCrawler {
 
     private Document getHeadHtml() throws IOException {
         this.headerUrl = getUrl().resolve("./isscontshdr.html");
-        return readHtml(headerUrl, getIssueId(), "head", AGE_MAX);
+        return readHtml(headerUrl, getIssueId(), "head.html", AGE_MAX);
     }
 
     @Override
@@ -74,7 +74,7 @@ public class ActaIssueCrawler extends AbstractIssueCrawler {
 
     @Override
     protected Document fetchHtml(Issue issue) throws IOException {
-        return readHtml(issue.getUrl(), issue.getId(), AGE_MAX);
+        return readHtml(issue.getUrl(), issue.getId(), "toc.html", AGE_MAX);
     }
 
 

@@ -109,7 +109,7 @@ public class ElsevierIssueCrawler extends AbstractIssueCrawler {
 
         URI url = URI.create("http://www.sciencedirect.com/science");
 
-        String s = readString(new CrawlerPostRequest(url, params, getIssueId()+"_bibtex.txt", AGE_MAX));
+        String s = readStringPost(url, params, getIssueId(), "bibtex.txt", AGE_MAX);
         return s;
     }
 
@@ -135,7 +135,7 @@ public class ElsevierIssueCrawler extends AbstractIssueCrawler {
         String query = URLEncodedUtils.format(params, "UTF-8");
 
         URI url = URI.create("http://www.sciencedirect.com/science?"+query);
-        Document html = readHtml(url, getIssueId(), "bibtex", AGE_MAX);
+        Document html = readHtml(url, getIssueId(), "bibtex.html", AGE_MAX);
         return html;
     }
 
