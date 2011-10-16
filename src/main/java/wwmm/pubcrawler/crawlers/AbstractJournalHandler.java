@@ -40,27 +40,9 @@ public abstract class AbstractJournalHandler extends AbstractCrawler implements 
         return journal;
     }
 
-    protected Article crawlArticle(Article article) throws IOException {
-        if (getDataStore().containsArticle(article.getId())) {
-            article = getDataStore().findArticle(article.getId());
-        } else {
-            try {
-                article = fetchArticle(article);
-            } catch (Exception e) {
-                log().warn("error fetching article: "+article.getId() + " [" + article.getDoi() + "]", e);
-                return null;
-            }
-            log().debug("new article: "+article.getId());
-            getDataStore().saveArticle(article);
-        }
-        return article;
-    }
-
     public Issue fetchIssue(Issue issue) throws IOException {
-//        System.err.println("fetch(handler): "+issue.getUrl());
         AbstractIssueCrawler crawler = getFactory().createIssueCrawler(issue, getJournal(), getContext());
         Issue result = crawler.toIssue();
-//        System.err.println("result:"+result);
         return result;
     }
 
