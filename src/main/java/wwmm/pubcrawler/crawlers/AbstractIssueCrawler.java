@@ -39,7 +39,7 @@ import java.util.List;
  * @author Sam Adams
  * @version 2.0
  */
-public abstract class AbstractIssueCrawler extends AbstractCrawler {
+public abstract class AbstractIssueCrawler extends AbstractCrawler implements IssueCrawler {
 
     private final Issue issueRef;
     private final Document html;
@@ -250,6 +250,7 @@ public abstract class AbstractIssueCrawler extends AbstractCrawler {
     protected abstract String getNumber();
 
 
+    @Override
     public Issue toIssue() {
         Issue issue = new Issue();
         issue.setId(getIssueId());

@@ -29,8 +29,8 @@ public abstract class AbstractCrawlerFactory {
 
     public abstract JournalHandler createJournalCrawler(Journal journal, CrawlerContext context) throws IOException;
 
-    public abstract AbstractIssueCrawler createIssueCrawler(Issue issue, Journal journal, CrawlerContext context) throws IOException;
+    public abstract IssueCrawler createIssueCrawler(Issue issue, Journal journal, CrawlerContext context) throws IOException;
 
-    public abstract AbstractArticleCrawler createArticleCrawler(Article article, CrawlerContext context) throws IOException;
+    public abstract ArticleCrawler createArticleCrawler(Article article, CrawlerContext context) throws IOException;
     
 }

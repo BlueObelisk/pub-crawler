@@ -41,13 +41,13 @@ public abstract class AbstractJournalHandler extends AbstractCrawler implements 
     }
 
     public Issue fetchIssue(Issue issue) throws IOException {
-        AbstractIssueCrawler crawler = getFactory().createIssueCrawler(issue, getJournal(), getContext());
+        IssueCrawler crawler = getFactory().createIssueCrawler(issue, getJournal(), getContext());
         Issue result = crawler.toIssue();
         return result;
     }
 
     public Article fetchArticle(Article article) throws IOException {
-        AbstractArticleCrawler crawler = getFactory().createArticleCrawler(article, getContext());
+        ArticleCrawler crawler = getFactory().createArticleCrawler(article, getContext());
         if (crawler != null) {
             return crawler.toArticle();
         }
