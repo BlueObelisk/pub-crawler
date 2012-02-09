@@ -34,12 +34,12 @@ public class ActaCrawlerFactory extends AbstractCrawlerFactory {
     }
 
     @Override
-    public AbstractIssueCrawler createIssueCrawler(Issue issue, Journal journal, CrawlerContext context) throws IOException {
+    public IssueCrawler createIssueCrawler(Issue issue, Journal journal, CrawlerContext context) throws IOException {
         return new ActaIssueCrawler(issue, journal, context);
     }
 
     @Override
-    public AbstractArticleCrawler createArticleCrawler(Article article, CrawlerContext context) throws IOException {
+    public ArticleCrawler createArticleCrawler(Article article, CrawlerContext context) throws IOException {
         return new ActaArticleCrawler(article, context);
     }
     

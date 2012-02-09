@@ -287,7 +287,7 @@ public class PubCrawler {
 
         Article tmp = null;
         try {
-            AbstractArticleCrawler crawler = context.getCrawlerFactory().createArticleCrawler(article, context);
+            ArticleCrawler crawler = context.getCrawlerFactory().createArticleCrawler(article, context);
             tmp = crawler.toArticle();
         } catch (Exception e) {
             LOG.error("Error fetching article "+article.getId(), e);

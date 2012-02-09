@@ -42,7 +42,7 @@ import java.util.List;
  * @version 2
  *
  */
-public abstract class AbstractArticleCrawler extends AbstractCrawler {
+public abstract class AbstractArticleCrawler extends AbstractCrawler implements ArticleCrawler {
 
     private final Article articleRef;
 
@@ -89,6 +89,7 @@ public abstract class AbstractArticleCrawler extends AbstractCrawler {
         return getArticleRef().getDoi();
     }
 
+    @Override
     public Article toArticle() {
         Article article = new Article();
         article.setId(getArticleId());
