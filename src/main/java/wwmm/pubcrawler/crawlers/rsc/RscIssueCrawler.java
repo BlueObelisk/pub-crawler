@@ -37,6 +37,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -198,7 +199,8 @@ public class RscIssueCrawler extends AbstractIssueCrawler {
     }
 
     private String getScriptText() {
-        return XPathUtils.getString(getHtml(), ".//x:script");
+        final List<String> scripts = XPathUtils.getStrings(getHtml(), ".//x:script");
+        return scripts.get(scripts.size()-1);
     }
 
 
