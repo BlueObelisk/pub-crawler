@@ -79,7 +79,7 @@ public class RscArticleCrawler extends AbstractArticleCrawler {
         String pages = firstPage+'-'+lastPage;
 
         String date = XPathUtils.getString(head, ".//x:meta[@name='citation_date']/@content");
-        String year = date.substring(0, date.indexOf('/'));
+        String year = date.substring(0, date.indexOf('-'));
 
         Reference ref = new Reference();
         ref.setJournalTitle(journalName);
