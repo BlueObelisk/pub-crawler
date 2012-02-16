@@ -16,8 +16,6 @@
 package wwmm.pubcrawler.crawlers.acs;
 
 import nu.xom.Document;
-import nu.xom.Element;
-import nu.xom.Serializer;
 import org.apache.log4j.Logger;
 import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.CrawlerRuntimeException;
@@ -25,9 +23,7 @@ import wwmm.pubcrawler.crawlers.AbstractCrawler;
 import wwmm.pubcrawler.crawlers.ArticleCrawler;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.types.Doi;
-import wwmm.pubcrawler.utils.XPathUtils;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URI;
 
@@ -66,45 +62,10 @@ public class AcsArticleCrawler extends AbstractCrawler implements ArticleCrawler
         return readHtml(doi.getUrl(), articleRef.getId(), "abstract.html", AGE_MAX);
     }
 
-
-
     @Override
     protected Logger log() {
         return LOG;
     }
-
-    /**
-	 * <p>
-	 * Crawls the abstract webpage to find a link to a webpage listing the
-	 * article supplementary files.
-	 * </p>
-	 *
-	 * @return URL of the webpage listing the article supplementary files.
-	 */
-    private URI getSupportingInfoUrl() {
-        String href = XPathUtils.getString(html, ".//x:a[@title='View Supporting Information']/@href");
-        log().trace("Supporting Information URL: "+href);
-        return url == null ? null : url.resolve(href);
-    }
-
-
-
-    /**
-	 * <p>
-	 * Gets the ID of the supplementary file at the publisher's site from
-	 * the supplementary file URL.
-	 * </p>
-	 *
-	 * @param href - the URL from which to obtain the filename.
-	 *
-	 * @return the filename of the supplementary file.
-	 */
-    private String getSuppFilePath(String href) {
-        int i = href.indexOf("/suppl_file/");
-        String filepath = href.substring(i+12);
-        return filepath;
-    }
-
 
     @Override
     public Article toArticle() {
