@@ -39,8 +39,8 @@ public class AcsIssueCrawler extends AbstractCrawler implements IssueCrawler {
 
     private static final Logger LOG = Logger.getLogger(AcsIssueCrawler.class);
 
-    private Journal journal;
-    private Issue issueRef;
+    private final Journal journal;
+    private final Issue issueRef;
 
     private final Document document;
     
