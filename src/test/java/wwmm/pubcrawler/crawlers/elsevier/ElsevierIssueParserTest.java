@@ -20,6 +20,10 @@ import ch.unibe.jexample.Given;
 import ch.unibe.jexample.Injection;
 import ch.unibe.jexample.InjectionPolicy;
 import ch.unibe.jexample.JExample;
+import nu.xom.Builder;
+import nu.xom.Document;
+import org.apache.commons.io.IOUtils;
+import org.ccil.cowan.tagsoup.Parser;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,15 +33,18 @@ import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerResponse;
 import uk.ac.cam.ch.wwmm.httpcrawler.HttpCrawler;
 import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.crawlers.AbstractCrawlerTest;
-import wwmm.pubcrawler.crawlers.AbstractIssueCrawler;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.model.Journal;
 import wwmm.pubcrawler.model.id.IssueId;
+import wwmm.pubcrawler.model.id.JournalId;
+import wwmm.pubcrawler.model.id.PublisherId;
 import wwmm.pubcrawler.types.Doi;
-import wwmm.pubcrawler.types.DoiTest;
+import wwmm.pubcrawler.utils.ResourceUtil;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringReader;
 import java.net.URI;
 import java.util.Arrays;
 import java.util.List;
@@ -50,77 +57,67 @@ import static org.junit.Assert.assertNotNull;
  */
 @RunWith(JExample.class)
 @Injection(InjectionPolicy.NONE)
-public class ElsevierIssueCrawlerTest extends AbstractCrawlerTest {
+public class ElsevierIssueParserTest {
 
-    private CrawlerResponse prepareCompBioChemIssue34_4Response() throws IOException {
-        return prepareResponse("./compbiochem-34-4.html",
-                URI.create("http://www.sciencedirect.com/science?_ob=PublicationURL&_tockey="
-                        +"%23TOC%2311514%232010%23999659995%232526737%23FLA%23&_cdi=11514&_pubType=J&_auth=y&_prev=y"
-                        +"&_acct=C000050221&_version=1&_urlVersion=0&_userid=10&md5=cd07924074df81e203366810e8242eb2"));
+    private static final PublisherId ELSEVIER = new PublisherId("elsevier");
+    private static final Journal JOURNAL = new Journal(ELSEVIER, "compbiochem", "Computational Biology and Chemistry");
+    private static final IssueId ISSUE = new IssueId(JOURNAL.getId(), "34", "4");
+    
+    private Document loadDocument(String path) throws Exception {
+        final InputStream in  = ResourceUtil.open(getClass(), "/wwmm/pubcrawler/crawlers/elsevier/" + path);
+        try {
+            String s = IOUtils.toString(in);
+            return new Builder(new Parser()).build(new StringReader(
+                s.replace("_http://www.w3.org/TR/html4/loose.dtd", "http://www.w3.org/TR/html4/loose.dtd")));
+        } finally {
+            IOUtils.closeQuietly(in);
+        }
     }
 
-    private CrawlerResponse prepareCompBioChemIssue34_4DownloadResponse() throws IOException {
-        return prepareResponse("./compbiochem-34-4-download.html",
-                URI.create("http://www.sciencedirect.com/science?_ob=DownloadURL&_method=confirm&_tockey=%23toc%2311514%232010%23999659995%232526737%23FLA%23&_auth=y&_version=1&refSource=toc&_pubType=J&PDF_DDM_MAX=20&_cdi=11514&chunk=0&view=c&go=&count=8&export=Export+citations&pdfDownload=&count=8&_acct=C000053194&_version=1&_userid=1495569&md5=58b8fcd21e7a5845f6cf4105ce3cd6ca"));
-    }
 
-    private CrawlerResponse prepareCompBioChemIssue34_4BibtexResponse() throws IOException {
-        return prepareResponse("./compbiochem-34-4-bibtex.txt",
-                URI.create("http://www.sciencedirect.com/science"));
-    }
-
-    protected ElsevierIssueCrawler getCompBioChemIssue34_4() throws IOException {
+    protected ElsevierIssueParser getCompBioChemIssue34_4() throws Exception {
         Issue issue = new Issue();
         issue.setId(new IssueId("elsevier/compbiochem/34/4"));
         issue.setUrl(URI.create("http://www.sciencedirect.com/science?_ob=PublicationURL&_tockey="
                         +"%23TOC%2311514%232010%23999659995%232526737%23FLA%23&_cdi=11514&_pubType=J&_auth=y&_prev=y"
                         +"&_acct=C000050221&_version=1&_urlVersion=0&_userid=10&md5=cd07924074df81e203366810e8242eb2"));
 
-        CrawlerResponse response1 = prepareCompBioChemIssue34_4Response();
-        CrawlerResponse response2 = prepareCompBioChemIssue34_4DownloadResponse();
-        CrawlerResponse response3 = prepareCompBioChemIssue34_4BibtexResponse();
-
-        HttpCrawler crawler = Mockito.mock(HttpCrawler.class);
-        Mockito.when(crawler.execute(Mockito.any(CrawlerRequest.class)))
-                .thenReturn(response1, response2, response3);
-
-        CrawlerContext context = new CrawlerContext(null, crawler, null);
-        return new ElsevierIssueCrawler(issue, new Journal("foo", "Acta Foo"), context);
+        return new ElsevierIssueParser(issue, loadDocument("compbiochem-34-4.html"), JOURNAL);
     }
 
     @Test
-    public ElsevierIssueCrawler testRunCrawler() throws IOException {
-        ElsevierIssueCrawler crawler = getCompBioChemIssue34_4();
+    public ElsevierIssueParser testRunCrawler() throws Exception {
+        ElsevierIssueParser crawler = getCompBioChemIssue34_4();
         return crawler;
     }
 
     @Test
     @Given("#testRunCrawler")
-    public void testGetVolume(ElsevierIssueCrawler crawler) throws IOException {
+    public void testGetVolume(ElsevierIssueParser crawler) throws IOException {
         assertEquals("34", crawler.getVolume());
     }
 
     @Test
     @Given("#testRunCrawler")
-    public void testGetNumber(ElsevierIssueCrawler crawler) throws IOException {
+    public void testGetNumber(ElsevierIssueParser crawler) throws IOException {
         assertEquals("4", crawler.getNumber());
     }
 
     @Test
     @Given("#testRunCrawler")
-    public void testGetYear(ElsevierIssueCrawler crawler) throws IOException {
+    public void testGetYear(ElsevierIssueParser crawler) throws IOException {
         assertEquals("2010", crawler.getYear());
     }
 
     @Test
     @Given("#testRunCrawler")
-    public void testGetJournalTitle(ElsevierIssueCrawler crawler) throws IOException {
+    public void testGetJournalTitle(ElsevierIssueParser crawler) throws IOException {
         assertEquals("Computational Biology and Chemistry", crawler.getJournalTitle());
     }
 
     @Test
     @Given("#testRunCrawler")
-    public List<Article> testGetArticles(ElsevierIssueCrawler crawler) throws IOException {
+    public List<Article> testGetArticles(ElsevierIssueParser crawler) throws IOException {
         List<Article> articles = crawler.getArticles();
         assertNotNull(articles);
         assertEquals(8, articles.size());
