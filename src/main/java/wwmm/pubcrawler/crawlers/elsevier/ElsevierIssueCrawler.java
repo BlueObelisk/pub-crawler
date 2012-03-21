@@ -27,6 +27,7 @@ import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerResponse;
 import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.crawlers.AbstractCrawler;
 import wwmm.pubcrawler.crawlers.IssueCrawler;
+import wwmm.pubcrawler.crawlers.elsevier.parsers.ElsevierIssueParser;
 import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.model.Journal;
 

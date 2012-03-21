@@ -21,13 +21,11 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpProtocolParams;
-import uk.ac.cam.ch.wwmm.httpcrawler.HttpCrawler;
-import uk.ac.cam.ch.wwmm.httpcrawler.cache.HttpCache;
-import uk.ac.cam.ch.wwmm.httpcrawler.cache.file.FileSystemCache;
+import uk.ac.cam.ch.wwmm.httpcrawler.DefaultHttpFetcher;
+import uk.ac.cam.ch.wwmm.httpcrawler.HttpFetcher;
 import wwmm.pubcrawler.crawlers.AbstractCrawlerFactory;
 import wwmm.pubcrawler.data.mongo.MongoStore;
 
-import java.io.File;
 import java.io.IOException;
 
 /**
@@ -39,7 +37,7 @@ public class DefaultCrawlerContext extends CrawlerContext {
         super(createDataStore(), createCrawler(), crawlerFactory);
     }
 
-    private static HttpCrawler createCrawler() throws IOException {
+    private static HttpFetcher createCrawler() throws IOException {
         int connectionTimeoutMillis = 20000;
         int socketTimeoutMillis = 20000;
 
@@ -48,8 +46,7 @@ public class DefaultCrawlerContext extends CrawlerContext {
         HttpConnectionParams.setSoTimeout(client.getParams(), socketTimeoutMillis);
         HttpProtocolParams.setUserAgent(client.getParams(), "pubcrawler/0.3");
 
-        HttpCache cache = new FileSystemCache(new File("../cache/"));
-        return new HttpCrawler(client, cache);
+        return new DefaultHttpFetcher(client, null);
     }
 
     private static MongoStore createDataStore() throws IOException {

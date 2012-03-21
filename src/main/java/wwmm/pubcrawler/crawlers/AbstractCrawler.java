@@ -21,8 +21,6 @@ import nu.xom.ParsingException;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.Header;
 import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.params.HttpParams;
 import org.apache.log4j.Logger;
 import org.joda.time.Duration;
 import org.xml.sax.SAXException;
@@ -33,7 +31,6 @@ import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.data.mongo.MongoStore;
 import wwmm.pubcrawler.model.id.Id;
 
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URI;
@@ -69,7 +66,7 @@ public abstract class AbstractCrawler {
         return getContext().getDataStore();
     }
 
-    protected HttpCrawler getHttpCrawler() {
+    protected HttpFetcher getHttpCrawler() {
         return getContext().getHttpCrawler();
     }
 

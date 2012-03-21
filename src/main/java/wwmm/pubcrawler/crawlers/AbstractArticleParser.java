@@ -46,7 +46,7 @@ import java.util.List;
  */
 public abstract class AbstractArticleParser {
 
-    private final Article articleRef;
+    protected final Article articleRef;
     private final Document html;
     private final URI url;
 

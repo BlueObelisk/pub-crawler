@@ -20,7 +20,6 @@ import nu.xom.Node;
 import org.joda.time.Duration;
 import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.CrawlerRuntimeException;
-import wwmm.pubcrawler.crawlers.wiley.WileyIssueCrawler;
 import wwmm.pubcrawler.model.*;
 import wwmm.pubcrawler.model.id.ArticleId;
 import wwmm.pubcrawler.model.id.IssueId;
@@ -261,7 +260,7 @@ public abstract class AbstractIssueCrawler extends AbstractCrawler implements Is
         issue.setPreviousIssue(getPreviousIssue());
         try {
             List<Article> articles = getArticles();
-            if (articles.isEmpty() && !(this instanceof WileyIssueCrawler)) {
+            if (articles.isEmpty()) {
                 log().warn("No articles found in issue: "+issue.getId());
             }
             issue.setArticles(articles);

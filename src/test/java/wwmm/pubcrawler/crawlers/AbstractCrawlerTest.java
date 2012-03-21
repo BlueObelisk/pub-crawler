@@ -21,7 +21,8 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.params.HttpConnectionParams;
 import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerResponse;
-import uk.ac.cam.ch.wwmm.httpcrawler.HttpCrawler;
+import uk.ac.cam.ch.wwmm.httpcrawler.DefaultHttpFetcher;
+import uk.ac.cam.ch.wwmm.httpcrawler.HttpFetcher;
 import wwmm.pubcrawler.utils.ResourceUtil;
 
 import java.io.ByteArrayInputStream;
@@ -36,8 +37,8 @@ import java.util.List;
  */
 public abstract class AbstractCrawlerTest {
 
-    protected static HttpCrawler getHttpCrawler() {
-        return new HttpCrawler(getHttpClient());
+    protected static HttpFetcher getHttpCrawler() {
+        return new DefaultHttpFetcher(getHttpClient());
     }
 
     private static HttpClient getHttpClient() {

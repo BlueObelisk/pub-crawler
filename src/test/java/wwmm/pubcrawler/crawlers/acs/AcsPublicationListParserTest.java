@@ -5,6 +5,7 @@ import nu.xom.Document;
 import org.apache.commons.io.IOUtils;
 import org.ccil.cowan.tagsoup.Parser;
 import org.junit.Test;
+import wwmm.pubcrawler.crawlers.acs.parsers.AcsPublicationListParser;
 import wwmm.pubcrawler.model.Journal;
 import wwmm.pubcrawler.model.id.PublisherId;
 import wwmm.pubcrawler.utils.ResourceUtil;
