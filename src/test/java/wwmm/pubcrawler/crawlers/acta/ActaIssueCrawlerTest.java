@@ -25,7 +25,8 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerRequest;
 import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerResponse;
-import uk.ac.cam.ch.wwmm.httpcrawler.HttpCrawler;
+import uk.ac.cam.ch.wwmm.httpcrawler.DefaultHttpFetcher;
+import uk.ac.cam.ch.wwmm.httpcrawler.HttpFetcher;
 import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.crawlers.AbstractCrawlerTest;
 import wwmm.pubcrawler.journals.ActaInfo;
@@ -154,7 +155,7 @@ public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
         CrawlerResponse response1 = prepareActaC1997_03Body();
         CrawlerResponse response2 = prepareActaC1997_03Head();
 
-        HttpCrawler crawler = Mockito.mock(HttpCrawler.class);
+        HttpFetcher crawler = Mockito.mock(DefaultHttpFetcher.class);
         Mockito.when(crawler.execute(Mockito.any(CrawlerRequest.class)))
                 .thenReturn(response1, response2);
 
@@ -170,7 +171,7 @@ public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
         CrawlerResponse response1 = prepareActaA2009_06Body();
         CrawlerResponse response2 = prepareActaA2009_06Head();
 
-        HttpCrawler crawler = Mockito.mock(HttpCrawler.class);
+        HttpFetcher crawler = Mockito.mock(DefaultHttpFetcher.class);
         Mockito.when(crawler.execute(Mockito.any(CrawlerRequest.class)))
                 .thenReturn(response1, response2);
 
@@ -186,7 +187,7 @@ public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
         CrawlerResponse response1 = prepareActaE2004_11Body();
         CrawlerResponse response2 = prepareActaE2004_11Head();
 
-        HttpCrawler crawler = Mockito.mock(HttpCrawler.class);
+        HttpFetcher crawler = Mockito.mock(DefaultHttpFetcher.class);
         Mockito.when(crawler.execute(Mockito.any(CrawlerRequest.class)))
                 .thenReturn(response1, response2);
 
@@ -202,7 +203,7 @@ public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
         CrawlerResponse response1 = prepareActaE2011_03Body();
         CrawlerResponse response2 = prepareActaE2011_03Head();
 
-        HttpCrawler crawler = Mockito.mock(HttpCrawler.class);
+        HttpFetcher crawler = Mockito.mock(DefaultHttpFetcher.class);
         Mockito.when(crawler.execute(Mockito.any(CrawlerRequest.class)))
                 .thenReturn(response1, response2);
 
@@ -219,7 +220,7 @@ public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
         CrawlerResponse response1 = prepareActaB1997_01Body();
         CrawlerResponse response2 = prepareActaB1997_01Head();
 
-        HttpCrawler crawler = Mockito.mock(HttpCrawler.class);
+        HttpFetcher crawler = Mockito.mock(DefaultHttpFetcher.class);
         Mockito.when(crawler.execute(Mockito.any(CrawlerRequest.class)))
                 .thenReturn(response1, response2);
 
@@ -235,7 +236,7 @@ public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
         CrawlerResponse response1 = prepareActaB2010_01Body();
         CrawlerResponse response2 = prepareActaB2010_01Head();
 
-        HttpCrawler crawler = Mockito.mock(HttpCrawler.class);
+        HttpFetcher crawler = Mockito.mock(DefaultHttpFetcher.class);
         Mockito.when(crawler.execute(Mockito.any(CrawlerRequest.class)))
                 .thenReturn(response1, response2);
 
@@ -251,7 +252,7 @@ public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
         CrawlerResponse response1 = prepareActaA2010_06Body();
         CrawlerResponse response2 = prepareActaA2010_06Head();
 
-        HttpCrawler crawler = Mockito.mock(HttpCrawler.class);
+        HttpFetcher crawler = Mockito.mock(DefaultHttpFetcher.class);
         Mockito.when(crawler.execute(Mockito.any(CrawlerRequest.class)))
                 .thenReturn(response1, response2);
 
@@ -268,7 +269,7 @@ public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
         CrawlerResponse response1 = prepareActaC2005_10Body();
         CrawlerResponse response2 = prepareActaC2005_10Head();
 
-        HttpCrawler crawler = Mockito.mock(HttpCrawler.class);
+        HttpFetcher crawler = Mockito.mock(DefaultHttpFetcher.class);
         Mockito.when(crawler.execute(Mockito.any(CrawlerRequest.class)))
                 .thenReturn(response1, response2);
 
@@ -285,7 +286,7 @@ public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
         CrawlerResponse response1 = prepareActaC1991_10Body();
         CrawlerResponse response2 = prepareActaC1991_10Head();
 
-        HttpCrawler crawler = Mockito.mock(HttpCrawler.class);
+        HttpFetcher crawler = Mockito.mock(DefaultHttpFetcher.class);
         Mockito.when(crawler.execute(Mockito.any(CrawlerRequest.class)))
                 .thenReturn(response1, response2);
 

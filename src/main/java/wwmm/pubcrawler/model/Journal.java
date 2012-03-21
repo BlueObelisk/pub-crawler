@@ -19,11 +19,14 @@ package wwmm.pubcrawler.model;
 import wwmm.pubcrawler.model.id.JournalId;
 import wwmm.pubcrawler.model.id.PublisherId;
 
+import java.util.List;
+
 public class Journal extends PubcrawlerObject<JournalId> {
 
 	private String abbreviation;
     private String title;
     private Integer offset;
+    private List<String> previousTitles;
 
     public Journal() { }
 

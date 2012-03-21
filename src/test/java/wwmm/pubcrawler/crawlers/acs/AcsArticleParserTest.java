@@ -22,6 +22,7 @@ import org.apache.commons.io.IOUtils;
 import org.ccil.cowan.tagsoup.Parser;
 import org.junit.Test;
 import wwmm.pubcrawler.crawlers.AbstractCrawlerTest;
+import wwmm.pubcrawler.crawlers.acs.parsers.AcsArticleSplashPageParser;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.FullTextResource;
 import wwmm.pubcrawler.model.Reference;
@@ -49,27 +50,27 @@ public class AcsArticleParserTest extends AbstractCrawlerTest {
         }
     }
 
-    protected AcsArticleParser getArticleCg100078b() throws Exception {
+    protected AcsArticleSplashPageParser getArticleCg100078b() throws Exception {
         Article article = new Article();
         article.setId(new ArticleId("acs/cgdefu/10/8/cg100078b"));
         article.setDoi(new Doi("10.1021/cg100078b"));
 
-        return new AcsArticleParser(article, loadDocument("cg100078b.html"),
+        return new AcsArticleSplashPageParser(article, loadDocument("cg100078b.html"),
             URI.create("http://pubs.acs.org/doi/abs/10.1021/cg100078b"));
     }
 
-    protected AcsArticleParser getArticleJo1013564() throws Exception {
+    protected AcsArticleSplashPageParser getArticleJo1013564() throws Exception {
         Article article = new Article();
         article.setId(new ArticleId("acs/joceah/75/23/jo1013564"));
         article.setDoi(new Doi("10.1021/jo1013564"));
 
-        return new AcsArticleParser(article, loadDocument("jo1013564.html"),
+        return new AcsArticleSplashPageParser(article, loadDocument("jo1013564.html"),
             URI.create("http://pubs.acs.org/doi/abs/10.1021/jo1013564"));
     }
 
     @Test
     public void testGetTitleHtml() throws Exception {
-        AcsArticleParser article = getArticleCg100078b();
+        AcsArticleSplashPageParser article = getArticleCg100078b();
         assertEquals("<h1 xmlns=\"http://www.w3.org/1999/xhtml\">Microporous La(III) Metal\u2212Organic Framework Using a Semirigid Tricarboxylic Ligand: "
             + "Synthesis, Single-Crystal to Single-Crystal Sorption Properties, and Gas Adsorption Studies</h1>",
             article.getTitleAsHtml());
@@ -77,13 +78,13 @@ public class AcsArticleParserTest extends AbstractCrawlerTest {
 
     @Test
     public void testGetSupportingInfoUrl() throws Exception {
-        AcsArticleParser article = getArticleCg100078b();
+        AcsArticleSplashPageParser article = getArticleCg100078b();
         assertEquals(URI.create("http://pubs.acs.org/doi/suppl/10.1021/cg100078b"), article.getSupportingInfoUrl());
     }
 
     @Test
     public void testGetFullTextResources() throws Exception {
-        AcsArticleParser article = getArticleCg100078b();
+        AcsArticleSplashPageParser article = getArticleCg100078b();
         List<FullTextResource> resources = article.getFullTextResources();
         assertNotNull(resources);
         assertEquals(3, resources.size());
@@ -103,7 +104,7 @@ public class AcsArticleParserTest extends AbstractCrawlerTest {
 
     @Test
     public void testGetAuthors() throws Exception {
-        AcsArticleParser article = getArticleCg100078b();
+        AcsArticleSplashPageParser article = getArticleCg100078b();
         List<String> authors = article.getAuthors();
         assertEquals(5, authors.size());
         assertEquals("Prem Lama", authors.get(0));
@@ -115,7 +116,7 @@ public class AcsArticleParserTest extends AbstractCrawlerTest {
 
     @Test
     public void testGetReference() throws Exception {
-        AcsArticleParser article = getArticleCg100078b();
+        AcsArticleSplashPageParser article = getArticleCg100078b();
         Reference ref = article.getReference();
         assertEquals("Cryst. Growth Des.", ref.getJournalTitle());
         assertEquals("2010", ref.getYear());
@@ -126,13 +127,13 @@ public class AcsArticleParserTest extends AbstractCrawlerTest {
 
     @Test
     public void testIsOpenAccessFalse() throws Exception {
-        AcsArticleParser article = getArticleCg100078b();
+        AcsArticleSplashPageParser article = getArticleCg100078b();
         assertFalse(article.isOpenAccess());
     }
 
     @Test
     public void testIsOpenAccessTrue() throws Exception {
-        AcsArticleParser article = getArticleJo1013564();
+        AcsArticleSplashPageParser article = getArticleJo1013564();
         assertTrue(article.isOpenAccess());
     }
 

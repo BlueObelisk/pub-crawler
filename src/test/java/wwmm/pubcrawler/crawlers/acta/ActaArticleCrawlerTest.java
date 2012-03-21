@@ -20,7 +20,8 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerRequest;
 import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerResponse;
-import uk.ac.cam.ch.wwmm.httpcrawler.HttpCrawler;
+import uk.ac.cam.ch.wwmm.httpcrawler.DefaultHttpFetcher;
+import uk.ac.cam.ch.wwmm.httpcrawler.HttpFetcher;
 import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.crawlers.AbstractCrawlerTest;
 import wwmm.pubcrawler.model.Article;
@@ -79,7 +80,7 @@ public class ActaArticleCrawlerTest extends AbstractCrawlerTest {
         CrawlerResponse response1 = prepareBt5401();
 //        CrawlerResponse response2 = prepareBt5401Bibtex();
 
-        HttpCrawler crawler = Mockito.mock(HttpCrawler.class);
+        HttpFetcher crawler = Mockito.mock(DefaultHttpFetcher.class);
         Mockito.when(crawler.execute(Mockito.any(CrawlerRequest.class)))
                 .thenReturn(response1);
 
@@ -97,7 +98,7 @@ public class ActaArticleCrawlerTest extends AbstractCrawlerTest {
         CrawlerResponse response3 = prepareBk5081Cifs();
         CrawlerResponse response4 = prepareBk5081Supp();
 
-        HttpCrawler crawler = Mockito.mock(HttpCrawler.class);
+        HttpFetcher crawler = Mockito.mock(DefaultHttpFetcher.class);
         Mockito.when(crawler.execute(Mockito.any(CrawlerRequest.class)))
                 .thenReturn(response1, response3, response4);
 

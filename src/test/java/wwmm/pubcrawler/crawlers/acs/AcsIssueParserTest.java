@@ -6,6 +6,7 @@ import org.apache.commons.io.IOUtils;
 import org.ccil.cowan.tagsoup.Parser;
 import org.joda.time.LocalDate;
 import org.junit.Test;
+import wwmm.pubcrawler.crawlers.acs.parsers.AcsIssueTocParser;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.model.Journal;
@@ -40,49 +41,49 @@ public class AcsIssueParserTest {
         }
     }
 
-    protected AcsIssueParser getJacsIssue132_51() throws Exception {
+    protected AcsIssueTocParser getJacsIssue132_51() throws Exception {
         Issue issue = new Issue();
         issue.setId(new IssueId("acs/jacsat/132/51"));
         issue.setUrl(URI.create("http://pubs.acs.org/toc/jacsat/132/51"));
 
-        return new AcsIssueParser(issue, loadDocument("jacs-132-51.html"), JACSAT);
+        return new AcsIssueTocParser(issue, loadDocument("jacs-132-51.html"), JACSAT);
     }
 
-    protected AcsIssueParser getInocajLegacyIssue() throws Exception {
+    protected AcsIssueTocParser getInocajLegacyIssue() throws Exception {
         Issue issue = new Issue();
         issue.setId(new IssueId("acs/inocaj/34/35"));
         issue.setUrl(URI.create("http://pubs.acs.org/toc/inocaj/34/25"));
 
-        return new AcsIssueParser(issue, loadDocument("inocaj-34-25.html"), INOCAJ);
+        return new AcsIssueTocParser(issue, loadDocument("inocaj-34-25.html"), INOCAJ);
     }
 
-    protected AcsIssueParser getJceaaxIssue55_9() throws Exception {
+    protected AcsIssueTocParser getJceaaxIssue55_9() throws Exception {
         Issue issue = new Issue();
         issue.setId(new IssueId("acs/jceaax/55/9"));
         issue.setUrl(URI.create("http://pubs.acs.org/toc/jceaax/55/9"));
 
-        return new AcsIssueParser(issue, loadDocument("jceaax_55_9.html"), JCEAXX);
+        return new AcsIssueTocParser(issue, loadDocument("jceaax_55_9.html"), JCEAXX);
     }
 
-    protected AcsIssueParser getJceaaxIssue53_9() throws Exception {
+    protected AcsIssueTocParser getJceaaxIssue53_9() throws Exception {
         Issue issue = new Issue();
         issue.setId(new IssueId("acs/jceaxx/53/9"));
         issue.setUrl(URI.create("http://pubs.acs.org/toc/jceaax/53/9"));
 
-        return new AcsIssueParser(issue, loadDocument("jceaax_53_9.html"), JCEAXX);
+        return new AcsIssueTocParser(issue, loadDocument("jceaax_53_9.html"), JCEAXX);
     }
 
-    protected AcsIssueParser getInocajIssue39_19() throws Exception {
+    protected AcsIssueTocParser getInocajIssue39_19() throws Exception {
         Issue issue = new Issue();
         issue.setId(new IssueId("acs/inocaj/39/19"));
         issue.setUrl(URI.create("http://pubs.acs.org/toc/inocaj/39/19"));
 
-        return new AcsIssueParser(issue, loadDocument("inocaj-39-19.html"), INOCAJ);
+        return new AcsIssueTocParser(issue, loadDocument("inocaj-39-19.html"), INOCAJ);
     }
 
     @Test
     public void testGetArticleDois() throws Exception {
-        AcsIssueParser crawler = getJacsIssue132_51();
+        AcsIssueTocParser crawler = getJacsIssue132_51();
         List<Article> articles = crawler.getArticles();
         assertEquals(64, articles.size());
         assertEquals(new Doi("10.1021/ja104809x"), articles.get(0).getDoi());
@@ -91,7 +92,7 @@ public class AcsIssueParserTest {
 
     @Test
     public void testGetBasicArticleHtmlTitles() throws Exception {
-        AcsIssueParser crawler = getJacsIssue132_51();
+        AcsIssueTocParser crawler = getJacsIssue132_51();
         List<Article> articles = crawler.getArticles();
         assertEquals(64, articles.size());
         assertEquals("<h1 xmlns=\"http://www.w3.org/1999/xhtml\">Accumulative Charge Separation Inspired by Photosynthesis</h1>",
@@ -100,7 +101,7 @@ public class AcsIssueParserTest {
 
     @Test
     public void testGetArticleHtmlTitlesWithEntities() throws Exception {
-        AcsIssueParser crawler = getJacsIssue132_51();
+        AcsIssueTocParser crawler = getJacsIssue132_51();
         List<Article> articles = crawler.getArticles();
         assertEquals(64, articles.size());
         assertEquals("<h1 xmlns=\"http://www.w3.org/1999/xhtml\">Direct Assembly of Polyarenes via C\u2212C Coupling Using PIFA/BF<sub>3</sub>\u00B7Et<sub>2</sub>O</h1>",
@@ -109,7 +110,7 @@ public class AcsIssueParserTest {
 
     @Test
     public void testGetArticleAuthorsWithEntities() throws Exception {
-        AcsIssueParser crawler = getJacsIssue132_51();
+        AcsIssueTocParser crawler = getJacsIssue132_51();
         List<Article> articles = crawler.getArticles();
         assertEquals(64, articles.size());
         List<String> authors = articles.get(0).getAuthors();
@@ -125,7 +126,7 @@ public class AcsIssueParserTest {
 
     @Test
     public void testGetPreviousIssue() throws Exception {
-        AcsIssueParser crawler = getJacsIssue132_51();
+        AcsIssueTocParser crawler = getJacsIssue132_51();
         Issue prev = crawler.getPreviousIssue();
         assertNotNull(prev);
         assertEquals("acs/jacsat/132/50", prev.getId().getValue());
@@ -134,37 +135,37 @@ public class AcsIssueParserTest {
 
     @Test
     public void testGetVolume() throws Exception {
-        AcsIssueParser crawler = getJacsIssue132_51();
+        AcsIssueTocParser crawler = getJacsIssue132_51();
         assertEquals("132", crawler.getVolume());
     }
 
     @Test
     public void testGetNumber() throws Exception {
-        AcsIssueParser crawler = getJacsIssue132_51();
+        AcsIssueTocParser crawler = getJacsIssue132_51();
         assertEquals("51", crawler.getNumber());
     }
 
     @Test
     public void testGetYear() throws Exception {
-        AcsIssueParser crawler = getJacsIssue132_51();
+        AcsIssueTocParser crawler = getJacsIssue132_51();
         assertEquals("2010", crawler.getYear());
     }
 
     @Test
     public void testGetJournalAbbreviation() throws Exception {
-        AcsIssueParser crawler = getJacsIssue132_51();
+        AcsIssueTocParser crawler = getJacsIssue132_51();
         assertEquals("jacsat", crawler.getJournalAbbreviation());
     }
 
     @Test
     public void testGetDate() throws Exception {
-        AcsIssueParser issue = getJacsIssue132_51();
+        AcsIssueTocParser issue = getJacsIssue132_51();
         assertEquals(new LocalDate(2010, 12, 29), issue.getDate());
     }
 
     @Test
     public void testToIssue() throws Exception {
-        AcsIssueParser crawler = getJacsIssue132_51();
+        AcsIssueTocParser crawler = getJacsIssue132_51();
         Issue issue = crawler.toIssue();
         assertNotNull(issue);
         assertEquals("acs/jacsat/132/51", issue.getId().getValue());
@@ -179,26 +180,26 @@ public class AcsIssueParserTest {
 
     @Test
     public void testGetYearFromLegacyIssue() throws Exception {
-        AcsIssueParser crawler = getInocajLegacyIssue();
+        AcsIssueTocParser crawler = getInocajLegacyIssue();
         assertEquals("1995", crawler.getYear());
     }
 
     @Test
     public void testGetInocaj39_19ArticleDois() throws Exception {
-        AcsIssueParser crawler = getInocajIssue39_19();
+        AcsIssueTocParser crawler = getInocajIssue39_19();
         List<Article> articles = crawler.getArticles();
         assertEquals(30, articles.size());
     }
 
     @Test
     public void testGetJceaax55_9_Year() throws Exception {
-        AcsIssueParser crawler = getJceaaxIssue55_9();
+        AcsIssueTocParser crawler = getJceaaxIssue55_9();
         assertEquals("2010", crawler.getYear());
     }
 
     @Test
     public void testGetJceaax53_9_Year() throws Exception {
-        AcsIssueParser crawler = getJceaaxIssue53_9();
+        AcsIssueTocParser crawler = getJceaaxIssue53_9();
         assertEquals(null, crawler.getYear());
     }
 
