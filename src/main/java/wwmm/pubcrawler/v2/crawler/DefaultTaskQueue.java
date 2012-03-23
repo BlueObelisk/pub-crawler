@@ -33,8 +33,9 @@ public class DefaultTaskQueue implements TaskQueue {
 
     @Override
     public void queueTask(final CrawlTask task) {
-        taskRepository.updateTask(task);
-        queue.add(task.getId());
+        if (taskRepository.updateTask(task)) {
+            queue.add(task.getId());
+        }
     }
     
 }

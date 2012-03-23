@@ -3,6 +3,7 @@ package wwmm.pubcrawler.v2.repositories.mongo;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
+import org.joda.time.DateTime;
 import wwmm.pubcrawler.v2.crawler.CrawlRunner;
 import wwmm.pubcrawler.v2.crawler.CrawlTask;
 import wwmm.pubcrawler.v2.crawler.CrawlTaskBuilder;
@@ -60,25 +61,40 @@ public class MongoTaskRepository implements TaskRepository {
     }
 
     @Override
-    public void updateTask(final CrawlTask task) {
+    public boolean updateTask(final CrawlTask task) {
         final DBObject dbTask = collection.findOne(new BasicDBObject("id", task.getId()));
         if (dbTask == null) {
             collection.save(createDbObject(task));
+            return true;
         } else {
-            
+            if (shouldReRun(task, dbTask)) {
+                dbTask.put("queued", System.currentTimeMillis());
+                collection.save(dbTask);
+                return true;
+            }
+            return false;
         }
     }
 
+    private boolean shouldReRun(final CrawlTask task, final DBObject dbTask) {
+        if (task.getMaxAge() != null && dbTask.containsField("lastRun")) {
+            DateTime lastRun = new DateTime(dbTask.get("lastRun"));
+            return lastRun.plus(task.getMaxAge()).isBeforeNow();
+        }
+        return false;
+    }
+
     private DBObject createDbObject(final CrawlTask task) {
-        final DBObject dbObject = new BasicDBObject();
-        dbObject.put("id", task.getId());
-        dbObject.put("type", task.getTaskClass().getName());
+        final DBObject dbTask = new BasicDBObject();
+        dbTask.put("id", task.getId());
+        dbTask.put("type", task.getTaskClass().getName());
+        dbTask.put("queued", System.currentTimeMillis());
         final DBObject data = new BasicDBObject();
         for (String key : task.getData().keys()) {
             data.put(key, task.getData().getString(key));
         }
-        dbObject.put("data", data);
-        return dbObject;
+        dbTask.put("data", data);
+        return dbTask;
     }
 
 }

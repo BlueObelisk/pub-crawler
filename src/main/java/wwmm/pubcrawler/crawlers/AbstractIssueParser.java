@@ -36,12 +36,9 @@ public abstract class AbstractIssueParser {
     private final Document html;
     private final URI url;
 
-    private final Journal journal;
-
-    protected AbstractIssueParser(final Document html, final URI url, final Journal journal) {
+    protected AbstractIssueParser(final Document html, final URI url) {
         this.html = html;
         this.url = url;
-        this.journal = journal;
     }
 
     protected abstract Logger log();
@@ -52,10 +49,6 @@ public abstract class AbstractIssueParser {
 
     protected URI getUrl() {
         return url;
-    }
-
-    protected Journal getJournal() {
-        return journal;
     }
 
     /**

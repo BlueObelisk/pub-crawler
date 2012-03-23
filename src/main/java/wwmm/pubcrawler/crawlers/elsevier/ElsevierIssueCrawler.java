@@ -27,7 +27,7 @@ import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerResponse;
 import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.crawlers.AbstractCrawler;
 import wwmm.pubcrawler.crawlers.IssueCrawler;
-import wwmm.pubcrawler.crawlers.elsevier.parsers.ElsevierIssueParser;
+import wwmm.pubcrawler.crawlers.elsevier.parsers.ElsevierIssueTocParser;
 import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.model.Journal;
 
@@ -99,8 +99,7 @@ public class ElsevierIssueCrawler extends AbstractCrawler implements IssueCrawle
 
     @Override
     public Issue toIssue() {
-        final ElsevierIssueParser parser = new ElsevierIssueParser(issueRef, document, journal);
-        return parser.toIssue();
+        throw new UnsupportedOperationException();
     }
 
 }

@@ -25,6 +25,7 @@ import wwmm.pubcrawler.crawlers.AbstractIssueParser;
 import wwmm.pubcrawler.model.*;
 import wwmm.pubcrawler.model.id.ArticleId;
 import wwmm.pubcrawler.model.id.IssueId;
+import wwmm.pubcrawler.model.id.JournalId;
 import wwmm.pubcrawler.types.Doi;
 import wwmm.pubcrawler.utils.XHtml;
 import wwmm.pubcrawler.utils.XPathUtils;
@@ -47,9 +48,11 @@ import java.util.regex.Pattern;
 public class NatureIssueTocParser extends AbstractIssueParser {
 
     private static final Logger LOG = Logger.getLogger(NatureIssueTocParser.class);
+    private JournalId journalId;
 
     public NatureIssueTocParser(final Document html, final URI url, final Journal journal) throws IOException {
-        super(html, url, journal);
+        super(html, url);
+        this.journalId = journal.getId();
     }
 
     @Override
@@ -59,7 +62,7 @@ public class NatureIssueTocParser extends AbstractIssueParser {
 
     @Override
     public IssueId getIssueId() {
-        return new IssueId(getJournal().getId(), getVolume(), getNumber());
+        return new IssueId(journalId, getVolume(), getNumber());
     }
 
     @Override

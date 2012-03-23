@@ -3,31 +3,31 @@ package wwmm.pubcrawler.crawlers.elsevier.parsers;
 import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Node;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import wwmm.pubcrawler.crawlers.PublicationListParser;
 import wwmm.pubcrawler.model.Journal;
-import wwmm.pubcrawler.model.id.PublisherId;
 import wwmm.pubcrawler.utils.XPathUtils;
 
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author Sam Adams
  */
 public class ElsevierPublicationListParser implements PublicationListParser {
 
-    private static final URI OPML_URI = URI.create("http://feeds.sciencedirect.com/opml.xml");
-
-    private final PublisherId publisherId;
-
+    private static final Logger LOG = LoggerFactory.getLogger(ElsevierPublicationListParser.class);
+    
+    private static final Pattern ID_PATTERN = Pattern.compile("http://www.sciencedirect.com/science/journal/(\\w+)");
+    
     private final Document opml;
-    private final URI url;
 
-    public ElsevierPublicationListParser(final PublisherId publisherId, final Document opml, final URI url) {
-        this.publisherId = publisherId;
+    public ElsevierPublicationListParser(final Document opml) {
         this.opml = opml;
-        this.url = url;
     }
 
     public List<Journal> findJournals() {
@@ -36,12 +36,19 @@ public class ElsevierPublicationListParser implements PublicationListParser {
         List<Node> nodes = XPathUtils.queryHTML(opml, "//outline");
         for (Node node : nodes) {
             Element outline = (Element) node;
-            String u = outline.getAttributeValue("htmlUrl");
-            String title = outline.getAttributeValue("text");
 
-            String id = u.substring(u.lastIndexOf('/')+1);
+            String title = outline.getAttributeValue("text");
+            String url = outline.getAttributeValue("htmlUrl");
+            
+            Matcher matcher = ID_PATTERN.matcher(url);
+            if (!matcher.matches()) {
+                LOG.warn("Journal URL does not match ID pattern '{}'", url);
+                continue;
+            }
+            String id = matcher.group(1);
 
             Journal journal = new Journal(id, title);
+            journal.setUrl(URI.create(url));
             list.add(journal);
         }
 

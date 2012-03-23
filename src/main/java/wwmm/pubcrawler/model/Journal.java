@@ -19,6 +19,7 @@ package wwmm.pubcrawler.model;
 import wwmm.pubcrawler.model.id.JournalId;
 import wwmm.pubcrawler.model.id.PublisherId;
 
+import java.net.URI;
 import java.util.List;
 
 public class Journal extends PubcrawlerObject<JournalId> {
@@ -27,6 +28,8 @@ public class Journal extends PubcrawlerObject<JournalId> {
     private String title;
     private Integer offset;
     private List<String> previousTitles;
+
+    private URI url;
 
     public Journal() { }
 
@@ -61,4 +64,11 @@ public class Journal extends PubcrawlerObject<JournalId> {
 		return this.abbreviation;
 	}
 
+    public URI getUrl() {
+        return url;
+    }
+
+    public void setUrl(final URI url) {
+        this.url = url;
+    }
 }

@@ -57,7 +57,7 @@ public class IucrIssueTocParser extends AbstractIssueParser {
     private final String number;
 
     public IucrIssueTocParser(final Issue issueRef, final Document bodyHtml, final Document headHtml, final Journal journal) {
-        super(bodyHtml, issueRef.getUrl(), journal);
+        super(bodyHtml, issueRef.getUrl());
         this.headHtml = headHtml;
         this.headerUrl = URI.create(headHtml.getBaseURI());
         this.journalTitle = journal.getTitle();
