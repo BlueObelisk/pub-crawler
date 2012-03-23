@@ -36,19 +36,23 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static java.lang.String.format;
+
 /**
  * @author Sam Adams
  */
-public class ElsevierIssueParser extends AbstractIssueParser {
+public class ElsevierIssueTocParser extends AbstractIssueParser {
 
-    private static final Logger LOG = Logger.getLogger(ElsevierIssueParser.class);
+    private static final Logger LOG = Logger.getLogger(ElsevierIssueTocParser.class);
 
     private static final Pattern P_ID = Pattern.compile("/pii/(.*?)\\?");
-    private final Issue issueRef;
 
-    public ElsevierIssueParser(final Issue issueRef, final Document html, final Journal journal) {
-        super(html, issueRef.getUrl(), journal);
-        this.issueRef = issueRef;
+    private final String journal;
+    private static final Pattern VOLUME_ISSUE_PATTERN = Pattern.compile("Vol(?:ume)? (\\d+), Iss(?:ues?) (\\S+), .*? \\(.*\\b(\\d{4})\\)");
+
+    public ElsevierIssueTocParser(final Document html, final URI url, final String journal) {
+        super(html, url);
+        this.journal = journal;
     }
 
     @Override
@@ -171,13 +175,13 @@ public class ElsevierIssueParser extends AbstractIssueParser {
     }
 
     @Override
-    protected Issue getPreviousIssue() {
+    public Issue getPreviousIssue() {
         List<Node> nodes = XPathUtils.queryHTML(getHtml(), ".//x:a[@title='Previous volume/issue'][1]");
         if (!nodes.isEmpty()) {
             Element addr = (Element) nodes.get(0);
             String href = addr.getAttributeValue("href");
             Issue issue = new Issue();
-            issue.setId(new IssueId("elsevier/"+getJournal().getAbbreviation()+"/"+getVolume()+"/"+getNumber()+"_prev"));
+            issue.setId(new IssueId("elsevier/"+journal+"/"+getVolume()+"/"+getNumber()+"_prev"));
             issue.setUrl(getUrl().resolve(href));
             return issue;
         }
@@ -188,17 +192,21 @@ public class ElsevierIssueParser extends AbstractIssueParser {
         String s = XPathUtils.getString(getHtml(), "/x:html/x:head/x:title");
         // Acta Histochemica, Volume 110, Issue 5, Pages 351-432 (8 September 2008
         // ... , Volume 101, Issue 8, Pages 657-738 (2010)
-        Pattern p = Pattern.compile("Volume (\\d+), Issues? (\\S+), .*? \\(.*\\b(\\d{4})\\)");
-        Matcher m = p.matcher(s);
+
+        // Chemometrics and Intelligent Laboratory Systems | Vol 112, Pgs 1-70, (15 March, 2012) | ScienceDirect.com
+        // Volume 111, Issue 1, Pages 1-66 (15 February 2012)
+        // <title>Chemometrics and Intelligent Laboratory Systems | Vol 111, Iss 1, Pgs 1-66, (15 February, 2012) | ScienceDirect.com</title>
+
+        Matcher m = VOLUME_ISSUE_PATTERN.matcher(s);
         if (!m.find()) {
-            throw new CrawlerRuntimeException("No match: "+s);
+            throw new CrawlerRuntimeException("Unable to match volume/issue: "+s);
         }
         return new String[]{m.group(1), m.group(2), m.group(3)};
     }
 
     @Override
     protected IssueId getIssueId() {
-        return issueRef.getId();
+        return new IssueId(format("elsevier:issue:%s/%s(%s)", journal, getVolume(), getNumber()));
     }
 
 }

@@ -22,5 +22,8 @@ public class TaskData {
     public List<String> keys() {
         return new ArrayList<String>(data.keySet());
     }
-    
+
+    public boolean containsKey(final String key) {
+        return data.containsKey(key);
+    }
 }

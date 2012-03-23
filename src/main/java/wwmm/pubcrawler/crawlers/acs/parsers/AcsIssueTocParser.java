@@ -51,12 +51,12 @@ public class AcsIssueTocParser extends AbstractIssueParser {
     private final JournalId journalId;
 
     public AcsIssueTocParser(final Issue issueRef, final Document html, final Journal journal) {
-        super(html, issueRef.getUrl(), journal);
+        super(html, issueRef.getUrl());
         this.journalId = journal.getId();
     }
 
     public AcsIssueTocParser(final Document html, final URI url, final JournalId journalId) {
-        super(html, url, null);
+        super(html, url);
         this.journalId = journalId;
     }
 
