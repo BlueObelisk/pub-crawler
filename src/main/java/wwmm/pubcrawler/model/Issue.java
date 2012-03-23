@@ -97,4 +97,17 @@ public class Issue extends PubcrawlerObject<IssueId> {
         this.current = current;
     }
 
+    public String getJournalTitle() {
+        return null;
+    }
+    
+    
+    public String getNextIssueId() {
+        return null;
+    }
+    
+    public String getPreviousIssueId() {
+        return null;
+    }
+    
 }

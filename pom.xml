@@ -11,25 +11,13 @@
 
     <groupId>uk.ac.cam.ch.wwmm</groupId>
     <artifactId>pub-crawler</artifactId>
-    <version>0.3-SNAPSHOT</version>
+    <version>0.4-SNAPSHOT</version>
 
     <repositories>
         <repository>
             <id>ucc-repo</id>
             <url>https://maven.ch.cam.ac.uk/m2repo</url>
         </repository>
-        <!--<repository>-->
-        <!--<id>jexample</id>-->
-        <!--<url>http://scg.unibe.ch/download/jexample/maven/</url>-->
-        <!--</repository>-->
-        <!--<repository>-->
-        <!--<id>apache-snapshots</id>-->
-        <!--<url>https://repository.apache.org/content/repositories/snapshots</url>-->
-        <!--</repository>-->
-        <!--<repository>-->
-        <!--<id>orientechnologies-repository</id>-->
-        <!--<url>http://www.orientechnologies.com/listing/m2</url>-->
-        <!--</repository>-->
     </repositories>
 
     <developers>

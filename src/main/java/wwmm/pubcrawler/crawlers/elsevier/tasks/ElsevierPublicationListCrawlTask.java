@@ -1,10 +1,11 @@
-package wwmm.pubcrawler.main;
+package wwmm.pubcrawler.crawlers.elsevier.tasks;
 
 import nu.xom.Builder;
 import nu.xom.Document;
 import nu.xom.ParsingException;
 import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerResponse;
-import wwmm.pubcrawler.controller.SingleResourceHttpFetcher;
+import wwmm.pubcrawler.controller.BasicHttpFetcher;
+import wwmm.pubcrawler.crawlers.BasicHttpCrawlTask;
 import wwmm.pubcrawler.crawlers.elsevier.Elsevier;
 import wwmm.pubcrawler.crawlers.elsevier.parsers.ElsevierPublicationListParser;
 import wwmm.pubcrawler.model.Journal;
@@ -19,12 +20,12 @@ import java.util.List;
 /**
  * @author Sam Adams
  */
-public class ElsevierPublicationListCrawlTask extends SingleResourceHttpCrawlTask {
+public class ElsevierPublicationListCrawlTask extends BasicHttpCrawlTask {
 
     private final TaskQueue taskQueue;
 
     @Inject
-    public ElsevierPublicationListCrawlTask(final SingleResourceHttpFetcher fetcher, final TaskQueue taskQueue) {
+    public ElsevierPublicationListCrawlTask(final BasicHttpFetcher fetcher, final TaskQueue taskQueue) {
         super(fetcher);
         this.taskQueue = taskQueue;
     }
@@ -35,9 +36,7 @@ public class ElsevierPublicationListCrawlTask extends SingleResourceHttpCrawlTas
         final ElsevierPublicationListParser parser = new ElsevierPublicationListParser(xml);
         final List<Journal> journals = parser.findJournals();
         for (Journal journal : journals) {
-
-            CrawlTask task = Elsevier.createIssueTocTask(journal.getUrl(), journal.getAbbreviation(), "current");
-
+            final CrawlTask task = Elsevier.createIssueTocTask(journal.getUrl(), journal.getAbbreviation(), "current");
             taskQueue.queueTask(task);
         }
     }

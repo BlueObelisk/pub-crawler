@@ -21,6 +21,8 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import wwmm.pubcrawler.crawlers.AbstractIssueParser;
+import wwmm.pubcrawler.crawlers.IssueTocParser;
+import wwmm.pubcrawler.crawlers.acs.Acs;
 import wwmm.pubcrawler.crawlers.acs.AcsTools;
 import wwmm.pubcrawler.model.*;
 import wwmm.pubcrawler.model.id.ArticleId;
@@ -44,20 +46,20 @@ import java.util.regex.Pattern;
  * @author Sam Adams
  * @version 2.0
  */
-public class AcsIssueTocParser extends AbstractIssueParser {
+public class AcsIssueTocParser extends AbstractIssueParser implements IssueTocParser {
 
     private static final Logger LOG = Logger.getLogger(AcsIssueTocParser.class);
 
-    private final JournalId journalId;
+    private final String journal;
 
-    public AcsIssueTocParser(final Issue issueRef, final Document html, final Journal journal) {
-        super(html, issueRef.getUrl());
-        this.journalId = journal.getId();
+    public AcsIssueTocParser(final Document html, final URI url, final String journal) {
+        super(html, url);
+        this.journal = journal;
     }
 
-    public AcsIssueTocParser(final Document html, final URI url, final JournalId journalId) {
+    public AcsIssueTocParser(final Document html, final URI url, final Journal journal) {
         super(html, url);
-        this.journalId = journalId;
+        this.journal = journal.getAbbreviation();
     }
 
     @Override
@@ -67,7 +69,7 @@ public class AcsIssueTocParser extends AbstractIssueParser {
 
     @Override
     public IssueId getIssueId() {
-        return new IssueId(journalId, getVolume(), getNumber());
+        return new IssueId(new JournalId(Acs.PUBLISHER_ID, journal), getVolume(), getNumber());
     }
 
     @Override

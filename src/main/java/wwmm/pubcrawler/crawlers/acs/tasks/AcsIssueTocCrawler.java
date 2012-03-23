@@ -55,7 +55,7 @@ public class AcsIssueTocCrawler extends HtmlCrawler implements CrawlRunner {
         final CrawlerResponse response = httpCrawler.execute(request);
 
         final Document html = readDocument(response);
-        final AcsIssueTocParser parser = new AcsIssueTocParser(html, URI.create(html.getBaseURI()), journalId);
+        final AcsIssueTocParser parser = new AcsIssueTocParser(html, URI.create(html.getBaseURI()), journalId.getValue());
         
         final Issue issue = parser.toIssue();
         issueRepository.updateIssue(issue);

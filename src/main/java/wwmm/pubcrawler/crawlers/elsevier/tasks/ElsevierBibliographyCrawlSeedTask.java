@@ -1,4 +1,4 @@
-package wwmm.pubcrawler.main;
+package wwmm.pubcrawler.crawlers.elsevier.tasks;
 
 import org.joda.time.Duration;
 import org.slf4j.Logger;
@@ -9,21 +9,20 @@ import wwmm.pubcrawler.v2.crawler.CrawlTaskBuilder;
 import wwmm.pubcrawler.v2.crawler.TaskQueue;
 
 import javax.inject.Inject;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * @author Sam Adams
  */
-public class ElsevierBibliographyCrawlSeeder implements Runnable {
+public class ElsevierBibliographyCrawlSeedTask implements Runnable {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ElsevierBibliographyCrawlSeeder.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ElsevierBibliographyCrawlSeedTask.class);
 
     private final TaskQueue taskQueue;
 
     @Inject
-    public ElsevierBibliographyCrawlSeeder(final TaskQueue taskQueue) {
+    public ElsevierBibliographyCrawlSeedTask(final TaskQueue taskQueue) {
         this.taskQueue = taskQueue;
     }
 

@@ -1,7 +1,7 @@
 package wwmm.pubcrawler.crawlers.elsevier;
 
 import org.joda.time.Duration;
-import wwmm.pubcrawler.main.ElsevierIssueTocCrawlerTask;
+import wwmm.pubcrawler.crawlers.elsevier.tasks.ElsevierIssueTocCrawlTask;
 import wwmm.pubcrawler.model.id.PublisherId;
 import wwmm.pubcrawler.v2.crawler.CrawlTask;
 import wwmm.pubcrawler.v2.crawler.CrawlTaskBuilder;
@@ -26,7 +26,7 @@ public class Elsevier {
         map.put("journal", journal);
 
         return new CrawlTaskBuilder()
-            .ofType(ElsevierIssueTocCrawlerTask.class)
+            .ofType(ElsevierIssueTocCrawlTask.class)
             .withMaxAge(Duration.standardDays(1))
             .withId("elsevier:issue-toc:" + journal + "/" + id)
             .withData(map)
