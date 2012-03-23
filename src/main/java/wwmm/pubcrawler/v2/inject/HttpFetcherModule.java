@@ -13,6 +13,7 @@ import wwmm.pubcrawler.v2.crawler.DefaultTaskQueue;
 import wwmm.pubcrawler.v2.crawler.TaskQueue;
 
 import javax.inject.Singleton;
+import java.net.URI;
 import java.net.UnknownHostException;
 
 /**
@@ -32,12 +33,18 @@ public class HttpFetcherModule extends AbstractModule {
     
     @Provides @Singleton
     public HttpFetcher getHttpFetcher() throws UnknownHostException {
-        HttpFetcher fetcher = new HttpFetcherBuilder()
+        HttpFetcherBuilder builder = new HttpFetcherBuilder()
                                 .withRequestAuditor(getAuditor())
                                 .withUserAgent("pubcrawler/1.0")
-                                .withCache(getCache())
-                                .build();
-        return fetcher;
+                                .withCache(getCache());
+        
+        if (System.getProperty("http.proxy") != null) {
+            URI proxy = URI.create(System.getProperty("http.proxy"));
+            System.out.println(" *** HTTP Proxy: " + proxy);
+            builder.withProxy(proxy.getHost(), proxy.getPort());
+        }
+        
+        return builder.build();
     }
 
     private HttpCache getCache() {

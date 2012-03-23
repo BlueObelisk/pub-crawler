@@ -1,8 +1,8 @@
-package wwmm.pubcrawler.main;
+package wwmm.pubcrawler.crawlers;
 
 import org.joda.time.Duration;
 import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerResponse;
-import wwmm.pubcrawler.controller.SingleResourceHttpFetcher;
+import wwmm.pubcrawler.controller.BasicHttpFetcher;
 import wwmm.pubcrawler.controller.URITask;
 import wwmm.pubcrawler.v2.crawler.CrawlRunner;
 import wwmm.pubcrawler.v2.crawler.TaskData;
@@ -13,12 +13,12 @@ import java.net.URI;
 /**
  * @author Sam Adams
  */
-public abstract class SingleResourceHttpCrawlTask implements CrawlRunner {
+public abstract class BasicHttpCrawlTask implements CrawlRunner {
 
-    private final SingleResourceHttpFetcher fetcher;
+    private final BasicHttpFetcher fetcher;
 
     @Inject
-    public SingleResourceHttpCrawlTask(final SingleResourceHttpFetcher fetcher) {
+    public BasicHttpCrawlTask(final BasicHttpFetcher fetcher) {
         this.fetcher = fetcher;
     }
 

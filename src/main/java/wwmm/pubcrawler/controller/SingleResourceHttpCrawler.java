@@ -10,7 +10,7 @@ import javax.inject.Inject;
 public class SingleResourceHttpCrawler extends Crawler<URITask,CrawlerResponse> {
 
     @Inject
-    public SingleResourceHttpCrawler(final SingleResourceHttpFetcher fetcher, final Processor<CrawlerResponse> resourceProcessor) {
+    public SingleResourceHttpCrawler(final BasicHttpFetcher fetcher, final Processor<CrawlerResponse> resourceProcessor) {
         super(fetcher, resourceProcessor);
     }
 

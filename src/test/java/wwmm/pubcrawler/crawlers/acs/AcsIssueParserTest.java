@@ -10,7 +10,6 @@ import wwmm.pubcrawler.crawlers.acs.parsers.AcsIssueTocParser;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.model.Journal;
-import wwmm.pubcrawler.model.id.IssueId;
 import wwmm.pubcrawler.model.id.PublisherId;
 import wwmm.pubcrawler.types.Doi;
 import wwmm.pubcrawler.utils.ResourceUtil;
@@ -42,43 +41,23 @@ public class AcsIssueParserTest {
     }
 
     protected AcsIssueTocParser getJacsIssue132_51() throws Exception {
-        Issue issue = new Issue();
-        issue.setId(new IssueId("acs/jacsat/132/51"));
-        issue.setUrl(URI.create("http://pubs.acs.org/toc/jacsat/132/51"));
-
-        return new AcsIssueTocParser(issue, loadDocument("jacs-132-51.html"), JACSAT);
+        return new AcsIssueTocParser(loadDocument("jacs-132-51.html"), URI.create("http://pubs.acs.org/toc/jacsat/132/51"), JACSAT);
     }
 
     protected AcsIssueTocParser getInocajLegacyIssue() throws Exception {
-        Issue issue = new Issue();
-        issue.setId(new IssueId("acs/inocaj/34/35"));
-        issue.setUrl(URI.create("http://pubs.acs.org/toc/inocaj/34/25"));
-
-        return new AcsIssueTocParser(issue, loadDocument("inocaj-34-25.html"), INOCAJ);
+        return new AcsIssueTocParser(loadDocument("inocaj-34-25.html"), URI.create("http://pubs.acs.org/toc/inocaj/34/25"), INOCAJ);
     }
 
     protected AcsIssueTocParser getJceaaxIssue55_9() throws Exception {
-        Issue issue = new Issue();
-        issue.setId(new IssueId("acs/jceaax/55/9"));
-        issue.setUrl(URI.create("http://pubs.acs.org/toc/jceaax/55/9"));
-
-        return new AcsIssueTocParser(issue, loadDocument("jceaax_55_9.html"), JCEAXX);
+        return new AcsIssueTocParser(loadDocument("jceaax_55_9.html"), URI.create("http://pubs.acs.org/toc/jceaax/55/9"), JCEAXX);
     }
 
     protected AcsIssueTocParser getJceaaxIssue53_9() throws Exception {
-        Issue issue = new Issue();
-        issue.setId(new IssueId("acs/jceaxx/53/9"));
-        issue.setUrl(URI.create("http://pubs.acs.org/toc/jceaax/53/9"));
-
-        return new AcsIssueTocParser(issue, loadDocument("jceaax_53_9.html"), JCEAXX);
+        return new AcsIssueTocParser(loadDocument("jceaax_53_9.html"), URI.create("http://pubs.acs.org/toc/jceaax/53/9"), JCEAXX);
     }
 
     protected AcsIssueTocParser getInocajIssue39_19() throws Exception {
-        Issue issue = new Issue();
-        issue.setId(new IssueId("acs/inocaj/39/19"));
-        issue.setUrl(URI.create("http://pubs.acs.org/toc/inocaj/39/19"));
-
-        return new AcsIssueTocParser(issue, loadDocument("inocaj-39-19.html"), INOCAJ);
+        return new AcsIssueTocParser(loadDocument("inocaj-39-19.html"), URI.create("http://pubs.acs.org/toc/inocaj/39/19"), INOCAJ);
     }
 
     @Test

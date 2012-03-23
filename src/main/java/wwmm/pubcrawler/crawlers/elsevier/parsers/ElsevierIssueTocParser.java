@@ -23,6 +23,7 @@ import nu.xom.Text;
 import org.apache.log4j.Logger;
 import wwmm.pubcrawler.CrawlerRuntimeException;
 import wwmm.pubcrawler.crawlers.AbstractIssueParser;
+import wwmm.pubcrawler.crawlers.IssueTocParser;
 import wwmm.pubcrawler.model.*;
 import wwmm.pubcrawler.model.id.ArticleId;
 import wwmm.pubcrawler.model.id.IssueId;
@@ -33,6 +34,7 @@ import java.net.URI;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -41,14 +43,15 @@ import static java.lang.String.format;
 /**
  * @author Sam Adams
  */
-public class ElsevierIssueTocParser extends AbstractIssueParser {
+public class ElsevierIssueTocParser extends AbstractIssueParser implements IssueTocParser {
 
     private static final Logger LOG = Logger.getLogger(ElsevierIssueTocParser.class);
 
-    private static final Pattern P_ID = Pattern.compile("/pii/(.*?)\\?");
+    private static final Pattern P_ID = Pattern.compile(".*/pii/(\\w+)");
 
     private final String journal;
-    private static final Pattern VOLUME_ISSUE_PATTERN = Pattern.compile("Vol(?:ume)? (\\d+), Iss(?:ues?) (\\S+), .*? \\(.*\\b(\\d{4})\\)");
+    private static final Pattern VOLUME_ISSUE_PATTERN = Pattern.compile("Vol(?:ume)?s? (\\d+), Iss(?:ues?) (\\S+), .*? \\(.*\\b(\\d{4})\\)");
+    private static final Pattern VOLUME_PATTERN = Pattern.compile("Vol(?:ume)?s? (\\S+), .*? \\(.*\\b(\\d{4})\\)");
 
     public ElsevierIssueTocParser(final Document html, final URI url, final String journal) {
         super(html, url);
@@ -86,11 +89,11 @@ public class ElsevierIssueTocParser extends AbstractIssueParser {
 
     @Override
     protected ArticleId getArticleId(Node context, IssueId issueId) {
-        Element addr = (Element) XPathUtils.getNode(context, "x:a");
+        Element addr = (Element) XPathUtils.getNode(context, "x:h3/x:a");
         String href = addr.getAttributeValue("href");
         Matcher m = P_ID.matcher(href);
         if (m.find()) {
-            return new ArticleId(getIssueId(), m.group(1));
+            return new ArticleId("elsevier:article:" + journal + "/" + m.group(1));
         } else {
             throw new CrawlerRuntimeException("No match for ID: "+href);
         }
@@ -103,7 +106,7 @@ public class ElsevierIssueTocParser extends AbstractIssueParser {
 
     @Override
     protected URI getArticleUrl(Article article, Node context) {
-        Element addr = (Element) XPathUtils.getNode(context, "x:a");
+        Element addr = (Element) XPathUtils.getNode(context, "x:h3/x:a");
         String href = addr.getAttributeValue("href");
         return getUrl().resolve(href);
     }
@@ -115,8 +118,16 @@ public class ElsevierIssueTocParser extends AbstractIssueParser {
 
     @Override
     protected String getArticleTitle(Article article, Node context) {
-        Element addr = (Element) XPathUtils.getNode(context, "x:a");
-        return addr.getValue().trim();
+        Element addr = (Element) XPathUtils.getNode(context, "x:h3");
+        final String title = addr.getValue().trim();
+        return removeDoubleQuotes(title);
+    }
+
+    private String removeDoubleQuotes(String title) {
+        if (title.startsWith("\"") && title.endsWith("\"")) {
+            return title.substring(1, title.length() - 1);
+        }
+        return title;
     }
 
     @Override
@@ -132,7 +143,12 @@ public class ElsevierIssueTocParser extends AbstractIssueParser {
         if (n != null) {
             Text text = (Text) n;
             String s = text.getValue();
-            return Arrays.asList(s.split(", "));
+            List<String> authors = Arrays.asList(s.split(", "));
+            for (ListIterator<String> it = authors.listIterator(); it.hasNext();) {
+                String author = it.next();
+                it.set(removeDoubleQuotes(author));
+            }
+            return authors;
         }
         return Collections.emptyList();
     }
@@ -198,10 +214,14 @@ public class ElsevierIssueTocParser extends AbstractIssueParser {
         // <title>Chemometrics and Intelligent Laboratory Systems | Vol 111, Iss 1, Pgs 1-66, (15 February, 2012) | ScienceDirect.com</title>
 
         Matcher m = VOLUME_ISSUE_PATTERN.matcher(s);
-        if (!m.find()) {
-            throw new CrawlerRuntimeException("Unable to match volume/issue: "+s);
+        if (m.find()) {
+            return new String[]{m.group(1), m.group(2), m.group(3)};
         }
-        return new String[]{m.group(1), m.group(2), m.group(3)};
+        m = VOLUME_PATTERN.matcher(s);
+        if (m.find()) {
+            return new String[]{m.group(1), "-", m.group(2)};
+        }
+        throw new CrawlerRuntimeException("Unable to match volume/issue: "+s);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package wwmm.pubcrawler.main;
+package wwmm.pubcrawler.utils;
 
 import nu.xom.Builder;
 import nu.xom.Document;

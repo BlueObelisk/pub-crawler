@@ -7,12 +7,12 @@ import javax.inject.Inject;
 /**
  * @author Sam Adams
  */
-public class SingleResourceHttpFetcher implements Fetcher<URITask,CrawlerResponse> {
+public class BasicHttpFetcher implements Fetcher<URITask,CrawlerResponse> {
 
     private final HttpFetcher httpFetcher;
 
     @Inject
-    public SingleResourceHttpFetcher(final HttpFetcher httpFetcher) {
+    public BasicHttpFetcher(final HttpFetcher httpFetcher) {
         this.httpFetcher = httpFetcher;
     }
 
