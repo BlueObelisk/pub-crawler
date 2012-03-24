@@ -4,7 +4,8 @@ import nu.xom.Builder;
 import nu.xom.Document;
 import nu.xom.ParsingException;
 import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerResponse;
-import wwmm.pubcrawler.controller.BasicHttpFetcher;
+import wwmm.pubcrawler.controller.Fetcher;
+import wwmm.pubcrawler.controller.URITask;
 import wwmm.pubcrawler.crawlers.BasicHttpCrawlTask;
 import wwmm.pubcrawler.crawlers.elsevier.Elsevier;
 import wwmm.pubcrawler.crawlers.elsevier.parsers.ElsevierPublicationListParser;
@@ -25,7 +26,7 @@ public class ElsevierPublicationListCrawlTask extends BasicHttpCrawlTask {
     private final TaskQueue taskQueue;
 
     @Inject
-    public ElsevierPublicationListCrawlTask(final BasicHttpFetcher fetcher, final TaskQueue taskQueue) {
+    public ElsevierPublicationListCrawlTask(final Fetcher<URITask,CrawlerResponse> fetcher, final TaskQueue taskQueue) {
         super(fetcher);
         this.taskQueue = taskQueue;
     }
