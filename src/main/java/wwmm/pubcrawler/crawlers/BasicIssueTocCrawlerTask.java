@@ -41,8 +41,10 @@ public abstract class BasicIssueTocCrawlerTask extends BasicHttpCrawlTask {
         }
         
         Issue prev = parser.getPreviousIssue();
-        CrawlTask task = createIssueTocTask(journal, prev);
-        taskQueue.queueTask(task);
+        if (prev != null) {
+            CrawlTask task = createIssueTocTask(journal, prev);
+            taskQueue.queueTask(task);
+        }
     }
 
     protected abstract CrawlTask createIssueTocTask(final String journal, final Issue prev);

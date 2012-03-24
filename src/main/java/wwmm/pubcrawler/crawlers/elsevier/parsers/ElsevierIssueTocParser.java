@@ -50,9 +50,11 @@ public class ElsevierIssueTocParser extends AbstractIssueParser implements Issue
     private static final Pattern P_ID = Pattern.compile(".*/pii/(\\w+)");
 
     private final String journal;
-    private static final Pattern VOLUME_ISSUE_PATTERN = Pattern.compile("Vol(?:ume)?s? (\\d+), Iss(?:ues?) (\\S+), .*? \\(.*\\b(\\d{4})\\)");
-    private static final Pattern VOLUME_PATTERN = Pattern.compile("Vol(?:ume)?s? (\\S+), .*? \\(.*\\b(\\d{4})\\)");
+    private static final Pattern VOLUME_ISSUE_PATTERN = Pattern.compile("Vol(?:ume)?s? (\\d+), Iss(?:ues?) (\\S+),.*?\\(.*\\b(\\d{4})\\)");
+    private static final Pattern VOLUME_PATTERN = Pattern.compile("Vol(?:ume)?s? (\\S+),.*?\\(.*\\b(\\d{4})\\)");
 
+    private static final Pattern PREV_URL = Pattern.compile("/science/journal/\\w+/([^/]+)(?:/([^/]+))?");
+    
     public ElsevierIssueTocParser(final Document html, final URI url, final String journal) {
         super(html, url);
         this.journal = journal;
@@ -196,10 +198,15 @@ public class ElsevierIssueTocParser extends AbstractIssueParser implements Issue
         if (!nodes.isEmpty()) {
             Element addr = (Element) nodes.get(0);
             String href = addr.getAttributeValue("href");
-            Issue issue = new Issue();
-            issue.setId(new IssueId("elsevier/"+journal+"/"+getVolume()+"/"+getNumber()+"_prev"));
-            issue.setUrl(getUrl().resolve(href));
-            return issue;
+            Matcher m = PREV_URL.matcher((href));
+            if (m.find()) {
+                Issue issue = new Issue();
+                issue.setId(new IssueId("elsevier/"+journal+"/"+getVolume()+"/"+getNumber()+"_prev"));
+                issue.setVolume(m.group(1));
+                issue.setNumber(m.group(2) != null ? m.group(2) : "-");
+                issue.setUrl(getUrl().resolve(href));
+                return issue;
+            }
         }
         return null;
     }
@@ -212,6 +219,7 @@ public class ElsevierIssueTocParser extends AbstractIssueParser implements Issue
         // Chemometrics and Intelligent Laboratory Systems | Vol 112, Pgs 1-70, (15 March, 2012) | ScienceDirect.com
         // Volume 111, Issue 1, Pages 1-66 (15 February 2012)
         // <title>Chemometrics and Intelligent Laboratory Systems | Vol 111, Iss 1, Pgs 1-66, (15 February, 2012) | ScienceDirect.com</title>
+        // EMC - Pediatría | Vol 46, Iss 4, Pgs 1-67, ,(2011) | ScienceDirect.com
 
         Matcher m = VOLUME_ISSUE_PATTERN.matcher(s);
         if (m.find()) {
