@@ -28,6 +28,8 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.lang.String.format;
+
 /**
  * <p>The <code>AcsIssueCrawler</code> class provides a method for obtaining
  * information about all articles from a particular issue of a journal
@@ -44,12 +46,10 @@ public class AcsPublicationListParser implements PublicationListParser {
     private final PublisherId publisherId;
     
     private final Document html;
-    private final URI url;
 
-    public AcsPublicationListParser(final PublisherId publisherId, final Document html, final URI url) {
+    public AcsPublicationListParser(final PublisherId publisherId, final Document html) {
         this.publisherId = publisherId;
         this.html = html;
-        this.url = url;
     }
 
     public List<Journal> findJournals() {
@@ -62,7 +62,9 @@ public class AcsPublicationListParser implements PublicationListParser {
             if (href.startsWith("/journal/")) {
                 final String title = element.getValue().trim();
                 final String abbrev = href.substring(href.lastIndexOf('/') + 1);
-                journals.add(new Journal(publisherId, abbrev, title));
+                final Journal journal = new Journal(publisherId, abbrev, title);
+                journal.setUrl(URI.create(format("http://pubs.acs.org/toc/%s/current", abbrev)));
+                journals.add(journal);
             }
         }
 

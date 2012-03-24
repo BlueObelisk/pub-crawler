@@ -11,7 +11,6 @@ import wwmm.pubcrawler.model.id.PublisherId;
 import wwmm.pubcrawler.utils.ResourceUtil;
 
 import java.io.InputStream;
-import java.net.URI;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -35,7 +34,7 @@ public class AcsPublicationListParserTest {
     @Test
     public void testFindJournals() throws Exception {
         Document html = loadDocument("acs-pubs.html");
-        AcsPublicationListParser parser = new AcsPublicationListParser(ACS, html, URI.create("http://pubs.acs.org/"));
+        AcsPublicationListParser parser = new AcsPublicationListParser(ACS, html);
         
         List<Journal> journals = parser.findJournals();
         

@@ -49,6 +49,8 @@ import java.util.regex.Pattern;
 public class AcsIssueTocParser extends AbstractIssueParser implements IssueTocParser {
 
     private static final Logger LOG = Logger.getLogger(AcsIssueTocParser.class);
+    
+    private static final Pattern PREV_URI_PATTERN = Pattern.compile("http://pubs.acs.org/toc/\\w+/(\\w+)/(\\w+)");
 
     private final String journal;
 
@@ -82,9 +84,14 @@ public class AcsIssueTocParser extends AbstractIssueParser implements IssueTocPa
                 URI url = getUrl().resolve(href);
 
                 Issue issue = new Issue();
-                issue.setId(new IssueId(id));
-                issue.setUrl(url);
-                return issue;
+                Matcher matcher = PREV_URI_PATTERN.matcher(url.toString());
+                if (matcher.find()) {
+                    issue.setId(new IssueId(id));
+                    issue.setUrl(url);
+                    issue.setVolume(matcher.group(1));
+                    issue.setNumber(matcher.group(2));
+                    return issue;
+                }
             }
         }
         return null;

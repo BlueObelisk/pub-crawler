@@ -21,6 +21,7 @@ public class IssueArchiver implements Archiver<Issue> {
     @Inject
     public IssueArchiver(@Issues final DBCollection collection) {
         this.collection = collection;
+        this.collection.ensureIndex(new BasicDBObject("id", 1), "id_index", true);
     }
 
     @Override

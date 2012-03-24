@@ -2,9 +2,11 @@ package wwmm.pubcrawler.v2.crawler.acs;
 
 import org.junit.Before;
 import org.junit.Test;
-import uk.ac.cam.ch.wwmm.httpcrawler.HttpFetcher;
-import wwmm.pubcrawler.crawlers.acs.tasks.AcsJournalListCrawler;
-import wwmm.pubcrawler.crawlers.acs.tasks.AcsParserFactory;
+import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerResponse;
+import wwmm.pubcrawler.controller.BasicHttpFetcher;
+import wwmm.pubcrawler.controller.Fetcher;
+import wwmm.pubcrawler.controller.URITask;
+import wwmm.pubcrawler.crawlers.acs.tasks.AcsPublicationListCrawlTask;
 import wwmm.pubcrawler.v2.crawler.TaskQueue;
 import wwmm.pubcrawler.v2.fetcher.HttpResource;
 import wwmm.pubcrawler.v2.repositories.JournalRepository;
@@ -20,19 +22,17 @@ public class AcsJournalListCrawlerTest {
 
     private TaskQueue taskQueue;
     private JournalRepository journalRepo;
-    private AcsParserFactory parserFactory;
-    private HttpFetcher fetcher;
+    private Fetcher<URITask,CrawlerResponse> fetcher;
 
-    private AcsJournalListCrawler crawler;
+    private AcsPublicationListCrawlTask crawler;
 
     @Before
     public void setUp() throws Exception {
         taskQueue = mock(TaskQueue.class);
         journalRepo = mock(JournalRepository.class);
-        parserFactory = mock(AcsParserFactory.class);
-        fetcher = mock(HttpFetcher.class);
+        fetcher = mock(BasicHttpFetcher.class);
 
-        crawler = new AcsJournalListCrawler(taskQueue, journalRepo, fetcher);
+        crawler = new AcsPublicationListCrawlTask(fetcher, taskQueue);
     }
 
     @Test
