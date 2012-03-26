@@ -3,13 +3,10 @@ package wwmm.pubcrawler.controller;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
-import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.v2.inject.Issues;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author Sam Adams
@@ -39,18 +36,17 @@ public class IssueArchiver implements Archiver<Issue> {
 
         dbObject.put("id", issue.getId().getValue());
 
-        dbObject.put("journal", issue.getJournalTitle());
+        if (issue.getJournalRef() != null) {
+            dbObject.put("journalRef", issue.getJournalRef());
+        }
+
+        dbObject.put("journalTitle", issue.getJournalTitle());
         dbObject.put("year", issue.getYear());
         dbObject.put("volume", issue.getVolume());
         dbObject.put("number", issue.getNumber());
 
         if (issue.getUrl() != null) {
             dbObject.put("url", issue.getUrl().toString());
-        }
-
-        List<String> articles = new ArrayList<String>();
-        for (Article article : issue.getArticles()) {
-            articles.add(article.getId().getValue());
         }
 
         if (issue.getPreviousIssueId() != null) {

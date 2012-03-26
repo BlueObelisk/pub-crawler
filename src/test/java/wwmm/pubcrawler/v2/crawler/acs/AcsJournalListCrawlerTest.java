@@ -5,7 +5,9 @@ import org.junit.Test;
 import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerResponse;
 import wwmm.pubcrawler.controller.BasicHttpFetcher;
 import wwmm.pubcrawler.controller.Fetcher;
+import wwmm.pubcrawler.controller.JournalArchiver;
 import wwmm.pubcrawler.controller.URITask;
+import wwmm.pubcrawler.crawlers.acs.AcsPublicationListParserFactory;
 import wwmm.pubcrawler.crawlers.acs.tasks.AcsPublicationListCrawlTask;
 import wwmm.pubcrawler.v2.crawler.TaskQueue;
 import wwmm.pubcrawler.v2.fetcher.HttpResource;
@@ -25,6 +27,8 @@ public class AcsJournalListCrawlerTest {
     private Fetcher<URITask,CrawlerResponse> fetcher;
 
     private AcsPublicationListCrawlTask crawler;
+    private AcsPublicationListParserFactory factory;
+    private JournalArchiver archiver;
 
     @Before
     public void setUp() throws Exception {
@@ -32,7 +36,7 @@ public class AcsJournalListCrawlerTest {
         journalRepo = mock(JournalRepository.class);
         fetcher = mock(BasicHttpFetcher.class);
 
-        crawler = new AcsPublicationListCrawlTask(fetcher, taskQueue);
+        crawler = new AcsPublicationListCrawlTask(fetcher, taskQueue, factory, archiver);
     }
 
     @Test

@@ -34,7 +34,7 @@ public class AcsPublicationListParserTest {
     @Test
     public void testFindJournals() throws Exception {
         Document html = loadDocument("acs-pubs.html");
-        AcsPublicationListParser parser = new AcsPublicationListParser(ACS, html);
+        AcsPublicationListParser parser = new AcsPublicationListParser(html);
         
         List<Journal> journals = parser.findJournals();
         

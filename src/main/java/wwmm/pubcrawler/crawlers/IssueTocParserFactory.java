@@ -1,7 +1,6 @@
 package wwmm.pubcrawler.crawlers;
 
 import nu.xom.Document;
-import wwmm.pubcrawler.crawlers.IssueTocParser;
 
 import java.net.URI;
 

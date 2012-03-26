@@ -27,6 +27,7 @@ import java.util.List;
 public class Issue extends PubcrawlerObject<IssueId> {
 
     private transient boolean current;
+    private String journalRef;
 
     @Override
     protected IssueId createId(String id) {
@@ -100,14 +101,20 @@ public class Issue extends PubcrawlerObject<IssueId> {
     public String getJournalTitle() {
         return null;
     }
-    
-    
+
+    public String getJournalRef() {
+        return journalRef;
+    }
+
+    public void setJournalRef(final String journalRef) {
+        this.journalRef = journalRef;
+    }
+
     public String getNextIssueId() {
         return null;
     }
-    
+
     public String getPreviousIssueId() {
         return null;
     }
-    
 }

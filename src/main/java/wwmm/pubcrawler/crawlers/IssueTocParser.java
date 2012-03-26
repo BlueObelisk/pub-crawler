@@ -10,6 +10,8 @@ import java.util.List;
  */
 public interface IssueTocParser {
 
+    Issue getIssueDetails();
+    
     List<Article> getArticles();
 
     Issue getPreviousIssue();

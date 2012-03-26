@@ -4,6 +4,7 @@ import nu.xom.Document;
 import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerResponse;
 import wwmm.pubcrawler.controller.ArticleArchiver;
 import wwmm.pubcrawler.controller.BasicHttpFetcher;
+import wwmm.pubcrawler.controller.IssueArchiver;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.utils.HtmlUtils;
@@ -20,13 +21,15 @@ public abstract class BasicIssueTocCrawlerTask extends BasicHttpCrawlTask {
 
     private final TaskQueue taskQueue;
     private final IssueTocParserFactory parserFactory;
-    private final ArticleArchiver archiver;
+    private final ArticleArchiver articleArchiver;
+    private final IssueArchiver issueArchiver;
 
-    public BasicIssueTocCrawlerTask(final BasicHttpFetcher fetcher, final IssueTocParserFactory parserFactory, final TaskQueue taskQueue, final ArticleArchiver archiver) {
+    public BasicIssueTocCrawlerTask(final BasicHttpFetcher fetcher, final IssueTocParserFactory parserFactory, final TaskQueue taskQueue, final ArticleArchiver archiver, final IssueArchiver issueArchiver) {
         super(fetcher);
         this.taskQueue = taskQueue;
         this.parserFactory = parserFactory;
-        this.archiver = archiver;
+        this.articleArchiver = archiver;
+        this.issueArchiver = issueArchiver;
     }
 
     @Override
@@ -35,9 +38,13 @@ public abstract class BasicIssueTocCrawlerTask extends BasicHttpCrawlTask {
         final URI url = URI.create(data.getString("url"));
         final String journal = data.getString("journal");
         final IssueTocParser parser = parserFactory.createIssueTocParser(html, url, journal);
-        
+
+        final Issue issue = parser.getIssueDetails();
+        issueArchiver.archive(issue);
+
         for (Article article : parser.getArticles()) {
-            archiver.archive(article);
+            article.setIssueRef(id);
+            articleArchiver.archive(article);
         }
         
         Issue prev = parser.getPreviousIssue();

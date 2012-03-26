@@ -214,7 +214,7 @@ public abstract class AbstractIssueParser {
 
     protected abstract String getNumber();
 
-    public Issue toIssue() {
+    public Issue getIssueDetails() {
         Issue issue = new Issue();
         issue.setId(getIssueId());
         issue.setUrl(getUrl());
