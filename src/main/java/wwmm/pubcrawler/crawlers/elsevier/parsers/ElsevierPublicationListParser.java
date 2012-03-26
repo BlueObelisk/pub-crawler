@@ -6,7 +6,9 @@ import nu.xom.Node;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import wwmm.pubcrawler.crawlers.PublicationListParser;
+import wwmm.pubcrawler.crawlers.elsevier.Elsevier;
 import wwmm.pubcrawler.model.Journal;
+import wwmm.pubcrawler.model.id.JournalId;
 import wwmm.pubcrawler.utils.XPathUtils;
 
 import java.net.URI;
@@ -45,9 +47,10 @@ public class ElsevierPublicationListParser implements PublicationListParser {
                 LOG.warn("Journal URL does not match ID pattern '{}'", url);
                 continue;
             }
-            String id = matcher.group(1);
+            String abbreviation = matcher.group(1);
 
-            Journal journal = new Journal(id, title);
+            Journal journal = new Journal(abbreviation, title);
+            journal.setId(new JournalId(Elsevier.PUBLISHER_ID, abbreviation));
             journal.setUrl(URI.create(url));
             list.add(journal);
         }
