@@ -1,8 +1,6 @@
 package wwmm.pubcrawler.v2.repositories.mongo;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBCollection;
-import com.mongodb.DBObject;
+import com.mongodb.*;
 import org.joda.time.DateTime;
 import wwmm.pubcrawler.v2.crawler.CrawlRunner;
 import wwmm.pubcrawler.v2.crawler.CrawlTask;
@@ -11,8 +9,8 @@ import wwmm.pubcrawler.v2.inject.Tasks;
 import wwmm.pubcrawler.v2.repositories.TaskRepository;
 
 import javax.inject.Inject;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.regex.Pattern;
 
 /**
  * @author Sam Adams
@@ -41,6 +39,26 @@ public class MongoTaskRepository implements TaskRepository {
             .withData(data)
             .ofType(type)
             .build();
+    }
+
+    @Override
+    public List<String> getWaitingTaskIds(final String filter) {
+        final BasicDBObject query = new BasicDBObject("$and", Arrays.asList(
+            new BasicDBObject("id", Pattern.compile("^" + Pattern.quote(filter))),
+            new BasicDBObject("run", new BasicDBObject("$ne", true))
+        ));
+
+        List<String> tasks = new ArrayList<String>();
+        final DBCursor cursor = collection.find(query);
+        try {
+            while (cursor.hasNext()) {
+                final DBObject task = cursor.next();
+                tasks.add((String) task.get("id"));
+            }
+        } finally {
+            cursor.close();
+        }
+        return tasks;
     }
 
     private Map<String, String> getData(final DBObject task) {

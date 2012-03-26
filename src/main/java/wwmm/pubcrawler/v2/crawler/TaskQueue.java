@@ -9,4 +9,5 @@ public interface TaskQueue {
 
     void queueTask(CrawlTask task);
 
+    void resumeTasks(String filter);
 }
