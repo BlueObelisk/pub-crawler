@@ -34,7 +34,7 @@ public abstract class BasicIssueTocCrawlerTask extends BasicHttpCrawlTask {
 
     @Override
     protected void handleResponse(final String id, final TaskData data, final CrawlerResponse response) throws Exception {
-        final Document html = HtmlUtils.readDocument(response);
+        final Document html = HtmlUtils.readHtmlDocument(response);
         final URI url = URI.create(data.getString("url"));
         final String journal = data.getString("journal");
         final IssueTocParser parser = parserFactory.createIssueTocParser(html, url, journal);

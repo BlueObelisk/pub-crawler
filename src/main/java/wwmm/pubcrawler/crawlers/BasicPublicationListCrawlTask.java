@@ -12,6 +12,7 @@ import wwmm.pubcrawler.v2.crawler.TaskData;
 import wwmm.pubcrawler.v2.crawler.TaskQueue;
 
 import javax.inject.Inject;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -33,7 +34,7 @@ public abstract class BasicPublicationListCrawlTask extends BasicHttpCrawlTask {
 
     @Override
     protected void handleResponse(final String id, final TaskData data, final CrawlerResponse response) throws Exception {
-        final Document html = HtmlUtils.readDocument(response);
+        final Document html = readResponse(response);
         final PublicationListParser parser = parserFactory.createPublicationListParser(html);
         final List<Journal> journals = parser.findJournals();
         for (Journal journal : journals) {
@@ -42,6 +43,10 @@ public abstract class BasicPublicationListCrawlTask extends BasicHttpCrawlTask {
             final CrawlTask task = createCurrentIssueTocTask(journal);
             taskQueue.queueTask(task);
         }
+    }
+
+    protected Document readResponse(final CrawlerResponse response) throws IOException {
+        return HtmlUtils.readHtmlDocument(response);
     }
 
     protected abstract CrawlTask createCurrentIssueTocTask(final Journal journal);

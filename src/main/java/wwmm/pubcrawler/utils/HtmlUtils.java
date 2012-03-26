@@ -13,12 +13,21 @@ import java.io.InputStreamReader;
  */
 public class HtmlUtils {
 
-    public static Document readDocument(CrawlerResponse response) throws IOException {
+    public static Document readHtmlDocument(CrawlerResponse response) throws IOException {
         String encoding = response.getCharacterEncoding();
         if (encoding == null) {
             return readDocument(response, newTagSoupBuilder());
         } else {
             return readDocument(response, newTagSoupBuilder(), encoding);
+        }
+    }
+
+    public static Document readXmlDocument(CrawlerResponse response) throws IOException {
+        String encoding = response.getCharacterEncoding();
+        if (encoding == null) {
+            return readDocument(response, new Builder());
+        } else {
+            return readDocument(response, new Builder(), encoding);
         }
     }
 

@@ -19,7 +19,9 @@ package wwmm.pubcrawler.crawlers.wiley.parsers;
 import nu.xom.Document;
 import nu.xom.Node;
 import wwmm.pubcrawler.crawlers.PublicationListParser;
+import wwmm.pubcrawler.crawlers.wiley.Wiley;
 import wwmm.pubcrawler.model.Journal;
+import wwmm.pubcrawler.model.id.JournalId;
 import wwmm.pubcrawler.utils.XPathUtils;
 
 import java.net.URI;
@@ -44,14 +46,14 @@ public class WileyPublicationListParser implements PublicationListParser {
         List<Journal> list = new ArrayList<Journal>();
 
         List<Node> nodes = XPathUtils.queryHTML(html, "//x:li/x:div[@class='publication']/x:div[@class='details']");
-        int i = 1;
         for (Node node : nodes) {
             if (XPathUtils.queryHTML(node, "x:span[@class='previousTitle']").isEmpty()) {
                 String title = XPathUtils.getString(node, "x:label");
                 String href = XPathUtils.getString(node, "x:a/@href");
                 int ix = href.indexOf("/journal/");
-                String id = href.substring(ix+9);
-                Journal journal = new Journal(id, title);
+                String abbreviation = href.substring(ix+9);
+                Journal journal = new Journal(abbreviation, title);
+                journal.setId(new JournalId(Wiley.PUBLISHER_ID, abbreviation));
                 journal.setUrl(url.resolve(href));
                 list.add(journal);
             }

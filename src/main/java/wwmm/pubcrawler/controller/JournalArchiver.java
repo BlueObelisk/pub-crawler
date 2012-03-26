@@ -23,7 +23,8 @@ public class JournalArchiver implements Archiver<Journal> {
 
     @Override
     public void archive(final Journal journal) {
-        DBObject dbObject = collection.findOne(new BasicDBObject("id", journal.getId().getValue()));
+        final String id = journal.getId().getValue();
+        DBObject dbObject = collection.findOne(new BasicDBObject("id", id));
         if (dbObject == null) {
             save(journal);
         } else {

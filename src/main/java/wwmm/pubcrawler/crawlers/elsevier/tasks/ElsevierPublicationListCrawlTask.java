@@ -1,5 +1,6 @@
 package wwmm.pubcrawler.crawlers.elsevier.tasks;
 
+import nu.xom.Document;
 import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerResponse;
 import wwmm.pubcrawler.controller.Fetcher;
 import wwmm.pubcrawler.controller.JournalArchiver;
@@ -8,10 +9,12 @@ import wwmm.pubcrawler.crawlers.BasicPublicationListCrawlTask;
 import wwmm.pubcrawler.crawlers.elsevier.Elsevier;
 import wwmm.pubcrawler.crawlers.elsevier.ElsevierPublicationListParserFactory;
 import wwmm.pubcrawler.model.Journal;
+import wwmm.pubcrawler.utils.HtmlUtils;
 import wwmm.pubcrawler.v2.crawler.CrawlTask;
 import wwmm.pubcrawler.v2.crawler.TaskQueue;
 
 import javax.inject.Inject;
+import java.io.IOException;
 
 /**
  * @author Sam Adams
@@ -27,4 +30,10 @@ public class ElsevierPublicationListCrawlTask extends BasicPublicationListCrawlT
     protected CrawlTask createCurrentIssueTocTask(final Journal journal) {
         return Elsevier.createIssueTocTask(journal.getUrl(), journal.getAbbreviation(), "current");
     }
+
+    @Override
+    protected Document readResponse(final CrawlerResponse response) throws IOException {
+        return HtmlUtils.readXmlDocument(response);
+    }
+
 }
