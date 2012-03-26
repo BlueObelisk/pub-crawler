@@ -5,6 +5,7 @@ import com.google.inject.Injector;
 import com.mongodb.DB;
 import com.mongodb.Mongo;
 import wwmm.pubcrawler.controller.CrawlerExecutor;
+import wwmm.pubcrawler.controller.ResumeTask;
 import wwmm.pubcrawler.v2.inject.HttpFetcherModule;
 import wwmm.pubcrawler.v2.inject.MongoRepositoryModule;
 import wwmm.pubcrawler.v2.inject.PubcrawlerModule;
@@ -35,9 +36,14 @@ public abstract class CrawlerApplication {
 
         final ExecutorService executorService = Executors.newSingleThreadExecutor();
 
-        final Class<? extends Runnable> seederType = getSeederType();
-        final Runnable seeder = injector.getInstance(seederType);
-        executorService.execute(seeder);
+        if (System.getProperty("resume") != null) {
+            final Runnable seeder = injector.getInstance(ResumeTask.class);
+            executorService.execute(seeder);
+        } else {
+            final Class<? extends Runnable> seederType = getSeederType();
+            final Runnable seeder = injector.getInstance(seederType);
+            executorService.execute(seeder);
+        }
 
         final CrawlerExecutor crawlRunner = injector.getInstance(CrawlerExecutor.class);
         executorService.execute(crawlRunner);

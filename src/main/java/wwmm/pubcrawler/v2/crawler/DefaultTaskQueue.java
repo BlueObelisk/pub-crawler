@@ -5,6 +5,7 @@ import wwmm.pubcrawler.v2.repositories.TaskRepository;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.Deque;
+import java.util.List;
 import java.util.concurrent.LinkedBlockingDeque;
 
 /**
@@ -37,5 +38,12 @@ public class DefaultTaskQueue implements TaskQueue {
             queue.add(task.getId());
         }
     }
-    
+
+    @Override
+    public void resumeTasks(final String filter) {
+        final List<String> taskIds = taskRepository.getWaitingTaskIds(filter);
+        System.err.println("Queuing " + taskIds.size() + " tasks");
+        queue.addAll(taskIds);
+    }
+
 }
