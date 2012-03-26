@@ -1,7 +1,6 @@
 package wwmm.pubcrawler.controller;
 
 import wwmm.pubcrawler.v2.crawler.TaskQueue;
-import wwmm.pubcrawler.v2.repositories.TaskRepository;
 
 import javax.inject.Inject;
 
@@ -10,10 +9,10 @@ import javax.inject.Inject;
  */
 public class ResumeTask implements Runnable {
 
-    private TaskQueue taskQueue;
+    private final TaskQueue taskQueue;
 
     @Inject
-    public ResumeTask(final TaskRepository taskRepository) {
+    public ResumeTask(final TaskQueue taskQueue) {
         this.taskQueue = taskQueue;
     }
 
