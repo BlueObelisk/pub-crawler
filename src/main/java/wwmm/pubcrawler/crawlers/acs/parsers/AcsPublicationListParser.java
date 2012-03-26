@@ -18,10 +18,9 @@ package wwmm.pubcrawler.crawlers.acs.parsers;
 import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Node;
-import org.apache.log4j.Logger;
 import wwmm.pubcrawler.crawlers.PublicationListParser;
+import wwmm.pubcrawler.crawlers.acs.Acs;
 import wwmm.pubcrawler.model.Journal;
-import wwmm.pubcrawler.model.id.PublisherId;
 import wwmm.pubcrawler.utils.XPathUtils;
 
 import java.net.URI;
@@ -41,14 +40,9 @@ import static java.lang.String.format;
  */
 public class AcsPublicationListParser implements PublicationListParser {
 
-    private static final Logger LOG = Logger.getLogger(AcsPublicationListParser.class);
-
-    private final PublisherId publisherId;
-    
     private final Document html;
 
-    public AcsPublicationListParser(final PublisherId publisherId, final Document html) {
-        this.publisherId = publisherId;
+    public AcsPublicationListParser(final Document html) {
         this.html = html;
     }
 
@@ -62,7 +56,7 @@ public class AcsPublicationListParser implements PublicationListParser {
             if (href.startsWith("/journal/")) {
                 final String title = element.getValue().trim();
                 final String abbrev = href.substring(href.lastIndexOf('/') + 1);
-                final Journal journal = new Journal(publisherId, abbrev, title);
+                final Journal journal = new Journal(Acs.PUBLISHER_ID, abbrev, title);
                 journal.setUrl(URI.create(format("http://pubs.acs.org/toc/%s/current", abbrev)));
                 journals.add(journal);
             }

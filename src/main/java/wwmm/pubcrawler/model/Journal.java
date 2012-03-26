@@ -30,6 +30,7 @@ public class Journal extends PubcrawlerObject<JournalId> {
     private List<String> previousTitles;
 
     private URI url;
+    private String publisherRef;
 
     public Journal() { }
 
@@ -70,5 +71,13 @@ public class Journal extends PubcrawlerObject<JournalId> {
 
     public void setUrl(final URI url) {
         this.url = url;
+    }
+
+    public String getPublisherRef() {
+        return publisherRef;
+    }
+
+    public void setPublisherRef(final String publisherRef) {
+        this.publisherRef = publisherRef;
     }
 }

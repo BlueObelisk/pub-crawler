@@ -203,8 +203,8 @@ public class NatureIssueTocParser extends AbstractIssueParser {
 
 
     @Override
-    public Issue toIssue() {
-        Issue issue = super.toIssue();
+    public Issue getIssueDetails() {
+        Issue issue = super.getIssueDetails();
         issue.setUrl(getUrl());
         issue.setYear(getYear());
         issue.setVolume(getVolume());

@@ -1,16 +1,26 @@
 package wwmm.pubcrawler.crawlers.acs.tasks;
 
-import wwmm.pubcrawler.v2.crawler.CrawlRunner;
+import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerResponse;
+import wwmm.pubcrawler.controller.Fetcher;
+import wwmm.pubcrawler.controller.URITask;
+import wwmm.pubcrawler.crawlers.BasicHttpCrawlTask;
 import wwmm.pubcrawler.v2.crawler.TaskData;
+
+import javax.inject.Inject;
 
 /**
  * @author Sam Adams
  */
-public class AcsArticleSuppInfoCrawler implements CrawlRunner {
+public class AcsArticleSuppInfoCrawler extends BasicHttpCrawlTask {
+
+    @Inject
+    public AcsArticleSuppInfoCrawler(final Fetcher<URITask, CrawlerResponse> fetcher) {
+        super(fetcher);
+    }
 
     @Override
-    public void run(final String id, final TaskData data) {
-        //To change body of implemented methods use File | Settings | File Templates.
+    protected void handleResponse(final String id, final TaskData data, final CrawlerResponse response) throws Exception {
+        throw new UnsupportedOperationException("NYI");
     }
 
 }

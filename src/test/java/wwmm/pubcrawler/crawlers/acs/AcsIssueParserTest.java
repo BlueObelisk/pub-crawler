@@ -145,7 +145,7 @@ public class AcsIssueParserTest {
     @Test
     public void testToIssue() throws Exception {
         AcsIssueTocParser crawler = getJacsIssue132_51();
-        Issue issue = crawler.toIssue();
+        Issue issue = crawler.getIssueDetails();
         assertNotNull(issue);
         assertEquals("acs/jacsat/132/51", issue.getId().getValue());
         assertEquals("2010", issue.getYear());

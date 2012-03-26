@@ -26,6 +26,8 @@ import java.util.List;
  */
 public class Article extends PubcrawlerObject<ArticleId> {
 
+    private String issueRef;
+
     @Override
     protected ArticleId createId(String id) {
         return new ArticleId(id);
@@ -113,7 +115,6 @@ public class Article extends PubcrawlerObject<ArticleId> {
         put("fullText", fullTextResources);
     }
 
-
     public URI getSupplementaryResourceUrl() {
         String s = getString("suppUrl");
         return s == null ? null : URI.create(s);
@@ -123,5 +124,12 @@ public class Article extends PubcrawlerObject<ArticleId> {
         String s = url == null ? null : url.toString();
         put("suppUrl", s);
     }
-    
+
+    public String getIssueRef() {
+        return issueRef;
+    }
+
+    public void setIssueRef(final String issueRef) {
+        this.issueRef = issueRef;
+    }
 }
