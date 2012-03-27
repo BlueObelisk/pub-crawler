@@ -169,7 +169,7 @@ public class WileyIssueTocParser extends AbstractIssueParser implements IssueToc
 
     @Override
     protected IssueId getIssueId() {
-        return new IssueId(new JournalId(Wiley.PUBLISHER_ID, journal), getVolume(), getNumber());
+        return new IssueId("wiley/" + journal + "/" + getVolume() + "/" + getNumber());
     }
 
 }

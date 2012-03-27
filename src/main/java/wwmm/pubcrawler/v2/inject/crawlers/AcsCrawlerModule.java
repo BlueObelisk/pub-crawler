@@ -1,20 +1,23 @@
 package wwmm.pubcrawler.v2.inject.crawlers;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.Guice;
-import com.google.inject.Injector;
+import wwmm.pubcrawler.crawlers.IssueTocCrawlTaskFactory;
+import wwmm.pubcrawler.crawlers.IssueTocParserFactory;
+import wwmm.pubcrawler.crawlers.acs.AcsIssueTocCrawlTaskFactory;
+import wwmm.pubcrawler.crawlers.acs.AcsIssueTocParserFactory;
 
 /**
  * @author Sam Adams
  */
-public class AcsCrawlerModule extends AbstractModule {
+public class AcsCrawlerModule extends AbstractPublisherCrawlerModule {
 
     @Override
-    protected void configure() {
+    protected Class<? extends IssueTocParserFactory> getIssueTocParserFactoryType() {
+        return AcsIssueTocParserFactory.class;
     }
 
-    public static void main(final String[] args) {
-        Injector injector = Guice.createInjector(new AcsCrawlerModule());
+    @Override
+    protected Class<? extends IssueTocCrawlTaskFactory> getIssueTocCrawlTaskFactoryType() {
+        return AcsIssueTocCrawlTaskFactory.class;
     }
 
 }

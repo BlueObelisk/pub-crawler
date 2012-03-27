@@ -5,6 +5,8 @@ import wwmm.pubcrawler.controller.Fetcher;
 import wwmm.pubcrawler.controller.JournalArchiver;
 import wwmm.pubcrawler.controller.URITask;
 import wwmm.pubcrawler.crawlers.BasicPublicationListCrawlTask;
+import wwmm.pubcrawler.crawlers.JournalHandler;
+import wwmm.pubcrawler.crawlers.PublicationListParserFactory;
 import wwmm.pubcrawler.crawlers.acs.Acs;
 import wwmm.pubcrawler.crawlers.acs.AcsPublicationListParserFactory;
 import wwmm.pubcrawler.model.Journal;
@@ -19,12 +21,8 @@ import javax.inject.Inject;
 public class AcsPublicationListCrawlTask extends BasicPublicationListCrawlTask {
 
     @Inject
-    public AcsPublicationListCrawlTask(final Fetcher<URITask, CrawlerResponse> fetcher, final TaskQueue taskQueue, final AcsPublicationListParserFactory parserFactory, final JournalArchiver journalArchiver) {
-        super(fetcher, taskQueue, parserFactory, journalArchiver);
+    public AcsPublicationListCrawlTask(final Fetcher<URITask, CrawlerResponse> fetcher, final AcsPublicationListParserFactory parserFactory, final JournalArchiver journalArchiver, final JournalHandler journalHandler) {
+        super(fetcher, parserFactory, journalArchiver, journalHandler);
     }
 
-    @Override
-    protected CrawlTask createCurrentIssueTocTask(final Journal journal) {
-        return Acs.createIssueTocTask(journal.getUrl(), journal.getAbbreviation(), "current");
-    }
 }

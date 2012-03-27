@@ -21,8 +21,8 @@ import java.net.URI;
 /**
  * @author Sam Adams
  */
-public class BmcPublicationCrawler {
+public class Bmc {
 
-    private static final URI OPML_URI = URI.create("http://www.biomedcentral.com/info/journals/biomedcentraljournallist.opml");
+    public static final URI OPML_URI = URI.create("http://www.biomedcentral.com/info/journals/biomedcentraljournallist.opml");
 
 }

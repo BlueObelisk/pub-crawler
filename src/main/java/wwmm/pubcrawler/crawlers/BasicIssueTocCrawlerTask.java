@@ -19,17 +19,17 @@ import java.net.URI;
  */
 public abstract class BasicIssueTocCrawlerTask extends BasicHttpCrawlTask {
 
-    private final TaskQueue taskQueue;
     private final IssueTocParserFactory parserFactory;
     private final ArticleArchiver articleArchiver;
     private final IssueArchiver issueArchiver;
+    private final IssueHandler issueHandler;
 
-    public BasicIssueTocCrawlerTask(final BasicHttpFetcher fetcher, final IssueTocParserFactory parserFactory, final TaskQueue taskQueue, final ArticleArchiver archiver, final IssueArchiver issueArchiver) {
+    public BasicIssueTocCrawlerTask(final BasicHttpFetcher fetcher, final IssueTocParserFactory parserFactory, final ArticleArchiver archiver, final IssueArchiver issueArchiver, final IssueHandler issueHandler) {
         super(fetcher);
-        this.taskQueue = taskQueue;
         this.parserFactory = parserFactory;
         this.articleArchiver = archiver;
         this.issueArchiver = issueArchiver;
+        this.issueHandler = issueHandler;
     }
 
     @Override
@@ -47,13 +47,7 @@ public abstract class BasicIssueTocCrawlerTask extends BasicHttpCrawlTask {
             articleArchiver.archive(article);
         }
         
-        Issue prev = parser.getPreviousIssue();
-        if (prev != null) {
-            CrawlTask task = createIssueTocTask(journal, prev);
-            taskQueue.queueTask(task);
-        }
+        issueHandler.handleIssue(journal, issue);
     }
-
-    protected abstract CrawlTask createIssueTocTask(final String journal, final Issue prev);
 
 }
