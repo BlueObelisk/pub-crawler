@@ -27,7 +27,7 @@ import java.util.List;
 /**
  * @author Sam Adams
  */
-public abstract class AbstractJournalHandler extends AbstractCrawler implements JournalHandler {
+public abstract class AbstractJournalHandler extends AbstractCrawler {
 
     private final Journal journal;
 
@@ -58,4 +58,5 @@ public abstract class AbstractJournalHandler extends AbstractCrawler implements 
         return Collections.emptyList();
     }
 
+    public abstract Issue fetchCurrentIssue() throws IOException;
 }

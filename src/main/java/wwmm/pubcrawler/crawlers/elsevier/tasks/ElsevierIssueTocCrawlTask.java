@@ -4,11 +4,8 @@ import wwmm.pubcrawler.controller.ArticleArchiver;
 import wwmm.pubcrawler.controller.BasicHttpFetcher;
 import wwmm.pubcrawler.controller.IssueArchiver;
 import wwmm.pubcrawler.crawlers.BasicIssueTocCrawlerTask;
-import wwmm.pubcrawler.crawlers.elsevier.Elsevier;
+import wwmm.pubcrawler.crawlers.IssueHandler;
 import wwmm.pubcrawler.crawlers.elsevier.ElsevierIssueTocParserFactory;
-import wwmm.pubcrawler.model.Issue;
-import wwmm.pubcrawler.v2.crawler.CrawlTask;
-import wwmm.pubcrawler.v2.crawler.TaskQueue;
 
 import javax.inject.Inject;
 
@@ -18,13 +15,8 @@ import javax.inject.Inject;
 public class ElsevierIssueTocCrawlTask extends BasicIssueTocCrawlerTask {
 
     @Inject
-    public ElsevierIssueTocCrawlTask(final BasicHttpFetcher fetcher, final ElsevierIssueTocParserFactory parserFactory, final TaskQueue taskQueue, final ArticleArchiver archiver, final IssueArchiver issueArchiver) {
-        super(fetcher, parserFactory, taskQueue, archiver, issueArchiver);
-    }
-
-    @Override
-    protected CrawlTask createIssueTocTask(final String journal, final Issue prev) {
-        return Elsevier.createIssueTocTask(prev.getUrl(), journal, prev.getVolume() + '/' + prev.getNumber());
+    public ElsevierIssueTocCrawlTask(final BasicHttpFetcher fetcher, final ElsevierIssueTocParserFactory parserFactory, final ArticleArchiver archiver, final IssueArchiver issueArchiver, final IssueHandler issueHandler) {
+        super(fetcher, parserFactory, archiver, issueArchiver, issueHandler);
     }
 
 }

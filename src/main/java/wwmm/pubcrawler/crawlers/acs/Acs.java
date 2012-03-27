@@ -19,17 +19,4 @@ public class Acs {
 
     public static final URI JOURNAL_LIST_URL = URI.create("http://pubs.acs.org/");
 
-    public static CrawlTask createIssueTocTask(final URI url, String journal, String id) {
-        Map<String, String> map = new HashMap<String, String>();
-        map.put("url", url.toString());
-        map.put("fileId", "toc.html");
-        map.put("journal", journal);
-
-        return new CrawlTaskBuilder()
-            .ofType(AcsIssueTocCrawlTask.class)
-            .withMaxAge(Duration.standardDays(1))
-            .withId("acs:issue-toc:" + journal + "/" + id)
-            .withData(map)
-            .build();
-    }
 }

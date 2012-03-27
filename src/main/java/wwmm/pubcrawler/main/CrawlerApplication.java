@@ -2,6 +2,7 @@ package wwmm.pubcrawler.main;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.google.inject.Module;
 import com.mongodb.DB;
 import com.mongodb.Mongo;
 import wwmm.pubcrawler.controller.CrawlerExecutor;
@@ -31,7 +32,8 @@ public abstract class CrawlerApplication {
         final Injector injector = Guice.createInjector(
             new PubcrawlerModule(),
             new HttpFetcherModule(httpdb),
-            new MongoRepositoryModule(pubdb)
+            new MongoRepositoryModule(pubdb),
+            getPublisherModule()
         );
 
         final ExecutorService executorService = Executors.newSingleThreadExecutor();
@@ -51,6 +53,8 @@ public abstract class CrawlerApplication {
         // Wait for CrawlRunner to complete and stop executor service
         executorService.shutdown();
     }
+
+    protected abstract Module getPublisherModule();
 
     protected abstract Class<? extends Runnable> getSeederType();
 

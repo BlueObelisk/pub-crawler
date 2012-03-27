@@ -1,22 +1,23 @@
 package wwmm.pubcrawler.v2.inject.crawlers;
 
-import com.google.inject.AbstractModule;
 import wwmm.pubcrawler.crawlers.IssueTocCrawlTaskFactory;
 import wwmm.pubcrawler.crawlers.IssueTocParserFactory;
+import wwmm.pubcrawler.crawlers.wiley.WileyIssueTocCrawlTaskFactory;
+import wwmm.pubcrawler.crawlers.wiley.WileyIssueTocParserFactory;
 
 /**
  * @author Sam Adams
  */
-public class RscCrawlerModule extends AbstractPublisherCrawlerModule {
+public class WileyCrawlerModule extends AbstractPublisherCrawlerModule {
 
     @Override
     protected Class<? extends IssueTocParserFactory> getIssueTocParserFactoryType() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return WileyIssueTocParserFactory.class;
     }
 
     @Override
     protected Class<? extends IssueTocCrawlTaskFactory> getIssueTocCrawlTaskFactoryType() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return WileyIssueTocCrawlTaskFactory.class;
     }
-
+    
 }

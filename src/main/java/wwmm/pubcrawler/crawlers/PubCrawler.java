@@ -15,14 +15,14 @@ public class PubCrawler {
     private static final Logger LOG = Logger.getLogger(PubCrawler.class);
 
     private Journal journal;
-    private JournalHandler journalHandler;
+    private AbstractJournalHandler journalHandler;
     private CrawlerContext context;
 
     private int maxArticlesPerIssue = -1;
     private int maxIssues = -1;
     private int minYear = -1;
 
-    public PubCrawler(Journal journal, JournalHandler journalHandler, CrawlerContext context) {
+    public PubCrawler(Journal journal, AbstractJournalHandler journalHandler, CrawlerContext context) {
         this.journal = journal;
         this.journalHandler = journalHandler;
         this.context = context;
