@@ -22,15 +22,14 @@ import org.apache.log4j.Logger;
 import wwmm.pubcrawler.CrawlerRuntimeException;
 import wwmm.pubcrawler.crawlers.AbstractIssueParser;
 import wwmm.pubcrawler.crawlers.IssueTocParser;
-import wwmm.pubcrawler.crawlers.wiley.Wiley;
 import wwmm.pubcrawler.model.*;
 import wwmm.pubcrawler.model.id.ArticleId;
 import wwmm.pubcrawler.model.id.IssueId;
-import wwmm.pubcrawler.model.id.JournalId;
 import wwmm.pubcrawler.types.Doi;
 import wwmm.pubcrawler.utils.XPathUtils;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -108,8 +107,13 @@ public class WileyIssueTocParser extends AbstractIssueParser implements IssueToc
 
     @Override
     protected String getArticleTitle(Article article, Node articleNode) {
-        // TODO
-        return null;
+        String s = XPathUtils.getString(articleNode, "x:div[contains(@class, 'tocArticle')]/x:a");
+        if (s != null) {
+            if (s.contains("(page")) {
+                return s.substring(0, s.indexOf("(page")).trim();
+            }
+        }
+        return s == null ? null : s.trim();
     }
 
     @Override
@@ -120,7 +124,14 @@ public class WileyIssueTocParser extends AbstractIssueParser implements IssueToc
 
     @Override
     protected List<String> getArticleAuthors(Article article, Node articleNode) {
-        // TODO
+        String s = XPathUtils.getString(articleNode, "x:div[contains(@class, 'tocArticle')]/x:p[1]");
+        if (s != null && ! s.contains("DOI:")) {
+            List<String> authors = new ArrayList<String>();
+            for (String author : s.split(", | and ")) {
+                authors.add(author.trim());
+            }
+            return authors;
+        }
         return null;
     }
 
