@@ -1,8 +1,8 @@
 package wwmm.pubcrawler.main;
 
 import com.google.inject.Module;
+import wwmm.pubcrawler.crawlers.wiley.WileyCrawlerModule;
 import wwmm.pubcrawler.crawlers.wiley.tasks.WileyBibliographyCrawlSeedTask;
-import wwmm.pubcrawler.v2.inject.crawlers.WileyCrawlerModule;
 
 /**
  * @author Sam Adams

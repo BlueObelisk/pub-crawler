@@ -1,7 +1,8 @@
-package wwmm.pubcrawler.v2.inject.crawlers;
+package wwmm.pubcrawler.crawlers.acta;
 
 import wwmm.pubcrawler.crawlers.IssueTocCrawlTaskFactory;
 import wwmm.pubcrawler.crawlers.IssueTocParserFactory;
+import wwmm.pubcrawler.v2.inject.AbstractPublisherCrawlerModule;
 
 /**
  * @author Sam Adams

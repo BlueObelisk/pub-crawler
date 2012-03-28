@@ -5,9 +5,12 @@ import wwmm.pubcrawler.crawlers.PublicationListParser;
 import wwmm.pubcrawler.crawlers.PublicationListParserFactory;
 import wwmm.pubcrawler.crawlers.acs.parsers.AcsPublicationListParser;
 
+import javax.inject.Singleton;
+
 /**
  * @author Sam Adams
  */
+@Singleton
 public class AcsPublicationListParserFactory implements PublicationListParserFactory {
     
     @Override

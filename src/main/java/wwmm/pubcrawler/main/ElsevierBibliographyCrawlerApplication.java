@@ -1,8 +1,8 @@
 package wwmm.pubcrawler.main;
 
 import com.google.inject.Module;
+import wwmm.pubcrawler.crawlers.elsevier.ElsevierCrawlerModule;
 import wwmm.pubcrawler.crawlers.elsevier.tasks.ElsevierBibliographyCrawlSeedTask;
-import wwmm.pubcrawler.v2.inject.crawlers.ElsevierCrawlerModule;
 
 /**
  * @author Sam Adams

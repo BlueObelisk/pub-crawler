@@ -14,21 +14,20 @@
  * limitations under the License.
  */
 
-package wwmm.pubcrawler.crawlers.springer;
+package wwmm.pubcrawler.crawlers.springer.parsers;
 
 import nu.xom.Document;
 import nu.xom.Node;
 import org.apache.log4j.Logger;
-import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.CrawlerRuntimeException;
-import wwmm.pubcrawler.crawlers.AbstractIssueCrawler;
+import wwmm.pubcrawler.crawlers.AbstractIssueParser;
+import wwmm.pubcrawler.crawlers.IssueTocParser;
 import wwmm.pubcrawler.model.*;
 import wwmm.pubcrawler.model.id.ArticleId;
 import wwmm.pubcrawler.model.id.IssueId;
 import wwmm.pubcrawler.types.Doi;
 import wwmm.pubcrawler.utils.XPathUtils;
 
-import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,20 +43,17 @@ import java.util.regex.Pattern;
  * @author Sam Adams
  * @version 2
  */
-public class SpringerIssueCrawler extends AbstractIssueCrawler {
+public class SpringerIssueTocParser extends AbstractIssueParser implements IssueTocParser {
 
-    private static final Logger LOG = Logger.getLogger(SpringerIssueCrawler.class);
+    private static final Logger LOG = Logger.getLogger(SpringerIssueTocParser.class);
 
     private static final String RSC_DOI_PREFIX = "10.1039/";
 
-    /**
-     * <p>Creates an instance of the AcsIssueCrawler class and
-     * specifies the issue to be crawled.</p>
-     *
-     * @param issue the issue to be crawled.
-     */
-    public SpringerIssueCrawler(Issue issue, Journal journal, CrawlerContext context) throws IOException {
-        super(issue, journal, context);
+    private final String journal;
+
+    public SpringerIssueTocParser(final Document html, final URI url, final String journal) {
+        super(html, url);
+        this.journal = journal;
     }
 
     @Override
@@ -87,18 +83,6 @@ public class SpringerIssueCrawler extends AbstractIssueCrawler {
     protected List<Node> getArticleNodes() {
         return XPathUtils.queryHTML(getHtml(), "//x:li[contains(@class, 'journalArticle')]");
     }
-
-//    @Override
-//    protected Article initArticle(Node context, String issueId) {
-//        Element li = (Element) context;
-//        Article article = new Article();
-//        article.setTitle(getArticleTitle(li));
-//        article.setAuthors(getArticleAuthors(li));
-//        article.setUrl(getArticleUrl(li));
-//        article.setReference(getArticleReference(li));
-//        return article;
-//    }
-
 
     @Override
     protected ArticleId getArticleId(Node articleNode, IssueId issueId) {
@@ -171,7 +155,7 @@ public class SpringerIssueCrawler extends AbstractIssueCrawler {
     }
 
     @Override
-    protected Issue getPreviousIssue() {
+    public Issue getPreviousIssue() {
         return null;
     }
 
