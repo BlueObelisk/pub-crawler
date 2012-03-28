@@ -5,11 +5,13 @@ import wwmm.pubcrawler.crawlers.IssueTocParser;
 import wwmm.pubcrawler.crawlers.IssueTocParserFactory;
 import wwmm.pubcrawler.crawlers.wiley.parsers.WileyIssueTocParser;
 
+import javax.inject.Singleton;
 import java.net.URI;
 
 /**
  * @author Sam Adams
  */
+@Singleton
 public class WileyIssueTocParserFactory implements IssueTocParserFactory {
 
     @Override

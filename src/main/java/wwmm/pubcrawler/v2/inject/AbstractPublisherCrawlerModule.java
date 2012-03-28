@@ -1,4 +1,4 @@
-package wwmm.pubcrawler.v2.inject.crawlers;
+package wwmm.pubcrawler.v2.inject;
 
 import com.google.inject.AbstractModule;
 import wwmm.pubcrawler.crawlers.IssueTocCrawlTaskFactory;

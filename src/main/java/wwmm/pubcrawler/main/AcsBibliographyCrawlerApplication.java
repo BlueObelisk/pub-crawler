@@ -1,8 +1,8 @@
 package wwmm.pubcrawler.main;
 
 import com.google.inject.Module;
+import wwmm.pubcrawler.crawlers.acs.AcsCrawlerModule;
 import wwmm.pubcrawler.crawlers.acs.tasks.AcsBibliographyCrawlSeedTask;
-import wwmm.pubcrawler.v2.inject.crawlers.AcsCrawlerModule;
 
 /**
  * @author Sam Adams
