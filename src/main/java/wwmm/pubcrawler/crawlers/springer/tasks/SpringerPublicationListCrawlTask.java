@@ -7,7 +7,8 @@ import wwmm.pubcrawler.controller.JournalArchiver;
 import wwmm.pubcrawler.controller.URITask;
 import wwmm.pubcrawler.crawlers.BasicHttpCrawlTask;
 import wwmm.pubcrawler.crawlers.JournalHandler;
-import wwmm.pubcrawler.crawlers.springer.SpringerIssueIndexCrawlTaskFactory;
+import wwmm.pubcrawler.crawlers.springer.SpringerPublicationListCrawlTaskFactory;
+import wwmm.pubcrawler.crawlers.springer.SpringerPublicationListParserFactory;
 import wwmm.pubcrawler.crawlers.springer.parsers.SpringerPublicationListParser;
 import wwmm.pubcrawler.model.Journal;
 import wwmm.pubcrawler.utils.HtmlUtils;
@@ -21,16 +22,16 @@ import java.net.URI;
 /**
  * @author Sam Adams
  */
-public class SpringerIssueIndexCrawlTask extends BasicHttpCrawlTask {
+public class SpringerPublicationListCrawlTask extends BasicHttpCrawlTask {
 
     private final SpringerPublicationListParserFactory publicationListParserFactory;
-    private final SpringerIssueIndexCrawlTaskFactory issueIndexCrawlTaskFactory;
+    private final SpringerPublicationListCrawlTaskFactory issueIndexCrawlTaskFactory;
     private final JournalArchiver journalArchiver;
     private final JournalHandler journalHandler;
     private final TaskQueue taskQueue;
 
     @Inject
-    public SpringerIssueIndexCrawlTask(final Fetcher<URITask, CrawlerResponse> fetcher, final SpringerPublicationListParserFactory publicationListParserFactory, final JournalHandler journalHandler, final JournalArchiver journalArchiver, final SpringerIssueIndexCrawlTaskFactory issueIndexCrawlTaskFactory, final TaskQueue taskQueue) {
+    public SpringerPublicationListCrawlTask(final Fetcher<URITask, CrawlerResponse> fetcher, final SpringerPublicationListParserFactory publicationListParserFactory, final JournalHandler journalHandler, final JournalArchiver journalArchiver, final SpringerPublicationListCrawlTaskFactory issueIndexCrawlTaskFactory, final TaskQueue taskQueue) {
         super(fetcher);
         this.publicationListParserFactory = publicationListParserFactory;
         this.journalHandler = journalHandler;
@@ -43,7 +44,7 @@ public class SpringerIssueIndexCrawlTask extends BasicHttpCrawlTask {
     protected void handleResponse(final String id, final TaskData data, final CrawlerResponse response) throws Exception {
         Document html = HtmlUtils.readHtmlDocument(response);
 
-        SpringerPublicationListParser parser = publicationListParserFactory.createPublicationListParser(html, URI.create(html.getBaseURI()));
+        SpringerPublicationListParser parser = publicationListParserFactory.createPublicationListParser(html);
         for (Journal journal : parser.findJournals()) {
             archiveJournal(journal);
             journalHandler.handleJournal(journal);

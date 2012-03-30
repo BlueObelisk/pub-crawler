@@ -1,8 +1,7 @@
 package wwmm.pubcrawler.crawlers.acs.tasks;
 
-import wwmm.pubcrawler.controller.ArticleArchiver;
-import wwmm.pubcrawler.controller.BasicHttpFetcher;
-import wwmm.pubcrawler.controller.IssueArchiver;
+import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerResponse;
+import wwmm.pubcrawler.controller.*;
 import wwmm.pubcrawler.crawlers.BasicIssueTocCrawlerTask;
 import wwmm.pubcrawler.crawlers.IssueHandler;
 import wwmm.pubcrawler.crawlers.IssueTocParserFactory;
@@ -17,7 +16,7 @@ import javax.inject.Inject;
 public class AcsIssueTocCrawlTask extends BasicIssueTocCrawlerTask {
 
     @Inject
-    public AcsIssueTocCrawlTask(final BasicHttpFetcher fetcher, final AcsIssueTocParserFactory parserFactory, final ArticleArchiver archiver, final IssueArchiver issueArchiver, final IssueHandler issueHandler) {
+    public AcsIssueTocCrawlTask(final Fetcher<URITask, CrawlerResponse> fetcher, final AcsIssueTocParserFactory parserFactory, final ArticleArchiver archiver, final IssueArchiver issueArchiver, final IssueHandler issueHandler) {
         super(fetcher, parserFactory, archiver, issueArchiver, issueHandler);
     }
 

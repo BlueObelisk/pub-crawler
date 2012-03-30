@@ -12,7 +12,7 @@ import java.util.Map;
 /**
  * @author Sam Adams
  */
-public class SpringerIssueIndexCrawlTaskFactory {
+public class SpringerPublicationListCrawlTaskFactory {
 
     public CrawlTask createIssueListCrawlTask(final URI url, final String key, final int page) {
         // Fetch pages
