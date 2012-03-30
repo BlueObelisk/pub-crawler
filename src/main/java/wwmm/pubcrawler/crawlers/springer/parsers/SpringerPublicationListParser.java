@@ -57,6 +57,7 @@ public class SpringerPublicationListParser implements PublicationListParser {
         return null;
     }
     
+    @Override
     public List<Journal> findJournals() {
         List<Journal> list = new ArrayList<Journal>();
         getTitles(list, url, html);

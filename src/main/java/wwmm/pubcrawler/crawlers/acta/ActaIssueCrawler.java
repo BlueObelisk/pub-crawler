@@ -278,6 +278,7 @@ public class ActaIssueCrawler extends AbstractIssueCrawler {
         return getBib(2);
     }
 
+    @Override
     public String getYear() {
         return getBib(3);
     }

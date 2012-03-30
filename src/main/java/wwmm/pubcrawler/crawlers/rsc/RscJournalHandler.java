@@ -43,6 +43,7 @@ public class RscJournalHandler extends AbstractJournalHandler {
         return LOG;
     }
 
+    @Override
     public Issue fetchCurrentIssue() throws IOException {
         log().debug("Fetching current issue of " + getJournal().getTitle());
         Issue issue = new Issue();

@@ -204,6 +204,7 @@ public class RscIssueCrawler extends AbstractIssueCrawler {
     }
 
 
+    @Override
     public String getVolume() {
         Pattern p = Pattern.compile("(.+)(\\d{3})(\\d{3})$");
         Matcher m = p.matcher(getIdString());
@@ -213,6 +214,7 @@ public class RscIssueCrawler extends AbstractIssueCrawler {
         return String.valueOf(Integer.parseInt(m.group(2)));
     }
 
+    @Override
     public String getNumber() {
         String s = getScriptText();
         Pattern p = Pattern.compile("IssueNo='(\\d+(-\\d+)?)'");
@@ -241,6 +243,7 @@ public class RscIssueCrawler extends AbstractIssueCrawler {
         return m.group(1);
     }
 
+    @Override
     public String getYear() {
         String s = getScriptText();
         Pattern p = Pattern.compile("SubYear='([^']+)'");

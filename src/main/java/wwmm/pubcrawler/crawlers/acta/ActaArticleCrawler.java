@@ -149,6 +149,7 @@ public class ActaArticleCrawler extends AbstractArticleCrawler {
     }
 
 
+    @Override
     public Article toArticle() {
         Article article = super.toArticle();
         article.setTitleHtml(getTitleHtmlString());
@@ -192,6 +193,7 @@ public class ActaArticleCrawler extends AbstractArticleCrawler {
         }
     }
 
+    @Override
     public List<String> getAuthors() {
         List<String> authors = XPathUtils.getStrings(getHtml(), ".//x:h3/x:a[contains(@href, 'author_name')]");
         return authors;
@@ -203,6 +205,7 @@ public class ActaArticleCrawler extends AbstractArticleCrawler {
         return journalTitle;
     }
 
+    @Override
     public Reference getReference() {
         Reference reference = new Reference();
         reference.setJournalTitle(getJournalTitle());
@@ -250,12 +253,14 @@ public class ActaArticleCrawler extends AbstractArticleCrawler {
         return XPathUtils.getString(getHtml(), "/x:html/x:body/x:h3[1]");
     }
 
+    @Override
     public List<SupplementaryResource> getSupplementaryResources() {
         List<Node> nodes = XPathUtils.queryHTML(getHtml(), ".//x:div[@class='buttonlinks']/x:a");
         ActaSuppInfoReader suppInfoReader = new ActaSuppInfoReader(getContext(), getArticleRef());
         return suppInfoReader.getSupplementaryResources(nodes, getUrl());
     }
 
+    @Override
     public List<FullTextResource> getFullTextResources() {
         List<FullTextResource> fullTextResources = new ArrayList<FullTextResource>();
         List<Node> links = XPathUtils.queryHTML(getHtml(), ".//x:a[x:img[contains(@alt, 'version')]]");

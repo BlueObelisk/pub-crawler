@@ -157,6 +157,7 @@ public class ActaSuppInfoCrawler extends AbstractArticleCrawler {
     }
 
 
+    @Override
     public Article toArticle() {
         Article article = super.toArticle();
         article.setTitleHtml(getTitleHtmlString());
@@ -204,6 +205,7 @@ public class ActaSuppInfoCrawler extends AbstractArticleCrawler {
         }
     }
 
+    @Override
     public List<String> getAuthors() {
         if (getHtml() == null) {
             return getArticleRef().getAuthors();
@@ -218,6 +220,7 @@ public class ActaSuppInfoCrawler extends AbstractArticleCrawler {
         return journalTitle;
     }
 
+    @Override
     public Reference getReference() {
         if (getHtml() == null) {
             return getArticleRef().getReference();
@@ -267,6 +270,7 @@ public class ActaSuppInfoCrawler extends AbstractArticleCrawler {
         return XPathUtils.getString(getHtml(), "/x:html/x:body/x:h3[1]");
     }
 
+    @Override
     public List<SupplementaryResource> getSupplementaryResources() {
         if (getHtml() == null) {
             return getArticleRef().getSupplementaryResources();
@@ -276,6 +280,7 @@ public class ActaSuppInfoCrawler extends AbstractArticleCrawler {
         return suppInfoReader.getSupplementaryResources(nodes, getUrl());
     }
 
+    @Override
     public List<FullTextResource> getFullTextResources() {
         if (getHtml() == null) {
             return getArticleRef().getFullTextResources();

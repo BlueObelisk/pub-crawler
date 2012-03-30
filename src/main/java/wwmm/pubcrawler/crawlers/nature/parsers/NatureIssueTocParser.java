@@ -174,14 +174,17 @@ public class NatureIssueTocParser extends AbstractIssueParser {
         return m.group(i);
     }
 
+    @Override
     public String getVolume() {
         return getBiblio(2);
     }
 
+    @Override
     public String getNumber() {
         return getBiblio(3);
     }
 
+    @Override
     public String getYear() {
         return getBiblio(1);
     }

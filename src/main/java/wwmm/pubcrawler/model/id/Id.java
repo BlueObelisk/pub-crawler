@@ -58,6 +58,7 @@ public abstract class Id<T extends Id> implements Comparable<T> {
         return getUid().hashCode();
     }
 
+    @Override
     public int compareTo(T o) {
         return getUid().compareTo(o.getUid());
     }

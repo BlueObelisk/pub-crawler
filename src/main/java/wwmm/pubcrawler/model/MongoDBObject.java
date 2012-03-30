@@ -13,39 +13,48 @@ public class MongoDBObject extends LinkedHashMap implements DBObject {
 
     private boolean partialObject = false;
 
+    @Override
     public void markAsPartialObject() {
         partialObject = true;
     }
 
+    @Override
     public boolean isPartialObject() {
         return partialObject;
     }
 
 
+    @Override
     public Object put(String key, Object v) {
         return super.put(key, v);
     }
 
+    @Override
     public void putAll(BSONObject o) {
         super.putAll(o.toMap());
     }
 
+    @Override
     public Object get(String key) {
         return super.get(key);
     }
 
+    @Override
     public Map toMap() {
         return this;
     }
 
+    @Override
     public Object removeField(String key) {
         return super.remove(key);
     }
 
+    @Override
     public boolean containsKey(String s) {
         return super.containsKey(s);
     }
 
+    @Override
     public boolean containsField(String s) {
         return super.containsKey(s);
     }

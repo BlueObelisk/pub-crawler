@@ -27,6 +27,7 @@ public class AcsArticleSuppInfoPageParser extends AcsArticleSplashPageParser {
     }
 
 
+    @Override
     public Reference getReference() {
         if (getHtml() == null) {
             return getArticleRef().getReference();
@@ -57,6 +58,7 @@ public class AcsArticleSuppInfoPageParser extends AcsArticleSplashPageParser {
     }
 
 
+    @Override
     public List<SupplementaryResource> getSupplementaryResources() {
         if (getHtml() == null) {
             List<SupplementaryResource> supplementaryResources =  getArticleRef().getSupplementaryResources();

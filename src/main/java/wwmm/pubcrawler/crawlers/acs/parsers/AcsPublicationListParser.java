@@ -46,6 +46,7 @@ public class AcsPublicationListParser implements PublicationListParser {
         this.html = html;
     }
 
+    @Override
     public List<Journal> findJournals() {
         final List<Journal> journals = new ArrayList<Journal>();
 

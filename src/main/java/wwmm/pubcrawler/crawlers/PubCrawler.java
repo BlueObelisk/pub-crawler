@@ -180,6 +180,7 @@ public class PubCrawler {
 
             private IntuitiveComparator c = new IntuitiveComparator();
 
+            @Override
             public int compare(Issue o1, Issue o2) {
 
                 String v1 = o1.getVolume();

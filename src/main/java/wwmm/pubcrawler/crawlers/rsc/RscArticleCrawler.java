@@ -231,6 +231,7 @@ public class RscArticleCrawler extends AbstractArticleCrawler {
         throw new RuntimeException("Unknown entity: "+src);
     }
 
+    @Override
     public List<String> getAuthors() {
         List<String> authors = new ArrayList<String>();
         List<Node> nodes = XPathUtils.queryHTML(getHtml(), "/x:html/x:head/x:meta[@name='citation_author']/@content");
