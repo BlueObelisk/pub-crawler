@@ -139,7 +139,7 @@ public class IucrIssueTocParser extends AbstractIssueParser {
         if (!m.find()) {
             throw new CrawlerRuntimeException("No match: "+idString);
         }
-        return new ArticleId(issueId, m.group(1));
+        return new ArticleId(getJournalId(), m.group(1));
     }
 
     @Override

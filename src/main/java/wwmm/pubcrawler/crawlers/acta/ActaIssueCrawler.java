@@ -15,7 +15,9 @@
  */
 package wwmm.pubcrawler.crawlers.acta;
 
-import nu.xom.*;
+import nu.xom.Document;
+import nu.xom.Element;
+import nu.xom.Node;
 import org.apache.log4j.Logger;
 import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.CrawlerRuntimeException;
@@ -142,7 +144,7 @@ public class ActaIssueCrawler extends AbstractIssueCrawler {
         if (!m.find()) {
             throw new CrawlerRuntimeException("No match: "+idString);
         }
-        return new ArticleId(issueId, m.group(1));
+        return new ArticleId(getJournal().getId(), m.group(1));
     }
 
     @Override
@@ -193,8 +195,7 @@ public class ActaIssueCrawler extends AbstractIssueCrawler {
 
     @Override
     protected List<String> getArticleAuthors(Article article, Node articleNode) {
-        List<String> authors = XPathUtils.getStrings(articleNode, "./x:h3/x:a[contains(@href, \"http://scripts.iucr.org/cgi-bin/citedin\")]");
-        return authors;
+        return XPathUtils.getStrings(articleNode, "./x:h3/x:a[contains(@href, \"http://scripts.iucr.org/cgi-bin/citedin\")]");
     }
 
     @Override
@@ -267,10 +268,12 @@ public class ActaIssueCrawler extends AbstractIssueCrawler {
         return m.group(i);
     }
 
+    @Override
     public String getVolume() {
         return getBib(1);
     }
 
+    @Override
     public String getNumber() {
         return getBib(2);
     }

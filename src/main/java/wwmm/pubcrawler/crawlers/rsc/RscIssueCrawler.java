@@ -116,7 +116,7 @@ public class RscIssueCrawler extends AbstractIssueCrawler {
     protected ArticleId getArticleId(Node context, IssueId issueId) {
         Attribute attr = (Attribute) context;
         String id = attr.getValue();
-        return new ArticleId(issueId, id);
+        return new ArticleId(getJournal().getId(), id);
     }
 
     @Override

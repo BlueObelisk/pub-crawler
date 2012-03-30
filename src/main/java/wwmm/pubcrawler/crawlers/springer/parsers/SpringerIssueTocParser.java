@@ -82,7 +82,7 @@ public class SpringerIssueTocParser extends AbstractIssueParser implements Issue
         String s = url.toString();
         int i0 = s.lastIndexOf('/');
         int i1 = s.lastIndexOf('/', i0-1);
-        return new ArticleId(issueId, s.substring(i1+1, i0));
+        return new ArticleId(getJournalId(), s.substring(i1+1, i0));
     }
 
     @Override
