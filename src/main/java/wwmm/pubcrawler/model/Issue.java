@@ -15,7 +15,6 @@
  */
 package wwmm.pubcrawler.model;
 
-import wwmm.pubcrawler.model.id.Id;
 import wwmm.pubcrawler.model.id.IssueId;
 
 import java.net.URI;
@@ -28,6 +27,22 @@ public class Issue extends PubcrawlerObject<IssueId> {
 
     private transient boolean current;
     private String journalRef;
+
+    public Issue() {
+    }
+
+    public Issue(final IssueId issueId, final String journalTitle, final String volume, final String number, final String year, final URI url) {
+        setId(issueId);
+        setJournalTitle(journalTitle);
+        setVolume(volume);
+        setNumber(number);
+        setYear(year);
+        if (url != null) {
+            setUrl(url);
+        }
+    }
+
+    
 
     @Override
     protected IssueId createId(String id) {
@@ -88,7 +103,13 @@ public class Issue extends PubcrawlerObject<IssueId> {
         put("date", date);
     }
 
+    public String getJournalTitle() {
+        return getString("journalTitle");
+    }
 
+    public void setJournalTitle(String journalTitle) {
+        put("journalTitle", journalTitle);
+    }
 
     public boolean isCurrent() {
         return current;
@@ -98,10 +119,7 @@ public class Issue extends PubcrawlerObject<IssueId> {
         this.current = current;
     }
 
-    public String getJournalTitle() {
-        return null;
-    }
-
+    
     public String getJournalRef() {
         return journalRef;
     }

@@ -1,5 +1,7 @@
 package wwmm.pubcrawler.crawlers;
 
+import wwmm.pubcrawler.model.id.IssueId;
+import wwmm.pubcrawler.model.id.JournalId;
 import wwmm.pubcrawler.v2.crawler.CrawlTask;
 
 import java.net.URI;
@@ -9,8 +11,8 @@ import java.net.URI;
  */
 public interface IssueTocCrawlTaskFactory {
 
-    CrawlTask createCurrentIssueTocCrawlTask(String journal, URI url);
+    CrawlTask createCurrentIssueTocCrawlTask(JournalId journalId, URI url);
 
-    CrawlTask createIssueTocCrawlTask(String journal, URI url, String id);
+    CrawlTask createIssueTocCrawlTask(IssueId issueId, URI url);
 
 }

@@ -25,6 +25,7 @@ import wwmm.pubcrawler.crawlers.IssueTocParser;
 import wwmm.pubcrawler.model.*;
 import wwmm.pubcrawler.model.id.ArticleId;
 import wwmm.pubcrawler.model.id.IssueId;
+import wwmm.pubcrawler.model.id.JournalId;
 import wwmm.pubcrawler.types.Doi;
 import wwmm.pubcrawler.utils.XPathUtils;
 
@@ -41,11 +42,8 @@ public class WileyIssueTocParser extends AbstractIssueParser implements IssueToc
 
     private static final Logger LOG = Logger.getLogger(WileyIssueTocParser.class);
 
-    private final String journal;
-    
-    public WileyIssueTocParser(final Document html, final URI url, final String journal) {
-        super(html, url);
-        this.journal = journal;
+    public WileyIssueTocParser(final Document html, final URI url, final JournalId journalId) {
+        super(html, url, journalId);
     }
 
     @Override
@@ -171,16 +169,13 @@ public class WileyIssueTocParser extends AbstractIssueParser implements IssueToc
                 }
             }
             Issue issue = new Issue();
-            issue.setId(new IssueId("wiley/"+ journal +"/"+m.group(1)+"/"+m.group(2)));
+            final String volume = m.group(1);
+            final String number = m.group(2);
+            issue.setId(new IssueId(getJournalId(), volume, number));
             issue.setUrl(getUrl().resolve(href));
             return issue;
         }
         return null;
-    }
-
-    @Override
-    protected IssueId getIssueId() {
-        return new IssueId("wiley/" + journal + "/" + getVolume() + "/" + getNumber());
     }
 
 }

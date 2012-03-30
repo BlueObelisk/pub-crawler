@@ -23,7 +23,7 @@ public class JournalArchiver implements Archiver<Journal> {
 
     @Override
     public void archive(final Journal journal) {
-        final String id = journal.getId().getValue();
+        final String id = journal.getId().getUid();
         DBObject dbObject = collection.findOne(new BasicDBObject("id", id));
         if (dbObject == null) {
             save(journal);
@@ -35,7 +35,7 @@ public class JournalArchiver implements Archiver<Journal> {
     private void save(final Journal journal) {
         final DBObject dbObject = new BasicDBObject();
 
-        dbObject.put("id", journal.getId().getValue());
+        dbObject.put("id", journal.getId().getUid());
 
         if (journal.getPublisherRef() != null) {
             dbObject.put("publisherRef", journal.getPublisherRef());

@@ -48,21 +48,14 @@ import java.util.regex.Pattern;
 public class NatureIssueTocParser extends AbstractIssueParser {
 
     private static final Logger LOG = Logger.getLogger(NatureIssueTocParser.class);
-    private JournalId journalId;
 
-    public NatureIssueTocParser(final Document html, final URI url, final Journal journal) throws IOException {
-        super(html, url);
-        this.journalId = journal.getId();
+    public NatureIssueTocParser(final Document html, final URI url, final JournalId journalId) throws IOException {
+        super(html, url, journalId);
     }
 
     @Override
     protected Logger log() {
         return LOG;
-    }
-
-    @Override
-    public IssueId getIssueId() {
-        return new IssueId(journalId, getVolume(), getNumber());
     }
 
     @Override
@@ -201,15 +194,9 @@ public class NatureIssueTocParser extends AbstractIssueParser {
         return m.group(1);
     }
 
-
     @Override
-    public Issue getIssueDetails() {
-        Issue issue = super.getIssueDetails();
-        issue.setUrl(getUrl());
-        issue.setYear(getYear());
-        issue.setVolume(getVolume());
-        issue.setNumber(getNumber());
-        return issue;
+    protected String getJournalTitle() {
+        return XPathUtils.getString(getHtml(), "//x:span[@class='journal-name']");
     }
-    
+
 }

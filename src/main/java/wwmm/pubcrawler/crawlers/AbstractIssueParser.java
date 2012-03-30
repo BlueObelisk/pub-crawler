@@ -22,6 +22,7 @@ import wwmm.pubcrawler.CrawlerRuntimeException;
 import wwmm.pubcrawler.model.*;
 import wwmm.pubcrawler.model.id.ArticleId;
 import wwmm.pubcrawler.model.id.IssueId;
+import wwmm.pubcrawler.model.id.JournalId;
 import wwmm.pubcrawler.types.Doi;
 
 import java.net.URI;
@@ -33,30 +34,30 @@ import java.util.List;
  */
 public abstract class AbstractIssueParser {
 
+    private final JournalId journalId;
+    
     private final Document html;
     private final URI url;
 
-    protected AbstractIssueParser(final Document html, final URI url) {
+    protected AbstractIssueParser(final Document html, final URI url, final JournalId journalId) {
         this.html = html;
         this.url = url;
+        this.journalId = journalId;
     }
 
     protected abstract Logger log();
     
-    protected Document getHtml() {
+    protected final Document getHtml() {
         return html;
     }
 
-    protected URI getUrl() {
+    protected final URI getUrl() {
         return url;
     }
 
-    /**
-     * <p>Gets a unique identifier for the journal issue being crawled.</p>
-     *
-     * @return unique identifier of the issue.
-     */
-    protected abstract IssueId getIssueId();
+    protected final JournalId getJournalId() {
+        return journalId;
+    }
 
     /**
      * <p>Gets descriptions of all of the articles in the journal issue being
@@ -79,6 +80,10 @@ public abstract class AbstractIssueParser {
             }
         }
         return articles;
+    }
+
+    protected final IssueId getIssueId() {
+        return new IssueId(journalId, getVolume(), getNumber());
     }
 
     protected abstract List<Node> getArticleNodes();
@@ -213,14 +218,20 @@ public abstract class AbstractIssueParser {
     protected abstract String getVolume();
 
     protected abstract String getNumber();
+    
+    protected abstract String getJournalTitle();
 
-    public Issue getIssueDetails() {
-        Issue issue = new Issue();
-        issue.setId(getIssueId());
-        issue.setUrl(getUrl());
-        issue.setYear(getYear());
-        issue.setVolume(getVolume());
-        issue.setNumber(getNumber());
+    public final Issue getIssueDetails() {
+        
+        Issue issue = new IssueBuilder()
+            .withJournalId(journalId)
+            .withJournalTitle(getJournalTitle())
+            .withVolume(getVolume())
+            .withNumber(getNumber())
+            .withYear(getYear())
+            .withUrl(getUrl())
+            .build();
+        
         issue.setPreviousIssue(getPreviousIssue());
         try {
             List<Article> articles = getArticles();

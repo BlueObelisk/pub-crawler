@@ -24,7 +24,7 @@ public class EnqueuingJournalHandler implements JournalHandler {
 
     @Override
     public void handleJournal(final Journal journal) {
-        final CrawlTask task = taskFactory.createCurrentIssueTocCrawlTask(journal.getAbbreviation(), journal.getUrl());
+        final CrawlTask task = taskFactory.createCurrentIssueTocCrawlTask(journal.getId(), journal.getUrl());
         if (task != null) {
             taskQueue.queueTask(task);
         }

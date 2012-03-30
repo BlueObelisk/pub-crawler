@@ -25,6 +25,7 @@ import wwmm.pubcrawler.crawlers.IssueTocParser;
 import wwmm.pubcrawler.model.*;
 import wwmm.pubcrawler.model.id.ArticleId;
 import wwmm.pubcrawler.model.id.IssueId;
+import wwmm.pubcrawler.model.id.JournalId;
 import wwmm.pubcrawler.types.Doi;
 import wwmm.pubcrawler.utils.XPathUtils;
 
@@ -47,23 +48,13 @@ public class SpringerIssueTocParser extends AbstractIssueParser implements Issue
 
     private static final Logger LOG = Logger.getLogger(SpringerIssueTocParser.class);
 
-    private static final String RSC_DOI_PREFIX = "10.1039/";
-
-    private final String journal;
-
-    public SpringerIssueTocParser(final Document html, final URI url, final String journal) {
-        super(html, url);
-        this.journal = journal;
+    public SpringerIssueTocParser(final Document html, final URI url, final JournalId journalId) {
+        super(html, url, journalId);
     }
 
     @Override
     protected Logger log() {
         return LOG;
-    }
-
-    @Override
-    public IssueId getIssueId() {
-        return new IssueId("springer/" + getIssn() + '/' + getVolume() + '/' + getNumber());
     }
 
     public String getIssn() {
@@ -74,6 +65,7 @@ public class SpringerIssueTocParser extends AbstractIssueParser implements Issue
         return m.group(1);
     }
 
+    @Override
     public String getJournalTitle() {
         String title = XPathUtils.getString(getHtml(), "//x:h1[@class='title']").trim();
         return title;

@@ -31,7 +31,18 @@ package wwmm.pubcrawler.model;
  */
 public class Reference extends MongoDBObject {
 
-	/**
+    public Reference() {
+    }
+
+    public Reference(final String journalTitle, final String volume, final String number, final String year, final String pages) {
+        setJournalTitle(journalTitle);
+        setVolume(volume);
+        setNumber(number);
+        setYear(year);
+        setPages(pages);
+    }
+
+    /**
 	 * Get the title of the journal the article was 
 	 * published in.
 	 * 

@@ -38,7 +38,7 @@ public class SpringerIssueListCrawlTask extends BasicHttpCrawlTask {
         final SpringerIssueListParser parser = parserFactory.createIssueListParser(html, url, journal);
 
         for (Issue issue : parser.findIssues()) {
-            issueHandler.handleIssue(journal, issue);
+            issueHandler.handleIssue(issue);
         }
 
         // TODO find archive volumes/issues

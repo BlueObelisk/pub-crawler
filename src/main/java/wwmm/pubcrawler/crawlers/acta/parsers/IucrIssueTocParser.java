@@ -57,7 +57,7 @@ public class IucrIssueTocParser extends AbstractIssueParser {
     private final String number;
 
     public IucrIssueTocParser(final Issue issueRef, final Document bodyHtml, final Document headHtml, final Journal journal) {
-        super(bodyHtml, issueRef.getUrl());
+        super(bodyHtml, issueRef.getUrl(), journal.getId());
         this.headHtml = headHtml;
         this.headerUrl = URI.create(headHtml.getBaseURI());
         this.journalTitle = journal.getTitle();
@@ -68,6 +68,11 @@ public class IucrIssueTocParser extends AbstractIssueParser {
     @Override
     protected Logger log() {
         return LOG;
+    }
+
+    @Override
+    protected String getJournalTitle() {
+        return journalTitle;
     }
 
     @Override
@@ -226,11 +231,6 @@ public class IucrIssueTocParser extends AbstractIssueParser {
     }
 
 
-
-    @Override
-    public IssueId getIssueId() {
-        return getIssueId(getUrl());
-    }
 
     private IssueId getIssueId(URI url) {
         // http://journals.iucr.org/e/issues/2011/01/00/isscontsbdy.html

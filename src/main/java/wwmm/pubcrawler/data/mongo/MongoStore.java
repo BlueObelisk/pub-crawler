@@ -56,11 +56,11 @@ public class MongoStore {
 
     public void saveArticle(Article article) {
         ArticleId id = article.getId();
-        articles.update(new BasicDBObject("id", id.getValue()), article, true, false);
+        articles.update(new BasicDBObject("id", id.getUid()), article, true, false);
     }
 
     public Article findArticle(ArticleId id) {
-        return (Article) articles.findOne(new BasicDBObject("id", id.getValue()));
+        return (Article) articles.findOne(new BasicDBObject("id", id.getUid()));
     }
     
     public Article findArticleByDoi(Doi doi){
@@ -72,42 +72,42 @@ public class MongoStore {
     }
 
     public boolean containsArticle(ArticleId id) {
-        return articles.findOne(new BasicDBObject("id", id.getValue()), new BasicDBObject("id", 1)) != null;
+        return articles.findOne(new BasicDBObject("id", id.getUid()), new BasicDBObject("id", 1)) != null;
     }
 
 
     public void saveIssue(Issue issue) {
         IssueId id = issue.getId();
-        issues.update(new BasicDBObject("id", id.getValue()), issue, true, false);
+        issues.update(new BasicDBObject("id", id.getUid()), issue, true, false);
     }
 
     public Issue findIssue(IssueId id) {
-        return (Issue) issues.findOne(new BasicDBObject("id", id.getValue()));
+        return (Issue) issues.findOne(new BasicDBObject("id", id.getUid()));
     }
 
     public boolean containsIssue(IssueId id) {
-        return issues.findOne(new BasicDBObject("id", id.getValue()), new BasicDBObject("id", 1)) != null;
+        return issues.findOne(new BasicDBObject("id", id.getUid()), new BasicDBObject("id", 1)) != null;
     }
 
 
     public void saveJournal(Journal journal) {
         JournalId id = journal.getId();
-        journals.update(new BasicDBObject("id", id.getValue()), journal, true, false);
+        journals.update(new BasicDBObject("id", id.getUid()), journal, true, false);
     }
 
 
     public void addIssueToJournal(Journal journal, Issue issue) {
-        BasicDBObject query = new BasicDBObject("id", journal.getId().getValue());
-        BasicDBObject update = new BasicDBObject("$addToSet", new BasicDBObject("issues", issue.getId().getValue()));
+        BasicDBObject query = new BasicDBObject("id", journal.getId().getUid());
+        BasicDBObject update = new BasicDBObject("$addToSet", new BasicDBObject("issues", issue.getId().getUid()));
         this.journals.update(query, update);
     }
 
     public boolean containsJournal(JournalId id) {
-        return journals.findOne(new BasicDBObject("id", id.getValue()), new BasicDBObject("id", 1)) != null;
+        return journals.findOne(new BasicDBObject("id", id.getUid()), new BasicDBObject("id", 1)) != null;
     }
     
     public Journal findJournal(JournalId id){
-    	return (Journal) journals.findOne(new BasicDBObject("id", id.getValue()));
+    	return (Journal) journals.findOne(new BasicDBObject("id", id.getUid()));
     }
     
     public List<Journal> listJournals(){

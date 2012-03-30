@@ -21,15 +21,15 @@ public class EnqueuingIssueHandler implements IssueHandler {
     }
 
     @Override
-    public void handleIssue(final String journal, final Issue issue) {
+    public void handleIssue(final Issue issue) {
         final Issue prev = issue.getPreviousIssue();
         if (prev != null) {
-            enqueueIssue(journal, prev);
+            enqueueIssue(prev);
         }
     }
 
-    private void enqueueIssue(final String journal, final Issue issue) {
-        final CrawlTask task = taskFactory.createIssueTocCrawlTask(journal, issue.getUrl(), issue.getId().getValue());
+    private void enqueueIssue(final Issue issue) {
+        final CrawlTask task = taskFactory.createIssueTocCrawlTask(issue.getId(), issue.getUrl());
         if (task != null) {
             taskQueue.queueTask(task);
         }

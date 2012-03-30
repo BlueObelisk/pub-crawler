@@ -7,6 +7,8 @@ import wwmm.pubcrawler.controller.BasicHttpFetcher;
 import wwmm.pubcrawler.controller.IssueArchiver;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.Issue;
+import wwmm.pubcrawler.model.id.JournalId;
+import wwmm.pubcrawler.model.id.PublisherId;
 import wwmm.pubcrawler.utils.HtmlUtils;
 import wwmm.pubcrawler.v2.crawler.CrawlTask;
 import wwmm.pubcrawler.v2.crawler.TaskData;
@@ -36,8 +38,11 @@ public abstract class BasicIssueTocCrawlerTask extends BasicHttpCrawlTask {
     protected void handleResponse(final String id, final TaskData data, final CrawlerResponse response) throws Exception {
         final Document html = HtmlUtils.readHtmlDocument(response);
         final URI url = URI.create(data.getString("url"));
-        final String journal = data.getString("journal");
-        final IssueTocParser parser = parserFactory.createIssueTocParser(html, url, journal);
+        
+        final PublisherId publisherId = new PublisherId(data.getString("publisher"));
+        final JournalId journalId = new JournalId(publisherId, data.getString("journal"));
+        
+        final IssueTocParser parser = parserFactory.createIssueTocParser(html, url, journalId);
 
         final Issue issue = parser.getIssueDetails();
         issueArchiver.archive(issue);
@@ -47,7 +52,7 @@ public abstract class BasicIssueTocCrawlerTask extends BasicHttpCrawlTask {
             articleArchiver.archive(article);
         }
         
-        issueHandler.handleIssue(journal, issue);
+        issueHandler.handleIssue(issue);
     }
 
 }
