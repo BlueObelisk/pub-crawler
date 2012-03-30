@@ -92,7 +92,7 @@ public class AcsIssueTocParser extends AbstractIssueParser implements IssueTocPa
     @Override
     protected ArticleId getArticleId(Node articleNode, IssueId issueId) {
         Doi doi = getArticleDoi(null, articleNode);
-        return new ArticleId(issueId, doi.getSuffix());
+        return new ArticleId(getJournalId(), doi.getSuffix());
     }
 
     @Override

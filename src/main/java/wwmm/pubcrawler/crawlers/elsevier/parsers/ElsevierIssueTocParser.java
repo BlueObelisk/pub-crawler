@@ -93,7 +93,7 @@ public class ElsevierIssueTocParser extends AbstractIssueParser implements Issue
         String href = addr.getAttributeValue("href");
         Matcher m = P_ID.matcher(href);
         if (m.find()) {
-            return new ArticleId(getIssueId(), m.group(1));
+            return new ArticleId(getJournalId(), m.group(1));
         } else {
             throw new CrawlerRuntimeException("No match for ID: "+href);
         }

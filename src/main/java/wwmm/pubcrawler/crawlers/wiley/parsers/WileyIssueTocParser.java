@@ -51,6 +51,7 @@ public class WileyIssueTocParser extends AbstractIssueParser implements IssueToc
         return LOG;
     }
 
+    @Override
     public String getJournalTitle() {
         return XPathUtils.getString(getHtml(), "//x:h1[@id='productTitle']").trim();
     }
@@ -79,7 +80,7 @@ public class WileyIssueTocParser extends AbstractIssueParser implements IssueToc
     @Override
     protected ArticleId getArticleId(Node articleNode, IssueId issueId) {
         Doi doi = getArticleDoi(null, articleNode);
-        return new ArticleId(issueId, doi.getSuffix());
+        return new ArticleId(getJournalId(), doi.getSuffix());
     }
 
     @Override

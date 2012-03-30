@@ -1,8 +1,7 @@
 package wwmm.pubcrawler.model;
 
 import wwmm.pubcrawler.model.id.ArticleId;
-import wwmm.pubcrawler.model.id.IssueId;
-import wwmm.pubcrawler.model.id.PublisherId;
+import wwmm.pubcrawler.model.id.JournalId;
 import wwmm.pubcrawler.types.Doi;
 
 import java.net.URI;
@@ -21,7 +20,7 @@ public class ArticleBuilder {
     private List<String> authors = new ArrayList<String>();
     private String pages; 
     
-    private IssueId issueId;
+    private JournalId journalId;
     private String journalTitle;
     private String volume;
     private String number;
@@ -29,10 +28,6 @@ public class ArticleBuilder {
 
     private Doi doi;
     private URI url;
-
-    public ArticleBuilder withPublisherId(final PublisherId publisherId) {
-        return this;
-    }
 
     public ArticleBuilder withId(final String id) {
         this.id = id;
@@ -49,8 +44,8 @@ public class ArticleBuilder {
         return this;
     }
 
-    public ArticleBuilder withIssueId(final IssueId issueId) {
-        this.issueId = issueId;
+    public ArticleBuilder withJournalId(final JournalId journalId) {
+        this.journalId = journalId;
         return this;
     }
 
@@ -93,14 +88,14 @@ public class ArticleBuilder {
     public Article build() {
         notNull(title);
         
-        notNull(issueId);
+        notNull(journalId);
         notNull(journalTitle);
         notNull(volume);
         notNull(number);
         notNull(year);
         notNull(pages);
 
-        final ArticleId articleId = new ArticleId(issueId, id);
+        final ArticleId articleId = new ArticleId(journalId, id);
         final Reference reference = new Reference(journalTitle, volume, number, year, pages);
         return new Article(articleId, title, authors, reference, url, doi);
     }
