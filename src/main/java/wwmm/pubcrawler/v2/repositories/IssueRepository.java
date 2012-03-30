@@ -11,7 +11,7 @@ public interface IssueRepository {
     
     Issue getIssue(String publisher, String journal, String id);
 
-    List<Issue> getIssuesForJournal(String publisher, String journal);
+    List<Issue> getIssuesForJournal(String journal);
 
     void addArticles(Issue issue, String... issues);
 

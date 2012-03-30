@@ -1,11 +1,17 @@
 package wwmm.pubcrawler.v2.repositories.mongo;
 
+import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
+import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.v2.inject.Issues;
 import wwmm.pubcrawler.v2.repositories.IssueRepository;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,22 +28,43 @@ public class MongoIssueRepository implements IssueRepository {
     }
 
     @Override
-    public wwmm.pubcrawler.model.Issue getIssue(final String publisher, final String journal, final String id) {
+    public Issue getIssue(final String publisher, final String journal, final String id) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
-    public List<wwmm.pubcrawler.model.Issue> getIssuesForJournal(final String publisher, final String journal) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    public List<Issue> getIssuesForJournal(final String journalId) {
+        List<Issue> results = new ArrayList<Issue>();
+        DBCursor cursor = collection.find(new BasicDBObject("journalRef", journalId));
+        try {
+            while (cursor.hasNext()) {
+                results.add(mapIssue(cursor.next()));
+            }
+        } finally {
+            cursor.close();
+        }
+        return results;
     }
 
     @Override
-    public void addArticles(final wwmm.pubcrawler.model.Issue issue, final String... issues) {
+    public void addArticles(final Issue issue, final String... issues) {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
-    public void updateIssue(final wwmm.pubcrawler.model.Issue issue) {
+    public void updateIssue(final Issue issue) {
         //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    private Issue mapIssue(final DBObject dbObject) {
+        Issue issue = new Issue();
+        issue.setJournalRef((String) dbObject.get("journalRef"));
+        issue.setVolume((String) dbObject.get("volume"));
+        issue.setNumber((String) dbObject.get("number"));
+        issue.setYear((String) dbObject.get("year"));
+        if (dbObject.containsField("url")) {
+            issue.setUrl(URI.create((String) dbObject.get("url")));
+        }
+        return issue;
     }
 }
