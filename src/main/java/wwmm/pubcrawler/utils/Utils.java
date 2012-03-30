@@ -45,7 +45,7 @@ public class Utils {
 	 * urn:uuid:fab87b8d-74c9-407b-9590-c2898ae82fff
 	 */
 	public static String getRandomUuidString() {
-		UUID uuid = UUID.randomUUID();
+		final UUID uuid = UUID.randomUUID();
 		return "urn:uuid:"+uuid.toString();
 	}
 
@@ -57,8 +57,8 @@ public class Utils {
 	 * should sleep for before continuing.
 	 * </p>
 	 */
-	public static void sleep(int maxSleep) {
-		int maxTime = Integer.valueOf(maxSleep);
+	public static void sleep(final int maxSleep) {
+		final int maxTime = Integer.valueOf(maxSleep);
 		try {
 			Thread.sleep(((int) (maxTime * Math.random())));
 		} catch (InterruptedException e) {
@@ -77,7 +77,7 @@ public class Utils {
 	 * @return XML document representing the contents of the 
 	 * provided InputStream.
 	 */
-	public static Document parseXml(InputStream in) {
+	public static Document parseXml(final InputStream in) {
 		return parseXml(new Builder(), in);
 	}
 
@@ -94,8 +94,8 @@ public class Utils {
 	 * @return XML document representing the contents of the 
 	 * provided InputStream.
 	 */
-	public static Document parseXml(Builder builder, InputStream in) {
-		Document doc;
+	public static Document parseXml(final Builder builder, final InputStream in) {
+		final Document doc;
 		try {
 			doc = builder.build(in);
 		} catch (ValidityException e) {
@@ -121,7 +121,7 @@ public class Utils {
 	 * @return XML document representing the contents of the 
 	 * provided Reader.
 	 */
-	public static Document parseXml(Reader reader) {
+	public static Document parseXml(final Reader reader) {
 		return Utils.parseXml(new Builder(), reader);
 	}
 
@@ -138,8 +138,8 @@ public class Utils {
 	 * @return XML document representing the contents of the 
 	 * provided Reader.
 	 */
-	public static Document parseXml(Builder builder, Reader reader) {
-		Document doc;
+	public static Document parseXml(final Builder builder, final Reader reader) {
+		final Document doc;
 		try {
 			doc = builder.build(reader);
 		} catch (ValidityException e) {
@@ -164,7 +164,7 @@ public class Utils {
 	 * 
 	 * @return XML document containing the contents of the file.
 	 */
-	public static Document parseXml(File file) {
+	public static Document parseXml(final File file) {
 		try {
 			return Utils.parseXml(new FileReader(file));
 		} catch (FileNotFoundException e) {

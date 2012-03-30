@@ -28,15 +28,15 @@ public class JournalIndex {
 
     private final Map<String,Journal> journalMap = new LinkedHashMap<String, Journal>();
 
-    public synchronized Journal register(String abbreviation, String fullTitle, int offset) {
+    public synchronized Journal register(final String abbreviation, final String fullTitle, final int offset) {
         return register(abbreviation, fullTitle);
     }
 
-    public synchronized Journal register(String abbreviation, String fullTitle) {
+    public synchronized Journal register(final String abbreviation, final String fullTitle) {
 		if (getJournalMap().containsKey(abbreviation)) {
             throw new IllegalStateException("Journal '"+abbreviation+"' already exists");
         }
-        Journal journal = new Journal(abbreviation, fullTitle);
+        final Journal journal = new Journal(abbreviation, fullTitle);
         getJournalMap().put(abbreviation, journal);
         return journal;
 	}
@@ -45,7 +45,7 @@ public class JournalIndex {
         return journalMap;
     }
 
-    public Journal getJournal(String abbreviation) {
+    public Journal getJournal(final String abbreviation) {
         return journalMap.get(abbreviation);
     }
 

@@ -45,7 +45,7 @@ public class Issue extends PubcrawlerObject<IssueId> {
     
 
     @Override
-    protected IssueId createId(String id) {
+    protected IssueId createId(final String id) {
         return new IssueId(id);
     }
 
@@ -54,7 +54,7 @@ public class Issue extends PubcrawlerObject<IssueId> {
         return (List<Article>) get("articles");
     }
 
-    public void setArticles(List<Article> articles) {
+    public void setArticles(final List<Article> articles) {
         put("articles", articles);
     }
 
@@ -63,7 +63,7 @@ public class Issue extends PubcrawlerObject<IssueId> {
         return (Issue) get("previousIssue");
     }
 
-    public void setPreviousIssue(Issue previousIssue) {
+    public void setPreviousIssue(final Issue previousIssue) {
         put("previousIssue", previousIssue);
     }
 
@@ -72,7 +72,7 @@ public class Issue extends PubcrawlerObject<IssueId> {
         return getString("year");
     }
 
-    public void setYear(String year) {
+    public void setYear(final String year) {
         put("year", year);
     }
 
@@ -81,7 +81,7 @@ public class Issue extends PubcrawlerObject<IssueId> {
         return getString("volume");
     }
 
-    public void setVolume(String volume) {
+    public void setVolume(final String volume) {
         put("volume", volume);
     }
 
@@ -90,7 +90,7 @@ public class Issue extends PubcrawlerObject<IssueId> {
         return getString("number");
     }
 
-    public void setNumber(String number) {
+    public void setNumber(final String number) {
         put("number", number);
     }
 
@@ -99,7 +99,7 @@ public class Issue extends PubcrawlerObject<IssueId> {
         return getString("date");
     }
 
-    public void setDate(String date) {
+    public void setDate(final String date) {
         put("date", date);
     }
 
@@ -107,7 +107,7 @@ public class Issue extends PubcrawlerObject<IssueId> {
         return getString("journalTitle");
     }
 
-    public void setJournalTitle(String journalTitle) {
+    public void setJournalTitle(final String journalTitle) {
         put("journalTitle", journalTitle);
     }
 
@@ -115,7 +115,7 @@ public class Issue extends PubcrawlerObject<IssueId> {
         return current;
     }
 
-    public void setCurrent(boolean current) {
+    public void setCurrent(final boolean current) {
         this.current = current;
     }
 

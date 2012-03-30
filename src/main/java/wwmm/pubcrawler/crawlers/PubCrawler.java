@@ -22,7 +22,7 @@ public class PubCrawler {
     private int maxIssues = -1;
     private int minYear = -1;
 
-    public PubCrawler(Journal journal, AbstractJournalHandler journalHandler, CrawlerContext context) {
+    public PubCrawler(final Journal journal, final AbstractJournalHandler journalHandler, final CrawlerContext context) {
         this.journal = journal;
         this.journalHandler = journalHandler;
         this.context = context;
@@ -33,7 +33,7 @@ public class PubCrawler {
         return maxArticlesPerIssue;
     }
 
-    public void setMaxArticlesPerIssue(int maxArticlesPerIssue) {
+    public void setMaxArticlesPerIssue(final int maxArticlesPerIssue) {
         this.maxArticlesPerIssue = maxArticlesPerIssue;
     }
 
@@ -41,7 +41,7 @@ public class PubCrawler {
         return maxIssues;
     }
 
-    public void setMaxIssues(int maxIssues) {
+    public void setMaxIssues(final int maxIssues) {
         this.maxIssues = maxIssues;
     }
 
@@ -49,7 +49,7 @@ public class PubCrawler {
         return minYear;
     }
 
-    public void setMinYear(int minYear) {
+    public void setMinYear(final int minYear) {
         this.minYear = minYear;
     }
 
@@ -76,10 +76,10 @@ public class PubCrawler {
             getDataStore().saveJournal(journal);
         }
 
-        List<Issue> queue = initialiseQueue();
+        final List<Issue> queue = initialiseQueue();
 
-        Set<IssueId> visited = new HashSet<IssueId>();
-        Set<IssueId> issueList = new LinkedHashSet<IssueId>();
+        final Set<IssueId> visited = new HashSet<IssueId>();
+        final Set<IssueId> issueList = new LinkedHashSet<IssueId>();
 
         while (!queue.isEmpty()) {
             // Check issue count
@@ -98,7 +98,7 @@ public class PubCrawler {
 
             if (issue.getYear() != null) {
                 try {
-                    int year = Integer.valueOf(issue.getYear());
+                    final int year = Integer.valueOf(issue.getYear());
                     if (year < getMinYear()) {
                         continue;
                     }
@@ -119,7 +119,7 @@ public class PubCrawler {
 
             // Check year
             try {
-                int year = Integer.valueOf(issue.getYear());
+                final int year = Integer.valueOf(issue.getYear());
                 if (year < getMinYear()) {
                     continue;
                 }
@@ -138,7 +138,7 @@ public class PubCrawler {
             issueList.add(issue.getId());
 
             // Queue previous issue
-            Issue prev = issue.getPreviousIssue();
+            final Issue prev = issue.getPreviousIssue();
             if (prev != null) {
                 if (!visited.contains(prev.getId())) {
                     queue.add(prev);
@@ -152,20 +152,20 @@ public class PubCrawler {
         LOG.info("Crawl complete: "+getJournal().getTitle());
     }
 
-    protected boolean isSkip(Issue issue) {
+    protected boolean isSkip(final Issue issue) {
         return false;
     }
 
     protected List<Issue> initialiseQueue() {
-        List<Issue> queue = new ArrayList<Issue>();
+        final List<Issue> queue = new ArrayList<Issue>();
 
-        List<Issue> issueIndex = fetchIssueList();
+        final List<Issue> issueIndex = fetchIssueList();
         if (issueIndex != null) {
             queue.addAll(issueIndex);
         }
 
         System.err.println("fetch current issue...");
-        Issue currentIssue = fetchCurrentIssue();
+        final Issue currentIssue = fetchCurrentIssue();
         if (currentIssue != null) {
             queue.add(currentIssue);
         }
@@ -175,16 +175,16 @@ public class PubCrawler {
         return queue;
     }
 
-    private void sortQueue(List<Issue> queue) {
+    private void sortQueue(final List<Issue> queue) {
         Collections.sort(queue, new Comparator<Issue>() {
 
             private IntuitiveComparator c = new IntuitiveComparator();
 
             @Override
-            public int compare(Issue o1, Issue o2) {
+            public int compare(final Issue o1, final Issue o2) {
 
-                String v1 = o1.getVolume();
-                String v2 = o2.getVolume();
+                final String v1 = o1.getVolume();
+                final String v2 = o2.getVolume();
                 if (v1 != null || v2 != null) {
                     if (v1 == null) {
                         return -1;
@@ -193,14 +193,14 @@ public class PubCrawler {
                         return 1;
                     }
 
-                    int i = c.compare(v1, v2);
+                    final int i = c.compare(v1, v2);
                     if (i != 0) {
                         return i;
                     }
                 }
 
-                String n1 = o1.getNumber();
-                String n2 = o2.getNumber();
+                final String n1 = o1.getNumber();
+                final String n2 = o2.getNumber();
                 if (n1 != null || n2 != null) {
                     if (n1 == null) {
                         return -1;
@@ -208,7 +208,7 @@ public class PubCrawler {
                     if (n2 == null) {
                         return 1;
                     }
-                    int i = c.compare(n1, n2);
+                    final int i = c.compare(n1, n2);
                     if (i != 0) {
                         return i;
                     }
@@ -223,18 +223,18 @@ public class PubCrawler {
 
 
 
-    private void crawlArticles(Collection<IssueId> issues) {
-        for (IssueId issueId : issues) {
-            Issue issue = getDataStore().findIssue(issueId);
+    private void crawlArticles(final Collection<IssueId> issues) {
+        for (final IssueId issueId : issues) {
+            final Issue issue = getDataStore().findIssue(issueId);
             if (issue != null) {
                 crawlArticles(issue);
             }
         }
     }
 
-    protected final void crawlArticles(Issue issue) {
+    protected final void crawlArticles(final Issue issue) {
         if (getMaxArticlesPerIssue() != 0) {
-            List<Article> articles = issue.getArticles();
+            final List<Article> articles = issue.getArticles();
             if (issue.getArticles().isEmpty()) {
                 LOG.warn("No articles found [issue: "+issue.getId()+"]");
             } else {
@@ -244,9 +244,9 @@ public class PubCrawler {
         }
     }
 
-    private void crawlArticles(List<Article> articles, Issue issue) {
+    private void crawlArticles(final List<Article> articles, final Issue issue) {
         int i = 0;
-        for (Article article : articles) {
+        for (final Article article : articles) {
             if (getMaxArticlesPerIssue() >= 0 && i >= getMaxArticlesPerIssue()) {
                 break;
             }
@@ -271,11 +271,11 @@ public class PubCrawler {
     }
 
 
-    protected Issue fetchIssue(Issue issue) {
-        Issue tmp = getDataStore().findIssue(issue.getId());
+    protected Issue fetchIssue(final Issue issue) {
+        final Issue tmp = getDataStore().findIssue(issue.getId());
         if (tmp == null) {
             try {
-                Issue issue_ = journalHandler.fetchIssue(issue);
+                final Issue issue_ = journalHandler.fetchIssue(issue);
                 return issue_;
             } catch (Exception e) {
                 LOG.error("Error fetching issue " + issue.getId(), e);
@@ -284,11 +284,11 @@ public class PubCrawler {
         return tmp;
     }
 
-    public Article fetchArticle(Article article) {
+    public Article fetchArticle(final Article article) {
 
         Article tmp = null;
         try {
-            ArticleCrawler crawler = context.getCrawlerFactory().createArticleCrawler(article, context);
+            final ArticleCrawler crawler = context.getCrawlerFactory().createArticleCrawler(article, context);
             tmp = crawler.toArticle();
         } catch (Exception e) {
             LOG.error("Error fetching article "+article.getId(), e);
@@ -299,7 +299,7 @@ public class PubCrawler {
 
     public Issue fetchCurrentIssue() {
         try {
-            Issue currentIssue = journalHandler.fetchCurrentIssue();
+            final Issue currentIssue = journalHandler.fetchCurrentIssue();
             return currentIssue;
         } catch (Exception e) {
             LOG.error("Error fetching current issue "+journal.getId(), e);
@@ -309,7 +309,7 @@ public class PubCrawler {
 
     public List<Issue> fetchIssueList() {
         try {
-            List<Issue> issueList = journalHandler.fetchIssueList();
+            final List<Issue> issueList = journalHandler.fetchIssueList();
             return issueList;
         } catch (Exception e) {
             LOG.error("Error fetching issue list "+journal.getId(), e);

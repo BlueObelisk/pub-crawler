@@ -26,7 +26,7 @@ public class SupplementaryResource extends AbstractResource {
 
     public SupplementaryResource() { }
 
-    public SupplementaryResource(ResourceId id, URI url, String path) {
+    public SupplementaryResource(final ResourceId id, final URI url, final String path) {
         super(id, url);
         setFilePath(path);
     }

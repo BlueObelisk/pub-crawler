@@ -27,8 +27,8 @@ public class ElsevierUtils {
 
     private static final String URI_TEMPLATE = "http://www.sciencedirect.com/science/publication?issn=%s&volume=%s&issue=%s";
 
-    public static URI getIssueUrl(Journal journal, String volume, String number) {
-        String u = String.format(URI_TEMPLATE, journal.getAbbreviation(), volume, number);
+    public static URI getIssueUrl(final Journal journal, final String volume, final String number) {
+        final String u = String.format(URI_TEMPLATE, journal.getAbbreviation(), volume, number);
         return URI.create(u);
     }
 

@@ -30,10 +30,10 @@ import java.io.UnsupportedEncodingException;
  */
 public class HtmlUtil {
 
-    public static String writeAscii(Document html) {
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
+    public static String writeAscii(final Document html) {
+        final ByteArrayOutputStream out = new ByteArrayOutputStream();
         try {
-            AsciiSerializer ser = new AsciiSerializer(out);
+            final AsciiSerializer ser = new AsciiSerializer(out);
             ser.write(html);
             return out.toString("ASCII").trim();
         } catch (IOException e) {
@@ -44,7 +44,7 @@ public class HtmlUtil {
 
     private static class AsciiSerializer extends Serializer {
 
-        private AsciiSerializer(OutputStream out) throws UnsupportedEncodingException {
+        private AsciiSerializer(final OutputStream out) throws UnsupportedEncodingException {
             super(out, "ASCII");
         }
 
@@ -54,7 +54,7 @@ public class HtmlUtil {
         }
 
         @Override
-        protected void writeNamespaceDeclarations(Element element) throws IOException {
+        protected void writeNamespaceDeclarations(final Element element) throws IOException {
             // ignore
         }
         

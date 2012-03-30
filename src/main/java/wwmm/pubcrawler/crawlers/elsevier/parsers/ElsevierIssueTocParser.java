@@ -88,10 +88,10 @@ public class ElsevierIssueTocParser extends AbstractIssueParser implements Issue
     }
 
     @Override
-    protected ArticleId getArticleId(Node context, IssueId issueId) {
-        Element addr = (Element) XPathUtils.getNode(context, "x:h3/x:a");
-        String href = addr.getAttributeValue("href");
-        Matcher m = P_ID.matcher(href);
+    protected ArticleId getArticleId(final Node context, final IssueId issueId) {
+        final Element addr = (Element) XPathUtils.getNode(context, "x:h3/x:a");
+        final String href = addr.getAttributeValue("href");
+        final Matcher m = P_ID.matcher(href);
         if (m.find()) {
             return new ArticleId(getJournalId(), m.group(1));
         } else {
@@ -100,30 +100,30 @@ public class ElsevierIssueTocParser extends AbstractIssueParser implements Issue
     }
 
     @Override
-    protected Doi getArticleDoi(Article article, Node articleNode) {
+    protected Doi getArticleDoi(final Article article, final Node articleNode) {
         return null;
     }
 
     @Override
-    protected URI getArticleUrl(Article article, Node context) {
-        Element addr = (Element) XPathUtils.getNode(context, "x:h3/x:a");
-        String href = addr.getAttributeValue("href");
+    protected URI getArticleUrl(final Article article, final Node context) {
+        final Element addr = (Element) XPathUtils.getNode(context, "x:h3/x:a");
+        final String href = addr.getAttributeValue("href");
         return getUrl().resolve(href);
     }
 
     @Override
-    protected URI getArticleSupportingInfoUrl(Article article, Node articleNode) {
+    protected URI getArticleSupportingInfoUrl(final Article article, final Node articleNode) {
         return null;
     }
 
     @Override
-    protected String getArticleTitle(Article article, Node context) {
-        Element addr = (Element) XPathUtils.getNode(context, "x:h3");
+    protected String getArticleTitle(final Article article, final Node context) {
+        final Element addr = (Element) XPathUtils.getNode(context, "x:h3");
         final String title = addr.getValue().trim();
         return removeDoubleQuotes(title);
     }
 
-    private String removeDoubleQuotes(String title) {
+    private String removeDoubleQuotes(final String title) {
         if (title.startsWith("\"") && title.endsWith("\"")) {
             return title.substring(1, title.length() - 1);
         }
@@ -131,21 +131,21 @@ public class ElsevierIssueTocParser extends AbstractIssueParser implements Issue
     }
 
     @Override
-    protected String getArticleTitleHtml(Article article, Node articleNode) {
+    protected String getArticleTitleHtml(final Article article, final Node articleNode) {
         return null;
     }
 
     @Override
-    protected List<String> getArticleAuthors(Article article, Node node) {
+    protected List<String> getArticleAuthors(final Article article, final Node node) {
         // TODO e.g. italics in name
         // http://www.sciencedirect.com/science?_ob=PublicationURL&_tockey=%23TOC%2356481%232010%23999519996%232414745%23FLP%23&_cdi=56481&_pubType=J&_auth=y&_acct=C000053194&_version=1&_urlVersion=0&_userid=1495569&md5=499d6ade479e102277248101889f472a
-        Node n = XPathUtils.getNode(node, "./x:i[starts-with(text(), 'Page')]/following-sibling::x:br/following-sibling::text()");
+        final Node n = XPathUtils.getNode(node, "./x:i[starts-with(text(), 'Page')]/following-sibling::x:br/following-sibling::text()");
         if (n != null) {
-            Text text = (Text) n;
-            String s = text.getValue();
-            List<String> authors = Arrays.asList(s.split(", "));
+            final Text text = (Text) n;
+            final String s = text.getValue();
+            final List<String> authors = Arrays.asList(s.split(", "));
             for (ListIterator<String> it = authors.listIterator(); it.hasNext();) {
-                String author = it.next();
+                final String author = it.next();
                 it.set(removeDoubleQuotes(author));
             }
             return authors;
@@ -154,13 +154,13 @@ public class ElsevierIssueTocParser extends AbstractIssueParser implements Issue
     }
 
     @Override
-    protected Reference getArticleReference(Article article, Node node) {
-        String journalTitle = getJournalTitle();
-        String volume = getVolume();
-        String number = getNumber();
+    protected Reference getArticleReference(final Article article, final Node node) {
+        final String journalTitle = getJournalTitle();
+        final String volume = getVolume();
+        final String number = getNumber();
 
-        String pages = getArticlePages(node);
-        Reference ref = new Reference();
+        final String pages = getArticlePages(node);
+        final Reference ref = new Reference();
         ref.setJournalTitle(journalTitle);
         ref.setVolume(volume);
         ref.setNumber(number);
@@ -169,21 +169,21 @@ public class ElsevierIssueTocParser extends AbstractIssueParser implements Issue
     }
 
     @Override
-    protected List<SupplementaryResource> getArticleSupplementaryResources(Article article, Node articleNode) {
+    protected List<SupplementaryResource> getArticleSupplementaryResources(final Article article, final Node articleNode) {
         return null;
     }
 
     @Override
-    protected List<FullTextResource> getArticleFullTextResources(Article article, Node articleNode) {
+    protected List<FullTextResource> getArticleFullTextResources(final Article article, final Node articleNode) {
         return null;
     }
 
 
 
-    private String getArticlePages(Node node) {
-        String s = XPathUtils.getString(node, "x:i[starts-with(text(), 'Page')]");
-        Pattern p = Pattern.compile("Pages? (\\S+)");
-        Matcher m = p.matcher(s);
+    private String getArticlePages(final Node node) {
+        final String s = XPathUtils.getString(node, "x:i[starts-with(text(), 'Page')]");
+        final Pattern p = Pattern.compile("Pages? (\\S+)");
+        final Matcher m = p.matcher(s);
         if (!m.find()) {
             throw new CrawlerRuntimeException("No match: "+s);
         }
@@ -192,13 +192,13 @@ public class ElsevierIssueTocParser extends AbstractIssueParser implements Issue
 
     @Override
     public Issue getPreviousIssue() {
-        List<Node> nodes = XPathUtils.queryHTML(getHtml(), ".//x:a[@title='Previous volume/issue'][1]");
+        final List<Node> nodes = XPathUtils.queryHTML(getHtml(), ".//x:a[@title='Previous volume/issue'][1]");
         if (!nodes.isEmpty()) {
-            Element addr = (Element) nodes.get(0);
-            String href = addr.getAttributeValue("href");
-            Matcher m = PREV_URL.matcher((href));
+            final Element addr = (Element) nodes.get(0);
+            final String href = addr.getAttributeValue("href");
+            final Matcher m = PREV_URL.matcher((href));
             if (m.find()) {
-                Issue issue = new Issue();
+                final Issue issue = new Issue();
                 issue.setId(new IssueId(getJournalId(), getVolume(), getNumber()+"_prev"));
                 issue.setVolume(m.group(1));
                 issue.setNumber(m.group(2) != null ? m.group(2) : "-");
@@ -210,7 +210,7 @@ public class ElsevierIssueTocParser extends AbstractIssueParser implements Issue
     }
 
     private String[] getBib() {
-        String s = XPathUtils.getString(getHtml(), "/x:html/x:head/x:title");
+        final String s = XPathUtils.getString(getHtml(), "/x:html/x:head/x:title");
         // Acta Histochemica, Volume 110, Issue 5, Pages 351-432 (8 September 2008
         // ... , Volume 101, Issue 8, Pages 657-738 (2010)
 

@@ -31,7 +31,7 @@ public abstract class AbstractJournalHandler extends AbstractCrawler {
 
     private final Journal journal;
 
-    protected AbstractJournalHandler(Journal journal, CrawlerContext context) {
+    protected AbstractJournalHandler(final Journal journal, final CrawlerContext context) {
         super(context);
         this.journal = journal;
     }
@@ -40,14 +40,14 @@ public abstract class AbstractJournalHandler extends AbstractCrawler {
         return journal;
     }
 
-    public Issue fetchIssue(Issue issue) throws IOException {
-        IssueCrawler crawler = getFactory().createIssueCrawler(issue, getJournal(), getContext());
-        Issue result = crawler.toIssue();
+    public Issue fetchIssue(final Issue issue) throws IOException {
+        final IssueCrawler crawler = getFactory().createIssueCrawler(issue, getJournal(), getContext());
+        final Issue result = crawler.toIssue();
         return result;
     }
 
-    public Article fetchArticle(Article article) throws IOException {
-        ArticleCrawler crawler = getFactory().createArticleCrawler(article, getContext());
+    public Article fetchArticle(final Article article) throws IOException {
+        final ArticleCrawler crawler = getFactory().createArticleCrawler(article, getContext());
         if (crawler != null) {
             return crawler.toArticle();
         }

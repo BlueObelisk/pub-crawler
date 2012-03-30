@@ -60,7 +60,7 @@ public class Reference extends MongoDBObject {
 	 * @param journalTitle - the title of the journal the
 	 * article was published in.
 	 */
-	public void setJournalTitle(String journalTitle) {
+	public void setJournalTitle(final String journalTitle) {
 		put("journal", journalTitle);
 	}
 
@@ -79,7 +79,7 @@ public class Reference extends MongoDBObject {
 	 * 
 	 * @param year the article was published.
 	 */
-	public void setYear(String year) {
+	public void setYear(final String year) {
 		put("year", year);
 	}
 
@@ -102,7 +102,7 @@ public class Reference extends MongoDBObject {
 	 * @param volume of the journal the article was 
 	 * published in.
 	 */
-	public void setVolume(String volume) {
+	public void setVolume(final String volume) {
 		put("volume", volume);
 	}
 
@@ -124,7 +124,7 @@ public class Reference extends MongoDBObject {
 	 * @param number - the identifier of the issue the 
 	 * article was published in.
 	 */
-	public void setNumber(String number) {
+	public void setNumber(final String number) {
 		put("number", number);
 	}
 
@@ -146,7 +146,7 @@ public class Reference extends MongoDBObject {
 	 * @param pages of the issue that the article is 
 	 * found on.
 	 */
-	public void setPages(String pages) {
+	public void setPages(final String pages) {
 		put("pages", pages);
 	}
 
@@ -162,7 +162,7 @@ public class Reference extends MongoDBObject {
 	 * see in a journal.
 	 */
 	public String getRefString() {
-		StringBuilder sb = new StringBuilder();
+		final StringBuilder sb = new StringBuilder();
 		sb.append(getJournalTitle());
 		sb.append(", ");
 		if (getYear() != null) {

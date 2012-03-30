@@ -5,11 +5,11 @@ package wwmm.pubcrawler.model.id;
  */
 public class ResourceId extends Id<ResourceId> {
 
-    public ResourceId(String value) {
+    public ResourceId(final String value) {
         super(value);
     }
 
-    public ResourceId(ArticleId articleId, String path) {
+    public ResourceId(final ArticleId articleId, final String path) {
         super(articleId, path);
     }
 

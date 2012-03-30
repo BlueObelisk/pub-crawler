@@ -36,7 +36,7 @@ public class ElsevierBibliographyCrawlSeedTask implements Runnable {
     }
 
     private void enqueueSeedTask() {
-        Map<String,String> data = new HashMap<String, String>();
+        final Map<String,String> data = new HashMap<String, String>();
         data.put("url", Elsevier.OPML_URL.toString());
         data.put("fileId", "opml.xml");
         

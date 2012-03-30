@@ -52,7 +52,7 @@ public class IucrJournalListCrawler extends HtmlCrawler implements CrawlRunner {
     }
 
     private void ensureJournalInRepository(final Journal journal) {
-        Journal repoJournal = journalRepo.getJournal(IUCR, journal.getAbbreviation());
+        final Journal repoJournal = journalRepo.getJournal(IUCR, journal.getAbbreviation());
         
     }
 

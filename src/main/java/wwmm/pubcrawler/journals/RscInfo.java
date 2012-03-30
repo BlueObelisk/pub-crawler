@@ -38,7 +38,7 @@ public class RscInfo {
     private static final PublisherId RSC_ID = new PublisherId("rsc");
 
     public static List<Journal> getJournals() {
-        List<Journal> journals = new ArrayList<Journal>();
+        final List<Journal> journals = new ArrayList<Journal>();
 
         journals.add(new Journal(RSC_ID, "cc", "Chemical Communications", 1964));
         journals.add(new Journal(RSC_ID, "ce", "CrystEngComm", 1998));

@@ -58,16 +58,16 @@ public class SpringerIssueTocParser extends AbstractIssueParser implements Issue
     }
 
     public String getIssn() {
-        String url = getUrl().toString();
-        Pattern p = Pattern.compile("springerlink\\.com/content/([^/]+)/");
-        Matcher m = p.matcher(url);
+        final String url = getUrl().toString();
+        final Pattern p = Pattern.compile("springerlink\\.com/content/([^/]+)/");
+        final Matcher m = p.matcher(url);
         m.find();
         return m.group(1);
     }
 
     @Override
     public String getJournalTitle() {
-        String title = XPathUtils.getString(getHtml(), "//x:h1[@class='title']").trim();
+        final String title = XPathUtils.getString(getHtml(), "//x:h1[@class='title']").trim();
         return title;
     }
 
@@ -77,58 +77,58 @@ public class SpringerIssueTocParser extends AbstractIssueParser implements Issue
     }
 
     @Override
-    protected ArticleId getArticleId(Node articleNode, IssueId issueId) {
-        URI url = getArticleUrl(null, articleNode);
-        String s = url.toString();
-        int i0 = s.lastIndexOf('/');
-        int i1 = s.lastIndexOf('/', i0-1);
+    protected ArticleId getArticleId(final Node articleNode, final IssueId issueId) {
+        final URI url = getArticleUrl(null, articleNode);
+        final String s = url.toString();
+        final int i0 = s.lastIndexOf('/');
+        final int i1 = s.lastIndexOf('/', i0-1);
         return new ArticleId(getJournalId(), s.substring(i1+1, i0));
     }
 
     @Override
-    protected Doi getArticleDoi(Article article, Node articleNode) {
+    protected Doi getArticleDoi(final Article article, final Node articleNode) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
-    protected URI getArticleUrl(Article article, Node context) {
-        String u = XPathUtils.getString(context, "x:p[@class='title']/x:a/@href");
+    protected URI getArticleUrl(final Article article, final Node context) {
+        final String u = XPathUtils.getString(context, "x:p[@class='title']/x:a/@href");
         return getUrl().resolve(u);
     }
 
     @Override
-    protected URI getArticleSupportingInfoUrl(Article article, Node articleNode) {
+    protected URI getArticleSupportingInfoUrl(final Article article, final Node articleNode) {
         return null;
     }
 
     @Override
-    protected String getArticleTitle(Article article, Node context) {
+    protected String getArticleTitle(final Article article, final Node context) {
         return XPathUtils.getString(context, "x:p[@class='title']").trim().replaceAll("\\s+", " ");
     }
 
     @Override
-    protected String getArticleTitleHtml(Article article, Node articleNode) {
+    protected String getArticleTitleHtml(final Article article, final Node articleNode) {
         return null;
     }
 
     @Override
-    protected List<String> getArticleAuthors(Article article, Node context) {
-        List<Node> nodes = XPathUtils.queryHTML(context, "x:p[@class='authors']/x:a");
-        List<String> authors = new ArrayList<String>();
-        for (Node node : nodes) {
+    protected List<String> getArticleAuthors(final Article article, final Node context) {
+        final List<Node> nodes = XPathUtils.queryHTML(context, "x:p[@class='authors']/x:a");
+        final List<String> authors = new ArrayList<String>();
+        for (final Node node : nodes) {
             authors.add(node.getValue().trim());
         }
         return authors;
     }
 
     @Override
-    protected Reference getArticleReference(Article article, Node context) {
-        String title = getJournalTitle();
-        String volume = getVolume();
-        String number = getNumber();
+    protected Reference getArticleReference(final Article article, final Node context) {
+        final String title = getJournalTitle();
+        final String volume = getVolume();
+        final String number = getNumber();
 
-        String pages = XPathUtils.getString(context, "x:p[@class='contextTag']");
-        Reference ref = new Reference();
+        final String pages = XPathUtils.getString(context, "x:p[@class='contextTag']");
+        final Reference ref = new Reference();
         ref.setJournalTitle(title);
         ref.setVolume(volume);
         ref.setNumber(number);
@@ -137,12 +137,12 @@ public class SpringerIssueTocParser extends AbstractIssueParser implements Issue
     }
 
     @Override
-    protected List<SupplementaryResource> getArticleSupplementaryResources(Article article, Node articleNode) {
+    protected List<SupplementaryResource> getArticleSupplementaryResources(final Article article, final Node articleNode) {
         return null;
     }
 
     @Override
-    protected List<FullTextResource> getArticleFullTextResources(Article article, Node articleNode) {
+    protected List<FullTextResource> getArticleFullTextResources(final Article article, final Node articleNode) {
         return null;
     }
 
@@ -168,9 +168,9 @@ public class SpringerIssueTocParser extends AbstractIssueParser implements Issue
 
     protected String[] getBib() {
         // TODO Volume 48, Supplement 1 / January 2005
-        String s = XPathUtils.getString(getHtml(), "//x:h2[@class='filters']");
-        Pattern p = Pattern.compile("Volume (\\S+), (?:Numbers?|Supplement) (\\S+(?:\\s+-\\s*\\S)?) / .*? (\\d{4})");
-        Matcher m = p.matcher(s);
+        final String s = XPathUtils.getString(getHtml(), "//x:h2[@class='filters']");
+        final Pattern p = Pattern.compile("Volume (\\S+), (?:Numbers?|Supplement) (\\S+(?:\\s+-\\s*\\S)?) / .*? (\\d{4})");
+        final Matcher m = p.matcher(s);
         if (!m.find()) {
             throw new CrawlerRuntimeException("No match: "+s);
         }

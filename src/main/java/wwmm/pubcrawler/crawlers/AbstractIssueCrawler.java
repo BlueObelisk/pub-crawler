@@ -50,7 +50,7 @@ public abstract class AbstractIssueCrawler extends AbstractCrawler implements Is
 //        this(issue, null, context);
 //    }
 
-    protected AbstractIssueCrawler(Issue issue, Journal journal, CrawlerContext context) throws IOException {
+    protected AbstractIssueCrawler(final Issue issue, final Journal journal, final CrawlerContext context) throws IOException {
         super(context);
         this.issueRef = issue;
         this.journal = journal;
@@ -62,8 +62,8 @@ public abstract class AbstractIssueCrawler extends AbstractCrawler implements Is
         return issueRef;
     }
 
-    protected Document fetchHtml(Issue issue) throws IOException {
-        Duration maxAge;
+    protected Document fetchHtml(final Issue issue) throws IOException {
+        final Duration maxAge;
         if (issue.isCurrent()) {
             maxAge = AGE_1DAY;
         } else {
@@ -99,12 +99,12 @@ public abstract class AbstractIssueCrawler extends AbstractCrawler implements Is
 	 * @return a list of descriptions of the articles for the issue.
      */
     public final List<Article> getArticles() {
-        IssueId issueId = getIssueId();
-        List<Article> articles = new ArrayList<Article>();
-        List<Node> articleNodes = getArticleNodes();
-        for (Node articleNode : articleNodes) {
+        final IssueId issueId = getIssueId();
+        final List<Article> articles = new ArrayList<Article>();
+        final List<Node> articleNodes = getArticleNodes();
+        for (final Node articleNode : articleNodes) {
             try {
-                Article article = getArticle(articleNode, issueId);
+                final Article article = getArticle(articleNode, issueId);
                 if (article != null) {
                     articles.add(article);
                 }
@@ -118,11 +118,11 @@ public abstract class AbstractIssueCrawler extends AbstractCrawler implements Is
     protected abstract List<Node> getArticleNodes();
 
 
-    protected final Article getArticle(Node articleNode, IssueId issueId) {
+    protected final Article getArticle(final Node articleNode, final IssueId issueId) {
 
-        Article article = new Article();
+        final Article article = new Article();
 
-        ArticleId articleId;
+        final ArticleId articleId;
         try {
             articleId = getArticleId(articleNode, issueId);
             if (articleId == null) {
@@ -134,28 +134,28 @@ public abstract class AbstractIssueCrawler extends AbstractCrawler implements Is
         }
 
         try {
-            Doi doi = getArticleDoi(article, articleNode);
+            final Doi doi = getArticleDoi(article, articleNode);
             article.setDoi(doi);
         } catch (Exception e) {
             throw new CrawlerRuntimeException("Error locating DOI [issue: "+issueId+" | article: "+articleId+"]", e);
         }
 
         try {
-            URI url = getArticleUrl(article, articleNode);
+            final URI url = getArticleUrl(article, articleNode);
             article.setUrl(url);
         } catch (Exception e) {
             throw new CrawlerRuntimeException("Error locating URL [issue: "+issueId+" | article: "+articleId+"]", e);
         }
 
         try {
-            URI suppUrl = getArticleSupportingInfoUrl(article, articleNode);
+            final URI suppUrl = getArticleSupportingInfoUrl(article, articleNode);
             article.setSupplementaryResourceUrl(suppUrl);
         } catch (Exception e) {
             throw new CrawlerRuntimeException("Error locating supp info URL [issue: "+issueId+" | article: "+articleId+"]", e);
         }
 
         try {
-            String title = getArticleTitle(article, articleNode);
+            final String title = getArticleTitle(article, articleNode);
             if (title != null) {
                 article.setTitle(title);
             }
@@ -164,7 +164,7 @@ public abstract class AbstractIssueCrawler extends AbstractCrawler implements Is
         }
 
         try {
-            String titleHtml = getArticleTitleHtml(article, articleNode);
+            final String titleHtml = getArticleTitleHtml(article, articleNode);
             if (titleHtml != null) {
                 article.setTitleHtml(titleHtml);
             }
@@ -173,7 +173,7 @@ public abstract class AbstractIssueCrawler extends AbstractCrawler implements Is
         }
 
         try {
-            List<String> authors = getArticleAuthors(article, articleNode);
+            final List<String> authors = getArticleAuthors(article, articleNode);
             if (authors != null) {
                 article.setAuthors(authors);
             }
@@ -182,7 +182,7 @@ public abstract class AbstractIssueCrawler extends AbstractCrawler implements Is
         }
 
         try {
-            Reference reference = getArticleReference(article, articleNode);
+            final Reference reference = getArticleReference(article, articleNode);
             if (reference != null) {
                 article.setReference(reference);
             }
@@ -191,7 +191,7 @@ public abstract class AbstractIssueCrawler extends AbstractCrawler implements Is
         }
 
         try {
-            List<SupplementaryResource> supplementaryResources = getArticleSupplementaryResources(article, articleNode);
+            final List<SupplementaryResource> supplementaryResources = getArticleSupplementaryResources(article, articleNode);
             if (supplementaryResources != null) {
                 article.setSupplementaryResources(supplementaryResources);
             }
@@ -200,7 +200,7 @@ public abstract class AbstractIssueCrawler extends AbstractCrawler implements Is
         }
 
         try {
-            List<FullTextResource> fullTextResources = getArticleFullTextResources(article, articleNode);
+            final List<FullTextResource> fullTextResources = getArticleFullTextResources(article, articleNode);
             if (fullTextResources != null) {
                 article.setFullTextResources(fullTextResources);
             }
@@ -251,7 +251,7 @@ public abstract class AbstractIssueCrawler extends AbstractCrawler implements Is
 
     @Override
     public Issue toIssue() {
-        Issue issue = new Issue();
+        final Issue issue = new Issue();
         issue.setId(getIssueId());
         issue.setUrl(getUrl());
         issue.setYear(getYear());
@@ -259,7 +259,7 @@ public abstract class AbstractIssueCrawler extends AbstractCrawler implements Is
         issue.setNumber(getNumber());
         issue.setPreviousIssue(getPreviousIssue());
         try {
-            List<Article> articles = getArticles();
+            final List<Article> articles = getArticles();
             if (articles.isEmpty()) {
                 log().warn("No articles found in issue: "+issue.getId());
             }

@@ -26,14 +26,14 @@ public abstract class AbstractResource extends PubcrawlerObject<ResourceId> {
 
     protected AbstractResource() { }
 
-    protected AbstractResource(ResourceId id, URI url) {
+    protected AbstractResource(final ResourceId id, final URI url) {
         setId(id);
         setUrl(url);
     }
 
 
     @Override
-    protected ResourceId createId(String id) {
+    protected ResourceId createId(final String id) {
         return new ResourceId(id);
     }
 
@@ -42,7 +42,7 @@ public abstract class AbstractResource extends PubcrawlerObject<ResourceId> {
         return getString("linkText");
     }
 
-    public void setLinkText(String linkText) {
+    public void setLinkText(final String linkText) {
         put("linkText", linkText);
     }
 
@@ -51,7 +51,7 @@ public abstract class AbstractResource extends PubcrawlerObject<ResourceId> {
         return getString("contentType");
     }
 
-    public void setContentType(String contentType) {
+    public void setContentType(final String contentType) {
         put("contentType", contentType);
     }
 
@@ -60,7 +60,7 @@ public abstract class AbstractResource extends PubcrawlerObject<ResourceId> {
         return getString("description");
     }
 
-    public void setDescription(String description) {
+    public void setDescription(final String description) {
         put("description", description);
     }
 
@@ -69,7 +69,7 @@ public abstract class AbstractResource extends PubcrawlerObject<ResourceId> {
         return getLong("length");
     }
 
-    public void setLength(Long length) {
+    public void setLength(final Long length) {
         put("length", length);
     }
 
@@ -78,7 +78,7 @@ public abstract class AbstractResource extends PubcrawlerObject<ResourceId> {
         return getString("filepath");
     }
 
-    public void setFilePath(String filePath) {
+    public void setFilePath(final String filePath) {
         put("filepath", filePath);
     }
 

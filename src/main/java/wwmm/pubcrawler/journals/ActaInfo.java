@@ -46,7 +46,7 @@ public class ActaInfo {
     public static final Journal S = new Journal(ACTA_ID, "s", "Section S: Synchrotron Radiation");
 
     public static List<Journal> getJournals() {
-        List<Journal> journals = new ArrayList<Journal>();
+        final List<Journal> journals = new ArrayList<Journal>();
 
         journals.add(A);
         journals.add(B);

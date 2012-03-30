@@ -19,7 +19,7 @@ public class CrawlTaskBuilder {
         return new CrawlTaskBuilder();
     }
 
-    public static CrawlTaskBuilder newJob(Class <? extends CrawlRunner> jobClass) {
+    public static CrawlTaskBuilder newJob(final Class <? extends CrawlRunner> jobClass) {
         return newJob().ofType(jobClass);
     }
 

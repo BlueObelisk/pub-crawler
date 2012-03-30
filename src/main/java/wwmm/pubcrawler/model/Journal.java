@@ -34,26 +34,26 @@ public class Journal extends PubcrawlerObject<JournalId> {
 
     public Journal() { }
 
-    public Journal(PublisherId publisherId, String abbreviation, String title, Integer offset) {
+    public Journal(final PublisherId publisherId, final String abbreviation, final String title, final Integer offset) {
         setId(new JournalId(publisherId, abbreviation));
 		this.abbreviation = abbreviation;
 		this.title = title;
         put("issues", new String[0]);
 	}
 
-    public Journal(PublisherId publisherId, String abbreviation, String title) {
+    public Journal(final PublisherId publisherId, final String abbreviation, final String title) {
         setId(new JournalId(publisherId, abbreviation));
 		this.abbreviation = abbreviation;
 		this.title = title;
 	}
 
-    public Journal(String abbreviation, String title) {
+    public Journal(final String abbreviation, final String title) {
 		this.abbreviation = abbreviation;
 		this.title = title;
 	}
 
     @Override
-    protected JournalId createId(String id) {
+    protected JournalId createId(final String id) {
         return new JournalId(id);
     }
 

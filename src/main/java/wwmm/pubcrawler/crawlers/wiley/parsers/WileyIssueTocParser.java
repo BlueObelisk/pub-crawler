@@ -68,7 +68,7 @@ public class WileyIssueTocParser extends AbstractIssueParser implements IssueToc
 
     @Override
     protected String getYear() {
-        String s = XPathUtils.getString(getHtml(), "//x:div[@id='metaData']/x:h2").trim();
+        final String s = XPathUtils.getString(getHtml(), "//x:div[@id='metaData']/x:h2").trim();
         return s.substring(s.length()-4);
     }
 
@@ -78,14 +78,14 @@ public class WileyIssueTocParser extends AbstractIssueParser implements IssueToc
     }
 
     @Override
-    protected ArticleId getArticleId(Node articleNode, IssueId issueId) {
-        Doi doi = getArticleDoi(null, articleNode);
+    protected ArticleId getArticleId(final Node articleNode, final IssueId issueId) {
+        final Doi doi = getArticleDoi(null, articleNode);
         return new ArticleId(getJournalId(), doi.getSuffix());
     }
 
     @Override
-    protected Doi getArticleDoi(Article article, Node articleNode) {
-        String s = XPathUtils.getString(articleNode, ".//x:input[@name='doi']/@value");
+    protected Doi getArticleDoi(final Article article, final Node articleNode) {
+        final String s = XPathUtils.getString(articleNode, ".//x:input[@name='doi']/@value");
         if (s == null) {
             throw new CrawlerRuntimeException("Unable to find DOI in issue: "+getIssueId());
         }
@@ -93,20 +93,20 @@ public class WileyIssueTocParser extends AbstractIssueParser implements IssueToc
     }
 
     @Override
-    protected URI getArticleUrl(Article article, Node articleNode) {
+    protected URI getArticleUrl(final Article article, final Node articleNode) {
         // TODO
         return null;
     }
 
     @Override
-    protected URI getArticleSupportingInfoUrl(Article article, Node articleNode) {
+    protected URI getArticleSupportingInfoUrl(final Article article, final Node articleNode) {
         // TODO
         return null;
     }
 
     @Override
-    protected String getArticleTitle(Article article, Node articleNode) {
-        String s = XPathUtils.getString(articleNode, "x:div[contains(@class, 'tocArticle')]/x:a");
+    protected String getArticleTitle(final Article article, final Node articleNode) {
+        final String s = XPathUtils.getString(articleNode, "x:div[contains(@class, 'tocArticle')]/x:a");
         if (s != null) {
             if (s.contains("(page")) {
                 return s.substring(0, s.indexOf("(page")).trim();
@@ -116,17 +116,17 @@ public class WileyIssueTocParser extends AbstractIssueParser implements IssueToc
     }
 
     @Override
-    protected String getArticleTitleHtml(Article article, Node articleNode) {
+    protected String getArticleTitleHtml(final Article article, final Node articleNode) {
         // TODO
         return null;
     }
 
     @Override
-    protected List<String> getArticleAuthors(Article article, Node articleNode) {
-        String s = XPathUtils.getString(articleNode, "x:div[contains(@class, 'tocArticle')]/x:p[1]");
+    protected List<String> getArticleAuthors(final Article article, final Node articleNode) {
+        final String s = XPathUtils.getString(articleNode, "x:div[contains(@class, 'tocArticle')]/x:p[1]");
         if (s != null && ! s.contains("DOI:")) {
-            List<String> authors = new ArrayList<String>();
-            for (String author : s.split(", | and ")) {
+            final List<String> authors = new ArrayList<String>();
+            for (final String author : s.split(", | and ")) {
                 authors.add(author.trim());
             }
             return authors;
@@ -135,19 +135,19 @@ public class WileyIssueTocParser extends AbstractIssueParser implements IssueToc
     }
 
     @Override
-    protected Reference getArticleReference(Article article, Node articleNode) {
+    protected Reference getArticleReference(final Article article, final Node articleNode) {
         // TODO
         return null;
     }
 
     @Override
-    protected List<SupplementaryResource> getArticleSupplementaryResources(Article article, Node articleNode) {
+    protected List<SupplementaryResource> getArticleSupplementaryResources(final Article article, final Node articleNode) {
         // TODO
         return null;
     }
 
     @Override
-    protected List<FullTextResource> getArticleFullTextResources(Article article, Node articleNode) {
+    protected List<FullTextResource> getArticleFullTextResources(final Article article, final Node articleNode) {
         // TODO
         return null;
     }
@@ -160,7 +160,7 @@ public class WileyIssueTocParser extends AbstractIssueParser implements IssueToc
 
     @Override
     public Issue getPreviousIssue() {
-        String href = XPathUtils.getString(getHtml(), "//x:a[@id='previousLink']/@href");
+        final String href = XPathUtils.getString(getHtml(), "//x:a[@id='previousLink']/@href");
         if (href != null) {
             Matcher m = P_PREV.matcher(href);
             if (!m.find()) {
@@ -169,7 +169,7 @@ public class WileyIssueTocParser extends AbstractIssueParser implements IssueToc
                     throw new CrawlerRuntimeException("Cannot locate prev issue ID: "+href);
                 }
             }
-            Issue issue = new Issue();
+            final Issue issue = new Issue();
             final String volume = m.group(1);
             final String number = m.group(2);
             issue.setId(new IssueId(getJournalId(), volume, number));

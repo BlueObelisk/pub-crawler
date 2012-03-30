@@ -66,12 +66,12 @@ public abstract class AbstractIssueParser {
 	 * @return a list of descriptions of the articles for the issue.
      */
     public final List<Article> getArticles() {
-        IssueId issueId = getIssueId();
-        List<Article> articles = new ArrayList<Article>();
-        List<Node> articleNodes = getArticleNodes();
-        for (Node articleNode : articleNodes) {
+        final IssueId issueId = getIssueId();
+        final List<Article> articles = new ArrayList<Article>();
+        final List<Node> articleNodes = getArticleNodes();
+        for (final Node articleNode : articleNodes) {
             try {
-                Article article = getArticle(articleNode, issueId);
+                final Article article = getArticle(articleNode, issueId);
                 if (article != null) {
                     articles.add(article);
                 }
@@ -89,11 +89,11 @@ public abstract class AbstractIssueParser {
     protected abstract List<Node> getArticleNodes();
 
 
-    protected final Article getArticle(Node articleNode, IssueId issueId) {
+    protected final Article getArticle(final Node articleNode, final IssueId issueId) {
 
-        Article article = new Article();
+        final Article article = new Article();
 
-        ArticleId articleId;
+        final ArticleId articleId;
         try {
             articleId = getArticleId(articleNode, issueId);
             if (articleId == null) {
@@ -105,28 +105,28 @@ public abstract class AbstractIssueParser {
         }
 
         try {
-            Doi doi = getArticleDoi(article, articleNode);
+            final Doi doi = getArticleDoi(article, articleNode);
             article.setDoi(doi);
         } catch (Exception e) {
             throw new CrawlerRuntimeException("Error locating DOI [issue: "+issueId+" | article: "+articleId+"]", e);
         }
 
         try {
-            URI url = getArticleUrl(article, articleNode);
+            final URI url = getArticleUrl(article, articleNode);
             article.setUrl(url);
         } catch (Exception e) {
             throw new CrawlerRuntimeException("Error locating URL [issue: "+issueId+" | article: "+articleId+"]", e);
         }
 
         try {
-            URI suppUrl = getArticleSupportingInfoUrl(article, articleNode);
+            final URI suppUrl = getArticleSupportingInfoUrl(article, articleNode);
             article.setSupplementaryResourceUrl(suppUrl);
         } catch (Exception e) {
             throw new CrawlerRuntimeException("Error locating supp info URL [issue: "+issueId+" | article: "+articleId+"]", e);
         }
 
         try {
-            String title = getArticleTitle(article, articleNode);
+            final String title = getArticleTitle(article, articleNode);
             if (title != null) {
                 article.setTitle(title);
             }
@@ -135,7 +135,7 @@ public abstract class AbstractIssueParser {
         }
 
         try {
-            String titleHtml = getArticleTitleHtml(article, articleNode);
+            final String titleHtml = getArticleTitleHtml(article, articleNode);
             if (titleHtml != null) {
                 article.setTitleHtml(titleHtml);
             }
@@ -144,7 +144,7 @@ public abstract class AbstractIssueParser {
         }
 
         try {
-            List<String> authors = getArticleAuthors(article, articleNode);
+            final List<String> authors = getArticleAuthors(article, articleNode);
             if (authors != null) {
                 article.setAuthors(authors);
             }
@@ -153,7 +153,7 @@ public abstract class AbstractIssueParser {
         }
 
         try {
-            Reference reference = getArticleReference(article, articleNode);
+            final Reference reference = getArticleReference(article, articleNode);
             if (reference != null) {
                 article.setReference(reference);
             }
@@ -162,7 +162,7 @@ public abstract class AbstractIssueParser {
         }
 
         try {
-            List<SupplementaryResource> supplementaryResources = getArticleSupplementaryResources(article, articleNode);
+            final List<SupplementaryResource> supplementaryResources = getArticleSupplementaryResources(article, articleNode);
             if (supplementaryResources != null) {
                 article.setSupplementaryResources(supplementaryResources);
             }
@@ -171,7 +171,7 @@ public abstract class AbstractIssueParser {
         }
 
         try {
-            List<FullTextResource> fullTextResources = getArticleFullTextResources(article, articleNode);
+            final List<FullTextResource> fullTextResources = getArticleFullTextResources(article, articleNode);
             if (fullTextResources != null) {
                 article.setFullTextResources(fullTextResources);
             }
@@ -223,7 +223,7 @@ public abstract class AbstractIssueParser {
 
     public final Issue getIssueDetails() {
         
-        Issue issue = new IssueBuilder()
+        final Issue issue = new IssueBuilder()
             .withJournalId(journalId)
             .withJournalTitle(getJournalTitle())
             .withVolume(getVolume())
@@ -234,7 +234,7 @@ public abstract class AbstractIssueParser {
         
         issue.setPreviousIssue(getPreviousIssue());
         try {
-            List<Article> articles = getArticles();
+            final List<Article> articles = getArticles();
             if (articles.isEmpty()) {
                 log().warn("No articles found in issue: "+issue.getId());
             }

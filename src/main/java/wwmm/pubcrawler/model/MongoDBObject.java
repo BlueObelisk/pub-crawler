@@ -25,17 +25,17 @@ public class MongoDBObject extends LinkedHashMap implements DBObject {
 
 
     @Override
-    public Object put(String key, Object v) {
+    public Object put(final String key, final Object v) {
         return super.put(key, v);
     }
 
     @Override
-    public void putAll(BSONObject o) {
+    public void putAll(final BSONObject o) {
         super.putAll(o.toMap());
     }
 
     @Override
-    public Object get(String key) {
+    public Object get(final String key) {
         return super.get(key);
     }
 
@@ -45,28 +45,28 @@ public class MongoDBObject extends LinkedHashMap implements DBObject {
     }
 
     @Override
-    public Object removeField(String key) {
+    public Object removeField(final String key) {
         return super.remove(key);
     }
 
     @Override
-    public boolean containsKey(String s) {
+    public boolean containsKey(final String s) {
         return super.containsKey(s);
     }
 
     @Override
-    public boolean containsField(String s) {
+    public boolean containsField(final String s) {
         return super.containsKey(s);
     }
 
 
-    public String getString(String key) {
-        Object o = get(key);
+    public String getString(final String key) {
+        final Object o = get(key);
         return o == null ? null : o.toString();
     }
 
-    public Long getLong(String key) {
-        Object o = get(key);
+    public Long getLong(final String key) {
+        final Object o = get(key);
         return o == null ? null : ((Number) o).longValue();
     }
 

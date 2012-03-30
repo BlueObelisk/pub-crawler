@@ -5,7 +5,7 @@ package wwmm.pubcrawler.model.id;
  */
 public class PublisherId extends Id<PublisherId> {
 
-    public PublisherId(String value) {
+    public PublisherId(final String value) {
         super(value);
         if (value.contains("/") || value.length() == 0) {
             throw new IllegalArgumentException("Bad publisher ID: ["+value+"]");

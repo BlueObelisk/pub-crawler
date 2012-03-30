@@ -36,28 +36,28 @@ import java.io.InputStreamReader;
  */
 public class HttpUtils {
 
-    public static String readString(HttpResponse response) throws IOException {
-        HttpEntity entity = response.getEntity();
+    public static String readString(final HttpResponse response) throws IOException {
+        final HttpEntity entity = response.getEntity();
         if (entity == null) {
             return null;
         }
 
-        String encoding = getEntityCharset(entity);
-        InputStream in = entity.getContent();
+        final String encoding = getEntityCharset(entity);
+        final InputStream in = entity.getContent();
         try {
-            String s = IOUtils.toString(in, encoding);
+            final String s = IOUtils.toString(in, encoding);
             return s;
         } finally {
             IOUtils.closeQuietly(in);
         }
     }
 
-    private static String getEntityCharset(HttpEntity entity) {
-        Header contentType = entity.getContentType();
+    private static String getEntityCharset(final HttpEntity entity) {
+        final Header contentType = entity.getContentType();
         if (contentType != null) {
             // e.g. text/html; charset=utf-8
-            String value = contentType.getValue();
-            for (String s : value.split("; ")) {
+            final String value = contentType.getValue();
+            for (final String s : value.split("; ")) {
                 if (s.toLowerCase().startsWith("charset=")) {
                     return s.substring(8);
                 }
@@ -66,13 +66,13 @@ public class HttpUtils {
         return null;
     }
 
-    public static void closeQuietly(HttpResponse response) {
+    public static void closeQuietly(final HttpResponse response) {
         if (response != null) {
             closeQuietly(response.getEntity());
         }
     }
 
-    private static void closeQuietly(HttpEntity entity) {
+    private static void closeQuietly(final HttpEntity entity) {
         try {
             if (entity != null) {
                 entity.consumeContent();
@@ -82,13 +82,13 @@ public class HttpUtils {
         }
     }
 
-    public static Document readDocument(HttpResponse response) throws IOException {
-        HttpEntity entity = response.getEntity();
+    public static Document readDocument(final HttpResponse response) throws IOException {
+        final HttpEntity entity = response.getEntity();
         if (entity == null) {
             return null;
         }
-        Builder builder = new Builder();
-        String charset = getEntityCharset(response.getEntity());
+        final Builder builder = new Builder();
+        final String charset = getEntityCharset(response.getEntity());
         if (charset == null) {
             return readXml(entity, builder);
         } else {
@@ -96,13 +96,13 @@ public class HttpUtils {
         }
     }
 
-    private static Document readXml(HttpEntity entity, Builder builder) throws IOException {
-        InputStream in = entity.getContent();
+    private static Document readXml(final HttpEntity entity, final Builder builder) throws IOException {
+        final InputStream in = entity.getContent();
         try {
-            Document doc = builder.build(in);
+            final Document doc = builder.build(in);
             return doc;
         } catch (ParsingException e) {
-            IOException ioe = new IOException("Error parsing XML document");
+            final IOException ioe = new IOException("Error parsing XML document");
             ioe.initCause(e);
             throw ioe;
         } finally {
@@ -110,14 +110,14 @@ public class HttpUtils {
         }
     }
 
-    private static Document readXml(HttpEntity entity, Builder builder, String encoding) throws IOException {
-        InputStream in = entity.getContent();
+    private static Document readXml(final HttpEntity entity, final Builder builder, final String encoding) throws IOException {
+        final InputStream in = entity.getContent();
         try {
-            InputStreamReader isr = new InputStreamReader(in, encoding);
-            Document doc = builder.build(isr);
+            final InputStreamReader isr = new InputStreamReader(in, encoding);
+            final Document doc = builder.build(isr);
             return doc;
         } catch (ParsingException e) {
-            IOException ioe = new IOException("Error parsing XML document");
+            final IOException ioe = new IOException("Error parsing XML document");
             ioe.initCause(e);
             throw ioe;
         } finally {
@@ -125,13 +125,13 @@ public class HttpUtils {
         }
     }
 
-    public static Document readHtmlDocument(HttpResponse response) throws IOException {
-        HttpEntity entity = response.getEntity();
+    public static Document readHtmlDocument(final HttpResponse response) throws IOException {
+        final HttpEntity entity = response.getEntity();
         if (entity == null) {
             return null;
         }
-        Builder builder = createTagSoupBuilder();
-        String charset = getEntityCharset(response.getEntity());
+        final Builder builder = createTagSoupBuilder();
+        final String charset = getEntityCharset(response.getEntity());
         if (charset == null) {
             return readXml(entity, builder);
         } else {
@@ -140,12 +140,12 @@ public class HttpUtils {
     }
 
     private static Builder createTagSoupBuilder() {
-        XMLReader tagSoupReader = createTagSoupReader();
+        final XMLReader tagSoupReader = createTagSoupReader();
 		return new Builder(tagSoupReader);
 	}
 
     private static XMLReader createTagSoupReader() {
-        XMLReader reader;
+        final XMLReader reader;
         try {
             reader = XMLReaderFactory.createXMLReader("org.ccil.cowan.tagsoup.Parser");
         } catch (SAXException e) {

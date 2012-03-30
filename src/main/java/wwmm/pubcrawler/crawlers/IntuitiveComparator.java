@@ -10,7 +10,7 @@ public class IntuitiveComparator implements Comparator<String> {
     private int pos1, pos2, len1, len2;
 
     @Override
-    public int compare(String s1, String s2)
+    public int compare(final String s1, final String s2)
     {
         str1 = s1;
         str2 = s2;
@@ -29,8 +29,8 @@ public class IntuitiveComparator implements Comparator<String> {
 
         while (pos1 < len1 && pos2 < len2)
         {
-            char ch1 = str1.charAt(pos1);
-            char ch2 = str2.charAt(pos2);
+            final char ch1 = str1.charAt(pos1);
+            final char ch2 = str2.charAt(pos2);
             int result = 0;
 
             if (Character.isDigit(ch1))
@@ -79,8 +79,8 @@ public class IntuitiveComparator implements Comparator<String> {
         // unequal pair determines which is the bigger number.
         while (true)
         {
-            boolean noMoreDigits1 = (ch1 == 0) || !Character.isDigit(ch1);
-            boolean noMoreDigits2 = (ch2 == 0) || !Character.isDigit(ch2);
+            final boolean noMoreDigits1 = (ch1 == 0) || !Character.isDigit(ch1);
+            final boolean noMoreDigits2 = (ch2 == 0) || !Character.isDigit(ch2);
 
             if (noMoreDigits1 && noMoreDigits2)
             {
@@ -104,7 +104,7 @@ public class IntuitiveComparator implements Comparator<String> {
         }
     }
 
-    private int compareOther(boolean isLetters)
+    private int compareOther(final boolean isLetters)
     {
         char ch1 = str1.charAt(pos1++);
         char ch2 = str2.charAt(pos2++);

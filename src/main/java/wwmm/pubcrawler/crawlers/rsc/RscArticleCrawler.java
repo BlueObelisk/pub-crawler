@@ -52,7 +52,7 @@ public class RscArticleCrawler extends AbstractArticleCrawler {
 
     private ArticleId articleId;
 
-    public RscArticleCrawler(Article article, CrawlerContext context) throws IOException {
+    public RscArticleCrawler(final Article article, final CrawlerContext context) throws IOException {
         super(article, context);
         this.articleId = article.getId();
     }
@@ -69,19 +69,19 @@ public class RscArticleCrawler extends AbstractArticleCrawler {
 
     @Override
     public Reference getReference() {
-        Node head = XPathUtils.getNode(getHtml(), "/x:html/x:head");
+        final Node head = XPathUtils.getNode(getHtml(), "/x:html/x:head");
 
-        String journalName = XPathUtils.getString(head, ".//x:meta[@name='citation_journal_title']/@content");
-        String volume = XPathUtils.getString(head, ".//x:meta[@name='citation_volume']/@content");
-        String issue = XPathUtils.getString(head, ".//x:meta[@name='citation_issue']/@content");
-        String firstPage = XPathUtils.getString(head, ".//x:meta[@name='citation_firstpage']/@content");
-        String lastPage = XPathUtils.getString(head, ".//x:meta[@name='citation_lastpage']/@content");
-        String pages = firstPage+'-'+lastPage;
+        final String journalName = XPathUtils.getString(head, ".//x:meta[@name='citation_journal_title']/@content");
+        final String volume = XPathUtils.getString(head, ".//x:meta[@name='citation_volume']/@content");
+        final String issue = XPathUtils.getString(head, ".//x:meta[@name='citation_issue']/@content");
+        final String firstPage = XPathUtils.getString(head, ".//x:meta[@name='citation_firstpage']/@content");
+        final String lastPage = XPathUtils.getString(head, ".//x:meta[@name='citation_lastpage']/@content");
+        final String pages = firstPage+'-'+lastPage;
 
-        String date = XPathUtils.getString(head, ".//x:meta[@name='citation_date']/@content");
-        String year = date.substring(0, date.indexOf('-'));
+        final String date = XPathUtils.getString(head, ".//x:meta[@name='citation_date']/@content");
+        final String year = date.substring(0, date.indexOf('-'));
 
-        Reference ref = new Reference();
+        final Reference ref = new Reference();
         ref.setJournalTitle(journalName);
         ref.setYear(year);
         ref.setVolume(volume);
@@ -92,68 +92,68 @@ public class RscArticleCrawler extends AbstractArticleCrawler {
 
     @Override
     public List<SupplementaryResource> getSupplementaryResources() {
-        List<SupplementaryResource> resources = new ArrayList<SupplementaryResource>();
-        List<Node> nodes = XPathUtils.queryHTML(getHtml(), ".//x:li[contains(@class, 'ESIright_highlight_txt_red')]/x:a");
-        for (Node node : nodes) {
-            Element address = (Element) node;
-            String href = address.getAttributeValue("href");
-            String text = address.getValue();
+        final List<SupplementaryResource> resources = new ArrayList<SupplementaryResource>();
+        final List<Node> nodes = XPathUtils.queryHTML(getHtml(), ".//x:li[contains(@class, 'ESIright_highlight_txt_red')]/x:a");
+        for (final Node node : nodes) {
+            final Element address = (Element) node;
+            final String href = address.getAttributeValue("href");
+            final String text = address.getValue();
 
-            URI url = URI.create(href);
-            String filePath = getFilePath(href);
-            ResourceId id = new ResourceId(articleId, filePath);
-            SupplementaryResource resource = new SupplementaryResource(id, url, filePath);
+            final URI url = URI.create(href);
+            final String filePath = getFilePath(href);
+            final ResourceId id = new ResourceId(articleId, filePath);
+            final SupplementaryResource resource = new SupplementaryResource(id, url, filePath);
             resource.setLinkText(text.trim());
             resources.add(resource);
         }
         return resources;
     }
 
-    private String getFilePath(String href) {
-        int i = href.lastIndexOf('/');
+    private String getFilePath(final String href) {
+        final int i = href.lastIndexOf('/');
         return href.substring(i+1);
     }
 
 
     @Override
     public List<FullTextResource> getFullTextResources() {
-        List<FullTextResource> fullTextResources = new ArrayList<FullTextResource>();
+        final List<FullTextResource> fullTextResources = new ArrayList<FullTextResource>();
         fullTextResources.add(getFullTextHtml());
         fullTextResources.add(getFullTextPdf());
         return fullTextResources;
     }
 
     private FullTextResource getFullTextHtml() {
-        String url = getMetaElementContent("citation_fulltext_html_url");
-        FullTextResource fullText = new FullTextResource();
+        final String url = getMetaElementContent("citation_fulltext_html_url");
+        final FullTextResource fullText = new FullTextResource();
         fullText.setUrl(URI.create(url));
         fullText.setLinkText("HTML");
         return fullText;
     }
 
     private FullTextResource getFullTextPdf() {
-        String url = getMetaElementContent("citation_pdf_url");
-        FullTextResource fullText = new FullTextResource();
+        final String url = getMetaElementContent("citation_pdf_url");
+        final FullTextResource fullText = new FullTextResource();
         fullText.setUrl(URI.create(url));
         fullText.setLinkText("PDF");
         return fullText;
     }
 
-    private String getMetaElementContent(String name) {
+    private String getMetaElementContent(final String name) {
         return XPathUtils.getString(getHtml(), "/x:html/x:head//x:meta[@name='" + name + "']/@content");
     }
 
 
     public Element getTitleHtml() {
-        Element element = (Element) XPathUtils.getNode(getHtml(), ".//x:div[@class='article_chemsoc_txt_s13']/x:h1");
-        Element copy = new Element("h1", "http://www.w3.org/1999/xhtml");
+        final Element element = (Element) XPathUtils.getNode(getHtml(), ".//x:div[@class='article_chemsoc_txt_s13']/x:h1");
+        final Element copy = new Element("h1", "http://www.w3.org/1999/xhtml");
         for (int i = 0; i < element.getChildCount(); i++) {
             copy.appendChild(element.getChild(i).copy());
         }
         if (copy.getChildCount() == 1) {
-            Node child = copy.getChild(0);
+            final Node child = copy.getChild(0);
             if (child instanceof Text) {
-                Text text = (Text) child;
+                final Text text = (Text) child;
                 text.setValue(text.getValue().trim());
             }
         }
@@ -164,10 +164,10 @@ public class RscArticleCrawler extends AbstractArticleCrawler {
         return toHtml(getTitleHtml());
     }
 
-    private String toHtml(Element element) {
+    private String toHtml(final Element element) {
         try {
-            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-            Serializer ser = new Serializer(bytes, "UTF-8") {
+            final ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+            final Serializer ser = new Serializer(bytes, "UTF-8") {
                 @Override
                 protected void writeXMLDeclaration() {
                     // no decl
@@ -175,7 +175,7 @@ public class RscArticleCrawler extends AbstractArticleCrawler {
             };
             ser.write(new Document(element));
 
-            String s = bytes.toString("UTF-8");
+            final String s = bytes.toString("UTF-8");
             return s.trim();
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -183,16 +183,16 @@ public class RscArticleCrawler extends AbstractArticleCrawler {
     }
 
     public Element getAbstractHtml() {
-        Element element = (Element) XPathUtils.getNode(getHtml(), ".//x:div[@class='abstract_new']/x:p");
+        final Element element = (Element) XPathUtils.getNode(getHtml(), ".//x:div[@class='abstract_new']/x:p");
         if (element == null) {
             // no abstract
             return null;
         }
-        Element copy = new Element("p", "http://www.w3.org/1999/xhtml");
+        final Element copy = new Element("p", "http://www.w3.org/1999/xhtml");
         for (int i = 0; i < element.getChildCount(); i++) {
-            Node child = element.getChild(i);
+            final Node child = element.getChild(i);
             if (child instanceof Element) {
-                Element e = (Element) child;
+                final Element e = (Element) child;
                 if ("img".equals(e.getLocalName())) {
                     copy.appendChild(normaliseEntityImage(e));
                     continue;
@@ -204,12 +204,12 @@ public class RscArticleCrawler extends AbstractArticleCrawler {
     }
 
     public String getAbstractHtmlString() {
-        Element xml = getAbstractHtml();
+        final Element xml = getAbstractHtml();
         return xml == null ? null : toHtml(xml);
     }
 
-    private String normaliseEntityImage(Element e) {
-        String src = e.getAttributeValue("src");
+    private String normaliseEntityImage(final Element e) {
+        final String src = e.getAttributeValue("src");
 //        if ("/appl/literatum/publisher/achs/journals/entities/223C.gif".equals(src)) {
 //            return "\u223c";    // TILDE OPERATOR
 //        }
@@ -233,10 +233,10 @@ public class RscArticleCrawler extends AbstractArticleCrawler {
 
     @Override
     public List<String> getAuthors() {
-        List<String> authors = new ArrayList<String>();
-        List<Node> nodes = XPathUtils.queryHTML(getHtml(), "/x:html/x:head/x:meta[@name='citation_author']/@content");
-        for (Node node : nodes) {
-            Attribute attr = (Attribute) node;
+        final List<String> authors = new ArrayList<String>();
+        final List<Node> nodes = XPathUtils.queryHTML(getHtml(), "/x:html/x:head/x:meta[@name='citation_author']/@content");
+        for (final Node node : nodes) {
+            final Attribute attr = (Attribute) node;
             authors.add(attr.getValue());
         }
         return authors;

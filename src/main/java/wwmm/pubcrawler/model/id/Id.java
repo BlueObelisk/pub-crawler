@@ -7,21 +7,21 @@ public abstract class Id<T extends Id> implements Comparable<T> {
     private final String uid;
     private String value;
 
-    protected Id(String uid) {
+    protected Id(final String uid) {
         Validate.notEmpty(uid);
         this.uid = uid;
     }
 
-    protected Id(Id id, String uid) {
+    protected Id(final Id id, final String uid) {
         if (uid.contains("/") || uid.length() == 0) {
             throw new IllegalArgumentException("Bad ID: ["+ uid +"]");
         }
         this.uid = id.getUid() + '/' + uid;
     }
 
-    protected Id(Id id, String... parts) {
+    protected Id(final Id id, final String... parts) {
         Validate.notEmpty(parts);
-        StringBuilder value = new StringBuilder();
+        final StringBuilder value = new StringBuilder();
         for (final String part : parts) {
             if (part.contains("/") || part.length() == 0) {
                 throw new IllegalArgumentException("Bad ID: "+part);
@@ -40,13 +40,13 @@ public abstract class Id<T extends Id> implements Comparable<T> {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (o == this) {
             return true;
         }
         if (o != null) {
             if (this.getClass() == o.getClass()) {
-                Id other = (Id) o;
+                final Id other = (Id) o;
                 return getUid().equals(other.getUid());
             }
         }
@@ -59,7 +59,7 @@ public abstract class Id<T extends Id> implements Comparable<T> {
     }
 
     @Override
-    public int compareTo(T o) {
+    public int compareTo(final T o) {
         return getUid().compareTo(o.getUid());
     }
 

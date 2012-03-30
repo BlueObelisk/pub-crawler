@@ -33,16 +33,16 @@ import java.io.InputStream;
  */
 public class ResourceUtil {
 
-    public static InputStream open(Class<?> context, String path) throws FileNotFoundException {
-        InputStream in = context.getResourceAsStream(path);
+    public static InputStream open(final Class<?> context, final String path) throws FileNotFoundException {
+        final InputStream in = context.getResourceAsStream(path);
         if (in == null) {
             throw new FileNotFoundException("File not found: "+path);
         }
         return in;
     }
 
-    public static byte[] readBytes(Class<?> context, String path) throws IOException {
-        InputStream in = open(context, path);
+    public static byte[] readBytes(final Class<?> context, final String path) throws IOException {
+        final InputStream in = open(context, path);
         try {
             return IOUtils.toByteArray(in);
         } finally {
@@ -50,12 +50,12 @@ public class ResourceUtil {
         }
     }
 
-    public static String readStringUtf8(Class<?> context, String path) throws IOException {
+    public static String readStringUtf8(final Class<?> context, final String path) throws IOException {
         return readString(context, path, "UTF-8");
     }
 
-    public static String readString(Class<?> context, String path, String encoding) throws IOException {
-        InputStream in = open(context, path);
+    public static String readString(final Class<?> context, final String path, final String encoding) throws IOException {
+        final InputStream in = open(context, path);
         try {
             return IOUtils.toString(in, encoding);
         } finally {
@@ -63,20 +63,20 @@ public class ResourceUtil {
         }
     }
 
-    public static Document readXml(Class<?> context, String path) throws IOException, ParsingException {
-        InputStream in = open(context, path);
+    public static Document readXml(final Class<?> context, final String path) throws IOException, ParsingException {
+        final InputStream in = open(context, path);
         try {
-            Builder builder = new Builder();
+            final Builder builder = new Builder();
             return builder.build(in);
         } finally {
             IOUtils.closeQuietly(in);
         }
     }
 
-    public static final Document readHtml(Class<?> context, String path) throws IOException, ParsingException {
-        InputStream in = open(context, path);
+    public static final Document readHtml(final Class<?> context, final String path) throws IOException, ParsingException {
+        final InputStream in = open(context, path);
         try {
-            Builder builder = createTagSoupBuilder();
+            final Builder builder = createTagSoupBuilder();
             return builder.build(in);
         } finally {
             IOUtils.closeQuietly(in);
@@ -84,12 +84,12 @@ public class ResourceUtil {
     }
 
     private static Builder createTagSoupBuilder() {
-        XMLReader tagSoupReader = createTagSoupReader();
+        final XMLReader tagSoupReader = createTagSoupReader();
 		return new Builder(tagSoupReader);
 	}
 
     private static XMLReader createTagSoupReader() {
-        XMLReader reader;
+        final XMLReader reader;
         try {
             reader = XMLReaderFactory.createXMLReader("org.ccil.cowan.tagsoup.Parser");
         } catch (SAXException e) {

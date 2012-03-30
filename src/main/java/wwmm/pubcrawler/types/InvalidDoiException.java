@@ -19,7 +19,7 @@ public class InvalidDoiException extends IllegalArgumentException {
 
 	private static final long serialVersionUID = -7665916963461146251L;
 
-	public InvalidDoiException(String message) {
+	public InvalidDoiException(final String message) {
 		super(message);
 	}
 	

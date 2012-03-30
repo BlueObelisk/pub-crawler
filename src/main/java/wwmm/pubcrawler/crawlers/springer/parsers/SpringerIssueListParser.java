@@ -55,21 +55,21 @@ public class SpringerIssueListParser {
     }
 
     public List<Issue> findIssues() throws IOException {
-        List<Issue> list = new ArrayList<Issue>();
+        final List<Issue> list = new ArrayList<Issue>();
 
-        List<Node> volumeNodes = XPathUtils.queryHTML(html, "//x:li[x:a/x:span[starts-with(text(), 'Volume')]]");
+        final List<Node> volumeNodes = XPathUtils.queryHTML(html, "//x:li[x:a/x:span[starts-with(text(), 'Volume')]]");
         if (volumeNodes.isEmpty()) {
             LOG.warn("Unable to locate volume list in index "+this.url);
         } else {
 
-            for (Node node : volumeNodes) {
-                String s = XPathUtils.getString(node, "./x:a/x:span");
-                Matcher m = P__VOLUME.matcher(s);
+            for (final Node node : volumeNodes) {
+                final String s = XPathUtils.getString(node, "./x:a/x:span");
+                final Matcher m = P__VOLUME.matcher(s);
                 if (!m.find()) {
                     LOG.warn("Unable to locate volume identifier: "+s);
                     continue;
                 }
-                String volume = m.group(1);
+                final String volume = m.group(1);
                 findIssues(list, node, volume);
             }
 
@@ -78,11 +78,11 @@ public class SpringerIssueListParser {
         return list;
     }
 
-    private void findIssues(List<Issue> list, Node node, String volume) throws IOException {
-        List<Node> issues = XPathUtils.queryHTML(node, "./x:ul/x:li");
+    private void findIssues(final List<Issue> list, final Node node, final String volume) throws IOException {
+        final List<Node> issues = XPathUtils.queryHTML(node, "./x:ul/x:li");
         boolean first = true;
-        for (Node n : issues) {
-            String href = XPathUtils.getString(n, "./x:a/@href");
+        for (final Node n : issues) {
+            final String href = XPathUtils.getString(n, "./x:a/@href");
             // First is often current page, and therefore not clickable
             if (href == null) {
                 if (first) {
@@ -94,13 +94,13 @@ public class SpringerIssueListParser {
             }
             first = false;
 
-            String s = XPathUtils.getString(n, "./x:a/x:span/text()");
+            final String s = XPathUtils.getString(n, "./x:a/x:span/text()");
             if (s == null) {
                 LOG.warn("Unable to locate issue descriptor in index "+this.url);
             }
 
-            String number;
-            String year;
+            final String number;
+            final String year;
             Matcher m1 = P_ISSUE.matcher(s);
             if (m1.find()) {
                 number = m1.group(1);
@@ -116,8 +116,8 @@ public class SpringerIssueListParser {
                 }
             }
 
-            URI url = this.url.resolve(href);
-            Issue issue = new Issue();
+            final URI url = this.url.resolve(href);
+            final Issue issue = new Issue();
             issue.setId(new IssueId(new JournalId("springer/"+journal), volume, number));
             issue.setUrl(url);
             issue.setVolume(volume);

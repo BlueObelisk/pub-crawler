@@ -68,8 +68,8 @@ public class NatureArticleParser extends AbstractArticleParser {
 
     @Override
     public Element getTitleHtml() {
-        Element element = (Element) XPathUtils.getNode(getHtml(), ".//x:h1[@class='article-heading']");
-        Element copy = new Element("h1", "http://www.w3.org/1999/xhtml");
+        final Element element = (Element) XPathUtils.getNode(getHtml(), ".//x:h1[@class='article-heading']");
+        final Element copy = new Element("h1", "http://www.w3.org/1999/xhtml");
         for (int i = 0; i < element.getChildCount(); i++) {
             copy.appendChild(element.getChild(i).copy());
         }
@@ -77,12 +77,12 @@ public class NatureArticleParser extends AbstractArticleParser {
     }
 
     public Element getAbstractHtml() {
-        Element element = (Element) XPathUtils.getNode(getHtml(), ".//x:div[@id='abstract']/x:div[@class='content']/x:p[1]");
-        Element copy = new Element("p", "http://www.w3.org/1999/xhtml");
+        final Element element = (Element) XPathUtils.getNode(getHtml(), ".//x:div[@id='abstract']/x:div[@class='content']/x:p[1]");
+        final Element copy = new Element("p", "http://www.w3.org/1999/xhtml");
         for (int i = 0; i < element.getChildCount(); i++) {
-            Node child = element.getChild(i);
+            final Node child = element.getChild(i);
             if (child instanceof Element) {
-                Element e = (Element) child;
+                final Element e = (Element) child;
                 if ("img".equals(e.getLocalName())) {
                     copy.appendChild(normaliseEntityImage(e));
                     continue;
@@ -93,8 +93,8 @@ public class NatureArticleParser extends AbstractArticleParser {
         return copy;
     }
 
-    private String normaliseEntityImage(Element e) {
-        String src = e.getAttributeValue("src");
+    private String normaliseEntityImage(final Element e) {
+        final String src = e.getAttributeValue("src");
         if ("/appl/literatum/publisher/achs/journals/entities/223C.gif".equals(src)) {
             return "\u223c";    // TILDE OPERATOR
         }
@@ -119,10 +119,10 @@ public class NatureArticleParser extends AbstractArticleParser {
 
     @Override
     public List<String> getAuthors() {
-        List<String> authors = new ArrayList<String>();
-        List<Node> nodes = XPathUtils.queryHTML(getHtml(), ".//x:ul[contains(@class, 'authors')]//x:span[@class='fn']");
-        for (Node node : nodes) {
-            Element span = (Element) node;
+        final List<String> authors = new ArrayList<String>();
+        final List<Node> nodes = XPathUtils.queryHTML(getHtml(), ".//x:ul[contains(@class, 'authors')]//x:span[@class='fn']");
+        for (final Node node : nodes) {
+            final Element span = (Element) node;
             authors.add(span.getValue());
         }
         return authors;
@@ -130,26 +130,26 @@ public class NatureArticleParser extends AbstractArticleParser {
 
     @Override
     public Boolean isOpenAccess() {
-        Node node = XPathUtils.getNode(getHtml(), ".//x:div[@id='articleIcons']/x:img[@alt='ACS AuthorChoice']");
+        final Node node = XPathUtils.getNode(getHtml(), ".//x:div[@id='articleIcons']/x:img[@alt='ACS AuthorChoice']");
         return node != null;
     }
 
     @Override
     public Reference getReference() {
-        Node citation = XPathUtils.getNode(getHtml(), ".//x:dl[@class='citation']");
+        final Node citation = XPathUtils.getNode(getHtml(), ".//x:dl[@class='citation']");
 
-        String journalName = XPathUtils.getString(getHtml(), "/x:html/x:head/x:meta[@name='citation_journal_title']/@content");
-        String volume = XPathUtils.getString(getHtml(), "/x:html/x:head/x:meta[@name='citation_volume']/@content");
-        String number = XPathUtils.getString(getHtml(), "/x:html/x:head/x:meta[@name='citation_issue']/@content");
+        final String journalName = XPathUtils.getString(getHtml(), "/x:html/x:head/x:meta[@name='citation_journal_title']/@content");
+        final String volume = XPathUtils.getString(getHtml(), "/x:html/x:head/x:meta[@name='citation_volume']/@content");
+        final String number = XPathUtils.getString(getHtml(), "/x:html/x:head/x:meta[@name='citation_issue']/@content");
 
         String year = XPathUtils.getString(citation, "./x:dt[text()='Year published:']/following-sibling::x:dd[1]");
         if (year.startsWith("(") && year.endsWith(")")) {
             year = year.substring(1, year.length()-1);
         }
 
-        String pages = XPathUtils.getString(citation, "./x:dd[@class='page']");
+        final String pages = XPathUtils.getString(citation, "./x:dd[@class='page']");
 
-        Reference ref = new Reference();
+        final Reference ref = new Reference();
         ref.setJournalTitle(journalName);
         ref.setYear(year);
         ref.setVolume(volume);
@@ -161,29 +161,29 @@ public class NatureArticleParser extends AbstractArticleParser {
 
     @Override
     public List<SupplementaryResource> getSupplementaryResources() {
-        List<SupplementaryResource> resources = new ArrayList<SupplementaryResource>();
-        List<Node> nodes = XPathUtils.queryHTML(getHtml(), ".//x:div[@id='supplementary-information']//x:dt/x:a");
-        for (Node node : nodes) {
-            Element address = (Element) node;
-            String linkText = address.getValue();
-            String href = address.getAttributeValue("href");
-            String filePath = getFilePath(href);
-            ResourceId id = new ResourceId(getArticleId(), filePath);
-            SupplementaryResource resource = new SupplementaryResource(id, getUrl().resolve(href), filePath);
+        final List<SupplementaryResource> resources = new ArrayList<SupplementaryResource>();
+        final List<Node> nodes = XPathUtils.queryHTML(getHtml(), ".//x:div[@id='supplementary-information']//x:dt/x:a");
+        for (final Node node : nodes) {
+            final Element address = (Element) node;
+            final String linkText = address.getValue();
+            final String href = address.getAttributeValue("href");
+            final String filePath = getFilePath(href);
+            final ResourceId id = new ResourceId(getArticleId(), filePath);
+            final SupplementaryResource resource = new SupplementaryResource(id, getUrl().resolve(href), filePath);
             resource.setLinkText(linkText);
             resources.add(resource);
         }
         return resources;
     }
 
-    private String getFilePath(String href) {
-        int i = href.lastIndexOf('/');
+    private String getFilePath(final String href) {
+        final int i = href.lastIndexOf('/');
         return href.substring(i+1);
     }
 
     @Override
     public List<FullTextResource> getFullTextResources() {
-        List<FullTextResource> fullTextResources = new ArrayList<FullTextResource>();
+        final List<FullTextResource> fullTextResources = new ArrayList<FullTextResource>();
 
         return fullTextResources;
     }
@@ -196,10 +196,10 @@ public class NatureArticleParser extends AbstractArticleParser {
         return toHtml(getAbstractHtml());
     }
 
-    private String toHtml(Element element) {
+    private String toHtml(final Element element) {
         try {
-            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-            Serializer ser = new Serializer(bytes, "UTF-8") {
+            final ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+            final Serializer ser = new Serializer(bytes, "UTF-8") {
                 @Override
                 protected void writeXMLDeclaration() {
                     // no decl
@@ -207,7 +207,7 @@ public class NatureArticleParser extends AbstractArticleParser {
             };
             ser.write(new Document(element));
 
-            String s = bytes.toString("UTF-8");
+            final String s = bytes.toString("UTF-8");
             return s.trim();
         } catch (IOException e) {
             throw new RuntimeException(e);

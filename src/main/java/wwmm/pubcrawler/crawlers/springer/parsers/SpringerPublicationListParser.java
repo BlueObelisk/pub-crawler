@@ -48,10 +48,10 @@ public class SpringerPublicationListParser implements PublicationListParser {
     }
 
     public URI getNextPage() {
-        List<Node> nodes = XPathUtils.queryHTML(html, "//x:a[text() = 'Next']");
+        final List<Node> nodes = XPathUtils.queryHTML(html, "//x:a[text() = 'Next']");
         if (!nodes.isEmpty()) {
-            Element addr = (Element) nodes.get(0);
-            String href = addr.getAttributeValue("href");
+            final Element addr = (Element) nodes.get(0);
+            final String href = addr.getAttributeValue("href");
             return url.resolve(href);
         }
         return null;
@@ -59,28 +59,28 @@ public class SpringerPublicationListParser implements PublicationListParser {
     
     @Override
     public List<Journal> findJournals() {
-        List<Journal> list = new ArrayList<Journal>();
+        final List<Journal> list = new ArrayList<Journal>();
         getTitles(list, url, html);
         return list;
     }
 
-    private void getTitles(List<Journal> list, URI uri, Document html) {
-        List<Node> nodes = XPathUtils.queryHTML(html, "//x:p[@class='title']/x:a");
-        for (Node node : nodes) {
-            Element addr = (Element) node;
-            String href = addr.getAttributeValue("href");
-            URI url = uri.resolve(href);
-            String title = addr.getValue().trim();
+    private void getTitles(final List<Journal> list, final URI uri, final Document html) {
+        final List<Node> nodes = XPathUtils.queryHTML(html, "//x:p[@class='title']/x:a");
+        for (final Node node : nodes) {
+            final Element addr = (Element) node;
+            final String href = addr.getAttributeValue("href");
+            final URI url = uri.resolve(href);
+            final String title = addr.getValue().trim();
 
-            Matcher m = P_JOURNAL_ID.matcher(href);
+            final Matcher m = P_JOURNAL_ID.matcher(href);
             if (!m.find()) {
                 LOG.warn("Unable to find journal id: " + href);
                 continue;
             }
 
-            String id = m.group(1);
+            final String id = m.group(1);
 
-            Journal journal = new Journal(id, title);
+            final Journal journal = new Journal(id, title);
             journal.setUrl(url);
             list.add(journal);
         }

@@ -33,13 +33,13 @@ public class HttpFetcherModule extends AbstractModule {
     
     @Provides @Singleton
     public HttpFetcher getHttpFetcher() throws UnknownHostException {
-        HttpFetcherBuilder builder = new HttpFetcherBuilder()
+        final HttpFetcherBuilder builder = new HttpFetcherBuilder()
                                 .withRequestAuditor(getAuditor())
                                 .withUserAgent("pubcrawler/1.0")
                                 .withCache(getCache());
         
         if (System.getProperty("http.proxy") != null) {
-            URI proxy = URI.create(System.getProperty("http.proxy"));
+            final URI proxy = URI.create(System.getProperty("http.proxy"));
             System.out.println(" *** HTTP Proxy: " + proxy);
             builder.withProxy(proxy.getHost(), proxy.getPort());
         }

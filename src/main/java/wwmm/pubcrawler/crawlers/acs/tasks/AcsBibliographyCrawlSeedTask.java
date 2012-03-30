@@ -36,7 +36,7 @@ public class AcsBibliographyCrawlSeedTask implements Runnable {
     }
 
     private void enqueueSeedTask() {
-        Map<String,String> data = new HashMap<String, String>();
+        final Map<String,String> data = new HashMap<String, String>();
         data.put("url", Acs.JOURNAL_LIST_URL.toString());
         data.put("fileId", "index.html");
         

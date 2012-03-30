@@ -50,7 +50,7 @@ public abstract class AbstractArticleParser {
     private final Document html;
     private final URI url;
 
-    protected AbstractArticleParser(Article articleRef, Document document, URI uri) {
+    protected AbstractArticleParser(final Article articleRef, final Document document, final URI uri) {
         this.articleRef = articleRef;
         this.html = document;
         this.url = uri;
@@ -77,7 +77,7 @@ public abstract class AbstractArticleParser {
     }
 
     public Article toArticle() {
-        Article article = new Article();
+        final Article article = new Article();
         article.setId(getArticleId());
         article.setDoi(getDoi());
         article.setUrl(getUrl());
@@ -88,7 +88,7 @@ public abstract class AbstractArticleParser {
             article.setTitleHtml(titleHtml);
         }
         article.setAuthors(getAuthors());
-        List<SupplementaryResource> supplementaryResources = getSupplementaryResources();
+        final List<SupplementaryResource> supplementaryResources = getSupplementaryResources();
         checkSupplementaryResources(supplementaryResources);
         article.setSupplementaryResources(supplementaryResources);
         article.setFullTextResources(getFullTextResources());
@@ -100,9 +100,9 @@ public abstract class AbstractArticleParser {
         return html == null ? null : writeHTML(html);
     }
 
-    private void checkSupplementaryResources(List<SupplementaryResource> supplementaryResources) {
+    private void checkSupplementaryResources(final List<SupplementaryResource> supplementaryResources) {
         if (supplementaryResources != null) {
-            for (SupplementaryResource resource : supplementaryResources) {
+            for (final SupplementaryResource resource : supplementaryResources) {
                 if (resource.getUrl() == null) {
                     throw new CrawlerRuntimeException("Supplementary resource missing URL");
                 }
@@ -169,10 +169,10 @@ public abstract class AbstractArticleParser {
     protected abstract Boolean isOpenAccess();
 
 
-    private static String writeHTML(Element element) {
+    private static String writeHTML(final Element element) {
         try {
-            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-            Serializer ser = new Serializer(bytes, "UTF-8") {
+            final ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+            final Serializer ser = new Serializer(bytes, "UTF-8") {
                 @Override
                 protected void writeXMLDeclaration() {
                     // no decl
@@ -180,7 +180,7 @@ public abstract class AbstractArticleParser {
             };
             ser.write(new Document(element));
 
-            String s = bytes.toString("UTF-8");
+            final String s = bytes.toString("UTF-8");
             return s.trim();
         } catch (IOException e) {
             throw new RuntimeException(e);

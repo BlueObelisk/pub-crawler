@@ -15,7 +15,7 @@ import java.util.Map;
 public class SpringerIssueListCrawlTaskFactory {
 
     public CrawlTask createIssueListCrawlTask(final String journal, final URI url) {
-        Map<String, String> map = new HashMap<String, String>();
+        final Map<String, String> map = new HashMap<String, String>();
         map.put("url", URI.create("http://www.springerlink.com/content/"+journal+"/").toString());
         map.put("fileId", "issues.html");
         map.put("journal", journal);

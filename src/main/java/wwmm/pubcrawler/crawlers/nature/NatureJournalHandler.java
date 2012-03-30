@@ -38,7 +38,7 @@ public class NatureJournalHandler extends AbstractJournalHandler {
 
     private static final Logger LOG = Logger.getLogger(NatureJournalHandler.class);
 
-    public NatureJournalHandler(Journal journal, CrawlerContext context) {
+    public NatureJournalHandler(final Journal journal, final CrawlerContext context) {
         super(journal, context);
     }
 
@@ -50,17 +50,17 @@ public class NatureJournalHandler extends AbstractJournalHandler {
     @Override
     public Issue fetchCurrentIssue() throws IOException {
         log().debug("Fetching current issue of " + getJournal().getTitle());
-        URI url = getCurrentIssueUrl();
-        Issue issue = new Issue();
+        final URI url = getCurrentIssueUrl();
+        final Issue issue = new Issue();
         issue.setId(getIssueId(url));
         issue.setUrl(url);
         return fetchIssue(issue);
     }
 
-    private IssueId getIssueId(URI url) {
+    private IssueId getIssueId(final URI url) {
         // http://www.nature.com/nchem/journal/v3/n1/
-        Pattern p = Pattern.compile("www.nature.com/(\\S+)/journal/v(\\d+)/n(\\d+)/");
-        Matcher m = p.matcher(url.toString());
+        final Pattern p = Pattern.compile("www.nature.com/(\\S+)/journal/v(\\d+)/n(\\d+)/");
+        final Matcher m = p.matcher(url.toString());
         if (!m.find()) {
             throw new CrawlerRuntimeException("No match: "+url.toString());
         };
@@ -68,10 +68,10 @@ public class NatureJournalHandler extends AbstractJournalHandler {
     }
 
     protected URI getCurrentIssueUrl() throws IOException {
-        URI homepageUrl = getHomepageUrl();
-        JournalId journalId = new JournalId("nature/"+getJournal().getAbbreviation());
-        Document html = readHtml(homepageUrl, journalId, "home", AGE_1DAY);
-        String href = XPathUtils.getString(html, ".//x:a[text() = 'Current issue table of contents']/@href");
+        final URI homepageUrl = getHomepageUrl();
+        final JournalId journalId = new JournalId("nature/"+getJournal().getAbbreviation());
+        final Document html = readHtml(homepageUrl, journalId, "home", AGE_1DAY);
+        final String href = XPathUtils.getString(html, ".//x:a[text() = 'Current issue table of contents']/@href");
         return homepageUrl.resolve(href);
     }
 

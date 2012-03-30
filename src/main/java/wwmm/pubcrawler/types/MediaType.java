@@ -27,7 +27,7 @@ public class MediaType {
 
     private String name;
 
-    public MediaType(String name) {
+    public MediaType(final String name) {
         this.name = name;
     }
 
@@ -41,12 +41,12 @@ public class MediaType {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (o == this) {
             return true;
         }
         if (o instanceof MediaType) {
-            MediaType other = (MediaType) o;
+            final MediaType other = (MediaType) o;
             return getName().equals(other.getName());
         }
         return false;

@@ -60,16 +60,16 @@ public class NatureIssueTocParser extends AbstractIssueParser {
 
     @Override
     public Issue getPreviousIssue() {
-        String href = XPathUtils.getString(getHtml(), ".//x:a[text()='Previous']/@href");
+        final String href = XPathUtils.getString(getHtml(), ".//x:a[text()='Previous']/@href");
         if (href == null) {
             return null;
         }
-        Pattern p = Pattern.compile("/journal/v(\\d+)/n(\\d+)/");
-        Matcher m = p.matcher(href);
+        final Pattern p = Pattern.compile("/journal/v(\\d+)/n(\\d+)/");
+        final Matcher m = p.matcher(href);
         m.find();
-        String volume = m.group(1);
-        String number = m.group(2);
-        Issue prev = new Issue();
+        final String volume = m.group(1);
+        final String number = m.group(2);
+        final Issue prev = new Issue();
         prev.setId(new IssueId("nature/"+getJournalAbbreviation()+"/"+volume+"/"+number));
         prev.setUrl(getUrl().resolve(href));
         return prev;
@@ -96,78 +96,78 @@ public class NatureIssueTocParser extends AbstractIssueParser {
 
 
     @Override
-    protected ArticleId getArticleId(Node articleNode, IssueId issueId) {
-        Doi doi = getArticleDoi(null, articleNode);
+    protected ArticleId getArticleId(final Node articleNode, final IssueId issueId) {
+        final Doi doi = getArticleDoi(null, articleNode);
         return new ArticleId(getJournalId(), doi.getSuffix());
     }
 
     @Override
-    protected Doi getArticleDoi(Article article, Node node) {
-        String s = XPathUtils.getString(node, ".//x:span[@class='doi']");
+    protected Doi getArticleDoi(final Article article, final Node node) {
+        final String s = XPathUtils.getString(node, ".//x:span[@class='doi']");
         return new Doi(s);
     }
 
     @Override
-    protected URI getArticleUrl(Article article, Node articleNode) {
+    protected URI getArticleUrl(final Article article, final Node articleNode) {
         // TODO
         return null;
     }
 
     @Override
-    protected URI getArticleSupportingInfoUrl(Article article, Node node) {
-        String href = XPathUtils.getString(node, ".//x:a[text() = 'Supplementary information']/@href");
+    protected URI getArticleSupportingInfoUrl(final Article article, final Node node) {
+        final String href = XPathUtils.getString(node, ".//x:a[text() = 'Supplementary information']/@href");
         return href == null ? null : getUrl().resolve(href);
     }
 
     @Override
-    protected String getArticleTitle(Article article, Node node) {
-        StringBuilder s = new StringBuilder();
-        for (Node n : XPathUtils.queryHTML(node, "./x:h4/node()[./following-sibling::x:span[@class='hidden']]")) {
+    protected String getArticleTitle(final Article article, final Node node) {
+        final StringBuilder s = new StringBuilder();
+        for (final Node n : XPathUtils.queryHTML(node, "./x:h4/node()[./following-sibling::x:span[@class='hidden']]")) {
             s.append(n.getValue());
         }
         return s.toString().trim();
     }
 
     @Override
-    protected String getArticleTitleHtml(Article article, Node node) {
-        Element h = new Element("h1", XHtml.NAMESPACE);
-        for (Node n : XPathUtils.queryHTML(node, "./x:h4/node()[./following-sibling::x:span[@class='hidden']]")) {
+    protected String getArticleTitleHtml(final Article article, final Node node) {
+        final Element h = new Element("h1", XHtml.NAMESPACE);
+        for (final Node n : XPathUtils.queryHTML(node, "./x:h4/node()[./following-sibling::x:span[@class='hidden']]")) {
             h.appendChild(n.copy());
         }
         return HtmlUtil.writeAscii(new Document(h));
     }
 
     @Override
-    protected List<String> getArticleAuthors(Article article, Node articleNode) {
+    protected List<String> getArticleAuthors(final Article article, final Node articleNode) {
         // TODO
         return null;
     }
 
     @Override
-    protected Reference getArticleReference(Article article, Node articleNode) {
+    protected Reference getArticleReference(final Article article, final Node articleNode) {
         // TODO
         return null;
     }
 
     @Override
-    protected List<SupplementaryResource> getArticleSupplementaryResources(Article article, Node articleNode) {
+    protected List<SupplementaryResource> getArticleSupplementaryResources(final Article article, final Node articleNode) {
         return null;
     }
 
     @Override
-    protected List<FullTextResource> getArticleFullTextResources(Article article, Node articleNode) {
+    protected List<FullTextResource> getArticleFullTextResources(final Article article, final Node articleNode) {
         // TODO
         return null;
     }
 
-    private String getBiblio(int i) {
-        String s = XPathUtils.getString(getHtml(), ".//x:h2[@class='issue']");
+    private String getBiblio(final int i) {
+        final String s = XPathUtils.getString(getHtml(), ".//x:h2[@class='issue']");
         if (s == null) {
             throw new CrawlerRuntimeException("not found");
         }
         // January 2011, Volume 3 No 1
-        Pattern p = Pattern.compile("(\\d+), Volume (\\d+) No (\\d+)");
-        Matcher m = p.matcher(s);
+        final Pattern p = Pattern.compile("(\\d+), Volume (\\d+) No (\\d+)");
+        final Matcher m = p.matcher(s);
         if (!m.find()) {
             throw new CrawlerRuntimeException("No match: "+s);
         }
@@ -190,9 +190,9 @@ public class NatureIssueTocParser extends AbstractIssueParser {
     }
 
     public String getJournalAbbreviation() {
-        String s = getUrl().toString();
-        Pattern p = Pattern.compile("nature.com/([^/]+)/journal/");
-        Matcher m = p.matcher(s);
+        final String s = getUrl().toString();
+        final Pattern p = Pattern.compile("nature.com/([^/]+)/journal/");
+        final Matcher m = p.matcher(s);
         m.find();
         return m.group(1);
     }

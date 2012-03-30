@@ -50,7 +50,7 @@ public abstract class AbstractCrawler {
 
     private CrawlerContext context;
 
-    protected AbstractCrawler(CrawlerContext context) {
+    protected AbstractCrawler(final CrawlerContext context) {
         this.context = context;
     }
 
@@ -75,18 +75,18 @@ public abstract class AbstractCrawler {
     }
 
 
-    protected String readString(URI url, Id<?> id, String filename, Duration maxage) throws IOException {
-        CrawlerGetRequest request = new CrawlerGetRequest(url, getCacheId(id, filename), maxage);
+    protected String readString(final URI url, final Id<?> id, final String filename, final Duration maxage) throws IOException {
+        final CrawlerGetRequest request = new CrawlerGetRequest(url, getCacheId(id, filename), maxage);
         return readString(request);
     }
 
-    protected String readStringPost(URI url, List<? extends NameValuePair> params, Id<?> id, String filename, Duration maxage) throws IOException {
-        CrawlerPostRequest request = new CrawlerPostRequest(url, params, getCacheId(id, filename), maxage);
+    protected String readStringPost(final URI url, final List<? extends NameValuePair> params, final Id<?> id, final String filename, final Duration maxage) throws IOException {
+        final CrawlerPostRequest request = new CrawlerPostRequest(url, params, getCacheId(id, filename), maxage);
         return readString(request);
     }
 
-    private String readString(CrawlerRequest request) throws IOException {
-        CrawlerResponse response = getHttpCrawler().execute(request);
+    private String readString(final CrawlerRequest request) throws IOException {
+        final CrawlerResponse response = getHttpCrawler().execute(request);
         try {
             return readString(response);
         } finally {
@@ -94,8 +94,8 @@ public abstract class AbstractCrawler {
         }
     }
 
-    private String readString(CrawlerResponse response) throws IOException {
-        String encoding = getEntityCharset(response);
+    private String readString(final CrawlerResponse response) throws IOException {
+        final String encoding = getEntityCharset(response);
         if (encoding != null) {
             return IOUtils.toString(response.getContent(), encoding);
         } else {
@@ -103,15 +103,15 @@ public abstract class AbstractCrawler {
         }
     }
 
-    protected Document readDocument(URI url, Id<?> id, String filename, Duration maxage) throws IOException {
-        CrawlerGetRequest request = new CrawlerGetRequest(url, getCacheId(id, filename), maxage);
+    protected Document readDocument(final URI url, final Id<?> id, final String filename, final Duration maxage) throws IOException {
+        final CrawlerGetRequest request = new CrawlerGetRequest(url, getCacheId(id, filename), maxage);
         return readDocument(request);
     }
 
-    private Document readDocument(CrawlerRequest request) throws IOException {
-        CrawlerResponse response = getHttpCrawler().execute(request);
+    private Document readDocument(final CrawlerRequest request) throws IOException {
+        final CrawlerResponse response = getHttpCrawler().execute(request);
         try {
-            String encoding = getEntityCharset(response);
+            final String encoding = getEntityCharset(response);
             if (encoding == null) {
                 return readDocument(response, new Builder());
             } else {
@@ -122,9 +122,9 @@ public abstract class AbstractCrawler {
         }
     }
 
-    private Document readDocument(CrawlerResponse response, Builder builder) throws IOException {
+    private Document readDocument(final CrawlerResponse response, final Builder builder) throws IOException {
         try {
-            Document doc = builder.build(response.getContent());
+            final Document doc = builder.build(response.getContent());
             setDocBaseUrl(response, doc);
             return doc;
         } catch (ParsingException e) {
@@ -132,10 +132,10 @@ public abstract class AbstractCrawler {
         }
     }
 
-    private Document readDocument(CrawlerResponse response, Builder builder, String encoding) throws IOException {
+    private Document readDocument(final CrawlerResponse response, final Builder builder, final String encoding) throws IOException {
         try {
-            InputStreamReader isr = new InputStreamReader(response.getContent(), encoding);
-            Document doc = builder.build(isr);
+            final InputStreamReader isr = new InputStreamReader(response.getContent(), encoding);
+            final Document doc = builder.build(isr);
             setDocBaseUrl(response, doc);
             return doc;
         } catch (ParsingException e) {
@@ -143,7 +143,7 @@ public abstract class AbstractCrawler {
         }
     }
 
-    protected static void setDocBaseUrl(CrawlerResponse response, Document doc) {
+    protected static void setDocBaseUrl(final CrawlerResponse response, final Document doc) {
         String url = response.getUrl().toString();
         if (url.indexOf('#') != -1) {
             url = url.substring(0, url.indexOf('#'));
@@ -151,18 +151,18 @@ public abstract class AbstractCrawler {
         doc.setBaseURI(url);
     }
 
-    protected  Document readHtml(URI url, Id<?> id, String filename, Duration maxage) throws IOException {
-        CrawlerGetRequest request = new CrawlerGetRequest(url, getCacheId(id, filename), maxage);
+    protected  Document readHtml(final URI url, final Id<?> id, final String filename, final Duration maxage) throws IOException {
+        final CrawlerGetRequest request = new CrawlerGetRequest(url, getCacheId(id, filename), maxage);
         return readHtml(request);
     }
 
-    protected  Document readHtmlPost(URI url, List<? extends NameValuePair> params, Id<?> id, String filename, Duration maxage) throws IOException {
-        CrawlerPostRequest request = new CrawlerPostRequest(url, params, getCacheId(id, filename), maxage);
+    protected  Document readHtmlPost(final URI url, final List<? extends NameValuePair> params, final Id<?> id, final String filename, final Duration maxage) throws IOException {
+        final CrawlerPostRequest request = new CrawlerPostRequest(url, params, getCacheId(id, filename), maxage);
         return readHtml(request);
     }
 
-    protected Document readHtml(CrawlerRequest request) throws IOException {
-        CrawlerResponse response = getHttpCrawler().execute(request);
+    protected Document readHtml(final CrawlerRequest request) throws IOException {
+        final CrawlerResponse response = getHttpCrawler().execute(request);
         try {
             if (response.isFromCache()) {
                 log().debug("Retrieved "+response.getUrl()+" from cache");
@@ -170,7 +170,7 @@ public abstract class AbstractCrawler {
                 log().info("Downloaded "+response.getUrl());
             }
 
-            String encoding = getEntityCharset(response);
+            final String encoding = getEntityCharset(response);
             if (encoding == null) {
                 return readDocument(response, newTagSoupBuilder());
             } else {
@@ -181,19 +181,19 @@ public abstract class AbstractCrawler {
         }
     }
 
-    protected void touch(CrawlerRequest request) throws IOException {
-        CrawlerResponse response = getHttpCrawler().execute(request);
+    protected void touch(final CrawlerRequest request) throws IOException {
+        final CrawlerResponse response = getHttpCrawler().execute(request);
         response.closeQuietly();
     }
 
 
     protected static Builder newTagSoupBuilder() {
-        XMLReader tagSoupReader = newTagSoupReader();
+        final XMLReader tagSoupReader = newTagSoupReader();
 		return new Builder(tagSoupReader);
 	}
 
     protected static XMLReader newTagSoupReader() {
-        XMLReader reader;
+        final XMLReader reader;
         try {
             reader = XMLReaderFactory.createXMLReader("org.ccil.cowan.tagsoup.Parser");
         } catch (SAXException e) {
@@ -203,12 +203,12 @@ public abstract class AbstractCrawler {
     }
 
 
-    protected static String getEntityCharset(CrawlerResponse response) {
-        Header contentType = response.getContentType();
+    protected static String getEntityCharset(final CrawlerResponse response) {
+        final Header contentType = response.getContentType();
         if (contentType != null) {
             // e.g. text/html; charset=utf-8
-            String value = contentType.getValue();
-            for (String s : value.split("; ")) {
+            final String value = contentType.getValue();
+            for (final String s : value.split("; ")) {
                 if (s.toLowerCase().startsWith("charset=")) {
                     return s.substring(8);
                 }
@@ -217,7 +217,7 @@ public abstract class AbstractCrawler {
         return null;
     }
 
-    protected static String getCacheId(Id<?> id, String filename) {
+    protected static String getCacheId(final Id<?> id, final String filename) {
         return id.getUid()+"::"+filename;
     }
 
