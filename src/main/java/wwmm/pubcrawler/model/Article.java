@@ -28,6 +28,22 @@ public class Article extends PubcrawlerObject<ArticleId> {
 
     private String issueRef;
 
+    public Article() {
+    }
+
+    public Article(final ArticleId articleId, final String title, final List<String> authors, final Reference reference, final URI url, final Doi doi) {
+        setId(articleId);
+        setTitle(title);
+        setAuthors(authors);
+        setReference(reference);
+        if (url != null) {
+            setUrl(url);
+        }
+        if (doi != null) {
+            setDoi(doi);
+        }
+    }
+
     @Override
     protected ArticleId createId(String id) {
         return new ArticleId(id);

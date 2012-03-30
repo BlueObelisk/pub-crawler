@@ -25,7 +25,7 @@ public class ArticleArchiver implements Archiver<Article> {
 
     @Override
     public void archive(final Article article) {
-        DBObject dbObject = collection.findOne(new BasicDBObject("id", article.getId().getValue()));
+        DBObject dbObject = collection.findOne(new BasicDBObject("id", article.getId().getUid()));
         if (dbObject == null) {
             saveArticle(article);
         } else {
@@ -36,7 +36,7 @@ public class ArticleArchiver implements Archiver<Article> {
     private void saveArticle(final Article article) {
         DBObject dbObject = new BasicDBObject();
 
-        dbObject.put("id", article.getId().getValue());
+        dbObject.put("id", article.getId().getUid());
 
         if (article.getIssueRef() != null) {
             dbObject.put("issueRef", article.getIssueRef());

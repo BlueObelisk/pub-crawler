@@ -18,7 +18,6 @@ package wwmm.pubcrawler.crawlers.acta;
 import nu.xom.*;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.log4j.Logger;
-import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerPostRequest;
 import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.CrawlerRuntimeException;
 import wwmm.pubcrawler.crawlers.AbstractArticleCrawler;
@@ -85,7 +84,7 @@ public class ActaSuppInfoCrawler extends AbstractArticleCrawler {
 
     private String getId() {
         if (getHtml() == null) {
-            return getArticleRef().getId().getValue();
+            return getArticleRef().getId().getUid();
         }
         String id = XPathUtils.getString(getHtml(), ".//x:input[@name='cnor']/@value");
         if (id == null) {

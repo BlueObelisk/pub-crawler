@@ -1,4 +1,4 @@
-package wwmm.pubcrawler.crawlers.acs;
+package wwmm.pubcrawler.crawlers.acs.parsers;
 
 import nu.xom.Builder;
 import nu.xom.Document;
@@ -6,10 +6,9 @@ import org.apache.commons.io.IOUtils;
 import org.ccil.cowan.tagsoup.Parser;
 import org.joda.time.LocalDate;
 import org.junit.Test;
-import wwmm.pubcrawler.crawlers.acs.parsers.AcsIssueTocParser;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.Issue;
-import wwmm.pubcrawler.model.Journal;
+import wwmm.pubcrawler.model.id.JournalId;
 import wwmm.pubcrawler.model.id.PublisherId;
 import wwmm.pubcrawler.types.Doi;
 import wwmm.pubcrawler.utils.ResourceUtil;
@@ -27,9 +26,9 @@ import static org.junit.Assert.assertNotNull;
 public class AcsIssueParserTest {
 
     private static final PublisherId ACS = new PublisherId("acs");
-    private static final Journal JACSAT = new Journal(ACS, "jacsat", "Journal of the American Chemical Society");
-    private static final Journal INOCAJ = new Journal(ACS, "inocaj", "Inorganic Chemistry");
-    private static final Journal JCEAXX = new Journal(ACS, "jceaax", "Journal of Chemical & Engineering Data");
+    private static final JournalId JACSAT = new JournalId(ACS, "jacsat");
+    private static final JournalId INOCAJ = new JournalId(ACS, "inocaj");
+    private static final JournalId JCEAXX = new JournalId(ACS, "jceaax");
 
     private Document loadDocument(String path) throws Exception {
         final InputStream in  = ResourceUtil.open(getClass(), "/wwmm/pubcrawler/crawlers/acs/" + path);
@@ -108,7 +107,7 @@ public class AcsIssueParserTest {
         AcsIssueTocParser crawler = getJacsIssue132_51();
         Issue prev = crawler.getPreviousIssue();
         assertNotNull(prev);
-        assertEquals("acs/jacsat/132/50", prev.getId().getValue());
+        assertEquals("acs/jacsat/132/50", prev.getId().getUid());
         assertEquals(URI.create("http://pubs.acs.org/toc/jacsat/132/50"), prev.getUrl());
     }
 
@@ -147,14 +146,14 @@ public class AcsIssueParserTest {
         AcsIssueTocParser crawler = getJacsIssue132_51();
         Issue issue = crawler.getIssueDetails();
         assertNotNull(issue);
-        assertEquals("acs/jacsat/132/51", issue.getId().getValue());
+        assertEquals("acs/jacsat/132/51", issue.getId().getUid());
         assertEquals("2010", issue.getYear());
         assertEquals("132", issue.getVolume());
         assertEquals("51", issue.getNumber());
         assertNotNull(issue.getArticles());
         assertEquals(64, issue.getArticles().size());
         assertNotNull(issue.getPreviousIssue());
-        assertEquals("acs/jacsat/132/50", issue.getPreviousIssue().getId().getValue());
+        assertEquals("acs/jacsat/132/50", issue.getPreviousIssue().getId().getUid());
     }
 
     @Test

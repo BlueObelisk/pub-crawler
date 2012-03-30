@@ -1,7 +1,6 @@
 package wwmm.pubcrawler.model;
 
 import wwmm.pubcrawler.model.id.Id;
-import wwmm.pubcrawler.model.id.IssueId;
 
 import java.net.URI;
 
@@ -13,7 +12,7 @@ public abstract class PubcrawlerObject<ID extends Id<ID>> extends MongoDBObject 
     }
 
     public void setId(ID id) {
-        put("id", id == null ? null : id.getValue());
+        put("id", id == null ? null : id.getUid());
     }
 
     protected abstract ID createId(String id);

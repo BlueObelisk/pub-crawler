@@ -218,7 +218,7 @@ public abstract class AbstractCrawler {
     }
 
     protected static String getCacheId(Id<?> id, String filename) {
-        return id.getValue()+"::"+filename;
+        return id.getUid()+"::"+filename;
     }
 
 }

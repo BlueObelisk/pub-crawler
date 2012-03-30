@@ -52,26 +52,13 @@ public class AcsIssueTocParser extends AbstractIssueParser implements IssueTocPa
     
     private static final Pattern PREV_URI_PATTERN = Pattern.compile("http://pubs.acs.org/toc/\\w+/(\\w+)/(\\w+)");
 
-    private final String journal;
-
-    public AcsIssueTocParser(final Document html, final URI url, final String journal) {
-        super(html, url);
-        this.journal = journal;
-    }
-
-    public AcsIssueTocParser(final Document html, final URI url, final Journal journal) {
-        super(html, url);
-        this.journal = journal.getAbbreviation();
+    public AcsIssueTocParser(final Document html, final URI url, final JournalId journalId) {
+        super(html, url, journalId);
     }
 
     @Override
     protected Logger log() {
         return LOG;
-    }
-
-    @Override
-    public IssueId getIssueId() {
-        return new IssueId(new JournalId(Acs.PUBLISHER_ID, journal), getVolume(), getNumber());
     }
 
     @Override
@@ -210,13 +197,14 @@ public class AcsIssueTocParser extends AbstractIssueParser implements IssueTocPa
 
 
 
-
-    private String getJournalTitle() {
+    @Override
+    protected String getJournalTitle() {
         String s = XPathUtils.getString(getHtml(), "/x:html/x:head/x:title");
         return s.substring(s.indexOf(':'));
     }
 
-    public String getVolume() {
+    @Override
+    protected String getVolume() {
         String text = XPathUtils.getString(getHtml(), ".//x:div[@id='tocMeta']/x:div[2]");
         Pattern p = Pattern.compile("Volume (\\d+)");
         Matcher m = p.matcher(text);
@@ -224,7 +212,8 @@ public class AcsIssueTocParser extends AbstractIssueParser implements IssueTocPa
         return m.group(1);
     }
 
-    public String getNumber() {
+    @Override
+    protected String getNumber() {
         String text = XPathUtils.getString(getHtml(), ".//x:div[@id='tocMeta']/x:div[2]");
         Pattern p = Pattern.compile("Issue (\\d+)");
         Matcher m = p.matcher(text);
@@ -234,7 +223,8 @@ public class AcsIssueTocParser extends AbstractIssueParser implements IssueTocPa
 
     private static final Pattern P_YEAR = Pattern.compile("\\b(\\d{4})\\b");
 
-    public String getYear() {
+    @Override
+    protected String getYear() {
         String text = getDateBlock();
         Matcher m = P_YEAR.matcher(text);
         if (m.find()) {

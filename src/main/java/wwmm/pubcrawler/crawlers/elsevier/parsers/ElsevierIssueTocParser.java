@@ -27,6 +27,7 @@ import wwmm.pubcrawler.crawlers.IssueTocParser;
 import wwmm.pubcrawler.model.*;
 import wwmm.pubcrawler.model.id.ArticleId;
 import wwmm.pubcrawler.model.id.IssueId;
+import wwmm.pubcrawler.model.id.JournalId;
 import wwmm.pubcrawler.types.Doi;
 import wwmm.pubcrawler.utils.XPathUtils;
 
@@ -38,8 +39,6 @@ import java.util.ListIterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static java.lang.String.format;
-
 /**
  * @author Sam Adams
  */
@@ -49,15 +48,13 @@ public class ElsevierIssueTocParser extends AbstractIssueParser implements Issue
 
     private static final Pattern P_ID = Pattern.compile(".*/pii/(\\w+)");
 
-    private final String journal;
     private static final Pattern VOLUME_ISSUE_PATTERN = Pattern.compile("Vol(?:ume)?s? (\\d+), Iss(?:ues?) (\\S+),.*?\\(.*\\b(\\d{4})\\)");
     private static final Pattern VOLUME_PATTERN = Pattern.compile("Vol(?:ume)?s? (\\S+),.*?\\(.*\\b(\\d{4})\\)");
 
     private static final Pattern PREV_URL = Pattern.compile("/science/journal/\\w+/([^/]+)(?:/([^/]+))?");
     
-    public ElsevierIssueTocParser(final Document html, final URI url, final String journal) {
-        super(html, url);
-        this.journal = journal;
+    public ElsevierIssueTocParser(final Document html, final URI url, final JournalId journalId) {
+        super(html, url, journalId);
     }
 
     @Override
@@ -65,6 +62,7 @@ public class ElsevierIssueTocParser extends AbstractIssueParser implements Issue
         return LOG;
     }
 
+    @Override
     public String getJournalTitle() {
         return XPathUtils.getString(getHtml(), "//x:span[@class='pubTitle']").trim();
     }
@@ -95,7 +93,7 @@ public class ElsevierIssueTocParser extends AbstractIssueParser implements Issue
         String href = addr.getAttributeValue("href");
         Matcher m = P_ID.matcher(href);
         if (m.find()) {
-            return new ArticleId("elsevier:article:" + journal + "/" + m.group(1));
+            return new ArticleId(getIssueId(), m.group(1));
         } else {
             throw new CrawlerRuntimeException("No match for ID: "+href);
         }
@@ -201,7 +199,7 @@ public class ElsevierIssueTocParser extends AbstractIssueParser implements Issue
             Matcher m = PREV_URL.matcher((href));
             if (m.find()) {
                 Issue issue = new Issue();
-                issue.setId(new IssueId("elsevier/"+journal+"/"+getVolume()+"/"+getNumber()+"_prev"));
+                issue.setId(new IssueId(getJournalId(), getVolume(), getNumber()+"_prev"));
                 issue.setVolume(m.group(1));
                 issue.setNumber(m.group(2) != null ? m.group(2) : "-");
                 issue.setUrl(getUrl().resolve(href));
@@ -230,11 +228,6 @@ public class ElsevierIssueTocParser extends AbstractIssueParser implements Issue
             return new String[]{m.group(1), "-", m.group(2)};
         }
         throw new CrawlerRuntimeException("Unable to match volume/issue: "+s);
-    }
-
-    @Override
-    protected IssueId getIssueId() {
-        return new IssueId(format("elsevier:issue:%s/%s(%s)", journal, getVolume(), getNumber()));
     }
 
 }

@@ -317,7 +317,7 @@ public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
     @Test
     @Given("#testCrawlB201001")
     public void testGetIssueId(ActaIssueCrawler crawler) throws IOException {
-        assertEquals("acta/b/2010/01-00", crawler.getIssueId().getValue());
+        assertEquals("acta/b/2010/01-00", crawler.getIssueId().getUid());
     }
 
     @Test
@@ -351,13 +351,13 @@ public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
     @Given("#testGetArticles")
     public void testGetArticleIds(List<Article> articles) {
         Article a0 = articles.get(0);
-        assertEquals("acta/b/2010/01-00/bk5091", a0.getId().getValue());
+        assertEquals("acta/b/2010/01-00/bk5091", a0.getId().getUid());
 
         Article a7 = articles.get(7);
-        assertEquals("acta/b/2010/01-00/zb5008", a7.getId().getValue());
+        assertEquals("acta/b/2010/01-00/zb5008", a7.getId().getUid());
 
         Article a12 = articles.get(12);
-        assertEquals("acta/b/2010/01-00/me0395", a12.getId().getValue());
+        assertEquals("acta/b/2010/01-00/me0395", a12.getId().getUid());
     }
 
     @Test
@@ -437,7 +437,7 @@ public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
     public void testGetPreviousIssue(ActaIssueCrawler crawler) throws IOException {
         Issue prev = crawler.getPreviousIssue();
         assertNotNull(prev);
-        assertEquals("acta/b/2009/06-00", prev.getId().getValue());
+        assertEquals("acta/b/2009/06-00", prev.getId().getUid());
         assertEquals(URI.create("http://journals.iucr.org/b/issues/2009/06/00/isscontsbdy.html"), prev.getUrl());
     }
 
@@ -445,7 +445,7 @@ public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
     @Given("#testCrawlB201001")
     public void testToIssue(ActaIssueCrawler crawler) throws IOException {
         Issue issue = crawler.toIssue();
-        assertEquals("acta/b/2010/01-00", issue.getId().getValue());
+        assertEquals("acta/b/2010/01-00", issue.getId().getUid());
         assertEquals(URI.create("http://journals.iucr.org/b/issues/2010/01/00/isscontsbdy.html"), issue.getUrl());
         assertEquals("2010", issue.getYear());
         assertEquals("66", issue.getVolume());
@@ -453,7 +453,7 @@ public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
         assertNotNull(issue.getArticles());
         assertEquals(13, issue.getArticles().size());
         assertNotNull(issue.getPreviousIssue());
-        assertEquals("acta/b/2009/06-00", issue.getPreviousIssue().getId().getValue());
+        assertEquals("acta/b/2009/06-00", issue.getPreviousIssue().getId().getUid());
     }
 
     @Test
@@ -465,7 +465,7 @@ public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
     @Test
     @Given("#testCrawlE200411")
     public void testGetOldFormatIssueId(ActaIssueCrawler crawler) throws IOException {
-        assertEquals("acta/e/2004/11-00", crawler.getIssueId().getValue());
+        assertEquals("acta/e/2004/11-00", crawler.getIssueId().getUid());
     }
 
     @Test

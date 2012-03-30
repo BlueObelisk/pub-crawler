@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package wwmm.pubcrawler.crawlers.acs;
+package wwmm.pubcrawler.crawlers.acs.parsers;
 
 import nu.xom.Builder;
 import nu.xom.Document;

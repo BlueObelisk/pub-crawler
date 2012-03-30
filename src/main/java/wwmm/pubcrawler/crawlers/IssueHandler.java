@@ -4,6 +4,6 @@ import wwmm.pubcrawler.model.Issue;
 
 public interface IssueHandler {
 
-    void handleIssue(String journal, Issue issue);
+    void handleIssue(Issue issue);
     
 }
