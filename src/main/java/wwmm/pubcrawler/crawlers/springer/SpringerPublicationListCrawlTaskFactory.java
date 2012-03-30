@@ -16,7 +16,7 @@ public class SpringerPublicationListCrawlTaskFactory {
 
     public CrawlTask createIssueListCrawlTask(final URI url, final String key, final int page) {
         // Fetch pages
-        Map<String,String> data = new HashMap<String, String>();
+        final Map<String,String> data = new HashMap<String, String>();
         data.put("url", url.toString());
         data.put("fileId", "journals_" + key + "_" + page + ".html");
         data.put("key", key);

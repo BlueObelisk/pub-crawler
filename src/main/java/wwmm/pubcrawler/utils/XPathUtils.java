@@ -36,8 +36,8 @@ public class XPathUtils {
      * @return list of <code>Node</code> that represent the parts of
      *         the queried XML document that matched the provided XPath query.
      */
-    public static List<Node> queryHTML(Document doc, String xpath) {
-        Node node = doc.getRootElement();
+    public static List<Node> queryHTML(final Document doc, final String xpath) {
+        final Node node = doc.getRootElement();
         return queryHTML(node, xpath);
     }
 
@@ -53,8 +53,8 @@ public class XPathUtils {
      * @return list of <code>Node</code> that represent the parts of
      *         the queried XML document that matched the provided XPath query.
      */
-    public static List<Node> queryHTML(Node node, String xpath) {
-        Nodes nodes = node.query(xpath, XHtml.XPATH_CONTEXT);
+    public static List<Node> queryHTML(final Node node, final String xpath) {
+        final Nodes nodes = node.query(xpath, XHtml.XPATH_CONTEXT);
         return getNodeListFromNodes(nodes);
     }
 
@@ -68,8 +68,8 @@ public class XPathUtils {
      * @return list of <Node> containing the same XML elemenst as
      *         the provided <code>Nodes</code>.
      */
-    public static List<Node> getNodeListFromNodes(Nodes nodes) {
-        List<Node> nodeList = new ArrayList<Node>(nodes.size());
+    public static List<Node> getNodeListFromNodes(final Nodes nodes) {
+        final List<Node> nodeList = new ArrayList<Node>(nodes.size());
         for (int i = 0; i < nodes.size(); i++) {
             nodeList.add(nodes.get(i));
         }
@@ -78,22 +78,22 @@ public class XPathUtils {
 
 
 
-    public static String getString(Node root, String xpath) {
-        Node node = getNode(root, xpath);
+    public static String getString(final Node root, final String xpath) {
+        final Node node = getNode(root, xpath);
         return node == null ? null : node.getValue();
     }
 
-    public static List<String> getStrings(Node root, String xpath) {
-        Nodes nodes = root.query(xpath, XHtml.XPATH_CONTEXT);
-        List<String> strings = new ArrayList<String>();
+    public static List<String> getStrings(final Node root, final String xpath) {
+        final Nodes nodes = root.query(xpath, XHtml.XPATH_CONTEXT);
+        final List<String> strings = new ArrayList<String>();
         for (int i = 0; i < nodes.size(); i++) {
             strings.add(nodes.get(i).getValue());
         }
         return strings;
     }
 
-    public static Node getNode(Node root, String xpath) {
-        Nodes nodes = root.query(xpath, XHtml.XPATH_CONTEXT);
+    public static Node getNode(final Node root, final String xpath) {
+        final Nodes nodes = root.query(xpath, XHtml.XPATH_CONTEXT);
         if (nodes.size() == 1) {
             return nodes.get(0);
         }

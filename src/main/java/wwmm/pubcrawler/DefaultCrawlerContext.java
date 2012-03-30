@@ -33,15 +33,15 @@ import java.io.IOException;
  */
 public class DefaultCrawlerContext extends CrawlerContext {
 
-    public DefaultCrawlerContext(AbstractCrawlerFactory crawlerFactory) throws IOException {
+    public DefaultCrawlerContext(final AbstractCrawlerFactory crawlerFactory) throws IOException {
         super(createDataStore(), createCrawler(), crawlerFactory);
     }
 
     private static HttpFetcher createCrawler() throws IOException {
-        int connectionTimeoutMillis = 20000;
-        int socketTimeoutMillis = 20000;
+        final int connectionTimeoutMillis = 20000;
+        final int socketTimeoutMillis = 20000;
 
-        HttpClient client = new DefaultHttpClient();
+        final HttpClient client = new DefaultHttpClient();
         HttpConnectionParams.setConnectionTimeout(client.getParams(), connectionTimeoutMillis);
         HttpConnectionParams.setSoTimeout(client.getParams(), socketTimeoutMillis);
         HttpProtocolParams.setUserAgent(client.getParams(), "pubcrawler/0.3");
@@ -50,9 +50,9 @@ public class DefaultCrawlerContext extends CrawlerContext {
     }
 
     private static MongoStore createDataStore() throws IOException {
-        Mongo mongo = new Mongo();
-        DB db = mongo.getDB("crawler");
-        MongoStore store = new MongoStore(db);
+        final Mongo mongo = new Mongo();
+        final DB db = mongo.getDB("crawler");
+        final MongoStore store = new MongoStore(db);
         return store;
     }
 

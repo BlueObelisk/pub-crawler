@@ -34,8 +34,8 @@ public class MongoIssueRepository implements IssueRepository {
 
     @Override
     public List<Issue> getIssuesForJournal(final String journalId) {
-        List<Issue> results = new ArrayList<Issue>();
-        DBCursor cursor = collection.find(new BasicDBObject("journalRef", journalId));
+        final List<Issue> results = new ArrayList<Issue>();
+        final DBCursor cursor = collection.find(new BasicDBObject("journalRef", journalId));
         try {
             while (cursor.hasNext()) {
                 results.add(mapIssue(cursor.next()));
@@ -57,7 +57,7 @@ public class MongoIssueRepository implements IssueRepository {
     }
 
     private Issue mapIssue(final DBObject dbObject) {
-        Issue issue = new Issue();
+        final Issue issue = new Issue();
         issue.setJournalRef((String) dbObject.get("journalRef"));
         issue.setVolume((String) dbObject.get("volume"));
         issue.setNumber((String) dbObject.get("number"));

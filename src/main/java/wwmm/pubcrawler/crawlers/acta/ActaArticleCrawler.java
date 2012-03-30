@@ -57,18 +57,18 @@ public class ActaArticleCrawler extends AbstractArticleCrawler {
 
 //    private BibtexTool bibtex;
 
-    public ActaArticleCrawler(Article article, CrawlerContext context) throws IOException {
+    public ActaArticleCrawler(final Article article, final CrawlerContext context) throws IOException {
         super(article, context);
 //        this.bibtex = fetchBibtex();
     }
 
 
     private BibtexTool fetchBibtex() throws IOException {
-        String id = getId();
-        String articleId = id.substring(id.lastIndexOf('/')+1);
+        final String id = getId();
+        final String articleId = id.substring(id.lastIndexOf('/')+1);
         log().trace("fetching bibtex: "+articleId);
 
-        String text = readStringPost(
+        final String text = readStringPost(
                 URI.create("http://scripts.iucr.org/cgi-bin/biblio"),
                 Arrays.asList(
                         new BasicNameValuePair("name", "saveas"),
@@ -81,7 +81,7 @@ public class ActaArticleCrawler extends AbstractArticleCrawler {
     }
 
     private String getId() {
-        String id = XPathUtils.getString(getHtml(), ".//x:input[@name='cnor']/@value");
+        final String id = XPathUtils.getString(getHtml(), ".//x:input[@name='cnor']/@value");
         if (id == null) {
             throw new CrawlerRuntimeException("Unable to locate article ID");
         }
@@ -97,13 +97,13 @@ public class ActaArticleCrawler extends AbstractArticleCrawler {
 
 
     public boolean isOpenAccess() {
-        List<Node> nodes = XPathUtils.queryHTML(getHtml(), ".//x:a/x:img[@alt='Open access']");
+        final List<Node> nodes = XPathUtils.queryHTML(getHtml(), ".//x:a/x:img[@alt='Open access']");
         return !nodes.isEmpty();
     }
 
 
-    public Element getAbstract(Document html) {
-        List<Node> nodes = XPathUtils.queryHTML(html, ".//x:p[x:b='Abstract:']");
+    public Element getAbstract(final Document html) {
+        final List<Node> nodes = XPathUtils.queryHTML(html, ".//x:p[x:b='Abstract:']");
         Element p = (Element) nodes.get(0);
         p = (Element) p.copy();
 
@@ -114,30 +114,30 @@ public class ActaArticleCrawler extends AbstractArticleCrawler {
         return p;
     }
 
-    private void removeAbstractPrefix(Element p) {
-        Element b = p.getFirstChildElement("b", "http://www.w3.org/1999/xhtml");
+    private void removeAbstractPrefix(final Element p) {
+        final Element b = p.getFirstChildElement("b", "http://www.w3.org/1999/xhtml");
         b.detach();
     }
 
-    private void trimWhitespace(Element p) {
+    private void trimWhitespace(final Element p) {
         if (p.getChild(0) instanceof Text) {
-            Text t = (Text) p.getChild(0);
-            String value = t.getValue();
+            final Text t = (Text) p.getChild(0);
+            final String value = t.getValue();
             if (value.startsWith(" ")) {
                 t.setValue(value.substring(1));
             }
         }
     }
 
-    private void removeSpanElements(Element p) {
+    private void removeSpanElements(final Element p) {
         for (int i = 0; i < p.getChildCount(); i++) {
-            Node child = p.getChild(i);
+            final Node child = p.getChild(i);
             if (child instanceof Element) {
-                Element element = (Element) child;
+                final Element element = (Element) child;
                 if ("span".equals(element.getLocalName())) {
                     element.detach();
                     while (element.getChildCount() > 0) {
-                        Node n = element.getChild(0);
+                        final Node n = element.getChild(0);
                         n.detach();
                         p.insertChild(n, i);
                         i++;
@@ -151,19 +151,19 @@ public class ActaArticleCrawler extends AbstractArticleCrawler {
 
     @Override
     public Article toArticle() {
-        Article article = super.toArticle();
+        final Article article = super.toArticle();
         article.setTitleHtml(getTitleHtmlString());
         return article;
     }
 
 
     public Element getTitleHtml() {
-        List<Node> nodes = XPathUtils.queryHTML(getHtml(), ".//x:div[@class='bibline']/following-sibling::x:h3[1]");
+        final List<Node> nodes = XPathUtils.queryHTML(getHtml(), ".//x:div[@class='bibline']/following-sibling::x:h3[1]");
         if (nodes.size() != 1) {
             throw new RuntimeException("Nodes: "+nodes.size());
         }
-        Element element = (Element) nodes.get(0);
-        Element copy = new Element("h1", "http://www.w3.org/1999/xhtml");
+        final Element element = (Element) nodes.get(0);
+        final Element copy = new Element("h1", "http://www.w3.org/1999/xhtml");
         for (int i = 0; i < element.getChildCount(); i++) {
             copy.appendChild(element.getChild(i).copy());
         }
@@ -175,10 +175,10 @@ public class ActaArticleCrawler extends AbstractArticleCrawler {
         return toHtml(getTitleHtml());
     }
 
-    private String toHtml(Element element) {
+    private String toHtml(final Element element) {
         try {
-            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-            Serializer ser = new Serializer(bytes, "UTF-8") {
+            final ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+            final Serializer ser = new Serializer(bytes, "UTF-8") {
                 @Override
                 protected void writeXMLDeclaration() {
                     // no decl
@@ -186,7 +186,7 @@ public class ActaArticleCrawler extends AbstractArticleCrawler {
             };
             ser.write(new Document(element));
 
-            String s = bytes.toString("UTF-8");
+            final String s = bytes.toString("UTF-8");
             return s.trim();
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -195,19 +195,19 @@ public class ActaArticleCrawler extends AbstractArticleCrawler {
 
     @Override
     public List<String> getAuthors() {
-        List<String> authors = XPathUtils.getStrings(getHtml(), ".//x:h3/x:a[contains(@href, 'author_name')]");
+        final List<String> authors = XPathUtils.getStrings(getHtml(), ".//x:h3/x:a[contains(@href, 'author_name')]");
         return authors;
     }
 
     public String getJournalTitleAbbreviation() {
-        Node bibnode = XPathUtils.getNode(getHtml(), ".//x:div[@class='bibline']");
-        String journalTitle = XPathUtils.getString(bibnode, "./x:p/x:i");
+        final Node bibnode = XPathUtils.getNode(getHtml(), ".//x:div[@class='bibline']");
+        final String journalTitle = XPathUtils.getString(bibnode, "./x:p/x:i");
         return journalTitle;
     }
 
     @Override
     public Reference getReference() {
-        Reference reference = new Reference();
+        final Reference reference = new Reference();
         reference.setJournalTitle(getJournalTitle());
         reference.setYear(getYear());
         reference.setVolume(getVolume());
@@ -217,9 +217,9 @@ public class ActaArticleCrawler extends AbstractArticleCrawler {
     }
 
     private String getPages() {
-        String s = XPathUtils.getString(getHtml(), ".//x:div[@class='bibline']/x:p/x:b/following-sibling::text()[1]");
-        Pattern p = Pattern.compile(", (\\w+)");
-        Matcher m = p.matcher(s);
+        final String s = XPathUtils.getString(getHtml(), ".//x:div[@class='bibline']/x:p/x:b/following-sibling::text()[1]");
+        final Pattern p = Pattern.compile(", (\\w+)");
+        final Matcher m = p.matcher(s);
         if (!m.find()) {
             log().warn("Unable to find pages ["+getArticleId()+"]: "+s);
             return null;
@@ -240,9 +240,9 @@ public class ActaArticleCrawler extends AbstractArticleCrawler {
     }
 
     private String[] getBibline() {
-        String s = XPathUtils.getString(getHtml(), "/x:html/x:body/x:h3[2]");
-        Pattern p = Pattern.compile("Volume\\s+(\\d+),\\s+Part\\s+(\\d+)\\s+\\(\\S+\\s+(\\d+)\\)");
-        Matcher m = p.matcher(s);
+        final String s = XPathUtils.getString(getHtml(), "/x:html/x:body/x:h3[2]");
+        final Pattern p = Pattern.compile("Volume\\s+(\\d+),\\s+Part\\s+(\\d+)\\s+\\(\\S+\\s+(\\d+)\\)");
+        final Matcher m = p.matcher(s);
         if (!m.find()) {
             throw new CrawlerRuntimeException("No match: "+s);
         }
@@ -255,19 +255,19 @@ public class ActaArticleCrawler extends AbstractArticleCrawler {
 
     @Override
     public List<SupplementaryResource> getSupplementaryResources() {
-        List<Node> nodes = XPathUtils.queryHTML(getHtml(), ".//x:div[@class='buttonlinks']/x:a");
-        ActaSuppInfoReader suppInfoReader = new ActaSuppInfoReader(getContext(), getArticleRef());
+        final List<Node> nodes = XPathUtils.queryHTML(getHtml(), ".//x:div[@class='buttonlinks']/x:a");
+        final ActaSuppInfoReader suppInfoReader = new ActaSuppInfoReader(getContext(), getArticleRef());
         return suppInfoReader.getSupplementaryResources(nodes, getUrl());
     }
 
     @Override
     public List<FullTextResource> getFullTextResources() {
-        List<FullTextResource> fullTextResources = new ArrayList<FullTextResource>();
-        List<Node> links = XPathUtils.queryHTML(getHtml(), ".//x:a[x:img[contains(@alt, 'version')]]");
-        for (Node link : links) {
-            String href = XPathUtils.getString(link, "@href");
-            String text = XPathUtils.getString(link, "x:img/@alt");
-            FullTextResource fullText = new FullTextResource();
+        final List<FullTextResource> fullTextResources = new ArrayList<FullTextResource>();
+        final List<Node> links = XPathUtils.queryHTML(getHtml(), ".//x:a[x:img[contains(@alt, 'version')]]");
+        for (final Node link : links) {
+            final String href = XPathUtils.getString(link, "@href");
+            final String text = XPathUtils.getString(link, "x:img/@alt");
+            final FullTextResource fullText = new FullTextResource();
             fullText.setUrl(getUrl().resolve(href));
             fullText.setLinkText(text);
             fullTextResources.add(fullText);

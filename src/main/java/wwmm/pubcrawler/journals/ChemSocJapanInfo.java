@@ -39,7 +39,7 @@ public class ChemSocJapanInfo {
     private static final PublisherId CHEMSOCJAPAN_ID = new PublisherId("chemsocjapan");
 
     public static List<Journal> getJournals() {
-        List<Journal> journals = new ArrayList<Journal>();
+        final List<Journal> journals = new ArrayList<Journal>();
 
         journals.add(new Journal(CHEMSOCJAPAN_ID, "chem-lett", "Chemistry Letters"));
 

@@ -46,7 +46,7 @@ public abstract class BasicIssueTocCrawlerTask extends BasicHttpCrawlTask {
         final Issue issue = parser.getIssueDetails();
         issueArchiver.archive(issue);
 
-        for (Article article : parser.getArticles()) {
+        for (final Article article : parser.getArticles()) {
             article.setIssueRef(id);
             articleArchiver.archive(article);
         }

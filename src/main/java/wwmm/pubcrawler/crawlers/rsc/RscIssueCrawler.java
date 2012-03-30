@@ -63,7 +63,7 @@ public class RscIssueCrawler extends AbstractIssueCrawler {
      *
      * @param issue the issue to be crawled.
      */
-    public RscIssueCrawler(Issue issue, Journal journal, CrawlerContext context) throws IOException {
+    public RscIssueCrawler(final Issue issue, final Journal journal, final CrawlerContext context) throws IOException {
         super(issue, journal, context);
     }
 
@@ -73,10 +73,10 @@ public class RscIssueCrawler extends AbstractIssueCrawler {
     }
 
     @Override
-    protected Document fetchHtml(Issue issue) throws IOException {
-        String rscId = issue.getUrl().toString();
+    protected Document fetchHtml(final Issue issue) throws IOException {
+        final String rscId = issue.getUrl().toString();
 
-        Duration maxAge;
+        final Duration maxAge;
         CrawlerRequest request;
         if (issue.isCurrent()) {
             maxAge = AGE_1DAY;
@@ -84,7 +84,7 @@ public class RscIssueCrawler extends AbstractIssueCrawler {
             maxAge = AGE_MAX;
         }
 
-        Document doc = readHtmlPost(
+        final Document doc = readHtmlPost(
                 URI.create("http://pubs.rsc.org/en/journals/issues"),
                 Arrays.asList(
                     new BasicNameValuePair("name", getJournal().getAbbreviation().toUpperCase()),
@@ -113,82 +113,82 @@ public class RscIssueCrawler extends AbstractIssueCrawler {
 
 
     @Override
-    protected ArticleId getArticleId(Node context, IssueId issueId) {
-        Attribute attr = (Attribute) context;
-        String id = attr.getValue();
+    protected ArticleId getArticleId(final Node context, final IssueId issueId) {
+        final Attribute attr = (Attribute) context;
+        final String id = attr.getValue();
         return new ArticleId(getJournal().getId(), id);
     }
 
     @Override
-    protected Doi getArticleDoi(Article article, Node context) {
-        Attribute attr = (Attribute) context;
-        String id = attr.getValue();
+    protected Doi getArticleDoi(final Article article, final Node context) {
+        final Attribute attr = (Attribute) context;
+        final String id = attr.getValue();
         return new Doi(RSC_DOI_PREFIX + id);
     }
 
     @Override
-    protected URI getArticleUrl(Article article, Node articleNode) {
+    protected URI getArticleUrl(final Article article, final Node articleNode) {
         // TODO
         return null;
     }
 
     @Override
-    protected URI getArticleSupportingInfoUrl(Article article, Node articleNode) {
+    protected URI getArticleSupportingInfoUrl(final Article article, final Node articleNode) {
         // TODO
         return null;
     }
 
     @Override
-    protected String getArticleTitle(Article article, Node articleNode) {
+    protected String getArticleTitle(final Article article, final Node articleNode) {
         // TODO
         return null;
     }
 
     @Override
-    protected String getArticleTitleHtml(Article article, Node articleNode) {
+    protected String getArticleTitleHtml(final Article article, final Node articleNode) {
         // TODO
         return null;
     }
 
     @Override
-    protected List<String> getArticleAuthors(Article article, Node articleNode) {
+    protected List<String> getArticleAuthors(final Article article, final Node articleNode) {
         // TODO
         return null;
     }
 
     @Override
-    protected Reference getArticleReference(Article article, Node articleNode) {
+    protected Reference getArticleReference(final Article article, final Node articleNode) {
         // TODO
         return null;
     }
 
     @Override
-    protected List<SupplementaryResource> getArticleSupplementaryResources(Article article, Node articleNode) {
+    protected List<SupplementaryResource> getArticleSupplementaryResources(final Article article, final Node articleNode) {
         // TODO
         return null;
     }
 
     @Override
-    protected List<FullTextResource> getArticleFullTextResources(Article article, Node articleNode) {
+    protected List<FullTextResource> getArticleFullTextResources(final Article article, final Node articleNode) {
         // TODO
         return null;
     }
 
     @Override
     public Issue getPreviousIssue() {
-        Element node = (Element) XPathUtils.getNode(getHtml(), ".//x:a[@title='Previous Issue']");
+        final Element node = (Element) XPathUtils.getNode(getHtml(), ".//x:a[@title='Previous Issue']");
         if (node == null) {
             return null;
         }
-        String s = node.getAttributeValue("href");
+        final String s = node.getAttributeValue("href");
         // /en/journals/journal/cc?issueid=cc047024&amp;issnprint=1359-7345
-        Pattern p = Pattern.compile("\\b([a-z]+)(\\d{3})(\\d{3})($|&issnprint)", Pattern.CASE_INSENSITIVE);
-        Matcher m = p.matcher(s);
+        final Pattern p = Pattern.compile("\\b([a-z]+)(\\d{3})(\\d{3})($|&issnprint)", Pattern.CASE_INSENSITIVE);
+        final Matcher m = p.matcher(s);
         if (!m.find()) {
             throw new CrawlerRuntimeException("No match: ["+s+"]");
         }
-        String issueId = "rsc/"+m.group(1)+'/'+Integer.parseInt(m.group(2))+'/'+Integer.parseInt(m.group(3));
-        Issue prev = new Issue();
+        final String issueId = "rsc/"+m.group(1)+'/'+Integer.parseInt(m.group(2))+'/'+Integer.parseInt(m.group(3));
+        final Issue prev = new Issue();
         prev.setId(new IssueId(issueId));
         if (node.getAttributeValue("url") != null) {
             prev.setUrl(URI.create(node.getAttributeValue("url")));
@@ -206,8 +206,8 @@ public class RscIssueCrawler extends AbstractIssueCrawler {
 
     @Override
     public String getVolume() {
-        Pattern p = Pattern.compile("(.+)(\\d{3})(\\d{3})$");
-        Matcher m = p.matcher(getIdString());
+        final Pattern p = Pattern.compile("(.+)(\\d{3})(\\d{3})$");
+        final Matcher m = p.matcher(getIdString());
         if (!m.find()) {
             throw new CrawlerRuntimeException("No match: "+getIdString());
         }
@@ -216,9 +216,9 @@ public class RscIssueCrawler extends AbstractIssueCrawler {
 
     @Override
     public String getNumber() {
-        String s = getScriptText();
-        Pattern p = Pattern.compile("IssueNo='(\\d+(-\\d+)?)'");
-        Matcher m = p.matcher(s);
+        final String s = getScriptText();
+        final Pattern p = Pattern.compile("IssueNo='(\\d+(-\\d+)?)'");
+        final Matcher m = p.matcher(s);
         if (!m.find()) {
             log().warn("Unable to locate issue number: "+s);
             return "0";
@@ -227,13 +227,13 @@ public class RscIssueCrawler extends AbstractIssueCrawler {
     }
 
     public String getIdString() {
-        String s = getScriptText();
-        Pattern p = Pattern.compile("IssueId='([^']+)'");
-        Matcher m = p.matcher(s);
+        final String s = getScriptText();
+        final Pattern p = Pattern.compile("IssueId='([^']+)'");
+        final Matcher m = p.matcher(s);
         if (!m.find()) {
-            File file = new File("rsc.html");
+            final File file = new File("rsc.html");
             try {
-                Serializer ser = new Serializer(new FileOutputStream(file));
+                final Serializer ser = new Serializer(new FileOutputStream(file));
                 ser.write(getHtml());
             } catch (Exception e) {
                 e.printStackTrace();
@@ -245,9 +245,9 @@ public class RscIssueCrawler extends AbstractIssueCrawler {
 
     @Override
     public String getYear() {
-        String s = getScriptText();
-        Pattern p = Pattern.compile("SubYear='([^']+)'");
-        Matcher m = p.matcher(s);
+        final String s = getScriptText();
+        final Pattern p = Pattern.compile("SubYear='([^']+)'");
+        final Matcher m = p.matcher(s);
         m.find();
         return m.group(1);
     }

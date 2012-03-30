@@ -34,7 +34,7 @@ public class RscJournalHandler extends AbstractJournalHandler {
 
     private static final String CURRENT_ISSUE_IDENTIFIER = "Latest";
 
-    public RscJournalHandler(Journal journal, CrawlerContext context) {
+    public RscJournalHandler(final Journal journal, final CrawlerContext context) {
         super(journal, context);
     }
 
@@ -46,7 +46,7 @@ public class RscJournalHandler extends AbstractJournalHandler {
     @Override
     public Issue fetchCurrentIssue() throws IOException {
         log().debug("Fetching current issue of " + getJournal().getTitle());
-        Issue issue = new Issue();
+        final Issue issue = new Issue();
         issue.setId(new IssueId("rsc/"+getJournal().getAbbreviation()+"/latest"));
         issue.setCurrent(true);
         issue.setUrl(URI.create(CURRENT_ISSUE_IDENTIFIER));

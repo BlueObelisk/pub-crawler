@@ -19,8 +19,8 @@ public class Elsevier {
 
     public static final PublisherId PUBLISHER_ID = new PublisherId("elsevier");
 
-    public static CrawlTask createIssueTocTask(final URI url, String journal, String id) {
-        Map<String, String> map = new HashMap<String, String>();
+    public static CrawlTask createIssueTocTask(final URI url, final String journal, final String id) {
+        final Map<String, String> map = new HashMap<String, String>();
         map.put("url", url.toString());
         map.put("fileId", "toc.html");
         map.put("journal", journal);

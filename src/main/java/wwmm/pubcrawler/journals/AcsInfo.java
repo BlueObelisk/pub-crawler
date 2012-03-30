@@ -37,7 +37,7 @@ public class AcsInfo {
     private static final PublisherId ACS_ID = new PublisherId("acs");
 
     public static List<Journal> getJournals() {
-        List<Journal> journals = new ArrayList<Journal>();
+        final List<Journal> journals = new ArrayList<Journal>();
 
         journals.add(new Journal(ACS_ID, "achre4", "Accounts of Chemical Research", 1967));
         journals.add(new Journal(ACS_ID, "ancham", "Analytical Chemistry", 1928));

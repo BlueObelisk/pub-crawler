@@ -42,16 +42,16 @@ public class WileyPublicationListParser implements PublicationListParser {
 
     @Override
     public List<Journal> findJournals() {
-        List<Journal> list = new ArrayList<Journal>();
+        final List<Journal> list = new ArrayList<Journal>();
 
-        List<Node> nodes = XPathUtils.queryHTML(html, "//x:li/x:div[@class='publication']/x:div[@class='details']");
-        for (Node node : nodes) {
+        final List<Node> nodes = XPathUtils.queryHTML(html, "//x:li/x:div[@class='publication']/x:div[@class='details']");
+        for (final Node node : nodes) {
             if (XPathUtils.queryHTML(node, "x:span[@class='previousTitle']").isEmpty()) {
-                String title = XPathUtils.getString(node, "x:label");
-                String href = XPathUtils.getString(node, "x:a/@href");
-                int ix = href.indexOf("/journal/");
-                String abbreviation = href.substring(ix+9);
-                Journal journal = new Journal(abbreviation, title);
+                final String title = XPathUtils.getString(node, "x:label");
+                final String href = XPathUtils.getString(node, "x:a/@href");
+                final int ix = href.indexOf("/journal/");
+                final String abbreviation = href.substring(ix+9);
+                final Journal journal = new Journal(abbreviation, title);
                 journal.setId(new JournalId("wiley/" + abbreviation));
                 journal.setUrl(url.resolve(href));
                 list.add(journal);

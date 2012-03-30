@@ -28,11 +28,11 @@ package wwmm.pubcrawler;
  */
 public class CrawlerRuntimeException extends RuntimeException {
 
-	public CrawlerRuntimeException(String message, Throwable cause) {
+	public CrawlerRuntimeException(final String message, final Throwable cause) {
 		super(message, cause);
 	}
 
-	public CrawlerRuntimeException(String message) {
+	public CrawlerRuntimeException(final String message) {
 		super(message);
 	}
 

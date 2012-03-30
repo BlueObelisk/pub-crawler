@@ -13,8 +13,8 @@ import java.io.InputStreamReader;
  */
 public class HtmlUtils {
 
-    public static Document readHtmlDocument(CrawlerResponse response) throws IOException {
-        String encoding = response.getCharacterEncoding();
+    public static Document readHtmlDocument(final CrawlerResponse response) throws IOException {
+        final String encoding = response.getCharacterEncoding();
         if (encoding == null) {
             return readDocument(response, newTagSoupBuilder());
         } else {
@@ -22,8 +22,8 @@ public class HtmlUtils {
         }
     }
 
-    public static Document readXmlDocument(CrawlerResponse response) throws IOException {
-        String encoding = response.getCharacterEncoding();
+    public static Document readXmlDocument(final CrawlerResponse response) throws IOException {
+        final String encoding = response.getCharacterEncoding();
         if (encoding == null) {
             return readDocument(response, new Builder());
         } else {
@@ -31,9 +31,9 @@ public class HtmlUtils {
         }
     }
 
-    private static Document readDocument(CrawlerResponse response, Builder builder) throws IOException {
+    private static Document readDocument(final CrawlerResponse response, final Builder builder) throws IOException {
         try {
-            Document doc = builder.build(response.getContent());
+            final Document doc = builder.build(response.getContent());
             setDocBaseUrl(response, doc);
             return doc;
         } catch (ParsingException e) {
@@ -41,10 +41,10 @@ public class HtmlUtils {
         }
     }
 
-    private static Document readDocument(CrawlerResponse response, Builder builder, String encoding) throws IOException {
+    private static Document readDocument(final CrawlerResponse response, final Builder builder, final String encoding) throws IOException {
         try {
-            InputStreamReader isr = new InputStreamReader(response.getContent(), encoding);
-            Document doc = builder.build(isr);
+            final InputStreamReader isr = new InputStreamReader(response.getContent(), encoding);
+            final Document doc = builder.build(isr);
             setDocBaseUrl(response, doc);
             return doc;
         } catch (ParsingException e) {
@@ -52,8 +52,8 @@ public class HtmlUtils {
         }
     }
 
-    private static void setDocBaseUrl(CrawlerResponse response, Document doc) {
-        String url = response.getUrl().toString();
+    private static void setDocBaseUrl(final CrawlerResponse response, final Document doc) {
+        final String url = response.getUrl().toString();
         doc.setBaseURI(removeFragment(url));
     }
 

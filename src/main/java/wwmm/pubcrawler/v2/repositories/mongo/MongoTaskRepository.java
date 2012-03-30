@@ -48,7 +48,7 @@ public class MongoTaskRepository implements TaskRepository {
             new BasicDBObject("run", new BasicDBObject("$ne", true))
         ));
 
-        List<String> tasks = new ArrayList<String>();
+        final List<String> tasks = new ArrayList<String>();
         final DBCursor cursor = collection.find(query);
         try {
             while (cursor.hasNext()) {
@@ -63,7 +63,7 @@ public class MongoTaskRepository implements TaskRepository {
 
     private Map<String, String> getData(final DBObject task) {
         final Map<String,String> data = new LinkedHashMap<String, String>();
-        for (String key : task.keySet()) {
+        for (final String key : task.keySet()) {
             data.put(key, (String) task.get(key));
         }
         return data;
@@ -96,7 +96,7 @@ public class MongoTaskRepository implements TaskRepository {
 
     private boolean shouldReRun(final CrawlTask task, final DBObject dbTask) {
         if (task.getMaxAge() != null && dbTask.containsField("lastRun")) {
-            DateTime lastRun = new DateTime(dbTask.get("lastRun"));
+            final DateTime lastRun = new DateTime(dbTask.get("lastRun"));
             return lastRun.plus(task.getMaxAge()).isBeforeNow();
         }
         return false;
@@ -108,7 +108,7 @@ public class MongoTaskRepository implements TaskRepository {
         dbTask.put("type", task.getTaskClass().getName());
         dbTask.put("queued", System.currentTimeMillis());
         final DBObject data = new BasicDBObject();
-        for (String key : task.getData().keys()) {
+        for (final String key : task.getData().keys()) {
             data.put(key, task.getData().getString(key));
         }
         dbTask.put("data", data);

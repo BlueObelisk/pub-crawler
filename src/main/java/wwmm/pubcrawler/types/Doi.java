@@ -34,23 +34,23 @@ public class Doi {
 
     private final String value;
 
-    public Doi(String value) {
-        String doi = extractDoi(value);
+    public Doi(final String value) {
+        final String doi = extractDoi(value);
         validate(doi);
         this.value = doi;
     }
 
-    public Doi(URI uri) {
-        String url = uri.toString();
+    public Doi(final URI uri) {
+        final String url = uri.toString();
         if (!url .toLowerCase().startsWith(DOI_SITE_URL.toString())) {
             throw new InvalidDoiException("URI must start "+DOI_SITE_URL + "["+uri+"]");
         }
-        String doi = url.substring(DOI_SITE_URL.toString().length());
+        final String doi = url.substring(DOI_SITE_URL.toString().length());
         validate(doi);
         this.value = doi;
     }
 
-    private String extractDoi(String value) {
+    private String extractDoi(final String value) {
         if (value.toLowerCase().startsWith("doi:")) {
             return value.substring(4).trim();
         }
@@ -68,7 +68,7 @@ public class Doi {
      *
      * @param doi
      */
-    private void validate(String doi) {
+    private void validate(final String doi) {
         if (!doi.matches("10\\.\\d+/\\S+")) {
             throw new InvalidDoiException("Invalid DOI: "+doi);
         }
@@ -103,12 +103,12 @@ public class Doi {
      * URI as this, false if not.
      */
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (o == this) {
             return true;
         }
         if (o instanceof Doi) {
-            Doi other = (Doi) o;
+            final Doi other = (Doi) o;
             return getValue().equals(other.getValue());
         }
         return false;
@@ -124,12 +124,12 @@ public class Doi {
     }
 
     public String getPrefix() {
-        int i = getValue().indexOf('/');
+        final int i = getValue().indexOf('/');
         return getValue().substring(0, i);
     }
 
     public String getSuffix() {
-        int i = getValue().indexOf('/');
+        final int i = getValue().indexOf('/');
         return getValue().substring(i+1);
     }
 

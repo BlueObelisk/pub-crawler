@@ -42,19 +42,19 @@ public class SpringerPublicationListCrawlTask extends BasicHttpCrawlTask {
 
     @Override
     protected void handleResponse(final String id, final TaskData data, final CrawlerResponse response) throws Exception {
-        Document html = HtmlUtils.readHtmlDocument(response);
+        final Document html = HtmlUtils.readHtmlDocument(response);
 
-        SpringerPublicationListParser parser = publicationListParserFactory.createPublicationListParser(html);
-        for (Journal journal : parser.findJournals()) {
+        final SpringerPublicationListParser parser = publicationListParserFactory.createPublicationListParser(html);
+        for (final Journal journal : parser.findJournals()) {
             archiveJournal(journal);
             journalHandler.handleJournal(journal);
         }
 
-        URI url = parser.getNextPage();
+        final URI url = parser.getNextPage();
         if (url != null) {
-            int page = Integer.parseInt(data.getString("page"));
-            String key = data.getString("key");
-            CrawlTask crawlTask = issueIndexCrawlTaskFactory.createIssueListCrawlTask(url, key, page+1);
+            final int page = Integer.parseInt(data.getString("page"));
+            final String key = data.getString("key");
+            final CrawlTask crawlTask = issueIndexCrawlTaskFactory.createIssueListCrawlTask(url, key, page+1);
             taskQueue.queueTask(crawlTask);
         }
     }

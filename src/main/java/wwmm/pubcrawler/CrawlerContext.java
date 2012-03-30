@@ -28,7 +28,7 @@ public class CrawlerContext {
     private final HttpFetcher httpCrawler;
     private final AbstractCrawlerFactory crawlerFactory;
 
-    public CrawlerContext(MongoStore dataStore, HttpFetcher httpCrawler, AbstractCrawlerFactory crawlerFactory) {
+    public CrawlerContext(final MongoStore dataStore, final HttpFetcher httpCrawler, final AbstractCrawlerFactory crawlerFactory) {
         this.dataStore = dataStore;
         this.httpCrawler = httpCrawler;
         this.crawlerFactory = crawlerFactory;

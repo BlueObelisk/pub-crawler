@@ -56,7 +56,7 @@ public class BibtexTool {
 	 * @param bibtexString - <code>String</code> containing a 
 	 * Bibtex file.
 	 */
-	public BibtexTool(String bibtexString) {
+	public BibtexTool(final String bibtexString) {
 		this();
 		this.bibtexString = bibtexString;
 		validate();
@@ -87,14 +87,14 @@ public class BibtexTool {
 	 */
 	private void parseBibtexString() {
 		nameValuePairs = new HashMap<String, String>();
-		String bibContents = bibtexString.substring(bibtexString.indexOf("{")+1, bibtexString.lastIndexOf("}"));
-		String[] lines = bibContents.split("\\n");
-		for (String line : lines) {
+		final String bibContents = bibtexString.substring(bibtexString.indexOf("{")+1, bibtexString.lastIndexOf("}"));
+		final String[] lines = bibContents.split("\\n");
+		for (final String line : lines) {
 			if (!line.contains("=")) {
 				continue;
 			}
-			int idx = line.indexOf("=");
-			String name = line.substring(0,idx).trim();
+			final int idx = line.indexOf("=");
+			final String name = line.substring(0,idx).trim();
 			String value = line.substring(idx+1).trim();
 			boolean finished = false;
 			while(!finished) {
@@ -130,7 +130,7 @@ public class BibtexTool {
 	 * @return String of the data-item value, <code>null</code> if
 	 * it does not exist.`
 	 */
-	public String getValue(String name) {
+	public String getValue(final String name) {
 		return nameValuePairs.get(name);
 	}
 	
@@ -168,12 +168,12 @@ public class BibtexTool {
 	 * found in a reference to a published journal article.
 	 */
 	public Reference getReference() {
-		String journal = getValue("journal");
-		String year = getValue("year");
-		String volume = getValue("volume");
-		String pages = getValue("pages");
-		String number = getValue("number");
-		Reference ref = new Reference();
+		final String journal = getValue("journal");
+		final String year = getValue("year");
+		final String volume = getValue("volume");
+		final String pages = getValue("pages");
+		final String number = getValue("number");
+		final Reference ref = new Reference();
 		ref.setJournalTitle(journal);
 		ref.setYear(year);
 		ref.setVolume(volume);

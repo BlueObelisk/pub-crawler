@@ -14,18 +14,18 @@ public class BibliographyCrawlStrategy {
 
     private TaskQueue taskQueue;
 
-    public void notify(Journal journal) {
+    public void notify(final Journal journal) {
         final CrawlTask task = new CrawlTaskBuilder()
 
             .build();
         taskQueue.queueTask(task);
     }
 
-    public void notify(Issue issue) {
+    public void notify(final Issue issue) {
 
     }
 
-    public void notify(Article article) {
+    public void notify(final Article article) {
 
     }
     

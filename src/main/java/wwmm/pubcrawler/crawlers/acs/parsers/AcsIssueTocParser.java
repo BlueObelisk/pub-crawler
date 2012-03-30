@@ -63,15 +63,15 @@ public class AcsIssueTocParser extends AbstractIssueParser implements IssueTocPa
 
     @Override
     public Issue getPreviousIssue() {
-        Attribute prev = (Attribute) XPathUtils.getNode(getHtml(), ".//x:div[@id='issueNav']/x:a[@class='previous']/@href");
+        final Attribute prev = (Attribute) XPathUtils.getNode(getHtml(), ".//x:div[@id='issueNav']/x:a[@class='previous']/@href");
         if (prev != null) {
-            String href = prev.getValue();
+            final String href = prev.getValue();
             if (href.startsWith("/toc/"+getJournalAbbreviation())) {
-                String id = "acs/"+href.substring(5);
-                URI url = getUrl().resolve(href);
+                final String id = "acs/"+href.substring(5);
+                final URI url = getUrl().resolve(href);
 
-                Issue issue = new Issue();
-                Matcher matcher = PREV_URI_PATTERN.matcher(url.toString());
+                final Issue issue = new Issue();
+                final Matcher matcher = PREV_URI_PATTERN.matcher(url.toString());
                 if (matcher.find()) {
                     issue.setId(new IssueId(id));
                     issue.setUrl(url);
@@ -90,39 +90,39 @@ public class AcsIssueTocParser extends AbstractIssueParser implements IssueTocPa
     }
 
     @Override
-    protected ArticleId getArticleId(Node articleNode, IssueId issueId) {
-        Doi doi = getArticleDoi(null, articleNode);
+    protected ArticleId getArticleId(final Node articleNode, final IssueId issueId) {
+        final Doi doi = getArticleDoi(null, articleNode);
         return new ArticleId(getJournalId(), doi.getSuffix());
     }
 
     @Override
-    protected Doi getArticleDoi(Article article, Node node) {
-        String s = XPathUtils.getString(node, ".//x:input[@name='doi']/@value");
+    protected Doi getArticleDoi(final Article article, final Node node) {
+        final String s = XPathUtils.getString(node, ".//x:input[@name='doi']/@value");
         return new Doi(s);
     }
 
     @Override
-    protected URI getArticleUrl(Article article, Node articleNode) {
-        String s = XPathUtils.getString(articleNode, "./x:div[@class='articleLinksIcons']//x:a[@class = 'articleLink'][1]/@href");
-        URI url = getUrl().resolve(s);
+    protected URI getArticleUrl(final Article article, final Node articleNode) {
+        final String s = XPathUtils.getString(articleNode, "./x:div[@class='articleLinksIcons']//x:a[@class = 'articleLink'][1]/@href");
+        final URI url = getUrl().resolve(s);
         return url;
     }
 
     @Override
-    protected URI getArticleSupportingInfoUrl(Article article, Node articleNode) {
-        String s = XPathUtils.getString(articleNode, "./x:div[@class='articleLinksIcons']//x:a[text() = 'Supporting Info']/@href");
+    protected URI getArticleSupportingInfoUrl(final Article article, final Node articleNode) {
+        final String s = XPathUtils.getString(articleNode, "./x:div[@class='articleLinksIcons']//x:a[text() = 'Supporting Info']/@href");
         if (s != null) {
-            URI url = getUrl().resolve(s);
+            final URI url = getUrl().resolve(s);
             return url;
         }
         return null;
     }
 
     @Override
-    protected String getArticleTitle(Article article, Node articleNode) {
+    protected String getArticleTitle(final Article article, final Node articleNode) {
         // Additions and Corrections have no title
         // e.g. http://pubs.acs.org/toc/inocaj/39/19
-        ParentNode source = (ParentNode) XPathUtils.getNode(articleNode, ".//x:h2/x:a");
+        final ParentNode source = (ParentNode) XPathUtils.getNode(articleNode, ".//x:h2/x:a");
         if (source != null) {
             return source.getValue();
         }
@@ -131,12 +131,12 @@ public class AcsIssueTocParser extends AbstractIssueParser implements IssueTocPa
     }
 
     @Override
-    protected String getArticleTitleHtml(Article article, Node articleNode) {
+    protected String getArticleTitleHtml(final Article article, final Node articleNode) {
         // Additions and Corrections have no title
         // e.g. http://pubs.acs.org/toc/inocaj/39/19
-        ParentNode source = (ParentNode) XPathUtils.getNode(articleNode, ".//x:h2/x:a");
+        final ParentNode source = (ParentNode) XPathUtils.getNode(articleNode, ".//x:h2/x:a");
         if (source != null) {
-            Element title = new Element("h1", "http://www.w3.org/1999/xhtml");
+            final Element title = new Element("h1", "http://www.w3.org/1999/xhtml");
             AcsTools.copyChildren(source, title);
             return AcsTools.toHtml(title);
         }
@@ -144,13 +144,13 @@ public class AcsIssueTocParser extends AbstractIssueParser implements IssueTocPa
     }
 
     @Override
-    protected List<String> getArticleAuthors(Article article, Node node) {
-        List<String> authors = new ArrayList<String>();
-        Element names = (Element) XPathUtils.getNode(node, ".//x:div[@class='articleAuthors']");
+    protected List<String> getArticleAuthors(final Article article, final Node node) {
+        final List<String> authors = new ArrayList<String>();
+        final Element names = (Element) XPathUtils.getNode(node, ".//x:div[@class='articleAuthors']");
         if (names != null) {
-            Element copy = (Element) names.copy();
+            final Element copy = (Element) names.copy();
             AcsTools.normaliseImages(copy);
-            for (String name : copy.getValue().split(" and |, (and )?")) {
+            for (final String name : copy.getValue().split(" and |, (and )?")) {
                 authors.add(name.trim());
             }
         }
@@ -159,8 +159,8 @@ public class AcsIssueTocParser extends AbstractIssueParser implements IssueTocPa
     }
 
     @Override
-    protected Reference getArticleReference(Article article, Node articleNode) {
-        Reference ref = new Reference();
+    protected Reference getArticleReference(final Article article, final Node articleNode) {
+        final Reference ref = new Reference();
         ref.setJournalTitle(getJournalTitle());
         ref.setVolume(getVolume());
         ref.setNumber(getNumber());
@@ -170,17 +170,17 @@ public class AcsIssueTocParser extends AbstractIssueParser implements IssueTocPa
     }
 
     @Override
-    protected List<SupplementaryResource> getArticleSupplementaryResources(Article article, Node articleNode) {
+    protected List<SupplementaryResource> getArticleSupplementaryResources(final Article article, final Node articleNode) {
         return null;
     }
 
     @Override
-    protected List<FullTextResource> getArticleFullTextResources(Article article, Node articleNode) {
+    protected List<FullTextResource> getArticleFullTextResources(final Article article, final Node articleNode) {
         // TODO
         return null;
     }
 
-    private String getPages(Node node) {
+    private String getPages(final Node node) {
         String pages = XPathUtils.getString(node, ".//x:div[starts-with(text(), 'pp ')]");
         if (pages != null) {
             return pages.substring(3);
@@ -199,24 +199,24 @@ public class AcsIssueTocParser extends AbstractIssueParser implements IssueTocPa
 
     @Override
     protected String getJournalTitle() {
-        String s = XPathUtils.getString(getHtml(), "/x:html/x:head/x:title");
+        final String s = XPathUtils.getString(getHtml(), "/x:html/x:head/x:title");
         return s.substring(s.indexOf(':'));
     }
 
     @Override
     protected String getVolume() {
-        String text = XPathUtils.getString(getHtml(), ".//x:div[@id='tocMeta']/x:div[2]");
-        Pattern p = Pattern.compile("Volume (\\d+)");
-        Matcher m = p.matcher(text);
+        final String text = XPathUtils.getString(getHtml(), ".//x:div[@id='tocMeta']/x:div[2]");
+        final Pattern p = Pattern.compile("Volume (\\d+)");
+        final Matcher m = p.matcher(text);
         m.find();
         return m.group(1);
     }
 
     @Override
     protected String getNumber() {
-        String text = XPathUtils.getString(getHtml(), ".//x:div[@id='tocMeta']/x:div[2]");
-        Pattern p = Pattern.compile("Issue (\\d+)");
-        Matcher m = p.matcher(text);
+        final String text = XPathUtils.getString(getHtml(), ".//x:div[@id='tocMeta']/x:div[2]");
+        final Pattern p = Pattern.compile("Issue (\\d+)");
+        final Matcher m = p.matcher(text);
         m.find();
         return m.group(1);
     }
@@ -225,8 +225,8 @@ public class AcsIssueTocParser extends AbstractIssueParser implements IssueTocPa
 
     @Override
     protected String getYear() {
-        String text = getDateBlock();
-        Matcher m = P_YEAR.matcher(text);
+        final String text = getDateBlock();
+        final Matcher m = P_YEAR.matcher(text);
         if (m.find()) {
             return m.group(1);
         }
@@ -239,8 +239,8 @@ public class AcsIssueTocParser extends AbstractIssueParser implements IssueTocPa
     }
 
     public LocalDate getDate() {
-        String text = getDateBlock();
-        DateTime dt;
+        final String text = getDateBlock();
+        final DateTime dt;
         if (text.contains(", ")) {
             dt = DateTimeFormat.forPattern("MMMM d, yyyy").parseDateTime(text);
         } else {
@@ -250,9 +250,9 @@ public class AcsIssueTocParser extends AbstractIssueParser implements IssueTocPa
     }
 
     public String getJournalAbbreviation() {
-        String s = getUrl().toString();
-        Pattern p = Pattern.compile("pubs.acs.org/toc/([^/]+)/");
-        Matcher m = p.matcher(s);
+        final String s = getUrl().toString();
+        final Pattern p = Pattern.compile("pubs.acs.org/toc/([^/]+)/");
+        final Matcher m = p.matcher(s);
         m.find();
         return m.group(1);
     }

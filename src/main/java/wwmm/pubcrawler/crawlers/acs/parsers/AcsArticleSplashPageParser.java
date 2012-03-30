@@ -68,7 +68,7 @@ public class AcsArticleSplashPageParser extends AbstractArticleParser {
 	 * @return URL of the webpage listing the article supplementary files.
 	 */
     public URI getSupportingInfoUrl() {
-        String href = XPathUtils.getString(getHtml(), ".//x:a[@title='View Supporting Information']/@href");
+        final String href = XPathUtils.getString(getHtml(), ".//x:a[@title='View Supporting Information']/@href");
         log().trace("Supporting Information URL: "+href);
         return href == null ? null : getUrl().resolve(href);
     }
@@ -80,15 +80,15 @@ public class AcsArticleSplashPageParser extends AbstractArticleParser {
 
     @Override
     protected String getTitle() {
-        Element element = (Element) XPathUtils.getNode(getHtml(), ".//x:h1[@class='articleTitle']");
+        final Element element = (Element) XPathUtils.getNode(getHtml(), ".//x:h1[@class='articleTitle']");
         // TODO handle entity images
         return element.getValue();
     }
 
     @Override
     protected Element getTitleHtml() {
-        Element element = (Element) XPathUtils.getNode(getHtml(), ".//x:h1[@class='articleTitle']");
-        Element copy = new Element("h1", "http://www.w3.org/1999/xhtml");
+        final Element element = (Element) XPathUtils.getNode(getHtml(), ".//x:h1[@class='articleTitle']");
+        final Element copy = new Element("h1", "http://www.w3.org/1999/xhtml");
         for (int i = 0; i < element.getChildCount(); i++) {
             copy.appendChild(element.getChild(i).copy());
         }
@@ -96,12 +96,12 @@ public class AcsArticleSplashPageParser extends AbstractArticleParser {
     }
 
     public Element getAbstractHtml() {
-        Element element = (Element) XPathUtils.getNode(getHtml(), ".//x:p[@class='articleBody_abstractText']");
-        Element copy = new Element("p", "http://www.w3.org/1999/xhtml");
+        final Element element = (Element) XPathUtils.getNode(getHtml(), ".//x:p[@class='articleBody_abstractText']");
+        final Element copy = new Element("p", "http://www.w3.org/1999/xhtml");
         for (int i = 0; i < element.getChildCount(); i++) {
-            Node child = element.getChild(i);
+            final Node child = element.getChild(i);
             if (child instanceof Element) {
-                Element e = (Element) child;
+                final Element e = (Element) child;
                 if ("img".equals(e.getLocalName())) {
                     copy.appendChild(normaliseEntityImage(e));
                     continue;
@@ -112,8 +112,8 @@ public class AcsArticleSplashPageParser extends AbstractArticleParser {
         return copy;
     }
 
-    private String normaliseEntityImage(Element e) {
-        String src = e.getAttributeValue("src");
+    private String normaliseEntityImage(final Element e) {
+        final String src = e.getAttributeValue("src");
         if ("/appl/literatum/publisher/achs/journals/entities/223C.gif".equals(src)) {
             return "\u223c";    // TILDE OPERATOR
         }
@@ -137,10 +137,10 @@ public class AcsArticleSplashPageParser extends AbstractArticleParser {
 
     @Override
     public List<String> getAuthors() {
-        List<String> authors = new ArrayList<String>();
-        List<Node> nodes = XPathUtils.queryHTML(getHtml(), "/x:html/x:head/x:meta[@name='dc.Creator']/@content");
-        for (Node node : nodes) {
-            Attribute attr = (Attribute) node;
+        final List<String> authors = new ArrayList<String>();
+        final List<Node> nodes = XPathUtils.queryHTML(getHtml(), "/x:html/x:head/x:meta[@name='dc.Creator']/@content");
+        for (final Node node : nodes) {
+            final Attribute attr = (Attribute) node;
             authors.add(attr.getValue());
         }
         return authors;
@@ -148,29 +148,29 @@ public class AcsArticleSplashPageParser extends AbstractArticleParser {
 
     @Override
     public Boolean isOpenAccess() {
-        Node node = XPathUtils.getNode(getHtml(), ".//x:div[@id='articleIcons']/x:img[@alt='ACS AuthorChoice']");
+        final Node node = XPathUtils.getNode(getHtml(), ".//x:div[@id='articleIcons']/x:img[@alt='ACS AuthorChoice']");
         return node != null;
     }
 
     @Override
     public Reference getReference() {
-        List<Node> nodes = XPathUtils.queryHTML(getHtml(), ".//x:div[@id='citation']");
+        final List<Node> nodes = XPathUtils.queryHTML(getHtml(), ".//x:div[@id='citation']");
 
-        Element citation = (Element) nodes.get(0);
-        String journalName = XPathUtils.getString(citation, "./x:cite");
-        String year = XPathUtils.getString(citation, "./x:span[@class='citation_year']");
-        String volume = XPathUtils.getString(citation, "./x:span[@class='citation_volume']");
+        final Element citation = (Element) nodes.get(0);
+        final String journalName = XPathUtils.getString(citation, "./x:cite");
+        final String year = XPathUtils.getString(citation, "./x:span[@class='citation_year']");
+        final String volume = XPathUtils.getString(citation, "./x:span[@class='citation_volume']");
 
-        String s = citation.getValue();
-        Pattern p = Pattern.compile("\\(([^(]+)\\), pp? (\\S+)");
-        Matcher m = p.matcher(s);
+        final String s = citation.getValue();
+        final Pattern p = Pattern.compile("\\(([^(]+)\\), pp? (\\S+)");
+        final Matcher m = p.matcher(s);
         if (!m.find()) {
             throw new CrawlerRuntimeException("No match: "+s);
         }
-        String issue = m.group(1);
-        String pages = m.group(2);
+        final String issue = m.group(1);
+        final String pages = m.group(2);
 
-        Reference ref = new Reference();
+        final Reference ref = new Reference();
         ref.setJournalTitle(journalName);
         ref.setYear(year);
         ref.setVolume(volume);
@@ -186,13 +186,13 @@ public class AcsArticleSplashPageParser extends AbstractArticleParser {
 
     @Override
     public List<FullTextResource> getFullTextResources() {
-        List<FullTextResource> fullTextResources = new ArrayList<FullTextResource>();
-        List<Node> links = XPathUtils.queryHTML(getHtml(), ".//x:div[@id='links']/x:ul[1]/x:li[1]/following-sibling::*/x:a");
-        for (Node link : links) {
-            Element address = (Element) link;
-            String href = ((Element) link).getAttributeValue("href");
-            String text = XPathUtils.getString(address, "./x:span[1]");
-            FullTextResource fullText = new FullTextResource();
+        final List<FullTextResource> fullTextResources = new ArrayList<FullTextResource>();
+        final List<Node> links = XPathUtils.queryHTML(getHtml(), ".//x:div[@id='links']/x:ul[1]/x:li[1]/following-sibling::*/x:a");
+        for (final Node link : links) {
+            final Element address = (Element) link;
+            final String href = ((Element) link).getAttributeValue("href");
+            final String text = XPathUtils.getString(address, "./x:span[1]");
+            final FullTextResource fullText = new FullTextResource();
             fullText.setUrl(getUrl().resolve(href));
             fullText.setLinkText(text);
             fullTextResources.add(fullText);

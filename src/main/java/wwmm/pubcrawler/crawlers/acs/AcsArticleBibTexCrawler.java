@@ -49,7 +49,7 @@ public class AcsArticleBibTexCrawler extends AbstractCrawler {
 
     private Article articleRef;
 
-    public AcsArticleBibTexCrawler(Article article, CrawlerContext context) throws IOException {
+    public AcsArticleBibTexCrawler(final Article article, final CrawlerContext context) throws IOException {
         super(context);
         this.articleRef = article;
         this.bibtex = fetchBibtex();
@@ -62,7 +62,7 @@ public class AcsArticleBibTexCrawler extends AbstractCrawler {
         // This is necessary for correct cookies to be set...
         touchDownloadPage(doi);
 
-        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        final List<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("doi", doi.getValue()));
         params.add(new BasicNameValuePair("downloadFileName", "bibtex"));
         params.add(new BasicNameValuePair("direct", "true"));
@@ -70,14 +70,14 @@ public class AcsArticleBibTexCrawler extends AbstractCrawler {
         params.add(new BasicNameValuePair("include", "cit"));
         params.add(new BasicNameValuePair("submit", "Download Citation(s)"));
 
-        URI url = URI.create("http://pubs.acs.org/action/downloadCitation");
-        String bibtex = readStringPost(url, params, articleRef.getId(), "bibtex.txt", AGE_MAX);
+        final URI url = URI.create("http://pubs.acs.org/action/downloadCitation");
+        final String bibtex = readStringPost(url, params, articleRef.getId(), "bibtex.txt", AGE_MAX);
         return new BibtexTool(bibtex);
     }
         
-    private void touchDownloadPage(Doi doi) throws IOException {
-        URI url = URI.create("http://pubs.acs.org/action/showCitFormats?doi="+doi.getValue());
-        CrawlerGetRequest request = new CrawlerGetRequest(url, getCacheId(articleRef.getId(), "_bib_touch"), AGE_MAX);
+    private void touchDownloadPage(final Doi doi) throws IOException {
+        final URI url = URI.create("http://pubs.acs.org/action/showCitFormats?doi="+doi.getValue());
+        final CrawlerGetRequest request = new CrawlerGetRequest(url, getCacheId(articleRef.getId(), "_bib_touch"), AGE_MAX);
         touch(request);
     }
 

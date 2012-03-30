@@ -41,7 +41,7 @@ public class ActaJournalHandler extends AbstractJournalHandler {
 
     private static final Logger LOG = Logger.getLogger(ActaJournalHandler.class);
 
-    public ActaJournalHandler(Journal journal, CrawlerContext context) {
+    public ActaJournalHandler(final Journal journal, final CrawlerContext context) {
         super(journal, context);
     }
 
@@ -53,9 +53,9 @@ public class ActaJournalHandler extends AbstractJournalHandler {
     @Override
     public Issue fetchCurrentIssue() throws IOException {
         log().debug("Fetching current issue of " + getJournal().getTitle());
-        URI url = getCurrentIssueUrl();
+        final URI url = getCurrentIssueUrl();
         log().debug("current issue URL: "+url);
-        Issue issue = new Issue();
+        final Issue issue = new Issue();
         issue.setId(getIssueId(url));
         issue.setYear(getIssueYear(url));
         issue.setUrl(url);
@@ -65,16 +65,16 @@ public class ActaJournalHandler extends AbstractJournalHandler {
     @Override
     public List<Issue> fetchIssueList() throws IOException {
         log().debug("Fetching issue list for " + getJournal().getTitle());
-        URI url = getIssueListUrl();
-        JournalId journalId = new JournalId("acta/"+getJournal().getAbbreviation());
-        Document html = readHtml(url, journalId, "issuelist", AGE_1DAY);
-        List<Node> nodes = XPathUtils.queryHTML(html, ".//x:li[x:img]/x:a/@href");
-        List<Issue> issues = new ArrayList<Issue>();
-        for (Node node : nodes) {
-            String href = node.getValue();
+        final URI url = getIssueListUrl();
+        final JournalId journalId = new JournalId("acta/"+getJournal().getAbbreviation());
+        final Document html = readHtml(url, journalId, "issuelist", AGE_1DAY);
+        final List<Node> nodes = XPathUtils.queryHTML(html, ".//x:li[x:img]/x:a/@href");
+        final List<Issue> issues = new ArrayList<Issue>();
+        for (final Node node : nodes) {
+            final String href = node.getValue();
             if (href.contains("/issues/")) {
-                URI frameUrl = url.resolve(href);
-                Issue issue = new Issue();
+                final URI frameUrl = url.resolve(href);
+                final Issue issue = new Issue();
                 issue.setId(getIssueId(frameUrl));
                 issue.setYear(getIssueYear(frameUrl));
                 issue.setUrl(frameUrl.resolve("./isscontsbdy.html"));
@@ -85,24 +85,24 @@ public class ActaJournalHandler extends AbstractJournalHandler {
     }
 
     private URI getIssueListUrl() {
-        URI url = URI.create("http://journals.iucr.org/"+getJournal().getAbbreviation()+"/contents/backissuesbdy.html");
+        final URI url = URI.create("http://journals.iucr.org/"+getJournal().getAbbreviation()+"/contents/backissuesbdy.html");
         return url;
     }
 
-    private String getIssueYear(URI url) {
+    private String getIssueYear(final URI url) {
         // http://journals.iucr.org/e/issues/2011/01/00/issconts.html
-        Pattern p = Pattern.compile("/issues/(\\d+)/");
-        Matcher m = p.matcher(url.toString());
+        final Pattern p = Pattern.compile("/issues/(\\d+)/");
+        final Matcher m = p.matcher(url.toString());
         if (!m.find()) {
             throw new CrawlerRuntimeException("No match: "+url);
         }
         return m.group(1);
     }
 
-    private IssueId getIssueId(URI url) {
+    private IssueId getIssueId(final URI url) {
         // http://journals.iucr.org/e/issues/2011/01/00/issconts.html
-        Pattern p = Pattern.compile("/issues/(\\w+)/(\\w+)/(\\w+)/");
-        Matcher m = p.matcher(url.toString());
+        final Pattern p = Pattern.compile("/issues/(\\w+)/(\\w+)/(\\w+)/");
+        final Matcher m = p.matcher(url.toString());
         if (!m.find()) {
             throw new CrawlerRuntimeException("No match: "+url);
         }
@@ -110,11 +110,11 @@ public class ActaJournalHandler extends AbstractJournalHandler {
     }
 
     private URI getCurrentIssueUrl() throws IOException {
-        URI url = getHomepageUrl();
-        JournalId journalId = new JournalId("acta/"+getJournal().getAbbreviation());
-        Document html = readHtml(url, journalId, "home", AGE_1DAY);
-        String href = XPathUtils.getString(html, ".//x:a[.='Current issue']/@href");
-        URI frameUri = url.resolve(href);
+        final URI url = getHomepageUrl();
+        final JournalId journalId = new JournalId("acta/"+getJournal().getAbbreviation());
+        final Document html = readHtml(url, journalId, "home", AGE_1DAY);
+        final String href = XPathUtils.getString(html, ".//x:a[.='Current issue']/@href");
+        final URI frameUri = url.resolve(href);
         return frameUri.resolve("./isscontsbdy.html");
     }
 

@@ -45,7 +45,7 @@ public class Article extends PubcrawlerObject<ArticleId> {
     }
 
     @Override
-    protected ArticleId createId(String id) {
+    protected ArticleId createId(final String id) {
         return new ArticleId(id);
     }
 
@@ -53,7 +53,7 @@ public class Article extends PubcrawlerObject<ArticleId> {
         return getString("title");
     }
 
-    public void setTitle(String title) {
+    public void setTitle(final String title) {
         put("title", title);
     }
 
@@ -62,7 +62,7 @@ public class Article extends PubcrawlerObject<ArticleId> {
         return (List<String>) get("authors");
     }
 
-    public void setAuthors(List<String> authors) {
+    public void setAuthors(final List<String> authors) {
         put("authors", authors);
     }
 
@@ -71,7 +71,7 @@ public class Article extends PubcrawlerObject<ArticleId> {
         return (Reference) get("reference");
     }
 
-    public void setReference(Reference reference) {
+    public void setReference(final Reference reference) {
         put("reference", reference);
     }
 
@@ -81,17 +81,17 @@ public class Article extends PubcrawlerObject<ArticleId> {
         return getString("abstract");
     }
 
-    public void setAbstractText(String abstractText) {
+    public void setAbstractText(final String abstractText) {
         put("abstract", abstractText);
     }
 
 
     public Doi getDoi() {
-        String s = getString("doi");
+        final String s = getString("doi");
         return s == null ? null : new Doi(s);
     }
 
-    public void setDoi(Doi doi) {
+    public void setDoi(final Doi doi) {
         put("doi", doi == null ? null : doi.getValue());
     }
 
@@ -100,7 +100,7 @@ public class Article extends PubcrawlerObject<ArticleId> {
         return getString("title-html");
     }
 
-    public void setTitleHtml(String titleHtml) {
+    public void setTitleHtml(final String titleHtml) {
         put("title-html", titleHtml);
     }
 
@@ -109,7 +109,7 @@ public class Article extends PubcrawlerObject<ArticleId> {
         return getString("abstact-html");
     }
 
-    public void setAbstractHtml(String abstractHtml) {
+    public void setAbstractHtml(final String abstractHtml) {
         put("abstract-html", abstractHtml);
     }
 
@@ -118,7 +118,7 @@ public class Article extends PubcrawlerObject<ArticleId> {
         return (List<SupplementaryResource>) get("suppResources");
     }
 
-    public void setSupplementaryResources(List<SupplementaryResource> supplementaryResources) {
+    public void setSupplementaryResources(final List<SupplementaryResource> supplementaryResources) {
         put("suppResources", supplementaryResources);
     }
 
@@ -127,17 +127,17 @@ public class Article extends PubcrawlerObject<ArticleId> {
         return (List<FullTextResource>) get("fullText");
     }
 
-    public void setFullTextResources(List<FullTextResource> fullTextResources) {
+    public void setFullTextResources(final List<FullTextResource> fullTextResources) {
         put("fullText", fullTextResources);
     }
 
     public URI getSupplementaryResourceUrl() {
-        String s = getString("suppUrl");
+        final String s = getString("suppUrl");
         return s == null ? null : URI.create(s);
     }
 
-    public void setSupplementaryResourceUrl(URI url) {
-        String s = url == null ? null : url.toString();
+    public void setSupplementaryResourceUrl(final URI url) {
+        final String s = url == null ? null : url.toString();
         put("suppUrl", s);
     }
 

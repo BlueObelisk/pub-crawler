@@ -23,7 +23,7 @@ public class IssueArchiver implements Archiver<Issue> {
 
     @Override
     public void archive(final Issue issue) {
-        DBObject dbObject = collection.findOne(new BasicDBObject("id", issue.getId().getUid()));
+        final DBObject dbObject = collection.findOne(new BasicDBObject("id", issue.getId().getUid()));
         if (dbObject == null) {
             save(issue);
         } else {

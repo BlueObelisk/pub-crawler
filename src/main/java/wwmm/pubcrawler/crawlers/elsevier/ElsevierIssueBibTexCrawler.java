@@ -45,55 +45,55 @@ public class ElsevierIssueBibTexCrawler extends AbstractCrawler {
 
     private final Issue issueRef;
 
-    public ElsevierIssueBibTexCrawler(Issue issue, CrawlerContext context, Document html) throws IOException {
+    public ElsevierIssueBibTexCrawler(final Issue issue, final CrawlerContext context, final Document html) throws IOException {
         super(context);
         this.issueRef = issue;
         this.bibtex = fetchBibtex(html);
     }
 
     private String fetchBibtex(final Document issueHtml) throws IOException {
-        Document html = getDownloadPage(issueHtml);
+        final Document html = getDownloadPage(issueHtml);
 
-        List<NameValuePair> params = new ArrayList<NameValuePair>();
-        List<Node> fields = XPathUtils.queryHTML(html, "//x:form[@name='exportCite']/x:input");
-        for (Node node : fields) {
-            Element input = (Element) node;
-            String name = input.getAttributeValue("name");
-            String value = input.getAttributeValue("value");
+        final List<NameValuePair> params = new ArrayList<NameValuePair>();
+        final List<Node> fields = XPathUtils.queryHTML(html, "//x:form[@name='exportCite']/x:input");
+        for (final Node node : fields) {
+            final Element input = (Element) node;
+            final String name = input.getAttributeValue("name");
+            final String value = input.getAttributeValue("value");
             params.add(new BasicNameValuePair(name, value));
         }
         params.add(new BasicNameValuePair("format", "cite-abs"));
         params.add(new BasicNameValuePair("citation-type", "BIBTEX"));
         params.add(new BasicNameValuePair("Export", "Export"));
 
-        URI url = URI.create("http://www.sciencedirect.com/science");
+        final URI url = URI.create("http://www.sciencedirect.com/science");
 
-        String s = readStringPost(url, params, issueRef.getId(), "bibtex.txt", AGE_MAX);
+        final String s = readStringPost(url, params, issueRef.getId(), "bibtex.txt", AGE_MAX);
         return s;
     }
 
-    private Document getDownloadPage(Document html) throws IOException {
-        List<NameValuePair> params = new ArrayList<NameValuePair>();
-        List<Node> fields = XPathUtils.queryHTML(html, "//x:form[@name='Tag']/x:input");
-        for (Node node : fields) {
-            Element input = (Element) node;
-            String name = input.getAttributeValue("name");
-            String value = input.getAttributeValue("value");
+    private Document getDownloadPage(final Document html) throws IOException {
+        final List<NameValuePair> params = new ArrayList<NameValuePair>();
+        final List<Node> fields = XPathUtils.queryHTML(html, "//x:form[@name='Tag']/x:input");
+        for (final Node node : fields) {
+            final Element input = (Element) node;
+            final String name = input.getAttributeValue("name");
+            final String value = input.getAttributeValue("value");
             params.add(new BasicNameValuePair(name, value));
         }
         params.add(new BasicNameValuePair("export", "Export citations"));
         params.add(new BasicNameValuePair("pdfDownload", ""));
 
-        List<Node> articles = XPathUtils.queryHTML(html, "//x:form[@name='Tag']//x:input[@name='art']");
-        for (Node node : articles) {
-            Element input = (Element) node;
-            String articleId = input.getAttributeValue("value");
+        final List<Node> articles = XPathUtils.queryHTML(html, "//x:form[@name='Tag']//x:input[@name='art']");
+        for (final Node node : articles) {
+            final Element input = (Element) node;
+            final String articleId = input.getAttributeValue("value");
             params.add(new BasicNameValuePair("art", articleId));
         }
 
-        String query = URLEncodedUtils.format(params, "UTF-8");
+        final String query = URLEncodedUtils.format(params, "UTF-8");
 
-        URI url = URI.create("http://www.sciencedirect.com/science?" + query);
+        final URI url = URI.create("http://www.sciencedirect.com/science?" + query);
         return readHtml(url, issueRef.getId(), "bibtex.html", AGE_MAX);
     }
 

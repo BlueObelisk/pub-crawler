@@ -40,7 +40,7 @@ public class NatureInfo {
     public static final Journal NCHEM = new Journal(NATURE_ID, "nchem", "Nature Chemistry", 2008);
 
     public static List<Journal> getJournals() {
-        List<Journal> journals = new ArrayList<Journal>();
+        final List<Journal> journals = new ArrayList<Journal>();
 
         journals.add(NCHEM);
 

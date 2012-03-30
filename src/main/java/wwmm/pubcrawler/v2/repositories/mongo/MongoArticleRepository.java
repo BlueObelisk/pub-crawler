@@ -33,8 +33,8 @@ public class MongoArticleRepository implements ArticleRepository {
 
     @Override
     public List<Article> getArticlesForIssue(final String issueId) {
-        List<Article> results = new ArrayList<Article>();
-        DBCursor cursor = collection.find(new BasicDBObject("issueRef", issueId));
+        final List<Article> results = new ArrayList<Article>();
+        final DBCursor cursor = collection.find(new BasicDBObject("issueRef", issueId));
         try {
             while (cursor.hasNext()) {
                 results.add(mapArticle(cursor.next()));

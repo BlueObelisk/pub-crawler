@@ -36,7 +36,7 @@ public class WileyBibliographyCrawlSeedTask implements Runnable {
     }
 
     private void enqueueSeedTask() {
-        Map<String,String> data = new HashMap<String, String>();
+        final Map<String,String> data = new HashMap<String, String>();
         data.put("url", Wiley.PUBLICATION_LIST_URL.toString());
         data.put("fileId", "journals.html");
         

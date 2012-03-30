@@ -37,7 +37,7 @@ public class AcsTools {
     private static final Map<String,Character> ENTITY_MAP;
 
     static {
-        Map<String,Character> map = new HashMap<String, Character>();
+        final Map<String,Character> map = new HashMap<String, Character>();
 
         // 0300 = grave
 
@@ -162,25 +162,25 @@ public class AcsTools {
         ENTITY_MAP = Collections.unmodifiableMap(map);
     }
 
-    public static Element getTitleHtml(Node node) {
-        Element element = (Element) XPathUtils.getNode(node, ".//x:h1[@class='articleTitle']");
-        Element copy = new Element("h1", "http://www.w3.org/1999/xhtml");
+    public static Element getTitleHtml(final Node node) {
+        final Element element = (Element) XPathUtils.getNode(node, ".//x:h1[@class='articleTitle']");
+        final Element copy = new Element("h1", "http://www.w3.org/1999/xhtml");
         for (int i = 0; i < element.getChildCount(); i++) {
             copy.appendChild(element.getChild(i).copy());
         }
         return copy;
     }
 
-    public static void copyChildren(ParentNode source, ParentNode target) {
+    public static void copyChildren(final ParentNode source, final ParentNode target) {
         for (int i = 0; i < source.getChildCount(); i++) {
             target.appendChild(source.getChild(i).copy());
         }
     }
 
-    public static String toHtml(Element element) {
+    public static String toHtml(final Element element) {
         try {
-            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-            Serializer ser = new Serializer(bytes, "UTF-8") {
+            final ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+            final Serializer ser = new Serializer(bytes, "UTF-8") {
                 @Override
                 protected void writeXMLDeclaration() {
                     // skip XML declaration
@@ -188,22 +188,22 @@ public class AcsTools {
             };
             ser.write(new Document(element));
 
-            String s = bytes.toString("UTF-8");
+            final String s = bytes.toString("UTF-8");
             return s.trim();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public static void normaliseImages(Element element) {
+    public static void normaliseImages(final Element element) {
         for (int i = 0; i < element.getChildCount(); i++) {
-            Node child = element.getChild(i);
+            final Node child = element.getChild(i);
             if (child instanceof Element) {
-                Element childElement = (Element) child;
+                final Element childElement = (Element) child;
                 if ("img".equals(childElement.getLocalName())) {
-                    String src = childElement.getAttributeValue("src");
+                    final String src = childElement.getAttributeValue("src");
 
-                    Character c = ENTITY_MAP.get(src);
+                    final Character c = ENTITY_MAP.get(src);
                     if (c != null) {
                         element.replaceChild(child, new Text(c.toString()));
                     }

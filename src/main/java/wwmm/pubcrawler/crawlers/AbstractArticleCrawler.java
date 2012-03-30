@@ -49,7 +49,7 @@ public abstract class AbstractArticleCrawler extends AbstractCrawler implements 
     private final Document html;
     private final URI url;
 
-    protected AbstractArticleCrawler(Article article, CrawlerContext context) throws IOException {
+    protected AbstractArticleCrawler(final Article article, final CrawlerContext context) throws IOException {
         super(context);
         this.articleRef = article;
         this.html = fetchHtml(article);
@@ -64,8 +64,8 @@ public abstract class AbstractArticleCrawler extends AbstractCrawler implements 
         return articleRef;
     }
 
-    public Document fetchHtml(Article article) throws IOException {
-        Doi doi = article.getDoi();
+    public Document fetchHtml(final Article article) throws IOException {
+        final Doi doi = article.getDoi();
         if (doi == null) {
             throw new CrawlerRuntimeException("Article missing DOI: " + article);
         }
@@ -91,21 +91,21 @@ public abstract class AbstractArticleCrawler extends AbstractCrawler implements 
 
     @Override
     public Article toArticle() {
-        Article article = new Article();
+        final Article article = new Article();
         article.setId(getArticleId());
         article.setDoi(getDoi());
         article.setUrl(getUrl());
         article.setReference(getReference());
-        List<SupplementaryResource> supplementaryResources = getSupplementaryResources();
+        final List<SupplementaryResource> supplementaryResources = getSupplementaryResources();
         checkSupplementaryResources(supplementaryResources);
         article.setSupplementaryResources(supplementaryResources);
         article.setFullTextResources(getFullTextResources());
         return article;
     }
 
-    private void checkSupplementaryResources(List<SupplementaryResource> supplementaryResources) {
+    private void checkSupplementaryResources(final List<SupplementaryResource> supplementaryResources) {
         if (supplementaryResources != null) {
-            for (SupplementaryResource resource : supplementaryResources) {
+            for (final SupplementaryResource resource : supplementaryResources) {
                 if (resource.getUrl() == null) {
                     throw new CrawlerRuntimeException("Supplementary resource missing URL");
                 }

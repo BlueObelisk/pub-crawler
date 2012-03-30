@@ -45,7 +45,7 @@ public class ActaSuppInfoReader extends AbstractCrawler {
 
     private Article articleRef;
 
-    public ActaSuppInfoReader(CrawlerContext context, Article articleRef) {
+    public ActaSuppInfoReader(final CrawlerContext context, final Article articleRef) {
         super(context);
         this.articleRef = articleRef;
     }
@@ -59,12 +59,12 @@ public class ActaSuppInfoReader extends AbstractCrawler {
         return articleRef.getId();
     }
 
-    public List<SupplementaryResource> getSupplementaryResources(List<Node> nodes, URI context) {
-        List<SupplementaryResource> resources = new ArrayList<SupplementaryResource>();
+    public List<SupplementaryResource> getSupplementaryResources(final List<Node> nodes, final URI context) {
+        final List<SupplementaryResource> resources = new ArrayList<SupplementaryResource>();
 
-        for (Node node : nodes) {
-            Element address = (Element) node;
-            Element img = address.getFirstChildElement("img", XHtml.NAMESPACE);
+        for (final Node node : nodes) {
+            final Element address = (Element) node;
+            final Element img = address.getFirstChildElement("img", XHtml.NAMESPACE);
             String alt = img.getAttributeValue("alt");
             if (alt.startsWith("[") && alt.endsWith("]")) {
                 alt = alt.substring(1, alt.length()-1);
@@ -79,8 +79,8 @@ public class ActaSuppInfoReader extends AbstractCrawler {
                     || "free".equalsIgnoreCase(alt)) {
                 continue;
             }
-            String href = address.getAttributeValue("href");
-            URI url = context.resolve(href);
+            final String href = address.getAttributeValue("href");
+            final URI url = context.resolve(href);
             log().trace("resource: ["+href+"] "+alt);
             
             if (isCif(alt) && isMultiCif(href)) {
@@ -96,9 +96,9 @@ public class ActaSuppInfoReader extends AbstractCrawler {
                     throw new CrawlerRuntimeException("Error retrieving resource links: "+url, e);
                 }
             } else {
-                String path = getFilePath(href);
-                ResourceId id = new ResourceId(articleRef.getId(), path);
-                SupplementaryResource resource = new SupplementaryResource(id, url, path);
+                final String path = getFilePath(href);
+                final ResourceId id = new ResourceId(articleRef.getId(), path);
+                final SupplementaryResource resource = new SupplementaryResource(id, url, path);
                 resource.setLinkText(alt);
                 if ("CIF".equals(alt)) {
                     resource.setContentType(MediaType.CHEMICAL_CIF.getName());
@@ -113,7 +113,7 @@ public class ActaSuppInfoReader extends AbstractCrawler {
         return resources;
     }
 
-    private String getFilePath(String href) {
+    private String getFilePath(final String href) {
         if (href.contains("sendcif?")) {
             return getCifFilePath(href);
         }
@@ -123,29 +123,29 @@ public class ActaSuppInfoReader extends AbstractCrawler {
         return href.substring(href.lastIndexOf('/')+1);
     }
 
-    private static String getCheckCifFilePath(String href) {
-        int i0 = href.indexOf("cnor=");
-        int i1 = href.indexOf('&', i0);
+    private static String getCheckCifFilePath(final String href) {
+        final int i0 = href.indexOf("cnor=");
+        final int i1 = href.indexOf('&', i0);
         return href.substring(i0+5, i1)+"_checkcif.html";
     }
 
-    private static boolean isCheckCif(String href) {
+    private static boolean isCheckCif(final String href) {
         return href.endsWith("checkcif=yes");
     }
 
-    private List<SupplementaryResource> getResources(URI url) throws IOException {
-        List<SupplementaryResource> resources = new ArrayList<SupplementaryResource>();
-        Document html = readHtml(url, getArticleId(), "suppl", AGE_MAX);
-        List<Node> nodes = XPathUtils.queryHTML(html, ".//x:td[@width='400']");
-        for (Node node : nodes) {
-            String href = XPathUtils.getString(node, "./x:a[./x:img[@alt='display file' or @alt='play file']]/@href");
-            String contentType = XPathUtils.getString(node, "./x:p/x:b");
-            String s = node.getValue();
-            String linkText = s.substring(s.indexOf(']')+1).trim();
-            int i = href.indexOf("file=");
-            String filePath = href.substring(i+5, href.indexOf('&', i));
-            ResourceId id = new ResourceId(articleRef.getId(), filePath);
-            SupplementaryResource resource = new SupplementaryResource(id, url.resolve(href), filePath);
+    private List<SupplementaryResource> getResources(final URI url) throws IOException {
+        final List<SupplementaryResource> resources = new ArrayList<SupplementaryResource>();
+        final Document html = readHtml(url, getArticleId(), "suppl", AGE_MAX);
+        final List<Node> nodes = XPathUtils.queryHTML(html, ".//x:td[@width='400']");
+        for (final Node node : nodes) {
+            final String href = XPathUtils.getString(node, "./x:a[./x:img[@alt='display file' or @alt='play file']]/@href");
+            final String contentType = XPathUtils.getString(node, "./x:p/x:b");
+            final String s = node.getValue();
+            final String linkText = s.substring(s.indexOf(']')+1).trim();
+            final int i = href.indexOf("file=");
+            final String filePath = href.substring(i+5, href.indexOf('&', i));
+            final ResourceId id = new ResourceId(articleRef.getId(), filePath);
+            final SupplementaryResource resource = new SupplementaryResource(id, url.resolve(href), filePath);
             resource.setContentType(contentType);
             resource.setLinkText(linkText);
 
@@ -154,9 +154,9 @@ public class ActaSuppInfoReader extends AbstractCrawler {
         return resources;
     }
 
-    private List<SupplementaryResource> getCifs(URI url) throws IOException {
-        List<SupplementaryResource> resources = new ArrayList<SupplementaryResource>();
-        Document html = readHtml(url, getArticleId(), "cifs", AGE_MAX);
+    private List<SupplementaryResource> getCifs(final URI url) throws IOException {
+        final List<SupplementaryResource> resources = new ArrayList<SupplementaryResource>();
+        final Document html = readHtml(url, getArticleId(), "cifs", AGE_MAX);
 //        List<Node> nodes = XPathUtils.queryHTML(html, ".//x:ul/x:li");
 //        for (Node node : nodes) {
 //            Element li = (Element) node;
@@ -178,37 +178,37 @@ public class ActaSuppInfoReader extends AbstractCrawler {
 //            resource.setFilePath(filePath);
 //            resources.add(resource);
 //        }
-        List<Node> nodes = XPathUtils.queryHTML(html, ".//x:td[@width='400']");
-        for (Node node : nodes) {
-            Element li = (Element) node;
-            Element address = li.getFirstChildElement("a", XHtml.NAMESPACE);
-            String href = address.getAttributeValue("href");
+        final List<Node> nodes = XPathUtils.queryHTML(html, ".//x:td[@width='400']");
+        for (final Node node : nodes) {
+            final Element li = (Element) node;
+            final Element address = li.getFirstChildElement("a", XHtml.NAMESPACE);
+            final String href = address.getAttributeValue("href");
 
-            String s = li.getFirstChildElement("p", XHtml.NAMESPACE).getValue();
-            String contentType = s.substring(s.indexOf(']')+1).trim();
-            String filePath = getCifFilePath(href);
-            ResourceId id = new ResourceId(articleRef.getId(), filePath);
-            SupplementaryResource resource = new SupplementaryResource(id, url.resolve(href), filePath);
+            final String s = li.getFirstChildElement("p", XHtml.NAMESPACE).getValue();
+            final String contentType = s.substring(s.indexOf(']')+1).trim();
+            final String filePath = getCifFilePath(href);
+            final ResourceId id = new ResourceId(articleRef.getId(), filePath);
+            final SupplementaryResource resource = new SupplementaryResource(id, url.resolve(href), filePath);
             resource.setContentType(contentType);
             resources.add(resource);
         }
         return resources;
     }
 
-    private String getCifFilePath(String href) {
+    private String getCifFilePath(final String href) {
         return href.substring(href.indexOf("sendcif?")+8)+".cif";
     }
 
-    private static boolean isMultiCif(String href) {
-        String filename = href.substring(href.lastIndexOf('/')+1);
+    private static boolean isMultiCif(final String href) {
+        final String filename = href.substring(href.lastIndexOf('/')+1);
         return !filename.toLowerCase().contains("sup");
     }
 
-    private static boolean isCif(String alt) {
+    private static boolean isCif(final String alt) {
         return "cif file".equalsIgnoreCase(alt);
     }
 
-    private static boolean isMultiFile(String href) {
+    private static boolean isMultiFile(final String href) {
         return href.toLowerCase().contains("/sendsup?");
     }
 

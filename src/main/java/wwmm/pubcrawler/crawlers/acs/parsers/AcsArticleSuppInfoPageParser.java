@@ -32,23 +32,23 @@ public class AcsArticleSuppInfoPageParser extends AcsArticleSplashPageParser {
         if (getHtml() == null) {
             return getArticleRef().getReference();
         }
-        List<Node> nodes = XPathUtils.queryHTML(getHtml(), ".//x:div[@id='citation']");
+        final List<Node> nodes = XPathUtils.queryHTML(getHtml(), ".//x:div[@id='citation']");
 
-        Element citation = (Element) nodes.get(0);
-        String journalName = XPathUtils.getString(citation, "./x:cite");
-        String year = XPathUtils.getString(citation, "./x:span[@class='citation_year']");
-        String volume = XPathUtils.getString(citation, "./x:span[@class='citation_volume']");
+        final Element citation = (Element) nodes.get(0);
+        final String journalName = XPathUtils.getString(citation, "./x:cite");
+        final String year = XPathUtils.getString(citation, "./x:span[@class='citation_year']");
+        final String volume = XPathUtils.getString(citation, "./x:span[@class='citation_volume']");
 
-        String s = citation.getValue();
-        Pattern p = Pattern.compile("\\(([^(]+)\\), pp? (\\S+)");
-        Matcher m = p.matcher(s);
+        final String s = citation.getValue();
+        final Pattern p = Pattern.compile("\\(([^(]+)\\), pp? (\\S+)");
+        final Matcher m = p.matcher(s);
         if (!m.find()) {
             throw new CrawlerRuntimeException("No match: "+s);
         }
-        String issue = m.group(1);
-        String pages = m.group(2);
+        final String issue = m.group(1);
+        final String pages = m.group(2);
 
-        Reference ref = new Reference();
+        final Reference ref = new Reference();
         ref.setJournalTitle(journalName);
         ref.setYear(year);
         ref.setVolume(volume);
@@ -67,14 +67,14 @@ public class AcsArticleSuppInfoPageParser extends AcsArticleSplashPageParser {
             }
             return supplementaryResources;
         }
-        List<SupplementaryResource> supplementaryResources = new ArrayList<SupplementaryResource>();
+        final List<SupplementaryResource> supplementaryResources = new ArrayList<SupplementaryResource>();
         if (getHtml() != null) {
 
-            List<Node> headingNodes = XPathUtils.queryHTML(getHtml(), "//x:div[@id='supInfoBox']/x:h3");
-            for (Node heading : headingNodes) {
-                String title = heading.getValue();
+            final List<Node> headingNodes = XPathUtils.queryHTML(getHtml(), "//x:div[@id='supInfoBox']/x:h3");
+            for (final Node heading : headingNodes) {
+                final String title = heading.getValue();
 
-                MediaType mediaType;
+                final MediaType mediaType;
                 if ("PDF".equals(title)) {
                     mediaType = MediaType.APPLICATION_PDF;
                 }
@@ -85,16 +85,16 @@ public class AcsArticleSuppInfoPageParser extends AcsArticleSplashPageParser {
                     mediaType = null;
                 }
 
-                List<Node> fileNodes = XPathUtils.queryHTML(heading, "./following-sibling::x:ul[1]/x:li/x:a");
-                for (Node file : fileNodes) {
-                    Element address = (Element) file;
-                    String href = address.getAttributeValue("href");
-                    URI resourceUrl = getUrl().resolve(href);
-                    String linkText = address.getValue();
+                final List<Node> fileNodes = XPathUtils.queryHTML(heading, "./following-sibling::x:ul[1]/x:li/x:a");
+                for (final Node file : fileNodes) {
+                    final Element address = (Element) file;
+                    final String href = address.getAttributeValue("href");
+                    final URI resourceUrl = getUrl().resolve(href);
+                    final String linkText = address.getValue();
 
-                    String filepath = getSuppFilePath(href);
-                    ResourceId id = new ResourceId(articleRef.getId(), filepath);
-                    SupplementaryResource supplementaryResource = new SupplementaryResource(id, resourceUrl, filepath);
+                    final String filepath = getSuppFilePath(href);
+                    final ResourceId id = new ResourceId(articleRef.getId(), filepath);
+                    final SupplementaryResource supplementaryResource = new SupplementaryResource(id, resourceUrl, filepath);
                     supplementaryResource.setContentType(mediaType == null ? title : mediaType.getName());
                     supplementaryResource.setLinkText(linkText);
                     supplementaryResources.add(supplementaryResource);
@@ -114,9 +114,9 @@ public class AcsArticleSuppInfoPageParser extends AcsArticleSplashPageParser {
      *
      * @return the filename of the supplementary file.
      */
-    private String getSuppFilePath(String href) {
-        int i = href.indexOf("/suppl_file/");
-        String filepath = href.substring(i+12);
+    private String getSuppFilePath(final String href) {
+        final int i = href.indexOf("/suppl_file/");
+        final String filepath = href.substring(i+12);
         return filepath;
     }
 

@@ -7,11 +7,11 @@ public class IssueId extends Id<IssueId> {
 
     private JournalId journalId;
 
-    public IssueId(String value) {
+    public IssueId(final String value) {
         super(value);
     }
 
-    public IssueId(JournalId journalId, String... parts) {
+    public IssueId(final JournalId journalId, final String... parts) {
         super(journalId, parts);
         this.journalId = journalId;
     }

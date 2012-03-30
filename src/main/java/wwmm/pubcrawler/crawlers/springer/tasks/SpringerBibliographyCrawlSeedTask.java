@@ -35,7 +35,7 @@ public class SpringerBibliographyCrawlSeedTask implements Runnable {
     @Override
     public void run() {
         try {
-            for (String key : KEYS) {
+            for (final String key : KEYS) {
                 enqueueSeedTask(key);
             }
         } catch (Exception e) {
@@ -44,10 +44,10 @@ public class SpringerBibliographyCrawlSeedTask implements Runnable {
     }
 
     private void enqueueSeedTask(final String key) {
-        URI url = URI.create(String.format(URL_BASE, key));
+        final URI url = URI.create(String.format(URL_BASE, key));
 
         // Fetch pages
-        Map<String,String> data = new HashMap<String, String>();
+        final Map<String,String> data = new HashMap<String, String>();
         data.put("url", url.toString());
         data.put("fileId", "journals_" + key + "_1.html");
         data.put("key", key);

@@ -34,23 +34,23 @@ public class ElsevierPublicationListParser implements PublicationListParser {
 
     @Override
     public List<Journal> findJournals() {
-        List<Journal> list = new ArrayList<Journal>();
+        final List<Journal> list = new ArrayList<Journal>();
 
-        List<Node> nodes = XPathUtils.queryHTML(opml, "//outline");
-        for (Node node : nodes) {
-            Element outline = (Element) node;
+        final List<Node> nodes = XPathUtils.queryHTML(opml, "//outline");
+        for (final Node node : nodes) {
+            final Element outline = (Element) node;
 
-            String title = outline.getAttributeValue("text");
-            String url = outline.getAttributeValue("htmlUrl");
+            final String title = outline.getAttributeValue("text");
+            final String url = outline.getAttributeValue("htmlUrl");
             
-            Matcher matcher = ID_PATTERN.matcher(url);
+            final Matcher matcher = ID_PATTERN.matcher(url);
             if (!matcher.matches()) {
                 LOG.warn("Journal URL does not match ID pattern '{}'", url);
                 continue;
             }
-            String abbreviation = matcher.group(1);
+            final String abbreviation = matcher.group(1);
 
-            Journal journal = new Journal(abbreviation, title);
+            final Journal journal = new Journal(abbreviation, title);
             journal.setId(new JournalId(Elsevier.PUBLISHER_ID, abbreviation));
             journal.setUrl(URI.create(url));
             list.add(journal);

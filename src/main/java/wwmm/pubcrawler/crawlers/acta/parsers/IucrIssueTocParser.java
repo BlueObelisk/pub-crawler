@@ -77,13 +77,13 @@ public class IucrIssueTocParser extends AbstractIssueParser {
 
     @Override
     public Issue getPreviousIssue() {
-        String href = XPathUtils.getString(headHtml, ".//x:a[./x:img/@alt='Previous']/@href");
+        final String href = XPathUtils.getString(headHtml, ".//x:a[./x:img/@alt='Previous']/@href");
         if (href == null) {
             return null;
         }
         URI url = headerUrl.resolve(href);
         url = url.resolve("./isscontsbdy.html");
-        Issue issue = new Issue();
+        final Issue issue = new Issue();
         issue.setId(getIssueId(url));
         issue.setUrl(url);
         return issue;
@@ -91,15 +91,15 @@ public class IucrIssueTocParser extends AbstractIssueParser {
 
     @Override
     protected List<Node> getArticleNodes() {
-        List<Node> nodes = XPathUtils.queryHTML(getHtml(), ".//x:div[contains(@class, 'toc') and contains(@class, 'entry')]");
+        final List<Node> nodes = XPathUtils.queryHTML(getHtml(), ".//x:div[contains(@class, 'toc') and contains(@class, 'entry')]");
         if (nodes.isEmpty()) {
             List<Node> xx = XPathUtils.queryHTML(getHtml(), ".//x:a[@id]");
-            for (Node n : xx) {
-                Element node = new Element("foo");
-                String id = ((Element)n).getAttributeValue("id");
+            for (final Node n : xx) {
+                final Element node = new Element("foo");
+                final String id = ((Element)n).getAttributeValue("id");
                 if (id.length() == 6) {
-                    for (Node x : XPathUtils.queryHTML(n, "./following-sibling::*")) {
-                        Element e = (Element) x;
+                    for (final Node x : XPathUtils.queryHTML(n, "./following-sibling::*")) {
+                        final Element e = (Element) x;
                         if ("hr".equals(e.getLocalName())) {
                             break;
                         }
@@ -111,11 +111,11 @@ public class IucrIssueTocParser extends AbstractIssueParser {
             if (nodes.isEmpty()) {
                 // Handle e.g. http://journals.iucr.org/c/issues/1997/03/00/issconts.html
                 xx = XPathUtils.queryHTML(getHtml(), ".//x:div[@class='buttonlinks']");
-                for (Node n : xx) {
-                    Element node = new Element("foo");
+                for (final Node n : xx) {
+                    final Element node = new Element("foo");
                     node.appendChild(n.copy());
-                    for (Node x : XPathUtils.queryHTML(n, "./following-sibling::*")) {
-                        Element e = (Element) x;
+                    for (final Node x : XPathUtils.queryHTML(n, "./following-sibling::*")) {
+                        final Element e = (Element) x;
                         if ("div".equals(e.getLocalName()) && "buttonlinks".equals(e.getAttributeValue("class"))) {
                             break;
                         }
@@ -129,13 +129,13 @@ public class IucrIssueTocParser extends AbstractIssueParser {
     }
 
     @Override
-    protected ArticleId getArticleId(Node node, IssueId issueId) {
-        String idString = XPathUtils.getString(node, ".//x:a[./x:img[contains(@alt, 'pdf version') or contains(@alt, 'PDF version')]]/@href");
+    protected ArticleId getArticleId(final Node node, final IssueId issueId) {
+        final String idString = XPathUtils.getString(node, ".//x:a[./x:img[contains(@alt, 'pdf version') or contains(@alt, 'PDF version')]]/@href");
         if (idString == null) {
             throw new CrawlerRuntimeException("Unable to locate PDF file:\n"+node.toXML());
         }
-        Pattern p = Pattern.compile("/([^/]+)/[^/]+\\.pdf");
-        Matcher m = p.matcher(idString);
+        final Pattern p = Pattern.compile("/([^/]+)/[^/]+\\.pdf");
+        final Matcher m = p.matcher(idString);
         if (!m.find()) {
             throw new CrawlerRuntimeException("No match: "+idString);
         }
@@ -143,7 +143,7 @@ public class IucrIssueTocParser extends AbstractIssueParser {
     }
 
     @Override
-    protected Doi getArticleDoi(Article article, Node node) {
+    protected Doi getArticleDoi(final Article article, final Node node) {
         String doi = XPathUtils.getString(node, ".//x:font[@size='2' and contains(.,'doi:10.1107/')]");
         if (doi == null) {
             doi = XPathUtils.getString(node, ".//x:a[contains(@href,'dx.doi.org/10.1107/')]");
@@ -159,44 +159,44 @@ public class IucrIssueTocParser extends AbstractIssueParser {
     }
 
     @Override
-    protected URI getArticleUrl(Article article, Node articleNode) {
+    protected URI getArticleUrl(final Article article, final Node articleNode) {
         // TODO
         return null;
     }
 
     @Override
-    protected URI getArticleSupportingInfoUrl(Article article, Node articleNode) {
+    protected URI getArticleSupportingInfoUrl(final Article article, final Node articleNode) {
         return null;
     }
 
     @Override
-    protected String getArticleTitle(Article article, Node node) {
-        Node heading = XPathUtils.getNode(node, ".//x:h3[normalize-space(.) != \"\"][1]");
-        Element copy = (Element) heading.copy();
+    protected String getArticleTitle(final Article article, final Node node) {
+        final Node heading = XPathUtils.getNode(node, ".//x:h3[normalize-space(.) != \"\"][1]");
+        final Element copy = (Element) heading.copy();
         ActaUtil.normaliseHtml(copy);
         return copy.getValue();
     }
 
     @Override
-    protected String getArticleTitleHtml(Article article, Node node) {
-        Node heading = XPathUtils.getNode(node, "./x:h3[1]");
-        Element copy = (Element) heading.copy();
+    protected String getArticleTitleHtml(final Article article, final Node node) {
+        final Node heading = XPathUtils.getNode(node, "./x:h3[1]");
+        final Element copy = (Element) heading.copy();
         copy.setLocalName("h1");
         ActaUtil.normaliseHtml(copy);
-        Document doc = new Document(copy);
-        String s = HtmlUtil.writeAscii(doc);
+        final Document doc = new Document(copy);
+        final String s = HtmlUtil.writeAscii(doc);
         return s;
     }
 
     @Override
-    protected List<String> getArticleAuthors(Article article, Node articleNode) {
-        List<String> authors = XPathUtils.getStrings(articleNode, "./x:h3/x:a[contains(@href, \"http://scripts.iucr.org/cgi-bin/citedin\")]");
+    protected List<String> getArticleAuthors(final Article article, final Node articleNode) {
+        final List<String> authors = XPathUtils.getStrings(articleNode, "./x:h3/x:a[contains(@href, \"http://scripts.iucr.org/cgi-bin/citedin\")]");
         return authors;
     }
 
     @Override
-    protected Reference getArticleReference(Article article, Node articleNode) {
-        Reference reference = new Reference();
+    protected Reference getArticleReference(final Article article, final Node articleNode) {
+        final Reference reference = new Reference();
         reference.setVolume(getVolume());
         reference.setNumber(getNumber());
         reference.setYear(getYear());
@@ -204,11 +204,11 @@ public class IucrIssueTocParser extends AbstractIssueParser {
         return reference;
     }
 
-    private String getPages(Node articleNode) {
-        List<Node> nodes = XPathUtils.queryHTML(articleNode, ".//x:p[x:i]/x:b/following-sibling::text()[1]");
+    private String getPages(final Node articleNode) {
+        final List<Node> nodes = XPathUtils.queryHTML(articleNode, ".//x:p[x:i]/x:b/following-sibling::text()[1]");
         if (!nodes.isEmpty()) {
-            String s = nodes.get(0).getValue();
-            Matcher m = P_PAGES.matcher(s);
+            final String s = nodes.get(0).getValue();
+            final Matcher m = P_PAGES.matcher(s);
             if (m.find()) {
                 return m.group(0);
             }
@@ -217,7 +217,7 @@ public class IucrIssueTocParser extends AbstractIssueParser {
     }
 
     @Override
-    protected List<SupplementaryResource> getArticleSupplementaryResources(Article article, Node context) {
+    protected List<SupplementaryResource> getArticleSupplementaryResources(final Article article, final Node context) {
         return null;
 //        List<Node> suppNodes = XPathUtils.queryHTML(context, ".//x:a[x:img]");
 //        ActaSuppInfoReader suppInfoReader = new ActaSuppInfoReader(getContext(), article);
@@ -225,17 +225,17 @@ public class IucrIssueTocParser extends AbstractIssueParser {
     }
 
     @Override
-    protected List<FullTextResource> getArticleFullTextResources(Article article, Node articleNode) {
+    protected List<FullTextResource> getArticleFullTextResources(final Article article, final Node articleNode) {
         // TODO
         return null;
     }
 
 
 
-    private IssueId getIssueId(URI url) {
+    private IssueId getIssueId(final URI url) {
         // http://journals.iucr.org/e/issues/2011/01/00/isscontsbdy.html
-        Pattern p = Pattern.compile("journals.iucr.org/([^/]+)/issues/(\\d+)/(\\w+)/(\\w+)");
-        Matcher m = p.matcher(url.toString());
+        final Pattern p = Pattern.compile("journals.iucr.org/([^/]+)/issues/(\\d+)/(\\w+)/(\\w+)");
+        final Matcher m = p.matcher(url.toString());
         if (!m.find()) {
             throw new CrawlerRuntimeException("Unable to parse URL: "+url);
         }
@@ -243,17 +243,17 @@ public class IucrIssueTocParser extends AbstractIssueParser {
     }
 
 
-    private String getBib(int i) {
+    private String getBib(final int i) {
         // Volume 66, Part 1 (February 2010)
 //        String s = XPathUtils.getString(getHtml(), ".//x:h3[starts-with(., 'Volume')]");
         // http://journals.iucr.org/s/issues/2011/02/00/isscontsbdy.html
         // For publication in Volume 18, Part 2 (March 2011)
-        String s = XPathUtils.getString(getHtml(), ".//x:h3[contains(., 'Volume') and contains(., 'Part')]");
+        final String s = XPathUtils.getString(getHtml(), ".//x:h3[contains(., 'Volume') and contains(., 'Part')]");
         if (s == null) {
             throw new CrawlerRuntimeException("Volume info not found");
         }
-        Pattern p = Pattern.compile("Volume (\\d+), Part (\\d+) .*\\(\\S+ (\\d+)\\)");
-        Matcher m = p.matcher(s);
+        final Pattern p = Pattern.compile("Volume (\\d+), Part (\\d+) .*\\(\\S+ (\\d+)\\)");
+        final Matcher m = p.matcher(s);
         if (!m.find()) {
             throw new CrawlerRuntimeException("No match: "+s);
         }
