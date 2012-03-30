@@ -32,6 +32,7 @@ public class ElsevierPublicationListParser implements PublicationListParser {
         this.opml = opml;
     }
 
+    @Override
     public List<Journal> findJournals() {
         List<Journal> list = new ArrayList<Journal>();
 

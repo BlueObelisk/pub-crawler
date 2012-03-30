@@ -66,6 +66,7 @@ public class NatureArticleParser extends AbstractArticleParser {
         return getTitleHtml().getValue();
     }
 
+    @Override
     public Element getTitleHtml() {
         Element element = (Element) XPathUtils.getNode(getHtml(), ".//x:h1[@class='article-heading']");
         Element copy = new Element("h1", "http://www.w3.org/1999/xhtml");
@@ -116,6 +117,7 @@ public class NatureArticleParser extends AbstractArticleParser {
     }
 
 
+    @Override
     public List<String> getAuthors() {
         List<String> authors = new ArrayList<String>();
         List<Node> nodes = XPathUtils.queryHTML(getHtml(), ".//x:ul[contains(@class, 'authors')]//x:span[@class='fn']");
@@ -132,6 +134,7 @@ public class NatureArticleParser extends AbstractArticleParser {
         return node != null;
     }
 
+    @Override
     public Reference getReference() {
         Node citation = XPathUtils.getNode(getHtml(), ".//x:dl[@class='citation']");
 
@@ -156,6 +159,7 @@ public class NatureArticleParser extends AbstractArticleParser {
     }
 
 
+    @Override
     public List<SupplementaryResource> getSupplementaryResources() {
         List<SupplementaryResource> resources = new ArrayList<SupplementaryResource>();
         List<Node> nodes = XPathUtils.queryHTML(getHtml(), ".//x:div[@id='supplementary-information']//x:dt/x:a");

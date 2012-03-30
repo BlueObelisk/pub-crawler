@@ -9,6 +9,7 @@ public class IntuitiveComparator implements Comparator<String> {
     private String str1, str2;
     private int pos1, pos2, len1, len2;
 
+    @Override
     public int compare(String s1, String s2)
     {
         str1 = s1;

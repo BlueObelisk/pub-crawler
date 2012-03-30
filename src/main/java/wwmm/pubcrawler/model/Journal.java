@@ -65,10 +65,12 @@ public class Journal extends PubcrawlerObject<JournalId> {
 		return this.abbreviation;
 	}
 
+    @Override
     public URI getUrl() {
         return url;
     }
 
+    @Override
     public void setUrl(final URI url) {
         this.url = url;
     }

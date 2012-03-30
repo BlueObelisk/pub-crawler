@@ -47,6 +47,7 @@ public class NatureJournalHandler extends AbstractJournalHandler {
         return LOG;
     }
 
+    @Override
     public Issue fetchCurrentIssue() throws IOException {
         log().debug("Fetching current issue of " + getJournal().getTitle());
         URI url = getCurrentIssueUrl();

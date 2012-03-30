@@ -67,6 +67,7 @@ public class NatureSuppInfoParser extends AbstractArticleParser {
         return getTitleHtml().getValue();
     }
 
+    @Override
     public Element getTitleHtml() {
         if (getHtml() == null) {
             return null;
@@ -123,6 +124,7 @@ public class NatureSuppInfoParser extends AbstractArticleParser {
     }
 
 
+    @Override
     public List<String> getAuthors() {
         if (getHtml() == null) {
             return getArticleRef().getAuthors();
@@ -136,11 +138,13 @@ public class NatureSuppInfoParser extends AbstractArticleParser {
         return authors;
     }
 
+    @Override
     public Boolean isOpenAccess() {
         Node node = XPathUtils.getNode(getHtml(), ".//x:div[@id='articleIcons']/x:img[@alt='ACS AuthorChoice']");
         return node != null;
     }
 
+    @Override
     public Reference getReference() {
         if (getHtml() == null) {
             return getArticleRef().getReference();
@@ -217,6 +221,7 @@ public class NatureSuppInfoParser extends AbstractArticleParser {
     }
 
 
+    @Override
     public List<SupplementaryResource> getSupplementaryResources() {
         if (getHtml() == null) {
             if  (getArticleRef().getSupplementaryResources() == null) {

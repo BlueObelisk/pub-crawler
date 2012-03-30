@@ -260,14 +260,17 @@ public class IucrIssueTocParser extends AbstractIssueParser {
         return m.group(i);
     }
 
+    @Override
     public String getVolume() {
         return getBib(1);
     }
 
+    @Override
     public String getNumber() {
         return getBib(2);
     }
 
+    @Override
     public String getYear() {
         return getBib(3);
     }

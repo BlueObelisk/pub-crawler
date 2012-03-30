@@ -73,6 +73,7 @@ public class AcsArticleSplashPageParser extends AbstractArticleParser {
         return href == null ? null : getUrl().resolve(href);
     }
 
+    @Override
     public ArticleId getArticleId() {
         return getArticleRef().getId();
     }
@@ -84,6 +85,7 @@ public class AcsArticleSplashPageParser extends AbstractArticleParser {
         return element.getValue();
     }
 
+    @Override
     protected Element getTitleHtml() {
         Element element = (Element) XPathUtils.getNode(getHtml(), ".//x:h1[@class='articleTitle']");
         Element copy = new Element("h1", "http://www.w3.org/1999/xhtml");
@@ -144,11 +146,13 @@ public class AcsArticleSplashPageParser extends AbstractArticleParser {
         return authors;
     }
 
+    @Override
     public Boolean isOpenAccess() {
         Node node = XPathUtils.getNode(getHtml(), ".//x:div[@id='articleIcons']/x:img[@alt='ACS AuthorChoice']");
         return node != null;
     }
 
+    @Override
     public Reference getReference() {
         List<Node> nodes = XPathUtils.queryHTML(getHtml(), ".//x:div[@id='citation']");
 
@@ -175,10 +179,12 @@ public class AcsArticleSplashPageParser extends AbstractArticleParser {
         return ref;
     }
 
+    @Override
     protected List<SupplementaryResource> getSupplementaryResources() {
         return null;
     }
 
+    @Override
     public List<FullTextResource> getFullTextResources() {
         List<FullTextResource> fullTextResources = new ArrayList<FullTextResource>();
         List<Node> links = XPathUtils.queryHTML(getHtml(), ".//x:div[@id='links']/x:ul[1]/x:li[1]/following-sibling::*/x:a");
