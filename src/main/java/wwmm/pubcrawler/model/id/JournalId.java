@@ -17,7 +17,7 @@ public class JournalId extends Id<JournalId> {
     }
     
     public String getPublisherPart() {
-        return publisherId.getValue();
+        return publisherId.getUid();
     }
     
     public String getJournalPart() {
