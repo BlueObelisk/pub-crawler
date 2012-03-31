@@ -19,6 +19,7 @@ package wwmm.pubcrawler.crawlers.wiley.parsers;
 import nu.xom.Document;
 import nu.xom.Node;
 import wwmm.pubcrawler.crawlers.PublicationListParser;
+import wwmm.pubcrawler.crawlers.wiley.Wiley;
 import wwmm.pubcrawler.model.Journal;
 import wwmm.pubcrawler.model.id.JournalId;
 import wwmm.pubcrawler.utils.XPathUtils;
@@ -52,7 +53,7 @@ public class WileyPublicationListParser implements PublicationListParser {
                 final int ix = href.indexOf("/journal/");
                 final String abbreviation = href.substring(ix+9);
                 final Journal journal = new Journal(abbreviation, title);
-                journal.setId(new JournalId("wiley/" + abbreviation));
+                journal.setId(new JournalId(Wiley.PUBLISHER_ID, abbreviation));
                 journal.setUrl(url.resolve(href));
                 list.add(journal);
             }

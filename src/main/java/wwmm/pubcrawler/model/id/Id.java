@@ -12,20 +12,10 @@ public abstract class Id<T extends Id> implements Comparable<T> {
         this.uid = uid;
     }
 
-    protected Id(final Id id, final String uid) {
-        if (uid.contains("/") || uid.length() == 0) {
-            throw new IllegalArgumentException("Bad ID: ["+ uid +"]");
-        }
-        this.uid = id.getUid() + '/' + uid;
-    }
-
     protected Id(final Id id, final String... parts) {
         Validate.notEmpty(parts);
         final StringBuilder value = new StringBuilder();
         for (final String part : parts) {
-            if (part.contains("/") || part.length() == 0) {
-                throw new IllegalArgumentException("Bad ID: "+part);
-            }
             if (value.length() != 0) {
                 value.append('/');
             }
