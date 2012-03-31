@@ -351,13 +351,13 @@ public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
     @Given("#testGetArticles")
     public void testGetArticleIds(List<Article> articles) {
         Article a0 = articles.get(0);
-        assertEquals("acta/b/2010/01-00/bk5091", a0.getId().getUid());
+        assertEquals("acta/b/bk5091", a0.getId().getUid());
 
         Article a7 = articles.get(7);
-        assertEquals("acta/b/2010/01-00/zb5008", a7.getId().getUid());
+        assertEquals("acta/b/zb5008", a7.getId().getUid());
 
         Article a12 = articles.get(12);
-        assertEquals("acta/b/2010/01-00/me0395", a12.getId().getUid());
+        assertEquals("acta/b/me0395", a12.getId().getUid());
     }
 
     @Test
@@ -653,7 +653,7 @@ public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
     @Test
     @Given("#testGetC199110Articles")
     public void testGetC199101ArticleIds(List<Article> articles) {
-        assertEquals(new ArticleId("acta/c/1991/10-00/du0272"), articles.get(0).getId());
+        assertEquals(new ArticleId("acta/c/du0272"), articles.get(0).getId());
     }
 
 }
