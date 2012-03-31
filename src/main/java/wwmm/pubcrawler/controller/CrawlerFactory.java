@@ -18,7 +18,6 @@ public class CrawlerFactory {
         this.injector = injector;
     }
 
-
     public CrawlRunner createCrawler(final CrawlTask task) {
         final Class<? extends CrawlRunner> type = task.getTaskClass();
         return injector.getInstance(type);
