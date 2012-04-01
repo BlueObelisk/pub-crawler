@@ -1,6 +1,7 @@
 package wwmm.pubcrawler.crawlers.springer;
 
 import wwmm.pubcrawler.crawlers.AbstractIssueTocCrawlTaskFactory;
+import wwmm.pubcrawler.crawlers.springer.tasks.SpringerIssueTocCrawlTask;
 import wwmm.pubcrawler.v2.crawler.CrawlRunner;
 
 /**
@@ -10,7 +11,7 @@ public class SpringerIssueTocCrawlTaskFactory extends AbstractIssueTocCrawlTaskF
 
     @Override
     protected Class<? extends CrawlRunner> getCrawlerType() {
-        throw new UnsupportedOperationException("work in progress");
+        return SpringerIssueTocCrawlTask.class;
     }
 
 }
