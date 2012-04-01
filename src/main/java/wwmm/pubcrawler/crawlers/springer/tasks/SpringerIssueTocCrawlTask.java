@@ -7,7 +7,7 @@ import wwmm.pubcrawler.controller.IssueArchiver;
 import wwmm.pubcrawler.controller.URITask;
 import wwmm.pubcrawler.crawlers.BasicIssueTocCrawlerTask;
 import wwmm.pubcrawler.crawlers.IssueHandler;
-import wwmm.pubcrawler.crawlers.wiley.WileyIssueTocParserFactory;
+import wwmm.pubcrawler.crawlers.springer.SpringerIssueTocParserFactory;
 
 import javax.inject.Inject;
 
@@ -17,7 +17,7 @@ import javax.inject.Inject;
 public class SpringerIssueTocCrawlTask extends BasicIssueTocCrawlerTask {
 
     @Inject
-    public SpringerIssueTocCrawlTask(final Fetcher<URITask, CrawlerResponse> fetcher, final WileyIssueTocParserFactory parserFactory, final ArticleArchiver archiver, final IssueArchiver issueArchiver, final IssueHandler issueHandler) {
+    public SpringerIssueTocCrawlTask(final Fetcher<URITask, CrawlerResponse> fetcher, final SpringerIssueTocParserFactory parserFactory, final ArticleArchiver archiver, final IssueArchiver issueArchiver, final IssueHandler issueHandler) {
         super(fetcher, parserFactory, archiver, issueArchiver, issueHandler);
     }
 

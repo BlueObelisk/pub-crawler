@@ -21,7 +21,9 @@ import nu.xom.Element;
 import nu.xom.Node;
 import org.apache.log4j.Logger;
 import wwmm.pubcrawler.crawlers.PublicationListParser;
+import wwmm.pubcrawler.crawlers.springer.Springer;
 import wwmm.pubcrawler.model.Journal;
+import wwmm.pubcrawler.model.id.JournalId;
 import wwmm.pubcrawler.utils.XPathUtils;
 
 import java.net.URI;
@@ -81,6 +83,7 @@ public class SpringerPublicationListParser implements PublicationListParser {
             final String id = m.group(1);
 
             final Journal journal = new Journal(id, title);
+            journal.setId(new JournalId(Springer.PUBLISHER_ID, id));
             journal.setUrl(url);
             list.add(journal);
         }

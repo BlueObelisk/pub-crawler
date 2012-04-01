@@ -13,7 +13,7 @@ public interface JournalRepository {
 
     Journal getJournal(PublisherId publisher, String id);
 
-    List<Journal> getJournalsForPublisher(PublisherId publisher);
+    List<Journal> getJournalsForPublisher(String publisher);
     
     void addIssues(Journal journal, String... issues);
 
