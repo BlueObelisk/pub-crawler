@@ -8,6 +8,7 @@ import wwmm.pubcrawler.controller.IssueArchiver;
 import wwmm.pubcrawler.controller.URITask;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.Issue;
+import wwmm.pubcrawler.model.id.IssueId;
 import wwmm.pubcrawler.model.id.JournalId;
 import wwmm.pubcrawler.model.id.PublisherId;
 import wwmm.pubcrawler.utils.HtmlUtils;
@@ -47,7 +48,7 @@ public abstract class BasicIssueTocCrawlerTask extends BasicHttpCrawlTask {
         issueArchiver.archive(issue);
 
         for (final Article article : parser.getArticles()) {
-            article.setIssueRef(id);
+            article.setIssueRef(issue.getId());
             articleArchiver.archive(article);
         }
         

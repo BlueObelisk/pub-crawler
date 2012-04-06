@@ -39,7 +39,7 @@ public class ArticleArchiver implements Archiver<Article> {
         dbObject.put("id", article.getId().getUid());
 
         if (article.getIssueRef() != null) {
-            dbObject.put("issueRef", article.getIssueRef());
+            dbObject.put("issueRef", article.getIssueRef().getUid());
         }
 
         dbObject.put("title", article.getTitle());
