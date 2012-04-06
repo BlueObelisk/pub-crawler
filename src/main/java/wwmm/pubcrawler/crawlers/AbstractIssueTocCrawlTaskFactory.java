@@ -3,9 +3,9 @@ package wwmm.pubcrawler.crawlers;
 import org.joda.time.Duration;
 import wwmm.pubcrawler.model.id.IssueId;
 import wwmm.pubcrawler.model.id.JournalId;
-import wwmm.pubcrawler.v2.crawler.CrawlRunner;
-import wwmm.pubcrawler.v2.crawler.CrawlTask;
-import wwmm.pubcrawler.v2.crawler.CrawlTaskBuilder;
+import wwmm.pubcrawler.crawler.CrawlRunner;
+import wwmm.pubcrawler.crawler.CrawlTask;
+import wwmm.pubcrawler.crawler.CrawlTaskBuilder;
 
 import java.net.URI;
 import java.util.HashMap;

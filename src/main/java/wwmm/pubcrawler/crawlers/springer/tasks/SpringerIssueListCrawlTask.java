@@ -10,7 +10,7 @@ import wwmm.pubcrawler.crawlers.springer.SpringerIssueListParserFactory;
 import wwmm.pubcrawler.crawlers.springer.parsers.SpringerIssueListParser;
 import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.utils.HtmlUtils;
-import wwmm.pubcrawler.v2.crawler.TaskData;
+import wwmm.pubcrawler.crawler.TaskData;
 
 import javax.inject.Inject;
 import java.net.URI;

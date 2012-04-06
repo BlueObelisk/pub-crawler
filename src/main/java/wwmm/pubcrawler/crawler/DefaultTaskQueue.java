@@ -1,6 +1,6 @@
-package wwmm.pubcrawler.v2.crawler;
+package wwmm.pubcrawler.crawler;
 
-import wwmm.pubcrawler.v2.repositories.TaskRepository;
+import wwmm.pubcrawler.repositories.TaskRepository;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;

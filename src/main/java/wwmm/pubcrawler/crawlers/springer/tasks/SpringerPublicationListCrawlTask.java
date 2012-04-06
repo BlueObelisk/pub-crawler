@@ -12,9 +12,9 @@ import wwmm.pubcrawler.crawlers.springer.SpringerPublicationListParserFactory;
 import wwmm.pubcrawler.crawlers.springer.parsers.SpringerPublicationListParser;
 import wwmm.pubcrawler.model.Journal;
 import wwmm.pubcrawler.utils.HtmlUtils;
-import wwmm.pubcrawler.v2.crawler.CrawlTask;
-import wwmm.pubcrawler.v2.crawler.TaskData;
-import wwmm.pubcrawler.v2.crawler.TaskQueue;
+import wwmm.pubcrawler.crawler.CrawlTask;
+import wwmm.pubcrawler.crawler.TaskData;
+import wwmm.pubcrawler.crawler.TaskQueue;
 
 import javax.inject.Inject;
 import java.net.URI;

@@ -1,7 +1,7 @@
 package wwmm.pubcrawler.archivers;
 
 import wwmm.pubcrawler.model.Article;
-import wwmm.pubcrawler.v2.repositories.ArticleRepository;
+import wwmm.pubcrawler.repositories.ArticleRepository;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;

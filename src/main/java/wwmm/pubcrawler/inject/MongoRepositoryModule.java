@@ -1,21 +1,19 @@
-package wwmm.pubcrawler.v2.inject;
+package wwmm.pubcrawler.inject;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
-import com.mongodb.Mongo;
-import wwmm.pubcrawler.v2.repositories.mongo.MongoTaskRepository;
-import wwmm.pubcrawler.v2.repositories.TaskRepository;
-import wwmm.pubcrawler.v2.repositories.ArticleRepository;
-import wwmm.pubcrawler.v2.repositories.IssueRepository;
-import wwmm.pubcrawler.v2.repositories.JournalRepository;
-import wwmm.pubcrawler.v2.repositories.mongo.MongoArticleRepository;
-import wwmm.pubcrawler.v2.repositories.mongo.MongoIssueRepository;
-import wwmm.pubcrawler.v2.repositories.mongo.MongoJournalRepository;
+import wwmm.pubcrawler.repositories.mongo.MongoTaskRepository;
+import wwmm.pubcrawler.repositories.TaskRepository;
+import wwmm.pubcrawler.repositories.ArticleRepository;
+import wwmm.pubcrawler.repositories.IssueRepository;
+import wwmm.pubcrawler.repositories.JournalRepository;
+import wwmm.pubcrawler.repositories.mongo.MongoArticleRepository;
+import wwmm.pubcrawler.repositories.mongo.MongoIssueRepository;
+import wwmm.pubcrawler.repositories.mongo.MongoJournalRepository;
 
 import javax.inject.Singleton;
-import java.net.UnknownHostException;
 
 /**
  * @author Sam Adams

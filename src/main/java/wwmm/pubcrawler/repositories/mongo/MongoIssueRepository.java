@@ -1,4 +1,4 @@
-package wwmm.pubcrawler.v2.repositories.mongo;
+package wwmm.pubcrawler.repositories.mongo;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
@@ -6,8 +6,8 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.model.id.IssueId;
-import wwmm.pubcrawler.v2.inject.Issues;
-import wwmm.pubcrawler.v2.repositories.IssueRepository;
+import wwmm.pubcrawler.inject.Issues;
+import wwmm.pubcrawler.repositories.IssueRepository;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;

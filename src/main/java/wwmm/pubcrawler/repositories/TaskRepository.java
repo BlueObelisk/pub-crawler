@@ -1,6 +1,6 @@
-package wwmm.pubcrawler.v2.repositories;
+package wwmm.pubcrawler.repositories;
 
-import wwmm.pubcrawler.v2.crawler.CrawlTask;
+import wwmm.pubcrawler.crawler.CrawlTask;
 
 import java.util.List;
 

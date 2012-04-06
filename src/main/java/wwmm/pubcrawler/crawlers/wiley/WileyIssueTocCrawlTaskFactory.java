@@ -3,8 +3,8 @@ package wwmm.pubcrawler.crawlers.wiley;
 import wwmm.pubcrawler.crawlers.AbstractIssueTocCrawlTaskFactory;
 import wwmm.pubcrawler.crawlers.wiley.tasks.WileyIssueTocCrawlTask;
 import wwmm.pubcrawler.model.id.JournalId;
-import wwmm.pubcrawler.v2.crawler.CrawlRunner;
-import wwmm.pubcrawler.v2.crawler.CrawlTask;
+import wwmm.pubcrawler.crawler.CrawlRunner;
+import wwmm.pubcrawler.crawler.CrawlTask;
 
 import javax.inject.Singleton;
 import java.net.URI;

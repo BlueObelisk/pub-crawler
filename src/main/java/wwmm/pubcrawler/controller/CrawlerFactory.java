@@ -1,8 +1,8 @@
 package wwmm.pubcrawler.controller;
 
 import com.google.inject.Injector;
-import wwmm.pubcrawler.v2.crawler.CrawlRunner;
-import wwmm.pubcrawler.v2.crawler.CrawlTask;
+import wwmm.pubcrawler.crawler.CrawlRunner;
+import wwmm.pubcrawler.crawler.CrawlTask;
 
 import javax.inject.Inject;
 

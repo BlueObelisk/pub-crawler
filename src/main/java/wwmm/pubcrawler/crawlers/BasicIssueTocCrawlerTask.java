@@ -11,7 +11,7 @@ import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.model.id.JournalId;
 import wwmm.pubcrawler.model.id.PublisherId;
 import wwmm.pubcrawler.utils.HtmlUtils;
-import wwmm.pubcrawler.v2.crawler.TaskData;
+import wwmm.pubcrawler.crawler.TaskData;
 
 import java.net.URI;
 

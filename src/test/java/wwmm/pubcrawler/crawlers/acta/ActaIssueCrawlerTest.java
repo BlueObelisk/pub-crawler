@@ -29,9 +29,9 @@ import uk.ac.cam.ch.wwmm.httpcrawler.DefaultHttpFetcher;
 import uk.ac.cam.ch.wwmm.httpcrawler.HttpFetcher;
 import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.crawlers.AbstractCrawlerTest;
-import wwmm.pubcrawler.journals.ActaInfo;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.Issue;
+import wwmm.pubcrawler.model.Journal;
 import wwmm.pubcrawler.model.id.ArticleId;
 import wwmm.pubcrawler.model.id.IssueId;
 import wwmm.pubcrawler.types.Doi;
@@ -50,6 +50,12 @@ import static org.junit.Assert.assertNotNull;
 @RunWith(JExample.class)
 @Injection(InjectionPolicy.NONE)
 public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
+
+    public static final Journal ACTA_A = new Journal(Acta.PUBLISHER_ID, "a", "Section A: Foundations of Crystallography");
+    public static final Journal ACTA_B = new Journal(Acta.PUBLISHER_ID, "b", "Section B: Structural Science");
+    public static final Journal ACTA_C = new Journal(Acta.PUBLISHER_ID, "c", "Section C: Crystal Structure Communications");
+    public static final Journal ACTA_E = new Journal(Acta.PUBLISHER_ID, "e", "Section E: Structure Reports");
+
 
     private CrawlerResponse prepareActaC2005_10Head() throws IOException {
         return prepareResponse("./c-2005-10-head.html",
@@ -160,7 +166,7 @@ public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
                 .thenReturn(response1, response2);
 
         CrawlerContext context = new CrawlerContext(null, crawler, null);
-        return new ActaIssueCrawler(issue, ActaInfo.C, context);
+        return new ActaIssueCrawler(issue, ACTA_C, context);
     }
 
     protected ActaIssueCrawler getActaA2009_06() throws IOException {
@@ -176,7 +182,7 @@ public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
                 .thenReturn(response1, response2);
 
         CrawlerContext context = new CrawlerContext(null, crawler, null);
-        return new ActaIssueCrawler(issue, ActaInfo.A, context);
+        return new ActaIssueCrawler(issue, ACTA_A, context);
     }
 
     protected ActaIssueCrawler getActaE2004_11() throws IOException {
@@ -192,7 +198,7 @@ public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
                 .thenReturn(response1, response2);
 
         CrawlerContext context = new CrawlerContext(null, crawler, null);
-        return new ActaIssueCrawler(issue, ActaInfo.E, context);
+        return new ActaIssueCrawler(issue, ACTA_E, context);
     }
 
     protected ActaIssueCrawler getActaE2011_03() throws IOException {
@@ -208,7 +214,7 @@ public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
                 .thenReturn(response1, response2);
 
         CrawlerContext context = new CrawlerContext(null, crawler, null);
-        return new ActaIssueCrawler(issue, ActaInfo.E, context);
+        return new ActaIssueCrawler(issue, ACTA_E, context);
     }
 
 
@@ -225,7 +231,7 @@ public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
                 .thenReturn(response1, response2);
 
         CrawlerContext context = new CrawlerContext(null, crawler, null);
-        return new ActaIssueCrawler(issue, ActaInfo.B, context);
+        return new ActaIssueCrawler(issue, ACTA_B, context);
     }
 
     protected ActaIssueCrawler getActaB2010_01() throws IOException {
@@ -241,7 +247,7 @@ public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
                 .thenReturn(response1, response2);
 
         CrawlerContext context = new CrawlerContext(null, crawler, null);
-        return new ActaIssueCrawler(issue, ActaInfo.B, context);
+        return new ActaIssueCrawler(issue, ACTA_B, context);
     }
 
     protected ActaIssueCrawler getActaA2010_06() throws IOException {
@@ -257,7 +263,7 @@ public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
                 .thenReturn(response1, response2);
 
         CrawlerContext context = new CrawlerContext(null, crawler, null);
-        return new ActaIssueCrawler(issue, ActaInfo.A, context);
+        return new ActaIssueCrawler(issue, ACTA_A, context);
     }
 
 
@@ -274,7 +280,7 @@ public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
                 .thenReturn(response1, response2);
 
         CrawlerContext context = new CrawlerContext(null, crawler, null);
-        return new ActaIssueCrawler(issue, ActaInfo.C, context);
+        return new ActaIssueCrawler(issue, ACTA_C, context);
     }
 
 
@@ -291,7 +297,7 @@ public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
                 .thenReturn(response1, response2);
 
         CrawlerContext context = new CrawlerContext(null, crawler, null);
-        return new ActaIssueCrawler(issue, ActaInfo.C, context);
+        return new ActaIssueCrawler(issue, ACTA_C, context);
     }
 
 

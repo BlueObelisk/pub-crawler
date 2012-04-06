@@ -4,9 +4,9 @@ import org.joda.time.Duration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import wwmm.pubcrawler.crawlers.acs.Acs;
-import wwmm.pubcrawler.v2.crawler.CrawlTask;
-import wwmm.pubcrawler.v2.crawler.CrawlTaskBuilder;
-import wwmm.pubcrawler.v2.crawler.TaskQueue;
+import wwmm.pubcrawler.crawler.CrawlTask;
+import wwmm.pubcrawler.crawler.CrawlTaskBuilder;
+import wwmm.pubcrawler.crawler.TaskQueue;
 
 import javax.inject.Inject;
 import java.util.HashMap;

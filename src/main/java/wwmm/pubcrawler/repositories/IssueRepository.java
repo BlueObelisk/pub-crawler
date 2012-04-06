@@ -1,4 +1,4 @@
-package wwmm.pubcrawler.v2.repositories;
+package wwmm.pubcrawler.repositories;
 
 import wwmm.pubcrawler.model.Issue;
 

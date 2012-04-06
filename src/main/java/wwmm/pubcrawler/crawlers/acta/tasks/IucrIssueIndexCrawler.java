@@ -1,8 +1,8 @@
 package wwmm.pubcrawler.crawlers.acta.tasks;
 
-import wwmm.pubcrawler.v2.crawler.CrawlRunner;
-import wwmm.pubcrawler.v2.crawler.TaskData;
-import wwmm.pubcrawler.v2.crawler.common.HtmlCrawler;
+import wwmm.pubcrawler.crawler.CrawlRunner;
+import wwmm.pubcrawler.crawler.TaskData;
+import wwmm.pubcrawler.crawler.common.HtmlCrawler;
 
 /**
  * @author Sam Adams

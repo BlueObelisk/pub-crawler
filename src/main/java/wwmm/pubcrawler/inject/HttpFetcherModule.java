@@ -1,4 +1,4 @@
-package wwmm.pubcrawler.v2.inject;
+package wwmm.pubcrawler.inject;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
@@ -9,8 +9,6 @@ import uk.ac.cam.ch.wwmm.httpcrawler.audit.RequestAuditor;
 import uk.ac.cam.ch.wwmm.httpcrawler.cache.HttpCache;
 import uk.ac.cam.ch.wwmm.httpcrawler.mongodb.MongoCache;
 import uk.ac.cam.ch.wwmm.httpcrawler.mongodb.MongoRequestAuditor;
-import wwmm.pubcrawler.v2.crawler.DefaultTaskQueue;
-import wwmm.pubcrawler.v2.crawler.TaskQueue;
 
 import javax.inject.Singleton;
 import java.net.URI;
@@ -37,7 +35,7 @@ public class HttpFetcherModule extends AbstractModule {
                                 .withRequestAuditor(getAuditor())
                                 .withUserAgent("pubcrawler/1.0")
                                 .withCache(getCache());
-        
+
         if (System.getProperty("http.proxy") != null) {
             final URI proxy = URI.create(System.getProperty("http.proxy"));
             System.out.println(" *** HTTP Proxy: " + proxy);

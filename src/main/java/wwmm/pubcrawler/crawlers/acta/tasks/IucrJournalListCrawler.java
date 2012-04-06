@@ -8,18 +8,18 @@ import uk.ac.cam.ch.wwmm.httpcrawler.HttpFetcher;
 import wwmm.pubcrawler.crawlers.acta.parsers.IucrPublicationListParser;
 import wwmm.pubcrawler.model.Journal;
 import wwmm.pubcrawler.model.id.PublisherId;
-import wwmm.pubcrawler.v2.crawler.CrawlRunner;
-import wwmm.pubcrawler.v2.crawler.CrawlTask;
-import wwmm.pubcrawler.v2.crawler.TaskData;
-import wwmm.pubcrawler.v2.crawler.TaskQueue;
-import wwmm.pubcrawler.v2.crawler.common.HtmlCrawler;
-import wwmm.pubcrawler.v2.repositories.JournalRepository;
+import wwmm.pubcrawler.crawler.CrawlRunner;
+import wwmm.pubcrawler.crawler.CrawlTask;
+import wwmm.pubcrawler.crawler.TaskData;
+import wwmm.pubcrawler.crawler.TaskQueue;
+import wwmm.pubcrawler.crawler.common.HtmlCrawler;
+import wwmm.pubcrawler.repositories.JournalRepository;
 
 import javax.inject.Inject;
 import java.net.URI;
 
 import static java.lang.String.format;
-import static wwmm.pubcrawler.v2.crawler.CrawlTaskBuilder.newJob;
+import static wwmm.pubcrawler.crawler.CrawlTaskBuilder.newJob;
 
 /**
  * @author Sam Adams

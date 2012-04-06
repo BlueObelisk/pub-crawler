@@ -1,12 +1,12 @@
-package wwmm.pubcrawler.v2.repositories.mongo;
+package wwmm.pubcrawler.repositories.mongo;
 
 import com.mongodb.*;
 import org.joda.time.DateTime;
-import wwmm.pubcrawler.v2.crawler.CrawlRunner;
-import wwmm.pubcrawler.v2.crawler.CrawlTask;
-import wwmm.pubcrawler.v2.crawler.CrawlTaskBuilder;
-import wwmm.pubcrawler.v2.inject.Tasks;
-import wwmm.pubcrawler.v2.repositories.TaskRepository;
+import wwmm.pubcrawler.crawler.CrawlRunner;
+import wwmm.pubcrawler.crawler.CrawlTask;
+import wwmm.pubcrawler.crawler.CrawlTaskBuilder;
+import wwmm.pubcrawler.inject.Tasks;
+import wwmm.pubcrawler.repositories.TaskRepository;
 
 import javax.inject.Inject;
 import java.util.*;

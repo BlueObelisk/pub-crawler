@@ -1,4 +1,4 @@
-package wwmm.pubcrawler.v2.inject;
+package wwmm.pubcrawler.inject;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.TypeLiteral;
@@ -10,8 +10,8 @@ import wwmm.pubcrawler.crawlers.EnqueuingIssueHandler;
 import wwmm.pubcrawler.crawlers.EnqueuingJournalHandler;
 import wwmm.pubcrawler.crawlers.IssueHandler;
 import wwmm.pubcrawler.crawlers.JournalHandler;
-import wwmm.pubcrawler.v2.crawler.DefaultTaskQueue;
-import wwmm.pubcrawler.v2.crawler.TaskQueue;
+import wwmm.pubcrawler.crawler.DefaultTaskQueue;
+import wwmm.pubcrawler.crawler.TaskQueue;
 
 /**
  * @author Sam Adams
