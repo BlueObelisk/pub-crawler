@@ -3,9 +3,9 @@ package wwmm.pubcrawler;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import org.mockito.Mockito;
-import wwmm.pubcrawler.controller.ArticleArchiver;
-import wwmm.pubcrawler.controller.IssueArchiver;
-import wwmm.pubcrawler.controller.JournalArchiver;
+import wwmm.pubcrawler.archivers.ArticleArchiver;
+import wwmm.pubcrawler.archivers.IssueArchiver;
+import wwmm.pubcrawler.archivers.JournalArchiver;
 
 /**
  * @author Sam Adams

@@ -1,12 +1,12 @@
 package wwmm.pubcrawler.crawlers.acs.tasks;
 
 import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerResponse;
+import wwmm.pubcrawler.archivers.ArticleArchiver;
+import wwmm.pubcrawler.archivers.IssueArchiver;
 import wwmm.pubcrawler.controller.*;
 import wwmm.pubcrawler.crawlers.BasicIssueTocCrawlerTask;
 import wwmm.pubcrawler.crawlers.IssueHandler;
-import wwmm.pubcrawler.crawlers.IssueTocParserFactory;
 import wwmm.pubcrawler.crawlers.acs.AcsIssueTocParserFactory;
-import wwmm.pubcrawler.v2.crawler.TaskQueue;
 
 import javax.inject.Inject;
 

@@ -14,4 +14,6 @@ public interface ArticleRepository {
 
     List<Article> getArticlesForIssue(String issueId);
 
+    void saveOrUpdateArticle(Article article);
+
 }

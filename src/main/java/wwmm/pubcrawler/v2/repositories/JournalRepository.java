@@ -18,4 +18,6 @@ public interface JournalRepository {
     void addIssues(Journal journal, String... issues);
 
     void updateJournal(PublisherId acs, Journal journal);
+
+    void saveOrUpdateJournal(Journal journal);
 }

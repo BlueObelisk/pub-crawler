@@ -2,8 +2,8 @@ package wwmm.pubcrawler.crawlers;
 
 import nu.xom.Document;
 import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerResponse;
+import wwmm.pubcrawler.archivers.JournalArchiver;
 import wwmm.pubcrawler.controller.Fetcher;
-import wwmm.pubcrawler.controller.JournalArchiver;
 import wwmm.pubcrawler.controller.URITask;
 import wwmm.pubcrawler.model.Journal;
 import wwmm.pubcrawler.utils.HtmlUtils;
