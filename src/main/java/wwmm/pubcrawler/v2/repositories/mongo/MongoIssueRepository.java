@@ -5,6 +5,7 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import wwmm.pubcrawler.model.Issue;
+import wwmm.pubcrawler.model.id.IssueId;
 import wwmm.pubcrawler.v2.inject.Issues;
 import wwmm.pubcrawler.v2.repositories.IssueRepository;
 
@@ -58,7 +59,7 @@ public class MongoIssueRepository implements IssueRepository {
 
     private Issue mapIssue(final DBObject dbObject) {
         final Issue issue = new Issue();
-        issue.setJournalRef((String) dbObject.get("journalRef"));
+        issue.setId(new IssueId((String) dbObject.get("id")));
         issue.setVolume((String) dbObject.get("volume"));
         issue.setNumber((String) dbObject.get("number"));
         issue.setYear((String) dbObject.get("year"));

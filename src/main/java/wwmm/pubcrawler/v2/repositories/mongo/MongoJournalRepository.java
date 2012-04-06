@@ -6,6 +6,7 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.model.Journal;
+import wwmm.pubcrawler.model.id.JournalId;
 import wwmm.pubcrawler.model.id.PublisherId;
 import wwmm.pubcrawler.v2.inject.Journals;
 import wwmm.pubcrawler.v2.repositories.JournalRepository;
@@ -60,6 +61,7 @@ public class MongoJournalRepository implements JournalRepository {
 
     private Journal mapJournal(final DBObject dbObject) {
         final Journal journal = new Journal();
+        journal.setId(new JournalId((String) dbObject.get("id")));
         journal.setTitle((String) dbObject.get("journalTitle"));
         if (dbObject.containsField("url")) {
             journal.setUrl(URI.create((String) dbObject.get("url")));
