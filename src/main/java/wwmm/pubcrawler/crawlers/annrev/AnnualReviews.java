@@ -14,16 +14,15 @@
  * limitations under the License.
  */
 
-package wwmm.pubcrawler.crawlers.nature;
+package wwmm.pubcrawler.crawlers.annrev;
 
 import java.net.URI;
 
 /**
  * @author Sam Adams
  */
-public class NaturePublicationCrawler {
+public class AnnualReviews {
 
-    private static final URI OPML_URI = URI.create("http://www.nature.com/opml/newsfeeds.opml");
-
+    public static final URI OPML_URI = URI.create("http://www.annualreviews.org/userimages/ContentEditor/1288638616474/annualreviewsopml.xml");
 
 }
