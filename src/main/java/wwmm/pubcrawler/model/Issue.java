@@ -26,7 +26,6 @@ import java.util.List;
 public class Issue extends PubcrawlerObject<IssueId> {
 
     private transient boolean current;
-    private String journalRef;
 
     public Issue() {
     }
@@ -121,11 +120,7 @@ public class Issue extends PubcrawlerObject<IssueId> {
 
     
     public String getJournalRef() {
-        return journalRef;
-    }
-
-    public void setJournalRef(final String journalRef) {
-        this.journalRef = journalRef;
+        return getId().getPublisherPart() + '/' + getId().getJournalPart();
     }
 
     public String getNextIssueId() {
