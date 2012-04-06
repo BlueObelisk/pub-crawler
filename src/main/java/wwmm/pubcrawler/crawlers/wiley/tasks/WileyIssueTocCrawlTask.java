@@ -1,9 +1,9 @@
 package wwmm.pubcrawler.crawlers.wiley.tasks;
 
 import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerResponse;
-import wwmm.pubcrawler.controller.ArticleArchiver;
+import wwmm.pubcrawler.archivers.ArticleArchiver;
+import wwmm.pubcrawler.archivers.IssueArchiver;
 import wwmm.pubcrawler.controller.Fetcher;
-import wwmm.pubcrawler.controller.IssueArchiver;
 import wwmm.pubcrawler.controller.URITask;
 import wwmm.pubcrawler.crawlers.BasicIssueTocCrawlerTask;
 import wwmm.pubcrawler.crawlers.IssueHandler;

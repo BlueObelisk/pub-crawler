@@ -1,4 +1,4 @@
-package wwmm.pubcrawler.controller;
+package wwmm.pubcrawler.archivers;
 
 /**
  * @author Sam Adams

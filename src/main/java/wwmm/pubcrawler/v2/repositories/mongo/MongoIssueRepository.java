@@ -39,7 +39,7 @@ public class MongoIssueRepository implements IssueRepository {
         final DBCursor cursor = collection.find(new BasicDBObject("journalRef", journalId));
         try {
             while (cursor.hasNext()) {
-                results.add(mapIssue(cursor.next()));
+                results.add(mapBsonToIssue(cursor.next()));
             }
         } finally {
             cursor.close();
@@ -57,7 +57,55 @@ public class MongoIssueRepository implements IssueRepository {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    private Issue mapIssue(final DBObject dbObject) {
+    @Override
+    public void saveOrUpdateIssue(final Issue issue) {
+
+        final DBObject dbObject = collection.findOne(new BasicDBObject("id", issue.getId().getUid()));
+        if (dbObject == null) {
+            save(issue);
+        } else {
+            update(dbObject, issue);
+        }
+    }
+
+    private void save(final Issue issue) {
+        final DBObject dbObject = mapIssueToBson(issue);
+
+        collection.save(dbObject);
+    }
+
+    private void update(final DBObject dbObject, final Issue issue) {
+        // TODO update stored issue
+    }
+
+    private DBObject mapIssueToBson(final Issue issue) {
+        final DBObject dbObject = new BasicDBObject();
+
+        dbObject.put("id", issue.getId().getUid());
+
+        if (issue.getJournalRef() != null) {
+            dbObject.put("journalRef", issue.getJournalRef());
+        }
+
+        dbObject.put("journalTitle", issue.getJournalTitle());
+        dbObject.put("year", issue.getYear());
+        dbObject.put("volume", issue.getVolume());
+        dbObject.put("number", issue.getNumber());
+
+        if (issue.getUrl() != null) {
+            dbObject.put("url", issue.getUrl().toString());
+        }
+
+        if (issue.getPreviousIssueId() != null) {
+            dbObject.put("prev", issue.getPreviousIssueId());
+        }
+        if (issue.getNextIssueId() != null) {
+            dbObject.put("next", issue.getNextIssueId());
+        }
+        return dbObject;
+    }
+
+    private Issue mapBsonToIssue(final DBObject dbObject) {
         final Issue issue = new Issue();
         issue.setId(new IssueId((String) dbObject.get("id")));
         issue.setVolume((String) dbObject.get("volume"));

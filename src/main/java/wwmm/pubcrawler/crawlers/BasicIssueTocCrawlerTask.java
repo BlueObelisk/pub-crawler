@@ -2,13 +2,12 @@ package wwmm.pubcrawler.crawlers;
 
 import nu.xom.Document;
 import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerResponse;
-import wwmm.pubcrawler.controller.ArticleArchiver;
+import wwmm.pubcrawler.archivers.ArticleArchiver;
+import wwmm.pubcrawler.archivers.IssueArchiver;
 import wwmm.pubcrawler.controller.Fetcher;
-import wwmm.pubcrawler.controller.IssueArchiver;
 import wwmm.pubcrawler.controller.URITask;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.Issue;
-import wwmm.pubcrawler.model.id.IssueId;
 import wwmm.pubcrawler.model.id.JournalId;
 import wwmm.pubcrawler.model.id.PublisherId;
 import wwmm.pubcrawler.utils.HtmlUtils;

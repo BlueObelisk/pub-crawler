@@ -16,4 +16,6 @@ public interface IssueRepository {
     void addArticles(Issue issue, String... issues);
 
     void updateIssue(Issue issue);
+
+    void saveOrUpdateIssue(Issue issue);
 }

@@ -1,8 +1,10 @@
 package wwmm.pubcrawler.v2.repositories.mongo;
 
-import com.mongodb.*;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
 import wwmm.pubcrawler.model.Article;
-import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.model.Reference;
 import wwmm.pubcrawler.types.Doi;
 import wwmm.pubcrawler.v2.inject.Articles;
@@ -11,7 +13,6 @@ import wwmm.pubcrawler.v2.repositories.ArticleRepository;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -38,7 +39,7 @@ public class MongoArticleRepository implements ArticleRepository {
         final DBCursor cursor = collection.find(new BasicDBObject("issueRef", issueId));
         try {
             while (cursor.hasNext()) {
-                results.add(mapArticle(cursor.next()));
+                results.add(mapBsonToArticle(cursor.next()));
             }
         } finally {
             cursor.close();
@@ -46,7 +47,56 @@ public class MongoArticleRepository implements ArticleRepository {
         return results;
     }
 
-    private Article mapArticle(final DBObject dbObject) {
+    @Override
+    public void saveOrUpdateArticle(final Article article) {
+        final DBObject dbObject = collection.findOne(new BasicDBObject("id", article.getId().getUid()));
+        if (dbObject == null) {
+            saveArticle(article);
+        } else {
+            updateArticle(dbObject, article);
+        }
+    }
+
+    private void saveArticle(final Article article) {
+        final DBObject dbObject = mapArticleToBson(article);
+
+        collection.save(dbObject);
+    }
+
+    private void updateArticle(final DBObject dbObject, final Article article) {
+        // TODO update stored article
+    }
+
+    private DBObject mapArticleToBson(final Article article) {
+        final DBObject dbObject = new BasicDBObject();
+
+        dbObject.put("id", article.getId().getUid());
+
+        if (article.getIssueRef() != null) {
+            dbObject.put("issueRef", article.getIssueRef().getUid());
+        }
+
+        dbObject.put("title", article.getTitle());
+        dbObject.put("authors", article.getAuthors());
+
+        if (article.getReference() != null) {
+            dbObject.put("journal", article.getReference().getJournalTitle());
+            dbObject.put("year", article.getReference().getYear());
+            dbObject.put("volume", article.getReference().getVolume());
+            dbObject.put("number", article.getReference().getNumber());
+            dbObject.put("pages", article.getReference().getPages());
+        }
+
+        if (article.getUrl() != null) {
+            dbObject.put("url", article.getUrl().toString());
+        }
+        if (article.getDoi() != null) {
+            dbObject.put("doi", article.getDoi().getValue());
+        }
+        return dbObject;
+    }
+
+    private Article mapBsonToArticle(final DBObject dbObject) {
         final Article article = new Article();
         article.setTitle((String) dbObject.get("title"));
         article.setAuthors((List<String>) dbObject.get("authors"));
