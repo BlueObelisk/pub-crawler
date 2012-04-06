@@ -4,8 +4,8 @@ import org.joda.time.Duration;
 import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerResponse;
 import wwmm.pubcrawler.controller.Fetcher;
 import wwmm.pubcrawler.controller.URITask;
-import wwmm.pubcrawler.v2.crawler.CrawlRunner;
-import wwmm.pubcrawler.v2.crawler.TaskData;
+import wwmm.pubcrawler.crawler.CrawlRunner;
+import wwmm.pubcrawler.crawler.TaskData;
 
 import javax.inject.Inject;
 import java.net.URI;

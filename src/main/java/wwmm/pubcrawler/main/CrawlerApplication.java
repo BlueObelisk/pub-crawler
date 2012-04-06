@@ -7,9 +7,9 @@ import com.mongodb.DB;
 import com.mongodb.Mongo;
 import wwmm.pubcrawler.controller.CrawlerExecutor;
 import wwmm.pubcrawler.controller.ResumeTask;
-import wwmm.pubcrawler.v2.inject.HttpFetcherModule;
-import wwmm.pubcrawler.v2.inject.MongoRepositoryModule;
-import wwmm.pubcrawler.v2.inject.PubcrawlerModule;
+import wwmm.pubcrawler.inject.HttpFetcherModule;
+import wwmm.pubcrawler.inject.MongoRepositoryModule;
+import wwmm.pubcrawler.inject.PubcrawlerModule;
 
 import java.net.UnknownHostException;
 import java.util.concurrent.ExecutorService;

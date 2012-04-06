@@ -4,7 +4,7 @@ import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerResponse;
 import wwmm.pubcrawler.controller.Fetcher;
 import wwmm.pubcrawler.controller.URITask;
 import wwmm.pubcrawler.crawlers.BasicHttpCrawlTask;
-import wwmm.pubcrawler.v2.crawler.TaskData;
+import wwmm.pubcrawler.crawler.TaskData;
 
 import javax.inject.Inject;
 

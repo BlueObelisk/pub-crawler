@@ -2,7 +2,7 @@ package wwmm.pubcrawler.crawlers.elsevier;
 
 import wwmm.pubcrawler.crawlers.AbstractIssueTocCrawlTaskFactory;
 import wwmm.pubcrawler.crawlers.elsevier.tasks.ElsevierIssueTocCrawlTask;
-import wwmm.pubcrawler.v2.crawler.CrawlRunner;
+import wwmm.pubcrawler.crawler.CrawlRunner;
 
 import javax.inject.Singleton;
 

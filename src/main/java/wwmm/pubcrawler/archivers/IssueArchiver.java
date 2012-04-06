@@ -1,7 +1,7 @@
 package wwmm.pubcrawler.archivers;
 
 import wwmm.pubcrawler.model.Issue;
-import wwmm.pubcrawler.v2.repositories.IssueRepository;
+import wwmm.pubcrawler.repositories.IssueRepository;
 
 import javax.inject.Inject;
 

@@ -2,8 +2,8 @@ package wwmm.pubcrawler.crawlers.springer;
 
 import org.joda.time.Duration;
 import wwmm.pubcrawler.crawlers.wiley.tasks.WileyPublicationListCrawlTask;
-import wwmm.pubcrawler.v2.crawler.CrawlTask;
-import wwmm.pubcrawler.v2.crawler.CrawlTaskBuilder;
+import wwmm.pubcrawler.crawler.CrawlTask;
+import wwmm.pubcrawler.crawler.CrawlTaskBuilder;
 
 import java.net.URI;
 import java.util.HashMap;

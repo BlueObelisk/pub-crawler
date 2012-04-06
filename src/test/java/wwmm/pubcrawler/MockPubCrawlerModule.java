@@ -7,7 +7,7 @@ import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerResponse;
 import wwmm.pubcrawler.controller.*;
 import wwmm.pubcrawler.crawlers.IssueHandler;
 import wwmm.pubcrawler.crawlers.JournalHandler;
-import wwmm.pubcrawler.v2.crawler.TaskQueue;
+import wwmm.pubcrawler.crawler.TaskQueue;
 
 /**
  * @author Sam Adams

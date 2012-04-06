@@ -1,8 +1,6 @@
-package wwmm.pubcrawler.v2.crawler;
+package wwmm.pubcrawler.crawler;
 
 import org.joda.time.Duration;
-
-import java.util.Map;
 
 /**
  * @author Sam Adams

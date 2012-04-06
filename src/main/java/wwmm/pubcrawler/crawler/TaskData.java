@@ -1,4 +1,4 @@
-package wwmm.pubcrawler.v2.crawler;
+package wwmm.pubcrawler.crawler;
 
 import java.util.ArrayList;
 import java.util.List;

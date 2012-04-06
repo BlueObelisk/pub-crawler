@@ -2,9 +2,7 @@ package wwmm.pubcrawler.crawlers.wiley;
 
 import wwmm.pubcrawler.crawlers.IssueTocCrawlTaskFactory;
 import wwmm.pubcrawler.crawlers.IssueTocParserFactory;
-import wwmm.pubcrawler.crawlers.wiley.WileyIssueTocCrawlTaskFactory;
-import wwmm.pubcrawler.crawlers.wiley.WileyIssueTocParserFactory;
-import wwmm.pubcrawler.v2.inject.AbstractPublisherCrawlerModule;
+import wwmm.pubcrawler.inject.AbstractPublisherCrawlerModule;
 
 /**
  * @author Sam Adams

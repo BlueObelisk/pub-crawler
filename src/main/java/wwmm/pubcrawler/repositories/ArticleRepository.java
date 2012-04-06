@@ -1,7 +1,6 @@
-package wwmm.pubcrawler.v2.repositories;
+package wwmm.pubcrawler.repositories;
 
 import wwmm.pubcrawler.model.Article;
-import wwmm.pubcrawler.model.Issue;
 
 import java.util.List;
 

@@ -2,9 +2,9 @@ package wwmm.pubcrawler.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import wwmm.pubcrawler.v2.crawler.CrawlRunner;
-import wwmm.pubcrawler.v2.crawler.CrawlTask;
-import wwmm.pubcrawler.v2.crawler.TaskQueue;
+import wwmm.pubcrawler.crawler.CrawlRunner;
+import wwmm.pubcrawler.crawler.CrawlTask;
+import wwmm.pubcrawler.crawler.TaskQueue;
 
 import javax.inject.Inject;
 

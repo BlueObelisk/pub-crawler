@@ -2,9 +2,7 @@ package wwmm.pubcrawler.crawlers.elsevier;
 
 import wwmm.pubcrawler.crawlers.IssueTocCrawlTaskFactory;
 import wwmm.pubcrawler.crawlers.IssueTocParserFactory;
-import wwmm.pubcrawler.crawlers.elsevier.ElsevierIssueTocCrawlTaskFactory;
-import wwmm.pubcrawler.crawlers.elsevier.ElsevierIssueTocParserFactory;
-import wwmm.pubcrawler.v2.inject.AbstractPublisherCrawlerModule;
+import wwmm.pubcrawler.inject.AbstractPublisherCrawlerModule;
 
 /**
  * @author Sam Adams

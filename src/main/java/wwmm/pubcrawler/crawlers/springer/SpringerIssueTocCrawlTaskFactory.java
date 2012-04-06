@@ -2,7 +2,7 @@ package wwmm.pubcrawler.crawlers.springer;
 
 import wwmm.pubcrawler.crawlers.AbstractIssueTocCrawlTaskFactory;
 import wwmm.pubcrawler.crawlers.springer.tasks.SpringerIssueTocCrawlTask;
-import wwmm.pubcrawler.v2.crawler.CrawlRunner;
+import wwmm.pubcrawler.crawler.CrawlRunner;
 
 /**
  * @author Sam Adams

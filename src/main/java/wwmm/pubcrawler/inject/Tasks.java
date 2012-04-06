@@ -1,4 +1,4 @@
-package wwmm.pubcrawler.v2.inject;
+package wwmm.pubcrawler.inject;
 
 import javax.inject.Qualifier;
 import java.lang.annotation.Retention;

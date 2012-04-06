@@ -1,8 +1,8 @@
 package wwmm.pubcrawler.crawlers;
 
 import wwmm.pubcrawler.model.Journal;
-import wwmm.pubcrawler.v2.crawler.CrawlTask;
-import wwmm.pubcrawler.v2.crawler.TaskQueue;
+import wwmm.pubcrawler.crawler.CrawlTask;
+import wwmm.pubcrawler.crawler.TaskQueue;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
