@@ -16,6 +16,7 @@
 package wwmm.pubcrawler.model;
 
 import wwmm.pubcrawler.model.id.ArticleId;
+import wwmm.pubcrawler.model.id.IssueId;
 import wwmm.pubcrawler.types.Doi;
 
 import java.net.URI;
@@ -26,7 +27,7 @@ import java.util.List;
  */
 public class Article extends PubcrawlerObject<ArticleId> {
 
-    private String issueRef;
+    private IssueId issueRef;
 
     public Article() {
     }
@@ -141,11 +142,11 @@ public class Article extends PubcrawlerObject<ArticleId> {
         put("suppUrl", s);
     }
 
-    public String getIssueRef() {
+    public IssueId getIssueRef() {
         return issueRef;
     }
 
-    public void setIssueRef(final String issueRef) {
+    public void setIssueRef(final IssueId issueRef) {
         this.issueRef = issueRef;
     }
 }

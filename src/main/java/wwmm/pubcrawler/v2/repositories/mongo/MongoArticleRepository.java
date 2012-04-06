@@ -4,6 +4,7 @@ import com.mongodb.*;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.model.Reference;
+import wwmm.pubcrawler.types.Doi;
 import wwmm.pubcrawler.v2.inject.Articles;
 import wwmm.pubcrawler.v2.repositories.ArticleRepository;
 
@@ -54,6 +55,9 @@ public class MongoArticleRepository implements ArticleRepository {
         reference.setNumber((String) article.get("number"));
         reference.setPages((String) article.get("pages"));
         article.setReference(reference);
+        if (dbObject.containsField("doi")) {
+            article.setDoi(new Doi((String) dbObject.get("doi")));
+        }
         return article;
     }
 }
