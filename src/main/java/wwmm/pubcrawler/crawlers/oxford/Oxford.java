@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-package wwmm.pubcrawler.crawlers.annrev;
+package wwmm.pubcrawler.crawlers.oxford;
 
 import java.net.URI;
 
 /**
  * @author Sam Adams
  */
-public class AnnualReviewsPublicationCrawler {
+public class Oxford {
 
-    private static final URI OPML_URI = URI.create("http://www.annualreviews.org/userimages/ContentEditor/1288638616474/annualreviewsopml.xml");
+    public static final URI OPML_URI= URI.create("http://www.oxfordjournals.org/help/oxfordjournals.opml.xml");
 
 }

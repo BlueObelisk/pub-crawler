@@ -21,8 +21,8 @@ import java.net.URI;
 /**
  * @author Sam Adams
  */
-public class IntersciencePublicationCrawler {
+public class InderScience {
 
-    private static URI OPML_URI = URI.create("http://www.inderscience.com/current_issues/inderscienceJournalList.opml");
+    public static URI OPML_URI = URI.create("http://www.inderscience.com/current_issues/inderscienceJournalList.opml");
 
 }

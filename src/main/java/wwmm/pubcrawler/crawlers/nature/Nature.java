@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-package wwmm.pubcrawler.crawlers.oxford;
+package wwmm.pubcrawler.crawlers.nature;
 
 import java.net.URI;
 
 /**
  * @author Sam Adams
  */
-public class OxfordPublicationCrawler {
+public class Nature {
 
-    private static final URI OPML_URI= URI.create("http://www.oxfordjournals.org/help/oxfordjournals.opml.xml");
+    public static final URI OPML_URI = URI.create("http://www.nature.com/opml/newsfeeds.opml");
 
 }
