@@ -11,10 +11,10 @@ import javax.inject.Inject;
 /**
  * @author Sam Adams
  */
-public class AcsArticleSuppInfoCrawler extends BasicHttpCrawlTask {
+public class AcsArticleSuppInfoCrawlTask extends BasicHttpCrawlTask {
 
     @Inject
-    public AcsArticleSuppInfoCrawler(final Fetcher<URITask, CrawlerResponse> fetcher) {
+    public AcsArticleSuppInfoCrawlTask(final Fetcher<URITask, CrawlerResponse> fetcher) {
         super(fetcher);
     }
 
