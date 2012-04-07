@@ -67,7 +67,7 @@ public class AcsIssueTocParser extends AbstractIssueParser implements IssueTocPa
         if (prev != null) {
             final String href = prev.getValue();
             if (href.startsWith("/toc/"+getJournalAbbreviation())) {
-                final String id = href.substring(5);
+                final String id = href.substring(href.indexOf('/', 5) + 1);
                 final URI url = getUrl().resolve(href);
 
                 final Issue issue = new Issue();
