@@ -1,6 +1,8 @@
 package wwmm.pubcrawler.crawlers;
 
 import nu.xom.Document;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerResponse;
 import wwmm.pubcrawler.archivers.JournalArchiver;
 import wwmm.pubcrawler.controller.Fetcher;
@@ -18,6 +20,8 @@ import java.util.List;
  */
 public abstract class BasicPublicationListCrawlTask extends BasicHttpCrawlTask {
 
+    private final Logger LOG;
+
     private final PublicationListParserFactory parserFactory;
     private final JournalArchiver journalArchiver;
     private final JournalHandler journalHandler;
@@ -28,6 +32,7 @@ public abstract class BasicPublicationListCrawlTask extends BasicHttpCrawlTask {
         this.parserFactory = parserFactory;
         this.journalArchiver = journalArchiver;
         this.journalHandler = journalHandler;
+        this.LOG = LoggerFactory.getLogger(getClass());
     }
 
     @Override
@@ -35,8 +40,8 @@ public abstract class BasicPublicationListCrawlTask extends BasicHttpCrawlTask {
         final Document html = readResponse(response);
         final PublicationListParser parser = parserFactory.createPublicationListParser(html);
         final List<Journal> journals = parser.findJournals();
-        for (final Journal journal : journals.subList(0, 10)) {
-            System.out.println(journal.getTitle());
+        for (final Journal journal : journals) {
+            LOG.debug("Found journal: {}", journal.getTitle());
             archiveJournal(journal);
             journalHandler.handleJournal(journal);
         }
