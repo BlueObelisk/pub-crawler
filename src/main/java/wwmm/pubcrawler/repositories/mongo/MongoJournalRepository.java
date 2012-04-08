@@ -27,6 +27,7 @@ public class MongoJournalRepository implements JournalRepository {
     @Inject
     public MongoJournalRepository(@Journals final DBCollection collection) {
         this.collection = collection;
+        this.collection.ensureIndex(new BasicDBObject("id", 1), "id_index", true);
     }
 
     @Override
