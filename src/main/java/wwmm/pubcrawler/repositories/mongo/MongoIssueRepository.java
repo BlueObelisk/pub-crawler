@@ -26,6 +26,7 @@ public class MongoIssueRepository implements IssueRepository {
     @Inject
     public MongoIssueRepository(@Issues final DBCollection collection) {
         this.collection = collection;
+        this.collection.ensureIndex(new BasicDBObject("id", 1), "id_index", true);
     }
 
     @Override
