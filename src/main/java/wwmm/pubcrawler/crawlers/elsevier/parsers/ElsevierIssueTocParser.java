@@ -48,7 +48,7 @@ public class ElsevierIssueTocParser extends AbstractIssueParser implements Issue
 
     private static final Pattern P_ID = Pattern.compile(".*/pii/(\\w+)");
 
-    private static final Pattern VOLUME_ISSUE_PATTERN = Pattern.compile("Vol(?:ume)?s? (\\d+), Iss(?:ues?) (\\S+),.*?\\(.*\\b(\\d{4})\\)");
+    private static final Pattern VOLUME_ISSUE_PATTERN = Pattern.compile("Vol(?:ume)?s? (\\d+), Iss(?:ues?)? (\\S+),.*?\\(.*\\b(\\d{4})\\)");
     private static final Pattern VOLUME_PATTERN = Pattern.compile("Vol(?:ume)?s? (\\S+),.*?\\(.*\\b(\\d{4})\\)");
 
     private static final Pattern PREV_URL = Pattern.compile("/science/journal/\\w+/([^/]+)(?:/([^/]+))?");
@@ -218,6 +218,8 @@ public class ElsevierIssueTocParser extends AbstractIssueParser implements Issue
         // Volume 111, Issue 1, Pages 1-66 (15 February 2012)
         // <title>Chemometrics and Intelligent Laboratory Systems | Vol 111, Iss 1, Pgs 1-66, (15 February, 2012) | ScienceDirect.com</title>
         // EMC - Pediatría | Vol 46, Iss 4, Pgs 1-67, ,(2011) | ScienceDirect.com
+
+        // Computers & Graphics | Vol 36, Iss 1, Pgs 1-48, (February, 2012) | ScienceDirect.com
 
         Matcher m = VOLUME_ISSUE_PATTERN.matcher(s);
         if (m.find()) {
