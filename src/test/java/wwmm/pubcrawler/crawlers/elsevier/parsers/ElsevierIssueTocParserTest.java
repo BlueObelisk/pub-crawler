@@ -69,14 +69,14 @@ public class ElsevierIssueTocParserTest {
     public void testGetArticleTitle() throws Exception {
         ElsevierIssueTocParser parser = getJournalParser09254005_165_1();
         List<Node> nodes = parser.getArticleNodes();
-        assertEquals("A nanostructured SAW chip-based biosensor detecting cancer cells", parser.getArticleTitle(null, nodes.get(1)));
+        assertEquals("A nanostructured SAW chip-based biosensor detecting cancer cells", parser.getArticleTitle(nodes.get(1)));
     }
 
     @Test
     public void testGetArticleAuthors() throws Exception {
         ElsevierIssueTocParser parser = getJournalParser09254005_165_1();
         List<Node> nodes = parser.getArticleNodes();
-        assertEquals(asList("Patrick Br\u00f6ker", "Klaus L\u00fccke", "Markus Perpeet", "Thomas M.A. Gronewold"), parser.getArticleAuthors(null, nodes.get(1)));
+        assertEquals(asList("Patrick Br\u00f6ker", "Klaus L\u00fccke", "Markus Perpeet", "Thomas M.A. Gronewold"), parser.getArticleAuthors(nodes.get(1)));
     }
 
     @Test

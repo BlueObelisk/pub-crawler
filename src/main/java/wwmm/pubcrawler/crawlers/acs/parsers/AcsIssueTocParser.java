@@ -22,7 +22,6 @@ import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import wwmm.pubcrawler.crawlers.AbstractIssueParser;
 import wwmm.pubcrawler.crawlers.IssueTocParser;
-import wwmm.pubcrawler.crawlers.acs.Acs;
 import wwmm.pubcrawler.crawlers.acs.AcsTools;
 import wwmm.pubcrawler.model.*;
 import wwmm.pubcrawler.model.id.ArticleId;
@@ -95,25 +94,25 @@ public class AcsIssueTocParser extends AbstractIssueParser implements IssueTocPa
 
     @Override
     protected ArticleId getArticleId(final Node articleNode, final IssueId issueId) {
-        final Doi doi = getArticleDoi(null, articleNode);
+        final Doi doi = getArticleDoi(articleNode);
         return new ArticleId(getJournalId(), doi.getSuffix());
     }
 
     @Override
-    protected Doi getArticleDoi(final Article article, final Node node) {
+    protected Doi getArticleDoi(final Node node) {
         final String s = XPathUtils.getString(node, ".//x:input[@name='doi']/@value");
         return new Doi(s);
     }
 
     @Override
-    protected URI getArticleUrl(final Article article, final Node articleNode) {
+    protected URI getArticleUrl(final Node articleNode) {
         final String s = XPathUtils.getString(articleNode, "./x:div[@class='articleLinksIcons']//x:a[@class = 'articleLink'][1]/@href");
         final URI url = getUrl().resolve(s);
         return url;
     }
 
     @Override
-    protected URI getArticleSupportingInfoUrl(final Article article, final Node articleNode) {
+    protected URI getArticleSupportingInfoUrl(final Node articleNode) {
         final String s = XPathUtils.getString(articleNode, "./x:div[@class='articleLinksIcons']//x:a[text() = 'Supporting Info']/@href");
         if (s != null) {
             final URI url = getUrl().resolve(s);
@@ -123,7 +122,7 @@ public class AcsIssueTocParser extends AbstractIssueParser implements IssueTocPa
     }
 
     @Override
-    protected String getArticleTitle(final Article article, final Node articleNode) {
+    protected String getArticleTitle(final Node articleNode) {
         // Additions and Corrections have no title
         // e.g. http://pubs.acs.org/toc/inocaj/39/19
         final ParentNode source = (ParentNode) XPathUtils.getNode(articleNode, ".//x:h2/x:a");
@@ -135,7 +134,7 @@ public class AcsIssueTocParser extends AbstractIssueParser implements IssueTocPa
     }
 
     @Override
-    protected String getArticleTitleHtml(final Article article, final Node articleNode) {
+    protected String getArticleTitleHtml(final Node articleNode) {
         // Additions and Corrections have no title
         // e.g. http://pubs.acs.org/toc/inocaj/39/19
         final ParentNode source = (ParentNode) XPathUtils.getNode(articleNode, ".//x:h2/x:a");
@@ -148,7 +147,7 @@ public class AcsIssueTocParser extends AbstractIssueParser implements IssueTocPa
     }
 
     @Override
-    protected List<String> getArticleAuthors(final Article article, final Node node) {
+    protected List<String> getArticleAuthors(final Node node) {
         final List<String> authors = new ArrayList<String>();
         final Element names = (Element) XPathUtils.getNode(node, ".//x:div[@class='articleAuthors']");
         if (names != null) {
@@ -168,7 +167,7 @@ public class AcsIssueTocParser extends AbstractIssueParser implements IssueTocPa
     }
 
     @Override
-    protected List<FullTextResource> getArticleFullTextResources(final Article article, final Node articleNode) {
+    protected List<FullTextResource> getArticleFullTextResources(final Node articleNode) {
         // TODO
         return null;
     }

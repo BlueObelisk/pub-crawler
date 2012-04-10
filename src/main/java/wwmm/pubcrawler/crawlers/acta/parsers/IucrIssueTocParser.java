@@ -143,7 +143,7 @@ public class IucrIssueTocParser extends AbstractIssueParser {
     }
 
     @Override
-    protected Doi getArticleDoi(final Article article, final Node node) {
+    protected Doi getArticleDoi(final Node node) {
         String doi = XPathUtils.getString(node, ".//x:font[@size='2' and contains(.,'doi:10.1107/')]");
         if (doi == null) {
             doi = XPathUtils.getString(node, ".//x:a[contains(@href,'dx.doi.org/10.1107/')]");
@@ -159,18 +159,18 @@ public class IucrIssueTocParser extends AbstractIssueParser {
     }
 
     @Override
-    protected URI getArticleUrl(final Article article, final Node articleNode) {
+    protected URI getArticleUrl(final Node articleNode) {
         // TODO
         return null;
     }
 
     @Override
-    protected URI getArticleSupportingInfoUrl(final Article article, final Node articleNode) {
+    protected URI getArticleSupportingInfoUrl(final Node articleNode) {
         return null;
     }
 
     @Override
-    protected String getArticleTitle(final Article article, final Node node) {
+    protected String getArticleTitle(final Node node) {
         final Node heading = XPathUtils.getNode(node, ".//x:h3[normalize-space(.) != \"\"][1]");
         final Element copy = (Element) heading.copy();
         ActaUtil.normaliseHtml(copy);
@@ -178,7 +178,7 @@ public class IucrIssueTocParser extends AbstractIssueParser {
     }
 
     @Override
-    protected String getArticleTitleHtml(final Article article, final Node node) {
+    protected String getArticleTitleHtml(final Node node) {
         final Node heading = XPathUtils.getNode(node, "./x:h3[1]");
         final Element copy = (Element) heading.copy();
         copy.setLocalName("h1");
@@ -189,7 +189,7 @@ public class IucrIssueTocParser extends AbstractIssueParser {
     }
 
     @Override
-    protected List<String> getArticleAuthors(final Article article, final Node articleNode) {
+    protected List<String> getArticleAuthors(final Node articleNode) {
         final List<String> authors = XPathUtils.getStrings(articleNode, "./x:h3/x:a[contains(@href, \"http://scripts.iucr.org/cgi-bin/citedin\")]");
         return authors;
     }
@@ -216,7 +216,7 @@ public class IucrIssueTocParser extends AbstractIssueParser {
     }
 
     @Override
-    protected List<FullTextResource> getArticleFullTextResources(final Article article, final Node articleNode) {
+    protected List<FullTextResource> getArticleFullTextResources(final Node articleNode) {
         // TODO
         return null;
     }
