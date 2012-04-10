@@ -52,6 +52,10 @@ public class AcsIssueTocParser extends AbstractIssueParser implements IssueTocPa
     
     private static final Pattern PREV_URI_PATTERN = Pattern.compile("http://pubs.acs.org/toc/\\w+/(\\w+)/(\\w+)");
 
+    private static final Pattern P_VOLUME = Pattern.compile("Volume (\\d+)");
+    private static final Pattern P_NUMBER = Pattern.compile("Issue (\\d+)");
+    private static final Pattern P_YEAR = Pattern.compile("\\b(\\d{4})\\b");
+
     public AcsIssueTocParser(final Document html, final URI url, final JournalId journalId) {
         super(html, url, journalId);
     }
@@ -198,30 +202,30 @@ public class AcsIssueTocParser extends AbstractIssueParser implements IssueTocPa
 
 
     @Override
-    protected String getJournalTitle() {
+    protected String findJournalTitle() {
         final String s = XPathUtils.getString(getHtml(), "/x:html/x:head/x:title");
         return s.substring(s.indexOf(':'));
     }
 
     @Override
-    protected String getVolume() {
+    protected String findVolume() {
         final String text = XPathUtils.getString(getHtml(), ".//x:div[@id='tocMeta']/x:div[2]");
-        final Pattern p = Pattern.compile("Volume (\\d+)");
-        final Matcher m = p.matcher(text);
-        m.find();
-        return m.group(1);
+        final Matcher m = P_VOLUME.matcher(text);
+        if (m.find()) {
+            return m.group(1);
+        }
+        throw new RuntimeException("Unable to find volume: " + text);
     }
 
     @Override
-    protected String getNumber() {
+    protected String findNumber() {
         final String text = XPathUtils.getString(getHtml(), ".//x:div[@id='tocMeta']/x:div[2]");
-        final Pattern p = Pattern.compile("Issue (\\d+)");
-        final Matcher m = p.matcher(text);
-        m.find();
-        return m.group(1);
+        final Matcher m = P_NUMBER.matcher(text);
+        if (m.find()) {
+            return m.group(1);
+        }
+        throw new RuntimeException("Unable to find number: " + text);
     }
-
-    private static final Pattern P_YEAR = Pattern.compile("\\b(\\d{4})\\b");
 
     @Override
     protected String getYear() {

@@ -38,6 +38,10 @@ public abstract class AbstractIssueParser {
     
     private final Document html;
     private final URI url;
+    
+    private String journalTitle;
+    private String volume;
+    private String number;
 
     protected AbstractIssueParser(final Document html, final URI url, final JournalId journalId) {
         this.html = html;
@@ -58,6 +62,34 @@ public abstract class AbstractIssueParser {
     protected final JournalId getJournalId() {
         return journalId;
     }
+
+    public final String getJournalTitle() {
+        String journalTitle = this.journalTitle;
+        if (journalTitle == null) {
+            journalTitle = findJournalTitle();
+            this.journalTitle = journalTitle;
+        }
+        return journalTitle;
+    }
+
+    public final String getVolume() {
+        String volume = this.volume;
+        if (volume == null) {
+            volume = findVolume();
+            this.volume = volume;
+        }
+        return volume;
+    }
+
+    public final String getNumber() {
+        String number = this.number;
+        if (number == null) {
+            number = findNumber();
+            this.number = number;
+        }
+        return number;
+    }
+
 
     /**
      * <p>Gets descriptions of all of the articles in the journal issue being
@@ -215,11 +247,11 @@ public abstract class AbstractIssueParser {
 
     protected abstract String getYear();
 
-    protected abstract String getVolume();
+    protected abstract String findVolume();
 
-    protected abstract String getNumber();
+    protected abstract String findNumber();
     
-    protected abstract String getJournalTitle();
+    protected abstract String findJournalTitle();
 
     public final Issue getIssueDetails() {
         

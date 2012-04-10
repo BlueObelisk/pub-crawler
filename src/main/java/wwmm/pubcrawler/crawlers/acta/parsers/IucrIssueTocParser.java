@@ -71,7 +71,7 @@ public class IucrIssueTocParser extends AbstractIssueParser {
     }
 
     @Override
-    protected String getJournalTitle() {
+    protected String findJournalTitle() {
         return journalTitle;
     }
 
@@ -261,17 +261,17 @@ public class IucrIssueTocParser extends AbstractIssueParser {
     }
 
     @Override
-    public String getVolume() {
+    protected String findVolume() {
         return getBib(1);
     }
 
     @Override
-    public String getNumber() {
+    protected String findNumber() {
         return getBib(2);
     }
 
     @Override
-    public String getYear() {
+    protected String getYear() {
         return getBib(3);
     }
 }

@@ -25,6 +25,8 @@ import java.util.List;
  */
 public class Issue extends PubcrawlerObject<IssueId> {
 
+    public static final String NULL_NUMBER = "-";
+
     private transient boolean current;
 
     public Issue() {
@@ -40,8 +42,6 @@ public class Issue extends PubcrawlerObject<IssueId> {
             setUrl(url);
         }
     }
-
-    
 
     @Override
     protected IssueId createId(final String id) {

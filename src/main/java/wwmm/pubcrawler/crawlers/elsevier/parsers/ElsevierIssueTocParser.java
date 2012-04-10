@@ -51,8 +51,9 @@ public class ElsevierIssueTocParser extends AbstractIssueParser implements Issue
     private static final Pattern VOLUME_ISSUE_PATTERN = Pattern.compile("Vol(?:ume)?s? (\\d+), Iss(?:ues?)? (\\S+),.*?\\(.*\\b(\\d{4})\\)");
     private static final Pattern VOLUME_PATTERN = Pattern.compile("Vol(?:ume)?s? (\\S+),.*?\\(.*\\b(\\d{4})\\)");
 
-    private static final Pattern PREV_URL = Pattern.compile("/science/journal/\\w+/([^/]+)(?:/([^/]+))?");
-    
+    // e.g. /science/journal/09254005/164/1
+    private static final Pattern PREV_URL = Pattern.compile("/science/journal/([^/]+)/([^/]+)(?:/([^/]+))?");
+
     public ElsevierIssueTocParser(final Document html, final URI url, final JournalId journalId) {
         super(html, url, journalId);
     }
@@ -63,17 +64,18 @@ public class ElsevierIssueTocParser extends AbstractIssueParser implements Issue
     }
 
     @Override
-    public String getJournalTitle() {
-        return XPathUtils.getString(getHtml(), "//x:span[@class='pubTitle']").trim();
+    protected String findJournalTitle() {
+        final String title = XPathUtils.getString(getHtml(), "/x:html/x:head/x:title");
+        return title.substring(0, title.indexOf('|')).trim();
     }
 
     @Override
-    protected String getVolume() {
+    protected String findVolume() {
         return getBib()[0];
     }
 
     @Override
-    protected String getNumber() {
+    protected String findNumber() {
         return getBib()[1];
     }
 
@@ -197,13 +199,18 @@ public class ElsevierIssueTocParser extends AbstractIssueParser implements Issue
             final Element addr = (Element) nodes.get(0);
             final String href = addr.getAttributeValue("href");
             final Matcher m = PREV_URL.matcher((href));
-            if (m.find()) {
+            if (m.matches()) {
+                final String volume = m.group(2);
+                final String number = m.group(3) != null ? m.group(3) : Issue.NULL_NUMBER;
+
                 final Issue issue = new Issue();
-                issue.setId(new IssueId(getJournalId(), getVolume(), getNumber()+"_prev"));
-                issue.setVolume(m.group(1));
-                issue.setNumber(m.group(2) != null ? m.group(2) : "-");
+                issue.setId(new IssueId(getJournalId(), volume, number));
+                issue.setVolume(volume);
+                issue.setNumber(number);
                 issue.setUrl(getUrl().resolve(href));
                 return issue;
+            } else {
+                LOG.warn("Error parsing previous issue link: " + href);
             }
         }
         return null;
