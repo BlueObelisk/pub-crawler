@@ -106,24 +106,24 @@ public class ElsevierIssueTocParser extends AbstractIssueParser implements Issue
     }
 
     @Override
-    protected Doi getArticleDoi(final Article article, final Node articleNode) {
+    protected Doi getArticleDoi(final Node articleNode) {
         return null;
     }
 
     @Override
-    protected URI getArticleUrl(final Article article, final Node context) {
+    protected URI getArticleUrl(final Node context) {
         final Element addr = (Element) XPathUtils.getNode(context, "x:h3/x:a");
         final String href = addr.getAttributeValue("href");
         return getUrl().resolve(href);
     }
 
     @Override
-    protected URI getArticleSupportingInfoUrl(final Article article, final Node articleNode) {
+    protected URI getArticleSupportingInfoUrl(final Node articleNode) {
         return null;
     }
 
     @Override
-    protected String getArticleTitle(final Article article, final Node context) {
+    protected String getArticleTitle(final Node context) {
         final Element addr = (Element) XPathUtils.getNode(context, "x:h3");
         return removeDoubleQuotes(addr.getValue().trim());
     }
@@ -136,12 +136,12 @@ public class ElsevierIssueTocParser extends AbstractIssueParser implements Issue
     }
 
     @Override
-    protected String getArticleTitleHtml(final Article article, final Node articleNode) {
+    protected String getArticleTitleHtml(final Node articleNode) {
         return null;
     }
 
     @Override
-    protected List<String> getArticleAuthors(final Article article, final Node node) {
+    protected List<String> getArticleAuthors(final Node node) {
         // TODO e.g. italics in name
         // http://www.sciencedirect.com/science?_ob=PublicationURL&_tockey=%23TOC%2356481%232010%23999519996%232414745%23FLP%23&_cdi=56481&_pubType=J&_auth=y&_acct=C000053194&_version=1&_urlVersion=0&_userid=1495569&md5=499d6ade479e102277248101889f472a
         final Node n = XPathUtils.getNode(node, "./x:i[starts-with(text(), 'Page')]/following-sibling::x:br/following-sibling::text()");
@@ -164,7 +164,7 @@ public class ElsevierIssueTocParser extends AbstractIssueParser implements Issue
     }
 
     @Override
-    protected List<FullTextResource> getArticleFullTextResources(final Article article, final Node articleNode) {
+    protected List<FullTextResource> getArticleFullTextResources(final Node articleNode) {
         return null;
     }
 

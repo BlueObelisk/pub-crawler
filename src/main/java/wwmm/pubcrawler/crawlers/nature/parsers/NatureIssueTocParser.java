@@ -97,30 +97,30 @@ public class NatureIssueTocParser extends AbstractIssueParser {
 
     @Override
     protected ArticleId getArticleId(final Node articleNode, final IssueId issueId) {
-        final Doi doi = getArticleDoi(null, articleNode);
+        final Doi doi = getArticleDoi(articleNode);
         return new ArticleId(getJournalId(), doi.getSuffix());
     }
 
     @Override
-    protected Doi getArticleDoi(final Article article, final Node node) {
+    protected Doi getArticleDoi(final Node node) {
         final String s = XPathUtils.getString(node, ".//x:span[@class='doi']");
         return new Doi(s);
     }
 
     @Override
-    protected URI getArticleUrl(final Article article, final Node articleNode) {
+    protected URI getArticleUrl(final Node articleNode) {
         // TODO
         return null;
     }
 
     @Override
-    protected URI getArticleSupportingInfoUrl(final Article article, final Node node) {
+    protected URI getArticleSupportingInfoUrl(final Node node) {
         final String href = XPathUtils.getString(node, ".//x:a[text() = 'Supplementary information']/@href");
         return href == null ? null : getUrl().resolve(href);
     }
 
     @Override
-    protected String getArticleTitle(final Article article, final Node node) {
+    protected String getArticleTitle(final Node node) {
         final StringBuilder s = new StringBuilder();
         for (final Node n : XPathUtils.queryHTML(node, "./x:h4/node()[./following-sibling::x:span[@class='hidden']]")) {
             s.append(n.getValue());
@@ -129,7 +129,7 @@ public class NatureIssueTocParser extends AbstractIssueParser {
     }
 
     @Override
-    protected String getArticleTitleHtml(final Article article, final Node node) {
+    protected String getArticleTitleHtml(final Node node) {
         final Element h = new Element("h1", XHtml.NAMESPACE);
         for (final Node n : XPathUtils.queryHTML(node, "./x:h4/node()[./following-sibling::x:span[@class='hidden']]")) {
             h.appendChild(n.copy());
@@ -138,7 +138,7 @@ public class NatureIssueTocParser extends AbstractIssueParser {
     }
 
     @Override
-    protected List<String> getArticleAuthors(final Article article, final Node articleNode) {
+    protected List<String> getArticleAuthors(final Node articleNode) {
         // TODO
         return null;
     }
@@ -155,7 +155,7 @@ public class NatureIssueTocParser extends AbstractIssueParser {
     }
 
     @Override
-    protected List<FullTextResource> getArticleFullTextResources(final Article article, final Node articleNode) {
+    protected List<FullTextResource> getArticleFullTextResources(final Node articleNode) {
         // TODO
         return null;
     }

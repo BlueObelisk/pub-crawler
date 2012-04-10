@@ -80,7 +80,7 @@ public class SpringerIssueTocParser extends AbstractIssueParser implements Issue
 
     @Override
     protected ArticleId getArticleId(final Node articleNode, final IssueId issueId) {
-        final URI url = getArticleUrl(null, articleNode);
+        final URI url = getArticleUrl(articleNode);
         final String s = url.toString();
         final int i0 = s.lastIndexOf('/');
         final int i1 = s.lastIndexOf('/', i0-1);
@@ -88,33 +88,33 @@ public class SpringerIssueTocParser extends AbstractIssueParser implements Issue
     }
 
     @Override
-    protected Doi getArticleDoi(final Article article, final Node articleNode) {
+    protected Doi getArticleDoi(final Node articleNode) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
-    protected URI getArticleUrl(final Article article, final Node context) {
+    protected URI getArticleUrl(final Node context) {
         final String u = XPathUtils.getString(context, "x:p[@class='title']/x:a/@href");
         return getUrl().resolve(u);
     }
 
     @Override
-    protected URI getArticleSupportingInfoUrl(final Article article, final Node articleNode) {
+    protected URI getArticleSupportingInfoUrl(final Node articleNode) {
         return null;
     }
 
     @Override
-    protected String getArticleTitle(final Article article, final Node context) {
+    protected String getArticleTitle(final Node context) {
         return XPathUtils.getString(context, "x:p[@class='title']").trim().replaceAll("\\s+", " ");
     }
 
     @Override
-    protected String getArticleTitleHtml(final Article article, final Node articleNode) {
+    protected String getArticleTitleHtml(final Node articleNode) {
         return null;
     }
 
     @Override
-    protected List<String> getArticleAuthors(final Article article, final Node context) {
+    protected List<String> getArticleAuthors(final Node context) {
         final List<Node> nodes = XPathUtils.queryHTML(context, "x:p[@class='authors']/x:a");
         final List<String> authors = new ArrayList<String>();
         for (final Node node : nodes) {
@@ -134,7 +134,7 @@ public class SpringerIssueTocParser extends AbstractIssueParser implements Issue
     }
 
     @Override
-    protected List<FullTextResource> getArticleFullTextResources(final Article article, final Node articleNode) {
+    protected List<FullTextResource> getArticleFullTextResources(final Node articleNode) {
         return null;
     }
 

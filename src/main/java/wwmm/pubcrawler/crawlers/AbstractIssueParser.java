@@ -146,28 +146,28 @@ public abstract class AbstractIssueParser {
         }
 
         try {
-            final Doi doi = getArticleDoi(article, articleNode);
+            final Doi doi = getArticleDoi(articleNode);
             article.setDoi(doi);
         } catch (Exception e) {
             throw new CrawlerRuntimeException("Error locating DOI [issue: "+issueId+" | article: "+articleId+"]", e);
         }
 
         try {
-            final URI url = getArticleUrl(article, articleNode);
+            final URI url = getArticleUrl(articleNode);
             article.setUrl(url);
         } catch (Exception e) {
             throw new CrawlerRuntimeException("Error locating URL [issue: "+issueId+" | article: "+articleId+"]", e);
         }
 
         try {
-            final URI suppUrl = getArticleSupportingInfoUrl(article, articleNode);
+            final URI suppUrl = getArticleSupportingInfoUrl(articleNode);
             article.setSupplementaryResourceUrl(suppUrl);
         } catch (Exception e) {
             throw new CrawlerRuntimeException("Error locating supp info URL [issue: "+issueId+" | article: "+articleId+"]", e);
         }
 
         try {
-            final String title = getArticleTitle(article, articleNode);
+            final String title = getArticleTitle(articleNode);
             if (title != null) {
                 article.setTitle(title);
             }
@@ -176,7 +176,7 @@ public abstract class AbstractIssueParser {
         }
 
         try {
-            final String titleHtml = getArticleTitleHtml(article, articleNode);
+            final String titleHtml = getArticleTitleHtml(articleNode);
             if (titleHtml != null) {
                 article.setTitleHtml(titleHtml);
             }
@@ -185,7 +185,7 @@ public abstract class AbstractIssueParser {
         }
 
         try {
-            final List<String> authors = getArticleAuthors(article, articleNode);
+            final List<String> authors = getArticleAuthors(articleNode);
             if (authors != null) {
                 article.setAuthors(authors);
             }
@@ -194,7 +194,7 @@ public abstract class AbstractIssueParser {
         }
 
         try {
-            final Reference reference = getArticleReference(article, articleNode);
+            final Reference reference = getArticleReference(articleNode);
             if (reference != null) {
                 article.setReference(reference);
             }
@@ -212,7 +212,7 @@ public abstract class AbstractIssueParser {
         }
 
         try {
-            final List<FullTextResource> fullTextResources = getArticleFullTextResources(article, articleNode);
+            final List<FullTextResource> fullTextResources = getArticleFullTextResources(articleNode);
             if (fullTextResources != null) {
                 article.setFullTextResources(fullTextResources);
             }
@@ -226,26 +226,26 @@ public abstract class AbstractIssueParser {
 
     protected abstract ArticleId getArticleId(Node articleNode, IssueId issueId);
 
-    protected abstract Doi getArticleDoi(Article article, Node articleNode);
+    protected abstract Doi getArticleDoi(Node articleNode);
 
-    protected abstract URI getArticleUrl(Article article, Node articleNode);
+    protected abstract URI getArticleUrl(Node articleNode);
 
-    protected abstract URI getArticleSupportingInfoUrl(Article article, Node articleNode);
+    protected abstract URI getArticleSupportingInfoUrl(Node articleNode);
 
-    protected abstract String getArticleTitle(Article article, Node articleNode);
+    protected abstract String getArticleTitle(Node articleNode);
 
-    protected abstract String getArticleTitleHtml(Article article, Node articleNode);
+    protected abstract String getArticleTitleHtml(Node articleNode);
 
-    protected abstract List<String> getArticleAuthors(Article article, Node articleNode);
+    protected abstract List<String> getArticleAuthors(Node articleNode);
 
     protected abstract String findArticlePages(Node articleNode);
 
     protected abstract List<SupplementaryResource> getArticleSupplementaryResources(Article article, Node articleNode);
 
-    protected abstract List<FullTextResource> getArticleFullTextResources(Article article, Node articleNode);
+    protected abstract List<FullTextResource> getArticleFullTextResources(Node articleNode);
 
 
-    protected final Reference getArticleReference(Article article, Node articleNode) {
+    protected final Reference getArticleReference(Node articleNode) {
         return new Reference(getJournalTitle(), getVolume(), getNumber(), getYear(), findArticlePages(articleNode));
     }
 
