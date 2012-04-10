@@ -144,7 +144,7 @@ public class NatureIssueTocParser extends AbstractIssueParser {
     }
 
     @Override
-    protected Reference getArticleReference(final Article article, final Node articleNode) {
+    protected String findArticlePages(final Node articleNode) {
         // TODO
         return null;
     }
@@ -190,7 +190,7 @@ public class NatureIssueTocParser extends AbstractIssueParser {
     }
 
     @Override
-    public String getYear() {
+    protected String findYear() {
         return getBiblio(1);
     }
 

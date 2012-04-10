@@ -24,7 +24,10 @@ import org.apache.log4j.Logger;
 import wwmm.pubcrawler.CrawlerRuntimeException;
 import wwmm.pubcrawler.crawlers.AbstractIssueParser;
 import wwmm.pubcrawler.crawlers.IssueTocParser;
-import wwmm.pubcrawler.model.*;
+import wwmm.pubcrawler.model.Article;
+import wwmm.pubcrawler.model.FullTextResource;
+import wwmm.pubcrawler.model.Issue;
+import wwmm.pubcrawler.model.SupplementaryResource;
 import wwmm.pubcrawler.model.id.ArticleId;
 import wwmm.pubcrawler.model.id.IssueId;
 import wwmm.pubcrawler.model.id.JournalId;
@@ -53,6 +56,7 @@ public class ElsevierIssueTocParser extends AbstractIssueParser implements Issue
 
     // e.g. /science/journal/09254005/164/1
     private static final Pattern PREV_URL = Pattern.compile("/science/journal/([^/]+)/([^/]+)(?:/([^/]+))?");
+    private static final Pattern P_PAGES = Pattern.compile("Pages? (\\S+)");
 
     public ElsevierIssueTocParser(final Document html, final URI url, final JournalId journalId) {
         super(html, url, journalId);
@@ -80,7 +84,7 @@ public class ElsevierIssueTocParser extends AbstractIssueParser implements Issue
     }
 
     @Override
-    protected String getYear() {
+    protected String findYear() {
         return getBib()[2];
     }
 
@@ -121,8 +125,7 @@ public class ElsevierIssueTocParser extends AbstractIssueParser implements Issue
     @Override
     protected String getArticleTitle(final Article article, final Node context) {
         final Element addr = (Element) XPathUtils.getNode(context, "x:h3");
-        final String title = addr.getValue().trim();
-        return removeDoubleQuotes(title);
+        return removeDoubleQuotes(addr.getValue().trim());
     }
 
     private String removeDoubleQuotes(final String title) {
@@ -156,21 +159,6 @@ public class ElsevierIssueTocParser extends AbstractIssueParser implements Issue
     }
 
     @Override
-    protected Reference getArticleReference(final Article article, final Node node) {
-        final String journalTitle = getJournalTitle();
-        final String volume = getVolume();
-        final String number = getNumber();
-
-        final String pages = getArticlePages(node);
-        final Reference ref = new Reference();
-        ref.setJournalTitle(journalTitle);
-        ref.setVolume(volume);
-        ref.setNumber(number);
-        ref.setPages(pages);
-        return ref;
-    }
-
-    @Override
     protected List<SupplementaryResource> getArticleSupplementaryResources(final Article article, final Node articleNode) {
         return null;
     }
@@ -180,16 +168,14 @@ public class ElsevierIssueTocParser extends AbstractIssueParser implements Issue
         return null;
     }
 
-
-
-    private String getArticlePages(final Node node) {
+    @Override
+    protected String findArticlePages(final Node node) {
         final String s = XPathUtils.getString(node, "x:i[starts-with(text(), 'Page')]");
-        final Pattern p = Pattern.compile("Pages? (\\S+)");
-        final Matcher m = p.matcher(s);
-        if (!m.find()) {
-            throw new CrawlerRuntimeException("No match: "+s);
+        final Matcher m = P_PAGES.matcher(s);
+        if (m.find()) {
+            return m.group(1);
         }
-        return m.group(1);
+        throw new CrawlerRuntimeException("Unable to find pages: "+s);
     }
 
     @Override

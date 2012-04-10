@@ -163,17 +163,6 @@ public class AcsIssueTocParser extends AbstractIssueParser implements IssueTocPa
     }
 
     @Override
-    protected Reference getArticleReference(final Article article, final Node articleNode) {
-        final Reference ref = new Reference();
-        ref.setJournalTitle(getJournalTitle());
-        ref.setVolume(getVolume());
-        ref.setNumber(getNumber());
-        ref.setPages(getPages(articleNode));
-        return ref;
-
-    }
-
-    @Override
     protected List<SupplementaryResource> getArticleSupplementaryResources(final Article article, final Node articleNode) {
         return null;
     }
@@ -184,7 +173,8 @@ public class AcsIssueTocParser extends AbstractIssueParser implements IssueTocPa
         return null;
     }
 
-    private String getPages(final Node node) {
+    @Override
+    protected String findArticlePages(final Node node) {
         String pages = XPathUtils.getString(node, ".//x:div[starts-with(text(), 'pp ')]");
         if (pages != null) {
             return pages.substring(3);
@@ -228,7 +218,7 @@ public class AcsIssueTocParser extends AbstractIssueParser implements IssueTocPa
     }
 
     @Override
-    protected String getYear() {
+    protected String findYear() {
         final String text = getDateBlock();
         final Matcher m = P_YEAR.matcher(text);
         if (m.find()) {

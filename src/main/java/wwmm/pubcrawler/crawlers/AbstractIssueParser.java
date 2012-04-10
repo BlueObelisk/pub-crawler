@@ -42,6 +42,7 @@ public abstract class AbstractIssueParser {
     private String journalTitle;
     private String volume;
     private String number;
+    private String year;
 
     protected AbstractIssueParser(final Document html, final URI url, final JournalId journalId) {
         this.html = html;
@@ -90,6 +91,14 @@ public abstract class AbstractIssueParser {
         return number;
     }
 
+    public final String getYear() {
+        String year = this.year;
+        if (year == null) {
+            year = findYear();
+            this.year = year;
+        }
+        return year;
+    }
 
     /**
      * <p>Gets descriptions of all of the articles in the journal issue being
@@ -229,12 +238,16 @@ public abstract class AbstractIssueParser {
 
     protected abstract List<String> getArticleAuthors(Article article, Node articleNode);
 
-    protected abstract Reference getArticleReference(Article article, Node articleNode);
+    protected abstract String findArticlePages(Node articleNode);
 
     protected abstract List<SupplementaryResource> getArticleSupplementaryResources(Article article, Node articleNode);
 
     protected abstract List<FullTextResource> getArticleFullTextResources(Article article, Node articleNode);
 
+
+    protected final Reference getArticleReference(Article article, Node articleNode) {
+        return new Reference(getJournalTitle(), getVolume(), getNumber(), getYear(), findArticlePages(articleNode));
+    }
 
 
     /**
@@ -245,13 +258,13 @@ public abstract class AbstractIssueParser {
      */
     protected abstract Issue getPreviousIssue();
 
-    protected abstract String getYear();
+    protected abstract String findJournalTitle();
+
+    protected abstract String findYear();
 
     protected abstract String findVolume();
 
     protected abstract String findNumber();
-    
-    protected abstract String findJournalTitle();
 
     public final Issue getIssueDetails() {
         

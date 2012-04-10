@@ -195,16 +195,7 @@ public class IucrIssueTocParser extends AbstractIssueParser {
     }
 
     @Override
-    protected Reference getArticleReference(final Article article, final Node articleNode) {
-        final Reference reference = new Reference();
-        reference.setVolume(getVolume());
-        reference.setNumber(getNumber());
-        reference.setYear(getYear());
-        reference.setPages(getPages(articleNode));
-        return reference;
-    }
-
-    private String getPages(final Node articleNode) {
+    protected String findArticlePages(final Node articleNode) {
         final List<Node> nodes = XPathUtils.queryHTML(articleNode, ".//x:p[x:i]/x:b/following-sibling::text()[1]");
         if (!nodes.isEmpty()) {
             final String s = nodes.get(0).getValue();
@@ -271,7 +262,7 @@ public class IucrIssueTocParser extends AbstractIssueParser {
     }
 
     @Override
-    protected String getYear() {
+    protected String findYear() {
         return getBib(3);
     }
 }

@@ -22,7 +22,10 @@ import org.apache.log4j.Logger;
 import wwmm.pubcrawler.CrawlerRuntimeException;
 import wwmm.pubcrawler.crawlers.AbstractIssueParser;
 import wwmm.pubcrawler.crawlers.IssueTocParser;
-import wwmm.pubcrawler.model.*;
+import wwmm.pubcrawler.model.Article;
+import wwmm.pubcrawler.model.FullTextResource;
+import wwmm.pubcrawler.model.Issue;
+import wwmm.pubcrawler.model.SupplementaryResource;
 import wwmm.pubcrawler.model.id.ArticleId;
 import wwmm.pubcrawler.model.id.IssueId;
 import wwmm.pubcrawler.model.id.JournalId;
@@ -121,18 +124,8 @@ public class SpringerIssueTocParser extends AbstractIssueParser implements Issue
     }
 
     @Override
-    protected Reference getArticleReference(final Article article, final Node context) {
-        final String title = getJournalTitle();
-        final String volume = getVolume();
-        final String number = getNumber();
-
-        final String pages = XPathUtils.getString(context, "x:p[@class='contextTag']");
-        final Reference ref = new Reference();
-        ref.setJournalTitle(title);
-        ref.setVolume(volume);
-        ref.setNumber(number);
-        ref.setPages(pages);
-        return ref;
+    protected String findArticlePages(final Node context) {
+        return XPathUtils.getString(context, "x:p[@class='contextTag']");
     }
 
     @Override
@@ -151,7 +144,7 @@ public class SpringerIssueTocParser extends AbstractIssueParser implements Issue
     }
 
     @Override
-    protected String getYear() {
+    protected String findYear() {
         return getBib()[2];
     }
 
