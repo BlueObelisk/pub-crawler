@@ -66,9 +66,8 @@ public class SpringerIssueTocParser extends AbstractIssueParser implements Issue
     }
 
     @Override
-    public String getJournalTitle() {
-        final String title = XPathUtils.getString(getHtml(), "//x:h1[@class='title']").trim();
-        return title;
+    protected String findJournalTitle() {
+        return XPathUtils.getString(getHtml(), "//x:h1[@class='title']").trim();
     }
 
     @Override
@@ -157,12 +156,12 @@ public class SpringerIssueTocParser extends AbstractIssueParser implements Issue
     }
 
     @Override
-    protected String getVolume() {
+    protected String findVolume() {
         return getBib()[0];
     }
 
     @Override
-    protected String getNumber() {
+    protected String findNumber() {
         return getBib()[1];
     }
 

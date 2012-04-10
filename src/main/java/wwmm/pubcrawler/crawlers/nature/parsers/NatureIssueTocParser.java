@@ -175,12 +175,17 @@ public class NatureIssueTocParser extends AbstractIssueParser {
     }
 
     @Override
-    public String getVolume() {
+    protected String findJournalTitle() {
+        return XPathUtils.getString(getHtml(), "//x:span[@class='journal-name']");
+    }
+
+    @Override
+    protected String findVolume() {
         return getBiblio(2);
     }
 
     @Override
-    public String getNumber() {
+    protected String findNumber() {
         return getBiblio(3);
     }
 
@@ -195,11 +200,6 @@ public class NatureIssueTocParser extends AbstractIssueParser {
         final Matcher m = p.matcher(s);
         m.find();
         return m.group(1);
-    }
-
-    @Override
-    protected String getJournalTitle() {
-        return XPathUtils.getString(getHtml(), "//x:span[@class='journal-name']");
     }
 
 }

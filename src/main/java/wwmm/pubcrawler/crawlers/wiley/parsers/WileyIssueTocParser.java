@@ -52,17 +52,17 @@ public class WileyIssueTocParser extends AbstractIssueParser implements IssueToc
     }
 
     @Override
-    public String getJournalTitle() {
+    protected String findJournalTitle() {
         return XPathUtils.getString(getHtml(), "//x:h1[@id='productTitle']").trim();
     }
 
     @Override
-    protected String getVolume() {
+    protected String findVolume() {
         return XPathUtils.getString(getHtml(), "//x:span[@class='issueTocVolume']").substring(7);
     }
 
     @Override
-    protected String getNumber() {
+    protected String findNumber() {
         return XPathUtils.getString(getHtml(), "//x:span[@class='issueTocIssue']").substring(6);
     }
 

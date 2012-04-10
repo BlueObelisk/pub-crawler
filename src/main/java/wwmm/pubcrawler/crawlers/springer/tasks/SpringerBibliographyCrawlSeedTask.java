@@ -20,9 +20,8 @@ public class SpringerBibliographyCrawlSeedTask implements Runnable {
 
     private static final String URL_BASE = "http://www.springerlink.com/journals/all/%s/";
     private static final List<String> KEYS = Collections.unmodifiableList(Arrays.asList(
-        "a", "b"
-//        , "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m",
-//        "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "0-9"
+        "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m",
+        "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "0-9"
     ));
 
     private final TaskQueue taskQueue;

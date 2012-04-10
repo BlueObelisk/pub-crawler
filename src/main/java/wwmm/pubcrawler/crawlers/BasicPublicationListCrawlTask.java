@@ -40,7 +40,7 @@ public abstract class BasicPublicationListCrawlTask extends BasicHttpCrawlTask {
         final Document html = readResponse(response);
         final PublicationListParser parser = parserFactory.createPublicationListParser(html);
         final List<Journal> journals = parser.findJournals();
-        for (final Journal journal : journals) {
+        for (final Journal journal : journals.subList(0, 5)) {
             LOG.debug("Found journal: {}", journal.getTitle());
             archiveJournal(journal);
             journalHandler.handleJournal(journal);
