@@ -22,7 +22,10 @@ import org.apache.log4j.Logger;
 import wwmm.pubcrawler.CrawlerRuntimeException;
 import wwmm.pubcrawler.crawlers.AbstractIssueParser;
 import wwmm.pubcrawler.crawlers.IssueTocParser;
-import wwmm.pubcrawler.model.*;
+import wwmm.pubcrawler.model.Article;
+import wwmm.pubcrawler.model.FullTextResource;
+import wwmm.pubcrawler.model.Issue;
+import wwmm.pubcrawler.model.SupplementaryResource;
 import wwmm.pubcrawler.model.id.ArticleId;
 import wwmm.pubcrawler.model.id.IssueId;
 import wwmm.pubcrawler.model.id.JournalId;
@@ -67,7 +70,7 @@ public class WileyIssueTocParser extends AbstractIssueParser implements IssueToc
     }
 
     @Override
-    protected String getYear() {
+    protected String findYear() {
         final String s = XPathUtils.getString(getHtml(), "//x:div[@id='metaData']/x:h2").trim();
         return s.substring(s.length()-4);
     }
@@ -135,7 +138,7 @@ public class WileyIssueTocParser extends AbstractIssueParser implements IssueToc
     }
 
     @Override
-    protected Reference getArticleReference(final Article article, final Node articleNode) {
+    protected String findArticlePages(final Node articleNode) {
         // TODO
         return null;
     }

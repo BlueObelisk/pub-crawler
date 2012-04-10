@@ -2,6 +2,7 @@ package wwmm.pubcrawler.crawlers.elsevier.parsers;
 
 import nu.xom.Builder;
 import nu.xom.Document;
+import nu.xom.Node;
 import org.apache.commons.io.IOUtils;
 import org.ccil.cowan.tagsoup.Parser;
 import org.junit.AfterClass;
@@ -11,8 +12,11 @@ import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.model.id.JournalId;
 
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URI;
+import java.util.List;
 
+import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -60,6 +64,27 @@ public class ElsevierIssueTocParserTest {
         ElsevierIssueTocParser parser = getJournalParser09254005_165_1();
         assertEquals(26, parser.getArticleNodes().size());
     }
+    
+    @Test
+    public void testGetArticleTitle() throws Exception {
+        ElsevierIssueTocParser parser = getJournalParser09254005_165_1();
+        List<Node> nodes = parser.getArticleNodes();
+        assertEquals("A nanostructured SAW chip-based biosensor detecting cancer cells", parser.getArticleTitle(null, nodes.get(1)));
+    }
+
+    @Test
+    public void testGetArticleAuthors() throws Exception {
+        ElsevierIssueTocParser parser = getJournalParser09254005_165_1();
+        List<Node> nodes = parser.getArticleNodes();
+        assertEquals(asList("Patrick Br\u00f6ker", "Klaus L\u00fccke", "Markus Perpeet", "Thomas M.A. Gronewold"), parser.getArticleAuthors(null, nodes.get(1)));
+    }
+
+    @Test
+    public void testGetArticlePages() throws Exception {
+        ElsevierIssueTocParser parser = getJournalParser09254005_165_1();
+        List<Node> nodes = parser.getArticleNodes();
+        assertEquals("1-6", parser.findArticlePages(nodes.get(1)));
+    }
 
     @Test
     public void testGetPreviousIssueLink() throws Exception {
@@ -101,7 +126,7 @@ public class ElsevierIssueTocParserTest {
         Builder builder = new Builder(new Parser());
         InputStream in = getClass().getResourceAsStream(filename);
         try {
-            return builder.build(in);
+            return builder.build(new InputStreamReader(in, "UTF-8"));
         } finally {
             IOUtils.closeQuietly(in);
         }
