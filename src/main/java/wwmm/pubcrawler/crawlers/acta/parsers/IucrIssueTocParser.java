@@ -129,7 +129,7 @@ public class IucrIssueTocParser extends AbstractIssueParser {
     }
 
     @Override
-    protected ArticleId getArticleId(final Node node, final IssueId issueId) {
+    protected ArticleId getArticleId(final Node node) {
         final String idString = XPathUtils.getString(node, ".//x:a[./x:img[contains(@alt, 'pdf version') or contains(@alt, 'PDF version')]]/@href");
         if (idString == null) {
             throw new CrawlerRuntimeException("Unable to locate PDF file:\n"+node.toXML());

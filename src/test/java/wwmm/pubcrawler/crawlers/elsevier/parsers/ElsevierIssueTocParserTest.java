@@ -8,7 +8,9 @@ import org.ccil.cowan.tagsoup.Parser;
 import org.junit.AfterClass;
 import org.junit.Test;
 import wwmm.pubcrawler.crawlers.elsevier.Elsevier;
+import wwmm.pubcrawler.crawlers.springer.parsers.SpringerIssueTocParser;
 import wwmm.pubcrawler.model.Issue;
+import wwmm.pubcrawler.model.id.ArticleId;
 import wwmm.pubcrawler.model.id.JournalId;
 
 import java.io.InputStream;
@@ -84,6 +86,20 @@ public class ElsevierIssueTocParserTest {
         ElsevierIssueTocParser parser = getJournalParser09254005_165_1();
         List<Node> nodes = parser.getArticleNodes();
         assertEquals("1-6", parser.findArticlePages(nodes.get(1)));
+    }
+
+    @Test
+    public void testGetArticleUrl() throws Exception {
+        ElsevierIssueTocParser parser = getJournalParser09254005_165_1();
+        List<Node> nodes = parser.getArticleNodes();
+        assertEquals(URI.create("http://www.sciencedirect.com/science/article/pii/S0925400511010197"), parser.getArticleUrl(nodes.get(1)));
+    }
+
+    @Test
+    public void testGetArticleId() throws Exception {
+        ElsevierIssueTocParser parser = getJournalParser09254005_165_1();
+        List<Node> nodes = parser.getArticleNodes();
+        assertEquals(new ArticleId(JOURNAL_09254005, "S0925400511010197"), parser.getArticleId(nodes.get(1)));
     }
 
     @Test

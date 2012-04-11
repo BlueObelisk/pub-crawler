@@ -94,7 +94,7 @@ public class ElsevierIssueTocParser extends AbstractIssueParser implements Issue
     }
 
     @Override
-    protected ArticleId getArticleId(final Node context, final IssueId issueId) {
+    protected ArticleId getArticleId(final Node context) {
         final Element addr = (Element) XPathUtils.getNode(context, "x:h3/x:a");
         final String href = addr.getAttributeValue("href");
         final Matcher m = P_ID.matcher(href);

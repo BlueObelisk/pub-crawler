@@ -17,6 +17,7 @@
 package wwmm.pubcrawler.crawlers.springer.parsers;
 
 import nu.xom.Document;
+import nu.xom.Element;
 import nu.xom.Node;
 import org.apache.log4j.Logger;
 import wwmm.pubcrawler.CrawlerRuntimeException;
@@ -50,6 +51,8 @@ import java.util.regex.Pattern;
 public class SpringerIssueTocParser extends AbstractIssueParser implements IssueTocParser {
 
     private static final Logger LOG = Logger.getLogger(SpringerIssueTocParser.class);
+    private static final Pattern P_VOLUME_NUMBER = Pattern.compile("Volume (\\S+), (?:Numbers?|Supplement) (\\S+(?:\\s+-\\s*\\S)?) / .*? (\\d{4})");
+    private static final Pattern P_ISSUE_LINK = Pattern.compile("/content/[^/]+/([^/]+)/([^/]+)/");
 
     public SpringerIssueTocParser(final Document html, final URI url, final JournalId journalId) {
         super(html, url, journalId);
@@ -79,7 +82,7 @@ public class SpringerIssueTocParser extends AbstractIssueParser implements Issue
     }
 
     @Override
-    protected ArticleId getArticleId(final Node articleNode, final IssueId issueId) {
+    protected ArticleId getArticleId(final Node articleNode) {
         final URI url = getArticleUrl(articleNode);
         final String s = url.toString();
         final int i0 = s.lastIndexOf('/');
@@ -89,7 +92,7 @@ public class SpringerIssueTocParser extends AbstractIssueParser implements Issue
 
     @Override
     protected Doi getArticleDoi(final Node articleNode) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return null;
     }
 
     @Override
@@ -161,8 +164,7 @@ public class SpringerIssueTocParser extends AbstractIssueParser implements Issue
     protected String[] getBib() {
         // TODO Volume 48, Supplement 1 / January 2005
         final String s = XPathUtils.getString(getHtml(), "//x:h2[@class='filters']");
-        final Pattern p = Pattern.compile("Volume (\\S+), (?:Numbers?|Supplement) (\\S+(?:\\s+-\\s*\\S)?) / .*? (\\d{4})");
-        final Matcher m = p.matcher(s);
+        final Matcher m = P_VOLUME_NUMBER.matcher(s);
         if (!m.find()) {
             throw new CrawlerRuntimeException("No match: "+s);
         }
@@ -170,4 +172,26 @@ public class SpringerIssueTocParser extends AbstractIssueParser implements Issue
                 m.group(1), m.group(2), m.group(3)
         };
     }
+
+    @Override
+    public List<Issue> getIssueLinks() {
+        final List<Issue> issues = new ArrayList<Issue>();
+        final List<Node> nodes = XPathUtils.queryHTML(getHtml(), "//x:div[@class='accordion']/x:div[1]/x:ul//x:ul/x:li/x:a");
+        for (final Node node : nodes) {
+            final Element address = (Element) node;
+            final String href = address.getAttributeValue("href");
+            final Matcher m = P_ISSUE_LINK.matcher(href);
+            if (m.matches()) {
+                final String volume = m.group(1);
+                final String number = m.group(2);
+                issues.add(new Issue(new IssueId(getJournalId(), volume, number), getJournalTitle(), volume, number, null, getUrl().resolve(href)));
+            } else {
+                LOG.warn("Error matching issue link: " + href);
+            }
+        }
+        return issues;
+    }
+
+    // TODO get Archive Issue Links
+
 }
