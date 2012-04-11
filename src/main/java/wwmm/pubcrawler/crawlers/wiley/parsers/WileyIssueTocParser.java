@@ -28,7 +28,6 @@ import wwmm.pubcrawler.model.FullTextResource;
 import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.model.SupplementaryResource;
 import wwmm.pubcrawler.model.id.ArticleId;
-import wwmm.pubcrawler.model.id.IssueId;
 import wwmm.pubcrawler.model.id.JournalId;
 import wwmm.pubcrawler.types.Doi;
 import wwmm.pubcrawler.utils.XPathUtils;
@@ -99,7 +98,7 @@ public class WileyIssueTocParser extends AbstractIssueParser implements IssueToc
 
     @Override
     protected URI getArticleUrl(final Node articleNode) {
-        final Element address = (Element) XPathUtils.getNode(articleNode, "x:div[contains(@class, 'tocArticle')]/x:a");
+        final Element address = (Element) XPathUtils.getNode(articleNode, "x:div[contains(@class, 'tocArticle')]/x:a[1]");
         if (address != null) {
             return getUrl().resolve(address.getAttributeValue("href"));
         }
@@ -166,25 +165,11 @@ public class WileyIssueTocParser extends AbstractIssueParser implements IssueToc
         return null;
     }
 
-    // /doi/10.1002/cmmi.v5:5/issuetoc
-    // /doi/10.1002/ctpp.v50.10/issuetoc
-
-//    private static final Pattern P_PREV = Pattern.compile("(\\d+)\\.issue-(\\S+)");
-
-    // /doi/10.1002/abc.v16.3/issuetoc
-    private static final Pattern P_PREV = Pattern.compile("/doi/10\\.\\d+/\\w+\\.v(\\d+)[:.](\\d+)/(?:issuetoc)?");
-
     @Override
     public Issue getPreviousIssue() {
         final String href = XPathUtils.getString(getHtml(), "//x:a[@id='previousLink']/@href");
         if (href != null) {
-            final Matcher m = P_PREV.matcher(href);
-            if (!m.matches()) {
-                throw new CrawlerRuntimeException("Cannot locate prev issue ID: "+href);
-            }
-            final String volume = m.group(1);
-            final String number = m.group(2);
-            return new Issue(new IssueId(getJournalId(), volume, number), getJournalTitle(), volume, number, null, getUrl().resolve(href));
+            return new WileyPreviousIssueLinkHandler(getJournalId(), getJournalTitle(), getUrl()).parse(href);
         }
         return null;
     }
