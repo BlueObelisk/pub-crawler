@@ -6,7 +6,6 @@ import nu.xom.Node;
 import org.apache.commons.io.IOUtils;
 import org.ccil.cowan.tagsoup.Parser;
 import org.junit.AfterClass;
-import org.junit.Assert;
 import org.junit.Test;
 import wwmm.pubcrawler.crawlers.springer.Springer;
 import wwmm.pubcrawler.model.Issue;

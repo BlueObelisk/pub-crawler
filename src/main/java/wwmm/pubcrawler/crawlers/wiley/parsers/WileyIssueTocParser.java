@@ -17,6 +17,7 @@
 package wwmm.pubcrawler.crawlers.wiley.parsers;
 
 import nu.xom.Document;
+import nu.xom.Element;
 import nu.xom.Node;
 import org.apache.log4j.Logger;
 import wwmm.pubcrawler.CrawlerRuntimeException;
@@ -44,6 +45,7 @@ import java.util.regex.Pattern;
 public class WileyIssueTocParser extends AbstractIssueParser implements IssueTocParser {
 
     private static final Logger LOG = Logger.getLogger(WileyIssueTocParser.class);
+    private static final Pattern P_PAGES = Pattern.compile("\\(pages? ([^)]+)\\)");
 
     public WileyIssueTocParser(final Document html, final URI url, final JournalId journalId) {
         super(html, url, journalId);
@@ -97,7 +99,10 @@ public class WileyIssueTocParser extends AbstractIssueParser implements IssueToc
 
     @Override
     protected URI getArticleUrl(final Node articleNode) {
-        // TODO
+        final Element address = (Element) XPathUtils.getNode(articleNode, "x:div[contains(@class, 'tocArticle')]/x:a");
+        if (address != null) {
+            return getUrl().resolve(address.getAttributeValue("href"));
+        }
         return null;
     }
 
@@ -139,7 +144,13 @@ public class WileyIssueTocParser extends AbstractIssueParser implements IssueToc
 
     @Override
     protected String findArticlePages(final Node articleNode) {
-        // TODO
+        final String s = XPathUtils.getString(articleNode, "x:div[contains(@class, 'tocArticle')]/x:a");
+        if (s != null) {
+            final Matcher m = P_PAGES.matcher(s);
+            if (m.find()) {
+                return m.group(1).trim().replace('\u2013', '-');
+            }
+        }
         return null;
     }
 
@@ -158,26 +169,22 @@ public class WileyIssueTocParser extends AbstractIssueParser implements IssueToc
     // /doi/10.1002/cmmi.v5:5/issuetoc
     // /doi/10.1002/ctpp.v50.10/issuetoc
 
-    private static final Pattern P_PREV = Pattern.compile("(\\d+)\\.issue-(\\S+)");
-    private static final Pattern P_PREV1 = Pattern.compile("\\.v(\\d+)[.:](\\d+)/");
+//    private static final Pattern P_PREV = Pattern.compile("(\\d+)\\.issue-(\\S+)");
+
+    // /doi/10.1002/abc.v16.3/issuetoc
+    private static final Pattern P_PREV = Pattern.compile("/doi/10\\.\\d+/\\w+\\.v(\\d+)[:.](\\d+)/(?:issuetoc)?");
 
     @Override
     public Issue getPreviousIssue() {
         final String href = XPathUtils.getString(getHtml(), "//x:a[@id='previousLink']/@href");
         if (href != null) {
-            Matcher m = P_PREV.matcher(href);
-            if (!m.find()) {
-                m = P_PREV1.matcher(href);
-                if (!m.find()) {
-                    throw new CrawlerRuntimeException("Cannot locate prev issue ID: "+href);
-                }
+            final Matcher m = P_PREV.matcher(href);
+            if (!m.matches()) {
+                throw new CrawlerRuntimeException("Cannot locate prev issue ID: "+href);
             }
-            final Issue issue = new Issue();
             final String volume = m.group(1);
             final String number = m.group(2);
-            issue.setId(new IssueId(getJournalId(), volume, number));
-            issue.setUrl(getUrl().resolve(href));
-            return issue;
+            return new Issue(new IssueId(getJournalId(), volume, number), getJournalTitle(), volume, number, null, getUrl().resolve(href));
         }
         return null;
     }
