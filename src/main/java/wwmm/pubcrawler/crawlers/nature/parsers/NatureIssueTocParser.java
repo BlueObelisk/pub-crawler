@@ -96,7 +96,7 @@ public class NatureIssueTocParser extends AbstractIssueParser {
 
 
     @Override
-    protected ArticleId getArticleId(final Node articleNode, final IssueId issueId) {
+    protected ArticleId getArticleId(final Node articleNode) {
         final Doi doi = getArticleDoi(articleNode);
         return new ArticleId(getJournalId(), doi.getSuffix());
     }

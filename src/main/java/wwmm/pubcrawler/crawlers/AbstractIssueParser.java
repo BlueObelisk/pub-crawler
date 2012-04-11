@@ -136,7 +136,7 @@ public abstract class AbstractIssueParser {
 
         final ArticleId articleId;
         try {
-            articleId = getArticleId(articleNode, issueId);
+            articleId = getArticleId(articleNode);
             if (articleId == null) {
                 throw new CrawlerRuntimeException("Unable to locate article ID [issue: "+issueId+"]");
             }
@@ -224,7 +224,7 @@ public abstract class AbstractIssueParser {
     }
 
 
-    protected abstract ArticleId getArticleId(Node articleNode, IssueId issueId);
+    protected abstract ArticleId getArticleId(Node articleNode);
 
     protected abstract Doi getArticleDoi(Node articleNode);
 
@@ -288,6 +288,14 @@ public abstract class AbstractIssueParser {
             log().warn("Error reading articles for issue: "+issue.getId()+" ["+getUrl()+"]");
         }
         return issue;
+    }
+
+    public List<Issue> getIssueLinks() {
+        return null;
+    }
+
+    public List<URI> getIssueListLinks() {
+        return null;
     }
 
 }
