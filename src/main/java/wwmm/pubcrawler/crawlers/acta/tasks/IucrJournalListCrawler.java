@@ -44,7 +44,7 @@ public class IucrJournalListCrawler extends HtmlCrawler implements CrawlRunner {
     public void run(final String id, final TaskData data) throws Exception {
         final CrawlerResponse response = crawler.execute(new CrawlerGetRequest(JOURNAL_LIST, "iucr::pub-list.html", Duration.standardDays(1)));
         final Document html = readDocument(response);
-        final IucrPublicationListParser parser = new IucrPublicationListParser(IUCR, html, JOURNAL_LIST);
+        final IucrPublicationListParser parser = new IucrPublicationListParser(html, JOURNAL_LIST);
         for (final Journal journal : parser.findJournals()) {
             ensureJournalInRepository(journal);
             enqueueJournalCrawl(journal);

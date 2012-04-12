@@ -51,10 +51,10 @@ import static org.junit.Assert.assertNotNull;
 @Injection(InjectionPolicy.NONE)
 public class ActaIssueCrawlerTest extends AbstractCrawlerTest {
 
-    public static final Journal ACTA_A = new Journal(Acta.PUBLISHER_ID, "a", "Section A: Foundations of Crystallography");
-    public static final Journal ACTA_B = new Journal(Acta.PUBLISHER_ID, "b", "Section B: Structural Science");
-    public static final Journal ACTA_C = new Journal(Acta.PUBLISHER_ID, "c", "Section C: Crystal Structure Communications");
-    public static final Journal ACTA_E = new Journal(Acta.PUBLISHER_ID, "e", "Section E: Structure Reports");
+    public static final Journal ACTA_A = new Journal(Iucr.PUBLISHER_ID, "a", "Section A: Foundations of Crystallography");
+    public static final Journal ACTA_B = new Journal(Iucr.PUBLISHER_ID, "b", "Section B: Structural Science");
+    public static final Journal ACTA_C = new Journal(Iucr.PUBLISHER_ID, "c", "Section C: Crystal Structure Communications");
+    public static final Journal ACTA_E = new Journal(Iucr.PUBLISHER_ID, "e", "Section E: Structure Reports");
 
 
     private CrawlerResponse prepareActaC2005_10Head() throws IOException {

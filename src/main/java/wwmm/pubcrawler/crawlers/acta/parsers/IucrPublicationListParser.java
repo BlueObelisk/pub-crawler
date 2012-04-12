@@ -18,8 +18,9 @@ package wwmm.pubcrawler.crawlers.acta.parsers;
 import nu.xom.Document;
 import nu.xom.Node;
 import org.apache.log4j.Logger;
+import wwmm.pubcrawler.crawlers.PublicationListParser;
+import wwmm.pubcrawler.crawlers.acta.Iucr;
 import wwmm.pubcrawler.model.Journal;
-import wwmm.pubcrawler.model.id.PublisherId;
 import wwmm.pubcrawler.utils.XPathUtils;
 
 import java.net.URI;
@@ -35,30 +36,29 @@ import java.util.List;
  * @author Sam Adams
  * @version 2.0
  */
-public class IucrPublicationListParser {
+public class IucrPublicationListParser implements PublicationListParser {
 
     private static final Logger LOG = Logger.getLogger(IucrPublicationListParser.class);
-
-    private final PublisherId publisherId;
 
     private final Document html;
     private final URI url;
 
-    public IucrPublicationListParser(final PublisherId publisherId, final Document html, final URI url) {
-        this.publisherId = publisherId;
+    public IucrPublicationListParser(final Document html, final URI url) {
         this.html = html;
         this.url = url;
     }
 
+    @Override
     public List<Journal> findJournals() {
         final List<Journal> journals = new ArrayList<Journal>();
 
         final List<Node> nodes = XPathUtils.queryHTML(html, "//x:body/x:table/x:tr");
         for (final Node node : nodes) {
             final String title = XPathUtils.getString(node, "x:td[1]/x:img[last()]/@alt");
-            final String href = XPathUtils.getString(node, "x:td[3]/x:a[1]/@href");
+            final String href = XPathUtils.getStrings(node, "x:td[2]//x:a/@href").get(0);
 
-            final Journal journal = new Journal(publisherId, "foo", title);
+            final String abbreviation = href.substring(0, href.lastIndexOf('/'));
+            final Journal journal = new Journal(Iucr.PUBLISHER_ID, abbreviation, title);
             journal.setUrl(url.resolve(href));
             journals.add(journal);
         }

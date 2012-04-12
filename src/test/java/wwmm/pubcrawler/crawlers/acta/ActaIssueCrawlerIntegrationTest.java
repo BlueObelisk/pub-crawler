@@ -31,7 +31,7 @@ import java.net.URI;
  */
 public class ActaIssueCrawlerIntegrationTest extends ActaIssueCrawlerTest {
 
-    public static final Journal ACTA_E = new Journal(Acta.PUBLISHER_ID, "e", "Section E: Structure Reports");
+    public static final Journal ACTA_E = new Journal(Iucr.PUBLISHER_ID, "e", "Section E: Structure Reports");
 
     private static ActaIssueCrawler crawler;
 
