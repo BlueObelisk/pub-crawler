@@ -23,7 +23,10 @@ import org.joda.time.format.DateTimeFormat;
 import wwmm.pubcrawler.crawlers.AbstractIssueParser;
 import wwmm.pubcrawler.crawlers.IssueTocParser;
 import wwmm.pubcrawler.crawlers.acs.AcsTools;
-import wwmm.pubcrawler.model.*;
+import wwmm.pubcrawler.model.Article;
+import wwmm.pubcrawler.model.FullTextResource;
+import wwmm.pubcrawler.model.Issue;
+import wwmm.pubcrawler.model.SupplementaryResource;
 import wwmm.pubcrawler.model.id.ArticleId;
 import wwmm.pubcrawler.model.id.IssueId;
 import wwmm.pubcrawler.model.id.JournalId;
@@ -73,14 +76,11 @@ public class AcsIssueTocParser extends AbstractIssueParser implements IssueTocPa
                 final String id = href.substring(href.indexOf('/', 5) + 1);
                 final URI url = getUrl().resolve(href);
 
-                final Issue issue = new Issue();
                 final Matcher matcher = PREV_URI_PATTERN.matcher(url.toString());
                 if (matcher.find()) {
-                    issue.setId(new IssueId(getJournalId(), id));
-                    issue.setUrl(url);
-                    issue.setVolume(matcher.group(1));
-                    issue.setNumber(matcher.group(2));
-                    return issue;
+                    final String volume = matcher.group(1);
+                    final String number = matcher.group(2);
+                    return new Issue(new IssueId(getJournalId(), volume, number), null, volume, number, null, url);
                 }
             }
         }

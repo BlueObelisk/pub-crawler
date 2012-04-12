@@ -20,12 +20,10 @@ public class WileyPreviousIssueLinkHandler {
     private static final Pattern P_PREV_2 = Pattern.compile("/doi/10\\.\\d+/[^/]+\\.\\d{4}\\.(\\d+)\\.issue-(.+)/issuetoc");
     
     private final JournalId journalId;
-    private final String journalTitle;
     private final URI url;
 
-    public WileyPreviousIssueLinkHandler(final JournalId journalId, final String journalTitle, final URI url) {
+    public WileyPreviousIssueLinkHandler(final JournalId journalId, final URI url) {
         this.journalId = journalId;
-        this.journalTitle = journalTitle;
         this.url = url;
     }
 
@@ -33,7 +31,7 @@ public class WileyPreviousIssueLinkHandler {
         final Matcher m = getMatcher(href);
         final String volume = m.group(1);
         final String number = m.group(2);
-        return new Issue(new IssueId(journalId, volume, number), journalTitle, volume, number, null, url.resolve(href));
+        return new Issue(new IssueId(journalId, volume, number), null, volume, number, null, url.resolve(href));
     }
 
     private Matcher getMatcher(final String href) {

@@ -5,15 +5,16 @@ import nu.xom.Document;
 import org.apache.commons.io.IOUtils;
 import org.ccil.cowan.tagsoup.Parser;
 import org.joda.time.LocalDate;
+import org.junit.AfterClass;
 import org.junit.Test;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.model.id.JournalId;
 import wwmm.pubcrawler.model.id.PublisherId;
 import wwmm.pubcrawler.types.Doi;
-import wwmm.pubcrawler.utils.ResourceUtil;
 
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URI;
 import java.util.List;
 
@@ -23,40 +24,26 @@ import static org.junit.Assert.assertNotNull;
 /**
  * @author Sam Adams
  */
-public class AcsIssueParserTest {
+public class AcsIssueTocParserTest {
 
     private static final PublisherId ACS = new PublisherId("acs");
     private static final JournalId JACSAT = new JournalId(ACS, "jacsat");
     private static final JournalId INOCAJ = new JournalId(ACS, "inocaj");
     private static final JournalId JCEAXX = new JournalId(ACS, "jceaax");
 
-    private Document loadDocument(String path) throws Exception {
-        final InputStream in  = ResourceUtil.open(getClass(), "/wwmm/pubcrawler/crawlers/acs/" + path);
-        try {
-            return new Builder(new Parser()).build(in);
-        } finally {
-            IOUtils.closeQuietly(in);
-        }
-    }
+    private static Document journalJacs132_51;
+    private static Document journalInocajLegacy;
+    private static Document journalJceaax55_9;
+    private static Document journalJceaax53_9;
+    private static Document journalInocaj39_19;
 
-    protected AcsIssueTocParser getJacsIssue132_51() throws Exception {
-        return new AcsIssueTocParser(loadDocument("jacs-132-51.html"), URI.create("http://pubs.acs.org/toc/jacsat/132/51"), JACSAT);
-    }
-
-    protected AcsIssueTocParser getInocajLegacyIssue() throws Exception {
-        return new AcsIssueTocParser(loadDocument("inocaj-34-25.html"), URI.create("http://pubs.acs.org/toc/inocaj/34/25"), INOCAJ);
-    }
-
-    protected AcsIssueTocParser getJceaaxIssue55_9() throws Exception {
-        return new AcsIssueTocParser(loadDocument("jceaax_55_9.html"), URI.create("http://pubs.acs.org/toc/jceaax/55/9"), JCEAXX);
-    }
-
-    protected AcsIssueTocParser getJceaaxIssue53_9() throws Exception {
-        return new AcsIssueTocParser(loadDocument("jceaax_53_9.html"), URI.create("http://pubs.acs.org/toc/jceaax/53/9"), JCEAXX);
-    }
-
-    protected AcsIssueTocParser getInocajIssue39_19() throws Exception {
-        return new AcsIssueTocParser(loadDocument("inocaj-39-19.html"), URI.create("http://pubs.acs.org/toc/inocaj/39/19"), INOCAJ);
+    @AfterClass
+    public static void afterAllTests() {
+        journalJacs132_51 = null;
+        journalInocajLegacy = null;
+        journalJceaax55_9 = null;
+        journalJceaax53_9 = null;
+        journalInocaj39_19 = null;
     }
 
     @Test
@@ -181,4 +168,58 @@ public class AcsIssueParserTest {
         assertEquals(null, crawler.getYear());
     }
 
+    protected AcsIssueTocParser getJacsIssue132_51() throws Exception {
+        Document journal = journalJacs132_51;
+        if (journal == null) {
+            journal = loadHtml("jacs-132-51.html");
+            journalJacs132_51 = journal;
+        }
+        return new AcsIssueTocParser(journal, URI.create("http://pubs.acs.org/toc/jacsat/132/51"), JACSAT);
+    }
+
+    protected AcsIssueTocParser getInocajLegacyIssue() throws Exception {
+        Document journal = journalInocajLegacy;
+        if (journal == null) {
+            journal = loadHtml("inocaj-34-25.html");
+            journalInocajLegacy = journal;
+        }
+        return new AcsIssueTocParser(journal, URI.create("http://pubs.acs.org/toc/inocaj/34/25"), INOCAJ);
+    }
+
+    protected AcsIssueTocParser getJceaaxIssue55_9() throws Exception {
+        Document journal = journalJceaax55_9;
+        if (journal == null) {
+            journal = loadHtml("jceaax_55_9.html");
+            journalJceaax55_9 = journal;
+        }
+        return new AcsIssueTocParser(journal, URI.create("http://pubs.acs.org/toc/jceaax/55/9"), JCEAXX);
+    }
+
+    protected AcsIssueTocParser getJceaaxIssue53_9() throws Exception {
+        Document journal = journalJceaax53_9;
+        if (journal == null) {
+            journal = loadHtml("jceaax_53_9.html");
+            journalJceaax53_9 = journal;
+        }
+        return new AcsIssueTocParser(journal, URI.create("http://pubs.acs.org/toc/jceaax/53/9"), JCEAXX);
+    }
+
+    protected AcsIssueTocParser getInocajIssue39_19() throws Exception {
+        Document journal = journalInocaj39_19;
+        if (journal == null) {
+            journal = loadHtml("inocaj-39-19.html");
+            journalInocaj39_19 = journal;
+        }
+        return new AcsIssueTocParser(journal, URI.create("http://pubs.acs.org/toc/inocaj/39/19"), INOCAJ);
+    }
+
+    private Document loadHtml(final String filename) throws Exception {
+        Builder builder = new Builder(new Parser());
+        InputStream in = getClass().getResourceAsStream(filename);
+        try {
+            return builder.build(new InputStreamReader(in, "UTF-8"));
+        } finally {
+            IOUtils.closeQuietly(in);
+        }
+    }
 }
