@@ -169,7 +169,7 @@ public class WileyIssueTocParser extends AbstractIssueParser implements IssueToc
     public Issue getPreviousIssue() {
         final String href = XPathUtils.getString(getHtml(), "//x:a[@id='previousLink']/@href");
         if (href != null) {
-            return new WileyPreviousIssueLinkHandler(getJournalId(), getJournalTitle(), getUrl()).parse(href);
+            return new WileyPreviousIssueLinkHandler(getJournalId(), getUrl()).parse(href);
         }
         return null;
     }
