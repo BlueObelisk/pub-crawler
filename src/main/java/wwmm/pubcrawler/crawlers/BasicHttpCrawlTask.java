@@ -13,13 +13,11 @@ import java.net.URI;
 /**
  * @author Sam Adams
  */
-public abstract class BasicHttpCrawlTask implements CrawlRunner {
-
-    private final Fetcher<URITask,CrawlerResponse> fetcher;
+public abstract class BasicHttpCrawlTask extends HttpCrawlTask implements CrawlRunner {
 
     @Inject
     public BasicHttpCrawlTask(final Fetcher<URITask,CrawlerResponse> fetcher) {
-        this.fetcher = fetcher;
+        super(fetcher);
     }
 
     @Override
@@ -31,11 +29,10 @@ public abstract class BasicHttpCrawlTask implements CrawlRunner {
     protected abstract void handleResponse(final String id, final TaskData data, final CrawlerResponse response) throws Exception;
 
     private CrawlerResponse fetchResource(final String taskId, final TaskData data) throws Exception {
-        final String id = taskId + "/" + data.getString("fileId");
         final Duration maxAge = data.containsKey("maxAge") ? new Duration(Long.valueOf(data.getString("maxAge"))) : null;
         final URI url = URI.create(data.getString("url"));
         final URI referrer = data.containsKey("referrer") ? URI.create(data.getString("referrer")) : null;
-        return fetcher.fetch(new URITask(url, id, maxAge, referrer));
+        return fetchResource(taskId, data.getString("fileId"), url, referrer, maxAge);
     }
 
 }

@@ -7,7 +7,7 @@ import wwmm.pubcrawler.crawler.common.HtmlCrawler;
 /**
  * @author Sam Adams
  */
-public class IucrIssueIndexCrawler extends HtmlCrawler implements CrawlRunner {
+public class IucrIssueListCrawlerTask extends HtmlCrawler implements CrawlRunner {
 
     @Override
     public void run(final String id, final TaskData data) throws Exception {

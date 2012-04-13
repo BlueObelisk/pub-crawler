@@ -11,8 +11,12 @@ public abstract class AbstractPublisherCrawlerModule extends AbstractModule {
 
     @Override
     protected final void configure() {
-        bind(IssueTocParserFactory.class).to(getIssueTocParserFactoryType());
-        bind(IssueTocCrawlTaskFactory.class).to(getIssueTocCrawlTaskFactoryType());
+        if (getIssueTocParserFactoryType() != null) {
+            bind(IssueTocParserFactory.class).to(getIssueTocParserFactoryType());
+        }
+        if (getIssueTocCrawlTaskFactoryType() != null) {
+            bind(IssueTocCrawlTaskFactory.class).to(getIssueTocCrawlTaskFactoryType());
+        }
     }
 
     protected abstract Class<? extends IssueTocParserFactory> getIssueTocParserFactoryType();
