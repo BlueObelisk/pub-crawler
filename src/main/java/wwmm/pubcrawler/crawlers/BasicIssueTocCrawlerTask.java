@@ -43,6 +43,9 @@ public abstract class BasicIssueTocCrawlerTask extends BasicHttpCrawlTask {
         
         final IssueTocParser parser = parserFactory.createIssueTocParser(html, url, journalId);
 
+        final Issue previousIssue = parser.getPreviousIssue();
+        issueHandler.handleIssueLink(previousIssue);
+        
         final Issue issue = parser.getIssueDetails();
         issueArchiver.archive(issue);
 

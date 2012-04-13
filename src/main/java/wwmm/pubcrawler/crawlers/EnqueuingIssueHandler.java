@@ -22,9 +22,13 @@ public class EnqueuingIssueHandler implements IssueHandler {
 
     @Override
     public void handleIssue(final Issue issue) {
-        final Issue prev = issue.getPreviousIssue();
-        if (prev != null) {
-            enqueueIssue(prev);
+
+    }
+
+    @Override
+    public void handleIssueLink(final Issue issue) {
+        if (issue != null) {
+            enqueueIssue(issue);
         }
     }
 
