@@ -32,7 +32,7 @@ import java.util.List;
 /**
  * @author Sam Adams
  */
-public abstract class AbstractIssueParser {
+public abstract class AbstractIssueParser implements IssueTocParser {
 
     private final JournalId journalId;
     
@@ -123,7 +123,7 @@ public abstract class AbstractIssueParser {
         return articles;
     }
 
-    protected final IssueId getIssueId() {
+    public final IssueId getIssueId() {
         return new IssueId(journalId, getVolume(), getNumber());
     }
 
@@ -256,7 +256,7 @@ public abstract class AbstractIssueParser {
      *
      * @return a description of the previous issue.
      */
-    protected abstract Issue getPreviousIssue();
+    public abstract Issue getPreviousIssue();
 
     protected abstract String findJournalTitle();
 

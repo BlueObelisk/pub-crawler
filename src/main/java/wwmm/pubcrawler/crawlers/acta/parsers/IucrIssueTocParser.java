@@ -23,9 +23,13 @@ import wwmm.pubcrawler.CrawlerRuntimeException;
 import wwmm.pubcrawler.HtmlUtil;
 import wwmm.pubcrawler.crawlers.AbstractIssueParser;
 import wwmm.pubcrawler.crawlers.acta.ActaUtil;
-import wwmm.pubcrawler.model.*;
+import wwmm.pubcrawler.model.Article;
+import wwmm.pubcrawler.model.FullTextResource;
+import wwmm.pubcrawler.model.Issue;
+import wwmm.pubcrawler.model.SupplementaryResource;
 import wwmm.pubcrawler.model.id.ArticleId;
 import wwmm.pubcrawler.model.id.IssueId;
+import wwmm.pubcrawler.model.id.JournalId;
 import wwmm.pubcrawler.types.Doi;
 import wwmm.pubcrawler.utils.XPathUtils;
 
@@ -51,18 +55,11 @@ public class IucrIssueTocParser extends AbstractIssueParser {
 
     private final Document headHtml;
     private final URI headerUrl;
-    
-    private final String journalTitle;
-    private final String volume;
-    private final String number;
 
-    public IucrIssueTocParser(final Issue issueRef, final Document bodyHtml, final Document headHtml, final Journal journal) {
-        super(bodyHtml, issueRef.getUrl(), journal.getId());
+    public IucrIssueTocParser(final Document bodyHtml, final Document headHtml, final JournalId journalId) {
+        super(bodyHtml, URI.create(bodyHtml.getBaseURI()), journalId);
         this.headHtml = headHtml;
         this.headerUrl = URI.create(headHtml.getBaseURI());
-        this.journalTitle = journal.getTitle();
-        this.volume = issueRef.getVolume();
-        this.number = issueRef.getNumber();
     }
 
     @Override
@@ -72,7 +69,9 @@ public class IucrIssueTocParser extends AbstractIssueParser {
 
     @Override
     protected String findJournalTitle() {
-        return journalTitle;
+        Node sectionTitle = XPathUtils.getNode(getHtml(), "//x:h1");
+        Node actaTitle = XPathUtils.getNode(sectionTitle, "preceding-sibling::x:h3[1]");
+        return actaTitle.getValue().trim() + ": " + sectionTitle.getValue().trim();
     }
 
     @Override
@@ -236,9 +235,6 @@ public class IucrIssueTocParser extends AbstractIssueParser {
 
     private String getBib(final int i) {
         // Volume 66, Part 1 (February 2010)
-//        String s = XPathUtils.getString(getHtml(), ".//x:h3[starts-with(., 'Volume')]");
-        // http://journals.iucr.org/s/issues/2011/02/00/isscontsbdy.html
-        // For publication in Volume 18, Part 2 (March 2011)
         final String s = XPathUtils.getString(getHtml(), ".//x:h3[contains(., 'Volume') and contains(., 'Part')]");
         if (s == null) {
             throw new CrawlerRuntimeException("Volume info not found");

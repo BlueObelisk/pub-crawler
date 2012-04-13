@@ -11,12 +11,12 @@ public class IucrCrawlerModule extends AbstractPublisherCrawlerModule {
 
     @Override
     protected Class<? extends IssueTocParserFactory> getIssueTocParserFactoryType() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return null;
     }
 
     @Override
     protected Class<? extends IssueTocCrawlTaskFactory> getIssueTocCrawlTaskFactoryType() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return IucrIssueTocCrawlTaskFactory.class;
     }
 
 }
