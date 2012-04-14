@@ -1,6 +1,7 @@
 package wwmm.pubcrawler.crawlers.springer;
 
 import org.joda.time.Duration;
+import wwmm.pubcrawler.crawlers.springer.tasks.SpringerPublicationListCrawlTask;
 import wwmm.pubcrawler.crawlers.wiley.tasks.WileyPublicationListCrawlTask;
 import wwmm.pubcrawler.crawler.CrawlTask;
 import wwmm.pubcrawler.crawler.CrawlTaskBuilder;
@@ -23,7 +24,7 @@ public class SpringerPublicationListCrawlTaskFactory {
         data.put("page", Integer.toString(page));
 
         return new CrawlTaskBuilder()
-            .ofType(WileyPublicationListCrawlTask.class)
+            .ofType(SpringerPublicationListCrawlTask.class)
             .withData(data)
             .withMaxAge(Duration.standardDays(1))
             .withId("springer:journal-list/" + key + "/" + page)
