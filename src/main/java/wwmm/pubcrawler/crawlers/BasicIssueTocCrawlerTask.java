@@ -1,6 +1,8 @@
 package wwmm.pubcrawler.crawlers;
 
 import nu.xom.Document;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerResponse;
 import wwmm.pubcrawler.archivers.ArticleArchiver;
 import wwmm.pubcrawler.archivers.IssueArchiver;
@@ -14,12 +16,15 @@ import wwmm.pubcrawler.utils.HtmlUtils;
 import wwmm.pubcrawler.crawler.TaskData;
 
 import java.net.URI;
+import java.util.List;
 
 /**
  * @author Sam Adams
  */
 public abstract class BasicIssueTocCrawlerTask extends BasicHttpCrawlTask {
 
+    private static final Logger LOG = LoggerFactory.getLogger(BasicIssueTocCrawlerTask.class);
+    
     private final IssueTocParserFactory parserFactory;
     private final ArticleArchiver articleArchiver;
     private final IssueArchiver issueArchiver;
@@ -43,18 +48,56 @@ public abstract class BasicIssueTocCrawlerTask extends BasicHttpCrawlTask {
         
         final IssueTocParser parser = parserFactory.createIssueTocParser(html, url, journalId);
 
-        final Issue previousIssue = parser.getPreviousIssue();
-        issueHandler.handleIssueLink(previousIssue);
-        
-        final Issue issue = parser.getIssueDetails();
-        issueArchiver.archive(issue);
+        handlePreviousIssue(id, parser);
+        handleIssueLinks(id, parser);
+        handleIssueDetails(id, parser);
+        handleArticles(id, parser);
+    }
 
-        for (final Article article : parser.getArticles()) {
-            article.setIssueRef(issue.getId());
-            articleArchiver.archive(article);
+    private void handleIssueDetails(final String id, final IssueTocParser parser) {
+        try {
+            final Issue issue = parser.getIssueDetails();
+            issueArchiver.archive(issue);
+        } catch (Exception e) {
+            LOG.warn("Error finding issue details [" + id + "]", e);
         }
-        
-        issueHandler.handleIssue(issue);
+    }
+
+    private void handleArticles(final String id, final IssueTocParser parser) {
+        try {
+            final List<Article> articles = parser.getArticles();
+            if (articles != null) {
+                for (final Article article : articles) {
+                    articleArchiver.archive(article);
+                }
+            }
+        } catch (Exception e) {
+            LOG.warn("Error finding articles [" + id + "]", e);
+        }
+    }
+
+    private void handlePreviousIssue(final String id, final IssueTocParser parser) {
+        try {
+            final Issue previousIssue = parser.getPreviousIssue();
+            if (previousIssue != null) {
+                issueHandler.handleIssueLink(previousIssue);
+            }
+        } catch (Exception e) {
+            LOG.warn("Error finding previous issue [" + id + "]", e);
+        }
+    }
+
+    private void handleIssueLinks(final String id, final IssueTocParser parser) {
+        try {
+            final List<Issue> issueLinks = parser.getIssueLinks();
+            if (issueLinks != null) {
+                for (final Issue issue : issueLinks) {
+                    issueHandler.handleIssueLink(issue);
+                }
+            }
+        } catch (Exception e) {
+            LOG.warn("Error finding issue links [" + id + "]", e);
+        }
     }
 
 }

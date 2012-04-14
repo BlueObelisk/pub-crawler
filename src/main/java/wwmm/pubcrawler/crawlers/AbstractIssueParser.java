@@ -114,6 +114,7 @@ public abstract class AbstractIssueParser implements IssueTocParser {
             try {
                 final Article article = getArticle(articleNode, issueId);
                 if (article != null) {
+                    article.setIssueRef(issueId);
                     articles.add(article);
                 }
             } catch (Exception e) {
