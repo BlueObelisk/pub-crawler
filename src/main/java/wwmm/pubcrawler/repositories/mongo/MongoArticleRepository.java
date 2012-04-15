@@ -102,9 +102,10 @@ public class MongoArticleRepository implements ArticleRepository {
         article.setTitle((String) dbObject.get("title"));
         article.setAuthors((List<String>) dbObject.get("authors"));
         final Reference reference = new Reference();
-        reference.setVolume((String) article.get("volume"));
-        reference.setNumber((String) article.get("number"));
-        reference.setPages((String) article.get("pages"));
+        reference.setJournalTitle((String) dbObject.get("journal"));
+        reference.setVolume((String) dbObject.get("volume"));
+        reference.setNumber((String) dbObject.get("number"));
+        reference.setPages((String) dbObject.get("pages"));
         article.setReference(reference);
         if (dbObject.containsField("doi")) {
             article.setDoi(new Doi((String) dbObject.get("doi")));
