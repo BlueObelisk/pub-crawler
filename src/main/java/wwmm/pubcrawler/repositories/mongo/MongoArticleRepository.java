@@ -12,6 +12,7 @@ import wwmm.pubcrawler.repositories.ArticleRepository;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -109,6 +110,10 @@ public class MongoArticleRepository implements ArticleRepository {
         article.setReference(reference);
         if (dbObject.containsField("doi")) {
             article.setDoi(new Doi((String) dbObject.get("doi")));
+        }
+        article.setReference(reference);
+        if (dbObject.containsField("url")) {
+            article.setUrl(URI.create((String) dbObject.get("url")));
         }
         return article;
     }
