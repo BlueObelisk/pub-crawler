@@ -4,7 +4,6 @@ import com.mongodb.*;
 import org.joda.time.DateTime;
 import wwmm.pubcrawler.crawler.CrawlRunner;
 import wwmm.pubcrawler.crawler.CrawlTask;
-import wwmm.pubcrawler.crawler.CrawlTaskBuilder;
 import wwmm.pubcrawler.inject.Tasks;
 import wwmm.pubcrawler.repositories.TaskRepository;
 
@@ -18,10 +17,12 @@ import java.util.regex.Pattern;
 public class MongoTaskRepository implements TaskRepository {
 
     private final DBCollection collection;
+    private final MongoTaskMapper mongoTaskMapper;
 
     @Inject
-    public MongoTaskRepository(@Tasks final DBCollection collection) {
+    public MongoTaskRepository(@Tasks final DBCollection collection, final MongoTaskMapper mongoTaskMapper) {
         this.collection = collection;
+        this.mongoTaskMapper = mongoTaskMapper;
         this.collection.ensureIndex(new BasicDBObject("id", 1), "id_index", true);
     }
 
@@ -31,14 +32,7 @@ public class MongoTaskRepository implements TaskRepository {
         final BasicDBObject update = new BasicDBObject("$set", new BasicDBObject("run", true));
         final DBObject task = collection.findAndModify(query, update);
 
-        final String id = (String) task.get("id");
-        final Class<? extends CrawlRunner> type = getType(task);
-        final Map<String,String> data = getData((DBObject) task.get("data"));
-        return new CrawlTaskBuilder()
-            .withId(id)
-            .withData(data)
-            .ofType(type)
-            .build();
+        return mongoTaskMapper.mapBsonToTask(task);
     }
 
     @Override
@@ -61,28 +55,11 @@ public class MongoTaskRepository implements TaskRepository {
         return tasks;
     }
 
-    private Map<String, String> getData(final DBObject task) {
-        final Map<String,String> data = new LinkedHashMap<String, String>();
-        for (final String key : task.keySet()) {
-            data.put(key, (String) task.get(key));
-        }
-        return data;
-    }
-
-    private Class<? extends CrawlRunner> getType(final DBObject task) {
-        final String type = (String) task.get("type");
-        try {
-            return (Class<? extends CrawlRunner>) Class.forName(type);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException("Unknown type: " + type, e);
-        }
-    }
-
     @Override
     public boolean updateTask(final CrawlTask task) {
         final DBObject dbTask = collection.findOne(new BasicDBObject("id", task.getId()));
         if (dbTask == null) {
-            collection.save(createDbObject(task));
+            collection.save(mongoTaskMapper.mapTaskToBson(task));
             return true;
         } else {
             if (shouldReRun(task, dbTask)) {
@@ -101,18 +78,4 @@ public class MongoTaskRepository implements TaskRepository {
         }
         return false;
     }
-
-    private DBObject createDbObject(final CrawlTask task) {
-        final DBObject dbTask = new BasicDBObject();
-        dbTask.put("id", task.getId());
-        dbTask.put("type", task.getTaskClass().getName());
-        dbTask.put("queued", System.currentTimeMillis());
-        final DBObject data = new BasicDBObject();
-        for (final String key : task.getData().keys()) {
-            data.put(key, task.getData().getString(key));
-        }
-        dbTask.put("data", data);
-        return dbTask;
-    }
-
 }
