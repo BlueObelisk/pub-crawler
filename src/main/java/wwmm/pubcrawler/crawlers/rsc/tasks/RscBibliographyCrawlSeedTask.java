@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 import wwmm.pubcrawler.crawler.CrawlTask;
 import wwmm.pubcrawler.crawler.CrawlTaskBuilder;
 import wwmm.pubcrawler.crawler.TaskQueue;
-import wwmm.pubcrawler.crawlers.elsevier.Elsevier;
+import wwmm.pubcrawler.crawlers.rsc.Rsc;
 
 import javax.inject.Inject;
 import java.util.HashMap;
@@ -37,9 +37,8 @@ public class RscBibliographyCrawlSeedTask implements Runnable {
 
     private void enqueueSeedTask() {
         final Map<String,String> data = new HashMap<String, String>();
-        if (true) throw new UnsupportedOperationException();
-//        data.put("url", Elsevier.OPML_URL.toString());
-        data.put("fileId", "opml.xml");
+        data.put("url", Rsc.JOURNAL_LIST.toString());
+        data.put("fileId", "journals.html");
         
         final CrawlTask task = new CrawlTaskBuilder()
             .ofType(RscPublicationListCrawlTask.class)

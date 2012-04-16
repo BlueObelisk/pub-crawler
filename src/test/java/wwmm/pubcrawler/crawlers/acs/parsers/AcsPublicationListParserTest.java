@@ -5,9 +5,7 @@ import nu.xom.Document;
 import org.apache.commons.io.IOUtils;
 import org.ccil.cowan.tagsoup.Parser;
 import org.junit.Test;
-import wwmm.pubcrawler.crawlers.acs.parsers.AcsPublicationListParser;
 import wwmm.pubcrawler.model.Journal;
-import wwmm.pubcrawler.model.id.PublisherId;
 import wwmm.pubcrawler.utils.ResourceUtil;
 
 import java.io.InputStream;
@@ -19,8 +17,6 @@ import static org.junit.Assert.assertEquals;
  * @author Sam Adams
  */
 public class AcsPublicationListParserTest {
-
-    private static final PublisherId ACS = new PublisherId("acs");
 
     private Document loadDocument(String path) throws Exception {
         final InputStream in  = ResourceUtil.open(getClass(), "/wwmm/pubcrawler/crawlers/acs/" + path);

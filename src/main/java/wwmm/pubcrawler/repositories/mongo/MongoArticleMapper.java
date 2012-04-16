@@ -6,6 +6,7 @@ import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.Reference;
 import wwmm.pubcrawler.types.Doi;
 
+import java.net.URI;
 import java.util.List;
 
 public class MongoArticleMapper {
