@@ -11,12 +11,12 @@ public class RscCrawlerModule extends AbstractPublisherCrawlerModule {
 
     @Override
     protected Class<? extends IssueTocParserFactory> getIssueTocParserFactoryType() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return RscIssueTocParserFactory.class;
     }
 
     @Override
     protected Class<? extends IssueTocCrawlTaskFactory> getIssueTocCrawlTaskFactoryType() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return RscIssueTocCrawlTaskFactory.class;
     }
 
 }
