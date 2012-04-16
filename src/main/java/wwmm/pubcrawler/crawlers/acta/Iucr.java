@@ -9,8 +9,8 @@ import java.net.URI;
  */
 public class Iucr {
 
-    public static final PublisherId PUBLISHER_ID = new PublisherId("acta");
+    public static final PublisherId PUBLISHER_ID = new PublisherId("iucr");
 
-    public static final URI JOURNALS_URL = URI.create("http://journals.iucr.org/");
+    public static final URI JOURNALS_URL = URI.create("http://journals.iucr.org/indexbdy.html");
     
 }
