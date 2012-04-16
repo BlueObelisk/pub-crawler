@@ -4,14 +4,12 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
-import wwmm.pubcrawler.model.Issue;
-import wwmm.pubcrawler.model.id.IssueId;
 import wwmm.pubcrawler.inject.Issues;
+import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.repositories.IssueRepository;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,10 +20,12 @@ import java.util.List;
 public class MongoIssueRepository implements IssueRepository {
 
     private final DBCollection collection;
+    private final MongoIssueMapper mongoIssueMapper;
 
     @Inject
-    public MongoIssueRepository(@Issues final DBCollection collection) {
+    public MongoIssueRepository(@Issues final DBCollection collection, final MongoIssueMapper mongoIssueMapper) {
         this.collection = collection;
+        this.mongoIssueMapper = mongoIssueMapper;
         this.collection.ensureIndex(new BasicDBObject("id", 1), "id_index", true);
     }
 
@@ -40,7 +40,7 @@ public class MongoIssueRepository implements IssueRepository {
         final DBCursor cursor = collection.find(new BasicDBObject("journalRef", journalId));
         try {
             while (cursor.hasNext()) {
-                results.add(mapBsonToIssue(cursor.next()));
+                results.add(mongoIssueMapper.mapBsonToIssue(cursor.next()));
             }
         } finally {
             cursor.close();
@@ -70,51 +70,12 @@ public class MongoIssueRepository implements IssueRepository {
     }
 
     private void save(final Issue issue) {
-        final DBObject dbObject = mapIssueToBson(issue);
+        final DBObject dbObject = mongoIssueMapper.mapIssueToBson(issue);
 
         collection.save(dbObject);
     }
 
     private void update(final DBObject dbObject, final Issue issue) {
         // TODO update stored issue
-    }
-
-    private DBObject mapIssueToBson(final Issue issue) {
-        final DBObject dbObject = new BasicDBObject();
-
-        dbObject.put("id", issue.getId().getUid());
-
-        if (issue.getJournalRef() != null) {
-            dbObject.put("journalRef", issue.getJournalRef());
-        }
-
-        dbObject.put("journalTitle", issue.getJournalTitle());
-        dbObject.put("year", issue.getYear());
-        dbObject.put("volume", issue.getVolume());
-        dbObject.put("number", issue.getNumber());
-
-        if (issue.getUrl() != null) {
-            dbObject.put("url", issue.getUrl().toString());
-        }
-
-        if (issue.getPreviousIssueId() != null) {
-            dbObject.put("prev", issue.getPreviousIssueId());
-        }
-        if (issue.getNextIssueId() != null) {
-            dbObject.put("next", issue.getNextIssueId());
-        }
-        return dbObject;
-    }
-
-    private Issue mapBsonToIssue(final DBObject dbObject) {
-        final Issue issue = new Issue();
-        issue.setId(new IssueId((String) dbObject.get("id")));
-        issue.setVolume((String) dbObject.get("volume"));
-        issue.setNumber((String) dbObject.get("number"));
-        issue.setYear((String) dbObject.get("year"));
-        if (dbObject.containsField("url")) {
-            issue.setUrl(URI.create((String) dbObject.get("url")));
-        }
-        return issue;
     }
 }

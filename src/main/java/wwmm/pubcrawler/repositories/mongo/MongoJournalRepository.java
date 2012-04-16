@@ -5,14 +5,12 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import wwmm.pubcrawler.model.Journal;
-import wwmm.pubcrawler.model.id.JournalId;
 import wwmm.pubcrawler.model.id.PublisherId;
 import wwmm.pubcrawler.inject.Journals;
 import wwmm.pubcrawler.repositories.JournalRepository;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,10 +21,12 @@ import java.util.List;
 public class MongoJournalRepository implements JournalRepository {
 
     private final DBCollection collection;
+    private final MongoJournalMapper mongoJournalMapper;
 
     @Inject
-    public MongoJournalRepository(@Journals final DBCollection collection) {
+    public MongoJournalRepository(@Journals final DBCollection collection, final MongoJournalMapper mongoJournalMapper) {
         this.collection = collection;
+        this.mongoJournalMapper = mongoJournalMapper;
         this.collection.ensureIndex(new BasicDBObject("id", 1), "id_index", true);
     }
 
@@ -41,7 +41,7 @@ public class MongoJournalRepository implements JournalRepository {
         final DBCursor cursor = collection.find(new BasicDBObject("publisherRef", publisher));
         try {
             while (cursor.hasNext()) {
-                results.add(mapBsonToJournal(cursor.next()));
+                results.add(mongoJournalMapper.mapBsonToJournal(cursor.next()));
             }
         } finally {
             cursor.close();
@@ -71,40 +71,12 @@ public class MongoJournalRepository implements JournalRepository {
     }
 
     private void save(final Journal journal) {
-        final DBObject dbObject = mapJournalToBson(journal);
+        final DBObject dbObject = mongoJournalMapper.mapJournalToBson(journal);
 
         collection.save(dbObject);
     }
 
     private void update(final DBObject dbObject, final Journal issue) {
         // TODO update stored issue
-    }
-
-    private DBObject mapJournalToBson(final Journal journal) {
-        final DBObject dbObject = new BasicDBObject();
-
-        dbObject.put("id", journal.getId().getUid());
-
-        if (journal.getPublisherRef() != null) {
-            dbObject.put("publisherRef", journal.getPublisherRef());
-        }
-
-        dbObject.put("journalTitle", journal.getTitle());
-
-        if (journal.getUrl() != null) {
-            dbObject.put("url", journal.getUrl().toString());
-        }
-        return dbObject;
-    }
-
-
-    private Journal mapBsonToJournal(final DBObject dbObject) {
-        final Journal journal = new Journal();
-        journal.setId(new JournalId((String) dbObject.get("id")));
-        journal.setTitle((String) dbObject.get("journalTitle"));
-        if (dbObject.containsField("url")) {
-            journal.setUrl(URI.create((String) dbObject.get("url")));
-        }
-        return journal;
     }
 }
