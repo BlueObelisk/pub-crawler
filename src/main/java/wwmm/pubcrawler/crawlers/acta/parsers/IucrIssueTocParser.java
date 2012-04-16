@@ -23,6 +23,7 @@ import wwmm.pubcrawler.CrawlerRuntimeException;
 import wwmm.pubcrawler.HtmlUtil;
 import wwmm.pubcrawler.crawlers.AbstractIssueParser;
 import wwmm.pubcrawler.crawlers.acta.ActaUtil;
+import wwmm.pubcrawler.crawlers.acta.Iucr;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.FullTextResource;
 import wwmm.pubcrawler.model.Issue;
@@ -229,7 +230,8 @@ public class IucrIssueTocParser extends AbstractIssueParser {
         if (!m.find()) {
             throw new CrawlerRuntimeException("Unable to parse URL: "+url);
         }
-        return new IssueId("acta/" + m.group(1) + '/' + m.group(2) + '/' + m.group(3) + '-' + m.group(4));
+        final JournalId journalId = new JournalId(Iucr.PUBLISHER_ID, m.group(1));
+        return new IssueId(journalId, m.group(2), m.group(3) + '-' + m.group(4));
     }
 
 

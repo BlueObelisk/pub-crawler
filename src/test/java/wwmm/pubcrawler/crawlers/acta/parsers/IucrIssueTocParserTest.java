@@ -381,7 +381,7 @@ public class IucrIssueTocParserTest {
     public void testGetC199101ArticleIds() throws Exception {
         IucrIssueTocParser parser = getActaC1991_10();
         List<Article> articles = parser.getArticles();
-        assertEquals(new ArticleId("acta/c/du0272"), articles.get(0).getId());
+        assertEquals(new ArticleId(ACTA_C, "du0272"), articles.get(0).getId());
     }
 
     protected IucrIssueTocParser getActaC1997_03() throws Exception {
