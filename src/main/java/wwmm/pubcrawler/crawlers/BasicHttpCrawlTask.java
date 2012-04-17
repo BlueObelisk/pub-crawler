@@ -28,7 +28,7 @@ public abstract class BasicHttpCrawlTask extends HttpCrawlTask implements CrawlR
 
     protected abstract void handleResponse(final String id, final TaskData data, final CrawlerResponse response) throws Exception;
 
-    private CrawlerResponse fetchResource(final String taskId, final TaskData data) throws Exception {
+    protected CrawlerResponse fetchResource(final String taskId, final TaskData data) throws Exception {
         final Duration maxAge = data.containsKey("maxAge") ? new Duration(Long.valueOf(data.getString("maxAge"))) : null;
         final URI url = URI.create(data.getString("url"));
         final URI referrer = data.containsKey("referrer") ? URI.create(data.getString("referrer")) : null;

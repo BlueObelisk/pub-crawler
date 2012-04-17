@@ -14,7 +14,7 @@ import java.net.URI;
  */
 public abstract class HttpCrawlTask implements CrawlRunner {
 
-    private final Fetcher<URITask,CrawlerResponse> fetcher;
+    protected final Fetcher<URITask,CrawlerResponse> fetcher;
 
     @Inject
     public HttpCrawlTask(final Fetcher<URITask, CrawlerResponse> fetcher) {
