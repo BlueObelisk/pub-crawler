@@ -24,7 +24,6 @@ import wwmm.pubcrawler.HtmlUtil;
 import wwmm.pubcrawler.crawlers.AbstractIssueParser;
 import wwmm.pubcrawler.crawlers.acta.ActaUtil;
 import wwmm.pubcrawler.crawlers.acta.Iucr;
-import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.FullTextResource;
 import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.model.SupplementaryResource;
@@ -208,11 +207,9 @@ public class IucrIssueTocParser extends AbstractIssueParser {
     }
 
     @Override
-    protected List<SupplementaryResource> getArticleSupplementaryResources(final Article article, final Node context) {
-        return null;
-//        List<Node> suppNodes = XPathUtils.queryHTML(context, ".//x:a[x:img]");
-//        ActaSuppInfoReader suppInfoReader = new ActaSuppInfoReader(getContext(), article);
-//        return suppInfoReader.getSupplementaryResources(suppNodes, getUrl());
+    protected List<SupplementaryResource> getArticleSupplementaryResources(final ArticleId articleId, final Node context) {
+        IucrSuppInfoParser suppInfoParser = new IucrSuppInfoParser(articleId, getUrl(), context);
+        return suppInfoParser.getSupplementaryResources();
     }
 
     @Override
@@ -220,8 +217,6 @@ public class IucrIssueTocParser extends AbstractIssueParser {
         // TODO
         return null;
     }
-
-
 
     private IssueId getIssueId(final URI url) {
         // http://journals.iucr.org/e/issues/2011/01/00/isscontsbdy.html

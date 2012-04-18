@@ -1,10 +1,12 @@
 package wwmm.pubcrawler.crawlers.rsc.parsers;
 
-import nu.xom.*;
+import nu.xom.Attribute;
+import nu.xom.Document;
+import nu.xom.Element;
+import nu.xom.Node;
 import org.apache.log4j.Logger;
 import wwmm.pubcrawler.CrawlerRuntimeException;
 import wwmm.pubcrawler.crawlers.AbstractIssueParser;
-import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.FullTextResource;
 import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.model.SupplementaryResource;
@@ -14,8 +16,6 @@ import wwmm.pubcrawler.model.id.JournalId;
 import wwmm.pubcrawler.types.Doi;
 import wwmm.pubcrawler.utils.XPathUtils;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
@@ -200,22 +200,22 @@ public class RscIssueTocParser extends AbstractIssueParser {
 
     @Override
     protected URI getArticleSupportingInfoUrl(final Node articleNode) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return null;
     }
 
     @Override
     protected String getArticleTitleHtml(final Node articleNode) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return null;
     }
 
     @Override
-    protected List<SupplementaryResource> getArticleSupplementaryResources(final Article article, final Node articleNode) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    protected List<SupplementaryResource> getArticleSupplementaryResources(final ArticleId articleId, final Node articleNode) {
+        return null;
     }
 
     @Override
     protected List<FullTextResource> getArticleFullTextResources(final Node articleNode) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return null;
     }
 
 }

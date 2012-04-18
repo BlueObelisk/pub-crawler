@@ -23,7 +23,6 @@ import org.apache.log4j.Logger;
 import wwmm.pubcrawler.CrawlerRuntimeException;
 import wwmm.pubcrawler.crawlers.AbstractIssueParser;
 import wwmm.pubcrawler.crawlers.IssueTocParser;
-import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.FullTextResource;
 import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.model.SupplementaryResource;
@@ -154,7 +153,7 @@ public class WileyIssueTocParser extends AbstractIssueParser implements IssueToc
     }
 
     @Override
-    protected List<SupplementaryResource> getArticleSupplementaryResources(final Article article, final Node articleNode) {
+    protected List<SupplementaryResource> getArticleSupplementaryResources(final ArticleId articleId, final Node articleNode) {
         // TODO
         return null;
     }
