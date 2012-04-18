@@ -6,6 +6,7 @@ import org.apache.commons.io.IOUtils;
 import org.ccil.cowan.tagsoup.Parser;
 import org.joda.time.LocalDate;
 import org.junit.AfterClass;
+import org.junit.Assert;
 import org.junit.Test;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.Issue;
@@ -44,6 +45,12 @@ public class AcsIssueTocParserTest {
         journalJceaax55_9 = null;
         journalJceaax53_9 = null;
         journalInocaj39_19 = null;
+    }
+
+    @Test
+    public void testGetJournalTitle() throws Exception {
+        AcsIssueTocParser crawler = getJacsIssue132_51();
+        assertEquals("Journal of the American Chemical Society", crawler.getJournalTitle());
     }
 
     @Test
