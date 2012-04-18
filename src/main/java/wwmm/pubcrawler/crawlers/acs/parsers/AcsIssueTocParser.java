@@ -193,7 +193,7 @@ public class AcsIssueTocParser extends AbstractIssueParser implements IssueTocPa
     @Override
     protected String findJournalTitle() {
         final String s = XPathUtils.getString(getHtml(), "/x:html/x:head/x:title");
-        return s.substring(s.indexOf(':'));
+        return s.substring(0, s.indexOf(':')).trim();
     }
 
     @Override
