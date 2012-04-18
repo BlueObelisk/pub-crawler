@@ -2,6 +2,7 @@ package wwmm.pubcrawler.crawlers.acta.parsers;
 
 import nu.xom.Builder;
 import nu.xom.Document;
+import nu.xom.Node;
 import org.apache.commons.io.IOUtils;
 import org.ccil.cowan.tagsoup.Parser;
 import org.junit.AfterClass;
@@ -10,6 +11,7 @@ import org.junit.Test;
 import wwmm.pubcrawler.crawlers.acta.Iucr;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.Issue;
+import wwmm.pubcrawler.model.SupplementaryResource;
 import wwmm.pubcrawler.model.id.ArticleId;
 import wwmm.pubcrawler.model.id.IssueId;
 import wwmm.pubcrawler.model.id.JournalId;
@@ -23,18 +25,18 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 /**
  * @author Sam Adams
  */
 public class IucrIssueTocParserTest {
 
-    public static final JournalId ACTA_A = new JournalId(Iucr.PUBLISHER_ID, "a");
-    public static final JournalId ACTA_B = new JournalId(Iucr.PUBLISHER_ID, "b");
-    public static final JournalId ACTA_C = new JournalId(Iucr.PUBLISHER_ID, "c");
-    public static final JournalId ACTA_E = new JournalId(Iucr.PUBLISHER_ID, "e");
+    private static final JournalId ACTA_A = new JournalId(Iucr.PUBLISHER_ID, "a");
+    private static final JournalId ACTA_B = new JournalId(Iucr.PUBLISHER_ID, "b");
+    private static final JournalId ACTA_C = new JournalId(Iucr.PUBLISHER_ID, "c");
+    private static final JournalId ACTA_E = new JournalId(Iucr.PUBLISHER_ID, "e");
+
     private static final URI URL_C_2005_10 = URI.create("http://journals.iucr.org/c/issues/2005/10/00/");
     private static final URI URL_B_1997_01 = URI.create("http://journals.iucr.org/b/issues/1997/01/00/");
     private static final URI URL_E_2004_11 = URI.create("http://journals.iucr.org/e/issues/2004/11/00/");
@@ -182,11 +184,18 @@ public class IucrIssueTocParserTest {
     }
 
     @Test
-    @Ignore
     public void testArticleSuppInfo() throws Exception {
         IucrIssueTocParser parser = getActaB2010_01();
-        List<Article> articles = parser.getArticles();
-        assertEquals(3, articles.get(0).getSupplementaryResources().size());
+        List<Node> articleNodes = parser.getArticleNodes();
+        List<SupplementaryResource> supplementaryResources =
+            parser.getArticleSupplementaryResources(new ArticleId(ACTA_B, "bp5027"), articleNodes.get(3));
+        assertEquals(2, supplementaryResources.size());
+    }
+
+    @Test
+    @Ignore
+    public void testArticleSuppInfoLinks() throws Exception {
+        fail();
     }
 
     @Test

@@ -131,7 +131,7 @@ public abstract class AbstractIssueParser implements IssueTocParser {
     protected abstract List<Node> getArticleNodes();
 
 
-    protected final Article getArticle(final Node articleNode, final IssueId issueId) {
+    public final Article getArticle(final Node articleNode, final IssueId issueId) {
 
         final Article article = new Article();
 
@@ -204,7 +204,7 @@ public abstract class AbstractIssueParser implements IssueTocParser {
         }
 
         try {
-            final List<SupplementaryResource> supplementaryResources = getArticleSupplementaryResources(article, articleNode);
+            final List<SupplementaryResource> supplementaryResources = getArticleSupplementaryResources(articleId, articleNode);
             if (supplementaryResources != null) {
                 article.setSupplementaryResources(supplementaryResources);
             }
@@ -241,7 +241,7 @@ public abstract class AbstractIssueParser implements IssueTocParser {
 
     protected abstract String findArticlePages(Node articleNode);
 
-    protected abstract List<SupplementaryResource> getArticleSupplementaryResources(Article article, Node articleNode);
+    protected abstract List<SupplementaryResource> getArticleSupplementaryResources(ArticleId articleId, Node articleNode);
 
     protected abstract List<FullTextResource> getArticleFullTextResources(Node articleNode);
 
