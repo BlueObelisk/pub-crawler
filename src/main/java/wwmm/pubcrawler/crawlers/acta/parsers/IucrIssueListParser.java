@@ -37,9 +37,6 @@ import java.util.regex.Pattern;
  */
 public class IucrIssueListParser implements IssueListParser {
 
-    private static final Pattern P_VOLUME = Pattern.compile("Volume\\s+[A-Z](\\d+)");
-    private static final Pattern P_NUMBER = Pattern.compile("Part\\s+(\\d+)");
-
     private static final Logger LOG = Logger.getLogger(IucrIssueListParser.class);
 
     private final Document html;
@@ -54,6 +51,8 @@ public class IucrIssueListParser implements IssueListParser {
 
     @Override
     public List<Issue> findIssues() {
+        final IucrIssueListVolumeNumberParser volumeNumberParser = IucrIssueListVolumeNumberParser.getInstance();
+
         final List<Node> nodes = XPathUtils.queryHTML(html, ".//x:li[x:img]/x:a");
         final List<Issue> issues = new ArrayList<Issue>();
         for (final Node node : nodes) {
@@ -63,32 +62,14 @@ public class IucrIssueListParser implements IssueListParser {
                 final URI url = this.url.resolve(href);
                 final Issue issue = new Issue();
                 issue.setId(getIssueId(url));
-                issue.setVolume(getVolume(node));
-                issue.setNumber(getNumber(node));
+                issue.setVolume(volumeNumberParser.getVolume(node.getValue()));
+                issue.setNumber(volumeNumberParser.getNumber(node.getValue()));
                 issue.setYear(getIssueYear(url));
                 issue.setUrl(url);
                 issues.add(issue);
             }
         }
         return issues;
-    }
-
-    private String getVolume(final Node node) {
-        Matcher matcher = P_VOLUME.matcher(node.getValue());
-        if (matcher.find()) {
-            return matcher.group(1);
-        }
-        LOG.warn("Unable to locate volume: '" + node.getValue() + "'");
-        return null;
-    }
-
-    private String getNumber(final Node node) {
-        Matcher matcher = P_NUMBER.matcher(node.getValue());
-        if (matcher.find()) {
-            return matcher.group(1);
-        }
-        LOG.warn("Unable to locate issue: '" + node.getValue() + "'");
-        return null;
     }
 
     private String getIssueYear(final URI url) {
