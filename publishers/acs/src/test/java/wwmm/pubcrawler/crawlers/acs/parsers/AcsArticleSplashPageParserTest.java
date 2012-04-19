@@ -126,7 +126,7 @@ public class AcsArticleSplashPageParserTest extends AbstractCrawlerTest {
 
         Document doc = cg100078b;
         if (doc == null) {
-            doc = loadDocument("cg100078b.class");
+            doc = loadDocument("cg100078b.html");
             cg100078b = doc;
         }
         return new AcsArticleSplashPageParser(article, doc, URI.create("http://pubs.acs.org/doi/abs/10.1021/cg100078b"));
@@ -139,7 +139,7 @@ public class AcsArticleSplashPageParserTest extends AbstractCrawlerTest {
 
         Document doc = jo1013564;
         if (doc == null) {
-            doc = loadDocument("jo1013564.class");
+            doc = loadDocument("jo1013564.html");
             jo1013564 = doc;
         }
         return new AcsArticleSplashPageParser(article, doc, URI.create("http://pubs.acs.org/doi/abs/10.1021/jo1013564"));

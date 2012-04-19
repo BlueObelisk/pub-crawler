@@ -5,15 +5,16 @@ import nu.xom.Document;
 import org.apache.commons.io.IOUtils;
 import org.ccil.cowan.tagsoup.Parser;
 import org.junit.AfterClass;
-import org.junit.Assert;
 import org.junit.Test;
 import wwmm.pubcrawler.model.Article;
+import wwmm.pubcrawler.model.Author;
 import wwmm.pubcrawler.model.id.ArticleId;
 import wwmm.pubcrawler.types.Doi;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URI;
+import java.util.List;
 
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
@@ -77,6 +78,52 @@ public class AcsArticleSuppInfoPageParserTest {
         AcsArticleSuppInfoPageParser parser = getArticleJo1013564();
         assertEquals(asList("Jason C. Kwan", "Ranjala Ratnayake", "Khalil A. Abboud", "Valerie J. Paul", "Hendrik Luesch"), parser.getAuthors());
     }
+
+
+    @Test
+    public void testGetAuthorDetail() throws Exception {
+        Author author1 = new Author("Jason C. Kwan");
+        author1.setAffiliation("Department of Medicinal Chemistry, University of Florida, 1600 SW Archer Road, Gainesville, Florida 32610, United States");
+
+        Author author2 = new Author("Ranjala Ratnayake");
+        author2.setAffiliation("Department of Medicinal Chemistry, University of Florida, 1600 SW Archer Road, Gainesville, Florida 32610, United States");
+
+        Author author3 = new Author("Khalil A. Abboud");
+        author3.setAffiliation("Department of Chemistry, 214 Leigh Hall, University of Florida, Gainesville, Florida 32611, United States");
+
+        Author author4 = new Author("Valerie J. Paul");
+        author4.setAffiliation("Smithsonian Marine Station, 701 Seaway Drive, Fort Pierce, Florida 34949, United States");
+
+        Author author5 = new Author("Hendrik Luesch");
+        author5.setAffiliation("Department of Medicinal Chemistry, University of Florida, 1600 SW Archer Road, Gainesville, Florida 32610, United States");
+        author5.setEmailAddress("luesch@cop.ufl.edu");
+
+        AcsArticleSuppInfoPageParser parser = getArticleJo1013564();
+        List<Author> authors = parser.getAuthorDetails();
+        assertEquals(asList(author1, author2, author3, author4, author5), authors);
+    }
+
+    @Test
+    public void testGetAbstract() throws Exception {
+        String expectedAbstract = "<p>Grassypeptolides A&#x2212;C (<b>1</b>&#x2212;<b>3</b>), a group of closely related " +
+            "bis-thiazoline containing cyclic depsipeptides, have been isolated from extracts of the marine cyanobacterium " +
+            "<i>Lyngbya confervoides</i>. Although structural differences between the analogues are minimal, comparison of " +
+            "the <i>in vitro</i> cytotoxicity of the series revealed a structure&#x2212;activity relationship. When the ethyl " +
+            "substituent of <b>1</b> is changed to a methyl substituent in <b>2</b>, activity is only slightly reduced " +
+            "(3&#x2212;4-fold), whereas inversion of the Phe unit flanking the bis-thiazoline moiety results in " +
+            "16&#x2212;23-fold greater potency. We show that both <b>1</b> and <b>3</b> cause G1 phase cell cycle arrest " +
+            "at lower concentrations, followed at higher concentrations by G2/M phase arrest, and that these compounds bind " +
+            "Cu<sup>2+</sup> and Zn<sup>2+</sup>. The three-dimensional structure of <b>2</b> was determined by MS, NMR, " +
+            "and X-ray crystallography, and the structure of <b>3</b> was established by MS, NMR, and chemical degradation. " +
+            "The structure of <b>3</b> was explored by <i>in silico</i> molecular modeling, revealing subtle differences in " +
+            "overall conformation between <b>1</b> and <b>3</b>. Attempts to interconvert <b>1</b> and <b>3</b> with base " +
+            "were unsuccessful, but enzymatic conversion may be possible and could be a novel form of activation for " +
+            "chemical defense.</p>";
+
+        AcsArticleSuppInfoPageParser parser = getArticleJo1013564();
+        assertEquals(expectedAbstract, parser.getAbstractAsHtml());
+    }
+
 
     protected AcsArticleSuppInfoPageParser getArticleJo1013564() throws Exception {
         Article article = new Article();
