@@ -25,9 +25,9 @@ import wwmm.pubcrawler.crawlers.IssueTocParser;
 import wwmm.pubcrawler.crawlers.acs.AcsTools;
 import wwmm.pubcrawler.model.FullTextResource;
 import wwmm.pubcrawler.model.Issue;
+import wwmm.pubcrawler.model.IssueBuilder;
 import wwmm.pubcrawler.model.SupplementaryResource;
 import wwmm.pubcrawler.model.id.ArticleId;
-import wwmm.pubcrawler.model.id.IssueId;
 import wwmm.pubcrawler.model.id.JournalId;
 import wwmm.pubcrawler.types.Doi;
 import wwmm.pubcrawler.utils.XPathUtils;
@@ -67,22 +67,68 @@ public class AcsIssueTocParser extends AbstractIssueParser implements IssueTocPa
     }
 
     @Override
+    protected String findJournalTitle() {
+        final String s = XPathUtils.getString(getHtml(), "/x:html/x:head/x:title");
+        return s.substring(0, s.indexOf(':')).trim();
+    }
+
+    @Override
+    protected String findVolume() {
+        final String text = XPathUtils.getString(getHtml(), ".//x:div[@id='tocMeta']/x:div[2]");
+        final Matcher m = P_VOLUME.matcher(text);
+        if (m.find()) {
+            return m.group(1);
+        }
+        throw new RuntimeException("Unable to find volume: " + text);
+    }
+
+    @Override
+    protected String findNumber() {
+        final String text = XPathUtils.getString(getHtml(), ".//x:div[@id='tocMeta']/x:div[2]");
+        final Matcher m = P_NUMBER.matcher(text);
+        if (m.find()) {
+            return m.group(1);
+        }
+        throw new RuntimeException("Unable to find number: " + text);
+    }
+
+    @Override
+    protected String findYear() {
+        final String text = getDateBlock();
+        final Matcher m = P_YEAR.matcher(text);
+        if (m.find()) {
+            return m.group(1);
+        }
+        log().warn("Unable to locate year: "+text);
+        return null;
+    }
+
+    @Override
     public Issue getPreviousIssue() {
         final Attribute prev = (Attribute) XPathUtils.getNode(getHtml(), ".//x:div[@id='issueNav']/x:a[@class='previous']/@href");
         if (prev != null) {
             final String href = prev.getValue();
             if (href.startsWith("/toc/"+getJournalAbbreviation())) {
-                final String id = href.substring(href.indexOf('/', 5) + 1);
-                final URI url = getUrl().resolve(href);
-
-                final Matcher matcher = PREV_URI_PATTERN.matcher(url.toString());
-                if (matcher.find()) {
-                    final String volume = matcher.group(1);
-                    final String number = matcher.group(2);
-                    return new Issue(new IssueId(getJournalId(), volume, number), null, volume, number, null, url);
-                }
+                return parsePreviousIssue(href);
             }
         }
+        return null;
+    }
+
+    private Issue parsePreviousIssue(final String href) {
+        final URI url = getUrl().resolve(href);
+        final Matcher matcher = PREV_URI_PATTERN.matcher(url.toString());
+        if (matcher.find()) {
+            final String volume = matcher.group(1);
+            final String number = matcher.group(2);
+            return new IssueBuilder()
+                .withJournalId(getJournalId())
+                .withVolume(volume)
+                .withNumber(number)
+                .withUrl(url)
+                .build();
+        }
+        LOG.warn("Error matching previous issue: " + href);
         return null;
     }
 
@@ -106,16 +152,14 @@ public class AcsIssueTocParser extends AbstractIssueParser implements IssueTocPa
     @Override
     protected URI getArticleUrl(final Node articleNode) {
         final String s = XPathUtils.getString(articleNode, "./x:div[@class='articleLinksIcons']//x:a[@class = 'articleLink'][1]/@href");
-        final URI url = getUrl().resolve(s);
-        return url;
+        return getUrl().resolve(s);
     }
 
     @Override
     protected URI getArticleSupportingInfoUrl(final Node articleNode) {
         final String s = XPathUtils.getString(articleNode, "./x:div[@class='articleLinksIcons']//x:a[text() = 'Supporting Info']/@href");
         if (s != null) {
-            final URI url = getUrl().resolve(s);
-            return url;
+            return getUrl().resolve(s);
         }
         return null;
     }
@@ -188,48 +232,6 @@ public class AcsIssueTocParser extends AbstractIssueParser implements IssueTocPa
     }
 
 
-
-    @Override
-    protected String findJournalTitle() {
-        final String s = XPathUtils.getString(getHtml(), "/x:html/x:head/x:title");
-        return s.substring(0, s.indexOf(':')).trim();
-    }
-
-    @Override
-    protected String findVolume() {
-        final String text = XPathUtils.getString(getHtml(), ".//x:div[@id='tocMeta']/x:div[2]");
-        final Matcher m = P_VOLUME.matcher(text);
-        if (m.find()) {
-            return m.group(1);
-        }
-        throw new RuntimeException("Unable to find volume: " + text);
-    }
-
-    @Override
-    protected String findNumber() {
-        final String text = XPathUtils.getString(getHtml(), ".//x:div[@id='tocMeta']/x:div[2]");
-        final Matcher m = P_NUMBER.matcher(text);
-        if (m.find()) {
-            return m.group(1);
-        }
-        throw new RuntimeException("Unable to find number: " + text);
-    }
-
-    @Override
-    protected String findYear() {
-        final String text = getDateBlock();
-        final Matcher m = P_YEAR.matcher(text);
-        if (m.find()) {
-            return m.group(1);
-        }
-        log().warn("Unable to locate year: "+text);
-        return null;
-    }
-
-    private String getDateBlock() {
-        return XPathUtils.getString(getHtml(), ".//x:div[@id='tocMeta']/x:div[@id='date']");
-    }
-
     public LocalDate getDate() {
         final String text = getDateBlock();
         final DateTime dt;
@@ -241,12 +243,16 @@ public class AcsIssueTocParser extends AbstractIssueParser implements IssueTocPa
         return new LocalDate(dt);
     }
 
-    public String getJournalAbbreviation() {
+    private String getJournalAbbreviation() {
         final String s = getUrl().toString();
         final Pattern p = Pattern.compile("pubs.acs.org/toc/([^/]+)/");
         final Matcher m = p.matcher(s);
         m.find();
         return m.group(1);
+    }
+
+    private String getDateBlock() {
+        return XPathUtils.getString(getHtml(), ".//x:div[@id='tocMeta']/x:div[@id='date']");
     }
 
 }
