@@ -216,8 +216,9 @@ public class IucrIssueTocParserTest {
         assertEquals("2010", issue.getYear());
         assertEquals("66", issue.getVolume());
         assertEquals("1", issue.getNumber());
-        assertNotNull(issue.getArticles());
-        assertEquals(13, issue.getArticles().size());
+        final List<Article> articles = parser.getArticles();
+        assertNotNull(articles);
+        assertEquals(13, articles.size());
         assertNotNull(issue.getPreviousIssue());
         assertEquals(new IssueId(ACTA_B, "2009", "06-00"), issue.getPreviousIssue().getId());
     }

@@ -18,7 +18,6 @@ package wwmm.pubcrawler.model;
 import wwmm.pubcrawler.model.id.IssueId;
 
 import java.net.URI;
-import java.util.List;
 
 /**
  * @author Sam Adams
@@ -46,15 +45,6 @@ public class Issue extends PubcrawlerObject<IssueId> {
     @Override
     protected IssueId createId(final String id) {
         return new IssueId(id);
-    }
-
-
-    public List<Article> getArticles() {
-        return (List<Article>) get("articles");
-    }
-
-    public void setArticles(final List<Article> articles) {
-        put("articles", articles);
     }
 
 
