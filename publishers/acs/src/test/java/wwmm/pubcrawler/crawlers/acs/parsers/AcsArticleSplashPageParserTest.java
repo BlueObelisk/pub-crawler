@@ -20,9 +20,9 @@ import nu.xom.Builder;
 import nu.xom.Document;
 import org.apache.commons.io.IOUtils;
 import org.ccil.cowan.tagsoup.Parser;
+import org.junit.AfterClass;
 import org.junit.Test;
 import wwmm.pubcrawler.crawlers.AbstractCrawlerTest;
-import wwmm.pubcrawler.crawlers.acs.parsers.AcsArticleSplashPageParser;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.FullTextResource;
 import wwmm.pubcrawler.model.Reference;
@@ -39,35 +39,17 @@ import static org.junit.Assert.*;
 /**
  * @author Sam Adams
  */
-public class AcsArticleParserTest extends AbstractCrawlerTest {
+public class AcsArticleSplashPageParserTest extends AbstractCrawlerTest {
 
-    private Document loadDocument(String path) throws Exception {
-        final InputStream in = ResourceUtil.open(getClass(), "/wwmm/pubcrawler/crawlers/acs/" + path);
-        try {
-            return new Builder(new Parser()).build(in);
-        } finally {
-            IOUtils.closeQuietly(in);
-        }
+    private static Document cg100078b;
+    private static Document jo1013564;
+
+    @AfterClass
+    public static void afterAllTests() {
+        cg100078b = null;
+        jo1013564 = null;
     }
-
-    protected AcsArticleSplashPageParser getArticleCg100078b() throws Exception {
-        Article article = new Article();
-        article.setId(new ArticleId("acs/cgdefu/10/8/cg100078b"));
-        article.setDoi(new Doi("10.1021/cg100078b"));
-
-        return new AcsArticleSplashPageParser(article, loadDocument("cg100078b.html"),
-            URI.create("http://pubs.acs.org/doi/abs/10.1021/cg100078b"));
-    }
-
-    protected AcsArticleSplashPageParser getArticleJo1013564() throws Exception {
-        Article article = new Article();
-        article.setId(new ArticleId("acs/joceah/75/23/jo1013564"));
-        article.setDoi(new Doi("10.1021/jo1013564"));
-
-        return new AcsArticleSplashPageParser(article, loadDocument("jo1013564.html"),
-            URI.create("http://pubs.acs.org/doi/abs/10.1021/jo1013564"));
-    }
-
+    
     @Test
     public void testGetTitleHtml() throws Exception {
         AcsArticleSplashPageParser article = getArticleCg100078b();
@@ -135,6 +117,41 @@ public class AcsArticleParserTest extends AbstractCrawlerTest {
     public void testIsOpenAccessTrue() throws Exception {
         AcsArticleSplashPageParser article = getArticleJo1013564();
         assertTrue(article.isOpenAccess());
+    }
+
+    protected AcsArticleSplashPageParser getArticleCg100078b() throws Exception {
+        Article article = new Article();
+        article.setId(new ArticleId("acs/cgdefu/10/8/cg100078b"));
+        article.setDoi(new Doi("10.1021/cg100078b"));
+
+        Document doc = cg100078b;
+        if (doc == null) {
+            doc = loadDocument("cg100078b.class");
+            cg100078b = doc;
+        }
+        return new AcsArticleSplashPageParser(article, doc, URI.create("http://pubs.acs.org/doi/abs/10.1021/cg100078b"));
+    }
+
+    protected AcsArticleSplashPageParser getArticleJo1013564() throws Exception {
+        Article article = new Article();
+        article.setId(new ArticleId("acs/joceah/75/23/jo1013564"));
+        article.setDoi(new Doi("10.1021/jo1013564"));
+
+        Document doc = jo1013564;
+        if (doc == null) {
+            doc = loadDocument("jo1013564.class");
+            jo1013564 = doc;
+        }
+        return new AcsArticleSplashPageParser(article, doc, URI.create("http://pubs.acs.org/doi/abs/10.1021/jo1013564"));
+    }
+
+    private Document loadDocument(String path) throws Exception {
+        final InputStream in = ResourceUtil.open(getClass(), "/wwmm/pubcrawler/crawlers/acs/" + path);
+        try {
+            return new Builder(new Parser()).build(in);
+        } finally {
+            IOUtils.closeQuietly(in);
+        }
     }
 
 }

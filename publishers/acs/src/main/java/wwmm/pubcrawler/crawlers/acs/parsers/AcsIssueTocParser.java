@@ -243,7 +243,7 @@ public class AcsIssueTocParser extends AbstractIssueParser implements IssueTocPa
         return new LocalDate(dt);
     }
 
-    private String getJournalAbbreviation() {
+    String getJournalAbbreviation() {
         final String s = getUrl().toString();
         final Pattern p = Pattern.compile("pubs.acs.org/toc/([^/]+)/");
         final Matcher m = p.matcher(s);
