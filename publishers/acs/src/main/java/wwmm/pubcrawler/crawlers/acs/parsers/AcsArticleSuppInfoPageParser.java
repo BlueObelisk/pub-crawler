@@ -26,7 +26,6 @@ public class AcsArticleSuppInfoPageParser extends AcsArticleSplashPageParser {
         super(articleRef, document, uri);
     }
 
-
     @Override
     public Reference getReference() {
         if (getHtml() == null) {
@@ -35,7 +34,7 @@ public class AcsArticleSuppInfoPageParser extends AcsArticleSplashPageParser {
         final List<Node> nodes = XPathUtils.queryHTML(getHtml(), ".//x:div[@id='citation']");
 
         final Element citation = (Element) nodes.get(0);
-        final String journalName = XPathUtils.getString(citation, "./x:cite");
+        final String abbreviatedJournalTitle = XPathUtils.getString(citation, "./x:cite");
         final String year = XPathUtils.getString(citation, "./x:span[@class='citation_year']");
         final String volume = XPathUtils.getString(citation, "./x:span[@class='citation_volume']");
 
@@ -49,7 +48,8 @@ public class AcsArticleSuppInfoPageParser extends AcsArticleSplashPageParser {
         final String pages = m.group(2);
 
         final Reference ref = new Reference();
-        ref.setJournalTitle(journalName);
+        ref.setJournalTitle(getJournalTitle());
+        ref.setAbbreviatedJournalTitle(abbreviatedJournalTitle);
         ref.setYear(year);
         ref.setVolume(volume);
         ref.setNumber(issue);
@@ -57,6 +57,10 @@ public class AcsArticleSuppInfoPageParser extends AcsArticleSplashPageParser {
         return ref;
     }
 
+    private String getJournalTitle() {
+        final String title = XPathUtils.getString(getHtml(), "/x:html/x:head/x:title");
+        return title.substring(0, title.indexOf('-')).trim();
+    }
 
     @Override
     public List<SupplementaryResource> getSupplementaryResources() {
@@ -116,11 +120,7 @@ public class AcsArticleSuppInfoPageParser extends AcsArticleSplashPageParser {
      */
     private String getSuppFilePath(final String href) {
         final int i = href.indexOf("/suppl_file/");
-        final String filepath = href.substring(i+12);
-        return filepath;
+        return href.substring(i+12);
     }
-
-
-
 
 }

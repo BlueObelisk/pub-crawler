@@ -64,6 +64,13 @@ public class Reference extends MongoDBObject {
 		put("journal", journalTitle);
 	}
 
+    public String getAbbreviatedJournalTitle() {
+        return getString("journalAbbrev");
+    }
+
+    public void setAbbreviatedJournalTitle(final String journalTitle) {
+        put("journalAbbrev", journalTitle);
+    }
 
 	/**
 	 * Get the year the article was published.
