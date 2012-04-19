@@ -144,8 +144,9 @@ public class AcsIssueTocParserTest {
         assertEquals("2010", issue.getYear());
         assertEquals("132", issue.getVolume());
         assertEquals("51", issue.getNumber());
-        assertNotNull(issue.getArticles());
-        assertEquals(64, issue.getArticles().size());
+        final List<Article> articles = crawler.getArticles();
+        assertNotNull(articles);
+        assertEquals(64, articles.size());
         assertNotNull(issue.getPreviousIssue());
         assertEquals("acs/jacsat/132/50", issue.getPreviousIssue().getId().getUid());
     }
