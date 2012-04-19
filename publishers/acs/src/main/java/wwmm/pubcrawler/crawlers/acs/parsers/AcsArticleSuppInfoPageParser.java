@@ -5,6 +5,7 @@ import nu.xom.Element;
 import nu.xom.Node;
 import wwmm.pubcrawler.CrawlerRuntimeException;
 import wwmm.pubcrawler.model.Article;
+import wwmm.pubcrawler.model.Author;
 import wwmm.pubcrawler.model.Reference;
 import wwmm.pubcrawler.model.SupplementaryResource;
 import wwmm.pubcrawler.model.id.ResourceId;
@@ -13,7 +14,9 @@ import wwmm.pubcrawler.utils.XPathUtils;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -55,11 +58,6 @@ public class AcsArticleSuppInfoPageParser extends AcsArticleSplashPageParser {
         ref.setNumber(issue);
         ref.setPages(pages);
         return ref;
-    }
-
-    private String getJournalTitle() {
-        final String title = XPathUtils.getString(getHtml(), "/x:html/x:head/x:title");
-        return title.substring(0, title.indexOf('-')).trim();
     }
 
     @Override
@@ -108,6 +106,79 @@ public class AcsArticleSuppInfoPageParser extends AcsArticleSplashPageParser {
         return supplementaryResources;
     }
 
+    public List<Author> getAuthorDetails() {
+        final Map<String,String> affiliations = getAffiliations();
+
+        final List<Author> authors = new ArrayList<Author>();
+        final String correspondenceAddress = getCorrespondenceAddress();
+        
+        final Node node = XPathUtils.getNode(getHtml(), "//x:div[@id='articleMeta']/x:div[@id='authors']");
+        final Element content = new Element("p");
+        
+        boolean corresponding = false;
+        for (int i = 0; i < node.getChildCount(); i++) {
+            Node child = node.getChild(i);
+            if (child instanceof Element) {
+                final Element element = (Element) child;
+                if ("NLM_xref-aff".equals(element.getAttributeValue("class"))) {
+                    final String affiliation = affiliations.get(child.getValue());
+                    final String name = getAuthorName(content);
+
+                    final Author author = new Author(name);
+                    author.setAffiliation(affiliation);
+                    if (corresponding) {
+                        author.setEmailAddress(correspondenceAddress);
+                    }
+                    authors.add(author);
+
+                    content.removeChildren();
+                    corresponding = false;
+                    continue;
+                }
+                if ("ref".equals(element.getAttributeValue("class"))) {
+                    corresponding = true;
+                    continue;
+                }
+            }
+            content.appendChild(child.copy());
+        }
+
+        return authors;
+    }
+
+    private String getAuthorName(final Element content) {
+        String name = content.getValue().trim();
+        if (name.startsWith(", ")) {
+            name = name.substring(2).trim();
+        }
+        if (name.startsWith("and ")) {
+            name = name.substring(4).trim();
+        }
+        return name;
+    }
+
+    private String getCorrespondenceAddress() {
+        return XPathUtils.getString(getHtml(), "//x:div[@id='correspondence']").trim();
+    }
+
+    private Map<String, String> getAffiliations() {
+        final Map<String,String> affiliations = new LinkedHashMap<String, String>();
+        for (Node node : XPathUtils.queryHTML(getHtml(), "//x:div[@id='articleMeta']/x:div[@class='affiliations']/x:div")) {
+            addAffiliation((Element) node, affiliations);
+        }
+        return affiliations;
+    }
+
+    private void addAffiliation(final Element node, final Map<String, String> affiliations) {
+        final Element sup = (Element) XPathUtils.getNode(node, "x:sup[1]");
+        final Element content = new Element("p");
+        for (int i = node.indexOf(sup) + 1; i < node.getChildCount(); i++) {
+            Node child = node.getChild(i);
+            content.appendChild(child.copy());
+        }
+        affiliations.put(sup.getValue().trim(), content.getValue().trim());
+    }
+
     /**
      * <p>
      * Gets the ID of the supplementary file at the publisher's site from
@@ -120,7 +191,12 @@ public class AcsArticleSuppInfoPageParser extends AcsArticleSplashPageParser {
      */
     private String getSuppFilePath(final String href) {
         final int i = href.indexOf("/suppl_file/");
-        return href.substring(i+12);
+        return href.substring(i + 12);
+    }
+
+    private String getJournalTitle() {
+        final String title = XPathUtils.getString(getHtml(), "/x:html/x:head/x:title");
+        return title.substring(0, title.indexOf('-')).trim();
     }
 
 }

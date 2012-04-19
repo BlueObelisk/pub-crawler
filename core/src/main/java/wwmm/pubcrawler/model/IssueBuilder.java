@@ -57,10 +57,10 @@ public class IssueBuilder {
     
     public Issue build() {
         notNull(journalId);
-        notNull(journalTitle);
         notNull(volume);
         notNull(number);
-        notNull(year);
+//        notNull(journalTitle);
+//        notNull(year);
 
         final IssueId issueId = new IssueId(journalId, volume, number);
         return new Issue(issueId, journalTitle, volume, number, year, url);

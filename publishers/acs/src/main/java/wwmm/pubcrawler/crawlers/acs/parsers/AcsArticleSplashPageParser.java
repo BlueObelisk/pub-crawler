@@ -21,6 +21,7 @@ import nu.xom.Element;
 import nu.xom.Node;
 import org.apache.log4j.Logger;
 import wwmm.pubcrawler.CrawlerRuntimeException;
+import wwmm.pubcrawler.HtmlUtil;
 import wwmm.pubcrawler.crawlers.AbstractArticleParser;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.FullTextResource;
@@ -49,6 +50,7 @@ import java.util.regex.Pattern;
 public class AcsArticleSplashPageParser extends AbstractArticleParser {
 
     private static final Logger LOG = Logger.getLogger(AcsArticleSplashPageParser.class);
+    private static final Pattern WHITESPACE = Pattern.compile("\\s+");
 
     public AcsArticleSplashPageParser(final Article articleRef, final Document document, final URI uri) {
         super(articleRef, document, uri);
@@ -110,6 +112,15 @@ public class AcsArticleSplashPageParser extends AbstractArticleParser {
             copy.appendChild(child.copy());
         }
         return copy;
+    }
+
+    public String getAbstractAsHtml() {
+        Element element = getAbstractHtml();
+        return normaliseWhiteSpace(HtmlUtil.writeAscii(new Document(element)));
+    }
+
+    private String normaliseWhiteSpace(final String s) {
+        return WHITESPACE.matcher(s).replaceAll(" ");
     }
 
     private String normaliseEntityImage(final Element e) {
