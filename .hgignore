@@ -4,6 +4,7 @@ syntax: glob
 *.project
 *.settings/*
 target/*
+.DS_Store
 
 *.iml
 
