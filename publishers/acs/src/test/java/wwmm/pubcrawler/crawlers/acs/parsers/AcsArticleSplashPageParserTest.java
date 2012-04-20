@@ -21,19 +21,21 @@ import nu.xom.Document;
 import org.apache.commons.io.IOUtils;
 import org.ccil.cowan.tagsoup.Parser;
 import org.junit.AfterClass;
+import org.junit.Assert;
 import org.junit.Test;
 import wwmm.pubcrawler.crawlers.AbstractCrawlerTest;
 import wwmm.pubcrawler.model.Article;
+import wwmm.pubcrawler.model.Author;
 import wwmm.pubcrawler.model.FullTextResource;
 import wwmm.pubcrawler.model.Reference;
 import wwmm.pubcrawler.model.id.ArticleId;
 import wwmm.pubcrawler.types.Doi;
-import wwmm.pubcrawler.utils.ResourceUtil;
 
 import java.io.InputStream;
 import java.net.URI;
 import java.util.List;
 
+import static java.util.Arrays.asList;
 import static org.junit.Assert.*;
 
 /**
@@ -49,7 +51,7 @@ public class AcsArticleSplashPageParserTest extends AbstractCrawlerTest {
         cg100078b = null;
         jo1013564 = null;
     }
-    
+
     @Test
     public void testGetTitleHtml() throws Exception {
         AcsArticleSplashPageParser article = getArticleCg100078b();
@@ -119,6 +121,51 @@ public class AcsArticleSplashPageParserTest extends AbstractCrawlerTest {
         assertTrue(article.isOpenAccess());
     }
 
+    @Test
+    public void testGetAuthorDetails() throws Exception {
+        Author author1 = new Author("Prem Lama");
+        author1.setAffiliation("Department of Chemistry, Indian Institute of Technology, Kanpur, 208016, India");
+        Author author2 = new Author("Arshad Aijaz");
+        author2.setAffiliation("Department of Chemistry, Indian Institute of Technology, Kanpur, 208016, India");
+        Author author3 = new Author("Subhadip Neogi");
+        author3.setAffiliation("Department of Chemistry and Polymer Science, Stellenbosch University, Private Bag X1, Matieland, 7602, South Africa");
+        Author author4 = new Author("Leonard J. Barbour");
+        author4.setAffiliation("Department of Chemistry and Polymer Science, Stellenbosch University, Private Bag X1, Matieland, 7602, South Africa");
+        Author author5 = new Author("Parimal K. Bharadwaj");
+        author5.setAffiliation("Department of Chemistry, Indian Institute of Technology, Kanpur, 208016, India");
+        author5.setEmailAddress("pkb@iitk.ac.in");
+
+        AcsArticleSplashPageParser parser = getArticleCg100078b();
+        assertEquals(asList(author1, author2, author3, author4, author5), parser.getAuthorDetails());
+    }
+
+    @Test
+    public void testGetAbstract() throws Exception {
+        String abstractHtml = "<p>Two La(III) coordination polymers, {[La(cpia)(2H<sub>2</sub>O)]&#xB7;4H" +
+            "<sub>2</sub>O}<sub><i>n</i></sub> (<b>1</b>) and {[La(cpia)(H<sub>2</sub>O)(2DMF)}<sub><i>n</i></sub> " +
+            "(<b>2</b>) (cpiaH<sub>3</sub> = 5-(4-carboxy-phenoxy)-isophthalic acid, DMF = N,N&#x2032;-dimethylformamide), " +
+            "have been synthesized under hydro- and solvothermal conditions, respectively. The lattice water molecules " +
+            "in compound <b>1</b> could be partially replaced at RT with different solvent molecules such as ethanol, " +
+            "acetone, and pyridine leading to three new daughter crystals {[La(cpia)(2H<sub>2</sub>O)]&#xB7;2H<sub>2</sub>" +
+            "O&#xB7;C<sub>2</sub>H<sub>6</sub>O}<sub><i>n</i></sub> (<b>1a</b>), {[La(cpia)(2H<sub>2</sub>O)]&#xB7;2H" +
+            "<sub>2</sub>O&#xB7;C<sub>3</sub>H<sub>6</sub>O}<sub><i>n</i></sub> (<b>1b</b>), and {[La(cpia)(2H<sub>2</sub>O)]" +
+            "&#xB7;2H<sub>2</sub>O&#xB7;C<sub>5</sub>H<sub>5</sub>N}<sub><i>n</i></sub> (<b>1c</b>) in a single-crystal " +
+            "to single-crystal (SC-SC) manner. All five compounds were further characterized by IR spectroscopy, elemental " +
+            "analysis, X-ray powder diffraction, and thermogravimetry. Each polymer forms a carboxylate-bridged " +
+            "three-dimensional structure with each metal adopting LaO<sub>9</sub> geometry. Thermogravimetric analysis " +
+            "(TGA) shows that compound <b>1</b> loses water molecules beginning at &#x223C;80 " +
+            "&#xB0;C and continues until 300 &#xB0;C, and it is thermally stable up to 400 &#xB0;C. All the daughter compounds " +
+            "<b>1a</b>&#x2212;<b>1c</b> lose solvent molecules in a stepwise manner and become fully desolvated at 320 &#xB0;C. " +
+            "Like <b>1</b>, all the daughter crystals are also stable up to 400 &#xB0;C and beyond that it starts to decompose. " +
+            "On the other hand, <b>2</b> starts to lose weight continuously beginning at &#x223C;80 &#xB0;C " +
+            "and breaks down without showing any plateau. The sorption measurements performed on desolvated <b>1</b> show " +
+            "that N<sub>2</sub> molecules are adsorbed at the surface only at 77 K; however, appreciable amounts of " +
+            "CO<sub>2</sub> are readily and reversibly incorporated at 273 K.</p>";
+
+        AcsArticleSplashPageParser parser = getArticleCg100078b();
+        assertEquals(abstractHtml, parser.getAbstractAsHtml());
+    }
+
     protected AcsArticleSplashPageParser getArticleCg100078b() throws Exception {
         Article article = new Article();
         article.setId(new ArticleId("acs/cgdefu/10/8/cg100078b"));
@@ -146,7 +193,7 @@ public class AcsArticleSplashPageParserTest extends AbstractCrawlerTest {
     }
 
     private Document loadDocument(String path) throws Exception {
-        final InputStream in = ResourceUtil.open(getClass(), "/wwmm/pubcrawler/crawlers/acs/" + path);
+        final InputStream in = getClass().getResourceAsStream(path);
         try {
             return new Builder(new Parser()).build(in);
         } finally {
