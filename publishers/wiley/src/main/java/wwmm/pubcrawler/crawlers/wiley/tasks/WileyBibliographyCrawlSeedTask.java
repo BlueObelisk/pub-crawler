@@ -1,16 +1,12 @@
 package wwmm.pubcrawler.crawlers.wiley.tasks;
 
-import org.joda.time.Duration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import wwmm.pubcrawler.crawlers.wiley.Wiley;
 import wwmm.pubcrawler.crawler.CrawlTask;
-import wwmm.pubcrawler.crawler.CrawlTaskBuilder;
 import wwmm.pubcrawler.crawler.TaskQueue;
+import wwmm.pubcrawler.crawlers.wiley.WileyPublicationListCrawlTaskFactory;
 
 import javax.inject.Inject;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author Sam Adams
@@ -20,10 +16,12 @@ public class WileyBibliographyCrawlSeedTask implements Runnable {
     private static final Logger LOG = LoggerFactory.getLogger(WileyBibliographyCrawlSeedTask.class);
 
     private final TaskQueue taskQueue;
+    private final WileyPublicationListCrawlTaskFactory crawlTaskFactory;
 
     @Inject
-    public WileyBibliographyCrawlSeedTask(final TaskQueue taskQueue) {
+    public WileyBibliographyCrawlSeedTask(final TaskQueue taskQueue, final WileyPublicationListCrawlTaskFactory wileyPublicationListCrawlTaskFactory) {
         this.taskQueue = taskQueue;
+        this.crawlTaskFactory = wileyPublicationListCrawlTaskFactory;
     }
 
     @Override
@@ -36,18 +34,7 @@ public class WileyBibliographyCrawlSeedTask implements Runnable {
     }
 
     private void enqueueSeedTask() {
-        final Map<String,String> data = new HashMap<String, String>();
-        data.put("url", Wiley.PUBLICATION_LIST_URL.toString());
-        data.put("fileId", "journals.html");
-        
-        final CrawlTask task = new CrawlTaskBuilder()
-            .ofType(WileyPublicationListCrawlTask.class)
-            .withData(data)
-            .withMaxAge(Duration.standardDays(1))
-            .withId("wiley:journal-list")
-            .build();
-
+        final CrawlTask task = crawlTaskFactory.createCrawlTask();
         taskQueue.queueTask(task);
     }
-
 }

@@ -56,6 +56,21 @@ public class MongoTaskRepository implements TaskRepository {
     }
 
     @Override
+    public List<CrawlTask> getNextQueuedTaskBatch(final long now, final int batchSize) {
+        final DBObject query = new BasicDBObject("run",
+            new BasicDBObject("$not", new BasicDBObject("$gt", -1)));
+
+        final DBCursor cursor = collection.find(query).limit(16);
+        try {
+
+        } finally {
+            cursor.close();
+        }
+        
+        return null;
+    }
+
+    @Override
     public boolean updateTask(final CrawlTask task) {
         final DBObject dbTask = collection.findOne(new BasicDBObject("id", task.getId()));
         if (dbTask == null) {
