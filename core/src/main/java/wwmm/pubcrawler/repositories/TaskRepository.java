@@ -14,4 +14,6 @@ public interface TaskRepository {
     boolean updateTask(CrawlTask task);
 
     List<String> getWaitingTaskIds(final String filter);
+
+    List<CrawlTask> getNextQueuedTaskBatch(long now, int batchSize);
 }
