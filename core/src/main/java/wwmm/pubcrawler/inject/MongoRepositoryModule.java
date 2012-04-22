@@ -20,10 +20,12 @@ import javax.inject.Singleton;
  */
 public class MongoRepositoryModule extends AbstractModule {
 
-    private final DB database;
+    private final DB bibDb;
+    private final DB taskDb;
 
-    public MongoRepositoryModule(final DB database) {
-        this.database = database;
+    public MongoRepositoryModule(final DB bibDb, final DB taskDb) {
+        this.bibDb = bibDb;
+        this.taskDb = taskDb;
     }
 
     @Override
@@ -36,22 +38,22 @@ public class MongoRepositoryModule extends AbstractModule {
 
     @Provides @Singleton @Journals
     public DBCollection getJournalCollection() {
-        return database.getCollection("journals");
+        return bibDb.getCollection("journals");
     }
 
     @Provides @Singleton @Issues
     public DBCollection getIssueCollection() {
-        return database.getCollection("issues");
+        return bibDb.getCollection("issues");
     }
 
     @Provides @Singleton @Articles
     public DBCollection getArticleCollection() {
-        return database.getCollection("articles");
+        return bibDb.getCollection("articles");
     }
 
     @Provides @Singleton @Tasks
     public DBCollection getTaskCollection() {
-        return database.getCollection("tasks");
+        return taskDb.getCollection("tasks");
     }
 
 }
