@@ -27,6 +27,7 @@ import wwmm.pubcrawler.types.Doi;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -257,7 +258,7 @@ public abstract class AbstractIssueParser implements IssueTocParser {
      *
      * @return a description of the previous issue.
      */
-    public abstract Issue getPreviousIssue();
+    protected abstract Issue getPreviousIssue();
 
     protected abstract String findJournalTitle();
 
@@ -283,7 +284,8 @@ public abstract class AbstractIssueParser implements IssueTocParser {
     }
 
     public List<Issue> getIssueLinks() {
-        return null;
+        final Issue issue = getPreviousIssue();
+        return issue == null ? Collections.<Issue>emptyList() : Collections.singletonList(issue);
     }
 
     public List<URI> getIssueListLinks() {

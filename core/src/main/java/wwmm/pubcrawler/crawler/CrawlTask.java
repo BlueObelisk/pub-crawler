@@ -7,9 +7,9 @@ import org.joda.time.Duration;
  */
 public interface CrawlTask {
 
-    Class<? extends CrawlRunner> getTaskClass();
-    
     String getId();
+
+    Class<? extends CrawlRunner> getTaskClass();
 
     Duration getMaxAge();
     

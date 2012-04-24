@@ -30,6 +30,7 @@ import org.xml.sax.helpers.XMLReaderFactory;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Reader;
 
 /**
  * @author Sam Adams
@@ -96,42 +97,13 @@ public class HttpUtils {
         }
     }
 
-    private static Document readXml(final HttpEntity entity, final Builder builder) throws IOException {
-        final InputStream in = entity.getContent();
-        try {
-            final Document doc = builder.build(in);
-            return doc;
-        } catch (ParsingException e) {
-            final IOException ioe = new IOException("Error parsing XML document");
-            ioe.initCause(e);
-            throw ioe;
-        } finally {
-            IOUtils.closeQuietly(in);
-        }
-    }
-
-    private static Document readXml(final HttpEntity entity, final Builder builder, final String encoding) throws IOException {
-        final InputStream in = entity.getContent();
-        try {
-            final InputStreamReader isr = new InputStreamReader(in, encoding);
-            final Document doc = builder.build(isr);
-            return doc;
-        } catch (ParsingException e) {
-            final IOException ioe = new IOException("Error parsing XML document");
-            ioe.initCause(e);
-            throw ioe;
-        } finally {
-            IOUtils.closeQuietly(in);
-        }
-    }
-
     public static Document readHtmlDocument(final HttpResponse response) throws IOException {
         final HttpEntity entity = response.getEntity();
         if (entity == null) {
             return null;
         }
-        final Builder builder = createTagSoupBuilder();
         final String charset = getEntityCharset(response.getEntity());
+        final Builder builder = createTagSoupBuilder();
         if (charset == null) {
             return readXml(entity, builder);
         } else {
@@ -139,10 +111,19 @@ public class HttpUtils {
         }
     }
 
+    public static Document readHtmlDocument(final InputStream inputStream, final String charset) throws IOException {
+        final Builder builder = createTagSoupBuilder();
+        if (charset == null) {
+            return readXml(inputStream, builder);
+        } else {
+            return readXml(inputStream, charset, builder);
+        }
+    }
+
     private static Builder createTagSoupBuilder() {
         final XMLReader tagSoupReader = createTagSoupReader();
-		return new Builder(tagSoupReader);
-	}
+        return new Builder(tagSoupReader);
+    }
 
     private static XMLReader createTagSoupReader() {
         final XMLReader reader;
@@ -152,6 +133,48 @@ public class HttpUtils {
             throw new RuntimeException("Exception whilst creating XMLReader from org.ccil.cowan.tagsoup.Parser", e);
         }
         return reader;
+    }
+
+    private static Document readXml(final HttpEntity entity, final Builder builder) throws IOException {
+        final InputStream in = entity.getContent();
+        try {
+            return parse(in, builder);
+        } finally {
+            IOUtils.closeQuietly(in);
+        }
+    }
+
+    private static Document readXml(final HttpEntity entity, final Builder builder, final String encoding) throws IOException {
+        final InputStream in = entity.getContent();
+        try {
+            return parse(new InputStreamReader(in, encoding), builder);
+        } finally {
+            IOUtils.closeQuietly(in);
+        }
+    }
+
+    private static Document readXml(final InputStream in, final String encoding, final Builder builder) throws IOException {
+        return parse(new InputStreamReader(in, encoding), builder);
+    }
+    
+    private static Document readXml(final InputStream in, final Builder builder) throws IOException {
+        return parse(in, builder);
+    }
+
+    private static Document parse(final InputStream in, final Builder builder) throws IOException {
+        try {
+            return builder.build(in);
+        } catch (ParsingException e) {
+            throw new IOException("Error parsing XML document", e);
+        }
+    }
+
+    private static Document parse(final Reader in, final Builder builder) throws IOException {
+        try {
+            return builder.build(in);
+        } catch (ParsingException e) {
+            throw new IOException("Error parsing XML document", e);
+        }
     }
 
 }

@@ -7,6 +7,6 @@ import nu.xom.Document;
  */
 public interface PublicationListParserFactory {
     
-    PublicationListParser createPublicationListParser(Document document);
-    
+    PublicationListParser createPublicationListParser(Document html);
+
 }

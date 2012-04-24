@@ -48,7 +48,6 @@ public abstract class BasicIssueTocCrawlerTask extends BasicHttpCrawlTask {
         
         final IssueTocParser parser = parserFactory.createIssueTocParser(html, url, journalId);
 
-        handlePreviousIssue(id, parser);
         handleIssueLinks(id, parser);
         handleIssueDetails(id, parser);
         handleArticles(id, parser);
@@ -73,17 +72,6 @@ public abstract class BasicIssueTocCrawlerTask extends BasicHttpCrawlTask {
             }
         } catch (Exception e) {
             LOG.warn("Error finding articles [" + id + "]", e);
-        }
-    }
-
-    private void handlePreviousIssue(final String id, final IssueTocParser parser) {
-        try {
-            final Issue previousIssue = parser.getPreviousIssue();
-            if (previousIssue != null) {
-                issueHandler.handleIssueLink(previousIssue);
-            }
-        } catch (Exception e) {
-            LOG.warn("Error finding previous issue [" + id + "]", e);
         }
     }
 

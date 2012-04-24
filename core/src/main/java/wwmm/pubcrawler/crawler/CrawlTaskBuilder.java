@@ -81,5 +81,12 @@ public class CrawlTaskBuilder {
             return data;
         }
 
+        @Override
+        public String toString() {
+            return "DefaultCrawlTask{" +
+                "id='" + id + '\'' +
+                ", jobClass=" + jobClass +
+                '}';
+        }
     }
 }
