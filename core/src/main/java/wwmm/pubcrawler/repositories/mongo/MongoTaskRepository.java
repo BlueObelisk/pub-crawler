@@ -1,15 +1,21 @@
 package wwmm.pubcrawler.repositories.mongo;
 
-import com.mongodb.*;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
 import org.joda.time.DateTime;
-import wwmm.pubcrawler.crawler.CrawlRunner;
 import wwmm.pubcrawler.crawler.CrawlTask;
 import wwmm.pubcrawler.inject.Tasks;
 import wwmm.pubcrawler.repositories.TaskRepository;
 
 import javax.inject.Inject;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Pattern;
+
+import static java.util.Arrays.asList;
 
 /**
  * @author Sam Adams
@@ -56,21 +62,6 @@ public class MongoTaskRepository implements TaskRepository {
     }
 
     @Override
-    public List<CrawlTask> getNextQueuedTaskBatch(final long now, final int batchSize) {
-        final DBObject query = new BasicDBObject("run",
-            new BasicDBObject("$not", new BasicDBObject("$gt", -1)));
-
-        final DBCursor cursor = collection.find(query).limit(16);
-        try {
-
-        } finally {
-            cursor.close();
-        }
-        
-        return null;
-    }
-
-    @Override
     public boolean updateTask(final CrawlTask task) {
         final DBObject dbTask = collection.findOne(new BasicDBObject("id", task.getId()));
         if (dbTask == null) {
@@ -86,11 +77,52 @@ public class MongoTaskRepository implements TaskRepository {
         }
     }
 
+    @Override
+    public List<CrawlTask> getNextQueuedTaskBatch(final long now, final int batchSize) {
+        final List<CrawlTask> tasks = findNextQueuedTaskBatch(now);
+        if (!tasks.isEmpty()) {
+            final List<String> ids = getTaskIds(tasks);
+            markQueuedTasks(ids);
+        }
+        return tasks;
+    }
+
     private boolean shouldReRun(final CrawlTask task, final DBObject dbTask) {
         if (task.getMaxAge() != null && dbTask.containsField("lastRun")) {
             final DateTime lastRun = new DateTime(dbTask.get("lastRun"));
             return lastRun.plus(task.getMaxAge()).isBeforeNow();
         }
         return false;
+    }
+
+    private List<CrawlTask> findNextQueuedTaskBatch(final long now) {
+        final DBObject query = new BasicDBObject("$and", asList(
+            new BasicDBObject("nextRun", new BasicDBObject("$not", new BasicDBObject("$gt", now))),
+            new BasicDBObject("queued", new BasicDBObject("$ne", true))
+        ));
+
+        final List<CrawlTask> tasks = new ArrayList<CrawlTask>();
+        final DBCursor cursor = collection.find(query).limit(16);
+        try {
+            while (cursor.hasNext()) {
+                tasks.add(mongoTaskMapper.mapBsonToTask(cursor.next()));
+            }
+        } finally {
+            cursor.close();
+        }
+        return tasks;
+    }
+
+    private List<String> getTaskIds(final List<CrawlTask> tasks) {
+        final List<String> ids = new ArrayList<String>(tasks.size());
+        for (final CrawlTask task : tasks) {
+            ids.add(task.getId());
+        }
+        return ids;
+    }
+
+    private void markQueuedTasks(final List<String> ids) {
+        final DBObject update = new BasicDBObject("$set", new BasicDBObject("queued", true));
+        collection.update(new BasicDBObject("id", new BasicDBObject("$in", ids)), update, false, true);
     }
 }

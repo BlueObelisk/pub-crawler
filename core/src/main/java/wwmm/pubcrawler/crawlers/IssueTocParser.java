@@ -15,8 +15,6 @@ public interface IssueTocParser {
     
     List<Article> getArticles();
 
-    Issue getPreviousIssue();
-
     List<Issue> getIssueLinks();
 
     List<URI> getIssueListLinks();
