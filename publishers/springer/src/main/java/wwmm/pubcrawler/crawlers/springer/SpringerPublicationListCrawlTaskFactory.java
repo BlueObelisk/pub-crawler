@@ -25,7 +25,7 @@ public class SpringerPublicationListCrawlTaskFactory {
         return new CrawlTaskBuilder()
             .ofType(SpringerPublicationListCrawlTask.class)
             .withData(data)
-            .withMaxAge(Duration.standardDays(1))
+            .withInterval(Duration.standardDays(1))
             .withId("springer:journal-list/" + key + "/" + page)
             .build();
     }

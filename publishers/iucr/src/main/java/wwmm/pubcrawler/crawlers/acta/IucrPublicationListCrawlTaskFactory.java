@@ -18,7 +18,7 @@ public class IucrPublicationListCrawlTaskFactory {
         return new CrawlTaskBuilder()
             .ofType(IucrPublicationListCrawlTask.class)
             .withData(data)
-            .withMaxAge(Duration.standardDays(1))
+            .withInterval(Duration.standardDays(1))
             .withId("iucr:journal-list")
             .build();
     }

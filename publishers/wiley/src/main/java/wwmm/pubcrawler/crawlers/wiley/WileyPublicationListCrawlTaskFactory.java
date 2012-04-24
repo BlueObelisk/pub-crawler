@@ -18,7 +18,7 @@ public class WileyPublicationListCrawlTaskFactory {
         return new CrawlTaskBuilder()
             .ofType(WileyPublicationListCrawlTask.class)
             .withData(data)
-            .withMaxAge(Duration.standardDays(1))
+            .withInterval(Duration.standardDays(1))
             .withId("wiley:journal-list")
             .build();
     }

@@ -21,7 +21,7 @@ public class ElsevierPublicationListCrawlTaskFactory {
         return new CrawlTaskBuilder()
             .ofType(ElsevierPublicationListCrawlTask.class)
             .withData(data)
-            .withMaxAge(Duration.standardDays(1))
+            .withInterval(Duration.standardDays(1))
             .withId("elsevier:journal-list")
             .build();
     }

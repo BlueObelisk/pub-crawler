@@ -27,7 +27,7 @@ public class Elsevier {
 
         return new CrawlTaskBuilder()
             .ofType(ElsevierIssueTocCrawlTask.class)
-            .withMaxAge(Duration.standardDays(1))
+            .withInterval(Duration.standardDays(1))
             .withId("elsevier:issue-toc:" + journal + "/" + id)
             .withData(map)
             .build();

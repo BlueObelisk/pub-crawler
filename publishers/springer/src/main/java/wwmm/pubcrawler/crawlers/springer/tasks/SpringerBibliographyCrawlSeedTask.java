@@ -55,7 +55,7 @@ public class SpringerBibliographyCrawlSeedTask implements Runnable {
         final CrawlTask task = new CrawlTaskBuilder()
             .ofType(SpringerPublicationListCrawlTask.class)
             .withData(data)
-            .withMaxAge(Duration.standardDays(1))
+            .withInterval(Duration.standardDays(1))
             .withId("springer:journal-list/" + key + "/1")
             .build();
 

@@ -2,6 +2,7 @@ package wwmm.pubcrawler.repositories.mongo;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
+import org.joda.time.Duration;
 import wwmm.pubcrawler.crawler.CrawlRunner;
 import wwmm.pubcrawler.crawler.CrawlTask;
 import wwmm.pubcrawler.crawler.CrawlTaskBuilder;
@@ -16,23 +17,32 @@ public class MongoTaskMapper {
         dbTask.put("id", task.getId());
         dbTask.put("type", task.getTaskClass().getName());
         dbTask.put("queued", System.currentTimeMillis());
+        dbTask.put("schedule", -1L);
+        dbTask.put("interval", task.getInterval().getMillis());
+        dbTask.put("data", mapData(task));
+        return dbTask;
+    }
+
+    private DBObject mapData(final CrawlTask task) {
         final DBObject data = new BasicDBObject();
         for (final String key : task.getData().keys()) {
             data.put(key, task.getData().getString(key));
         }
-        dbTask.put("data", data);
-        return dbTask;
+        return data;
     }
 
     public CrawlTask mapBsonToTask(final DBObject task) {
         final String id = (String) task.get("id");
         final Class<? extends CrawlRunner> type = getType(task);
         final Map<String, String> data = getData((DBObject) task.get("data"));
-        return new CrawlTaskBuilder()
+        final CrawlTaskBuilder builder = new CrawlTaskBuilder()
             .withId(id)
-            .withData(data)
             .ofType(type)
-            .build();
+            .withData(data);
+        if (task.containsField("interval")) {
+            builder.withInterval(new Duration(task.get("interval")));
+        }
+        return builder.build();
     }
 
     private Map<String, String> getData(final DBObject task) {

@@ -22,7 +22,7 @@ public class SpringerIssueListCrawlTaskFactory {
 
         return new CrawlTaskBuilder()
             .ofType(SpringerIssueListCrawlTask.class)
-            .withMaxAge(Duration.standardDays(1))
+            .withInterval(Duration.standardDays(1))
             .withId("springer:issue-list:" + journal + "/current")
             .withData(map)
             .build();
