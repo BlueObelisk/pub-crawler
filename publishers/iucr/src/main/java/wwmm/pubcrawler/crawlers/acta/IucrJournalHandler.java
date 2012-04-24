@@ -1,7 +1,6 @@
 package wwmm.pubcrawler.crawlers.acta;
 
 import org.joda.time.Duration;
-import wwmm.pubcrawler.crawler.CrawlRunner;
 import wwmm.pubcrawler.crawler.CrawlTask;
 import wwmm.pubcrawler.crawler.CrawlTaskBuilder;
 import wwmm.pubcrawler.crawler.TaskQueue;
@@ -40,7 +39,7 @@ public class IucrJournalHandler implements JournalHandler {
 
         return new CrawlTaskBuilder()
             .ofType(IucrIssueListCrawlerTask.class)
-            .withMaxAge(Duration.standardDays(1))
+            .withInterval(Duration.standardDays(1))
             .withId("iucr:issue-list:" + journal.getAbbreviation())
             .withData(map)
             .build();

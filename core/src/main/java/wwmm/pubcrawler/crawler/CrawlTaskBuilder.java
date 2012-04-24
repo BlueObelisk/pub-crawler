@@ -11,7 +11,7 @@ import java.util.Map;
 public class CrawlTaskBuilder {
 
     private String id;
-    private Duration maxAge;
+    private Duration interval;
     private Class<? extends CrawlRunner> jobClass;
     private Map<String,String> data;
 
@@ -33,8 +33,8 @@ public class CrawlTaskBuilder {
         return this;
     }
 
-    public CrawlTaskBuilder withMaxAge(final Duration maxAge) {
-        this.maxAge = maxAge;
+    public CrawlTaskBuilder withInterval(final Duration interval) {
+        this.interval = interval;
         return this;
     }
 
@@ -44,19 +44,19 @@ public class CrawlTaskBuilder {
     }
 
     public CrawlTask build() {
-        return new DefaultCrawlTask(id, maxAge,  new TaskData(data != null ? data : Collections.<String,String>emptyMap()), jobClass);
+        return new DefaultCrawlTask(id, interval,  new TaskData(data != null ? data : Collections.<String,String>emptyMap()), jobClass);
     }
 
     private static class DefaultCrawlTask implements CrawlTask {
 
         private final String id;
-        private final Duration maxAge;
+        private final Duration interval;
         private final TaskData data;
         private final Class<? extends CrawlRunner> jobClass;
 
-        public DefaultCrawlTask(final String id, final Duration maxAge, final TaskData data, final Class<? extends CrawlRunner> jobClass) {
+        public DefaultCrawlTask(final String id, final Duration interval, final TaskData data, final Class<? extends CrawlRunner> jobClass) {
             this.id = id;
-            this.maxAge = maxAge;
+            this.interval = interval;
             this.data = data;
             this.jobClass = jobClass;
         }
@@ -67,8 +67,8 @@ public class CrawlTaskBuilder {
         }
 
         @Override
-        public Duration getMaxAge() {
-            return maxAge;
+        public Duration getInterval() {
+            return interval;
         }
 
         @Override
@@ -84,9 +84,10 @@ public class CrawlTaskBuilder {
         @Override
         public String toString() {
             return "DefaultCrawlTask{" +
-                "id='" + id + '\'' +
-                ", jobClass=" + jobClass +
-                '}';
+                    "id='" + id + '\'' +
+                    ", jobClass=" + jobClass +
+                    ", interval=" + interval +
+                    '}';
         }
     }
 }

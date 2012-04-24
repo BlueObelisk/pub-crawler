@@ -43,7 +43,7 @@ public class RscBibliographyCrawlSeedTask implements Runnable {
         final CrawlTask task = new CrawlTaskBuilder()
             .ofType(RscPublicationListCrawlTask.class)
             .withData(data)
-            .withMaxAge(Duration.standardDays(1))
+            .withInterval(Duration.standardDays(1))
             .withId("rsc:journal-list")
             .build();
 

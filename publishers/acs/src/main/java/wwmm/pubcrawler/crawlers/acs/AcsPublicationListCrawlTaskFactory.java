@@ -21,7 +21,7 @@ public class AcsPublicationListCrawlTaskFactory {
         return new CrawlTaskBuilder()
             .ofType(AcsPublicationListCrawlTask.class)
             .withData(data)
-            .withMaxAge(Duration.standardDays(1))
+            .withInterval(Duration.standardDays(1))
             .withId("acs:journal-list")
             .build();
     }

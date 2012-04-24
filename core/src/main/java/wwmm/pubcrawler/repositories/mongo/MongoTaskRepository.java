@@ -88,9 +88,9 @@ public class MongoTaskRepository implements TaskRepository {
     }
 
     private boolean shouldReRun(final CrawlTask task, final DBObject dbTask) {
-        if (task.getMaxAge() != null && dbTask.containsField("lastRun")) {
+        if (task.getInterval() != null && dbTask.containsField("lastRun")) {
             final DateTime lastRun = new DateTime(dbTask.get("lastRun"));
-            return lastRun.plus(task.getMaxAge()).isBeforeNow();
+            return lastRun.plus(task.getInterval()).isBeforeNow();
         }
         return false;
     }

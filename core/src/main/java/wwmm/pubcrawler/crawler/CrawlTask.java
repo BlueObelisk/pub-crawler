@@ -11,7 +11,7 @@ public interface CrawlTask {
 
     Class<? extends CrawlRunner> getTaskClass();
 
-    Duration getMaxAge();
+    Duration getInterval();
     
     TaskData getData();
 

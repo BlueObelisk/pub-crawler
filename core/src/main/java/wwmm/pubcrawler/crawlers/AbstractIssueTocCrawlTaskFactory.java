@@ -37,7 +37,7 @@ public abstract class AbstractIssueTocCrawlTaskFactory implements IssueTocCrawlT
         
         return new CrawlTaskBuilder()
             .ofType(type)
-            .withMaxAge(Duration.standardDays(1))
+            .withInterval(Duration.standardDays(1))
             .withId(publisher + ":issue-toc:" + journal + "/" + issue)
             .withData(map)
             .build();
