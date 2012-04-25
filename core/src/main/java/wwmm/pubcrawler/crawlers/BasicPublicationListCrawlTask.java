@@ -1,56 +1,35 @@
 package wwmm.pubcrawler.crawlers;
 
 import nu.xom.Document;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerResponse;
-import wwmm.pubcrawler.archivers.JournalArchiver;
 import wwmm.pubcrawler.controller.Fetcher;
 import wwmm.pubcrawler.controller.URITask;
-import wwmm.pubcrawler.model.Journal;
-import wwmm.pubcrawler.parsers.PublicationListParser;
-import wwmm.pubcrawler.parsers.PublicationListParserFactory;
-import wwmm.pubcrawler.utils.HtmlUtils;
 import wwmm.pubcrawler.crawler.TaskData;
+import wwmm.pubcrawler.http.HtmlDocument;
+import wwmm.pubcrawler.processors.PublicationListProcessor;
+import wwmm.pubcrawler.utils.HtmlUtils;
 
 import javax.inject.Inject;
 import java.io.IOException;
-import java.util.List;
+import java.net.URI;
 
 /**
  * @author Sam Adams
  */
 public abstract class BasicPublicationListCrawlTask extends BasicHttpCrawlTask {
 
-    private final Logger LOG;
-
-    private final PublicationListParserFactory parserFactory;
-    private final JournalArchiver journalArchiver;
-    private final JournalHandler journalHandler;
-
+    private final PublicationListProcessor<HtmlDocument> processor;
+    
     @Inject
-    public BasicPublicationListCrawlTask(final Fetcher<URITask, CrawlerResponse> fetcher, final PublicationListParserFactory parserFactory, final JournalArchiver journalArchiver, final JournalHandler journalHandler) {
+    public BasicPublicationListCrawlTask(final Fetcher<URITask, CrawlerResponse> fetcher, final PublicationListProcessor<HtmlDocument> processor) {
         super(fetcher);
-        this.parserFactory = parserFactory;
-        this.journalArchiver = journalArchiver;
-        this.journalHandler = journalHandler;
-        this.LOG = LoggerFactory.getLogger(getClass());
+        this.processor = processor;
     }
 
     @Override
     protected void handleResponse(final String id, final TaskData data, final CrawlerResponse response) throws Exception {
         final Document html = readResponse(response);
-        final PublicationListParser parser = parserFactory.createPublicationListParser(html);
-        final List<Journal> journals = parser.findJournals();
-        for (final Journal journal : journals) {
-            LOG.debug("Found journal: {}", journal.getTitle());
-            archiveJournal(journal);
-            journalHandler.handleJournal(journal);
-        }
-    }
-
-    private void archiveJournal(final Journal journal) {
-        journalArchiver.archive(journal);
+        processor.processPublicationList(new HtmlDocument(URI.create(html.getBaseURI()), html));
     }
 
     protected Document readResponse(final CrawlerResponse response) throws IOException {

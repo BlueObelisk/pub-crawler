@@ -8,6 +8,8 @@ import wwmm.pubcrawler.controller.URITask;
 import wwmm.pubcrawler.crawlers.BasicIssueTocCrawlerTask;
 import wwmm.pubcrawler.crawlers.IssueHandler;
 import wwmm.pubcrawler.crawlers.wiley.WileyIssueTocParserFactory;
+import wwmm.pubcrawler.http.HtmlDocument;
+import wwmm.pubcrawler.processors.IssueTocProcessor;
 
 import javax.inject.Inject;
 
@@ -17,8 +19,8 @@ import javax.inject.Inject;
 public class WileyIssueTocCrawlTask extends BasicIssueTocCrawlerTask {
 
     @Inject
-    public WileyIssueTocCrawlTask(final Fetcher<URITask, CrawlerResponse> fetcher, final WileyIssueTocParserFactory parserFactory, final ArticleArchiver archiver, final IssueArchiver issueArchiver, final IssueHandler issueHandler) {
-        super(fetcher, parserFactory, archiver, issueArchiver, issueHandler);
+    public WileyIssueTocCrawlTask(final Fetcher<URITask, CrawlerResponse> fetcher, final WileyIssueTocParserFactory parserFactory, final ArticleArchiver articleArchiver, final IssueArchiver issueArchiver, final IssueHandler issueHandler) {
+        super(fetcher, new IssueTocProcessor<HtmlDocument>(issueArchiver, articleArchiver, issueHandler, parserFactory));
     }
 
 }

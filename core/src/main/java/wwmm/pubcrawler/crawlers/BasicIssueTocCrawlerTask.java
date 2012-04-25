@@ -16,6 +16,7 @@ import wwmm.pubcrawler.model.id.JournalId;
 import wwmm.pubcrawler.model.id.PublisherId;
 import wwmm.pubcrawler.parsers.IssueTocParser;
 import wwmm.pubcrawler.parsers.IssueTocParserFactory;
+import wwmm.pubcrawler.processors.IssueTocProcessor;
 import wwmm.pubcrawler.utils.HtmlUtils;
 
 import java.net.URI;
@@ -27,18 +28,12 @@ import java.util.List;
 public abstract class BasicIssueTocCrawlerTask extends BasicHttpCrawlTask {
 
     private static final Logger LOG = LoggerFactory.getLogger(BasicIssueTocCrawlerTask.class);
-    
-    private final IssueTocParserFactory parserFactory;
-    private final ArticleArchiver articleArchiver;
-    private final IssueArchiver issueArchiver;
-    private final IssueHandler issueHandler;
 
-    public BasicIssueTocCrawlerTask(final Fetcher<URITask, CrawlerResponse> fetcher, final IssueTocParserFactory parserFactory, final ArticleArchiver archiver, final IssueArchiver issueArchiver, final IssueHandler issueHandler) {
+    private final IssueTocProcessor<HtmlDocument> processor;
+
+    public BasicIssueTocCrawlerTask(final Fetcher<URITask, CrawlerResponse> fetcher, final IssueTocProcessor<HtmlDocument> processor) {
         super(fetcher);
-        this.parserFactory = parserFactory;
-        this.articleArchiver = archiver;
-        this.issueArchiver = issueArchiver;
-        this.issueHandler = issueHandler;
+        this.processor = processor;
     }
 
     @Override
@@ -48,47 +43,8 @@ public abstract class BasicIssueTocCrawlerTask extends BasicHttpCrawlTask {
         
         final PublisherId publisherId = new PublisherId(data.getString("publisher"));
         final JournalId journalId = new JournalId(publisherId, data.getString("journal"));
-        
-        final IssueTocParser parser = parserFactory.createIssueTocParser(journalId, new HtmlDocument(url, html));
 
-        handleIssueLinks(id, parser);
-        handleIssueDetails(id, parser);
-        handleArticles(id, parser);
-    }
-
-    private void handleIssueDetails(final String id, final IssueTocParser parser) {
-        try {
-            final Issue issue = parser.getIssueDetails();
-            issueArchiver.archive(issue);
-        } catch (Exception e) {
-            LOG.warn("Error finding issue details [" + id + "]", e);
-        }
-    }
-
-    private void handleArticles(final String id, final IssueTocParser parser) {
-        try {
-            final List<Article> articles = parser.getArticles();
-            if (articles != null) {
-                for (final Article article : articles) {
-                    articleArchiver.archive(article);
-                }
-            }
-        } catch (Exception e) {
-            LOG.warn("Error finding articles [" + id + "]", e);
-        }
-    }
-
-    private void handleIssueLinks(final String id, final IssueTocParser parser) {
-        try {
-            final List<Issue> issueLinks = parser.getIssueLinks();
-            if (issueLinks != null) {
-                for (final Issue issue : issueLinks) {
-                    issueHandler.handleIssueLink(issue);
-                }
-            }
-        } catch (Exception e) {
-            LOG.warn("Error finding issue links [" + id + "]", e);
-        }
+        processor.process(id, journalId, new HtmlDocument(url, html));
     }
 
 }
