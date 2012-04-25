@@ -10,7 +10,7 @@ import wwmm.pubcrawler.crawlers.JournalHandler;
 import wwmm.pubcrawler.crawlers.springer.SpringerPublicationListCrawlTaskFactory;
 import wwmm.pubcrawler.crawlers.springer.SpringerPublicationListParserFactory;
 import wwmm.pubcrawler.crawlers.springer.parsers.SpringerPublicationListParser;
-import wwmm.pubcrawler.http.HtmlDocument;
+import wwmm.pubcrawler.http.DocumentResource;
 import wwmm.pubcrawler.model.Journal;
 import wwmm.pubcrawler.utils.HtmlUtils;
 import wwmm.pubcrawler.crawler.CrawlTask;
@@ -46,7 +46,7 @@ public class SpringerPublicationListCrawlTask extends BasicHttpCrawlTask {
         final Document html = HtmlUtils.readHtmlDocument(response);
         final URI url = URI.create(html.getBaseURI());
 
-        final SpringerPublicationListParser parser = publicationListParserFactory.createPublicationListParser(new HtmlDocument(url, html));
+        final SpringerPublicationListParser parser = publicationListParserFactory.createPublicationListParser(new DocumentResource(url, html));
         for (final Journal journal : parser.findJournals()) {
             archiveJournal(journal);
             journalHandler.handleJournal(journal);

@@ -1,24 +1,22 @@
-package wwmm.pubcrawler.crawlers.springer;
+package wwmm.pubcrawler.crawlers.acta;
 
-import nu.xom.Document;
-import wwmm.pubcrawler.crawlers.springer.parsers.SpringerIssueListParser;
+import wwmm.pubcrawler.crawlers.acta.parsers.IucrIssueListParser;
 import wwmm.pubcrawler.http.DocumentResource;
 import wwmm.pubcrawler.model.id.JournalId;
 import wwmm.pubcrawler.parsers.IssueListParser;
 import wwmm.pubcrawler.parsers.IssueListParserFactory;
 
 import javax.inject.Singleton;
-import java.net.URI;
 
 /**
  * @author Sam Adams
  */
 @Singleton
-public class SpringerIssueListParserFactory implements IssueListParserFactory<DocumentResource> {
+public class IucrIssueListParserFactory implements IssueListParserFactory<DocumentResource> {
 
     @Override
     public IssueListParser createIssueListParser(final JournalId journalId, final DocumentResource resource) {
-        return new SpringerIssueListParser(journalId, resource.getDocument(), resource.getUrl());
+        return new IucrIssueListParser(resource.getDocument(), resource.getUrl(), journalId);
     }
 
 }

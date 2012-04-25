@@ -22,9 +22,9 @@ import org.apache.log4j.Logger;
 import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.model.id.IssueId;
 import wwmm.pubcrawler.model.id.JournalId;
+import wwmm.pubcrawler.parsers.IssueListParser;
 import wwmm.pubcrawler.utils.XPathUtils;
 
-import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +34,7 @@ import java.util.regex.Pattern;
 /**
  * @author Sam Adams
  */
-public class SpringerIssueListParser {
+public class SpringerIssueListParser implements IssueListParser {
 
     private static final Logger LOG = Logger.getLogger(SpringerIssueListParser.class);
 
@@ -42,19 +42,20 @@ public class SpringerIssueListParser {
 
     private final Document html;
     private final URI url;
-    private final String journal;
+    private final JournalId journalId;
     
     private static final Pattern P__VOLUME = Pattern.compile("Volume\\s+(\\S+)");
     private static final Pattern P_ISSUE = Pattern.compile("Numbers?\\s+(\\S+) .*? (\\d{4})");
     private static final Pattern P_SUPP = Pattern.compile("Supplement\\s+(\\S+) .*? (\\d{4})");
 
-    public SpringerIssueListParser(final Document html, final URI url, final String journal) {
+    public SpringerIssueListParser(final JournalId journalId, final Document html, final URI url) {
+        this.journalId = journalId;
         this.html = html;
         this.url = url;
-        this.journal = journal;
     }
 
-    public List<Issue> findIssues() throws IOException {
+    @Override
+    public List<Issue> findIssues() {
         final List<Issue> list = new ArrayList<Issue>();
 
         final List<Node> volumeNodes = XPathUtils.queryHTML(html, "//x:li[x:a/x:span[starts-with(text(), 'Volume')]]");
@@ -78,7 +79,7 @@ public class SpringerIssueListParser {
         return list;
     }
 
-    private void findIssues(final List<Issue> list, final Node node, final String volume) throws IOException {
+    private void findIssues(final List<Issue> list, final Node node, final String volume) {
         final List<Node> issues = XPathUtils.queryHTML(node, "./x:ul/x:li");
         boolean first = true;
         for (final Node n : issues) {
@@ -118,7 +119,7 @@ public class SpringerIssueListParser {
 
             final URI url = this.url.resolve(href);
             final Issue issue = new Issue();
-            issue.setId(new IssueId(new JournalId("springer/"+journal), volume, number));
+            issue.setId(new IssueId(journalId, volume, number));
             issue.setUrl(url);
             issue.setVolume(volume);
             issue.setNumber(number);
