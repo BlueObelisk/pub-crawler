@@ -7,12 +7,12 @@ import java.net.URI;
 /**
  * @author Sam Adams
  */
-public class HtmlDocument {
+public class DocumentResource {
 
     private final URI url;
     private final Document document;
 
-    public HtmlDocument(final URI url, final Document document) {
+    public DocumentResource(final URI url, final Document document) {
         this.url = url;
         this.document = document;
     }

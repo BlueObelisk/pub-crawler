@@ -8,7 +8,7 @@ import wwmm.pubcrawler.controller.URITask;
 import wwmm.pubcrawler.crawlers.BasicPublicationListCrawlTask;
 import wwmm.pubcrawler.crawlers.JournalHandler;
 import wwmm.pubcrawler.crawlers.elsevier.ElsevierPublicationListParserFactory;
-import wwmm.pubcrawler.http.HtmlDocument;
+import wwmm.pubcrawler.http.DocumentResource;
 import wwmm.pubcrawler.processors.PublicationListProcessor;
 import wwmm.pubcrawler.utils.HtmlUtils;
 
@@ -22,7 +22,7 @@ public class ElsevierPublicationListCrawlTask extends BasicPublicationListCrawlT
 
     @Inject
     public ElsevierPublicationListCrawlTask(final Fetcher<URITask, CrawlerResponse> fetcher, final ElsevierPublicationListParserFactory parserFactory, final JournalArchiver journalArchiver, final JournalHandler journalHandler) {
-        super(fetcher, new PublicationListProcessor<HtmlDocument>(parserFactory, journalArchiver, journalHandler));
+        super(fetcher, new PublicationListProcessor<DocumentResource>(parserFactory, journalArchiver, journalHandler));
     }
 
     @Override
