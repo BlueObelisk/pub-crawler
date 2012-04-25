@@ -1,9 +1,9 @@
 package wwmm.pubcrawler.crawlers.elsevier;
 
-import nu.xom.Document;
-import wwmm.pubcrawler.crawlers.PublicationListParser;
-import wwmm.pubcrawler.crawlers.PublicationListParserFactory;
+import wwmm.pubcrawler.parsers.PublicationListParser;
+import wwmm.pubcrawler.parsers.PublicationListParserFactory;
 import wwmm.pubcrawler.crawlers.elsevier.parsers.ElsevierPublicationListParser;
+import wwmm.pubcrawler.http.HtmlDocument;
 
 import javax.inject.Singleton;
 
@@ -11,11 +11,11 @@ import javax.inject.Singleton;
  * @author Sam Adams
  */
 @Singleton
-public class ElsevierPublicationListParserFactory implements PublicationListParserFactory {
+public class ElsevierPublicationListParserFactory implements PublicationListParserFactory<HtmlDocument> {
 
     @Override
-    public PublicationListParser createPublicationListParser(final Document document) {
-        return new ElsevierPublicationListParser(document);
+    public PublicationListParser createPublicationListParser(final HtmlDocument htmlDoc) {
+        return new ElsevierPublicationListParser(htmlDoc.getDocument());
     }
 
 }

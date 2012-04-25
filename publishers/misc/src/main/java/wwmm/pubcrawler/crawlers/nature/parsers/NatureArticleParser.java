@@ -20,12 +20,11 @@ import nu.xom.Element;
 import nu.xom.Node;
 import nu.xom.Serializer;
 import org.apache.log4j.Logger;
-import wwmm.pubcrawler.crawlers.AbstractArticleParser;
+import wwmm.pubcrawler.parsers.AbstractArticleParser;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.FullTextResource;
 import wwmm.pubcrawler.model.Reference;
 import wwmm.pubcrawler.model.SupplementaryResource;
-import wwmm.pubcrawler.model.id.ArticleId;
 import wwmm.pubcrawler.model.id.ResourceId;
 import wwmm.pubcrawler.utils.XPathUtils;
 

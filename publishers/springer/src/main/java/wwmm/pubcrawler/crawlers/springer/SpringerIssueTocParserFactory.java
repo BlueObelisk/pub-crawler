@@ -1,21 +1,19 @@
 package wwmm.pubcrawler.crawlers.springer;
 
-import nu.xom.Document;
-import wwmm.pubcrawler.crawlers.IssueTocParser;
-import wwmm.pubcrawler.crawlers.IssueTocParserFactory;
+import wwmm.pubcrawler.parsers.IssueTocParser;
+import wwmm.pubcrawler.parsers.IssueTocParserFactory;
 import wwmm.pubcrawler.crawlers.springer.parsers.SpringerIssueTocParser;
+import wwmm.pubcrawler.http.HtmlDocument;
 import wwmm.pubcrawler.model.id.JournalId;
-
-import java.net.URI;
 
 /**
  * @author Sam Adams
  */
-public class SpringerIssueTocParserFactory implements IssueTocParserFactory {
+public class SpringerIssueTocParserFactory implements IssueTocParserFactory<HtmlDocument> {
 
     @Override
-    public IssueTocParser createIssueTocParser(final Document html, final URI url, final JournalId journalId) {
-        return new SpringerIssueTocParser(html, url, journalId);
+    public IssueTocParser createIssueTocParser(final JournalId journalId, final HtmlDocument htmlDoc) {
+        return new SpringerIssueTocParser(htmlDoc.getDocument(), htmlDoc.getUrl(), journalId);
     }
 
 }

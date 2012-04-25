@@ -5,7 +5,7 @@ import nu.xom.Element;
 import nu.xom.Node;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import wwmm.pubcrawler.crawlers.PublicationListParser;
+import wwmm.pubcrawler.parsers.PublicationListParser;
 import wwmm.pubcrawler.crawlers.elsevier.Elsevier;
 import wwmm.pubcrawler.model.Journal;
 import wwmm.pubcrawler.model.id.JournalId;

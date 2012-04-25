@@ -10,6 +10,7 @@ import wwmm.pubcrawler.crawlers.JournalHandler;
 import wwmm.pubcrawler.crawlers.springer.SpringerPublicationListCrawlTaskFactory;
 import wwmm.pubcrawler.crawlers.springer.SpringerPublicationListParserFactory;
 import wwmm.pubcrawler.crawlers.springer.parsers.SpringerPublicationListParser;
+import wwmm.pubcrawler.http.HtmlDocument;
 import wwmm.pubcrawler.model.Journal;
 import wwmm.pubcrawler.utils.HtmlUtils;
 import wwmm.pubcrawler.crawler.CrawlTask;
@@ -43,18 +44,19 @@ public class SpringerPublicationListCrawlTask extends BasicHttpCrawlTask {
     @Override
     protected void handleResponse(final String id, final TaskData data, final CrawlerResponse response) throws Exception {
         final Document html = HtmlUtils.readHtmlDocument(response);
+        final URI url = URI.create(html.getBaseURI());
 
-        final SpringerPublicationListParser parser = publicationListParserFactory.createPublicationListParser(html);
+        final SpringerPublicationListParser parser = publicationListParserFactory.createPublicationListParser(new HtmlDocument(url, html));
         for (final Journal journal : parser.findJournals()) {
             archiveJournal(journal);
             journalHandler.handleJournal(journal);
         }
 
-        final URI url = parser.getNextPage();
-        if (url != null) {
+        final URI nextPage = parser.getNextPage();
+        if (nextPage != null) {
             final int page = Integer.parseInt(data.getString("page"));
             final String key = data.getString("key");
-            final CrawlTask crawlTask = issueIndexCrawlTaskFactory.createIssueListCrawlTask(url, key, page+1);
+            final CrawlTask crawlTask = issueIndexCrawlTaskFactory.createIssueListCrawlTask(nextPage, key, page+1);
             taskQueue.queueTask(crawlTask);
         }
     }
