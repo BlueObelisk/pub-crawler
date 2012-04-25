@@ -5,6 +5,7 @@ import wwmm.pubcrawler.controller.Fetcher;
 import wwmm.pubcrawler.controller.URITask;
 import wwmm.pubcrawler.crawlers.BasicIssueListHttpCrawlTask;
 import wwmm.pubcrawler.crawlers.IssueHandler;
+import wwmm.pubcrawler.crawlers.acta.IucrIssueListParserFactory;
 import wwmm.pubcrawler.http.DocumentResource;
 import wwmm.pubcrawler.processors.IssueListProcessor;
 
