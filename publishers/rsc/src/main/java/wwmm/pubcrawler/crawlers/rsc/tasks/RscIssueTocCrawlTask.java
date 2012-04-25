@@ -10,6 +10,8 @@ import wwmm.pubcrawler.crawler.TaskData;
 import wwmm.pubcrawler.crawlers.BasicIssueTocCrawlerTask;
 import wwmm.pubcrawler.crawlers.IssueHandler;
 import wwmm.pubcrawler.crawlers.rsc.RscIssueTocParserFactory;
+import wwmm.pubcrawler.http.HtmlDocument;
+import wwmm.pubcrawler.processors.IssueTocProcessor;
 
 import javax.inject.Inject;
 import java.net.URI;
@@ -24,8 +26,8 @@ public class RscIssueTocCrawlTask extends BasicIssueTocCrawlerTask {
     // curl -d "name=SC&issueid=sc003004&jname=Chemical Science&iscontentavailable=True" http://pubs.rsc.org/en/journals/issues
 
     @Inject
-    public RscIssueTocCrawlTask(final Fetcher<URITask, CrawlerResponse> fetcher, final RscIssueTocParserFactory parserFactory, final ArticleArchiver archiver, final IssueArchiver issueArchiver, final IssueHandler issueHandler) {
-        super(fetcher, parserFactory, archiver, issueArchiver, issueHandler);
+    public RscIssueTocCrawlTask(final Fetcher<URITask, CrawlerResponse> fetcher, final RscIssueTocParserFactory parserFactory, final ArticleArchiver articleArchiver, final IssueArchiver issueArchiver, final IssueHandler issueHandler) {
+        super(fetcher, new IssueTocProcessor<HtmlDocument>(issueArchiver, articleArchiver, issueHandler, parserFactory));
     }
 
     @Override
