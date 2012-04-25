@@ -8,6 +8,8 @@ import wwmm.pubcrawler.archivers.JournalArchiver;
 import wwmm.pubcrawler.controller.Fetcher;
 import wwmm.pubcrawler.controller.URITask;
 import wwmm.pubcrawler.model.Journal;
+import wwmm.pubcrawler.parsers.PublicationListParser;
+import wwmm.pubcrawler.parsers.PublicationListParserFactory;
 import wwmm.pubcrawler.utils.HtmlUtils;
 import wwmm.pubcrawler.crawler.TaskData;
 

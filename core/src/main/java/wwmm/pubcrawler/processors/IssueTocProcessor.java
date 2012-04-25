@@ -1,58 +1,41 @@
-package wwmm.pubcrawler.crawlers;
+package wwmm.pubcrawler.processors;
 
-import nu.xom.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerResponse;
 import wwmm.pubcrawler.archivers.ArticleArchiver;
 import wwmm.pubcrawler.archivers.IssueArchiver;
-import wwmm.pubcrawler.controller.Fetcher;
-import wwmm.pubcrawler.controller.URITask;
-import wwmm.pubcrawler.crawler.TaskData;
-import wwmm.pubcrawler.http.HtmlDocument;
+import wwmm.pubcrawler.crawlers.IssueHandler;
+import wwmm.pubcrawler.parsers.IssueTocParser;
+import wwmm.pubcrawler.parsers.IssueTocParserFactory;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.model.id.JournalId;
-import wwmm.pubcrawler.model.id.PublisherId;
-import wwmm.pubcrawler.parsers.IssueTocParser;
-import wwmm.pubcrawler.parsers.IssueTocParserFactory;
-import wwmm.pubcrawler.utils.HtmlUtils;
 
-import java.net.URI;
 import java.util.List;
 
 /**
  * @author Sam Adams
  */
-public abstract class BasicIssueTocCrawlerTask extends BasicHttpCrawlTask {
+public class IssueTocProcessor<T> {
 
-    private static final Logger LOG = LoggerFactory.getLogger(BasicIssueTocCrawlerTask.class);
-    
-    private final IssueTocParserFactory parserFactory;
-    private final ArticleArchiver articleArchiver;
+    private static final Logger LOG = LoggerFactory.getLogger(IssueTocProcessor.class);
+
     private final IssueArchiver issueArchiver;
+    private final ArticleArchiver articleArchiver;
     private final IssueHandler issueHandler;
+    private final IssueTocParserFactory<T> parserFactory;
 
-    public BasicIssueTocCrawlerTask(final Fetcher<URITask, CrawlerResponse> fetcher, final IssueTocParserFactory parserFactory, final ArticleArchiver archiver, final IssueArchiver issueArchiver, final IssueHandler issueHandler) {
-        super(fetcher);
-        this.parserFactory = parserFactory;
-        this.articleArchiver = archiver;
+    public IssueTocProcessor(final IssueArchiver issueArchiver, final ArticleArchiver articleArchiver, final IssueHandler issueHandler, final IssueTocParserFactory<T> parserFactory) {
         this.issueArchiver = issueArchiver;
+        this.articleArchiver = articleArchiver;
         this.issueHandler = issueHandler;
+        this.parserFactory = parserFactory;
     }
 
-    @Override
-    protected void handleResponse(final String id, final TaskData data, final CrawlerResponse response) throws Exception {
-        final Document html = HtmlUtils.readHtmlDocument(response);
-        final URI url = URI.create(html.getBaseURI());
-        
-        final PublisherId publisherId = new PublisherId(data.getString("publisher"));
-        final JournalId journalId = new JournalId(publisherId, data.getString("journal"));
-        
-        final IssueTocParser parser = parserFactory.createIssueTocParser(journalId, new HtmlDocument(url, html));
-
-        handleIssueLinks(id, parser);
+    public void process(final String id, final JournalId journalId, final T resource) {
+        final IssueTocParser parser = parserFactory.createIssueTocParser(journalId, resource);
         handleIssueDetails(id, parser);
+        handleIssueLinks(id, parser);
         handleArticles(id, parser);
     }
 

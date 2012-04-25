@@ -1,4 +1,4 @@
-package wwmm.pubcrawler.crawlers;
+package wwmm.pubcrawler.parsers;
 
 import wwmm.pubcrawler.model.Journal;
 

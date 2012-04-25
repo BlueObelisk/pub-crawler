@@ -4,14 +4,10 @@ import nu.xom.Document;
 import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerResponse;
 import wwmm.pubcrawler.controller.Fetcher;
 import wwmm.pubcrawler.controller.URITask;
-import wwmm.pubcrawler.crawler.CrawlRunner;
 import wwmm.pubcrawler.crawler.TaskData;
-import wwmm.pubcrawler.crawler.common.HtmlCrawler;
 import wwmm.pubcrawler.crawlers.BasicHttpCrawlTask;
 import wwmm.pubcrawler.crawlers.IssueHandler;
-import wwmm.pubcrawler.crawlers.IssueTocParser;
 import wwmm.pubcrawler.crawlers.acta.parsers.IucrIssueListParser;
-import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.model.id.JournalId;
 import wwmm.pubcrawler.model.id.PublisherId;
@@ -19,7 +15,6 @@ import wwmm.pubcrawler.utils.HtmlUtils;
 
 import javax.inject.Inject;
 import java.net.URI;
-import java.util.List;
 
 /**
  * @author Sam Adams

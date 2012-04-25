@@ -1,9 +1,9 @@
 package wwmm.pubcrawler.crawlers.acs;
 
-import nu.xom.Document;
-import wwmm.pubcrawler.crawlers.PublicationListParser;
-import wwmm.pubcrawler.crawlers.PublicationListParserFactory;
+import wwmm.pubcrawler.parsers.PublicationListParser;
+import wwmm.pubcrawler.parsers.PublicationListParserFactory;
 import wwmm.pubcrawler.crawlers.acs.parsers.AcsPublicationListParser;
+import wwmm.pubcrawler.http.HtmlDocument;
 
 import javax.inject.Singleton;
 
@@ -11,11 +11,11 @@ import javax.inject.Singleton;
  * @author Sam Adams
  */
 @Singleton
-public class AcsPublicationListParserFactory implements PublicationListParserFactory {
+public class AcsPublicationListParserFactory implements PublicationListParserFactory<HtmlDocument> {
     
     @Override
-    public PublicationListParser createPublicationListParser(final Document document) {
-        return new AcsPublicationListParser(document);
+    public PublicationListParser createPublicationListParser(final HtmlDocument htmlDocument) {
+        return new AcsPublicationListParser(htmlDocument.getDocument());
     }
     
 }

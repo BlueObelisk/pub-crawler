@@ -1,9 +1,9 @@
 package wwmm.pubcrawler.crawlers.rsc;
 
-import nu.xom.Document;
-import wwmm.pubcrawler.crawlers.PublicationListParser;
-import wwmm.pubcrawler.crawlers.PublicationListParserFactory;
+import wwmm.pubcrawler.parsers.PublicationListParser;
+import wwmm.pubcrawler.parsers.PublicationListParserFactory;
 import wwmm.pubcrawler.crawlers.rsc.parsers.RscPublicationListParser;
+import wwmm.pubcrawler.http.HtmlDocument;
 
 import javax.inject.Singleton;
 
@@ -11,11 +11,11 @@ import javax.inject.Singleton;
  * @author Sam Adams
  */
 @Singleton
-public class RscPublicationListParserFactory implements PublicationListParserFactory {
+public class RscPublicationListParserFactory implements PublicationListParserFactory<HtmlDocument> {
 
     @Override
-    public PublicationListParser createPublicationListParser(final Document document) {
-        return new RscPublicationListParser(document);
+    public PublicationListParser createPublicationListParser(final HtmlDocument htmlDoc) {
+        return new RscPublicationListParser(htmlDoc.getDocument());
     }
 
 }

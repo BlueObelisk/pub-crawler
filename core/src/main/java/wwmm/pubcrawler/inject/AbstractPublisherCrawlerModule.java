@@ -2,7 +2,7 @@ package wwmm.pubcrawler.inject;
 
 import com.google.inject.AbstractModule;
 import wwmm.pubcrawler.crawlers.IssueTocCrawlTaskFactory;
-import wwmm.pubcrawler.crawlers.IssueTocParserFactory;
+import wwmm.pubcrawler.parsers.IssueTocParserFactory;
 
 /**
  * @author Sam Adams

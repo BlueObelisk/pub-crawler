@@ -3,7 +3,7 @@ package wwmm.pubcrawler.crawlers.rsc.parsers;
 import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Node;
-import wwmm.pubcrawler.crawlers.PublicationListParser;
+import wwmm.pubcrawler.parsers.PublicationListParser;
 import wwmm.pubcrawler.crawlers.rsc.Rsc;
 import wwmm.pubcrawler.model.Journal;
 import wwmm.pubcrawler.utils.XPathUtils;

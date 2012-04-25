@@ -22,7 +22,7 @@ import nu.xom.Node;
 import org.apache.log4j.Logger;
 import wwmm.pubcrawler.CrawlerRuntimeException;
 import wwmm.pubcrawler.HtmlUtil;
-import wwmm.pubcrawler.crawlers.AbstractArticleParser;
+import wwmm.pubcrawler.parsers.AbstractArticleParser;
 import wwmm.pubcrawler.model.*;
 import wwmm.pubcrawler.model.id.ArticleId;
 import wwmm.pubcrawler.utils.XPathUtils;

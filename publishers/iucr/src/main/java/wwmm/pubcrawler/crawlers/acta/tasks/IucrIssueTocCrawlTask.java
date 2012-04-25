@@ -10,7 +10,7 @@ import wwmm.pubcrawler.controller.URITask;
 import wwmm.pubcrawler.crawler.TaskData;
 import wwmm.pubcrawler.crawlers.HttpCrawlTask;
 import wwmm.pubcrawler.crawlers.IssueHandler;
-import wwmm.pubcrawler.crawlers.IssueTocParser;
+import wwmm.pubcrawler.parsers.IssueTocParser;
 import wwmm.pubcrawler.crawlers.acta.IucrIssueTocParserFactory;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.Issue;

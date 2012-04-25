@@ -21,7 +21,7 @@ import nu.xom.Node;
 import org.apache.log4j.Logger;
 import wwmm.pubcrawler.CrawlerRuntimeException;
 import wwmm.pubcrawler.HtmlUtil;
-import wwmm.pubcrawler.crawlers.AbstractIssueParser;
+import wwmm.pubcrawler.parsers.AbstractIssueParser;
 import wwmm.pubcrawler.crawlers.acta.ActaUtil;
 import wwmm.pubcrawler.crawlers.acta.Iucr;
 import wwmm.pubcrawler.model.FullTextResource;

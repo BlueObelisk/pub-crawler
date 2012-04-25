@@ -1,22 +1,21 @@
 package wwmm.pubcrawler.crawlers.acta;
 
-import nu.xom.Document;
-import wwmm.pubcrawler.crawlers.PublicationListParser;
-import wwmm.pubcrawler.crawlers.PublicationListParserFactory;
+import wwmm.pubcrawler.parsers.PublicationListParser;
+import wwmm.pubcrawler.parsers.PublicationListParserFactory;
 import wwmm.pubcrawler.crawlers.acta.parsers.IucrPublicationListParser;
+import wwmm.pubcrawler.http.HtmlDocument;
 
 import javax.inject.Singleton;
-import java.net.URI;
 
 /**
  * @author Sam Adams
  */
 @Singleton
-public class IucrPublicationListParserFactory implements PublicationListParserFactory {
+public class IucrPublicationListParserFactory implements PublicationListParserFactory<HtmlDocument> {
 
     @Override
-    public PublicationListParser createPublicationListParser(final Document document) {
-        return new IucrPublicationListParser(document, URI.create(document.getBaseURI()));
+    public PublicationListParser createPublicationListParser(final HtmlDocument htmlDoc) {
+        return new IucrPublicationListParser(htmlDoc.getDocument(), htmlDoc.getUrl());
     }
 
 }

@@ -20,7 +20,7 @@ import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Node;
 import org.apache.log4j.Logger;
-import wwmm.pubcrawler.crawlers.PublicationListParser;
+import wwmm.pubcrawler.parsers.PublicationListParser;
 import wwmm.pubcrawler.crawlers.springer.Springer;
 import wwmm.pubcrawler.model.Journal;
 import wwmm.pubcrawler.model.id.JournalId;

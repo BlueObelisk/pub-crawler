@@ -1,23 +1,22 @@
 package wwmm.pubcrawler.crawlers.rsc;
 
-import nu.xom.Document;
-import wwmm.pubcrawler.crawlers.IssueTocParser;
-import wwmm.pubcrawler.crawlers.IssueTocParserFactory;
+import wwmm.pubcrawler.parsers.IssueTocParser;
+import wwmm.pubcrawler.parsers.IssueTocParserFactory;
 import wwmm.pubcrawler.crawlers.rsc.parsers.RscIssueTocParser;
+import wwmm.pubcrawler.http.HtmlDocument;
 import wwmm.pubcrawler.model.id.JournalId;
 
 import javax.inject.Singleton;
-import java.net.URI;
 
 /**
  * @author Sam Adams
  */
 @Singleton
-public class RscIssueTocParserFactory implements IssueTocParserFactory {
+public class RscIssueTocParserFactory implements IssueTocParserFactory<HtmlDocument> {
 
     @Override
-    public IssueTocParser createIssueTocParser(final Document html, final URI url, final JournalId journalId) {
-        return new RscIssueTocParser(html, url, journalId);
+    public IssueTocParser createIssueTocParser(final JournalId journalId, final HtmlDocument htmlDoc) {
+        return new RscIssueTocParser(htmlDoc.getDocument(), htmlDoc.getUrl(), journalId);
     }
 
 }

@@ -1,7 +1,7 @@
 package wwmm.pubcrawler.crawlers.rsc;
 
 import wwmm.pubcrawler.crawlers.IssueTocCrawlTaskFactory;
-import wwmm.pubcrawler.crawlers.IssueTocParserFactory;
+import wwmm.pubcrawler.parsers.IssueTocParserFactory;
 import wwmm.pubcrawler.inject.AbstractPublisherCrawlerModule;
 
 /**
