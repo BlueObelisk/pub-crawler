@@ -4,11 +4,13 @@ import org.joda.time.Duration;
 import wwmm.pubcrawler.crawler.TaskData;
 import wwmm.pubcrawler.http.RequestFactory;
 
+import javax.inject.Singleton;
 import java.net.URI;
 
 /**
  * @author Sam Adams
  */
+@Singleton
 public class IucrFrameRequestFactory implements RequestFactory<IucrFrameRequest> {
 
     @Override

@@ -11,11 +11,14 @@ import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.model.id.JournalId;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.List;
 
 /**
  * @author Sam Adams
  */
+@Singleton
 public class IssueTocProcessor<T> {
 
     private static final Logger LOG = LoggerFactory.getLogger(IssueTocProcessor.class);
@@ -25,6 +28,7 @@ public class IssueTocProcessor<T> {
     private final IssueHandler issueHandler;
     private final IssueTocParserFactory<T> parserFactory;
 
+    @Inject
     public IssueTocProcessor(final IssueArchiver issueArchiver, final ArticleArchiver articleArchiver, final IssueHandler issueHandler, final IssueTocParserFactory<T> parserFactory) {
         this.issueArchiver = issueArchiver;
         this.articleArchiver = articleArchiver;
@@ -73,5 +77,4 @@ public class IssueTocProcessor<T> {
             LOG.warn("Error finding issue links [" + id + "]", e);
         }
     }
-
 }

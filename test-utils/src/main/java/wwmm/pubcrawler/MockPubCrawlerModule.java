@@ -4,6 +4,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import org.mockito.Mockito;
 import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerResponse;
+import uk.ac.cam.ch.wwmm.httpcrawler.HttpFetcher;
 import wwmm.pubcrawler.crawlers.IssueHandler;
 import wwmm.pubcrawler.crawlers.JournalHandler;
 import wwmm.pubcrawler.crawler.TaskQueue;
@@ -17,6 +18,11 @@ public class MockPubCrawlerModule extends AbstractModule {
 
     @Override
     protected void configure() {
+    }
+    
+    @Provides
+    public HttpFetcher provideHttpFetcher() {
+        return Mockito.mock(HttpFetcher.class);
     }
     
     @Provides

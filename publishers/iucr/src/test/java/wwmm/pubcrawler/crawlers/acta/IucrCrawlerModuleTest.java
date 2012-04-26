@@ -6,6 +6,8 @@ import org.junit.Before;
 import org.junit.Test;
 import wwmm.pubcrawler.MockPubCrawlerModule;
 import wwmm.pubcrawler.MockRepositoryModule;
+import wwmm.pubcrawler.crawlers.IssueTocCrawlRunner;
+import wwmm.pubcrawler.crawlers.PublicationListCrawlRunner;
 import wwmm.pubcrawler.crawlers.acta.tasks.IucrBibliographyCrawlSeedTask;
 import wwmm.pubcrawler.crawlers.acta.tasks.IucrIssueTocCrawlTask;
 import wwmm.pubcrawler.crawlers.acta.tasks.IucrPublicationListCrawlTask;
@@ -57,5 +59,16 @@ public class IucrCrawlerModuleTest {
         IucrIssueTocCrawlTask crawlTask = injector.getInstance(IucrIssueTocCrawlTask.class);
         assertNotNull(crawlTask);
     }
-    
+
+    @Test
+    public void testCanCreatePublicationListCrawlRunner() {
+        PublicationListCrawlRunner crawlRunner = injector.getInstance(PublicationListCrawlRunner.class);
+        assertNotNull(crawlRunner);
+    }
+
+    @Test
+    public void testCanCreateIssueTocCrawlRunner() {
+        IssueTocCrawlRunner crawlRunner = injector.getInstance(IssueTocCrawlRunner.class);
+        assertNotNull(crawlRunner);
+    }
 }

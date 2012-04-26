@@ -8,11 +8,14 @@ import wwmm.pubcrawler.model.Journal;
 import wwmm.pubcrawler.parsers.PublicationListParser;
 import wwmm.pubcrawler.parsers.PublicationListParserFactory;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.List;
 
 /**
  * @author Sam Adams
  */
+@Singleton
 public class PublicationListProcessor<T> {
 
     private static final Logger LOG = LoggerFactory.getLogger(PublicationListProcessor.class);
@@ -21,6 +24,7 @@ public class PublicationListProcessor<T> {
     private final JournalArchiver journalArchiver;
     private final JournalHandler journalHandler;
 
+    @Inject
     public PublicationListProcessor(final PublicationListParserFactory<T> parserFactory, final JournalArchiver journalArchiver, final JournalHandler journalHandler) {
         this.parserFactory = parserFactory;
         this.journalArchiver = journalArchiver;
