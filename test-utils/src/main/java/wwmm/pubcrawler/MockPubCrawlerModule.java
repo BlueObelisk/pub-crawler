@@ -4,10 +4,11 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import org.mockito.Mockito;
 import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerResponse;
-import wwmm.pubcrawler.controller.*;
 import wwmm.pubcrawler.crawlers.IssueHandler;
 import wwmm.pubcrawler.crawlers.JournalHandler;
 import wwmm.pubcrawler.crawler.TaskQueue;
+import wwmm.pubcrawler.http.Fetcher;
+import wwmm.pubcrawler.http.URITask;
 
 /**
  * @author Sam Adams

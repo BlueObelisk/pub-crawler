@@ -1,4 +1,4 @@
-package wwmm.pubcrawler.controller;
+package wwmm.pubcrawler.http;
 
 import java.io.IOException;
 

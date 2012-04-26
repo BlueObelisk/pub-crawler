@@ -1,8 +1,8 @@
 package wwmm.pubcrawler.crawlers.springer.tasks;
 
 import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerResponse;
-import wwmm.pubcrawler.controller.Fetcher;
-import wwmm.pubcrawler.controller.URITask;
+import wwmm.pubcrawler.http.Fetcher;
+import wwmm.pubcrawler.http.URITask;
 import wwmm.pubcrawler.crawlers.BasicIssueListHttpCrawlTask;
 import wwmm.pubcrawler.crawlers.IssueHandler;
 import wwmm.pubcrawler.crawlers.springer.SpringerIssueListParserFactory;

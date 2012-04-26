@@ -4,10 +4,10 @@ import nu.xom.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerResponse;
-import wwmm.pubcrawler.controller.Fetcher;
-import wwmm.pubcrawler.controller.URITask;
 import wwmm.pubcrawler.crawler.TaskData;
 import wwmm.pubcrawler.http.DocumentResource;
+import wwmm.pubcrawler.http.Fetcher;
+import wwmm.pubcrawler.http.URITask;
 import wwmm.pubcrawler.model.id.JournalId;
 import wwmm.pubcrawler.model.id.PublisherId;
 import wwmm.pubcrawler.processors.IssueTocProcessor;
@@ -39,5 +39,4 @@ public abstract class BasicIssueTocCrawlerTask extends BasicHttpCrawlTask {
 
         processor.process(id, journalId, new DocumentResource(url, html));
     }
-
 }
