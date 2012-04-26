@@ -2,10 +2,12 @@ package wwmm.pubcrawler.crawlers.acta;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import wwmm.pubcrawler.MockPubCrawlerModule;
 import wwmm.pubcrawler.MockRepositoryModule;
+import wwmm.pubcrawler.crawlers.IssueListCrawlRunner;
 import wwmm.pubcrawler.crawlers.IssueTocCrawlRunner;
 import wwmm.pubcrawler.crawlers.PublicationListCrawlRunner;
 import wwmm.pubcrawler.crawlers.acta.tasks.IucrBibliographyCrawlSeedTask;
@@ -63,6 +65,12 @@ public class IucrCrawlerModuleTest {
     @Test
     public void testCanCreatePublicationListCrawlRunner() {
         PublicationListCrawlRunner crawlRunner = injector.getInstance(PublicationListCrawlRunner.class);
+        assertNotNull(crawlRunner);
+    }
+
+    @Test
+    public void testCanCreateIssueListCrawlRunner() {
+        IssueListCrawlRunner crawlRunner = injector.getInstance(IssueListCrawlRunner.class);
         assertNotNull(crawlRunner);
     }
 

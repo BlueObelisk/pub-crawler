@@ -6,6 +6,8 @@ import org.junit.Before;
 import org.junit.Test;
 import wwmm.pubcrawler.MockPubCrawlerModule;
 import wwmm.pubcrawler.MockRepositoryModule;
+import wwmm.pubcrawler.crawlers.IssueTocCrawlRunner;
+import wwmm.pubcrawler.crawlers.PublicationListCrawlRunner;
 import wwmm.pubcrawler.crawlers.wiley.tasks.WileyBibliographyCrawlSeedTask;
 import wwmm.pubcrawler.crawlers.wiley.tasks.WileyIssueTocCrawlTask;
 import wwmm.pubcrawler.crawlers.wiley.tasks.WileyPublicationListCrawlTask;
@@ -57,5 +59,16 @@ public class WileyCrawlerModuleTest {
         WileyIssueTocCrawlTask crawlTask = injector.getInstance(WileyIssueTocCrawlTask.class);
         assertNotNull(crawlTask);
     }
-    
+
+    @Test
+    public void testCanCreatePublicationListCrawlRunner() {
+        PublicationListCrawlRunner crawlRunner = injector.getInstance(PublicationListCrawlRunner.class);
+        assertNotNull(crawlRunner);
+    }
+
+    @Test
+    public void testCanCreateIssueTocCrawlRunner() {
+        IssueTocCrawlRunner crawlRunner = injector.getInstance(IssueTocCrawlRunner.class);
+        assertNotNull(crawlRunner);
+    }
 }
