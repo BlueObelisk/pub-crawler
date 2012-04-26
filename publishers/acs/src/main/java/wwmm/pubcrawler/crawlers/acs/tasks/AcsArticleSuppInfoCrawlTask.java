@@ -1,8 +1,8 @@
 package wwmm.pubcrawler.crawlers.acs.tasks;
 
 import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerResponse;
-import wwmm.pubcrawler.controller.Fetcher;
-import wwmm.pubcrawler.controller.URITask;
+import wwmm.pubcrawler.http.Fetcher;
+import wwmm.pubcrawler.http.URITask;
 import wwmm.pubcrawler.crawlers.BasicHttpCrawlTask;
 import wwmm.pubcrawler.crawler.TaskData;
 

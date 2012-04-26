@@ -2,8 +2,8 @@ package wwmm.pubcrawler.crawlers;
 
 import org.joda.time.Duration;
 import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerResponse;
-import wwmm.pubcrawler.controller.Fetcher;
-import wwmm.pubcrawler.controller.URITask;
+import wwmm.pubcrawler.http.Fetcher;
+import wwmm.pubcrawler.http.URITask;
 import wwmm.pubcrawler.crawler.CrawlRunner;
 
 import javax.inject.Inject;
