@@ -2,7 +2,7 @@ package wwmm.pubcrawler.crawlers.acs.tasks;
 
 import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerResponse;
 import wwmm.pubcrawler.http.Fetcher;
-import wwmm.pubcrawler.http.URITask;
+import wwmm.pubcrawler.http.UriRequest;
 import wwmm.pubcrawler.crawlers.BasicHttpCrawlTask;
 import wwmm.pubcrawler.crawler.TaskData;
 
@@ -14,7 +14,7 @@ import javax.inject.Inject;
 public class AcsArticleSuppInfoCrawlTask extends BasicHttpCrawlTask {
 
     @Inject
-    public AcsArticleSuppInfoCrawlTask(final Fetcher<URITask, CrawlerResponse> fetcher) {
+    public AcsArticleSuppInfoCrawlTask(final Fetcher<UriRequest, CrawlerResponse> fetcher) {
         super(fetcher);
     }
 

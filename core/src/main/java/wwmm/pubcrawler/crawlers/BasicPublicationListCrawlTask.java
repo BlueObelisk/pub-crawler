@@ -3,7 +3,7 @@ package wwmm.pubcrawler.crawlers;
 import nu.xom.Document;
 import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerResponse;
 import wwmm.pubcrawler.http.Fetcher;
-import wwmm.pubcrawler.http.URITask;
+import wwmm.pubcrawler.http.UriRequest;
 import wwmm.pubcrawler.crawler.TaskData;
 import wwmm.pubcrawler.http.DocumentResource;
 import wwmm.pubcrawler.processors.PublicationListProcessor;
@@ -21,7 +21,7 @@ public abstract class BasicPublicationListCrawlTask extends BasicHttpCrawlTask {
     private final PublicationListProcessor<DocumentResource> processor;
     
     @Inject
-    public BasicPublicationListCrawlTask(final Fetcher<URITask, CrawlerResponse> fetcher, final PublicationListProcessor<DocumentResource> processor) {
+    public BasicPublicationListCrawlTask(final Fetcher<UriRequest, CrawlerResponse> fetcher, final PublicationListProcessor<DocumentResource> processor) {
         super(fetcher);
         this.processor = processor;
     }

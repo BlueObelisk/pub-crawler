@@ -8,7 +8,7 @@ import wwmm.pubcrawler.crawlers.IssueHandler;
 import wwmm.pubcrawler.crawlers.JournalHandler;
 import wwmm.pubcrawler.crawler.TaskQueue;
 import wwmm.pubcrawler.http.Fetcher;
-import wwmm.pubcrawler.http.URITask;
+import wwmm.pubcrawler.http.UriRequest;
 
 /**
  * @author Sam Adams
@@ -20,7 +20,7 @@ public class MockPubCrawlerModule extends AbstractModule {
     }
     
     @Provides
-    public Fetcher<URITask, CrawlerResponse> provideFetcher() {
+    public Fetcher<UriRequest, CrawlerResponse> provideFetcher() {
         return Mockito.mock(Fetcher.class);
     }
 

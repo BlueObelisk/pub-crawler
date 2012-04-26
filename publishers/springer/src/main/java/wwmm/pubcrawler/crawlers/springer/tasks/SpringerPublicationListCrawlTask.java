@@ -4,7 +4,7 @@ import nu.xom.Document;
 import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerResponse;
 import wwmm.pubcrawler.archivers.JournalArchiver;
 import wwmm.pubcrawler.http.Fetcher;
-import wwmm.pubcrawler.http.URITask;
+import wwmm.pubcrawler.http.UriRequest;
 import wwmm.pubcrawler.crawlers.BasicHttpCrawlTask;
 import wwmm.pubcrawler.crawlers.JournalHandler;
 import wwmm.pubcrawler.crawlers.springer.SpringerPublicationListCrawlTaskFactory;
@@ -32,7 +32,7 @@ public class SpringerPublicationListCrawlTask extends BasicHttpCrawlTask {
     private final TaskQueue taskQueue;
 
     @Inject
-    public SpringerPublicationListCrawlTask(final Fetcher<URITask, CrawlerResponse> fetcher, final SpringerPublicationListParserFactory publicationListParserFactory, final JournalHandler journalHandler, final JournalArchiver journalArchiver, final SpringerPublicationListCrawlTaskFactory issueIndexCrawlTaskFactory, final TaskQueue taskQueue) {
+    public SpringerPublicationListCrawlTask(final Fetcher<UriRequest, CrawlerResponse> fetcher, final SpringerPublicationListParserFactory publicationListParserFactory, final JournalHandler journalHandler, final JournalArchiver journalArchiver, final SpringerPublicationListCrawlTaskFactory issueIndexCrawlTaskFactory, final TaskQueue taskQueue) {
         super(fetcher);
         this.publicationListParserFactory = publicationListParserFactory;
         this.journalHandler = journalHandler;

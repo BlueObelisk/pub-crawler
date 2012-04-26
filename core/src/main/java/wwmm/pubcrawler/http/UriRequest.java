@@ -7,14 +7,14 @@ import java.net.URI;
 /**
  * @author Sam Adams
  */
-public class URITask {
+public class UriRequest {
     
     private URI uri;
     private String id;
     private Duration maxAge;
     private URI referer;
 
-    public URITask(final URI uri, final String id, final Duration maxAge, final URI referer) {
+    public UriRequest(final URI uri, final String id, final Duration maxAge, final URI referer) {
         this.uri = uri;
         this.id = id;
         this.maxAge = maxAge;

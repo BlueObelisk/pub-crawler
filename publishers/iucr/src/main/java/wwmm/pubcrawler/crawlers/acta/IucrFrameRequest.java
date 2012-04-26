@@ -7,7 +7,7 @@ import java.net.URI;
 /**
  * @author Sam Adams
  */
-public class IucrFrameTask {
+public class IucrFrameRequest {
 
     private final String id;
     private final URI bodyUrl;
@@ -15,7 +15,7 @@ public class IucrFrameTask {
     private final Duration maxAge;
     private final URI referrer;
 
-    public IucrFrameTask(final String id, final URI bodyUrl, final URI headUrl, final Duration maxAge, final URI referrer) {
+    public IucrFrameRequest(final String id, final URI bodyUrl, final URI headUrl, final Duration maxAge, final URI referrer) {
         this.id = id;
         this.bodyUrl = bodyUrl;
         this.headUrl = headUrl;

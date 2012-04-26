@@ -1,12 +1,10 @@
 package wwmm.pubcrawler.http;
 
-import java.io.IOException;
-
 /**
  * @author Sam Adams
  */
-public interface Fetcher<Task,Resource> {
+public interface Fetcher<Request,Resource> {
     
-    Resource fetch(Task task) throws Exception;
+    Resource fetch(Request request) throws Exception;
     
 }

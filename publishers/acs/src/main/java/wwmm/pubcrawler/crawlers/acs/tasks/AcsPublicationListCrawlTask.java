@@ -3,7 +3,7 @@ package wwmm.pubcrawler.crawlers.acs.tasks;
 import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerResponse;
 import wwmm.pubcrawler.archivers.JournalArchiver;
 import wwmm.pubcrawler.http.Fetcher;
-import wwmm.pubcrawler.http.URITask;
+import wwmm.pubcrawler.http.UriRequest;
 import wwmm.pubcrawler.crawlers.BasicPublicationListCrawlTask;
 import wwmm.pubcrawler.crawlers.JournalHandler;
 import wwmm.pubcrawler.crawlers.acs.AcsPublicationListParserFactory;
@@ -18,7 +18,7 @@ import javax.inject.Inject;
 public class AcsPublicationListCrawlTask extends BasicPublicationListCrawlTask {
 
     @Inject
-    public AcsPublicationListCrawlTask(final Fetcher<URITask, CrawlerResponse> fetcher, final AcsPublicationListParserFactory parserFactory, final JournalArchiver journalArchiver, final JournalHandler journalHandler) {
+    public AcsPublicationListCrawlTask(final Fetcher<UriRequest, CrawlerResponse> fetcher, final AcsPublicationListParserFactory parserFactory, final JournalArchiver journalArchiver, final JournalHandler journalHandler) {
         super(fetcher, new PublicationListProcessor<DocumentResource>(parserFactory, journalArchiver, journalHandler));
     }
 
