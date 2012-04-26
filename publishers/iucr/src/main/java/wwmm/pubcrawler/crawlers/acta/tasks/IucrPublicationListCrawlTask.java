@@ -4,7 +4,7 @@ import nu.xom.Document;
 import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerResponse;
 import wwmm.pubcrawler.archivers.JournalArchiver;
 import wwmm.pubcrawler.http.Fetcher;
-import wwmm.pubcrawler.http.URITask;
+import wwmm.pubcrawler.http.UriRequest;
 import wwmm.pubcrawler.crawlers.BasicPublicationListCrawlTask;
 import wwmm.pubcrawler.crawlers.acta.IucrJournalHandler;
 import wwmm.pubcrawler.crawlers.acta.IucrPublicationListParserFactory;
@@ -21,7 +21,7 @@ import java.io.IOException;
 public class IucrPublicationListCrawlTask extends BasicPublicationListCrawlTask {
 
     @Inject
-    public IucrPublicationListCrawlTask(final Fetcher<URITask, CrawlerResponse> fetcher, final IucrPublicationListParserFactory parserFactory, final JournalArchiver journalArchiver, final IucrJournalHandler journalHandler) {
+    public IucrPublicationListCrawlTask(final Fetcher<UriRequest, CrawlerResponse> fetcher, final IucrPublicationListParserFactory parserFactory, final JournalArchiver journalArchiver, final IucrJournalHandler journalHandler) {
         super(fetcher, new PublicationListProcessor<DocumentResource>(parserFactory, journalArchiver, journalHandler));
     }
 

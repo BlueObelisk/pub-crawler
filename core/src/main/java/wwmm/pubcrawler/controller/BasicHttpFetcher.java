@@ -2,14 +2,14 @@ package wwmm.pubcrawler.controller;
 
 import uk.ac.cam.ch.wwmm.httpcrawler.*;
 import wwmm.pubcrawler.http.Fetcher;
-import wwmm.pubcrawler.http.URITask;
+import wwmm.pubcrawler.http.UriRequest;
 
 import javax.inject.Inject;
 
 /**
  * @author Sam Adams
  */
-public class BasicHttpFetcher implements Fetcher<URITask,CrawlerResponse> {
+public class BasicHttpFetcher implements Fetcher<UriRequest,CrawlerResponse> {
 
     private final HttpFetcher httpFetcher;
 
@@ -19,12 +19,12 @@ public class BasicHttpFetcher implements Fetcher<URITask,CrawlerResponse> {
     }
 
     @Override
-    public CrawlerResponse fetch(final URITask task) throws Exception {
+    public CrawlerResponse fetch(final UriRequest task) throws Exception {
         final CrawlerRequest request = createRequest(task);
         return httpFetcher.execute(request);
     }
 
-    private CrawlerRequest createRequest(final URITask task) {
+    private CrawlerRequest createRequest(final UriRequest task) {
         return new GetRequestBuilder()
             .withKey(task.getId())
             .withUrl(task.getUri())

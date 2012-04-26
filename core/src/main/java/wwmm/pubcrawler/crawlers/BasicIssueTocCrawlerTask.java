@@ -7,7 +7,7 @@ import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerResponse;
 import wwmm.pubcrawler.crawler.TaskData;
 import wwmm.pubcrawler.http.DocumentResource;
 import wwmm.pubcrawler.http.Fetcher;
-import wwmm.pubcrawler.http.URITask;
+import wwmm.pubcrawler.http.UriRequest;
 import wwmm.pubcrawler.model.id.JournalId;
 import wwmm.pubcrawler.model.id.PublisherId;
 import wwmm.pubcrawler.processors.IssueTocProcessor;
@@ -24,7 +24,7 @@ public abstract class BasicIssueTocCrawlerTask extends BasicHttpCrawlTask {
 
     private final IssueTocProcessor<DocumentResource> processor;
 
-    public BasicIssueTocCrawlerTask(final Fetcher<URITask, CrawlerResponse> fetcher, final IssueTocProcessor<DocumentResource> processor) {
+    public BasicIssueTocCrawlerTask(final Fetcher<UriRequest, CrawlerResponse> fetcher, final IssueTocProcessor<DocumentResource> processor) {
         super(fetcher);
         this.processor = processor;
     }

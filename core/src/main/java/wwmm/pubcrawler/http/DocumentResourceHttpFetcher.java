@@ -13,7 +13,7 @@ import java.net.URI;
 /**
  * @author Sam Adams
  */
-public abstract class DocumentResourceHttpFetcher implements Fetcher<URITask, DocumentResource> {
+public abstract class DocumentResourceHttpFetcher implements Fetcher<UriRequest, DocumentResource> {
 
     private final HttpFetcher httpFetcher;
 
@@ -23,7 +23,7 @@ public abstract class DocumentResourceHttpFetcher implements Fetcher<URITask, Do
     }
 
     @Override
-    public DocumentResource fetch(final URITask task) throws Exception {
+    public DocumentResource fetch(final UriRequest task) throws Exception {
         final CrawlerRequest request = createRequest(task);
         final CrawlerResponse response = httpFetcher.execute(request);
         final Document document = readDocument(response);
@@ -32,7 +32,7 @@ public abstract class DocumentResourceHttpFetcher implements Fetcher<URITask, Do
 
     protected abstract Document readDocument(final CrawlerResponse response) throws IOException;
 
-    protected CrawlerRequest createRequest(final URITask task) {
+    protected CrawlerRequest createRequest(final UriRequest task) {
         return new GetRequestBuilder()
             .withKey(task.getId())
             .withUrl(task.getUri())

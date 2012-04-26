@@ -21,7 +21,7 @@ import org.apache.log4j.Logger;
 import org.joda.time.Duration;
 import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerResponse;
 import wwmm.pubcrawler.http.Fetcher;
-import wwmm.pubcrawler.http.URITask;
+import wwmm.pubcrawler.http.UriRequest;
 import wwmm.pubcrawler.crawler.CrawlRunner;
 import wwmm.pubcrawler.crawler.TaskData;
 import wwmm.pubcrawler.model.id.ArticleId;
@@ -48,9 +48,9 @@ public class AcsArticleBibTexCrawlTask implements CrawlRunner {
 
     private static final Logger LOG = Logger.getLogger(AcsArticleBibTexCrawlTask.class);
     private static final Duration MAX_AGE = Duration.standardDays(9999);
-    private final Fetcher<URITask, CrawlerResponse> fetcher;
+    private final Fetcher<UriRequest, CrawlerResponse> fetcher;
 
-    public AcsArticleBibTexCrawlTask(final Fetcher<URITask, CrawlerResponse> fetcher) {
+    public AcsArticleBibTexCrawlTask(final Fetcher<UriRequest, CrawlerResponse> fetcher) {
         this.fetcher = fetcher;
     }
 
@@ -79,13 +79,13 @@ public class AcsArticleBibTexCrawlTask implements CrawlRunner {
 
         final URI url = URI.create("http://pubs.acs.org/action/downloadCitation");
         final String id = articleId.getPublisherPart() + ":bibtex:" + articleId.getJournalPart() + "/" + articleId.getArticlePart() + "/bibtex.txt";
-        fetcher.fetch(new URITask(url, id, MAX_AGE, null));
+        fetcher.fetch(new UriRequest(url, id, MAX_AGE, null));
     }
 
     private void touchDownloadPage(final ArticleId articleId, final Doi doi) throws Exception {
         final URI url = URI.create("http://pubs.acs.org/action/showCitFormats?doi=" + doi.getValue());
         final String id = articleId.getPublisherPart() + ":bibtex:" + articleId.getJournalPart() + "/" + articleId.getArticlePart() + "/download.html";
-        fetcher.fetch(new URITask(url, id, MAX_AGE, null));
+        fetcher.fetch(new UriRequest(url, id, MAX_AGE, null));
     }
 
 }

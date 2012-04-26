@@ -2,7 +2,7 @@ package wwmm.pubcrawler.crawlers.springer.tasks;
 
 import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerResponse;
 import wwmm.pubcrawler.http.Fetcher;
-import wwmm.pubcrawler.http.URITask;
+import wwmm.pubcrawler.http.UriRequest;
 import wwmm.pubcrawler.crawlers.BasicIssueListHttpCrawlTask;
 import wwmm.pubcrawler.crawlers.IssueHandler;
 import wwmm.pubcrawler.crawlers.springer.SpringerIssueListParserFactory;
@@ -17,7 +17,7 @@ import javax.inject.Inject;
 public class SpringerIssueListCrawlTask extends BasicIssueListHttpCrawlTask {
 
     @Inject
-    public SpringerIssueListCrawlTask(final Fetcher<URITask, CrawlerResponse> fetcher, final SpringerIssueListParserFactory parserFactory, final IssueHandler issueHandler) {
+    public SpringerIssueListCrawlTask(final Fetcher<UriRequest, CrawlerResponse> fetcher, final SpringerIssueListParserFactory parserFactory, final IssueHandler issueHandler) {
         super(fetcher, new IssueListProcessor<DocumentResource>(parserFactory, issueHandler));
     }
 

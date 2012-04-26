@@ -5,7 +5,7 @@ import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerResponse;
 import wwmm.pubcrawler.archivers.ArticleArchiver;
 import wwmm.pubcrawler.archivers.IssueArchiver;
 import wwmm.pubcrawler.http.Fetcher;
-import wwmm.pubcrawler.http.URITask;
+import wwmm.pubcrawler.http.UriRequest;
 import wwmm.pubcrawler.crawler.TaskData;
 import wwmm.pubcrawler.crawlers.BasicIssueTocCrawlerTask;
 import wwmm.pubcrawler.crawlers.IssueHandler;
@@ -26,7 +26,7 @@ public class RscIssueTocCrawlTask extends BasicIssueTocCrawlerTask {
     // curl -d "name=SC&issueid=sc003004&jname=Chemical Science&iscontentavailable=True" http://pubs.rsc.org/en/journals/issues
 
     @Inject
-    public RscIssueTocCrawlTask(final Fetcher<URITask, CrawlerResponse> fetcher, final RscIssueTocParserFactory parserFactory, final ArticleArchiver articleArchiver, final IssueArchiver issueArchiver, final IssueHandler issueHandler) {
+    public RscIssueTocCrawlTask(final Fetcher<UriRequest, CrawlerResponse> fetcher, final RscIssueTocParserFactory parserFactory, final ArticleArchiver articleArchiver, final IssueArchiver issueArchiver, final IssueHandler issueHandler) {
         super(fetcher, new IssueTocProcessor<DocumentResource>(issueArchiver, articleArchiver, issueHandler, parserFactory));
     }
 
@@ -36,7 +36,7 @@ public class RscIssueTocCrawlTask extends BasicIssueTocCrawlerTask {
         final URI url = URI.create(data.getString("url"));
         final URI referrer = data.containsKey("referrer") ? URI.create(data.getString("referrer")) : null;
         final String id = taskId + "/" + data.getString("fileId");
-        return fetcher.fetch(new URITask(url, id, maxAge, referrer));
+        return fetcher.fetch(new UriRequest(url, id, maxAge, referrer));
     }
 
 }
