@@ -2,6 +2,7 @@ package wwmm.pubcrawler.crawlers.acta;
 
 import com.google.inject.Provides;
 import uk.ac.cam.ch.wwmm.httpcrawler.HttpFetcher;
+import wwmm.pubcrawler.crawlers.IssueListCrawlRunner;
 import wwmm.pubcrawler.crawlers.IssueTocCrawlRunner;
 import wwmm.pubcrawler.crawlers.IssueTocCrawlTaskFactory;
 import wwmm.pubcrawler.crawlers.PublicationListCrawlRunner;
@@ -10,8 +11,10 @@ import wwmm.pubcrawler.http.Fetcher;
 import wwmm.pubcrawler.http.RequestFactory;
 import wwmm.pubcrawler.http.UriRequest;
 import wwmm.pubcrawler.inject.AbstractPublisherCrawlerModule;
+import wwmm.pubcrawler.parsers.IssueListParserFactory;
 import wwmm.pubcrawler.parsers.IssueTocParserFactory;
 import wwmm.pubcrawler.parsers.PublicationListParserFactory;
+import wwmm.pubcrawler.processors.IssueListProcessor;
 import wwmm.pubcrawler.processors.IssueTocProcessor;
 import wwmm.pubcrawler.processors.PublicationListProcessor;
 
@@ -26,6 +29,11 @@ public class IucrCrawlerModule extends AbstractPublisherCrawlerModule {
     }
 
     @Provides
+    public IssueListCrawlRunner provideIssueListCrawlRunner(final RequestFactory<UriRequest> requestFactory, final Fetcher<UriRequest, DocumentResource> fetcher, final IssueListProcessor<DocumentResource> processor) {
+        return new IssueListCrawlRunner<UriRequest, DocumentResource>(requestFactory, fetcher, processor);
+    }
+
+    @Provides
     public IssueTocCrawlRunner provideIssueTocCrawlRunner(final RequestFactory<IucrFrameRequest> requestFactory, final Fetcher<IucrFrameRequest,IucrFrameResource> fetcher, final IssueTocProcessor<IucrFrameResource> processor) {
         return new IssueTocCrawlRunner<IucrFrameRequest, IucrFrameResource>(requestFactory, fetcher, processor);
     }
@@ -34,6 +42,12 @@ public class IucrCrawlerModule extends AbstractPublisherCrawlerModule {
     public PublicationListParserFactory<DocumentResource> providePublicationListParserFactory() {
         return new IucrPublicationListParserFactory();
     }
+
+    @Provides
+    public IssueListParserFactory<DocumentResource> provideIssueListParserFactory() {
+        return new IucrIssueListParserFactory();
+    }
+
 
     @Provides
     public IssueTocParserFactory<IucrFrameResource> provideIssueTocParserFactory() {
