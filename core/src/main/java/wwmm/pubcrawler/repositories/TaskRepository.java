@@ -16,4 +16,6 @@ public interface TaskRepository {
     List<String> getWaitingTaskIds(final String filter);
 
     List<CrawlTask> getNextQueuedTaskBatch(long now, int batchSize);
+
+    void rescheduleTask(String taskId, long timestamp);
 }
