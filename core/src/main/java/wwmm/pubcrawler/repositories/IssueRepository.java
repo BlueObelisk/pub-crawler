@@ -18,4 +18,6 @@ public interface IssueRepository {
     void updateIssue(Issue issue);
 
     void saveOrUpdateIssue(Issue issue);
+
+    List<Issue> getIssueBatch(long offset, int maxResults);
 }

@@ -44,8 +44,8 @@ public class MongoTaskRepository implements TaskRepository {
     @Override
     public List<String> getWaitingTaskIds(final String filter) {
         final BasicDBObject query = new BasicDBObject("$and", Arrays.asList(
-            new BasicDBObject("id", Pattern.compile("^" + Pattern.quote(filter))),
-            new BasicDBObject("run", new BasicDBObject("$ne", true))
+                                                                            new BasicDBObject("id", Pattern.compile("^" + Pattern.quote(filter))),
+                                                                            new BasicDBObject("run", new BasicDBObject("$ne", true))
         ));
 
         final List<String> tasks = new ArrayList<String>();
@@ -87,6 +87,15 @@ public class MongoTaskRepository implements TaskRepository {
         return tasks;
     }
 
+    @Override
+    public void rescheduleTask(final String taskId, final long timestamp) {
+        final BasicDBObject query = new BasicDBObject("id", taskId);
+        final BasicDBObject update = new BasicDBObject();
+        update.put("schedule", timestamp);
+        update.put("queued", false);
+        collection.update(query, new BasicDBObject("$set", update));
+    }
+
     private boolean shouldReRun(final CrawlTask task, final DBObject dbTask) {
         if (task.getInterval() != null && dbTask.containsField("lastRun")) {
             final DateTime lastRun = new DateTime(dbTask.get("lastRun"));
@@ -97,8 +106,8 @@ public class MongoTaskRepository implements TaskRepository {
 
     private List<CrawlTask> findNextQueuedTaskBatch(final long now) {
         final DBObject query = new BasicDBObject("$and", asList(
-            new BasicDBObject("nextRun", new BasicDBObject("$not", new BasicDBObject("$gt", now))),
-            new BasicDBObject("queued", new BasicDBObject("$ne", true))
+                                                                new BasicDBObject("schedule", new BasicDBObject("$not", new BasicDBObject("$gt", now))),
+                                                                new BasicDBObject("queued", new BasicDBObject("$ne", true))
         ));
 
         final List<CrawlTask> tasks = new ArrayList<CrawlTask>();

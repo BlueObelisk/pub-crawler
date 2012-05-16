@@ -24,6 +24,12 @@ import java.net.URI;
  */
 public abstract class AbstractResource extends PubcrawlerObject<ResourceId> {
 
+    private static final String LINK_TEXT = "linkText";
+    private static final String CONTENT_TYPE = "contentType";
+    private static final String DESCRIPTION = "description";
+    private static final String LENGTH = "length";
+    private static final String FILEPATH = "filepath";
+
     protected AbstractResource() { }
 
     protected AbstractResource(final ResourceId id, final URI url) {
@@ -39,47 +45,47 @@ public abstract class AbstractResource extends PubcrawlerObject<ResourceId> {
 
 
     public String getLinkText() {
-        return getString("linkText");
+        return getString(LINK_TEXT);
     }
 
     public void setLinkText(final String linkText) {
-        put("linkText", linkText);
+        put(LINK_TEXT, linkText);
     }
 
 
     public String getContentType() {
-        return getString("contentType");
+        return getString(CONTENT_TYPE);
     }
 
     public void setContentType(final String contentType) {
-        put("contentType", contentType);
+        put(CONTENT_TYPE, contentType);
     }
 
 
     public String getDescription() {
-        return getString("description");
+        return getString(DESCRIPTION);
     }
 
     public void setDescription(final String description) {
-        put("description", description);
+        put(DESCRIPTION, description);
     }
 
 
     public Long getLength() {
-        return getLong("length");
+        return getLong(LENGTH);
     }
 
     public void setLength(final Long length) {
-        put("length", length);
+        put(LENGTH, length);
     }
 
 
     public String getFilePath() {
-        return getString("filepath");
+        return getString(FILEPATH);
     }
 
     public void setFilePath(final String filePath) {
-        put("filepath", filePath);
+        put(FILEPATH, filePath);
     }
 
     

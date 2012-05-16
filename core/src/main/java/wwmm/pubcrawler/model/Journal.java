@@ -24,7 +24,8 @@ import java.util.List;
 
 public class Journal extends PubcrawlerObject<JournalId> {
 
-	private String abbreviation;
+    private static final String ISSUES = "issues";
+    private String abbreviation;
     private String title;
     private Integer offset;
     private List<String> previousTitles;
@@ -37,7 +38,7 @@ public class Journal extends PubcrawlerObject<JournalId> {
         setId(new JournalId(publisherId, abbreviation));
 		this.abbreviation = abbreviation;
 		this.title = title;
-        put("issues", new String[0]);
+        put(ISSUES, new String[0]);
 	}
 
     public Journal(final PublisherId publisherId, final String abbreviation, final String title) {
