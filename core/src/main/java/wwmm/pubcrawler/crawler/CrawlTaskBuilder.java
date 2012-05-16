@@ -11,9 +11,9 @@ import java.util.Map;
 public class CrawlTaskBuilder {
 
     private String id;
-    private Duration interval;
+    private Duration interval = Duration.standardDays(999);
     private Class<? extends CrawlRunner> jobClass;
-    private Map<String,String> data;
+    private Map<String,String> data = Collections.emptyMap();
 
     public static CrawlTaskBuilder newJob() {
         return new CrawlTaskBuilder();

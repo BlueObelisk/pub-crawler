@@ -27,6 +27,17 @@ import java.util.List;
  */
 public class Article extends PubcrawlerObject<ArticleId> {
 
+    private static final String TITLE = "title";
+    private static final String AUTHORS = "authors";
+    private static final String REFERENCE = "reference";
+    private static final String ABSTRACT = "abstract";
+    private static final String DOI = "doi";
+    private static final String TITLE_HTML = "title-html";
+    private static final String ABSTRACT_HTML = "abstract-html";
+    private static final String SUPP_RESOURCES = "suppResources";
+    private static final String FULL_TEXT = "fullText";
+    private static final String SUPP_URL = "suppUrl";
+
     private IssueId issueRef;
 
     public Article() {
@@ -51,95 +62,95 @@ public class Article extends PubcrawlerObject<ArticleId> {
     }
 
     public String getTitle() {
-        return getString("title");
+        return getString(TITLE);
     }
 
     public void setTitle(final String title) {
-        put("title", title);
+        put(TITLE, title);
     }
 
 
     public List<String> getAuthors() {
-        return (List<String>) get("authors");
+        return (List<String>) get(AUTHORS);
     }
 
     public void setAuthors(final List<String> authors) {
-        put("authors", authors);
+        put(AUTHORS, authors);
     }
 
 
     public Reference getReference() {
-        return (Reference) get("reference");
+        return (Reference) get(REFERENCE);
     }
 
     public void setReference(final Reference reference) {
-        put("reference", reference);
+        put(REFERENCE, reference);
     }
 
 
 
     public String getAbstractText() {
-        return getString("abstract");
+        return getString(ABSTRACT);
     }
 
     public void setAbstractText(final String abstractText) {
-        put("abstract", abstractText);
+        put(ABSTRACT, abstractText);
     }
 
 
     public Doi getDoi() {
-        final String s = getString("doi");
+        final String s = getString(DOI);
         return s == null ? null : new Doi(s);
     }
 
     public void setDoi(final Doi doi) {
-        put("doi", doi == null ? null : doi.getValue());
+        put(DOI, doi == null ? null : doi.getValue());
     }
 
 
     public String getTitleHtml() {
-        return getString("title-html");
+        return getString(TITLE_HTML);
     }
 
     public void setTitleHtml(final String titleHtml) {
-        put("title-html", titleHtml);
+        put(TITLE_HTML, titleHtml);
     }
 
 
     public String getAbstractHtml() {
-        return getString("abstact-html");
+        return getString(ABSTRACT_HTML);
     }
 
     public void setAbstractHtml(final String abstractHtml) {
-        put("abstract-html", abstractHtml);
+        put(ABSTRACT_HTML, abstractHtml);
     }
 
 
     public List<SupplementaryResource> getSupplementaryResources() {
-        return (List<SupplementaryResource>) get("suppResources");
+        return (List<SupplementaryResource>) get(SUPP_RESOURCES);
     }
 
     public void setSupplementaryResources(final List<SupplementaryResource> supplementaryResources) {
-        put("suppResources", supplementaryResources);
+        put(SUPP_RESOURCES, supplementaryResources);
     }
 
 
     public List<FullTextResource> getFullTextResources() {
-        return (List<FullTextResource>) get("fullText");
+        return (List<FullTextResource>) get(FULL_TEXT);
     }
 
     public void setFullTextResources(final List<FullTextResource> fullTextResources) {
-        put("fullText", fullTextResources);
+        put(FULL_TEXT, fullTextResources);
     }
 
     public URI getSupplementaryResourceUrl() {
-        final String s = getString("suppUrl");
+        final String s = getString(SUPP_URL);
         return s == null ? null : URI.create(s);
     }
 
     public void setSupplementaryResourceUrl(final URI url) {
         final String s = url == null ? null : url.toString();
-        put("suppUrl", s);
+        put(SUPP_URL, s);
     }
 
     public IssueId getIssueRef() {
