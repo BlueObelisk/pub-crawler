@@ -1,6 +1,7 @@
 package wwmm.pubcrawler.crawlers.elsevier;
 
 import org.joda.time.Duration;
+import wwmm.pubcrawler.crawlers.HttpCrawlTask;
 import wwmm.pubcrawler.crawlers.elsevier.tasks.ElsevierIssueTocCrawlTask;
 import wwmm.pubcrawler.model.id.PublisherId;
 import wwmm.pubcrawler.crawler.CrawlTask;
@@ -9,6 +10,9 @@ import wwmm.pubcrawler.crawler.CrawlTaskBuilder;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
+
+import static wwmm.pubcrawler.crawlers.HttpCrawlTask.FILE_ID;
+import static wwmm.pubcrawler.crawlers.HttpCrawlTask.URL;
 
 /**
  * @author Sam Adams
@@ -21,8 +25,8 @@ public class Elsevier {
 
     public static CrawlTask createIssueTocTask(final URI url, final String journal, final String id) {
         final Map<String, String> map = new HashMap<String, String>();
-        map.put("url", url.toString());
-        map.put("fileId", "toc.html");
+        map.put(URL, url.toString());
+        map.put(FILE_ID, "toc.html");
         map.put("journal", journal);
 
         return new CrawlTaskBuilder()

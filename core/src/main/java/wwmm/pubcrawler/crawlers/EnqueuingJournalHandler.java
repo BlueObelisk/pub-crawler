@@ -1,8 +1,8 @@
 package wwmm.pubcrawler.crawlers;
 
-import wwmm.pubcrawler.model.Journal;
-import wwmm.pubcrawler.crawler.CrawlTask;
+import wwmm.pubcrawler.crawler.Task;
 import wwmm.pubcrawler.crawler.TaskQueue;
+import wwmm.pubcrawler.model.Journal;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -24,7 +24,7 @@ public class EnqueuingJournalHandler implements JournalHandler {
 
     @Override
     public void handleJournal(final Journal journal) {
-        final CrawlTask task = taskFactory.createCurrentIssueTocCrawlTask(journal.getId(), journal.getUrl());
+        final Task task = taskFactory.createCurrentIssueTocCrawlTask(journal.getId(), journal.getUrl());
         if (task != null) {
             taskQueue.queueTask(task);
         }

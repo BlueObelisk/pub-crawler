@@ -1,6 +1,6 @@
 package wwmm.pubcrawler.repositories;
 
-import wwmm.pubcrawler.crawler.CrawlTask;
+import wwmm.pubcrawler.crawler.Task;
 
 import java.util.List;
 
@@ -9,13 +9,13 @@ import java.util.List;
  */
 public interface TaskRepository {
 
-    CrawlTask getTask(String taskId);
+    Task getTask(String taskId);
 
-    boolean updateTask(CrawlTask task);
+    boolean updateTask(Task task);
 
     List<String> getWaitingTaskIds(final String filter);
 
-    List<CrawlTask> getNextQueuedTaskBatch(long now, int batchSize);
+    List<Task> getNextQueuedTaskBatch(long now, int batchSize);
 
     void rescheduleTask(String taskId, long timestamp);
 }

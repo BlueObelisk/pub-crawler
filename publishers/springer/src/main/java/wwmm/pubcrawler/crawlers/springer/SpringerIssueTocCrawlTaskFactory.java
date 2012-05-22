@@ -3,6 +3,8 @@ package wwmm.pubcrawler.crawlers.springer;
 import wwmm.pubcrawler.crawlers.AbstractIssueTocCrawlTaskFactory;
 import wwmm.pubcrawler.crawlers.springer.tasks.SpringerIssueTocCrawlTask;
 import wwmm.pubcrawler.crawler.CrawlRunner;
+import wwmm.pubcrawler.tasks.IssueTocCrawlTaskData;
+import wwmm.pubcrawler.tasks.TaskSpecification;
 
 /**
  * @author Sam Adams
@@ -10,8 +12,8 @@ import wwmm.pubcrawler.crawler.CrawlRunner;
 public class SpringerIssueTocCrawlTaskFactory extends AbstractIssueTocCrawlTaskFactory {
 
     @Override
-    protected Class<? extends CrawlRunner> getCrawlerType() {
-        return SpringerIssueTocCrawlTask.class;
+    protected TaskSpecification<IssueTocCrawlTaskData> getCrawlerType() {
+        return SpringerIssueTocCrawlTask.INSTANCE;
     }
 
 }

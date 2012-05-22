@@ -26,7 +26,7 @@ public class PublicationListCrawlRunner<Request, Resource> implements CrawlRunne
 
     @Override
     public void run(final String id, final TaskData data) throws Exception {
-        final Request request = requestFactory.createFetchTask(id, data);
+        final Request request = requestFactory.createFetchTask(id, null);
         final Resource resource = fetcher.fetch(request);
         processor.processPublicationList(resource);
     }

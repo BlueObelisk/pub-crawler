@@ -1,25 +1,21 @@
 package wwmm.pubcrawler.crawlers.acta;
 
 import org.joda.time.Duration;
-import wwmm.pubcrawler.crawler.CrawlTask;
-import wwmm.pubcrawler.crawler.CrawlTaskBuilder;
+import wwmm.pubcrawler.crawler.Task;
+import wwmm.pubcrawler.crawler.TaskBuilder;
 import wwmm.pubcrawler.crawlers.acta.tasks.IucrPublicationListCrawlTask;
+import wwmm.pubcrawler.tasks.HttpCrawlTaskData;
 
-import java.util.HashMap;
-import java.util.Map;
+import static wwmm.pubcrawler.Config.PUBLICATION_LIST_CACHE_MAX_AGE;
 
 public class IucrPublicationListCrawlTaskFactory {
 
-    public CrawlTask createCrawlTask() {
-        final Map<String, String> data = new HashMap<String, String>();
-        data.put("url", Iucr.JOURNALS_URL.toString());
-        data.put("fileId", "index.html");
-
-        return new CrawlTaskBuilder()
-            .ofType(IucrPublicationListCrawlTask.class)
-            .withData(data)
-            .withInterval(Duration.standardDays(1))
-            .withId("iucr:journal-list")
-            .build();
+    public Task createCrawlTask() {
+        final HttpCrawlTaskData data = new HttpCrawlTaskData(Iucr.JOURNALS_URL, "index.html", PUBLICATION_LIST_CACHE_MAX_AGE, null);
+        return TaskBuilder.newTask(IucrPublicationListCrawlTask.INSTANCE)
+                .withId("iucr:journal-list")
+                .withInterval(Duration.standardDays(1))
+                .withData(data)
+                .build();
     }
 }

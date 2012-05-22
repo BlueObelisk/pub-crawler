@@ -5,7 +5,7 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import org.joda.time.DateTime;
-import wwmm.pubcrawler.crawler.CrawlTask;
+import wwmm.pubcrawler.crawler.Task;
 import wwmm.pubcrawler.inject.Tasks;
 import wwmm.pubcrawler.repositories.TaskRepository;
 
@@ -33,11 +33,10 @@ public class MongoTaskRepository implements TaskRepository {
     }
 
     @Override
-    public CrawlTask getTask(final String taskId) {
+    public Task getTask(final String taskId) {
         final BasicDBObject query = new BasicDBObject("id", taskId);
         final BasicDBObject update = new BasicDBObject("$set", new BasicDBObject("run", true));
-        final DBObject task = collection.findAndModify(query, update);
-
+        final BasicDBObject task = (BasicDBObject) collection.findAndModify(query, update);
         return mongoTaskMapper.mapBsonToTask(task);
     }
 
@@ -62,7 +61,7 @@ public class MongoTaskRepository implements TaskRepository {
     }
 
     @Override
-    public boolean updateTask(final CrawlTask task) {
+    public boolean updateTask(final Task task) {
         final DBObject dbTask = collection.findOne(new BasicDBObject("id", task.getId()));
         if (dbTask == null) {
             collection.save(mongoTaskMapper.mapTaskToBson(task));
@@ -78,8 +77,8 @@ public class MongoTaskRepository implements TaskRepository {
     }
 
     @Override
-    public List<CrawlTask> getNextQueuedTaskBatch(final long now, final int batchSize) {
-        final List<CrawlTask> tasks = findNextQueuedTaskBatch(now);
+    public List<Task> getNextQueuedTaskBatch(final long now, final int batchSize) {
+        final List<Task> tasks = findNextQueuedTaskBatch(now);
         if (!tasks.isEmpty()) {
             final List<String> ids = getTaskIds(tasks);
             markQueuedTasks(ids);
@@ -96,7 +95,7 @@ public class MongoTaskRepository implements TaskRepository {
         collection.update(query, new BasicDBObject("$set", update));
     }
 
-    private boolean shouldReRun(final CrawlTask task, final DBObject dbTask) {
+    private boolean shouldReRun(final Task task, final DBObject dbTask) {
         if (task.getInterval() != null && dbTask.containsField("lastRun")) {
             final DateTime lastRun = new DateTime(dbTask.get("lastRun"));
             return lastRun.plus(task.getInterval()).isBeforeNow();
@@ -104,17 +103,17 @@ public class MongoTaskRepository implements TaskRepository {
         return false;
     }
 
-    private List<CrawlTask> findNextQueuedTaskBatch(final long now) {
+    private List<Task> findNextQueuedTaskBatch(final long now) {
         final DBObject query = new BasicDBObject("$and", asList(
-                                                                new BasicDBObject("schedule", new BasicDBObject("$not", new BasicDBObject("$gt", now))),
-                                                                new BasicDBObject("queued", new BasicDBObject("$ne", true))
+                                        new BasicDBObject("schedule", new BasicDBObject("$not", new BasicDBObject("$gt", now))),
+                                        new BasicDBObject("queued", new BasicDBObject("$ne", true))
         ));
 
-        final List<CrawlTask> tasks = new ArrayList<CrawlTask>();
+        final List<Task> tasks = new ArrayList<Task>();
         final DBCursor cursor = collection.find(query).limit(16);
         try {
             while (cursor.hasNext()) {
-                tasks.add(mongoTaskMapper.mapBsonToTask(cursor.next()));
+                tasks.add(mongoTaskMapper.mapBsonToTask((BasicDBObject) cursor.next()));
             }
         } finally {
             cursor.close();
@@ -122,9 +121,9 @@ public class MongoTaskRepository implements TaskRepository {
         return tasks;
     }
 
-    private List<String> getTaskIds(final List<CrawlTask> tasks) {
+    private List<String> getTaskIds(final List<Task> tasks) {
         final List<String> ids = new ArrayList<String>(tasks.size());
-        for (final CrawlTask task : tasks) {
+        for (final Task task : tasks) {
             ids.add(task.getId());
         }
         return ids;

@@ -1,21 +1,18 @@
 package wwmm.pubcrawler.http;
 
-import org.joda.time.Duration;
-import wwmm.pubcrawler.crawler.TaskData;
+import wwmm.pubcrawler.tasks.HttpCrawlTaskData;
 
-import java.net.URI;
+import static java.lang.String.format;
 
 /**
  * @author Sam Adams
  */
 public class UriRequestFactory implements RequestFactory<UriRequest> {
 
+    private static final String FILE_ID = "%s/%s";
+
     @Override
-    public UriRequest createFetchTask(final String taskId, final TaskData data) {
-        final Duration maxAge = data.containsKey("maxAge") ? new Duration(Long.valueOf(data.getString("maxAge"))) : null;
-        final URI url = URI.create(data.getString("url"));
-        final URI referrer = data.containsKey("referrer") ? URI.create(data.getString("referrer")) : null;
-        final String id = taskId + "/" + data.getString("fileId");
-        return new UriRequest(url, id, maxAge, referrer);
+    public UriRequest createFetchTask(final String taskId, final HttpCrawlTaskData data) {
+        return new UriRequest(data.getUrl(), format(FILE_ID, taskId, data.getFileId()), data.getMaxAge(), data.getReferrer());
     }
 }

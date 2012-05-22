@@ -3,6 +3,7 @@ package wwmm.pubcrawler.crawlers.acta.tasks;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import wwmm.pubcrawler.crawler.CrawlTask;
+import wwmm.pubcrawler.crawler.Task;
 import wwmm.pubcrawler.crawler.TaskQueue;
 import wwmm.pubcrawler.crawlers.acta.IucrPublicationListCrawlTaskFactory;
 
@@ -34,7 +35,7 @@ public class IucrBibliographyCrawlSeedTask implements Runnable {
     }
 
     private void enqueueSeedTask() {
-        final CrawlTask task = iucrPublicationListCrawlTaskFactory.createCrawlTask();
+        final Task task = iucrPublicationListCrawlTaskFactory.createCrawlTask();
         taskQueue.queueTask(task);
     }
 }

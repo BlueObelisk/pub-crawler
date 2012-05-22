@@ -1,16 +1,18 @@
 package wwmm.pubcrawler.crawlers.acta;
 
-import org.joda.time.Duration;
-import wwmm.pubcrawler.crawler.CrawlTask;
-import wwmm.pubcrawler.crawler.CrawlTaskBuilder;
+import wwmm.pubcrawler.crawler.Task;
+import wwmm.pubcrawler.crawler.TaskBuilder;
 import wwmm.pubcrawler.crawler.TaskQueue;
 import wwmm.pubcrawler.crawlers.JournalHandler;
 import wwmm.pubcrawler.crawlers.acta.tasks.IucrIssueListCrawlerTask;
 import wwmm.pubcrawler.model.Journal;
+import wwmm.pubcrawler.tasks.IssueListCrawlTaskData;
 
 import javax.inject.Inject;
-import java.util.HashMap;
-import java.util.Map;
+import java.net.URI;
+
+import static wwmm.pubcrawler.Config.ISSUE_LIST_CACHE_MAX_AGE;
+import static wwmm.pubcrawler.Config.ISSUE_LIST_CRAWL_INTERVAL;
 
 /**
  * @author Sam Adams
@@ -26,23 +28,19 @@ public class IucrJournalHandler implements JournalHandler {
 
     @Override
     public void handleJournal(final Journal journal) {
-        CrawlTask task = createTask(journal);
+        Task task = createTask(journal);
         taskQueue.queueTask(task);
     }
 
-    private CrawlTask createTask(final Journal journal) {
-        final Map<String, String> map = new HashMap<String, String>();
-        map.put("url", "http://journals.iucr.org/" + journal.getAbbreviation() +"/contents/backissuesbdy.html");
-        map.put("fileId", "issuelist.html");
-        map.put("publisher", "iucr");
-        map.put("journal", journal.getAbbreviation());
+    private Task createTask(final Journal journal) {
+        final URI url = URI.create("http://journals.iucr.org/" + journal.getAbbreviation() +"/contents/backissuesbdy.html");
+        final IssueListCrawlTaskData data = new IssueListCrawlTaskData(url, "issuelist.html", ISSUE_LIST_CACHE_MAX_AGE, "iucr", journal.getAbbreviation());
 
-        return new CrawlTaskBuilder()
-            .ofType(IucrIssueListCrawlerTask.class)
-            .withInterval(Duration.standardDays(1))
-            .withId("iucr:issue-list:" + journal.getAbbreviation())
-            .withData(map)
-            .build();
+        return TaskBuilder.newTask(IucrIssueListCrawlerTask.INSTANCE)
+                .withId("iucr:issue-list:" + journal.getAbbreviation())
+                .withInterval(ISSUE_LIST_CRAWL_INTERVAL)
+                .withData(data)
+                .build();
     }
 
 }

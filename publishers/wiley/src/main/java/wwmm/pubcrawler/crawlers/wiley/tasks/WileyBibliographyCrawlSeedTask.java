@@ -2,9 +2,10 @@ package wwmm.pubcrawler.crawlers.wiley.tasks;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import wwmm.pubcrawler.crawler.CrawlTask;
+import wwmm.pubcrawler.crawler.Task;
 import wwmm.pubcrawler.crawler.TaskQueue;
 import wwmm.pubcrawler.crawlers.wiley.WileyPublicationListCrawlTaskFactory;
+import wwmm.pubcrawler.tasks.HttpCrawlTaskData;
 
 import javax.inject.Inject;
 
@@ -34,7 +35,7 @@ public class WileyBibliographyCrawlSeedTask implements Runnable {
     }
 
     private void enqueueSeedTask() {
-        final CrawlTask task = crawlTaskFactory.createCrawlTask();
+        final Task<HttpCrawlTaskData> task = crawlTaskFactory.createCrawlTask();
         taskQueue.queueTask(task);
     }
 }

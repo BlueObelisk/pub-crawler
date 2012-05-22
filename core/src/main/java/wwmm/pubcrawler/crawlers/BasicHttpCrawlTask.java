@@ -29,10 +29,10 @@ public abstract class BasicHttpCrawlTask extends HttpCrawlTask implements CrawlR
     protected abstract void handleResponse(final String id, final TaskData data, final CrawlerResponse response) throws Exception;
 
     protected CrawlerResponse fetchResource(final String taskId, final TaskData data) throws Exception {
-        final Duration maxAge = data.containsKey("maxAge") ? new Duration(Long.valueOf(data.getString("maxAge"))) : null;
-        final URI url = URI.create(data.getString("url"));
-        final URI referrer = data.containsKey("referrer") ? URI.create(data.getString("referrer")) : null;
-        return fetchResource(taskId, data.getString("fileId"), url, referrer, maxAge);
+        final Duration maxAge = data.containsKey(MAX_AGE) ? new Duration(data.getString(MAX_AGE)) : null;
+        final URI url = URI.create(data.getString(URL));
+        final URI referrer = data.containsKey(REFERRER) ? URI.create(data.getString(REFERRER)) : null;
+        return fetchResource(taskId, data.getString(FILE_ID), url, referrer, maxAge);
     }
 
 }

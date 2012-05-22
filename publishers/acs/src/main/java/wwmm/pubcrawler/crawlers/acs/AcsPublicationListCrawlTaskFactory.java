@@ -1,29 +1,24 @@
 package wwmm.pubcrawler.crawlers.acs;
 
-import org.joda.time.Duration;
-import wwmm.pubcrawler.crawler.CrawlTask;
-import wwmm.pubcrawler.crawler.CrawlTaskBuilder;
+import wwmm.pubcrawler.crawler.Task;
+import wwmm.pubcrawler.crawler.TaskBuilder;
 import wwmm.pubcrawler.crawlers.acs.tasks.AcsPublicationListCrawlTask;
+import wwmm.pubcrawler.tasks.HttpCrawlTaskData;
 
-import java.util.HashMap;
-import java.util.Map;
+import static wwmm.pubcrawler.Config.PUBLICATION_LIST_CACHE_MAX_AGE;
+import static wwmm.pubcrawler.Config.PUBLICATION_LIST_CRAWL_INTERVAL;
 
 /**
  * @author Sam Adams
  */
 public class AcsPublicationListCrawlTaskFactory {
     
-    public CrawlTask createCrawlTask() {
-        final Map<String,String> data = new HashMap<String, String>();
-        data.put("url", Acs.JOURNAL_LIST_URL.toString());
-        data.put("fileId", "index.html");
-
-        return new CrawlTaskBuilder()
-            .ofType(AcsPublicationListCrawlTask.class)
-            .withData(data)
-            .withInterval(Duration.standardDays(1))
-            .withId("acs:journal-list")
-            .build();
+    public Task createCrawlTask() {
+        return TaskBuilder.newTask(AcsPublicationListCrawlTask.INSTANCE)
+                .withId("acs:journal-list")
+                .withInterval(PUBLICATION_LIST_CRAWL_INTERVAL)
+                .withData(new HttpCrawlTaskData(Acs.JOURNAL_LIST_URL, "index.html", PUBLICATION_LIST_CACHE_MAX_AGE, null))
+                .build();
     }
-    
+
 }

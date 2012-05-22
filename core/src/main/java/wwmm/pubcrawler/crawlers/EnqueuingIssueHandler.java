@@ -1,5 +1,6 @@
 package wwmm.pubcrawler.crawlers;
 
+import wwmm.pubcrawler.crawler.Task;
 import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.crawler.CrawlTask;
 import wwmm.pubcrawler.crawler.TaskQueue;
@@ -33,7 +34,7 @@ public class EnqueuingIssueHandler implements IssueHandler {
     }
 
     private void enqueueIssue(final Issue issue) {
-        final CrawlTask task = taskFactory.createIssueTocCrawlTask(issue.getId(), issue.getUrl());
+        final Task task = taskFactory.createIssueTocCrawlTask(issue.getId(), issue.getUrl());
         if (task != null) {
             taskQueue.queueTask(task);
         }
