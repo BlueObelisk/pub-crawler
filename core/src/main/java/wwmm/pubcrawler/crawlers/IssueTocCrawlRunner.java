@@ -25,7 +25,7 @@ public class IssueTocCrawlRunner<Request, Resource> implements CrawlRunner {
 
     @Override
     public void run(final String id, final TaskData data) throws Exception {
-        final Request request = requestFactory.createFetchTask(id, data);
+        final Request request = requestFactory.createFetchTask(id, null);
 
         final PublisherId publisherId = new PublisherId(data.getString("publisher"));
         final JournalId journalId = new JournalId(publisherId, data.getString("journal"));

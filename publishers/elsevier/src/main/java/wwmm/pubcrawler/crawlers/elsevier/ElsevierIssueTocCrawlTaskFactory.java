@@ -2,7 +2,8 @@ package wwmm.pubcrawler.crawlers.elsevier;
 
 import wwmm.pubcrawler.crawlers.AbstractIssueTocCrawlTaskFactory;
 import wwmm.pubcrawler.crawlers.elsevier.tasks.ElsevierIssueTocCrawlTask;
-import wwmm.pubcrawler.crawler.CrawlRunner;
+import wwmm.pubcrawler.tasks.IssueTocCrawlTaskData;
+import wwmm.pubcrawler.tasks.TaskSpecification;
 
 import javax.inject.Singleton;
 
@@ -13,8 +14,8 @@ import javax.inject.Singleton;
 public class ElsevierIssueTocCrawlTaskFactory extends AbstractIssueTocCrawlTaskFactory {
 
     @Override
-    protected Class<? extends CrawlRunner> getCrawlerType() {
-        return ElsevierIssueTocCrawlTask.class;
+    protected TaskSpecification<IssueTocCrawlTaskData> getCrawlerType() {
+        return ElsevierIssueTocCrawlTask.INSTANCE;
     }
 
 }

@@ -3,6 +3,8 @@ package wwmm.pubcrawler.crawlers.rsc;
 import wwmm.pubcrawler.crawler.CrawlRunner;
 import wwmm.pubcrawler.crawlers.AbstractIssueTocCrawlTaskFactory;
 import wwmm.pubcrawler.crawlers.rsc.tasks.RscIssueTocCrawlTask;
+import wwmm.pubcrawler.tasks.IssueTocCrawlTaskData;
+import wwmm.pubcrawler.tasks.TaskSpecification;
 
 import javax.inject.Singleton;
 
@@ -13,8 +15,8 @@ import javax.inject.Singleton;
 public class RscIssueTocCrawlTaskFactory extends AbstractIssueTocCrawlTaskFactory {
 
     @Override
-    protected Class<? extends CrawlRunner> getCrawlerType() {
-        return RscIssueTocCrawlTask.class;
+    protected TaskSpecification<IssueTocCrawlTaskData> getCrawlerType() {
+        return RscIssueTocCrawlTask.INSTANCE;
     }
 
 }

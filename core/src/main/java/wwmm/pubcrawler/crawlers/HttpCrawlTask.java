@@ -4,7 +4,6 @@ import org.joda.time.Duration;
 import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerResponse;
 import wwmm.pubcrawler.http.Fetcher;
 import wwmm.pubcrawler.http.UriRequest;
-import wwmm.pubcrawler.crawler.CrawlRunner;
 
 import javax.inject.Inject;
 import java.net.URI;
@@ -12,8 +11,12 @@ import java.net.URI;
 /**
  * @author Sam Adams
  */
-public abstract class HttpCrawlTask implements CrawlRunner {
+public abstract class HttpCrawlTask {
 
+    public static final String MAX_AGE = "maxAge";
+    public static final String URL = "url";
+    public static final String REFERRER = "referrer";
+    public static final String FILE_ID = "fileId";
     protected final Fetcher<UriRequest,CrawlerResponse> fetcher;
 
     @Inject

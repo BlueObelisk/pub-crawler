@@ -1,33 +1,27 @@
 package wwmm.pubcrawler.crawlers.springer;
 
-import org.joda.time.Duration;
+import wwmm.pubcrawler.Config;
+import wwmm.pubcrawler.crawler.Task;
+import wwmm.pubcrawler.crawler.TaskBuilder;
 import wwmm.pubcrawler.crawlers.springer.tasks.SpringerPublicationListCrawlTask;
-import wwmm.pubcrawler.crawler.CrawlTask;
-import wwmm.pubcrawler.crawler.CrawlTaskBuilder;
 
 import java.net.URI;
-import java.util.HashMap;
-import java.util.Map;
+
+import static wwmm.pubcrawler.Config.PUBLICATION_LIST_CACHE_MAX_AGE;
 
 /**
  * @author Sam Adams
  */
 public class SpringerPublicationListCrawlTaskFactory {
 
-    public CrawlTask createIssueListCrawlTask(final URI url, final String key, final int page) {
-        // Fetch pages
-        final Map<String,String> data = new HashMap<String, String>();
-        data.put("url", url.toString());
-        data.put("fileId", "journals_" + key + "_" + page + ".html");
-        data.put("key", key);
-        data.put("page", Integer.toString(page));
+    public Task<SpringerPublicationListCrawlTaskData> createIssueListCrawlTask(final URI url, final String key, final int page) {
+        final SpringerPublicationListCrawlTaskData data = new SpringerPublicationListCrawlTaskData(url, Config.PUBLICATION_LIST_CACHE_MAX_AGE, key, page);
 
-        return new CrawlTaskBuilder()
-            .ofType(SpringerPublicationListCrawlTask.class)
-            .withData(data)
-            .withInterval(Duration.standardDays(1))
-            .withId("springer:journal-list/" + key + "/" + page)
-            .build();
+        return TaskBuilder.newTask(SpringerPublicationListCrawlTask.INSTANCE)
+                .withId("springer:journal-list/" + key + "/" + page)
+                .withInterval(PUBLICATION_LIST_CACHE_MAX_AGE)
+                .withData(data)
+                .build();
     }
 
 }

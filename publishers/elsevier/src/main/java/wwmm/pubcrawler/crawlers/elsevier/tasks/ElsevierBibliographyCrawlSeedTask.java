@@ -3,6 +3,7 @@ package wwmm.pubcrawler.crawlers.elsevier.tasks;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import wwmm.pubcrawler.crawler.CrawlTask;
+import wwmm.pubcrawler.crawler.Task;
 import wwmm.pubcrawler.crawler.TaskQueue;
 import wwmm.pubcrawler.crawlers.elsevier.ElsevierPublicationListCrawlTaskFactory;
 
@@ -34,7 +35,7 @@ public class ElsevierBibliographyCrawlSeedTask implements Runnable {
     }
 
     private void enqueueSeedTask() {
-        final CrawlTask task = crawlTaskFactory.createCrawlTask();
+        final Task task = crawlTaskFactory.createCrawlTask();
         taskQueue.queueTask(task);
     }
 }

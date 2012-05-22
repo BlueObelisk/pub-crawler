@@ -31,7 +31,7 @@ public class MongoIssueRepository implements IssueRepository {
 
     @Override
     public Issue getIssue(final String publisher, final String journal, final String id) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -50,12 +50,12 @@ public class MongoIssueRepository implements IssueRepository {
 
     @Override
     public void addArticles(final Issue issue, final String... issues) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public void updateIssue(final Issue issue) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -69,6 +69,11 @@ public class MongoIssueRepository implements IssueRepository {
         }
     }
 
+    @Override
+    public List<Issue> getIssueBatch(final long offset, final int maxResults) {
+        throw new UnsupportedOperationException();
+    }
+
     private void save(final Issue issue) {
         final DBObject dbObject = mongoIssueMapper.mapIssueToBson(issue);
 
@@ -76,6 +81,6 @@ public class MongoIssueRepository implements IssueRepository {
     }
 
     private void update(final DBObject dbObject, final Issue issue) {
-        // TODO update stored issue
+        throw new UnsupportedOperationException();
     }
 }

@@ -1,12 +1,12 @@
 package wwmm.pubcrawler.controller;
 
-import wwmm.pubcrawler.crawler.CrawlTask;
+import wwmm.pubcrawler.crawler.Task;
 
 /**
  * @author Sam Adams
  */
 public interface TaskReceiver {
 
-    void task(CrawlTask task);
+    void task(Task task);
 
 }

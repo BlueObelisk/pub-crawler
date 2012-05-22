@@ -1,11 +1,14 @@
 package wwmm.pubcrawler.crawlers.acs;
 
+import wwmm.pubcrawler.crawler.Task;
 import wwmm.pubcrawler.crawlers.AbstractIssueTocCrawlTaskFactory;
 import wwmm.pubcrawler.crawlers.acs.tasks.AcsIssueTocCrawlTask;
 import wwmm.pubcrawler.model.id.IssueId;
 import wwmm.pubcrawler.model.id.JournalId;
 import wwmm.pubcrawler.crawler.CrawlRunner;
 import wwmm.pubcrawler.crawler.CrawlTask;
+import wwmm.pubcrawler.tasks.IssueTocCrawlTaskData;
+import wwmm.pubcrawler.tasks.TaskSpecification;
 
 import javax.inject.Singleton;
 import java.net.URI;
@@ -17,13 +20,12 @@ import java.net.URI;
 public class AcsIssueTocCrawlTaskFactory extends AbstractIssueTocCrawlTaskFactory {
     
     @Override
-    public CrawlTask createCurrentIssueTocCrawlTask(final JournalId journalId, final URI url) {
+    public Task createCurrentIssueTocCrawlTask(final JournalId journalId, final URI url) {
         return createIssueTocCrawlTask(new IssueId(journalId, "current"), url);
     }
 
     @Override
-    protected Class<? extends CrawlRunner> getCrawlerType() {
-        return AcsIssueTocCrawlTask.class;
+    protected TaskSpecification<IssueTocCrawlTaskData> getCrawlerType() {
+        return AcsIssueTocCrawlTask.INSTANCE;
     }
-    
 }

@@ -23,17 +23,17 @@ public class DefaultTaskQueue implements TaskQueue {
     }
 
     @Override
-    public CrawlTask nextTask() {
+    public Task nextTask() {
         final String taskId = queue.poll();
         return taskId != null ? fetchTask(taskId) : null;
     }
 
-    private CrawlTask fetchTask(final String taskId) {
+    private Task fetchTask(final String taskId) {
         return taskRepository.getTask(taskId);
     }
 
     @Override
-    public void queueTask(final CrawlTask task) {
+    public void queueTask(final Task task) {
         if (taskRepository.updateTask(task)) {
             queue.add(task.getId());
         }

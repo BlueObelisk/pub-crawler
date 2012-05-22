@@ -5,9 +5,9 @@ package wwmm.pubcrawler.crawler;
  */
 public interface TaskQueue {
 
-    CrawlTask nextTask();
+    Task nextTask();
 
-    void queueTask(CrawlTask task);
+    void queueTask(Task task);
 
     void resumeTasks(String filter);
 }

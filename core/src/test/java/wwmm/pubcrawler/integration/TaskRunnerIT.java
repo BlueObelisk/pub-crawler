@@ -9,12 +9,15 @@ import org.junit.Before;
 import org.junit.Test;
 import wwmm.pubcrawler.controller.TaskFeeder;
 import wwmm.pubcrawler.controller.TaskReceiver;
-import wwmm.pubcrawler.crawler.CrawlRunner;
-import wwmm.pubcrawler.crawler.CrawlTask;
-import wwmm.pubcrawler.crawler.CrawlTaskBuilder;
+import wwmm.pubcrawler.crawler.Task;
+import wwmm.pubcrawler.crawler.TaskBuilder;
 import wwmm.pubcrawler.repositories.TaskRepository;
 import wwmm.pubcrawler.repositories.mongo.MongoTaskMapper;
 import wwmm.pubcrawler.repositories.mongo.MongoTaskRepository;
+import wwmm.pubcrawler.repositories.mongo.TaskSpecificationFactory;
+import wwmm.pubcrawler.tasks.Marshaller;
+import wwmm.pubcrawler.tasks.TaskRunner;
+import wwmm.pubcrawler.tasks.TaskSpecification;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -40,7 +43,7 @@ public class TaskRunnerIT {
         mongo = new Mongo();
         db = mongo.getDB("test");  // + Math.abs(new Random().nextLong()));
 
-        taskRepository = new MongoTaskRepository(db.getCollection("tasks"), new MongoTaskMapper());
+        taskRepository = new MongoTaskRepository(db.getCollection("tasks"), new MongoTaskMapper(new Factory()));
         receiver = new Receiver();
 
         taskRunner = new TaskFeeder(taskRepository, receiver, 1000L, 4);
@@ -57,9 +60,8 @@ public class TaskRunnerIT {
     @Test
     public void testRunsTasks() throws Exception {
         for (int i = 0; i < 10; i++) {
-            CrawlTask task = new CrawlTaskBuilder()
+            Task task = TaskBuilder.newTask(new Specification())
                               .withId("task-" + i)
-                              .ofType(CrawlRunner.class)
                               .build();
             taskRepository.updateTask(task);
         }
@@ -76,10 +78,9 @@ public class TaskRunnerIT {
     @Test
     public void testReRunsTasks() throws Exception {
 
-        CrawlTask task = new CrawlTaskBuilder()
+        Task<String> task = TaskBuilder.newTask(new Specification())
                           .withId("task")
                           .withInterval(Duration.standardSeconds(5))
-                          .ofType(CrawlRunner.class)
                           .build();
         taskRepository.updateTask(task);
 
@@ -108,7 +109,7 @@ public class TaskRunnerIT {
         private final Set<String> tasks = new HashSet<String>();
 
         @Override
-        public void task(final CrawlTask task) {
+        public void task(final Task task) {
             tasks.add(task.getId());
 
             final DateTime nextRun = new DateTime().plus(task.getInterval());
@@ -116,5 +117,27 @@ public class TaskRunnerIT {
 
         }
 
+    }
+
+    static class Factory implements TaskSpecificationFactory {
+
+        @Override
+        @SuppressWarnings("unchecked")
+        public TaskSpecification<String> getTaskSpecification(final String typeName) {
+            return new Specification();
+        }
+    }
+
+    static class Specification implements TaskSpecification<String> {
+
+        @Override
+        public Class<TaskRunner<String>> getRunnerClass() {
+            return null;
+        }
+
+        @Override
+        public Marshaller<String> getDataMarshaller() {
+            return null;
+        }
     }
 }

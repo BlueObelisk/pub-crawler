@@ -3,62 +3,57 @@ package wwmm.pubcrawler.repositories.mongo;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import org.joda.time.Duration;
-import wwmm.pubcrawler.crawler.CrawlRunner;
-import wwmm.pubcrawler.crawler.CrawlTask;
-import wwmm.pubcrawler.crawler.CrawlTaskBuilder;
-
-import java.util.LinkedHashMap;
-import java.util.Map;
+import wwmm.pubcrawler.crawler.Task;
+import wwmm.pubcrawler.crawler.TaskBuilder;
+import wwmm.pubcrawler.tasks.Marshaller;
+import wwmm.pubcrawler.tasks.TaskSpecification;
 
 public class MongoTaskMapper {
 
-    public DBObject mapTaskToBson(final CrawlTask task) {
+    private static final String ID = "id";
+    private static final String TYPE = "type";
+    private static final String QUEUED = "queued";
+    private static final String SCHEDULE = "schedule";
+    private static final String INTERVAL = "interval";
+    private static final String DATA = "data";
+    private final TaskSpecificationFactory taskSpecificationFactory;
+
+    public MongoTaskMapper(final TaskSpecificationFactory taskSpecificationFactory) {
+        this.taskSpecificationFactory = taskSpecificationFactory;
+    }
+
+    public <T> DBObject mapTaskToBson(final Task<T> task) {
         final DBObject dbTask = new BasicDBObject();
-        dbTask.put("id", task.getId());
-        dbTask.put("type", task.getTaskClass().getName());
-        dbTask.put("queued", System.currentTimeMillis());
-        dbTask.put("schedule", -1L);
-        dbTask.put("interval", task.getInterval().getMillis());
-        dbTask.put("data", mapData(task));
+        dbTask.put(ID, task.getId());
+        dbTask.put(TYPE, task.getTaskSpecification().getClass().getName());
+        dbTask.put(QUEUED, System.currentTimeMillis());
+        dbTask.put(SCHEDULE, -1L);
+        dbTask.put(INTERVAL, task.getInterval().getMillis());
+        dbTask.put(DATA, mapDataToBson(task));
         return dbTask;
     }
 
-    private DBObject mapData(final CrawlTask task) {
-        final DBObject data = new BasicDBObject();
-        for (final String key : task.getData().keys()) {
-            data.put(key, task.getData().getString(key));
-        }
+    public <T> Task<T> mapBsonToTask(final BasicDBObject task) {
+        final String id = task.getString(ID);
+        final Duration interval = task.containsField(INTERVAL) ? new Duration(task.getString(INTERVAL)) : null;
+        final TaskSpecification<T> taskSpecification = taskSpecificationFactory.getTaskSpecification(task.getString(TYPE));
+        return TaskBuilder.newTask(taskSpecification)
+                .withId(id)
+                .withInterval(interval)
+                .withData(mapDataFromBson(taskSpecification, task))
+                .build();
+    }
+
+    private <T> DBObject mapDataToBson(final Task<T> task) {
+        final BasicDBObject data = new BasicDBObject();
+        final Marshaller<T> marshaller = task.getTaskSpecification().getDataMarshaller();
+        marshaller.marshall(task.getData(), new BasicDbObjectDataSink(data));
         return data;
     }
 
-    public CrawlTask mapBsonToTask(final DBObject task) {
-        final String id = (String) task.get("id");
-        final Class<? extends CrawlRunner> type = getType(task);
-        final Map<String, String> data = getData((DBObject) task.get("data"));
-        final CrawlTaskBuilder builder = new CrawlTaskBuilder()
-            .withId(id)
-            .ofType(type)
-            .withData(data);
-        if (task.containsField("interval")) {
-            builder.withInterval(new Duration(task.get("interval")));
-        }
-        return builder.build();
-    }
-
-    private Map<String, String> getData(final DBObject task) {
-        final Map<String,String> data = new LinkedHashMap<String, String>();
-        for (final String key : task.keySet()) {
-            data.put(key, (String) task.get(key));
-        }
-        return data;
-    }
-
-    private Class<? extends CrawlRunner> getType(final DBObject task) {
-        final String type = (String) task.get("type");
-        try {
-            return (Class<? extends CrawlRunner>) Class.forName(type);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException("Unknown type: " + type, e);
-        }
+    private <T> T mapDataFromBson(final TaskSpecification<T> taskSpecification, final BasicDBObject task) {
+        final Marshaller<T> marshaller = taskSpecification.getDataMarshaller();
+        final BasicDBObject data = (BasicDBObject) task.get(DATA);
+        return marshaller.unmarshall(new BasicDbObjectDataSource(data));
     }
 }

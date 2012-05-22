@@ -2,7 +2,7 @@ package wwmm.pubcrawler.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import wwmm.pubcrawler.crawler.CrawlTask;
+import wwmm.pubcrawler.crawler.Task;
 import wwmm.pubcrawler.repositories.TaskRepository;
 
 import java.util.List;
@@ -61,9 +61,9 @@ public class TaskFeeder {
 
             while (!stop) {
                 final long now = System.currentTimeMillis();
-                final List<CrawlTask> tasks = taskRepository.getNextQueuedTaskBatch(System.currentTimeMillis(), batchSize);
+                final List<Task> tasks = taskRepository.getNextQueuedTaskBatch(System.currentTimeMillis(), batchSize);
                 LOG.trace("Found {} tasks", tasks.size());
-                for (final CrawlTask task : tasks) {
+                for (final Task task : tasks) {
                     receiver.task(task);
                 }
                 sleep(now + pollIntervalMillis);

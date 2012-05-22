@@ -1,29 +1,25 @@
 package wwmm.pubcrawler.crawlers.elsevier;
 
-import org.joda.time.Duration;
-import wwmm.pubcrawler.crawler.CrawlTask;
-import wwmm.pubcrawler.crawler.CrawlTaskBuilder;
+import wwmm.pubcrawler.crawler.Task;
+import wwmm.pubcrawler.crawler.TaskBuilder;
 import wwmm.pubcrawler.crawlers.elsevier.tasks.ElsevierPublicationListCrawlTask;
+import wwmm.pubcrawler.tasks.HttpCrawlTaskData;
 
-import java.util.HashMap;
-import java.util.Map;
+import static wwmm.pubcrawler.Config.PUBLICATION_LIST_CACHE_MAX_AGE;
+import static wwmm.pubcrawler.Config.PUBLICATION_LIST_CRAWL_INTERVAL;
 
 /**
  * @author Sam Adams
  */
 public class ElsevierPublicationListCrawlTaskFactory {
 
-    public CrawlTask createCrawlTask() {
-        final Map<String,String> data = new HashMap<String, String>();
-        data.put("url", Elsevier.OPML_URL.toString());
-        data.put("fileId", "opml.xml");
-
-        return new CrawlTaskBuilder()
-            .ofType(ElsevierPublicationListCrawlTask.class)
-            .withData(data)
-            .withInterval(Duration.standardDays(1))
-            .withId("elsevier:journal-list")
-            .build();
+    public Task<HttpCrawlTaskData> createCrawlTask() {
+        final HttpCrawlTaskData data = new HttpCrawlTaskData(Elsevier.OPML_URL, "opml.xml", PUBLICATION_LIST_CACHE_MAX_AGE, null);
+        return TaskBuilder.newTask(ElsevierPublicationListCrawlTask.INSTANCE)
+                .withId("elsevier:journal-list")
+                .withInterval(PUBLICATION_LIST_CRAWL_INTERVAL)
+                .withData(data)
+                .build();
     }
 
 }
