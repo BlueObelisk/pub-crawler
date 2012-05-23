@@ -3,8 +3,8 @@ package wwmm.pubcrawler.crawler;
 /**
  * @author Sam Adams
  */
-public interface CrawlRunner {
+public interface CrawlRunner<Data> {
 
-    void run(String id, TaskData data) throws Exception;
+    void run(String id, Data data) throws Exception;
 
 }

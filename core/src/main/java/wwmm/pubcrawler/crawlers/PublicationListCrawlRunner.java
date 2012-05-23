@@ -1,17 +1,17 @@
 package wwmm.pubcrawler.crawlers;
 
 import wwmm.pubcrawler.crawler.CrawlRunner;
-import wwmm.pubcrawler.crawler.TaskData;
 import wwmm.pubcrawler.http.Fetcher;
 import wwmm.pubcrawler.http.RequestFactory;
 import wwmm.pubcrawler.processors.PublicationListProcessor;
+import wwmm.pubcrawler.tasks.HttpCrawlTaskData;
 
 import javax.inject.Inject;
 
 /**
  * @author Sam Adams
  */
-public class PublicationListCrawlRunner<Request, Resource> implements CrawlRunner {
+public class PublicationListCrawlRunner<Request, Resource> implements CrawlRunner<HttpCrawlTaskData> {
 
     private final Fetcher<Request, Resource> fetcher;
     private final RequestFactory<Request> requestFactory;
@@ -25,8 +25,8 @@ public class PublicationListCrawlRunner<Request, Resource> implements CrawlRunne
     }
 
     @Override
-    public void run(final String id, final TaskData data) throws Exception {
-        final Request request = requestFactory.createFetchTask(id, null);
+    public void run(final String id, final HttpCrawlTaskData data) throws Exception {
+        final Request request = requestFactory.createFetchTask(id, data);
         final Resource resource = fetcher.fetch(request);
         processor.processPublicationList(resource);
     }
