@@ -1,9 +1,8 @@
 package wwmm.pubcrawler.crawlers;
 
 import wwmm.pubcrawler.crawler.Task;
-import wwmm.pubcrawler.model.Issue;
-import wwmm.pubcrawler.crawler.CrawlTask;
 import wwmm.pubcrawler.crawler.TaskQueue;
+import wwmm.pubcrawler.model.Issue;
 
 import javax.inject.Inject;
 
