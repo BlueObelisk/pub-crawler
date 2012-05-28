@@ -8,6 +8,7 @@ import wwmm.pubcrawler.http.DocumentResource;
 import wwmm.pubcrawler.http.Fetcher;
 import wwmm.pubcrawler.http.RequestFactory;
 import wwmm.pubcrawler.http.UriRequest;
+import wwmm.pubcrawler.model.id.PublisherId;
 import wwmm.pubcrawler.parsers.IssueTocParserFactory;
 import wwmm.pubcrawler.inject.AbstractPublisherCrawlerModule;
 import wwmm.pubcrawler.parsers.PublicationListParserFactory;
@@ -47,6 +48,11 @@ public class ElsevierCrawlerModule extends AbstractPublisherCrawlerModule {
     @Override
     protected Class<? extends IssueTocCrawlTaskFactory> getIssueTocCrawlTaskFactoryType() {
         return ElsevierIssueTocCrawlTaskFactory.class;
+    }
+
+    @Override
+    protected PublisherId getPublisherId() {
+        return Elsevier.PUBLISHER_ID;
     }
 
 }

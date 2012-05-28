@@ -3,13 +3,18 @@ package wwmm.pubcrawler.repositories.mongo;
 import com.google.inject.Injector;
 import wwmm.pubcrawler.tasks.TaskSpecification;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 /**
  * @author Sam Adams
  */
+@Singleton
 public class GuiceTaskSpecificationFactory implements TaskSpecificationFactory {
 
     private final Injector injector;
 
+    @Inject
     public GuiceTaskSpecificationFactory(final Injector injector) {
         this.injector = injector;
     }

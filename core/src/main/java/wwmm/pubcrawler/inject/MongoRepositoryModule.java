@@ -4,14 +4,11 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
-import wwmm.pubcrawler.repositories.mongo.MongoTaskRepository;
+import wwmm.pubcrawler.repositories.mongo.*;
 import wwmm.pubcrawler.repositories.TaskRepository;
 import wwmm.pubcrawler.repositories.ArticleRepository;
 import wwmm.pubcrawler.repositories.IssueRepository;
 import wwmm.pubcrawler.repositories.JournalRepository;
-import wwmm.pubcrawler.repositories.mongo.MongoArticleRepository;
-import wwmm.pubcrawler.repositories.mongo.MongoIssueRepository;
-import wwmm.pubcrawler.repositories.mongo.MongoJournalRepository;
 
 import javax.inject.Singleton;
 
@@ -34,6 +31,7 @@ public class MongoRepositoryModule extends AbstractModule {
         bind(IssueRepository.class).to(MongoIssueRepository.class);
         bind(ArticleRepository.class).to(MongoArticleRepository.class);
         bind(TaskRepository.class).to(MongoTaskRepository.class);
+        bind(TaskSpecificationFactory.class).to(GuiceTaskSpecificationFactory.class);
     }
 
     @Provides @Singleton @Journals
