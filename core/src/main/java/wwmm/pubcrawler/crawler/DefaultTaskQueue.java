@@ -45,5 +45,4 @@ public class DefaultTaskQueue implements TaskQueue {
         System.err.println("Queuing " + taskIds.size() + " tasks");
         queue.addAll(taskIds);
     }
-
 }

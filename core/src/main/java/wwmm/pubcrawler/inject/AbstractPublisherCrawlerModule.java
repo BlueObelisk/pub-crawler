@@ -6,6 +6,7 @@ import uk.ac.cam.ch.wwmm.httpcrawler.HttpFetcher;
 import wwmm.pubcrawler.crawlers.IssueTocCrawlRunner;
 import wwmm.pubcrawler.crawlers.IssueTocCrawlTaskFactory;
 import wwmm.pubcrawler.http.*;
+import wwmm.pubcrawler.model.id.PublisherId;
 import wwmm.pubcrawler.parsers.IssueTocParserFactory;
 
 /**
@@ -21,6 +22,7 @@ public abstract class AbstractPublisherCrawlerModule extends AbstractModule {
         if (getIssueTocCrawlTaskFactoryType() != null) {
             bind(IssueTocCrawlTaskFactory.class).to(getIssueTocCrawlTaskFactoryType());
         }
+        bind(String.class).annotatedWith(Publisher.class).toInstance(getPublisherId().getUid());
     }
 
     @Provides
@@ -38,4 +40,5 @@ public abstract class AbstractPublisherCrawlerModule extends AbstractModule {
 
     protected abstract Class<? extends IssueTocCrawlTaskFactory> getIssueTocCrawlTaskFactoryType();
 
+    protected abstract PublisherId getPublisherId();
 }

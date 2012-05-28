@@ -40,17 +40,15 @@ public abstract class CrawlerApplication {
 
         final ExecutorService executorService = Executors.newSingleThreadExecutor();
 
-        if (System.getProperty("resume") != null) {
-            final Runnable seeder = injector.getInstance(ResumeTask.class);
-            executorService.execute(seeder);
-        } else {
-            final Class<? extends Runnable> seederType = getSeederType();
-            final Runnable seeder = injector.getInstance(seederType);
-            executorService.execute(seeder);
-        }
+        final Class<? extends Runnable> seederType = getSeederType();
+        final Runnable seedRunner = injector.getInstance(seederType);
+        executorService.submit(seedRunner);
+
+        final Runnable resumeRunner = injector.getInstance(ResumeTask.class);
+        executorService.submit(resumeRunner);
 
         final CrawlerExecutor crawlRunner = injector.getInstance(CrawlerExecutor.class);
-        executorService.execute(crawlRunner);
+        executorService.submit(crawlRunner);
 
         // Wait for CrawlRunner to complete and stop executor service
         executorService.shutdown();
@@ -59,5 +57,4 @@ public abstract class CrawlerApplication {
     protected abstract Module getPublisherModule();
 
     protected abstract Class<? extends Runnable> getSeederType();
-
 }

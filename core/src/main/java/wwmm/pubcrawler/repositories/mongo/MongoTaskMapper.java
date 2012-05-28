@@ -8,6 +8,8 @@ import wwmm.pubcrawler.crawler.TaskBuilder;
 import wwmm.pubcrawler.tasks.Marshaller;
 import wwmm.pubcrawler.tasks.TaskSpecification;
 
+import javax.inject.Inject;
+
 public class MongoTaskMapper {
 
     private static final String ID = "id";
@@ -18,6 +20,7 @@ public class MongoTaskMapper {
     private static final String DATA = "data";
     private final TaskSpecificationFactory taskSpecificationFactory;
 
+    @Inject
     public MongoTaskMapper(final TaskSpecificationFactory taskSpecificationFactory) {
         this.taskSpecificationFactory = taskSpecificationFactory;
     }
@@ -28,7 +31,7 @@ public class MongoTaskMapper {
         dbTask.put(TYPE, task.getTaskSpecification().getClass().getName());
         dbTask.put(QUEUED, System.currentTimeMillis());
         dbTask.put(SCHEDULE, -1L);
-        dbTask.put(INTERVAL, task.getInterval().getMillis());
+        dbTask.put(INTERVAL, task.getInterval().toString());
         dbTask.put(DATA, mapDataToBson(task));
         return dbTask;
     }

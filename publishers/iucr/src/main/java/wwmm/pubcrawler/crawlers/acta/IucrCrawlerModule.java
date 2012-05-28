@@ -11,6 +11,7 @@ import wwmm.pubcrawler.http.Fetcher;
 import wwmm.pubcrawler.http.RequestFactory;
 import wwmm.pubcrawler.http.UriRequest;
 import wwmm.pubcrawler.inject.AbstractPublisherCrawlerModule;
+import wwmm.pubcrawler.model.id.PublisherId;
 import wwmm.pubcrawler.parsers.IssueListParserFactory;
 import wwmm.pubcrawler.parsers.IssueTocParserFactory;
 import wwmm.pubcrawler.parsers.PublicationListParserFactory;
@@ -73,5 +74,10 @@ public class IucrCrawlerModule extends AbstractPublisherCrawlerModule {
     @Override
     protected Class<? extends IssueTocCrawlTaskFactory> getIssueTocCrawlTaskFactoryType() {
         return IucrIssueTocCrawlTaskFactory.class;
+    }
+
+    @Override
+    protected PublisherId getPublisherId() {
+        return Iucr.PUBLISHER_ID;
     }
 }

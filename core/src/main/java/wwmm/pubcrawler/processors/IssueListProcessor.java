@@ -28,7 +28,7 @@ public class IssueListProcessor<T> {
         final IssueListParser parser = parserFactory.createIssueListParser(journalId, resource);
 
         for (final Issue issue : parser.findIssues()) {
-            issueHandler.handleIssue(issue);
+            issueHandler.handleIssueLink(issue);
         }
     }
 }
