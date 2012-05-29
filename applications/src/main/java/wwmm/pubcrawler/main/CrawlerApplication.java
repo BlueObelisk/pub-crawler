@@ -22,8 +22,8 @@ public abstract class CrawlerApplication {
     
     public void run() throws UnknownHostException {
         final String host = System.getProperty("pubcrawler.mongo.host", "localhost");
-        final String pubDbName = System.getProperty("pubcrawler.mongo.bibdb", "bibdata");
-        final String taskDbName = System.getProperty("pubcrawler.mongo.taskdb", "bibdata");
+        final String pubDbName = System.getProperty("pubcrawler.mongo.bibdb", "bib");
+        final String taskDbName = System.getProperty("pubcrawler.mongo.taskdb", "task");
         final String httpDbName = System.getProperty("pubcrawler.mongo.httpdb", "http");
 
         final Mongo mongo = new Mongo(host);
