@@ -1,6 +1,7 @@
 package wwmm.pubcrawler.repositories;
 
 import wwmm.pubcrawler.model.Issue;
+import wwmm.pubcrawler.model.id.IssueId;
 
 import java.util.List;
 
@@ -9,11 +10,11 @@ import java.util.List;
  */
 public interface IssueRepository {
     
-    Issue getIssue(String publisher, String journal, String id);
+    Issue getIssue(IssueId issueId);
 
     List<Issue> getIssuesForJournal(String journal);
 
-    void addArticles(Issue issue, String... issues);
+    void addArticles(Issue issue, String... articles);
 
     void updateIssue(Issue issue);
 

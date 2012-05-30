@@ -6,6 +6,7 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import wwmm.pubcrawler.inject.Issues;
 import wwmm.pubcrawler.model.Issue;
+import wwmm.pubcrawler.model.id.IssueId;
 import wwmm.pubcrawler.repositories.IssueRepository;
 
 import javax.inject.Inject;
@@ -30,8 +31,10 @@ public class MongoIssueRepository implements IssueRepository {
     }
 
     @Override
-    public Issue getIssue(final String publisher, final String journal, final String id) {
-        throw new UnsupportedOperationException();
+    public Issue getIssue(final IssueId issueId) {
+        final DBObject query = new BasicDBObject("id", issueId.getUid());
+        final DBObject result = collection.findOne(query);
+        return result == null ? null : mongoIssueMapper.mapBsonToIssue(result);
     }
 
     @Override
@@ -49,7 +52,7 @@ public class MongoIssueRepository implements IssueRepository {
     }
 
     @Override
-    public void addArticles(final Issue issue, final String... issues) {
+    public void addArticles(final Issue issue, final String... articles) {
         throw new UnsupportedOperationException();
     }
 
@@ -76,11 +79,10 @@ public class MongoIssueRepository implements IssueRepository {
 
     private void save(final Issue issue) {
         final DBObject dbObject = mongoIssueMapper.mapIssueToBson(issue);
-
         collection.save(dbObject);
     }
 
     private void update(final DBObject dbObject, final Issue issue) {
-        throw new UnsupportedOperationException();
+
     }
 }
