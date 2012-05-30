@@ -65,6 +65,5 @@ public class MongoArticleRepository implements ArticleRepository {
     }
 
     private void updateArticle(final DBObject dbObject, final Article article) {
-        // TODO update stored article
     }
 }

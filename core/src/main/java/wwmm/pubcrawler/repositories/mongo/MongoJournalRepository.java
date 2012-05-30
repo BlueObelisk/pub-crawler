@@ -4,9 +4,9 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
+import wwmm.pubcrawler.inject.Journals;
 import wwmm.pubcrawler.model.Journal;
 import wwmm.pubcrawler.model.id.PublisherId;
-import wwmm.pubcrawler.inject.Journals;
 import wwmm.pubcrawler.repositories.JournalRepository;
 
 import javax.inject.Inject;
@@ -77,6 +77,5 @@ public class MongoJournalRepository implements JournalRepository {
     }
 
     private void update(final DBObject dbObject, final Journal issue) {
-        // TODO update stored issue
     }
 }
