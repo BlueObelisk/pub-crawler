@@ -15,12 +15,12 @@ import wwmm.pubcrawler.repositories.TaskRepository;
 import wwmm.pubcrawler.repositories.mongo.MongoTaskMapper;
 import wwmm.pubcrawler.repositories.mongo.MongoTaskRepository;
 import wwmm.pubcrawler.repositories.mongo.TaskSpecificationFactory;
-import wwmm.pubcrawler.tasks.Marshaller;
-import wwmm.pubcrawler.tasks.TaskRunner;
-import wwmm.pubcrawler.tasks.TaskSpecification;
+import wwmm.pubcrawler.tasks.*;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.locks.LockSupport;
 
@@ -29,30 +29,33 @@ import java.util.concurrent.locks.LockSupport;
  */
 public class TaskRunnerIT {
 
-    private static final long TIMEOUT_MILLIS = 10000;
+    private static final long TIMEOUT_MILLIS = 10000L;
+    private static final long MILLIS_10 = 10000000L;
 
     private Mongo mongo;
 
     private DB db;
     private TaskRepository taskRepository;
     private Receiver receiver;
-    private TaskFeeder taskRunner;
+    private TaskFeeder taskFeeder;
+
+    private Executor executor = Executors.newSingleThreadExecutor();
 
     @Before
     public void setUp() throws Exception {
         mongo = new Mongo();
-        db = mongo.getDB("test");  // + Math.abs(new Random().nextLong()));
+        db = mongo.getDB("test");
 
         taskRepository = new MongoTaskRepository(db.getCollection("tasks"), new MongoTaskMapper(new Factory()));
         receiver = new Receiver();
 
-        taskRunner = new TaskFeeder(taskRepository, receiver, 1000L, 4);
-        taskRunner.start();
+        taskFeeder = new TaskFeeder(taskRepository, receiver, 1000L, 4);
+        executor.execute(taskFeeder);
     }
 
     @After
     public void tearDown() throws Exception {
-        taskRunner.stop();
+        taskFeeder.stop();
         db.dropDatabase();
         mongo.close();
     }
@@ -66,40 +69,32 @@ public class TaskRunnerIT {
             taskRepository.updateTask(task);
         }
 
-        long timeout = System.currentTimeMillis() + TIMEOUT_MILLIS;
-        while (receiver.tasks.size() != 10) {
-            if (System.currentTimeMillis() > timeout) {
-                throw new TimeoutException();
-            }
-            LockSupport.parkNanos(10000000l);
-        }
+        waitForTasksToRun(10, TIMEOUT_MILLIS);
     }
 
     @Test
     public void testReRunsTasks() throws Exception {
 
-        Task<String> task = TaskBuilder.newTask(new Specification())
+        Task<Void> task = TaskBuilder.newTask(new Specification())
                           .withId("task")
                           .withInterval(Duration.standardSeconds(5))
                           .build();
         taskRepository.updateTask(task);
 
-        long timeout = System.currentTimeMillis() + TIMEOUT_MILLIS;
-        while (receiver.tasks.isEmpty()) {
-            if (System.currentTimeMillis() > timeout) {
-                throw new TimeoutException();
-            }
-            LockSupport.parkNanos(10000000l);
-        }
+        waitForTasksToRun(1, TIMEOUT_MILLIS);
 
         receiver.tasks.clear();
 
-        timeout = System.currentTimeMillis() + TIMEOUT_MILLIS*2;
-        while (receiver.tasks.isEmpty()) {
+        waitForTasksToRun(1, TIMEOUT_MILLIS * 2);
+    }
+
+    private void waitForTasksToRun(final long taskCount, final long maxWait) throws TimeoutException {
+        long timeout = System.currentTimeMillis() + maxWait;
+        while (receiver.tasks.size() < taskCount) {
             if (System.currentTimeMillis() > timeout) {
                 throw new TimeoutException();
             }
-            LockSupport.parkNanos(10000000l);
+            LockSupport.parkNanos(MILLIS_10);
         }
     }
 
@@ -123,21 +118,30 @@ public class TaskRunnerIT {
 
         @Override
         @SuppressWarnings("unchecked")
-        public TaskSpecification<String> getTaskSpecification(final String typeName) {
+        public TaskSpecification<Void> getTaskSpecification(final String typeName) {
             return new Specification();
         }
     }
 
-    static class Specification implements TaskSpecification<String> {
+    static class Specification implements TaskSpecification<Void> {
 
         @Override
-        public Class<TaskRunner<String>> getRunnerClass() {
+        public Class<TaskRunner<Void>> getRunnerClass() {
             return null;
         }
 
         @Override
-        public Marshaller<String> getDataMarshaller() {
-            return null;
+        public Marshaller<Void> getDataMarshaller() {
+            return new Marshaller<Void>() {
+                @Override
+                public void marshall(final Void data, final DataSink target) {
+                }
+
+                @Override
+                public Void unmarshall(final DataSource source) {
+                    return null;
+                }
+            };
         }
     }
 }
