@@ -21,18 +21,17 @@ import nu.xom.Node;
 import org.apache.log4j.Logger;
 import wwmm.pubcrawler.CrawlerRuntimeException;
 import wwmm.pubcrawler.HtmlUtil;
-import wwmm.pubcrawler.parsers.AbstractIssueParser;
 import wwmm.pubcrawler.model.FullTextResource;
 import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.model.SupplementaryResource;
 import wwmm.pubcrawler.model.id.ArticleId;
 import wwmm.pubcrawler.model.id.IssueId;
 import wwmm.pubcrawler.model.id.JournalId;
+import wwmm.pubcrawler.parsers.AbstractIssueParser;
 import wwmm.pubcrawler.types.Doi;
 import wwmm.pubcrawler.utils.XHtml;
 import wwmm.pubcrawler.utils.XPathUtils;
 
-import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -51,7 +50,7 @@ public class NatureIssueTocParser extends AbstractIssueParser {
 
     private static final Logger LOG = Logger.getLogger(NatureIssueTocParser.class);
 
-    public NatureIssueTocParser(final Document html, final URI url, final JournalId journalId) throws IOException {
+    public NatureIssueTocParser(final Document html, final URI url, final JournalId journalId) {
         super(html, url, journalId);
     }
 
