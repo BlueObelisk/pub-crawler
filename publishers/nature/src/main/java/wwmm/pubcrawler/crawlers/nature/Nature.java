@@ -16,6 +16,8 @@
 
 package wwmm.pubcrawler.crawlers.nature;
 
+import wwmm.pubcrawler.model.id.PublisherId;
+
 import java.net.URI;
 
 /**
@@ -23,6 +25,7 @@ import java.net.URI;
  */
 public class Nature {
 
-    public static final URI OPML_URI = URI.create("http://www.nature.com/opml/newsfeeds.opml");
+    public static final PublisherId PUBLISHER_ID = new PublisherId("nature");
 
+    public static final URI OPML_URI = URI.create("http://www.nature.com/opml/newsfeeds.opml");
 }
