@@ -71,6 +71,9 @@ public class IucrIssueTocParser extends AbstractIssueParser {
     protected String findJournalTitle() {
         Node sectionTitle = XPathUtils.getNode(getHtml(), "//x:h1");
         Node actaTitle = XPathUtils.getNode(sectionTitle, "preceding-sibling::x:h3[1]");
+        if (actaTitle == null) {
+            return sectionTitle.getValue().trim();
+        }
         return actaTitle.getValue().trim() + ": " + sectionTitle.getValue().trim();
     }
 

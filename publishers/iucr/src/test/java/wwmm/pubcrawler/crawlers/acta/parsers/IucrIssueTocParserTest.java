@@ -6,6 +6,7 @@ import nu.xom.Node;
 import org.apache.commons.io.IOUtils;
 import org.ccil.cowan.tagsoup.Parser;
 import org.junit.AfterClass;
+import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 import wwmm.pubcrawler.crawlers.acta.Iucr;
@@ -17,6 +18,7 @@ import wwmm.pubcrawler.model.id.IssueId;
 import wwmm.pubcrawler.model.id.JournalId;
 import wwmm.pubcrawler.types.Doi;
 
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URI;
@@ -36,6 +38,7 @@ public class IucrIssueTocParserTest {
     private static final JournalId ACTA_B = new JournalId(Iucr.PUBLISHER_ID, "b");
     private static final JournalId ACTA_C = new JournalId(Iucr.PUBLISHER_ID, "c");
     private static final JournalId ACTA_E = new JournalId(Iucr.PUBLISHER_ID, "e");
+    private static final JournalId ACTA_J = new JournalId(Iucr.PUBLISHER_ID, "j");
 
     private static final URI URL_C_2005_10 = URI.create("http://journals.iucr.org/c/issues/2005/10/00/");
     private static final URI URL_B_1997_01 = URI.create("http://journals.iucr.org/b/issues/1997/01/00/");
@@ -46,6 +49,7 @@ public class IucrIssueTocParserTest {
     private static final URI URL_C_1997_03 = URI.create("http://journals.iucr.org/c/issues/1997/03/00/");
     private static final URI URL_A_2009_06 = URI.create("http://journals.iucr.org/a/issues/2009/06/00/");
     private static final URI URL_C_1991_10 = URI.create("http://journals.iucr.org/c/issues/1991/10/00/");
+    private static final URI URL_J_1960_04 = URI.create("http://journals.iucr.org/q/issues/1960/04/00/");
 
     private static ConcurrentMap<String,Document> cache = new ConcurrentHashMap<String, Document>();
     
@@ -265,6 +269,17 @@ public class IucrIssueTocParserTest {
     }
 
     @Test
+    public void testReadActaJ1960_04GetIssueDetails() throws Exception {
+        IucrIssueTocParser parser = getActaJ_1960_04();
+        final Issue issueDetails = parser.getIssueDetails();
+        assertEquals("Acta Crystallographica", issueDetails.getJournalTitle());
+        assertEquals("13", issueDetails.getVolume());
+        assertEquals("4", issueDetails.getNumber());
+        assertEquals("1960", issueDetails.getYear());
+        // TODO : assertEquals("April 1960", issueDetails.getDate());
+    }
+
+    @Test
     @Ignore
     public void testReadActaB1997_01GetArticleSuppInfo() throws Exception {
         IucrIssueTocParser parser = getActaB1997_01();
@@ -430,6 +445,10 @@ public class IucrIssueTocParserTest {
         return new IucrIssueTocParser(loadBody("c-1991-10-body.html", URL_C_1991_10), loadHead("c-1991-10-head.html", URL_C_1991_10), ACTA_C);
     }
 
+    protected IucrIssueTocParser getActaJ_1960_04() throws Exception {
+        return new IucrIssueTocParser(loadBody("q-1960-04-body.html", URL_J_1960_04), loadHead("q-1960-04-head.html", URL_J_1960_04), ACTA_B);
+    }
+
     private Document loadHead(final String filename, final URI baseUrl) throws Exception {
         return loadHtml(filename, baseUrl.resolve("isscontshdr.html"));
     }
@@ -443,6 +462,9 @@ public class IucrIssueTocParserTest {
         if (document == null) {
             Builder builder = new Builder(new Parser());
             InputStream in = IucrPublicationListParserTest.class.getResourceAsStream(filename);
+            if (in == null) {
+                throw new FileNotFoundException("File not found: " + filename);
+            }
             try {
                 document = builder.build(new InputStreamReader(in, "UTF-8"));
                 document.setBaseURI(url.toString());
