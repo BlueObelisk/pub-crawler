@@ -104,10 +104,10 @@ public abstract class AbstractArticleParser {
         if (supplementaryResources != null) {
             for (final SupplementaryResource resource : supplementaryResources) {
                 if (resource.getUrl() == null) {
-                    throw new CrawlerRuntimeException("Supplementary resource missing URL");
+                    throw new CrawlerRuntimeException("Supplementary resource missing URL", getArticleId(), getUrl());
                 }
                 if (resource.getFilePath() == null) {
-                    throw new CrawlerRuntimeException("Supplementary resource missing file path");
+                    throw new CrawlerRuntimeException("Supplementary resource missing file path", getArticleId(), getUrl());
                 }
             }
         }

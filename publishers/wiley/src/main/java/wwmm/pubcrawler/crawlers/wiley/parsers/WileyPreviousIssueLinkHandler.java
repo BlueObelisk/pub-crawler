@@ -41,7 +41,7 @@ public class WileyPreviousIssueLinkHandler {
                 return m;
             }
         }
-        throw new CrawlerRuntimeException("Cannot locate prev issue ID: " + href);
+        throw new CrawlerRuntimeException("Cannot locate prev issue ID: " + href, null, null);
     }
 
 }

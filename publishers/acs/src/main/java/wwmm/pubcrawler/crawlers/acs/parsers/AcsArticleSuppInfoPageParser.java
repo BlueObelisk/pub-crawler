@@ -45,7 +45,7 @@ public class AcsArticleSuppInfoPageParser extends AcsArticleSplashPageParser {
         final Pattern p = Pattern.compile("\\(([^(]+)\\), pp? (\\S+)");
         final Matcher m = p.matcher(s);
         if (!m.find()) {
-            throw new CrawlerRuntimeException("No match: "+s);
+            throw new CrawlerRuntimeException("No match: "+s, getArticleId(), getUrl());
         }
         final String issue = m.group(1);
         final String pages = m.group(2);

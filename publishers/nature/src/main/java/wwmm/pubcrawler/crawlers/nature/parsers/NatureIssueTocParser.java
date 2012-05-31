@@ -164,13 +164,13 @@ public class NatureIssueTocParser extends AbstractIssueParser {
     private String getBiblio(final int i) {
         final String s = XPathUtils.getString(getHtml(), ".//x:h2[@class='issue']");
         if (s == null) {
-            throw new CrawlerRuntimeException("not found");
+            throw new CrawlerRuntimeException("not found", getIssueId(), getUrl());
         }
         // January 2011, Volume 3 No 1
         final Pattern p = Pattern.compile("(\\d+), Volume (\\d+) No (\\d+)");
         final Matcher m = p.matcher(s);
         if (!m.find()) {
-            throw new CrawlerRuntimeException("No match: "+s);
+            throw new CrawlerRuntimeException("No match: "+s, getIssueId(), getUrl());
         }
         return m.group(i);
     }

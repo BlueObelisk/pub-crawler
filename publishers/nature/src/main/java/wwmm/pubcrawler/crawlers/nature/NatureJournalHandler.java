@@ -62,7 +62,7 @@ public class NatureJournalHandler extends AbstractJournalHandler {
         final Pattern p = Pattern.compile("www.nature.com/(\\S+)/journal/v(\\d+)/n(\\d+)/");
         final Matcher m = p.matcher(url.toString());
         if (!m.find()) {
-            throw new CrawlerRuntimeException("No match: "+url.toString());
+            throw new CrawlerRuntimeException("No match: "+url.toString(), null, null);
         };
         return new IssueId("nature/"+m.group(1)+'/'+m.group(2)+'/'+m.group(3));
     }

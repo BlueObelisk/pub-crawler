@@ -15,6 +15,10 @@
  */
 package wwmm.pubcrawler;
 
+import wwmm.pubcrawler.model.id.Id;
+
+import java.net.URI;
+
 /**
  * <p>
  * The <code>CrawlerRuntimeException</code> is meant to be used for
@@ -28,12 +32,24 @@ package wwmm.pubcrawler;
  */
 public class CrawlerRuntimeException extends RuntimeException {
 
-	public CrawlerRuntimeException(final String message, final Throwable cause) {
+    private final Id<?> id;
+    private final URI url;
+
+	public CrawlerRuntimeException(final String message, final Throwable cause, final Id<?> id, final URI url) {
 		super(message, cause);
+        this.id = id;
+        this.url = url;
+    }
+
+	public CrawlerRuntimeException(final String message, final Id<?> id, final URI url) {
+		this(message, null, id, url);
 	}
 
-	public CrawlerRuntimeException(final String message) {
-		super(message);
-	}
+    public Id<?> getId() {
+        return id;
+    }
 
+    public URI getUrl() {
+        return url;
+    }
 }

@@ -20,10 +20,10 @@ import nu.xom.Element;
 import nu.xom.Node;
 import org.apache.log4j.Logger;
 import wwmm.pubcrawler.CrawlerRuntimeException;
-import wwmm.pubcrawler.parsers.IssueListParser;
 import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.model.id.IssueId;
 import wwmm.pubcrawler.model.id.JournalId;
+import wwmm.pubcrawler.parsers.IssueListParser;
 import wwmm.pubcrawler.utils.XPathUtils;
 
 import java.net.URI;
@@ -77,7 +77,7 @@ public class IucrIssueListParser implements IssueListParser {
         final Pattern p = Pattern.compile("/issues/(\\d+)/");
         final Matcher m = p.matcher(url.toString());
         if (!m.find()) {
-            throw new CrawlerRuntimeException("No match: "+url);
+            throw new CrawlerRuntimeException("No match: "+url, null, this.url);
         }
         return m.group(1);
     }
@@ -87,7 +87,7 @@ public class IucrIssueListParser implements IssueListParser {
         final Pattern p = Pattern.compile("/issues/(\\w+)/(\\w+)/(\\w+)/");
         final Matcher m = p.matcher(url.toString());
         if (!m.find()) {
-            throw new CrawlerRuntimeException("No match: "+url);
+            throw new CrawlerRuntimeException("No match: "+url, null, this.url);
         }
         return new IssueId(journalId, m.group(1), m.group(2)+'-'+m.group(3));
     }

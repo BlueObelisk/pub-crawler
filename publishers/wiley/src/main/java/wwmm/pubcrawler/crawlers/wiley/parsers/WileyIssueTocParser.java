@@ -90,7 +90,7 @@ public class WileyIssueTocParser extends AbstractIssueParser implements IssueToc
     protected Doi getArticleDoi(final Node articleNode) {
         final String s = XPathUtils.getString(articleNode, ".//x:input[@name='doi']/@value");
         if (s == null) {
-            throw new CrawlerRuntimeException("Unable to find DOI in issue: "+getIssueId());
+            throw new CrawlerRuntimeException("Unable to locate DOI", getIssueId(), getUrl());
         }
         return new Doi(s);
     }
