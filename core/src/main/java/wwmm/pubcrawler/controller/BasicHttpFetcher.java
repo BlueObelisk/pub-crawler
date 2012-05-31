@@ -1,6 +1,7 @@
 package wwmm.pubcrawler.controller;
 
 import uk.ac.cam.ch.wwmm.httpcrawler.*;
+import wwmm.pubcrawler.http.DocumentResource;
 import wwmm.pubcrawler.http.Fetcher;
 import wwmm.pubcrawler.http.UriRequest;
 

@@ -2,15 +2,14 @@ package wwmm.pubcrawler.crawlers.acta;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import wwmm.pubcrawler.MockPubCrawlerModule;
 import wwmm.pubcrawler.MockRepositoryModule;
-import wwmm.pubcrawler.crawlers.IssueListCrawlRunner;
 import wwmm.pubcrawler.crawlers.IssueTocCrawlRunner;
 import wwmm.pubcrawler.crawlers.PublicationListCrawlRunner;
 import wwmm.pubcrawler.crawlers.acta.tasks.IucrBibliographyCrawlSeedTask;
+import wwmm.pubcrawler.crawlers.acta.tasks.IucrIssueListCrawlerTask;
 import wwmm.pubcrawler.crawlers.acta.tasks.IucrIssueTocCrawlTask;
 import wwmm.pubcrawler.crawlers.acta.tasks.IucrPublicationListCrawlTask;
 
@@ -62,21 +61,22 @@ public class IucrCrawlerModuleTest {
         assertNotNull(crawlTask);
     }
 
+
     @Test
     public void testCanCreatePublicationListCrawlRunner() {
-        PublicationListCrawlRunner crawlRunner = injector.getInstance(PublicationListCrawlRunner.class);
+        IucrPublicationListCrawlTask.Runner crawlRunner = injector.getInstance(IucrPublicationListCrawlTask.Runner.class);
         assertNotNull(crawlRunner);
     }
 
     @Test
     public void testCanCreateIssueListCrawlRunner() {
-        IssueListCrawlRunner crawlRunner = injector.getInstance(IssueListCrawlRunner.class);
+        IucrIssueListCrawlerTask.Runner crawlRunner = injector.getInstance(IucrIssueListCrawlerTask.Runner.class);
         assertNotNull(crawlRunner);
     }
 
     @Test
     public void testCanCreateIssueTocCrawlRunner() {
-        IssueTocCrawlRunner crawlRunner = injector.getInstance(IssueTocCrawlRunner.class);
+        IucrIssueTocCrawlTask.Runner crawlRunner = injector.getInstance(IucrIssueTocCrawlTask.Runner.class);
         assertNotNull(crawlRunner);
     }
 }

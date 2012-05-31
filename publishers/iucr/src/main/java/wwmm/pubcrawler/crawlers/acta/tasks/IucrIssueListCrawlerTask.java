@@ -1,11 +1,9 @@
 package wwmm.pubcrawler.crawlers.acta.tasks;
 
-import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerResponse;
-import wwmm.pubcrawler.crawlers.BasicIssueListHttpCrawlTaskRunner;
-import wwmm.pubcrawler.crawlers.IssueHandler;
-import wwmm.pubcrawler.crawlers.acta.IucrIssueListParserFactory;
+import wwmm.pubcrawler.crawlers.CrawlTaskRunner;
 import wwmm.pubcrawler.http.DocumentResource;
 import wwmm.pubcrawler.http.Fetcher;
+import wwmm.pubcrawler.http.RequestFactory;
 import wwmm.pubcrawler.http.UriRequest;
 import wwmm.pubcrawler.processors.IssueListProcessor;
 import wwmm.pubcrawler.tasks.IssueListCrawlTaskData;
@@ -32,11 +30,11 @@ public class IucrIssueListCrawlerTask implements TaskSpecification<IssueListCraw
         return new IssueListCrawlTaskDataMarshaller();
     }
 
-    public static class Runner extends BasicIssueListHttpCrawlTaskRunner {
+    public static class Runner extends CrawlTaskRunner<IssueListCrawlTaskData, UriRequest, DocumentResource> {
 
         @Inject
-        public Runner(final Fetcher<UriRequest, CrawlerResponse> fetcher, final IucrIssueListParserFactory parserFactory, final IssueHandler issueHandler) {
-            super(fetcher, new IssueListProcessor<DocumentResource>(parserFactory, issueHandler));
+        public Runner(final Fetcher<UriRequest, DocumentResource> fetcher, final RequestFactory<UriRequest> requestFactory, final IssueListProcessor<DocumentResource, IssueListCrawlTaskData> issueListProcessor) {
+            super(fetcher, requestFactory, issueListProcessor);
         }
     }
 
