@@ -70,7 +70,7 @@ public class RscIssueTocParser extends AbstractIssueParser {
         final String script = findScript();
         final Matcher matcher = P_ISSUE_ID.matcher(script);
         if (!matcher.find()) {
-            throw new CrawlerRuntimeException("No match: "+script);
+            throw new CrawlerRuntimeException("No match: "+script, getIssueId(), getUrl());
         }
         return matcher.group(1);
     }
@@ -79,7 +79,7 @@ public class RscIssueTocParser extends AbstractIssueParser {
     protected String findVolume() {
         final Matcher matcher = P_ID_STRING.matcher(findIdString());
         if (!matcher.find()) {
-            throw new CrawlerRuntimeException("No match: "+ findIdString());
+            throw new CrawlerRuntimeException("No match: "+ findIdString(), getIssueId(), getUrl());
         }
         return String.valueOf(Integer.parseInt(matcher.group(2)));
     }
@@ -100,7 +100,7 @@ public class RscIssueTocParser extends AbstractIssueParser {
         final String script = findScript();
         final Matcher matcher = P_YEAR.matcher(script);
         if (!matcher.find()) {
-            throw new CrawlerRuntimeException("No match: " + script);
+            throw new CrawlerRuntimeException("No match: " + script, getIssueId(), getUrl());
         }
         return String.valueOf(Integer.parseInt(matcher.group(1)));
     }
@@ -115,7 +115,7 @@ public class RscIssueTocParser extends AbstractIssueParser {
         final String href = node.getAttributeValue("href");
         final Matcher m = P_ISSUE_REF.matcher(href);
         if (!m.find()) {
-            throw new CrawlerRuntimeException("No match: ["+href+"]");
+            throw new CrawlerRuntimeException("No match: ["+href+"]", getIssueId(), getUrl());
         }
 
         final String volume = trim(m.group(2), '0');
