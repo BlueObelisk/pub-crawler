@@ -28,6 +28,6 @@ public class PublicationListCrawlRunner<Request, Resource> implements CrawlRunne
     public void run(final String id, final HttpCrawlTaskData data) throws Exception {
         final Request request = requestFactory.createFetchTask(id, data);
         final Resource resource = fetcher.fetch(request);
-        processor.processPublicationList(resource);
+        processor.process(id, data, resource);
     }
 }

@@ -1,12 +1,9 @@
 package wwmm.pubcrawler.crawlers.wiley.tasks;
 
-import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerResponse;
-import wwmm.pubcrawler.archivers.JournalArchiver;
-import wwmm.pubcrawler.crawlers.BasicPublicationListCrawlTaskRunner;
-import wwmm.pubcrawler.crawlers.JournalHandler;
-import wwmm.pubcrawler.crawlers.wiley.WileyPublicationListParserFactory;
+import wwmm.pubcrawler.crawlers.CrawlTaskRunner;
 import wwmm.pubcrawler.http.DocumentResource;
 import wwmm.pubcrawler.http.Fetcher;
+import wwmm.pubcrawler.http.RequestFactory;
 import wwmm.pubcrawler.http.UriRequest;
 import wwmm.pubcrawler.processors.PublicationListProcessor;
 import wwmm.pubcrawler.tasks.HttpCrawlTaskData;
@@ -33,11 +30,11 @@ public class WileyPublicationListCrawlTask implements TaskSpecification<HttpCraw
         return new HttpCrawlTaskDataMarshaller();
     }
 
-    public static class Runner extends BasicPublicationListCrawlTaskRunner {
+    public static class Runner extends CrawlTaskRunner<HttpCrawlTaskData, UriRequest, DocumentResource> {
 
         @Inject
-        public Runner(final Fetcher<UriRequest, CrawlerResponse> fetcher, final WileyPublicationListParserFactory parserFactory, final JournalArchiver journalArchiver, final JournalHandler journalHandler) {
-            super(fetcher, new PublicationListProcessor<DocumentResource>(parserFactory, journalArchiver, journalHandler));
+        public Runner(final Fetcher<UriRequest, DocumentResource> fetcher, final RequestFactory<UriRequest> requestFactory, final PublicationListProcessor<DocumentResource> publicationListProcessor) {
+            super(fetcher, requestFactory, publicationListProcessor);
         }
 
     }
