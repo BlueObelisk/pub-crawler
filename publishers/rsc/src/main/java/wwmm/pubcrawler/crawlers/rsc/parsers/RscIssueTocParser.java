@@ -6,7 +6,7 @@ import nu.xom.Element;
 import nu.xom.Node;
 import org.apache.log4j.Logger;
 import wwmm.pubcrawler.CrawlerRuntimeException;
-import wwmm.pubcrawler.parsers.AbstractIssueParser;
+import wwmm.pubcrawler.parsers.AbstractIssueTocParser;
 import wwmm.pubcrawler.model.FullTextResource;
 import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.model.SupplementaryResource;
@@ -27,7 +27,7 @@ import static java.util.regex.Pattern.DOTALL;
 /**
  * @author Sam Adams
  */
-public class RscIssueTocParser extends AbstractIssueParser {
+public class RscIssueTocParser extends AbstractIssueTocParser {
 
     private static final Logger LOG = Logger.getLogger(RscIssueTocParser.class);
     private static final Pattern P_JOURNAL_TITLE = Pattern.compile("JournalName='(.*?)'");

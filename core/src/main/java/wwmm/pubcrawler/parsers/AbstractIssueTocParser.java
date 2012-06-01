@@ -33,7 +33,7 @@ import java.util.List;
 /**
  * @author Sam Adams
  */
-public abstract class AbstractIssueParser implements IssueTocParser {
+public abstract class AbstractIssueTocParser implements IssueTocParser {
 
     private final JournalId journalId;
     
@@ -45,7 +45,7 @@ public abstract class AbstractIssueParser implements IssueTocParser {
     private String number;
     private String year;
 
-    protected AbstractIssueParser(final Document html, final URI url, final JournalId journalId) {
+    protected AbstractIssueTocParser(final Document html, final URI url, final JournalId journalId) {
         this.html = html;
         this.url = url;
         this.journalId = journalId;

@@ -21,7 +21,7 @@ import nu.xom.Element;
 import nu.xom.Node;
 import org.apache.log4j.Logger;
 import wwmm.pubcrawler.CrawlerRuntimeException;
-import wwmm.pubcrawler.parsers.AbstractIssueParser;
+import wwmm.pubcrawler.parsers.AbstractIssueTocParser;
 import wwmm.pubcrawler.parsers.IssueTocParser;
 import wwmm.pubcrawler.model.FullTextResource;
 import wwmm.pubcrawler.model.Issue;
@@ -40,7 +40,7 @@ import java.util.regex.Pattern;
 /**
  * @author Sam Adams
  */
-public class WileyIssueTocParser extends AbstractIssueParser implements IssueTocParser {
+public class WileyIssueTocParser extends AbstractIssueTocParser implements IssueTocParser {
 
     private static final Logger LOG = Logger.getLogger(WileyIssueTocParser.class);
     private static final Pattern P_PAGES = Pattern.compile("\\(pages? ([^)]+)\\)");

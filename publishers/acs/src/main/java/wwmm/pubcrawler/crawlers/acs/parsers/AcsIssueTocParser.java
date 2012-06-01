@@ -20,7 +20,7 @@ import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
-import wwmm.pubcrawler.parsers.AbstractIssueParser;
+import wwmm.pubcrawler.parsers.AbstractIssueTocParser;
 import wwmm.pubcrawler.parsers.IssueTocParser;
 import wwmm.pubcrawler.crawlers.acs.AcsTools;
 import wwmm.pubcrawler.model.FullTextResource;
@@ -47,7 +47,7 @@ import java.util.regex.Pattern;
  * @author Sam Adams
  * @version 2.0
  */
-public class AcsIssueTocParser extends AbstractIssueParser implements IssueTocParser {
+public class AcsIssueTocParser extends AbstractIssueTocParser implements IssueTocParser {
 
     private static final Logger LOG = Logger.getLogger(AcsIssueTocParser.class);
     

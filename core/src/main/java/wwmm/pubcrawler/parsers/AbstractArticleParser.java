@@ -44,7 +44,7 @@ import java.util.List;
  * @version 2
  *
  */
-public abstract class AbstractArticleParser {
+public abstract class AbstractArticleParser implements ArticleParser {
 
     protected final Article articleRef;
     private final Document html;
@@ -76,7 +76,8 @@ public abstract class AbstractArticleParser {
         return getArticleRef().getDoi();
     }
 
-    public Article toArticle() {
+    @Override
+    public Article getArticleDetails() {
         final Article article = new Article();
         article.setId(getArticleId());
         article.setDoi(getDoi());

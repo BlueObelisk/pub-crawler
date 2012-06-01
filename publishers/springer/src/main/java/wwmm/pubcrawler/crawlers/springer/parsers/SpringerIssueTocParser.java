@@ -21,7 +21,7 @@ import nu.xom.Element;
 import nu.xom.Node;
 import org.apache.log4j.Logger;
 import wwmm.pubcrawler.CrawlerRuntimeException;
-import wwmm.pubcrawler.parsers.AbstractIssueParser;
+import wwmm.pubcrawler.parsers.AbstractIssueTocParser;
 import wwmm.pubcrawler.parsers.IssueTocParser;
 import wwmm.pubcrawler.model.FullTextResource;
 import wwmm.pubcrawler.model.Issue;
@@ -47,7 +47,7 @@ import java.util.regex.Pattern;
  * @author Sam Adams
  * @version 2
  */
-public class SpringerIssueTocParser extends AbstractIssueParser implements IssueTocParser {
+public class SpringerIssueTocParser extends AbstractIssueTocParser implements IssueTocParser {
 
     private static final Logger LOG = Logger.getLogger(SpringerIssueTocParser.class);
     private static final Pattern P_VOLUME_NUMBER = Pattern.compile("Volume (\\S+), (?:Numbers?|Supplement) (\\S+(?:\\s+-\\s*\\S)?) / .*? (\\d{4})");

@@ -16,23 +16,16 @@
 package wwmm.pubcrawler.crawlers.old;
 
 import uk.ac.cam.ch.wwmm.httpcrawler.HttpFetcher;
-import wwmm.pubcrawler.data.mongo.MongoStore;
 
 /**
  * @author Sam Adams
  */
 public class CrawlerContext {
 
-    private final MongoStore dataStore;
     private final HttpFetcher httpCrawler;
 
-    public CrawlerContext(final MongoStore dataStore, final HttpFetcher httpCrawler) {
-        this.dataStore = dataStore;
+    public CrawlerContext(final HttpFetcher httpCrawler) {
         this.httpCrawler = httpCrawler;
-    }
-
-    public MongoStore getDataStore() {
-        return dataStore;
     }
 
     public HttpFetcher getHttpCrawler() {
