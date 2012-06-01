@@ -22,7 +22,7 @@ import nu.xom.Node;
 import nu.xom.Text;
 import org.apache.log4j.Logger;
 import wwmm.pubcrawler.CrawlerRuntimeException;
-import wwmm.pubcrawler.parsers.AbstractIssueParser;
+import wwmm.pubcrawler.parsers.AbstractIssueTocParser;
 import wwmm.pubcrawler.parsers.IssueTocParser;
 import wwmm.pubcrawler.model.FullTextResource;
 import wwmm.pubcrawler.model.Issue;
@@ -44,7 +44,7 @@ import java.util.regex.Pattern;
 /**
  * @author Sam Adams
  */
-public class ElsevierIssueTocParser extends AbstractIssueParser implements IssueTocParser {
+public class ElsevierIssueTocParser extends AbstractIssueTocParser implements IssueTocParser {
 
     private static final Logger LOG = Logger.getLogger(ElsevierIssueTocParser.class);
 

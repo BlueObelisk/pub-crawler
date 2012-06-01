@@ -27,7 +27,6 @@ import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
 import uk.ac.cam.ch.wwmm.httpcrawler.*;
-import wwmm.pubcrawler.data.mongo.MongoStore;
 import wwmm.pubcrawler.model.id.Id;
 
 import java.io.IOException;
@@ -59,10 +58,6 @@ public abstract class AbstractCrawler {
 
     protected CrawlerContext getContext() {
         return context;
-    }
-
-    protected MongoStore getDataStore() {
-        return getContext().getDataStore();
     }
 
     protected HttpFetcher getHttpCrawler() {

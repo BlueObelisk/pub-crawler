@@ -55,15 +55,19 @@ public class AcsPublicationListParser implements PublicationListParser {
             final Element element = (Element) node;
             final String href = element.getAttributeValue("href");
             if (href.startsWith("/journal/")) {
-                final String title = element.getValue().trim();
-                final String abbrev = href.substring(href.lastIndexOf('/') + 1);
-                final Journal journal = new Journal(Acs.PUBLISHER_ID, abbrev, title);
-                journal.setUrl(URI.create(format("http://pubs.acs.org/toc/%s/current", abbrev)));
-                journals.add(journal);
+                journals.add(createJournal(element, href));
             }
         }
 
         return journals;
+    }
+
+    private Journal createJournal(final Element element, final String href) {
+        final String title = element.getValue().trim();
+        final String abbrev = href.substring(href.lastIndexOf('/') + 1);
+        final Journal journal = new Journal(Acs.PUBLISHER_ID, abbrev, title);
+        journal.setUrl(URI.create(format("http://pubs.acs.org/toc/%s/current", abbrev)));
+        return journal;
     }
 
 }

@@ -21,7 +21,7 @@ import nu.xom.Node;
 import org.apache.log4j.Logger;
 import wwmm.pubcrawler.CrawlerRuntimeException;
 import wwmm.pubcrawler.HtmlUtil;
-import wwmm.pubcrawler.parsers.AbstractIssueParser;
+import wwmm.pubcrawler.parsers.AbstractIssueTocParser;
 import wwmm.pubcrawler.crawlers.acta.ActaUtil;
 import wwmm.pubcrawler.crawlers.acta.Iucr;
 import wwmm.pubcrawler.model.FullTextResource;
@@ -47,7 +47,7 @@ import java.util.regex.Pattern;
  * @author Sam Adams
  * @version 2.0
  */
-public class IucrIssueTocParser extends AbstractIssueParser {
+public class IucrIssueTocParser extends AbstractIssueTocParser {
 
     private static final Logger LOG = Logger.getLogger(IucrIssueTocParser.class);
 

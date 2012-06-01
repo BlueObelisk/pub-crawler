@@ -27,7 +27,7 @@ import wwmm.pubcrawler.model.SupplementaryResource;
 import wwmm.pubcrawler.model.id.ArticleId;
 import wwmm.pubcrawler.model.id.IssueId;
 import wwmm.pubcrawler.model.id.JournalId;
-import wwmm.pubcrawler.parsers.AbstractIssueParser;
+import wwmm.pubcrawler.parsers.AbstractIssueTocParser;
 import wwmm.pubcrawler.types.Doi;
 import wwmm.pubcrawler.utils.XHtml;
 import wwmm.pubcrawler.utils.XPathUtils;
@@ -46,7 +46,7 @@ import java.util.regex.Pattern;
  * @author Sam Adams
  * @version 2
  */
-public class NatureIssueTocParser extends AbstractIssueParser {
+public class NatureIssueTocParser extends AbstractIssueTocParser {
 
     private static final Logger LOG = Logger.getLogger(NatureIssueTocParser.class);
 
