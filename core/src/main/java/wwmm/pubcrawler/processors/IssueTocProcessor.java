@@ -5,11 +5,14 @@ import org.slf4j.LoggerFactory;
 import wwmm.pubcrawler.archivers.ArticleArchiver;
 import wwmm.pubcrawler.archivers.IssueArchiver;
 import wwmm.pubcrawler.crawlers.IssueHandler;
-import wwmm.pubcrawler.parsers.IssueTocParser;
-import wwmm.pubcrawler.parsers.IssueTocParserFactory;
+import wwmm.pubcrawler.crawlers.ResourceProcessor;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.model.id.JournalId;
+import wwmm.pubcrawler.model.id.PublisherId;
+import wwmm.pubcrawler.parsers.IssueTocParser;
+import wwmm.pubcrawler.parsers.IssueTocParserFactory;
+import wwmm.pubcrawler.tasks.IssueTocCrawlTaskData;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -19,28 +22,31 @@ import java.util.List;
  * @author Sam Adams
  */
 @Singleton
-public class IssueTocProcessor<T> {
+public class IssueTocProcessor<Resource> implements ResourceProcessor<Resource,IssueTocCrawlTaskData> {
 
     private static final Logger LOG = LoggerFactory.getLogger(IssueTocProcessor.class);
 
     private final IssueArchiver issueArchiver;
     private final ArticleArchiver articleArchiver;
     private final IssueHandler issueHandler;
-    private final IssueTocParserFactory<T> parserFactory;
+    private final IssueTocParserFactory<Resource> parserFactory;
 
     @Inject
-    public IssueTocProcessor(final IssueArchiver issueArchiver, final ArticleArchiver articleArchiver, final IssueHandler issueHandler, final IssueTocParserFactory<T> parserFactory) {
+    public IssueTocProcessor(final IssueArchiver issueArchiver, final ArticleArchiver articleArchiver, final IssueHandler issueHandler, final IssueTocParserFactory<Resource> parserFactory) {
         this.issueArchiver = issueArchiver;
         this.articleArchiver = articleArchiver;
         this.issueHandler = issueHandler;
         this.parserFactory = parserFactory;
     }
 
-    public void process(final String id, final JournalId journalId, final T resource) {
+    @Override
+    public void process(final String taskId, final IssueTocCrawlTaskData data, final Resource resource) {
+        final PublisherId publisherId = new PublisherId(data.getPublisher());
+        final JournalId journalId = new JournalId(publisherId, data.getJournal());
         final IssueTocParser parser = parserFactory.createIssueTocParser(journalId, resource);
-        handleIssueDetails(id, parser);
-        handleIssueLinks(id, parser);
-        handleArticles(id, parser);
+        handleIssueDetails(taskId, parser);
+        handleIssueLinks(taskId, parser);
+        handleArticles(taskId, parser);
     }
 
     private void handleIssueDetails(final String id, final IssueTocParser parser) {

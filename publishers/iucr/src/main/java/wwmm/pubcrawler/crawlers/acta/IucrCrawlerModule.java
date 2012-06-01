@@ -2,23 +2,15 @@ package wwmm.pubcrawler.crawlers.acta;
 
 import com.google.inject.Provides;
 import uk.ac.cam.ch.wwmm.httpcrawler.HttpFetcher;
-import wwmm.pubcrawler.crawlers.IssueTocCrawlRunner;
 import wwmm.pubcrawler.crawlers.IssueTocCrawlTaskFactory;
-import wwmm.pubcrawler.crawlers.PublicationListCrawlRunner;
-import wwmm.pubcrawler.crawlers.acta.tasks.IucrIssueListCrawlerTask;
 import wwmm.pubcrawler.http.DocumentResource;
 import wwmm.pubcrawler.http.Fetcher;
 import wwmm.pubcrawler.http.RequestFactory;
-import wwmm.pubcrawler.http.UriRequest;
 import wwmm.pubcrawler.inject.AbstractPublisherCrawlerModule;
 import wwmm.pubcrawler.model.id.PublisherId;
 import wwmm.pubcrawler.parsers.IssueListParserFactory;
 import wwmm.pubcrawler.parsers.IssueTocParserFactory;
 import wwmm.pubcrawler.parsers.PublicationListParserFactory;
-import wwmm.pubcrawler.processors.IssueListProcessor;
-import wwmm.pubcrawler.processors.IssueTocProcessor;
-import wwmm.pubcrawler.processors.PublicationListProcessor;
-import wwmm.pubcrawler.tasks.IssueListCrawlTaskData;
 
 /**
  * @author Sam Adams

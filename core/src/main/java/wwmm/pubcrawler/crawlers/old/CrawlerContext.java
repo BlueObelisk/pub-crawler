@@ -13,10 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package wwmm.pubcrawler;
+package wwmm.pubcrawler.crawlers.old;
 
 import uk.ac.cam.ch.wwmm.httpcrawler.HttpFetcher;
-import wwmm.pubcrawler.crawlers.AbstractCrawlerFactory;
 import wwmm.pubcrawler.data.mongo.MongoStore;
 
 /**
@@ -26,12 +25,10 @@ public class CrawlerContext {
 
     private final MongoStore dataStore;
     private final HttpFetcher httpCrawler;
-    private final AbstractCrawlerFactory crawlerFactory;
 
-    public CrawlerContext(final MongoStore dataStore, final HttpFetcher httpCrawler, final AbstractCrawlerFactory crawlerFactory) {
+    public CrawlerContext(final MongoStore dataStore, final HttpFetcher httpCrawler) {
         this.dataStore = dataStore;
         this.httpCrawler = httpCrawler;
-        this.crawlerFactory = crawlerFactory;
     }
 
     public MongoStore getDataStore() {
@@ -42,8 +39,4 @@ public class CrawlerContext {
         return httpCrawler;
     }
 
-    public AbstractCrawlerFactory getCrawlerFactory() {
-        return crawlerFactory;
-    }
-    
 }

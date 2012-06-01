@@ -13,9 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package wwmm.pubcrawler.crawlers;
+package wwmm.pubcrawler.crawlers.old;
 
-import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.model.Journal;
@@ -41,17 +40,11 @@ public abstract class AbstractJournalHandler extends AbstractCrawler {
     }
 
     public Issue fetchIssue(final Issue issue) throws IOException {
-        final IssueCrawler crawler = getFactory().createIssueCrawler(issue, getJournal(), getContext());
-        final Issue result = crawler.toIssue();
-        return result;
+        throw new UnsupportedOperationException();
     }
 
     public Article fetchArticle(final Article article) throws IOException {
-        final ArticleCrawler crawler = getFactory().createArticleCrawler(article, getContext());
-        if (crawler != null) {
-            return crawler.toArticle();
-        }
-        return article;
+        throw new UnsupportedOperationException();
     }
 
     public List<Issue> fetchIssueList() throws IOException {

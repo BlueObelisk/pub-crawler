@@ -1,13 +1,9 @@
 package wwmm.pubcrawler.crawlers.wiley.tasks;
 
-import uk.ac.cam.ch.wwmm.httpcrawler.CrawlerResponse;
-import wwmm.pubcrawler.archivers.ArticleArchiver;
-import wwmm.pubcrawler.archivers.IssueArchiver;
-import wwmm.pubcrawler.crawlers.BasicIssueTocCrawlerTaskRunner;
-import wwmm.pubcrawler.crawlers.IssueHandler;
-import wwmm.pubcrawler.crawlers.wiley.WileyIssueTocParserFactory;
+import wwmm.pubcrawler.crawlers.CrawlTaskRunner;
 import wwmm.pubcrawler.http.DocumentResource;
-import wwmm.pubcrawler.http.Fetcher;
+import wwmm.pubcrawler.http.HtmlDocumentResourceHttpFetcher;
+import wwmm.pubcrawler.http.RequestFactory;
 import wwmm.pubcrawler.http.UriRequest;
 import wwmm.pubcrawler.processors.IssueTocProcessor;
 import wwmm.pubcrawler.tasks.IssueTocCrawlTaskData;
@@ -34,11 +30,11 @@ public class WileyIssueTocCrawlTask implements TaskSpecification<IssueTocCrawlTa
         return new IssueTocCrawlTaskDataMarshaller();
     }
 
-    public static class Runner extends BasicIssueTocCrawlerTaskRunner {
+    public static class Runner extends CrawlTaskRunner<IssueTocCrawlTaskData, UriRequest, DocumentResource> {
 
         @Inject
-        public Runner(final Fetcher<UriRequest, CrawlerResponse> fetcher, final WileyIssueTocParserFactory parserFactory, final ArticleArchiver articleArchiver, final IssueArchiver issueArchiver, final IssueHandler issueHandler) {
-            super(fetcher, new IssueTocProcessor<DocumentResource>(issueArchiver, articleArchiver, issueHandler, parserFactory));
+        public Runner(final HtmlDocumentResourceHttpFetcher fetcher, final RequestFactory<UriRequest> requestFactory, final IssueTocProcessor<DocumentResource> issueTocProcessor) {
+            super(fetcher, requestFactory, issueTocProcessor);
         }
 
     }

@@ -2,12 +2,11 @@ package wwmm.pubcrawler.crawlers.elsevier;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.google.inject.Stage;
 import org.junit.Before;
 import org.junit.Test;
 import wwmm.pubcrawler.MockPubCrawlerModule;
 import wwmm.pubcrawler.MockRepositoryModule;
-import wwmm.pubcrawler.crawlers.IssueTocCrawlRunner;
-import wwmm.pubcrawler.crawlers.PublicationListCrawlRunner;
 import wwmm.pubcrawler.crawlers.elsevier.tasks.ElsevierBibliographyCrawlSeedTask;
 import wwmm.pubcrawler.crawlers.elsevier.tasks.ElsevierIssueTocCrawlTask;
 import wwmm.pubcrawler.crawlers.elsevier.tasks.ElsevierPublicationListCrawlTask;
@@ -19,27 +18,15 @@ import static org.junit.Assert.assertNotNull;
  */
 public class ElsevierCrawlerModuleTest {
 
-    @Before
-    public void setUp() throws Exception {
-        injector = Guice.createInjector(
-            new ElsevierCrawlerModule(),
-            new MockRepositoryModule(),
-            new MockPubCrawlerModule()
-        );
-    }
-
     private Injector injector;
 
-    @Test
-    public void testCanCreateIssueTocParserFactory() {
-        ElsevierIssueTocParserFactory factory = injector.getInstance(ElsevierIssueTocParserFactory.class);
-        assertNotNull(factory);
-    }
-
-    @Test
-    public void testCanCreatePublicationListParserFactory() {
-        ElsevierPublicationListParserFactory factory = injector.getInstance(ElsevierPublicationListParserFactory.class);
-        assertNotNull(factory);
+    @Before
+    public void setUp() throws Exception {
+        injector = Guice.createInjector(Stage.PRODUCTION,
+                                        new ElsevierCrawlerModule(),
+                                        new MockRepositoryModule(),
+                                        new MockPubCrawlerModule()
+        );
     }
 
     @Test
@@ -49,26 +36,15 @@ public class ElsevierCrawlerModuleTest {
     }
 
     @Test
-    public void testCanCreatePublicationListCrawlTask() {
-        ElsevierPublicationListCrawlTask crawlTask = injector.getInstance(ElsevierPublicationListCrawlTask.class);
+    public void testCanCreatePublicationListCrawlTaskRunner() {
+        ElsevierPublicationListCrawlTask.Runner crawlTask = injector.getInstance(ElsevierPublicationListCrawlTask.Runner.class);
         assertNotNull(crawlTask);
     }
 
     @Test
-    public void testCanCreateIssueCrawlTask() {
-        ElsevierIssueTocCrawlTask crawlTask = injector.getInstance(ElsevierIssueTocCrawlTask.class);
+    public void testCanCreateIssueTocCrawlTaskRunner() {
+        ElsevierIssueTocCrawlTask.Runner crawlTask = injector.getInstance(ElsevierIssueTocCrawlTask.Runner.class);
         assertNotNull(crawlTask);
     }
 
-    @Test
-    public void testCanCreatePublicationListCrawlRunner() {
-        PublicationListCrawlRunner crawlRunner = injector.getInstance(PublicationListCrawlRunner.class);
-        assertNotNull(crawlRunner);
-    }
-
-    @Test
-    public void testCanCreateIssueTocCrawlRunner() {
-        IssueTocCrawlRunner crawlRunner = injector.getInstance(IssueTocCrawlRunner.class);
-        assertNotNull(crawlRunner);
-    }
 }

@@ -6,8 +6,6 @@ import org.junit.Before;
 import org.junit.Test;
 import wwmm.pubcrawler.MockPubCrawlerModule;
 import wwmm.pubcrawler.MockRepositoryModule;
-import wwmm.pubcrawler.crawlers.IssueTocCrawlRunner;
-import wwmm.pubcrawler.crawlers.PublicationListCrawlRunner;
 import wwmm.pubcrawler.crawlers.acta.tasks.IucrBibliographyCrawlSeedTask;
 import wwmm.pubcrawler.crawlers.acta.tasks.IucrIssueListCrawlerTask;
 import wwmm.pubcrawler.crawlers.acta.tasks.IucrIssueTocCrawlTask;

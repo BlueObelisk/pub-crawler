@@ -17,9 +17,9 @@ package wwmm.pubcrawler.crawlers.nature;
 
 import nu.xom.Document;
 import org.apache.log4j.Logger;
-import wwmm.pubcrawler.CrawlerContext;
+import wwmm.pubcrawler.crawlers.old.CrawlerContext;
 import wwmm.pubcrawler.CrawlerRuntimeException;
-import wwmm.pubcrawler.crawlers.AbstractJournalHandler;
+import wwmm.pubcrawler.crawlers.old.AbstractJournalHandler;
 import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.model.Journal;
 import wwmm.pubcrawler.model.id.IssueId;
