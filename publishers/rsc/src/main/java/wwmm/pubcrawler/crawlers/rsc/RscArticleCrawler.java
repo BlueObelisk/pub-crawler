@@ -17,16 +17,14 @@ package wwmm.pubcrawler.crawlers.rsc;
 
 import nu.xom.*;
 import org.apache.log4j.Logger;
-import wwmm.pubcrawler.CrawlerContext;
-import wwmm.pubcrawler.CrawlerRuntimeException;
-import wwmm.pubcrawler.crawlers.AbstractArticleCrawler;
+import wwmm.pubcrawler.crawlers.old.CrawlerContext;
+import wwmm.pubcrawler.crawlers.old.AbstractArticleCrawler;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.FullTextResource;
 import wwmm.pubcrawler.model.Reference;
 import wwmm.pubcrawler.model.SupplementaryResource;
 import wwmm.pubcrawler.model.id.ArticleId;
 import wwmm.pubcrawler.model.id.ResourceId;
-import wwmm.pubcrawler.types.Doi;
 import wwmm.pubcrawler.utils.XPathUtils;
 
 import java.io.ByteArrayOutputStream;

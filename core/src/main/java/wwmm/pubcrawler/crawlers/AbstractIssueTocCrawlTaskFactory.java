@@ -1,21 +1,16 @@
 package wwmm.pubcrawler.crawlers;
 
 import org.joda.time.Duration;
-import wwmm.pubcrawler.Config;
-import wwmm.pubcrawler.crawler.*;
+import wwmm.pubcrawler.crawler.Task;
+import wwmm.pubcrawler.crawler.TaskBuilder;
 import wwmm.pubcrawler.model.id.IssueId;
 import wwmm.pubcrawler.model.id.JournalId;
 import wwmm.pubcrawler.tasks.IssueTocCrawlTaskData;
 import wwmm.pubcrawler.tasks.TaskSpecification;
 
 import java.net.URI;
-import java.util.HashMap;
-import java.util.Map;
 
 import static wwmm.pubcrawler.Config.ISSUE_TOC_CACHE_MAX_AGE;
-import static wwmm.pubcrawler.crawlers.HttpCrawlTask.FILE_ID;
-import static wwmm.pubcrawler.crawlers.HttpCrawlTask.MAX_AGE;
-import static wwmm.pubcrawler.crawlers.HttpCrawlTask.URL;
 
 /**
  * @author Sam Adams

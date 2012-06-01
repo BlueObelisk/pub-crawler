@@ -2,13 +2,13 @@ package wwmm.pubcrawler.crawlers.springer;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.google.inject.Stage;
 import org.junit.Before;
 import org.junit.Test;
 import wwmm.pubcrawler.MockPubCrawlerModule;
 import wwmm.pubcrawler.MockRepositoryModule;
-import wwmm.pubcrawler.crawlers.IssueTocCrawlRunner;
-import wwmm.pubcrawler.crawlers.PublicationListCrawlRunner;
 import wwmm.pubcrawler.crawlers.springer.tasks.SpringerBibliographyCrawlSeedTask;
+import wwmm.pubcrawler.crawlers.springer.tasks.SpringerIssueListCrawlTask;
 import wwmm.pubcrawler.crawlers.springer.tasks.SpringerIssueTocCrawlTask;
 import wwmm.pubcrawler.crawlers.springer.tasks.SpringerPublicationListCrawlTask;
 
@@ -21,26 +21,14 @@ public class SpringerCrawlerModuleTest {
 
     @Before
     public void setUp() throws Exception {
-        injector = Guice.createInjector(
-            new SpringerCrawlerModule(),
-            new MockRepositoryModule(),
-            new MockPubCrawlerModule()
+        injector = Guice.createInjector(Stage.PRODUCTION,
+                                        new SpringerCrawlerModule(),
+                                        new MockRepositoryModule(),
+                                        new MockPubCrawlerModule()
         );
     }
 
     private Injector injector;
-
-    @Test
-    public void testCanCreateIssueTocParserFactory() {
-        SpringerIssueTocParserFactory factory = injector.getInstance(SpringerIssueTocParserFactory.class);
-        assertNotNull(factory);
-    }
-
-    @Test
-    public void testCanCreatePublicationListParserFactory() {
-        SpringerPublicationListParserFactory factory = injector.getInstance(SpringerPublicationListParserFactory.class);
-        assertNotNull(factory);
-    }
 
     @Test
     public void testCanCreateBibliographyCrawlSeedTask() {
@@ -49,26 +37,20 @@ public class SpringerCrawlerModuleTest {
     }
 
     @Test
-    public void testCanCreatePublicationListCrawlTask() {
-        SpringerPublicationListCrawlTask crawlTask = injector.getInstance(SpringerPublicationListCrawlTask.class);
-        assertNotNull(crawlTask);
-    }
-
-    @Test
-    public void testCanCreateIssueCrawlTask() {
-        SpringerIssueTocCrawlTask crawlTask = injector.getInstance(SpringerIssueTocCrawlTask.class);
-        assertNotNull(crawlTask);
-    }
-
-    @Test
     public void testCanCreatePublicationListCrawlRunner() {
-        PublicationListCrawlRunner crawlRunner = injector.getInstance(PublicationListCrawlRunner.class);
+        SpringerPublicationListCrawlTask.Runner crawlRunner = injector.getInstance(SpringerPublicationListCrawlTask.Runner.class);
+        assertNotNull(crawlRunner);
+    }
+
+    @Test
+    public void testCanCreateIssueListCrawlRunner() {
+        SpringerIssueListCrawlTask.Runner crawlRunner = injector.getInstance(SpringerIssueListCrawlTask.Runner.class);
         assertNotNull(crawlRunner);
     }
 
     @Test
     public void testCanCreateIssueTocCrawlRunner() {
-        IssueTocCrawlRunner crawlRunner = injector.getInstance(IssueTocCrawlRunner.class);
+        SpringerIssueTocCrawlTask.Runner crawlRunner = injector.getInstance(SpringerIssueTocCrawlTask.Runner.class);
         assertNotNull(crawlRunner);
     }
 }

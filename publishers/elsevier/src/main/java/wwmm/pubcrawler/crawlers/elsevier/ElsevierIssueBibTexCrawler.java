@@ -23,10 +23,9 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.log4j.Logger;
-import wwmm.pubcrawler.CrawlerContext;
-import wwmm.pubcrawler.crawlers.AbstractCrawler;
+import wwmm.pubcrawler.crawlers.old.CrawlerContext;
+import wwmm.pubcrawler.crawlers.old.AbstractCrawler;
 import wwmm.pubcrawler.model.Issue;
-import wwmm.pubcrawler.model.Journal;
 import wwmm.pubcrawler.utils.XPathUtils;
 
 import java.io.IOException;

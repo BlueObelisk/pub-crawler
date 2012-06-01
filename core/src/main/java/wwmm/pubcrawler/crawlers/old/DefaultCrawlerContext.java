@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package wwmm.pubcrawler;
+package wwmm.pubcrawler.crawlers.old;
 
 import com.mongodb.DB;
 import com.mongodb.Mongo;
@@ -23,7 +23,6 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpProtocolParams;
 import uk.ac.cam.ch.wwmm.httpcrawler.DefaultHttpFetcher;
 import uk.ac.cam.ch.wwmm.httpcrawler.HttpFetcher;
-import wwmm.pubcrawler.crawlers.AbstractCrawlerFactory;
 import wwmm.pubcrawler.data.mongo.MongoStore;
 
 import java.io.IOException;
@@ -33,8 +32,8 @@ import java.io.IOException;
  */
 public class DefaultCrawlerContext extends CrawlerContext {
 
-    public DefaultCrawlerContext(final AbstractCrawlerFactory crawlerFactory) throws IOException {
-        super(createDataStore(), createCrawler(), crawlerFactory);
+    public DefaultCrawlerContext() throws IOException {
+        super(createDataStore(), createCrawler());
     }
 
     private static HttpFetcher createCrawler() throws IOException {

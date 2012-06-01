@@ -2,12 +2,11 @@ package wwmm.pubcrawler.crawlers.wiley;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.google.inject.Stage;
 import org.junit.Before;
 import org.junit.Test;
 import wwmm.pubcrawler.MockPubCrawlerModule;
 import wwmm.pubcrawler.MockRepositoryModule;
-import wwmm.pubcrawler.crawlers.IssueTocCrawlRunner;
-import wwmm.pubcrawler.crawlers.PublicationListCrawlRunner;
 import wwmm.pubcrawler.crawlers.wiley.tasks.WileyBibliographyCrawlSeedTask;
 import wwmm.pubcrawler.crawlers.wiley.tasks.WileyIssueTocCrawlTask;
 import wwmm.pubcrawler.crawlers.wiley.tasks.WileyPublicationListCrawlTask;
@@ -19,27 +18,15 @@ import static org.junit.Assert.assertNotNull;
  */
 public class WileyCrawlerModuleTest {
 
-    @Before
-    public void setUp() throws Exception {
-        injector = Guice.createInjector(
-            new WileyCrawlerModule(),
-            new MockRepositoryModule(),
-            new MockPubCrawlerModule()
-        );
-    }
-
     private Injector injector;
 
-    @Test
-    public void testCanCreateIssueTocParserFactory() {
-        WileyIssueTocParserFactory factory = injector.getInstance(WileyIssueTocParserFactory.class);
-        assertNotNull(factory);
-    }
-
-    @Test
-    public void testCanCreatePublicationListParserFactory() {
-        WileyPublicationListParserFactory factory = injector.getInstance(WileyPublicationListParserFactory.class);
-        assertNotNull(factory);
+    @Before
+    public void setUp() throws Exception {
+        injector = Guice.createInjector(Stage.PRODUCTION,
+                                        new WileyCrawlerModule(),
+                                        new MockRepositoryModule(),
+                                        new MockPubCrawlerModule()
+        );
     }
 
     @Test
@@ -49,26 +36,14 @@ public class WileyCrawlerModuleTest {
     }
 
     @Test
-    public void testCanCreatePublicationListCrawlTask() {
-        WileyPublicationListCrawlTask crawlTask = injector.getInstance(WileyPublicationListCrawlTask.class);
-        assertNotNull(crawlTask);
-    }
-
-    @Test
-    public void testCanCreateIssueCrawlTask() {
-        WileyIssueTocCrawlTask crawlTask = injector.getInstance(WileyIssueTocCrawlTask.class);
-        assertNotNull(crawlTask);
-    }
-
-    @Test
     public void testCanCreatePublicationListCrawlRunner() {
-        PublicationListCrawlRunner crawlRunner = injector.getInstance(PublicationListCrawlRunner.class);
+        WileyPublicationListCrawlTask.Runner crawlRunner = injector.getInstance(WileyPublicationListCrawlTask.Runner.class);
         assertNotNull(crawlRunner);
     }
 
     @Test
     public void testCanCreateIssueTocCrawlRunner() {
-        IssueTocCrawlRunner crawlRunner = injector.getInstance(IssueTocCrawlRunner.class);
+        WileyIssueTocCrawlTask.Runner crawlRunner = injector.getInstance(WileyIssueTocCrawlTask.Runner.class);
         assertNotNull(crawlRunner);
     }
 }

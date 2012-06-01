@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package wwmm.pubcrawler.crawlers;
+package wwmm.pubcrawler.crawlers.old;
 
 import nu.xom.Builder;
 import nu.xom.Document;
@@ -27,7 +27,6 @@ import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
 import uk.ac.cam.ch.wwmm.httpcrawler.*;
-import wwmm.pubcrawler.CrawlerContext;
 import wwmm.pubcrawler.data.mongo.MongoStore;
 import wwmm.pubcrawler.model.id.Id;
 
@@ -69,11 +68,6 @@ public abstract class AbstractCrawler {
     protected HttpFetcher getHttpCrawler() {
         return getContext().getHttpCrawler();
     }
-
-    protected AbstractCrawlerFactory getFactory() {
-        return getContext().getCrawlerFactory();
-    }
-
 
     protected String readString(final URI url, final Id<?> id, final String filename, final Duration maxage) throws IOException {
         final CrawlerGetRequest request = new CrawlerGetRequest(url, getCacheId(id, filename), maxage);
