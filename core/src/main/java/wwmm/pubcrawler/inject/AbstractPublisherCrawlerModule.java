@@ -7,6 +7,7 @@ import wwmm.pubcrawler.crawlers.IssueTocCrawlTaskFactory;
 import wwmm.pubcrawler.http.*;
 import wwmm.pubcrawler.model.id.PublisherId;
 import wwmm.pubcrawler.parsers.IssueTocParserFactory;
+import wwmm.pubcrawler.repositories.Publisher;
 
 /**
  * @author Sam Adams

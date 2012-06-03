@@ -4,10 +4,10 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
-import wwmm.pubcrawler.inject.Issues;
 import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.model.id.IssueId;
 import wwmm.pubcrawler.repositories.IssueRepository;
+import wwmm.pubcrawler.repositories.Issues;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;

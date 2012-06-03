@@ -1,7 +1,7 @@
 package wwmm.pubcrawler.controller;
 
 import wwmm.pubcrawler.crawler.TaskQueue;
-import wwmm.pubcrawler.inject.Publisher;
+import wwmm.pubcrawler.repositories.Publisher;
 
 import javax.inject.Inject;
 

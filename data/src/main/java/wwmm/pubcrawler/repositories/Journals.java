@@ -1,4 +1,4 @@
-package wwmm.pubcrawler.inject;
+package wwmm.pubcrawler.repositories;
 
 import javax.inject.Qualifier;
 import java.lang.annotation.Retention;
