@@ -11,10 +11,10 @@ import wwmm.pubcrawler.controller.TaskFeeder;
 import wwmm.pubcrawler.controller.TaskReceiver;
 import wwmm.pubcrawler.crawler.Task;
 import wwmm.pubcrawler.crawler.TaskBuilder;
-import wwmm.pubcrawler.repositories.TaskRepository;
-import wwmm.pubcrawler.repositories.mongo.MongoTaskMapper;
-import wwmm.pubcrawler.repositories.mongo.MongoTaskRepository;
-import wwmm.pubcrawler.repositories.mongo.TaskSpecificationFactory;
+import wwmm.pubcrawler.tasks.repository.TaskRepository;
+import wwmm.pubcrawler.tasks.repository.MongoTaskMapper;
+import wwmm.pubcrawler.tasks.repository.MongoTaskRepository;
+import wwmm.pubcrawler.tasks.repository.TaskSpecificationFactory;
 import wwmm.pubcrawler.tasks.*;
 
 import java.util.HashSet;

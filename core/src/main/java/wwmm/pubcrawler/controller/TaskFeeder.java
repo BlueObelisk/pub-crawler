@@ -3,7 +3,7 @@ package wwmm.pubcrawler.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import wwmm.pubcrawler.crawler.Task;
-import wwmm.pubcrawler.repositories.TaskRepository;
+import wwmm.pubcrawler.tasks.repository.TaskRepository;
 
 import java.util.List;
 import java.util.concurrent.locks.LockSupport;

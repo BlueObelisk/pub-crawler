@@ -1,4 +1,4 @@
-package wwmm.pubcrawler.repositories.mongo;
+package wwmm.pubcrawler.tasks.repository;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
@@ -6,8 +6,6 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import org.joda.time.DateTime;
 import wwmm.pubcrawler.crawler.Task;
-import wwmm.pubcrawler.inject.Tasks;
-import wwmm.pubcrawler.repositories.TaskRepository;
 
 import javax.inject.Inject;
 import java.util.ArrayList;

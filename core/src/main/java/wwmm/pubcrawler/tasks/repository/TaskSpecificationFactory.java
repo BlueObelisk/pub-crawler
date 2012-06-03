@@ -1,4 +1,4 @@
-package wwmm.pubcrawler.repositories.mongo;
+package wwmm.pubcrawler.tasks.repository;
 
 import wwmm.pubcrawler.tasks.TaskSpecification;
 

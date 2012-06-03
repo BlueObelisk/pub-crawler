@@ -1,4 +1,4 @@
-package wwmm.pubcrawler.inject;
+package wwmm.pubcrawler.repositories;
 
 import javax.inject.Qualifier;
 import java.lang.annotation.Retention;
@@ -13,5 +13,5 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Target({ TYPE, METHOD, FIELD, PARAMETER })
 @Retention(RUNTIME)
 @Qualifier
-public @interface Tasks {
+public @interface Publisher {
 }

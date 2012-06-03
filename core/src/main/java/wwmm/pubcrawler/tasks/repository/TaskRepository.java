@@ -1,4 +1,4 @@
-package wwmm.pubcrawler.repositories;
+package wwmm.pubcrawler.tasks.repository;
 
 import wwmm.pubcrawler.crawler.Task;
 

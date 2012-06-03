@@ -4,9 +4,9 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
-import wwmm.pubcrawler.inject.Articles;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.repositories.ArticleRepository;
+import wwmm.pubcrawler.repositories.Articles;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;

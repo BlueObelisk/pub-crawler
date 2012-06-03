@@ -1,4 +1,4 @@
-package wwmm.pubcrawler.repositories.mongo;
+package wwmm.pubcrawler.tasks.repository;
 
 import com.mongodb.BasicDBObject;
 import org.joda.time.Duration;

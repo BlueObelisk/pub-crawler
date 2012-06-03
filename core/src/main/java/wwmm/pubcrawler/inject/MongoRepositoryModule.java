@@ -4,11 +4,9 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
+import wwmm.pubcrawler.repositories.*;
 import wwmm.pubcrawler.repositories.mongo.*;
-import wwmm.pubcrawler.repositories.TaskRepository;
-import wwmm.pubcrawler.repositories.ArticleRepository;
-import wwmm.pubcrawler.repositories.IssueRepository;
-import wwmm.pubcrawler.repositories.JournalRepository;
+import wwmm.pubcrawler.tasks.repository.*;
 
 import javax.inject.Singleton;
 
