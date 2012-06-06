@@ -7,7 +7,7 @@ import static java.lang.String.format;
 /**
  * @author Sam Adams
  */
-public class UriRequestFactory implements RequestFactory<UriRequest> {
+public class UriRequestFactory implements RequestFactory<HttpCrawlTaskData, UriRequest> {
 
     private static final String FILE_ID = "%s/%s";
 

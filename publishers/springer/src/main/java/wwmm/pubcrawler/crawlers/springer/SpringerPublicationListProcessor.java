@@ -1,4 +1,4 @@
-package wwmm.pubcrawler.crawlers.springer.tasks;
+package wwmm.pubcrawler.crawlers.springer;
 
 import wwmm.pubcrawler.archivers.JournalArchiver;
 import wwmm.pubcrawler.crawler.Task;
@@ -18,7 +18,7 @@ import java.net.URI;
 /**
  * @author Sam Adams
  */
-public class SpringerIssueListProcessor implements ResourceProcessor<DocumentResource,SpringerPublicationListCrawlTaskData> {
+public class SpringerPublicationListProcessor implements ResourceProcessor<DocumentResource,SpringerPublicationListCrawlTaskData> {
 
     private final SpringerPublicationListParserFactory publicationListParserFactory;
     private final SpringerPublicationListCrawlTaskFactory issueIndexCrawlTaskFactory;
@@ -27,7 +27,7 @@ public class SpringerIssueListProcessor implements ResourceProcessor<DocumentRes
     private final TaskQueue taskQueue;
 
     @Inject
-    public SpringerIssueListProcessor(final SpringerPublicationListParserFactory publicationListParserFactory, final SpringerPublicationListCrawlTaskFactory issueIndexCrawlTaskFactory, final JournalArchiver journalArchiver, final JournalHandler journalHandler, final TaskQueue taskQueue) {
+    public SpringerPublicationListProcessor(final SpringerPublicationListParserFactory publicationListParserFactory, final SpringerPublicationListCrawlTaskFactory issueIndexCrawlTaskFactory, final JournalArchiver journalArchiver, final JournalHandler journalHandler, final TaskQueue taskQueue) {
         this.publicationListParserFactory = publicationListParserFactory;
         this.issueIndexCrawlTaskFactory = issueIndexCrawlTaskFactory;
         this.journalArchiver = journalArchiver;

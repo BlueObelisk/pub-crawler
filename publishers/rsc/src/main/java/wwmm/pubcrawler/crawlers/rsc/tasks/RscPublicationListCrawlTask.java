@@ -1,10 +1,7 @@
 package wwmm.pubcrawler.crawlers.rsc.tasks;
 
 import wwmm.pubcrawler.crawlers.CrawlTaskRunner;
-import wwmm.pubcrawler.http.DocumentResource;
-import wwmm.pubcrawler.http.RequestFactory;
-import wwmm.pubcrawler.http.UriRequest;
-import wwmm.pubcrawler.http.XmlDocumentResourceHttpFetcher;
+import wwmm.pubcrawler.http.*;
 import wwmm.pubcrawler.processors.PublicationListProcessor;
 import wwmm.pubcrawler.tasks.HttpCrawlTaskData;
 import wwmm.pubcrawler.tasks.HttpCrawlTaskDataMarshaller;
@@ -33,7 +30,7 @@ public class RscPublicationListCrawlTask implements TaskSpecification<HttpCrawlT
     public static class Runner extends CrawlTaskRunner<HttpCrawlTaskData, UriRequest, DocumentResource> {
 
         @Inject
-        public Runner(final XmlDocumentResourceHttpFetcher fetcher, final RequestFactory<UriRequest> requestFactory, final PublicationListProcessor<DocumentResource> publicationListProcessor) {
+        public Runner(final HtmlDocumentResourceHttpFetcher fetcher, final RequestFactory<HttpCrawlTaskData, UriRequest> requestFactory, final PublicationListProcessor<DocumentResource> publicationListProcessor) {
             super(fetcher, requestFactory, publicationListProcessor);
         }
 

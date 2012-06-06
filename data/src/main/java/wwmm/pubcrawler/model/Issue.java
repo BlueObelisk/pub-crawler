@@ -56,11 +56,11 @@ public class Issue extends PubcrawlerObject<IssueId> {
     }
 
 
-    public Issue getPreviousIssue() {
-        return (Issue) get(PREVIOUS_ISSUE);
+    public IssueLink getPreviousIssue() {
+        return (IssueLink) get(PREVIOUS_ISSUE);
     }
 
-    public void setPreviousIssue(final Issue previousIssue) {
+    public void setPreviousIssue(final IssueLink previousIssue) {
         put(PREVIOUS_ISSUE, previousIssue);
     }
 

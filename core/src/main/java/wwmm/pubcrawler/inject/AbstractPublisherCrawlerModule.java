@@ -8,6 +8,7 @@ import wwmm.pubcrawler.http.*;
 import wwmm.pubcrawler.model.id.PublisherId;
 import wwmm.pubcrawler.parsers.IssueTocParserFactory;
 import wwmm.pubcrawler.repositories.Publisher;
+import wwmm.pubcrawler.tasks.HttpCrawlTaskData;
 
 /**
  * @author Sam Adams
@@ -26,7 +27,7 @@ public abstract class AbstractPublisherCrawlerModule extends AbstractModule {
     }
 
     @Provides
-    public RequestFactory<UriRequest> provideUriRequestFactory() {
+    public RequestFactory<HttpCrawlTaskData, UriRequest> provideUriRequestFactory() {
         return new UriRequestFactory();
     }
 

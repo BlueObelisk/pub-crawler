@@ -11,10 +11,10 @@ import wwmm.pubcrawler.tasks.TaskRunner;
 public class CrawlTaskRunner<TaskData extends HttpCrawlTaskData, Request, Resource> implements TaskRunner<TaskData> {
 
     private final Fetcher<Request, Resource> fetcher;
-    private final RequestFactory<Request> requestFactory;
-    private final ResourceProcessor<Resource, TaskData> processor;
+    private final RequestFactory<? super TaskData, Request> requestFactory;
+    private final ResourceProcessor<Resource, ? super TaskData> processor;
 
-    public CrawlTaskRunner(final Fetcher<Request, Resource> fetcher, final RequestFactory<Request> requestFactory, final ResourceProcessor<Resource, TaskData> processor) {
+    public CrawlTaskRunner(final Fetcher<Request, Resource> fetcher, final RequestFactory<? super TaskData, Request> requestFactory, final ResourceProcessor<Resource, ? super TaskData> processor) {
         this.fetcher = fetcher;
         this.requestFactory = requestFactory;
         this.processor = processor;

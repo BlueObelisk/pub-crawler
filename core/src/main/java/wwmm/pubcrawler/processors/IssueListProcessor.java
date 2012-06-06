@@ -2,7 +2,7 @@ package wwmm.pubcrawler.processors;
 
 import wwmm.pubcrawler.crawlers.IssueHandler;
 import wwmm.pubcrawler.crawlers.ResourceProcessor;
-import wwmm.pubcrawler.model.Issue;
+import wwmm.pubcrawler.model.IssueLink;
 import wwmm.pubcrawler.model.id.JournalId;
 import wwmm.pubcrawler.model.id.PublisherId;
 import wwmm.pubcrawler.parsers.IssueListParser;
@@ -34,8 +34,8 @@ public class IssueListProcessor<Resource, TaskData extends IssueListCrawlTaskDat
 
         final IssueListParser parser = parserFactory.createIssueListParser(journalId, resource);
 
-        for (final Issue issue : parser.findIssues()) {
-            issueHandler.handleIssueLink(issue);
+        for (final IssueLink issueLink : parser.findIssues()) {
+            issueHandler.handleIssueLink(issueLink);
         }
     }
 }

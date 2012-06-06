@@ -22,10 +22,10 @@ import org.apache.log4j.Logger;
 import wwmm.pubcrawler.CrawlerRuntimeException;
 import wwmm.pubcrawler.HtmlUtil;
 import wwmm.pubcrawler.model.FullTextResource;
-import wwmm.pubcrawler.model.Issue;
+import wwmm.pubcrawler.model.IssueLink;
+import wwmm.pubcrawler.model.IssueLinkBuilder;
 import wwmm.pubcrawler.model.SupplementaryResource;
 import wwmm.pubcrawler.model.id.ArticleId;
-import wwmm.pubcrawler.model.id.IssueId;
 import wwmm.pubcrawler.model.id.JournalId;
 import wwmm.pubcrawler.parsers.AbstractIssueTocParser;
 import wwmm.pubcrawler.types.Doi;
@@ -60,7 +60,7 @@ public class NatureIssueTocParser extends AbstractIssueTocParser {
     }
 
     @Override
-    public Issue getPreviousIssue() {
+    public IssueLink getPreviousIssue() {
         final String href = XPathUtils.getString(getHtml(), ".//x:a[text()='Previous']/@href");
         if (href == null) {
             return null;
@@ -70,10 +70,14 @@ public class NatureIssueTocParser extends AbstractIssueTocParser {
         m.find();
         final String volume = m.group(1);
         final String number = m.group(2);
-        final Issue prev = new Issue();
-        prev.setId(new IssueId("nature/"+getJournalAbbreviation()+"/"+volume+"/"+number));
-        prev.setUrl(getUrl().resolve(href));
-        return prev;
+
+        return new IssueLinkBuilder()
+                .withJournalId(getJournalId())
+                .withJournalTitle(getJournalTitle())
+                .withVolume(volume)
+                .withNumber(number)
+                .withUrl(getUrl().resolve(href))
+                .build();
     }
 
     @Override

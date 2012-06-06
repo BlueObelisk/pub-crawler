@@ -21,14 +21,14 @@ import nu.xom.Element;
 import nu.xom.Node;
 import org.apache.log4j.Logger;
 import wwmm.pubcrawler.CrawlerRuntimeException;
-import wwmm.pubcrawler.parsers.AbstractIssueTocParser;
-import wwmm.pubcrawler.parsers.IssueTocParser;
 import wwmm.pubcrawler.model.FullTextResource;
-import wwmm.pubcrawler.model.Issue;
+import wwmm.pubcrawler.model.IssueLink;
+import wwmm.pubcrawler.model.IssueLinkBuilder;
 import wwmm.pubcrawler.model.SupplementaryResource;
 import wwmm.pubcrawler.model.id.ArticleId;
-import wwmm.pubcrawler.model.id.IssueId;
 import wwmm.pubcrawler.model.id.JournalId;
+import wwmm.pubcrawler.parsers.AbstractIssueTocParser;
+import wwmm.pubcrawler.parsers.IssueTocParser;
 import wwmm.pubcrawler.types.Doi;
 import wwmm.pubcrawler.utils.XPathUtils;
 
@@ -141,7 +141,7 @@ public class SpringerIssueTocParser extends AbstractIssueTocParser implements Is
     }
 
     @Override
-    public Issue getPreviousIssue() {
+    public IssueLink getPreviousIssue() {
         return null;
     }
 
@@ -173,8 +173,8 @@ public class SpringerIssueTocParser extends AbstractIssueTocParser implements Is
     }
 
     @Override
-    public List<Issue> getIssueLinks() {
-        final List<Issue> issues = new ArrayList<Issue>();
+    public List<IssueLink> getIssueLinks() {
+        final List<IssueLink> issues = new ArrayList<IssueLink>();
         final List<Node> nodes = XPathUtils.queryHTML(getHtml(), "//x:div[@class='accordion']/x:div[1]/x:ul//x:ul/x:li/x:a");
         for (final Node node : nodes) {
             final Element address = (Element) node;
@@ -183,7 +183,14 @@ public class SpringerIssueTocParser extends AbstractIssueTocParser implements Is
             if (m.matches()) {
                 final String volume = m.group(1);
                 final String number = m.group(2);
-                issues.add(new Issue(new IssueId(getJournalId(), volume, number), getJournalTitle(), volume, number, null, getUrl().resolve(href)));
+                final IssueLink issueLink =  new IssueLinkBuilder()
+                        .withJournalId(getJournalId())
+                        .withJournalTitle(getJournalTitle())
+                        .withVolume(volume)
+                        .withNumber(number)
+                        .withUrl(getUrl().resolve(href))
+                        .build();
+                issues.add(issueLink);
             } else {
                 LOG.warn("Error matching issue link: " + href);
             }

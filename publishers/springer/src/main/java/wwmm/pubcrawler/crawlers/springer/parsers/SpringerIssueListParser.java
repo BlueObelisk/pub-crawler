@@ -19,8 +19,8 @@ package wwmm.pubcrawler.crawlers.springer.parsers;
 import nu.xom.Document;
 import nu.xom.Node;
 import org.apache.log4j.Logger;
-import wwmm.pubcrawler.model.Issue;
-import wwmm.pubcrawler.model.id.IssueId;
+import wwmm.pubcrawler.model.IssueLink;
+import wwmm.pubcrawler.model.IssueLinkBuilder;
 import wwmm.pubcrawler.model.id.JournalId;
 import wwmm.pubcrawler.parsers.IssueListParser;
 import wwmm.pubcrawler.utils.XPathUtils;
@@ -55,8 +55,8 @@ public class SpringerIssueListParser implements IssueListParser {
     }
 
     @Override
-    public List<Issue> findIssues() {
-        final List<Issue> list = new ArrayList<Issue>();
+    public List<IssueLink> findIssues() {
+        final List<IssueLink> list = new ArrayList<IssueLink>();
 
         final List<Node> volumeNodes = XPathUtils.queryHTML(html, "//x:li[x:a/x:span[starts-with(text(), 'Volume')]]");
         if (volumeNodes.isEmpty()) {
@@ -79,7 +79,7 @@ public class SpringerIssueListParser implements IssueListParser {
         return list;
     }
 
-    private void findIssues(final List<Issue> list, final Node node, final String volume) {
+    private void findIssues(final List<IssueLink> list, final Node node, final String volume) {
         final List<Node> issues = XPathUtils.queryHTML(node, "./x:ul/x:li");
         boolean first = true;
         for (final Node n : issues) {
@@ -118,12 +118,13 @@ public class SpringerIssueListParser implements IssueListParser {
             }
 
             final URI url = this.url.resolve(href);
-            final Issue issue = new Issue();
-            issue.setId(new IssueId(journalId, volume, number));
-            issue.setUrl(url);
-            issue.setVolume(volume);
-            issue.setNumber(number);
-            issue.setYear(year);
+
+            final IssueLink issue = new IssueLinkBuilder()
+                .withJournalId(journalId)
+                .withVolume(volume)
+                .withNumber(number)
+                .withUrl(url)
+                .build();
 
             list.add(issue);
         }

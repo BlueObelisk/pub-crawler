@@ -8,6 +8,7 @@ import org.junit.Test;
 import wwmm.pubcrawler.model.Journal;
 
 import java.io.InputStream;
+import java.net.URI;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -16,6 +17,8 @@ import static org.junit.Assert.assertEquals;
  * @author Sam Adams
  */
 public class RscPublicationListParserTest {
+
+    private static final URI URL = URI.create("http://pubs.rsc.org/en/journals/getatozresult?key=title&value=current");
 
     private Document loadDocument() throws Exception {
         final InputStream in = getClass().getResourceAsStream("journals.html");
@@ -29,7 +32,7 @@ public class RscPublicationListParserTest {
     @Test
     public void testFindJournals() throws Exception {
         Document html = loadDocument();
-        RscPublicationListParser parser = new RscPublicationListParser(html);
+        RscPublicationListParser parser = new RscPublicationListParser(html, URL);
 
         List<Journal> journals = parser.findJournals();
 
@@ -106,5 +109,9 @@ public class RscPublicationListParserTest {
             journals.get(33).getTitle());
         assertEquals("Toxicology Research",
             journals.get(34).getTitle());
+
+
+        assertEquals(URI.create("http://pubs.rsc.org/en/journals/journal/an"),
+             journals.get(0).getUrl());
     }
 }

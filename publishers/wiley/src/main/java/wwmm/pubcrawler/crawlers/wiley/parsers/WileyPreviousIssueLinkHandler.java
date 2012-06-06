@@ -1,8 +1,8 @@
 package wwmm.pubcrawler.crawlers.wiley.parsers;
 
 import wwmm.pubcrawler.CrawlerRuntimeException;
-import wwmm.pubcrawler.model.Issue;
-import wwmm.pubcrawler.model.id.IssueId;
+import wwmm.pubcrawler.model.IssueLink;
+import wwmm.pubcrawler.model.IssueLinkBuilder;
 import wwmm.pubcrawler.model.id.JournalId;
 
 import java.net.URI;
@@ -27,11 +27,16 @@ public class WileyPreviousIssueLinkHandler {
         this.url = url;
     }
 
-    public Issue parse(final String href) {
+    public IssueLink parse(final String href) {
         final Matcher m = getMatcher(href);
         final String volume = m.group(1);
         final String number = m.group(2);
-        return new Issue(new IssueId(journalId, volume, number), null, volume, number, null, url.resolve(href));
+        return new IssueLinkBuilder()
+                .withJournalId(journalId)
+                .withVolume(volume)
+                .withNumber(number)
+                .withUrl(url.resolve(href))
+                .build();
     }
 
     private Matcher getMatcher(final String href) {

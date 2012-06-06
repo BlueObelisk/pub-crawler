@@ -6,10 +6,10 @@ import org.apache.commons.io.IOUtils;
 import org.ccil.cowan.tagsoup.Parser;
 import org.joda.time.LocalDate;
 import org.junit.AfterClass;
-import org.junit.Assert;
 import org.junit.Test;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.Issue;
+import wwmm.pubcrawler.model.IssueLink;
 import wwmm.pubcrawler.model.id.JournalId;
 import wwmm.pubcrawler.model.id.PublisherId;
 import wwmm.pubcrawler.types.Doi;
@@ -99,9 +99,9 @@ public class AcsIssueTocParserTest {
     @Test
     public void testGetPreviousIssue() throws Exception {
         AcsIssueTocParser crawler = getJacsIssue132_51();
-        Issue prev = crawler.getPreviousIssue();
+        IssueLink prev = crawler.getPreviousIssue();
         assertNotNull(prev);
-        assertEquals("acs/jacsat/132/50", prev.getId().getUid());
+        assertEquals("acs/jacsat/132/50", prev.getIssueId().getUid());
         assertEquals(URI.create("http://pubs.acs.org/toc/jacsat/132/50"), prev.getUrl());
     }
 
@@ -148,7 +148,7 @@ public class AcsIssueTocParserTest {
         assertNotNull(articles);
         assertEquals(64, articles.size());
         assertNotNull(issue.getPreviousIssue());
-        assertEquals("acs/jacsat/132/50", issue.getPreviousIssue().getId().getUid());
+        assertEquals("acs/jacsat/132/50", issue.getPreviousIssue().getIssueId().getUid());
     }
 
     @Test

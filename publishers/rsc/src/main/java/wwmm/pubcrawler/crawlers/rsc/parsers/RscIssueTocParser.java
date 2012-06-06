@@ -6,13 +6,13 @@ import nu.xom.Element;
 import nu.xom.Node;
 import org.apache.log4j.Logger;
 import wwmm.pubcrawler.CrawlerRuntimeException;
-import wwmm.pubcrawler.parsers.AbstractIssueTocParser;
 import wwmm.pubcrawler.model.FullTextResource;
-import wwmm.pubcrawler.model.Issue;
+import wwmm.pubcrawler.model.IssueLink;
+import wwmm.pubcrawler.model.IssueLinkBuilder;
 import wwmm.pubcrawler.model.SupplementaryResource;
 import wwmm.pubcrawler.model.id.ArticleId;
-import wwmm.pubcrawler.model.id.IssueId;
 import wwmm.pubcrawler.model.id.JournalId;
+import wwmm.pubcrawler.parsers.AbstractIssueTocParser;
 import wwmm.pubcrawler.types.Doi;
 import wwmm.pubcrawler.utils.XPathUtils;
 
@@ -106,7 +106,7 @@ public class RscIssueTocParser extends AbstractIssueTocParser {
     }
 
     @Override
-    public Issue getPreviousIssue() {
+    public IssueLink getPreviousIssue() {
         final Element node = (Element) XPathUtils.getNode(getHtml(), ".//x:a[@title='Previous Issue']");
         if (node == null) {
             return null;
@@ -121,14 +121,13 @@ public class RscIssueTocParser extends AbstractIssueTocParser {
         final String volume = trim(m.group(2), '0');
         final String number = trim(m.group(3), '0');
 
-        final Issue prev = new Issue();
-        prev.setId(new IssueId(getJournalId(), volume, number));
-        prev.setJournalTitle(getJournalTitle());
-        prev.setVolume(volume);
-        prev.setNumber(number);
-        prev.setUrl(getUrl().resolve(href));
-
-        return prev;
+        return new IssueLinkBuilder()
+                .withJournalId(getJournalId())
+                .withJournalTitle(getJournalTitle())
+                .withVolume(volume)
+                .withNumber(number)
+                .withUrl(getUrl().resolve(href))
+                .build();
     }
 
     private String trim(final String text, final char c) {

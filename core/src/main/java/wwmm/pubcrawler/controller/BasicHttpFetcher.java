@@ -1,7 +1,6 @@
 package wwmm.pubcrawler.controller;
 
 import uk.ac.cam.ch.wwmm.httpcrawler.*;
-import wwmm.pubcrawler.http.DocumentResource;
 import wwmm.pubcrawler.http.Fetcher;
 import wwmm.pubcrawler.http.UriRequest;
 
@@ -30,7 +29,7 @@ public class BasicHttpFetcher implements Fetcher<UriRequest,CrawlerResponse> {
             .withKey(task.getId())
             .withUrl(task.getUri())
             .withMaxAge(task.getMaxAge())
-            .withReferrer(task.getReferer())
+            .withReferrer(task.getReferrer())
             .build();
     }
 

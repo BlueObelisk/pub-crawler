@@ -2,6 +2,7 @@ package wwmm.pubcrawler.parsers;
 
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.Issue;
+import wwmm.pubcrawler.model.IssueLink;
 
 import java.net.URI;
 import java.util.List;
@@ -15,7 +16,7 @@ public interface IssueTocParser {
     
     List<Article> getArticles();
 
-    List<Issue> getIssueLinks();
+    List<IssueLink> getIssueLinks();
 
     List<URI> getIssueListLinks();
 

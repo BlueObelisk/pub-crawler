@@ -22,14 +22,11 @@ import nu.xom.Node;
 import nu.xom.Text;
 import org.apache.log4j.Logger;
 import wwmm.pubcrawler.CrawlerRuntimeException;
+import wwmm.pubcrawler.model.*;
+import wwmm.pubcrawler.model.id.ArticleId;
+import wwmm.pubcrawler.model.id.JournalId;
 import wwmm.pubcrawler.parsers.AbstractIssueTocParser;
 import wwmm.pubcrawler.parsers.IssueTocParser;
-import wwmm.pubcrawler.model.FullTextResource;
-import wwmm.pubcrawler.model.Issue;
-import wwmm.pubcrawler.model.SupplementaryResource;
-import wwmm.pubcrawler.model.id.ArticleId;
-import wwmm.pubcrawler.model.id.IssueId;
-import wwmm.pubcrawler.model.id.JournalId;
 import wwmm.pubcrawler.types.Doi;
 import wwmm.pubcrawler.utils.XPathUtils;
 
@@ -178,7 +175,7 @@ public class ElsevierIssueTocParser extends AbstractIssueTocParser implements Is
     }
 
     @Override
-    public Issue getPreviousIssue() {
+    public IssueLink getPreviousIssue() {
         final List<Node> nodes = XPathUtils.queryHTML(getHtml(), ".//x:a[@title='Previous volume/issue'][1]");
         if (!nodes.isEmpty()) {
             final Element addr = (Element) nodes.get(0);
@@ -188,12 +185,13 @@ public class ElsevierIssueTocParser extends AbstractIssueTocParser implements Is
                 final String volume = m.group(2);
                 final String number = m.group(3) != null ? m.group(3) : Issue.NULL_NUMBER;
 
-                final Issue issue = new Issue();
-                issue.setId(new IssueId(getJournalId(), volume, number));
-                issue.setVolume(volume);
-                issue.setNumber(number);
-                issue.setUrl(getUrl().resolve(href));
-                return issue;
+                return new IssueLinkBuilder()
+                        .withJournalId(getJournalId())
+                        .withJournalTitle(getJournalTitle())
+                        .withVolume(volume)
+                        .withNumber(number)
+                        .withUrl(getUrl().resolve(href))
+                        .build();
             } else {
                 LOG.warn("Error parsing previous issue link: " + href);
             }

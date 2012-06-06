@@ -21,15 +21,15 @@ import nu.xom.Node;
 import org.apache.log4j.Logger;
 import wwmm.pubcrawler.CrawlerRuntimeException;
 import wwmm.pubcrawler.HtmlUtil;
-import wwmm.pubcrawler.parsers.AbstractIssueTocParser;
 import wwmm.pubcrawler.crawlers.acta.ActaUtil;
 import wwmm.pubcrawler.crawlers.acta.Iucr;
 import wwmm.pubcrawler.model.FullTextResource;
-import wwmm.pubcrawler.model.Issue;
+import wwmm.pubcrawler.model.IssueLink;
+import wwmm.pubcrawler.model.IssueLinkBuilder;
 import wwmm.pubcrawler.model.SupplementaryResource;
 import wwmm.pubcrawler.model.id.ArticleId;
-import wwmm.pubcrawler.model.id.IssueId;
 import wwmm.pubcrawler.model.id.JournalId;
+import wwmm.pubcrawler.parsers.AbstractIssueTocParser;
 import wwmm.pubcrawler.types.Doi;
 import wwmm.pubcrawler.utils.XPathUtils;
 
@@ -78,17 +78,14 @@ public class IucrIssueTocParser extends AbstractIssueTocParser {
     }
 
     @Override
-    public Issue getPreviousIssue() {
+    public IssueLink getPreviousIssue() {
         final String href = XPathUtils.getString(headHtml, ".//x:a[./x:img/@alt='Previous']/@href");
         if (href == null) {
             return null;
         }
         URI url = headerUrl.resolve(href);
-        url = url.resolve("./isscontsbdy.html");
-        final Issue issue = new Issue();
-        issue.setId(getIssueId(url));
-        issue.setUrl(url);
-        return issue;
+
+        return createIssueLink(url.resolve("./isscontsbdy.html"));
     }
 
     @Override
@@ -221,7 +218,7 @@ public class IucrIssueTocParser extends AbstractIssueTocParser {
         return null;
     }
 
-    private IssueId getIssueId(final URI url) {
+    private IssueLink createIssueLink(final URI url) {
         // http://journals.iucr.org/e/issues/2011/01/00/isscontsbdy.html
         final Pattern p = Pattern.compile("journals.iucr.org/([^/]+)/issues/(\\d+)/(\\w+)/(\\w+)");
         final Matcher m = p.matcher(url.toString());
@@ -229,7 +226,15 @@ public class IucrIssueTocParser extends AbstractIssueTocParser {
             throw new CrawlerRuntimeException("Unable to parse URL: "+url, getIssueId(), getUrl());
         }
         final JournalId journalId = new JournalId(Iucr.PUBLISHER_ID, m.group(1));
-        return new IssueId(journalId, m.group(2), m.group(3) + '-' + m.group(4));
+        final String volume = m.group(2);
+        final String number = m.group(3) + '-' + m.group(4);
+        return new IssueLinkBuilder()
+                .withJournalId(journalId)
+                .withJournalTitle(getJournalTitle())
+                .withVolume(volume)
+                .withNumber(number)
+                .withUrl(url)
+                .build();
     }
 
 
