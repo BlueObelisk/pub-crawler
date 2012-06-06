@@ -39,11 +39,16 @@ public class RscIssueTocFetcher implements Fetcher<RscIssueTocRequest, DocumentR
         return HtmlUtils.readHtmlDocument(response);
     }
 
+    // curl -v -d "name=SC&issueid=&jname=Chemical Science&pageno=1&issnprint=2041-6520&issnonline=2041-6539&iscontentavailable=True" http://pubs.rsc.org/en/journals/issues > issues.html
+
+    // curl -d "name=SC&issueid=sc003004&jname=Chemical Science&iscontentavailable=True" http://pubs.rsc.org/en/journals/issues
+
+
     private CrawlerRequest createRequest(final RscIssueTocRequest task) {
         return new CrawlerPostRequest(ISSUES_URL, task.getId(), task.getMaxAge(),
                                       new BasicNameValuePair("name", task.getJournal()),
-                                      new BasicNameValuePair("issue", task.getIssue()),
+                                      new BasicNameValuePair("issueid", task.getIssue()),
                                       new BasicNameValuePair("jname", task.getJournalName()),
-                                      new BasicNameValuePair("iscontentavailable", "true"));
+                                      new BasicNameValuePair("iscontentavailable", "True"));
     }
 }

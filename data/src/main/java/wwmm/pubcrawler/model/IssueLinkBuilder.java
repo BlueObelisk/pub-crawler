@@ -17,6 +17,7 @@ public class IssueLinkBuilder {
     private String volume;
     private String number;
     private String year;
+    private String issueRef;
     
     private URI url;
 
@@ -44,14 +45,19 @@ public class IssueLinkBuilder {
         this.url = url;
         return this;
     }
-    
+
+    public IssueLinkBuilder withIssueRef(final String issueRef) {
+        this.issueRef = issueRef;
+        return this;
+    }
+
     public IssueLink build() {
         notNull(journalId);
         notNull(volume);
         notNull(number);
 
         final IssueId issueId = new IssueId(journalId, volume, number);
-        return new IssueLink(issueId, url, journalTitle, volume, number);
+        return new IssueLink(issueId, url, journalTitle, volume, number, issueRef);
     }
     
 }

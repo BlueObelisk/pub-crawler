@@ -23,19 +23,19 @@ public class RscIssueTocCrawlTaskFactory implements IssueTocCrawlTaskFactory<Rsc
 
     @Override
     public Task<RscIssueTocCrawlTaskData> createCurrentIssueTocCrawlTask(final Journal journal) {
-        return createIssueTocCrawlTask(new IssueId(journal.getId(), "current"), journal.getUrl(), journal.getAbbreviation(), journal.getTitle());
+        return createIssueTocCrawlTask(new IssueId(journal.getId(), "current"), journal.getUrl(), journal.getAbbreviation(), journal.getTitle(), "");
     }
 
     @Override
     public Task<RscIssueTocCrawlTaskData> createIssueTocCrawlTask(final IssueLink issueLink) {
-        return createIssueTocCrawlTask(issueLink.getIssueId(), issueLink.getUrl(), issueLink.getIssueId().getJournalPart(), issueLink.getJournalTitle());
+        return createIssueTocCrawlTask(issueLink.getIssueId(), issueLink.getUrl(), issueLink.getIssueId().getJournalPart(), issueLink.getJournalTitle(), issueLink.getIssueRef());
     }
 
-    private Task<RscIssueTocCrawlTaskData> createIssueTocCrawlTask(final IssueId issueId, final URI url, final String journalId, final String journalTitle) {
+    private Task<RscIssueTocCrawlTaskData> createIssueTocCrawlTask(final IssueId issueId, final URI url, final String journalId, final String journalTitle, final String issueRef) {
         final String publisher = issueId.getPublisherPart();
         final String issue = issueId.getIssuePart();
 
-        final RscIssueTocCrawlTaskData data = new RscIssueTocCrawlTaskData(url, "toc.html", ISSUE_TOC_CACHE_MAX_AGE, publisher, journalId, journalTitle, issue);
+        final RscIssueTocCrawlTaskData data = new RscIssueTocCrawlTaskData(url, "toc.html", ISSUE_TOC_CACHE_MAX_AGE, publisher, journalId, journalTitle, issueRef);
 
         final TaskSpecification<RscIssueTocCrawlTaskData> type = getCrawlerType();
 
