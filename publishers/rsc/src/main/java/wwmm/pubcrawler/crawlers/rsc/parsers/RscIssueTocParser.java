@@ -120,6 +120,7 @@ public class RscIssueTocParser extends AbstractIssueTocParser {
 
         final String volume = trim(m.group(2), '0');
         final String number = trim(m.group(3), '0');
+        final String issueRef = m.group(1) + m.group(2) + m.group(3);
 
         return new IssueLinkBuilder()
                 .withJournalId(getJournalId())
@@ -127,6 +128,7 @@ public class RscIssueTocParser extends AbstractIssueTocParser {
                 .withVolume(volume)
                 .withNumber(number)
                 .withUrl(getUrl().resolve(href))
+                .withIssueRef(issueRef)
                 .build();
     }
 

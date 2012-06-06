@@ -34,10 +34,6 @@ public class RscIssueTocCrawlTask implements TaskSpecification<RscIssueTocCrawlT
 
     public static class Runner extends CrawlTaskRunner<RscIssueTocCrawlTaskData, RscIssueTocRequest, DocumentResource> {
 
-        // curl -v -d "name=SC&issueid=&jname=Chemical Science&pageno=1&issnprint=2041-6520&issnonline=2041-6539&iscontentavailable=True" http://pubs.rsc.org/en/journals/issues > issues.html
-
-        // curl -d "name=SC&issueid=sc003004&jname=Chemical Science&iscontentavailable=True" http://pubs.rsc.org/en/journals/issues
-
         @Inject
         public Runner(final RscIssueTocFetcher fetcher, final RequestFactory<RscIssueTocCrawlTaskData, RscIssueTocRequest> requestFactory, final IssueTocProcessor<DocumentResource> issueTocProcessor) {
             super(fetcher, requestFactory, issueTocProcessor);

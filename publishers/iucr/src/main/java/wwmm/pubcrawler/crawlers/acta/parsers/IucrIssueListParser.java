@@ -63,7 +63,7 @@ public class IucrIssueListParser implements IssueListParser {
                 final String volume = volumeNumberParser.getVolume(node.getValue());
                 final String number = volumeNumberParser.getNumber(node.getValue());
 
-                final IssueLink issueLink = new IssueLink(getIssueId(url), url, null, volume, number);
+                final IssueLink issueLink = new IssueLink(getIssueId(url), url, null, volume, number, null);
                 issues.add(issueLink);
             }
         }
