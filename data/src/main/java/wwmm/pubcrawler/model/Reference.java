@@ -29,7 +29,14 @@ package wwmm.pubcrawler.model;
  * @version 1.1
  * 
  */
-public class Reference extends MongoDBObject {
+public class Reference {
+
+    private String journalTitle;
+    private String volume;
+    private String number;
+    private String year;
+    private String pages;
+    private String journalAbbrev;
 
     public Reference() {
     }
@@ -50,7 +57,7 @@ public class Reference extends MongoDBObject {
 	 * published in.
 	 */
 	public String getJournalTitle() {
-		return getString("journal");
+		return journalTitle;
 	}
 
 	/**
@@ -61,15 +68,15 @@ public class Reference extends MongoDBObject {
 	 * article was published in.
 	 */
 	public void setJournalTitle(final String journalTitle) {
-		put("journal", journalTitle);
+		this.journalTitle = journalTitle;
 	}
 
     public String getAbbreviatedJournalTitle() {
-        return getString("journalAbbrev");
+        return journalAbbrev;
     }
 
     public void setAbbreviatedJournalTitle(final String journalTitle) {
-        put("journalAbbrev", journalTitle);
+        this.journalAbbrev = journalTitle;
     }
 
 	/**
@@ -78,7 +85,7 @@ public class Reference extends MongoDBObject {
 	 * @return year the article was published.
 	 */
 	public String getYear() {
-		return getString("year");
+		return year;
 	}
 
 	/**
@@ -87,7 +94,7 @@ public class Reference extends MongoDBObject {
 	 * @param year the article was published.
 	 */
 	public void setYear(final String year) {
-		put("year", year);
+		this.year = year;
 	}
 
 
@@ -99,7 +106,7 @@ public class Reference extends MongoDBObject {
 	 * article was published in.
 	 */
 	public String getVolume() {
-		return getString("volume");
+		return volume;
 	}
 
 	/**
@@ -110,7 +117,7 @@ public class Reference extends MongoDBObject {
 	 * published in.
 	 */
 	public void setVolume(final String volume) {
-		put("volume", volume);
+		this.volume = volume;
 	}
 
 	/**
@@ -121,7 +128,7 @@ public class Reference extends MongoDBObject {
 	 * was published in.
 	 */
 	public String getNumber() {
-		return getString("number");
+		return number;
 	}
 
 	/**
@@ -132,7 +139,7 @@ public class Reference extends MongoDBObject {
 	 * article was published in.
 	 */
 	public void setNumber(final String number) {
-		put("number", number);
+		this.number = number;
 	}
 
 	/**
@@ -143,7 +150,7 @@ public class Reference extends MongoDBObject {
 	 * found on.
 	 */
 	public String getPages() {
-		return getString("pages");
+		return pages;
 	}
 
 	/**
@@ -154,7 +161,7 @@ public class Reference extends MongoDBObject {
 	 * found on.
 	 */
 	public void setPages(final String pages) {
-		put("pages", pages);
+		this.pages = pages;
 	}
 
 	/**

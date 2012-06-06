@@ -27,18 +27,17 @@ import java.util.List;
  */
 public class Article extends PubcrawlerObject<ArticleId> {
 
-    private static final String TITLE = "title";
-    private static final String AUTHORS = "authors";
-    private static final String REFERENCE = "reference";
-    private static final String ABSTRACT = "abstract";
-    private static final String DOI = "doi";
-    private static final String TITLE_HTML = "title-html";
-    private static final String ABSTRACT_HTML = "abstract-html";
-    private static final String SUPP_RESOURCES = "suppResources";
-    private static final String FULL_TEXT = "fullText";
-    private static final String SUPP_URL = "suppUrl";
-
     private IssueId issueRef;
+    private String title;
+    private String titleHtml;
+    private List<String> authors;
+    private Reference reference;
+    private String abstractText;
+    private Doi doi;
+    private String abstractHtml;
+    private List<SupplementaryResource> supplementaryResources;
+    private List<FullTextResource> fullTextResources;
+    private URI supplementaryResourceUrl;
 
     public Article() {
     }
@@ -56,101 +55,91 @@ public class Article extends PubcrawlerObject<ArticleId> {
         }
     }
 
-    @Override
-    protected ArticleId createId(final String id) {
-        return new ArticleId(id);
-    }
-
     public String getTitle() {
-        return getString(TITLE);
+        return title;
     }
 
     public void setTitle(final String title) {
-        put(TITLE, title);
+        this.title = title;
     }
 
 
     public List<String> getAuthors() {
-        return (List<String>) get(AUTHORS);
+        return authors;
     }
 
     public void setAuthors(final List<String> authors) {
-        put(AUTHORS, authors);
+        this.authors = authors;
     }
 
 
     public Reference getReference() {
-        return (Reference) get(REFERENCE);
+        return reference;
     }
 
     public void setReference(final Reference reference) {
-        put(REFERENCE, reference);
+        this.reference = reference;
     }
 
-
-
     public String getAbstractText() {
-        return getString(ABSTRACT);
+        return abstractText;
     }
 
     public void setAbstractText(final String abstractText) {
-        put(ABSTRACT, abstractText);
+        this.abstractText = abstractText;
     }
 
 
     public Doi getDoi() {
-        final String s = getString(DOI);
-        return s == null ? null : new Doi(s);
+        return doi;
     }
 
     public void setDoi(final Doi doi) {
-        put(DOI, doi == null ? null : doi.getValue());
+        this.doi = doi;
     }
 
 
     public String getTitleHtml() {
-        return getString(TITLE_HTML);
+        return titleHtml;
     }
 
     public void setTitleHtml(final String titleHtml) {
-        put(TITLE_HTML, titleHtml);
+        this.titleHtml = titleHtml;
     }
 
 
     public String getAbstractHtml() {
-        return getString(ABSTRACT_HTML);
+        return abstractHtml;
     }
 
     public void setAbstractHtml(final String abstractHtml) {
-        put(ABSTRACT_HTML, abstractHtml);
+        this.abstractHtml = abstractHtml;
     }
 
 
     public List<SupplementaryResource> getSupplementaryResources() {
-        return (List<SupplementaryResource>) get(SUPP_RESOURCES);
+        return supplementaryResources;
     }
 
     public void setSupplementaryResources(final List<SupplementaryResource> supplementaryResources) {
-        put(SUPP_RESOURCES, supplementaryResources);
+        this.supplementaryResources = supplementaryResources;
     }
 
 
     public List<FullTextResource> getFullTextResources() {
-        return (List<FullTextResource>) get(FULL_TEXT);
+        return fullTextResources;
     }
 
     public void setFullTextResources(final List<FullTextResource> fullTextResources) {
-        put(FULL_TEXT, fullTextResources);
+        this.fullTextResources = fullTextResources;
     }
 
     public URI getSupplementaryResourceUrl() {
-        final String s = getString(SUPP_URL);
-        return s == null ? null : URI.create(s);
+        return supplementaryResourceUrl;
     }
 
     public void setSupplementaryResourceUrl(final URI url) {
-        final String s = url == null ? null : url.toString();
-        put(SUPP_URL, s);
+        this.supplementaryResourceUrl = url;
     }
 
     public IssueId getIssueRef() {

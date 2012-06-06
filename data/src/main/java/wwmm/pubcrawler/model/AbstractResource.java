@@ -24,11 +24,11 @@ import java.net.URI;
  */
 public abstract class AbstractResource extends PubcrawlerObject<ResourceId> {
 
-    private static final String LINK_TEXT = "linkText";
-    private static final String CONTENT_TYPE = "contentType";
-    private static final String DESCRIPTION = "description";
-    private static final String LENGTH = "length";
-    private static final String FILEPATH = "filepath";
+    private String linkText;
+    private String contentType;
+    private String description;
+    private Long length;
+    private String filePath;
 
     protected AbstractResource() { }
 
@@ -37,56 +37,43 @@ public abstract class AbstractResource extends PubcrawlerObject<ResourceId> {
         setUrl(url);
     }
 
-
-    @Override
-    protected ResourceId createId(final String id) {
-        return new ResourceId(id);
-    }
-
-
     public String getLinkText() {
-        return getString(LINK_TEXT);
+        return linkText;
     }
 
     public void setLinkText(final String linkText) {
-        put(LINK_TEXT, linkText);
+        this.linkText = linkText;
     }
 
-
     public String getContentType() {
-        return getString(CONTENT_TYPE);
+        return contentType;
     }
 
     public void setContentType(final String contentType) {
-        put(CONTENT_TYPE, contentType);
+        this.contentType = contentType;
     }
 
-
     public String getDescription() {
-        return getString(DESCRIPTION);
+        return description;
     }
 
     public void setDescription(final String description) {
-        put(DESCRIPTION, description);
+        this.description = description;
     }
 
-
     public Long getLength() {
-        return getLong(LENGTH);
+        return length;
     }
 
     public void setLength(final Long length) {
-        put(LENGTH, length);
+        this.length = length;
     }
 
-
     public String getFilePath() {
-        return getString(FILEPATH);
+        return filePath;
     }
 
     public void setFilePath(final String filePath) {
-        put(FILEPATH, filePath);
+        this.filePath = filePath;
     }
-
-    
 }

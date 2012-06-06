@@ -20,15 +20,15 @@ import wwmm.pubcrawler.model.id.JournalId;
 import wwmm.pubcrawler.model.id.PublisherId;
 
 import java.net.URI;
+import java.util.Collections;
 import java.util.List;
 
 public class Journal extends PubcrawlerObject<JournalId> {
 
-    private static final String ISSUES = "issues";
     private String abbreviation;
     private String title;
-    private Integer offset;
     private List<String> previousTitles;
+    private List<IssueLink> issues = Collections.emptyList();
 
     private URI url;
 
@@ -38,7 +38,6 @@ public class Journal extends PubcrawlerObject<JournalId> {
         setId(new JournalId(publisherId, abbreviation));
 		this.abbreviation = abbreviation;
 		this.title = title;
-        put(ISSUES, new String[0]);
 	}
 
     public Journal(final PublisherId publisherId, final String abbreviation, final String title) {
@@ -51,11 +50,6 @@ public class Journal extends PubcrawlerObject<JournalId> {
 		this.abbreviation = abbreviation;
 		this.title = title;
 	}
-
-    @Override
-    protected JournalId createId(final String id) {
-        return new JournalId(id);
-    }
 
     public String getTitle() {
 		return this.title;
