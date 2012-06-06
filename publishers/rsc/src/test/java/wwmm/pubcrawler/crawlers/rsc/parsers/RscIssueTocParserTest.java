@@ -8,7 +8,7 @@ import org.ccil.cowan.tagsoup.Parser;
 import org.junit.AfterClass;
 import org.junit.Test;
 import wwmm.pubcrawler.crawlers.rsc.Rsc;
-import wwmm.pubcrawler.model.Issue;
+import wwmm.pubcrawler.model.IssueLink;
 import wwmm.pubcrawler.model.id.ArticleId;
 import wwmm.pubcrawler.model.id.IssueId;
 import wwmm.pubcrawler.model.id.JournalId;
@@ -111,8 +111,8 @@ public class RscIssueTocParserTest {
     @Test
     public void testGetPreviousIssueLink() throws Exception {
         RscIssueTocParser parser = getJournalParserScLatest();
-        Issue issueRef = parser.getPreviousIssue();
-        assertEquals(new IssueId(CHEMICAL_SCIENCE, "3", "4"), issueRef.getId());
+        IssueLink issueRef = parser.getPreviousIssue();
+        assertEquals(new IssueId(CHEMICAL_SCIENCE, "3", "4"), issueRef.getIssueId());
         assertEquals("Chemical Science", issueRef.getJournalTitle());
         assertEquals(URI.create("http://pubs.rsc.org/en/journals/journal/sc?issueid=sc003004&issnprint=2041-6520"), issueRef.getUrl());
         assertEquals("3", issueRef.getVolume());

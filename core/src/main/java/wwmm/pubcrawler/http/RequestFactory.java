@@ -1,12 +1,10 @@
 package wwmm.pubcrawler.http;
 
-import wwmm.pubcrawler.tasks.HttpCrawlTaskData;
-
 /**
  * @author Sam Adams
  */
-public interface RequestFactory<T> {
+public interface RequestFactory<Data, Request> {
 
-    T createFetchTask(String taskId, HttpCrawlTaskData data);
+    Request createFetchTask(String taskId, Data data);
 
 }

@@ -1,6 +1,7 @@
 package wwmm.pubcrawler.parsers;
 
 import wwmm.pubcrawler.model.Issue;
+import wwmm.pubcrawler.model.IssueLink;
 
 import java.util.List;
 
@@ -9,6 +10,6 @@ import java.util.List;
  */
 public interface IssueListParser {
 
-    List<Issue> findIssues();
+    List<IssueLink> findIssues();
 
 }

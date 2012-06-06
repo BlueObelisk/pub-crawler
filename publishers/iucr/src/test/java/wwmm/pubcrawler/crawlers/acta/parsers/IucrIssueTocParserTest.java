@@ -6,12 +6,12 @@ import nu.xom.Node;
 import org.apache.commons.io.IOUtils;
 import org.ccil.cowan.tagsoup.Parser;
 import org.junit.AfterClass;
-import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 import wwmm.pubcrawler.crawlers.acta.Iucr;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.Issue;
+import wwmm.pubcrawler.model.IssueLink;
 import wwmm.pubcrawler.model.SupplementaryResource;
 import wwmm.pubcrawler.model.id.ArticleId;
 import wwmm.pubcrawler.model.id.IssueId;
@@ -205,9 +205,9 @@ public class IucrIssueTocParserTest {
     @Test
     public void testGetPreviousIssue() throws Exception {
         IucrIssueTocParser parser = getActaB2010_01();
-        Issue prev = parser.getPreviousIssue();
+        IssueLink prev = parser.getPreviousIssue();
         assertNotNull(prev);
-        assertEquals(new IssueId(ACTA_B, "2009", "06-00"), prev.getId());
+        assertEquals(new IssueId(ACTA_B, "2009", "06-00"), prev.getIssueId());
         assertEquals(URI.create("http://journals.iucr.org/b/issues/2009/06/00/isscontsbdy.html"), prev.getUrl());
     }
 
@@ -224,7 +224,7 @@ public class IucrIssueTocParserTest {
         assertNotNull(articles);
         assertEquals(13, articles.size());
         assertNotNull(issue.getPreviousIssue());
-        assertEquals(new IssueId(ACTA_B, "2009", "06-00"), issue.getPreviousIssue().getId());
+        assertEquals(new IssueId(ACTA_B, "2009", "06-00"), issue.getPreviousIssue().getIssueId());
     }
 
     @Test

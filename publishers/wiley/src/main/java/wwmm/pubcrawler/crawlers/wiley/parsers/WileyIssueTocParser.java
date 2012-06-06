@@ -21,6 +21,7 @@ import nu.xom.Element;
 import nu.xom.Node;
 import org.apache.log4j.Logger;
 import wwmm.pubcrawler.CrawlerRuntimeException;
+import wwmm.pubcrawler.model.IssueLink;
 import wwmm.pubcrawler.parsers.AbstractIssueTocParser;
 import wwmm.pubcrawler.parsers.IssueTocParser;
 import wwmm.pubcrawler.model.FullTextResource;
@@ -165,7 +166,7 @@ public class WileyIssueTocParser extends AbstractIssueTocParser implements Issue
     }
 
     @Override
-    public Issue getPreviousIssue() {
+    public IssueLink getPreviousIssue() {
         final String href = XPathUtils.getString(getHtml(), "//x:a[@id='previousLink']/@href");
         if (href != null) {
             return new WileyPreviousIssueLinkHandler(getJournalId(), getUrl()).parse(href);

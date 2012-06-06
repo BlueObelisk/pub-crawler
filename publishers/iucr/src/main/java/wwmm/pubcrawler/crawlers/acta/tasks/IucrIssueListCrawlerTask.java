@@ -6,10 +6,7 @@ import wwmm.pubcrawler.http.Fetcher;
 import wwmm.pubcrawler.http.RequestFactory;
 import wwmm.pubcrawler.http.UriRequest;
 import wwmm.pubcrawler.processors.IssueListProcessor;
-import wwmm.pubcrawler.tasks.IssueListCrawlTaskData;
-import wwmm.pubcrawler.tasks.IssueListCrawlTaskDataMarshaller;
-import wwmm.pubcrawler.tasks.Marshaller;
-import wwmm.pubcrawler.tasks.TaskSpecification;
+import wwmm.pubcrawler.tasks.*;
 
 import javax.inject.Inject;
 
@@ -33,7 +30,7 @@ public class IucrIssueListCrawlerTask implements TaskSpecification<IssueListCraw
     public static class Runner extends CrawlTaskRunner<IssueListCrawlTaskData, UriRequest, DocumentResource> {
 
         @Inject
-        public Runner(final Fetcher<UriRequest, DocumentResource> fetcher, final RequestFactory<UriRequest> requestFactory, final IssueListProcessor<DocumentResource, IssueListCrawlTaskData> issueListProcessor) {
+        public Runner(final Fetcher<UriRequest, DocumentResource> fetcher, final RequestFactory<HttpCrawlTaskData, UriRequest> requestFactory, final IssueListProcessor<DocumentResource, IssueListCrawlTaskData> issueListProcessor) {
             super(fetcher, requestFactory, issueListProcessor);
         }
     }

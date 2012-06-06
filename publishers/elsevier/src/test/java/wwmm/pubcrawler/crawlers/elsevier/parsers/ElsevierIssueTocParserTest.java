@@ -9,6 +9,7 @@ import org.junit.AfterClass;
 import org.junit.Test;
 import wwmm.pubcrawler.crawlers.elsevier.Elsevier;
 import wwmm.pubcrawler.model.Issue;
+import wwmm.pubcrawler.model.IssueLink;
 import wwmm.pubcrawler.model.id.ArticleId;
 import wwmm.pubcrawler.model.id.JournalId;
 
@@ -104,7 +105,7 @@ public class ElsevierIssueTocParserTest {
     @Test
     public void testGetPreviousIssueLink() throws Exception {
         ElsevierIssueTocParser parser = getJournalParser09254005_165_1();
-        Issue issueRef = parser.getPreviousIssue();
+        IssueLink issueRef = parser.getPreviousIssue();
         assertEquals("164", issueRef.getVolume());
         assertEquals("1", issueRef.getNumber());
         assertEquals(URI.create("http://www.sciencedirect.com/science/journal/09254005/164/1"), issueRef.getUrl());
@@ -113,7 +114,7 @@ public class ElsevierIssueTocParserTest {
     @Test
     public void testGetPreviousIssueLinkWithoutNumber() throws Exception {
         ElsevierIssueTocParser parser = getJournalParser01677322_168();
-        Issue issueRef = parser.getPreviousIssue();
+        IssueLink issueRef = parser.getPreviousIssue();
         assertEquals("167", issueRef.getVolume());
         assertEquals(Issue.NULL_NUMBER, issueRef.getNumber());
         assertEquals(URI.create("http://www.sciencedirect.com/science/journal/01677322/167"), issueRef.getUrl());

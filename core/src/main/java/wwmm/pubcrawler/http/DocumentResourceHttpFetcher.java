@@ -37,7 +37,7 @@ public abstract class DocumentResourceHttpFetcher implements Fetcher<UriRequest,
             .withKey(task.getId())
             .withUrl(task.getUri())
             .withMaxAge(task.getMaxAge())
-            .withReferrer(task.getReferer())
+            .withReferrer(task.getReferrer())
             .build();
     }
 

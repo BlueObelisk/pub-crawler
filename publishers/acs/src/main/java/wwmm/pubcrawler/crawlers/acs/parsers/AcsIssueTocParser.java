@@ -20,13 +20,10 @@ import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
+import wwmm.pubcrawler.model.*;
 import wwmm.pubcrawler.parsers.AbstractIssueTocParser;
 import wwmm.pubcrawler.parsers.IssueTocParser;
 import wwmm.pubcrawler.crawlers.acs.AcsTools;
-import wwmm.pubcrawler.model.FullTextResource;
-import wwmm.pubcrawler.model.Issue;
-import wwmm.pubcrawler.model.IssueBuilder;
-import wwmm.pubcrawler.model.SupplementaryResource;
 import wwmm.pubcrawler.model.id.ArticleId;
 import wwmm.pubcrawler.model.id.JournalId;
 import wwmm.pubcrawler.types.Doi;
@@ -104,7 +101,7 @@ public class AcsIssueTocParser extends AbstractIssueTocParser implements IssueTo
     }
 
     @Override
-    public Issue getPreviousIssue() {
+    public IssueLink getPreviousIssue() {
         final Attribute prev = (Attribute) XPathUtils.getNode(getHtml(), ".//x:div[@id='issueNav']/x:a[@class='previous']/@href");
         if (prev != null) {
             final String href = prev.getValue();
@@ -115,14 +112,15 @@ public class AcsIssueTocParser extends AbstractIssueTocParser implements IssueTo
         return null;
     }
 
-    private Issue parsePreviousIssue(final String href) {
+    private IssueLink parsePreviousIssue(final String href) {
         final URI url = getUrl().resolve(href);
         final Matcher matcher = PREV_URI_PATTERN.matcher(url.toString());
         if (matcher.find()) {
             final String volume = matcher.group(1);
             final String number = matcher.group(2);
-            return new IssueBuilder()
+            return new IssueLinkBuilder()
                 .withJournalId(getJournalId())
+                .withJournalTitle(getJournalTitle())
                 .withVolume(volume)
                 .withNumber(number)
                 .withUrl(url)

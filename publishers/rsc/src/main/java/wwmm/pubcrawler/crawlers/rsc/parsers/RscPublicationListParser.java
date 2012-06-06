@@ -8,6 +8,7 @@ import wwmm.pubcrawler.crawlers.rsc.Rsc;
 import wwmm.pubcrawler.model.Journal;
 import wwmm.pubcrawler.utils.XPathUtils;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -18,11 +19,14 @@ import java.util.regex.Pattern;
  */
 public class RscPublicationListParser implements PublicationListParser {
 
-    private final Document document;
     private static final Pattern TITLE = Pattern.compile("(.*?)(\\(\\d+-Present\\))?");
 
-    public RscPublicationListParser(final Document document) {
+    private final Document document;
+    private final URI url;
+
+    public RscPublicationListParser(final Document document, final URI url) {
         this.document = document;
+        this.url = url;
     }
 
     @Override
@@ -32,7 +36,9 @@ public class RscPublicationListParser implements PublicationListParser {
             final String href = ((Element) node).getAttributeValue("href");
             final String abbrev = href.substring(href.lastIndexOf('/') + 1);
             final String title = normalise(node.getValue()).trim();
-            journals.add(new Journal(Rsc.PUBLISHER_ID, abbrev, title));
+            final Journal journal = new Journal(Rsc.PUBLISHER_ID, abbrev, title);
+            journal.setUrl(url.resolve(href));
+            journals.add(journal);
         }
         return journals;
     }

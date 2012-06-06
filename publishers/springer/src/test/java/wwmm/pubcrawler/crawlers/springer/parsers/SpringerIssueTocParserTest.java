@@ -8,7 +8,7 @@ import org.ccil.cowan.tagsoup.Parser;
 import org.junit.AfterClass;
 import org.junit.Test;
 import wwmm.pubcrawler.crawlers.springer.Springer;
-import wwmm.pubcrawler.model.Issue;
+import wwmm.pubcrawler.model.IssueLink;
 import wwmm.pubcrawler.model.id.ArticleId;
 import wwmm.pubcrawler.model.id.JournalId;
 
@@ -96,7 +96,7 @@ public class SpringerIssueTocParserTest {
     @Test
     public void testGetIssueLinks() throws Exception {
         SpringerIssueTocParser parser = getJournalParser10009116_21_6();
-        List<Issue> links = parser.getIssueLinks();
+        List<IssueLink> links = parser.getIssueLinks();
         assertEquals(72, links.size());
         assertEquals("21", links.get(1).getVolume());
         assertEquals("4", links.get(1).getNumber());

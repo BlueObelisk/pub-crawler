@@ -1,10 +1,9 @@
 package wwmm.pubcrawler.crawlers;
 
 import wwmm.pubcrawler.model.Issue;
+import wwmm.pubcrawler.model.IssueLink;
 
 public interface IssueHandler {
 
-    void handleIssue(Issue issue);
-
-    void handleIssueLink(Issue issue);
+    void handleIssueLink(IssueLink issueLink);
 }

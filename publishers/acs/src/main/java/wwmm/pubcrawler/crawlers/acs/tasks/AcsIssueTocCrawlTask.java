@@ -6,10 +6,7 @@ import wwmm.pubcrawler.http.HtmlDocumentResourceHttpFetcher;
 import wwmm.pubcrawler.http.RequestFactory;
 import wwmm.pubcrawler.http.UriRequest;
 import wwmm.pubcrawler.processors.IssueTocProcessor;
-import wwmm.pubcrawler.tasks.IssueTocCrawlTaskData;
-import wwmm.pubcrawler.tasks.IssueTocCrawlTaskDataMarshaller;
-import wwmm.pubcrawler.tasks.Marshaller;
-import wwmm.pubcrawler.tasks.TaskSpecification;
+import wwmm.pubcrawler.tasks.*;
 
 import javax.inject.Inject;
 
@@ -33,7 +30,7 @@ public class AcsIssueTocCrawlTask implements TaskSpecification<IssueTocCrawlTask
     public static class Runner extends CrawlTaskRunner<IssueTocCrawlTaskData, UriRequest, DocumentResource> {
 
         @Inject
-        public Runner(final HtmlDocumentResourceHttpFetcher fetcher, final RequestFactory<UriRequest> requestFactory, final IssueTocProcessor<DocumentResource> issueTocProcessor) {
+        public Runner(final HtmlDocumentResourceHttpFetcher fetcher, final RequestFactory<HttpCrawlTaskData, UriRequest> requestFactory, final IssueTocProcessor<DocumentResource> issueTocProcessor) {
             super(fetcher, requestFactory, issueTocProcessor);
         }
 

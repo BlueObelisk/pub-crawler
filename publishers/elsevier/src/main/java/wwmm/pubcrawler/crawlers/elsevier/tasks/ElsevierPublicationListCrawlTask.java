@@ -33,7 +33,7 @@ public class ElsevierPublicationListCrawlTask implements TaskSpecification<HttpC
     public static class Runner extends CrawlTaskRunner<HttpCrawlTaskData, UriRequest, DocumentResource> {
 
         @Inject
-        public Runner(final XmlDocumentResourceHttpFetcher fetcher, final RequestFactory<UriRequest> requestFactory, final PublicationListProcessor<DocumentResource> publicationListProcessor) {
+        public Runner(final XmlDocumentResourceHttpFetcher fetcher, final RequestFactory<HttpCrawlTaskData, UriRequest> requestFactory, final PublicationListProcessor<DocumentResource> publicationListProcessor) {
             super(fetcher, requestFactory, publicationListProcessor);
         }
 

@@ -8,6 +8,7 @@ import wwmm.pubcrawler.crawlers.IssueHandler;
 import wwmm.pubcrawler.crawlers.ResourceProcessor;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.Issue;
+import wwmm.pubcrawler.model.IssueLink;
 import wwmm.pubcrawler.model.id.JournalId;
 import wwmm.pubcrawler.model.id.PublisherId;
 import wwmm.pubcrawler.parsers.IssueTocParser;
@@ -73,10 +74,10 @@ public class IssueTocProcessor<Resource> implements ResourceProcessor<Resource,I
 
     private void handleIssueLinks(final String id, final IssueTocParser parser) {
         try {
-            final List<Issue> issueLinks = parser.getIssueLinks();
+            final List<IssueLink> issueLinks = parser.getIssueLinks();
             if (issueLinks != null) {
-                for (final Issue issue : issueLinks) {
-                    issueHandler.handleIssueLink(issue);
+                for (final IssueLink issueLink : issueLinks) {
+                    issueHandler.handleIssueLink(issueLink);
                 }
             }
         } catch (Exception e) {

@@ -1,7 +1,5 @@
 package wwmm.pubcrawler.crawlers.acta;
 
-import org.joda.time.Duration;
-import wwmm.pubcrawler.crawler.TaskData;
 import wwmm.pubcrawler.http.RequestFactory;
 import wwmm.pubcrawler.tasks.HttpCrawlTaskData;
 
@@ -12,7 +10,7 @@ import java.net.URI;
  * @author Sam Adams
  */
 @Singleton
-public class IucrFrameRequestFactory implements RequestFactory<IucrFrameRequest> {
+public class IucrFrameRequestFactory implements RequestFactory<HttpCrawlTaskData, IucrFrameRequest> {
 
     @Override
     public IucrFrameRequest createFetchTask(final String taskId, final HttpCrawlTaskData data) {

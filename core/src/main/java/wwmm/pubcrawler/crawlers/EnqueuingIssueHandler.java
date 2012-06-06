@@ -3,6 +3,7 @@ package wwmm.pubcrawler.crawlers;
 import wwmm.pubcrawler.crawler.Task;
 import wwmm.pubcrawler.crawler.TaskQueue;
 import wwmm.pubcrawler.model.Issue;
+import wwmm.pubcrawler.model.IssueLink;
 
 import javax.inject.Inject;
 
@@ -21,19 +22,14 @@ public class EnqueuingIssueHandler implements IssueHandler {
     }
 
     @Override
-    public void handleIssue(final Issue issue) {
-
-    }
-
-    @Override
-    public void handleIssueLink(final Issue issue) {
-        if (issue != null) {
-            enqueueIssue(issue);
+    public void handleIssueLink(final IssueLink issueLink) {
+        if (issueLink != null) {
+            enqueueIssue(issueLink);
         }
     }
 
-    private void enqueueIssue(final Issue issue) {
-        final Task task = taskFactory.createIssueTocCrawlTask(issue.getId(), issue.getUrl());
+    private void enqueueIssue(final IssueLink issueLink) {
+        final Task task = taskFactory.createIssueTocCrawlTask(issueLink);
         if (task != null) {
             taskQueue.queueTask(task);
         }

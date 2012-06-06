@@ -20,7 +20,7 @@ import nu.xom.Element;
 import nu.xom.Node;
 import org.apache.log4j.Logger;
 import wwmm.pubcrawler.CrawlerRuntimeException;
-import wwmm.pubcrawler.model.Issue;
+import wwmm.pubcrawler.model.IssueLink;
 import wwmm.pubcrawler.model.id.IssueId;
 import wwmm.pubcrawler.model.id.JournalId;
 import wwmm.pubcrawler.parsers.IssueListParser;
@@ -50,23 +50,21 @@ public class IucrIssueListParser implements IssueListParser {
     }
 
     @Override
-    public List<Issue> findIssues() {
+    public List<IssueLink> findIssues() {
         final IucrIssueListVolumeNumberParser volumeNumberParser = IucrIssueListVolumeNumberParser.getInstance();
 
         final List<Node> nodes = XPathUtils.queryHTML(html, ".//x:li[x:img]/x:a");
-        final List<Issue> issues = new ArrayList<Issue>();
+        final List<IssueLink> issues = new ArrayList<IssueLink>();
         for (final Node node : nodes) {
             final Element element = (Element) node;
             final String href = element.getAttributeValue("href");
             if (href.contains("/issues/")) {
                 final URI url = this.url.resolve(href);
-                final Issue issue = new Issue();
-                issue.setId(getIssueId(url));
-                issue.setVolume(volumeNumberParser.getVolume(node.getValue()));
-                issue.setNumber(volumeNumberParser.getNumber(node.getValue()));
-                issue.setYear(getIssueYear(url));
-                issue.setUrl(url);
-                issues.add(issue);
+                final String volume = volumeNumberParser.getVolume(node.getValue());
+                final String number = volumeNumberParser.getNumber(node.getValue());
+
+                final IssueLink issueLink = new IssueLink(getIssueId(url), url, null, volume, number);
+                issues.add(issueLink);
             }
         }
         return issues;

@@ -12,13 +12,13 @@ public class UriRequest {
     private URI uri;
     private String id;
     private Duration maxAge;
-    private URI referer;
+    private URI referrer;
 
-    public UriRequest(final URI uri, final String id, final Duration maxAge, final URI referer) {
+    public UriRequest(final URI uri, final String id, final Duration maxAge, final URI referrer) {
         this.uri = uri;
         this.id = id;
         this.maxAge = maxAge;
-        this.referer = referer;
+        this.referrer = referrer;
     }
 
     public URI getUri() {
@@ -33,7 +33,7 @@ public class UriRequest {
         return maxAge;
     }
 
-    public URI getReferer() {
-        return referer;
+    public URI getReferrer() {
+        return referrer;
     }
 }

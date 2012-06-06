@@ -8,7 +8,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import wwmm.pubcrawler.crawlers.acta.Iucr;
-import wwmm.pubcrawler.model.Issue;
+import wwmm.pubcrawler.model.IssueLink;
 import wwmm.pubcrawler.model.id.IssueId;
 import wwmm.pubcrawler.model.id.JournalId;
 
@@ -42,42 +42,42 @@ public class IucrIssueListParserTest {
     @Test
     public void testFindIssues() throws Exception {
         IucrIssueListParser parser = new IucrIssueListParser(backIssues, URL, ACTA_D);
-        List<Issue> list = parser.findIssues();
+        List<IssueLink> list = parser.findIssues();
         assertEquals(200, list.size());
     }
     
     @Test
     public void testFindIssueId() throws Exception {
         IucrIssueListParser parser = new IucrIssueListParser(backIssues, URL, ACTA_D);
-        List<Issue> list = parser.findIssues();
-        assertEquals(new IssueId(ACTA_D, "2012", "02-00"), list.get(2).getId());
+        List<IssueLink> list = parser.findIssues();
+        assertEquals(new IssueId(ACTA_D, "2012", "02-00"), list.get(2).getIssueId());
     }
 
     @Test
     public void testFindIssueVolume() throws Exception {
         IucrIssueListParser parser = new IucrIssueListParser(backIssues, URL, ACTA_D);
-        List<Issue> list = parser.findIssues();
+        List<IssueLink> list = parser.findIssues();
         assertEquals("68", list.get(2).getVolume());
     }
 
     @Test
     public void testFindIssueVolumeWithLineBreak() throws Exception {
         IucrIssueListParser parser = new IucrIssueListParser(backIssues, URL, ACTA_D);
-        List<Issue> list = parser.findIssues();
+        List<IssueLink> list = parser.findIssues();
         assertEquals("61", list.get(82).getVolume());
     }
 
     @Test
     public void testFindIssueNumber() throws Exception {
         IucrIssueListParser parser = new IucrIssueListParser(backIssues, URL, ACTA_D);
-        List<Issue> list = parser.findIssues();
+        List<IssueLink> list = parser.findIssues();
         assertEquals("2", list.get(2).getNumber());
     }
 
     @Test
     public void testFindIssueUrl() throws Exception {
         IucrIssueListParser parser = new IucrIssueListParser(backIssues, URL, ACTA_D);
-        List<Issue> list = parser.findIssues();
+        List<IssueLink> list = parser.findIssues();
         assertEquals(URI.create("http://journals.iucr.org/d/issues/2012/02/00/issconts.html"), list.get(2).getUrl());
     }
 

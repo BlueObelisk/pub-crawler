@@ -35,7 +35,7 @@ public class AcsPublicationListCrawlTask implements TaskSpecification<HttpCrawlT
     public static class Runner extends CrawlTaskRunner<HttpCrawlTaskData, UriRequest, DocumentResource> {
 
         @Inject
-        public Runner(final Fetcher<UriRequest, DocumentResource> fetcher, final RequestFactory<UriRequest> requestFactory, final PublicationListProcessor<DocumentResource> publicationListProcessor) {
+        public Runner(final Fetcher<UriRequest, DocumentResource> fetcher, final RequestFactory<HttpCrawlTaskData, UriRequest> requestFactory, final PublicationListProcessor<DocumentResource> publicationListProcessor) {
             super(fetcher, requestFactory, publicationListProcessor);
         }
 

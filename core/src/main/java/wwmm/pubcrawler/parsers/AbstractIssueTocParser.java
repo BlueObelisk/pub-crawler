@@ -259,7 +259,7 @@ public abstract class AbstractIssueTocParser implements IssueTocParser {
      *
      * @return a description of the previous issue.
      */
-    protected abstract Issue getPreviousIssue();
+    protected abstract IssueLink getPreviousIssue();
 
     protected abstract String findJournalTitle();
 
@@ -286,9 +286,9 @@ public abstract class AbstractIssueTocParser implements IssueTocParser {
     }
 
     @Override
-    public List<Issue> getIssueLinks() {
-        final Issue issue = getPreviousIssue();
-        return issue == null ? Collections.<Issue>emptyList() : Collections.singletonList(issue);
+    public List<IssueLink> getIssueLinks() {
+        final IssueLink issue = getPreviousIssue();
+        return issue == null ? Collections.<IssueLink>emptyList() : Collections.singletonList(issue);
     }
 
     @Override

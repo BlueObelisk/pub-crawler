@@ -1,15 +1,14 @@
 package wwmm.pubcrawler.crawlers.springer.tasks;
 
-import wwmm.pubcrawler.archivers.JournalArchiver;
 import wwmm.pubcrawler.crawlers.CrawlTaskRunner;
-import wwmm.pubcrawler.crawlers.JournalHandler;
 import wwmm.pubcrawler.crawlers.springer.SpringerPublicationListCrawlTaskData;
 import wwmm.pubcrawler.crawlers.springer.SpringerPublicationListCrawlTaskDataMarshaller;
-import wwmm.pubcrawler.crawlers.springer.SpringerPublicationListParserFactory;
+import wwmm.pubcrawler.crawlers.springer.SpringerPublicationListProcessor;
 import wwmm.pubcrawler.http.DocumentResource;
 import wwmm.pubcrawler.http.Fetcher;
 import wwmm.pubcrawler.http.RequestFactory;
 import wwmm.pubcrawler.http.UriRequest;
+import wwmm.pubcrawler.tasks.HttpCrawlTaskData;
 import wwmm.pubcrawler.tasks.Marshaller;
 import wwmm.pubcrawler.tasks.TaskSpecification;
 
@@ -35,7 +34,7 @@ public class SpringerPublicationListCrawlTask implements TaskSpecification<Sprin
     public static class Runner extends CrawlTaskRunner<SpringerPublicationListCrawlTaskData, UriRequest, DocumentResource> {
 
         @Inject
-        public Runner(final Fetcher<UriRequest, DocumentResource> fetcher, final RequestFactory<UriRequest> requestFactory, final SpringerIssueListProcessor processor) {
+        public Runner(final Fetcher<UriRequest, DocumentResource> fetcher, final RequestFactory<HttpCrawlTaskData, UriRequest> requestFactory, final SpringerPublicationListProcessor processor) {
             super(fetcher, requestFactory, processor);
         }
 

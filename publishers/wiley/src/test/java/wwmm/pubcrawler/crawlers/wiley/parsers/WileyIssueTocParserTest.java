@@ -8,7 +8,7 @@ import org.ccil.cowan.tagsoup.Parser;
 import org.junit.AfterClass;
 import org.junit.Test;
 import wwmm.pubcrawler.crawlers.wiley.Wiley;
-import wwmm.pubcrawler.model.Issue;
+import wwmm.pubcrawler.model.IssueLink;
 import wwmm.pubcrawler.model.id.ArticleId;
 import wwmm.pubcrawler.model.id.IssueId;
 import wwmm.pubcrawler.model.id.JournalId;
@@ -111,10 +111,10 @@ public class WileyIssueTocParserTest {
     @Test
     public void testGetPreviousIssueLink() throws Exception {
         WileyIssueTocParser parser = getJournalParser15360687_16_4();
-        Issue issueRef = parser.getPreviousIssue();
+        IssueLink issueRef = parser.getPreviousIssue();
         assertEquals("16", issueRef.getVolume());
         assertEquals("3", issueRef.getNumber());
-        assertEquals(new IssueId(JOURNAL_15360687, "16", "3"), issueRef.getId());
+        assertEquals(new IssueId(JOURNAL_15360687, "16", "3"), issueRef.getIssueId());
         assertEquals(URI.create("http://onlinelibrary.wiley.com/doi/10.1002/abc.v16.3/issuetoc"), issueRef.getUrl());
     }
 

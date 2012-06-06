@@ -1,19 +1,17 @@
 package wwmm.pubcrawler.crawlers;
 
 import wwmm.pubcrawler.crawler.Task;
-import wwmm.pubcrawler.model.id.IssueId;
-import wwmm.pubcrawler.model.id.JournalId;
+import wwmm.pubcrawler.model.IssueLink;
+import wwmm.pubcrawler.model.Journal;
 import wwmm.pubcrawler.tasks.IssueTocCrawlTaskData;
-
-import java.net.URI;
 
 /**
  * @author Sam Adams
  */
-public interface IssueTocCrawlTaskFactory {
+public interface IssueTocCrawlTaskFactory<T extends IssueTocCrawlTaskData> {
 
-    Task<IssueTocCrawlTaskData> createCurrentIssueTocCrawlTask(JournalId journalId, URI url);
+    Task<T> createCurrentIssueTocCrawlTask(Journal journal);
 
-    Task<IssueTocCrawlTaskData> createIssueTocCrawlTask(IssueId issueId, URI url);
+    Task<T> createIssueTocCrawlTask(IssueLink issueLink);
 
 }

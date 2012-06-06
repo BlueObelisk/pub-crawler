@@ -11,6 +11,7 @@ import wwmm.pubcrawler.model.id.PublisherId;
 import wwmm.pubcrawler.parsers.IssueListParserFactory;
 import wwmm.pubcrawler.parsers.IssueTocParserFactory;
 import wwmm.pubcrawler.parsers.PublicationListParserFactory;
+import wwmm.pubcrawler.tasks.HttpCrawlTaskData;
 
 /**
  * @author Sam Adams
@@ -34,7 +35,7 @@ public class IucrCrawlerModule extends AbstractPublisherCrawlerModule {
     }
 
     @Provides
-    public RequestFactory<IucrFrameRequest> providesIucrFrameRequestFactory() {
+    public RequestFactory<HttpCrawlTaskData, IucrFrameRequest> providesIucrFrameRequestFactory() {
         return new IucrFrameRequestFactory();
     }
 
