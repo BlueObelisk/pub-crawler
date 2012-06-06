@@ -26,13 +26,13 @@ public class Issue extends PubcrawlerObject<IssueId> {
 
     public static final String NULL_NUMBER = "-";
 
-    private static final String PREVIOUS_ISSUE = "previousIssue";
-    private static final String YEAR = "year";
-    private static final String VOLUME = "volume";
-    private static final String NUMBER = "number";
-    private static final String DATE = "date";
-    private static final String JOURNAL_TITLE = "journalTitle";
-    private static final String SEQUENCE = "sequence";
+    private IssueLink previousIssueLink;
+    private String year;
+    private String volume;
+    private String number;
+    private String date;
+    private String journalTitle;
+    private long sequence;
 
     private transient boolean current;
 
@@ -50,62 +50,57 @@ public class Issue extends PubcrawlerObject<IssueId> {
         }
     }
 
-    @Override
-    protected IssueId createId(final String id) {
-        return new IssueId(id);
-    }
-
 
     public IssueLink getPreviousIssue() {
-        return (IssueLink) get(PREVIOUS_ISSUE);
+        return previousIssueLink;
     }
 
     public void setPreviousIssue(final IssueLink previousIssue) {
-        put(PREVIOUS_ISSUE, previousIssue);
+        this.previousIssueLink = previousIssue;
     }
 
 
     public String getYear() {
-        return getString(YEAR);
+        return year;
     }
 
     public void setYear(final String year) {
-        put(YEAR, year);
+        this.year = year;
     }
 
 
     public String getVolume() {
-        return getString(VOLUME);
+        return volume;
     }
 
     public void setVolume(final String volume) {
-        put(VOLUME, volume);
+        this.volume = volume;
     }
 
 
     public String getNumber() {
-        return getString(NUMBER);
+        return number;
     }
 
     public void setNumber(final String number) {
-        put(NUMBER, number);
+        this.number = number;
     }
 
 
     public String getDate() {
-        return getString(DATE);
+        return date;
     }
 
     public void setDate(final String date) {
-        put(DATE, date);
+        this.date = date;
     }
 
     public String getJournalTitle() {
-        return getString(JOURNAL_TITLE);
+        return journalTitle;
     }
 
     public void setJournalTitle(final String journalTitle) {
-        put(JOURNAL_TITLE, journalTitle);
+        this.journalTitle = journalTitle;
     }
 
     public boolean isCurrent() {
@@ -130,10 +125,10 @@ public class Issue extends PubcrawlerObject<IssueId> {
     }
 
     public long getSequence() {
-        return getLong(SEQUENCE);
+        return sequence;
     }
 
     public void setSequence(final long sequence) {
-        put(SEQUENCE, sequence);
+        this.sequence = sequence;
     }
 }
