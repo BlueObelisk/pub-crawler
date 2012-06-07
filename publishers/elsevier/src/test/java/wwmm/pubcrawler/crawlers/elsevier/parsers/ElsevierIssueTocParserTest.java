@@ -30,11 +30,15 @@ public class ElsevierIssueTocParserTest {
     
     private static Document journal09254005;
     private static Document journal01677322;
+    private static Document journal000928674;
+    private static Document journal000928674_S2;
 
     @AfterClass
     public static void afterAllTests() {
         journal09254005 = null;
         journal01677322 = null;
+        journal000928674 = null;
+        journal000928674_S2 = null;
     }
 
     @Test
@@ -118,6 +122,45 @@ public class ElsevierIssueTocParserTest {
         assertEquals("167", issueRef.getVolume());
         assertEquals(Issue.NULL_NUMBER, issueRef.getNumber());
         assertEquals(URI.create("http://www.sciencedirect.com/science/journal/01677322/167"), issueRef.getUrl());
+    }
+
+    @Test
+    public void testGetPreviousIssueLinkWithSupplement() throws Exception {
+        ElsevierIssueTocParser parser = getJournalParser00928674_116_1();
+        IssueLink issueRef = parser.getPreviousIssue();
+        assertEquals("116", issueRef.getVolume());
+        assertEquals("S2", issueRef.getNumber());
+        assertEquals(URI.create("http://www.sciencedirect.com/science/journal/00928674/116/supp/S2"), issueRef.getUrl());
+    }
+
+    @Test
+    public void testSupplementNumber() throws Exception {
+        ElsevierIssueTocParser parser = getJournalParser00928674_116_S2();
+        assertEquals("S2", parser.getNumber());
+    }
+
+    @Test
+    public void testSupplementDate() throws Exception {
+        ElsevierIssueTocParser parser = getJournalParser00928674_116_S2();
+        assertEquals("2004", parser.getYear());
+    }
+
+    private ElsevierIssueTocParser getJournalParser00928674_116_1() throws Exception {
+        Document journal = journal000928674;
+        if (journal == null) {
+            journal = loadHtml("00928674-116-1.html");
+            journal000928674 = journal;
+        }
+        return new ElsevierIssueTocParser(journal, URI.create("http://www.sciencedirect.com/science/journal/00928674/116/1"), JOURNAL_09254005);
+    }
+
+    private ElsevierIssueTocParser getJournalParser00928674_116_S2() throws Exception {
+        Document journal = journal000928674_S2;
+        if (journal == null) {
+            journal = loadHtml("00928674-116-S2.html");
+            journal000928674_S2 = journal;
+        }
+        return new ElsevierIssueTocParser(journal, URI.create("http://www.sciencedirect.com/science/journal/00928674/116/supp/S2"), JOURNAL_09254005);
     }
 
     private ElsevierIssueTocParser getJournalParser09254005_165_1() throws Exception {

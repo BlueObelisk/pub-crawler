@@ -47,11 +47,24 @@ public class ElsevierIssueTocParser extends AbstractIssueTocParser implements Is
 
     private static final Pattern P_ID = Pattern.compile(".*/pii/(\\w+)");
 
+    // Acta Histochemica, Volume 110, Issue 5, Pages 351-432 (8 September 2008
+    // ... , Volume 101, Issue 8, Pages 657-738 (2010)
+
+    // Chemometrics and Intelligent Laboratory Systems | Vol 112, Pgs 1-70, (15 March, 2012) | ScienceDirect.com
+    // Volume 111, Issue 1, Pages 1-66 (15 February 2012)
+    // <title>Chemometrics and Intelligent Laboratory Systems | Vol 111, Iss 1, Pgs 1-66, (15 February, 2012) | ScienceDirect.com</title>
+    // EMC - Pediatría | Vol 46, Iss 4, Pgs 1-67, ,(2011) | ScienceDirect.com
+
+    // Computers & Graphics | Vol 36, Iss 1, Pgs 1-48, (February, 2012) | ScienceDirect.com
+
+    // Volume 116, Supplement 2, Pages S1-S123 (23 January 2004)
+
     private static final Pattern VOLUME_ISSUE_PATTERN = Pattern.compile("Vol(?:ume)?s? (\\d+), Iss(?:ues?)? (\\S+),.*?\\(.*\\b(\\d{4})\\)");
+    private static final Pattern VOLUME_SUPPLEMENT_PATTERN = Pattern.compile("Vol(?:ume)?s? (\\d+), Supplement (\\S+),.*?\\(.*\\b(\\d{4})\\)");
     private static final Pattern VOLUME_PATTERN = Pattern.compile("Vol(?:ume)?s? (\\S+),.*?\\(.*\\b(\\d{4})\\)");
 
     // e.g. /science/journal/09254005/164/1
-    private static final Pattern PREV_URL = Pattern.compile("/science/journal/([^/]+)/([^/]+)(?:/([^/]+))?");
+    private static final Pattern PREV_URL = Pattern.compile("/science/journal/([^/]+)/([^/]+)(?:(?:/supp)?/([^/]+))?");
     private static final Pattern P_PAGES = Pattern.compile("Pages? (\\S+)");
 
     public ElsevierIssueTocParser(final Document html, final URI url, final JournalId journalId) {
@@ -201,23 +214,17 @@ public class ElsevierIssueTocParser extends AbstractIssueTocParser implements Is
 
     private String[] getBib() {
         final String s = XPathUtils.getString(getHtml(), "/x:html/x:head/x:title");
-        // Acta Histochemica, Volume 110, Issue 5, Pages 351-432 (8 September 2008
-        // ... , Volume 101, Issue 8, Pages 657-738 (2010)
-
-        // Chemometrics and Intelligent Laboratory Systems | Vol 112, Pgs 1-70, (15 March, 2012) | ScienceDirect.com
-        // Volume 111, Issue 1, Pages 1-66 (15 February 2012)
-        // <title>Chemometrics and Intelligent Laboratory Systems | Vol 111, Iss 1, Pgs 1-66, (15 February, 2012) | ScienceDirect.com</title>
-        // EMC - Pediatría | Vol 46, Iss 4, Pgs 1-67, ,(2011) | ScienceDirect.com
-
-        // Computers & Graphics | Vol 36, Iss 1, Pgs 1-48, (February, 2012) | ScienceDirect.com
-
         Matcher m = VOLUME_ISSUE_PATTERN.matcher(s);
         if (m.find()) {
             return new String[]{m.group(1), m.group(2), m.group(3)};
         }
+        m = VOLUME_SUPPLEMENT_PATTERN.matcher(s);
+        if (m.find()) {
+            return new String[]{m.group(1), 'S'+m.group(2), m.group(3)};
+        }
         m = VOLUME_PATTERN.matcher(s);
         if (m.find()) {
-            return new String[]{m.group(1), "-", m.group(2)};
+            return new String[]{m.group(1), Issue.NULL_NUMBER, m.group(2)};
         }
         throw new CrawlerRuntimeException("Unable to match volume/issue: "+s, getIssueId(), getUrl());
     }
