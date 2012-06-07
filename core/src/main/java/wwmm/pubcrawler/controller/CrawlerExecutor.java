@@ -42,18 +42,26 @@ public class CrawlerExecutor implements Runnable {
     }
 
     private <T> void runTaskTypeSafe(final Task<T> task) {
-        final TaskRunner<T> crawler;
+        final TaskRunner<T> crawler = createCrawler(task);
+        if (crawler != null) {
+            runCrawler(task, crawler);
+        }
+    }
+
+    private <T> TaskRunner<T> createCrawler(final Task<T> task) {
         try {
-            crawler = crawlerFactory.createCrawler(task);
+            return crawlerFactory.createCrawler(task);
         } catch (Exception e) {
             LOG.error("Error initialising crawler " + task.getId(), e);
-            return;
+            return null;
         }
+    }
+
+    private <T> void runCrawler(final Task<T> task, final TaskRunner<T> crawler) {
         try {
             crawler.run(task.getId(), task.getData());
         } catch (Exception e) {
             LOG.error("Error running crawler " + task.getId(), e);
         }
     }
-
 }
