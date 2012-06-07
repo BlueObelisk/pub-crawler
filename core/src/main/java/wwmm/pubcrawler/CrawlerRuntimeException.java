@@ -15,8 +15,6 @@
  */
 package wwmm.pubcrawler;
 
-import wwmm.pubcrawler.model.id.Id;
-
 import java.net.URI;
 
 /**
@@ -32,22 +30,16 @@ import java.net.URI;
  */
 public class CrawlerRuntimeException extends RuntimeException {
 
-    private final Id<?> id;
     private final URI url;
 
-	public CrawlerRuntimeException(final String message, final Throwable cause, final Id<?> id, final URI url) {
+	public CrawlerRuntimeException(final String message, final Throwable cause, final URI url) {
 		super(message, cause);
-        this.id = id;
         this.url = url;
     }
 
-	public CrawlerRuntimeException(final String message, final Id<?> id, final URI url) {
-		this(message, null, id, url);
+	public CrawlerRuntimeException(final String message, final URI url) {
+		this(message, null, url);
 	}
-
-    public Id<?> getId() {
-        return id;
-    }
 
     public URI getUrl() {
         return url;

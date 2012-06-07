@@ -5,7 +5,6 @@ import nu.xom.Element;
 import nu.xom.Node;
 import wwmm.pubcrawler.CrawlerRuntimeException;
 import wwmm.pubcrawler.model.Article;
-import wwmm.pubcrawler.model.Author;
 import wwmm.pubcrawler.model.Reference;
 import wwmm.pubcrawler.model.SupplementaryResource;
 import wwmm.pubcrawler.model.id.ResourceId;
@@ -14,9 +13,7 @@ import wwmm.pubcrawler.utils.XPathUtils;
 
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -45,7 +42,7 @@ public class AcsArticleSuppInfoPageParser extends AcsArticleSplashPageParser {
         final Pattern p = Pattern.compile("\\(([^(]+)\\), pp? (\\S+)");
         final Matcher m = p.matcher(s);
         if (!m.find()) {
-            throw new CrawlerRuntimeException("No match: "+s, getArticleId(), getUrl());
+            throw new CrawlerRuntimeException("No match: "+s, getUrl());
         }
         final String issue = m.group(1);
         final String pages = m.group(2);

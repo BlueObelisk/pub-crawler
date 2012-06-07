@@ -105,10 +105,10 @@ public abstract class AbstractArticleParser implements ArticleParser {
         if (supplementaryResources != null) {
             for (final SupplementaryResource resource : supplementaryResources) {
                 if (resource.getUrl() == null) {
-                    throw new CrawlerRuntimeException("Supplementary resource missing URL", getArticleId(), getUrl());
+                    throw new CrawlerRuntimeException("Supplementary resource missing URL", getUrl());
                 }
                 if (resource.getFilePath() == null) {
-                    throw new CrawlerRuntimeException("Supplementary resource missing file path", getArticleId(), getUrl());
+                    throw new CrawlerRuntimeException("Supplementary resource missing file path", getUrl());
                 }
             }
         }

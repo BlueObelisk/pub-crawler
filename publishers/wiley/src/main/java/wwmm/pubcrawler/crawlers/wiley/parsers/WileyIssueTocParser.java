@@ -25,7 +25,6 @@ import wwmm.pubcrawler.model.IssueLink;
 import wwmm.pubcrawler.parsers.AbstractIssueTocParser;
 import wwmm.pubcrawler.parsers.IssueTocParser;
 import wwmm.pubcrawler.model.FullTextResource;
-import wwmm.pubcrawler.model.Issue;
 import wwmm.pubcrawler.model.SupplementaryResource;
 import wwmm.pubcrawler.model.id.ArticleId;
 import wwmm.pubcrawler.model.id.JournalId;
@@ -91,7 +90,7 @@ public class WileyIssueTocParser extends AbstractIssueTocParser implements Issue
     protected Doi getArticleDoi(final Node articleNode) {
         final String s = XPathUtils.getString(articleNode, ".//x:input[@name='doi']/@value");
         if (s == null) {
-            throw new CrawlerRuntimeException("Unable to locate DOI", getIssueId(), getUrl());
+            throw new CrawlerRuntimeException("Unable to locate DOI", getUrl());
         }
         return new Doi(s);
     }
