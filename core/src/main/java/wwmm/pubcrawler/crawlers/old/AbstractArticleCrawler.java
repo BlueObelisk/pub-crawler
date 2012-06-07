@@ -67,7 +67,7 @@ public abstract class AbstractArticleCrawler extends AbstractCrawler implements 
     public Document fetchHtml(final Article article) throws IOException {
         final Doi doi = article.getDoi();
         if (doi == null) {
-            throw new CrawlerRuntimeException("Article missing DOI", getArticleId(), getUrl());
+            throw new CrawlerRuntimeException("Article missing DOI", getUrl());
         }
         return readHtml(doi.getUrl(), article.getId(), "abstract.html", AGE_MAX);
     }
@@ -107,10 +107,10 @@ public abstract class AbstractArticleCrawler extends AbstractCrawler implements 
         if (supplementaryResources != null) {
             for (final SupplementaryResource resource : supplementaryResources) {
                 if (resource.getUrl() == null) {
-                    throw new CrawlerRuntimeException("Supplementary resource missing URL", getArticleId(), getUrl());
+                    throw new CrawlerRuntimeException("Supplementary resource missing URL", getUrl());
                 }
                 if (resource.getFilePath() == null) {
-                    throw new CrawlerRuntimeException("Supplementary resource missing file path", getArticleId(), getUrl());
+                    throw new CrawlerRuntimeException("Supplementary resource missing file path", getUrl());
                 }
             }
         }

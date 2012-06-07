@@ -141,32 +141,32 @@ public abstract class AbstractIssueTocParser implements IssueTocParser {
         try {
             articleId = getArticleId(articleNode);
             if (articleId == null) {
-                throw new CrawlerRuntimeException("Unable to locate article ID", issueId, url);
+                throw new CrawlerRuntimeException("Unable to locate article ID", url);
             }
             article.setId(articleId);
         } catch (Exception e) {
-            throw new CrawlerRuntimeException("Error locating article ID", e, issueId, url);
+            throw new CrawlerRuntimeException("Error locating article ID", e, url);
         }
 
         try {
             final Doi doi = getArticleDoi(articleNode);
             article.setDoi(doi);
         } catch (Exception e) {
-            throw new CrawlerRuntimeException("Error locating DOI for article '"+articleId+"'", e, issueId, url);
+            throw new CrawlerRuntimeException("Error locating DOI for article '"+articleId+"'", e, url);
         }
 
         try {
             final URI url = getArticleUrl(articleNode);
             article.setUrl(url);
         } catch (Exception e) {
-            throw new CrawlerRuntimeException("Error locating URL for article '"+articleId+"'", e, issueId, url);
+            throw new CrawlerRuntimeException("Error locating URL for article '"+articleId+"'", e, url);
         }
 
         try {
             final URI suppUrl = getArticleSupportingInfoUrl(articleNode);
             article.setSupplementaryResourceUrl(suppUrl);
         } catch (Exception e) {
-            throw new CrawlerRuntimeException("Error locating supp info URL for article '"+articleId+"'", e, issueId, url);
+            throw new CrawlerRuntimeException("Error locating supp info URL for article '"+articleId+"'", e, url);
         }
 
         try {
@@ -175,7 +175,7 @@ public abstract class AbstractIssueTocParser implements IssueTocParser {
                 article.setTitle(title);
             }
         } catch (Exception e) {
-            throw new CrawlerRuntimeException("Error locating title for article '"+articleId+"'", e, issueId, url);
+            throw new CrawlerRuntimeException("Error locating title for article '"+articleId+"'", e, url);
         }
 
         try {
@@ -184,7 +184,7 @@ public abstract class AbstractIssueTocParser implements IssueTocParser {
                 article.setTitleHtml(titleHtml);
             }
         } catch (Exception e) {
-            throw new CrawlerRuntimeException("Error locating HTML title for article '"+articleId+"'", e, issueId, url);
+            throw new CrawlerRuntimeException("Error locating HTML title for article '"+articleId+"'", e, url);
         }
 
         try {
@@ -193,7 +193,7 @@ public abstract class AbstractIssueTocParser implements IssueTocParser {
                 article.setAuthors(authors);
             }
         } catch (Exception e) {
-            throw new CrawlerRuntimeException("Error locating authors for article '"+articleId+"'", e, issueId, url);
+            throw new CrawlerRuntimeException("Error locating authors for article '"+articleId+"'", e, url);
         }
 
         try {
@@ -202,7 +202,7 @@ public abstract class AbstractIssueTocParser implements IssueTocParser {
                 article.setReference(reference);
             }
         } catch (Exception e) {
-            throw new CrawlerRuntimeException("Error locating reference for article '"+articleId+"'", e, issueId, url);
+            throw new CrawlerRuntimeException("Error locating reference for article '"+articleId+"'", e, url);
         }
 
         try {
@@ -211,7 +211,7 @@ public abstract class AbstractIssueTocParser implements IssueTocParser {
                 article.setSupplementaryResources(supplementaryResources);
             }
         } catch (Exception e) {
-            throw new CrawlerRuntimeException("Error locating supp info for article '"+articleId+"'", e, issueId, url);
+            throw new CrawlerRuntimeException("Error locating supp info for article '"+articleId+"'", e, url);
         }
 
         try {
@@ -220,7 +220,7 @@ public abstract class AbstractIssueTocParser implements IssueTocParser {
                 article.setFullTextResources(fullTextResources);
             }
         } catch (Exception e) {
-            throw new CrawlerRuntimeException("Error locating full text for article '"+articleId+"'", e, issueId, url);
+            throw new CrawlerRuntimeException("Error locating full text for article '"+articleId+"'", e, url);
         }
 
         return article;

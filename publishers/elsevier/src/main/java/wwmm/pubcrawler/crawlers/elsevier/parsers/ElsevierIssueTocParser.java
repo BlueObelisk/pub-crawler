@@ -110,7 +110,7 @@ public class ElsevierIssueTocParser extends AbstractIssueTocParser implements Is
         if (m.find()) {
             return new ArticleId(getJournalId(), m.group(1));
         } else {
-            throw new CrawlerRuntimeException("No match for ID: "+href, getIssueId(), getUrl());
+            throw new CrawlerRuntimeException("No match for ID: "+href, getUrl());
         }
     }
 
@@ -184,7 +184,7 @@ public class ElsevierIssueTocParser extends AbstractIssueTocParser implements Is
         if (m.find()) {
             return m.group(1);
         }
-        throw new CrawlerRuntimeException("Unable to find pages: "+s, getIssueId(), getUrl());
+        throw new CrawlerRuntimeException("Unable to find pages: "+s, getUrl());
     }
 
     @Override
@@ -226,7 +226,7 @@ public class ElsevierIssueTocParser extends AbstractIssueTocParser implements Is
         if (m.find()) {
             return new String[]{m.group(1), Issue.NULL_NUMBER, m.group(2)};
         }
-        throw new CrawlerRuntimeException("Unable to match volume/issue: "+s, getIssueId(), getUrl());
+        throw new CrawlerRuntimeException("Unable to match volume/issue: "+s, getUrl());
     }
 
 }

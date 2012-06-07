@@ -131,12 +131,12 @@ public class IucrIssueTocParser extends AbstractIssueTocParser {
     protected ArticleId getArticleId(final Node node) {
         final String idString = XPathUtils.getString(node, ".//x:a[./x:img[contains(@alt, 'pdf version') or contains(@alt, 'PDF version')]]/@href");
         if (idString == null) {
-            throw new CrawlerRuntimeException("Unable to locate PDF file:\n"+node.toXML(), getIssueId(), getUrl());
+            throw new CrawlerRuntimeException("Unable to locate PDF file:\n"+node.toXML(), getUrl());
         }
         final Pattern p = Pattern.compile("/([^/]+)/[^/]+\\.pdf");
         final Matcher m = p.matcher(idString);
         if (!m.find()) {
-            throw new CrawlerRuntimeException("No match: "+idString, getIssueId(), getUrl());
+            throw new CrawlerRuntimeException("No match: "+idString, getUrl());
         }
         return new ArticleId(getJournalId(), m.group(1));
     }
@@ -152,7 +152,7 @@ public class IucrIssueTocParser extends AbstractIssueTocParser {
             doi = XPathUtils.getString(node, ".//x:span[starts-with(text(), 'doi:')]");
         }
         if (doi == null) {
-            throw new CrawlerRuntimeException("Unable to locate DOI in issue: "+getIssueId(), getIssueId(), getUrl());
+            throw new CrawlerRuntimeException("Unable to locate DOI in issue: "+getIssueId(), getUrl());
         }
         return new Doi(doi);
     }
@@ -223,7 +223,7 @@ public class IucrIssueTocParser extends AbstractIssueTocParser {
         final Pattern p = Pattern.compile("journals.iucr.org/([^/]+)/issues/(\\d+)/(\\w+)/(\\w+)");
         final Matcher m = p.matcher(url.toString());
         if (!m.find()) {
-            throw new CrawlerRuntimeException("Unable to parse URL: "+url, getIssueId(), getUrl());
+            throw new CrawlerRuntimeException("Unable to parse URL: "+url, getUrl());
         }
         final JournalId journalId = new JournalId(Iucr.PUBLISHER_ID, m.group(1));
         final String volume = m.group(2);
@@ -242,12 +242,12 @@ public class IucrIssueTocParser extends AbstractIssueTocParser {
         // Volume 66, Part 1 (February 2010)
         final String s = XPathUtils.getString(getHtml(), ".//x:h3[contains(., 'Volume') and contains(., 'Part')]");
         if (s == null) {
-            throw new CrawlerRuntimeException("Volume info not found", getIssueId(), getUrl());
+            throw new CrawlerRuntimeException("Volume info not found", getUrl());
         }
         final Pattern p = Pattern.compile("Volume (\\d+), Part (\\d+) .*\\(\\S+ (\\d+)\\)");
         final Matcher m = p.matcher(s);
         if (!m.find()) {
-            throw new CrawlerRuntimeException("No match: "+s, getIssueId(), getUrl());
+            throw new CrawlerRuntimeException("No match: "+s, getUrl());
         }
         return m.group(i);
     }

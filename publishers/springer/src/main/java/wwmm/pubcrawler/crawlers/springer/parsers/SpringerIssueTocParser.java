@@ -165,7 +165,7 @@ public class SpringerIssueTocParser extends AbstractIssueTocParser implements Is
         final String s = XPathUtils.getString(getHtml(), "//x:h2[@class='filters']");
         final Matcher m = P_VOLUME_NUMBER.matcher(s);
         if (!m.find()) {
-            throw new CrawlerRuntimeException("No match: "+s, getIssueId(), getUrl());
+            throw new CrawlerRuntimeException("No match: "+s, getUrl());
         }
         return new String[] {
                 m.group(1), m.group(2), m.group(3)
