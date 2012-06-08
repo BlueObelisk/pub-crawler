@@ -32,12 +32,13 @@ public abstract class DocumentResourceHttpFetcher implements Fetcher<UriRequest,
 
     protected abstract Document readDocument(final CrawlerResponse response) throws IOException;
 
-    protected CrawlerRequest createRequest(final UriRequest task) {
+    protected CrawlerRequest createRequest(final UriRequest request) {
         return new GetRequestBuilder()
-            .withKey(task.getId())
-            .withUrl(task.getUri())
-            .withMaxAge(task.getMaxAge())
-            .withReferrer(task.getReferrer())
+            .withKey(request.getId())
+            .withUrl(request.getUri())
+            .withMaxAge(request.getMaxAge())
+            .withReferrer(request.getReferrer())
+            .withCookies(request.getCookies())
             .build();
     }
 

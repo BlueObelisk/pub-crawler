@@ -13,6 +13,6 @@ public class UriRequestFactory implements RequestFactory<HttpCrawlTaskData, UriR
 
     @Override
     public UriRequest createFetchTask(final String taskId, final HttpCrawlTaskData data) {
-        return new UriRequest(data.getUrl(), format(FILE_ID, taskId, data.getFileId()), data.getMaxAge(), data.getReferrer());
+        return new UriRequest(data.getUrl(), format(FILE_ID, taskId, data.getFileId()), data.getMaxAge(), data.getReferrer(), null);
     }
 }
