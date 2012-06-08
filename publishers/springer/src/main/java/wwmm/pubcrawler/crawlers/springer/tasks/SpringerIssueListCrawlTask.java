@@ -3,12 +3,15 @@ package wwmm.pubcrawler.crawlers.springer.tasks;
 import wwmm.pubcrawler.crawlers.CrawlTaskRunner;
 import wwmm.pubcrawler.crawlers.IssueHandler;
 import wwmm.pubcrawler.crawlers.springer.SpringerIssueListParserFactory;
+import wwmm.pubcrawler.crawlers.springer.SpringerUriRequestFactory;
 import wwmm.pubcrawler.http.DocumentResource;
 import wwmm.pubcrawler.http.Fetcher;
-import wwmm.pubcrawler.http.RequestFactory;
 import wwmm.pubcrawler.http.UriRequest;
 import wwmm.pubcrawler.processors.IssueListProcessor;
-import wwmm.pubcrawler.tasks.*;
+import wwmm.pubcrawler.tasks.IssueListCrawlTaskData;
+import wwmm.pubcrawler.tasks.IssueListCrawlTaskDataMarshaller;
+import wwmm.pubcrawler.tasks.Marshaller;
+import wwmm.pubcrawler.tasks.TaskSpecification;
 
 import javax.inject.Inject;
 
@@ -32,7 +35,7 @@ public class SpringerIssueListCrawlTask implements TaskSpecification<IssueListCr
     public static class Runner extends CrawlTaskRunner<IssueListCrawlTaskData, UriRequest, DocumentResource> {
 
         @Inject
-        public Runner(final Fetcher<UriRequest, DocumentResource> fetcher, final RequestFactory<HttpCrawlTaskData, UriRequest> requestFactory, final SpringerIssueListParserFactory parserFactory, final IssueHandler issueHandler) {
+        public Runner(final Fetcher<UriRequest, DocumentResource> fetcher, final SpringerUriRequestFactory requestFactory, final SpringerIssueListParserFactory parserFactory, final IssueHandler issueHandler) {
             super(fetcher, requestFactory, new IssueListProcessor<DocumentResource, IssueListCrawlTaskData>(parserFactory, issueHandler));
         }
 
