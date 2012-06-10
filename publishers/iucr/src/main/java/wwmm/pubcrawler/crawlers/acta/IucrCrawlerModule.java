@@ -3,11 +3,13 @@ package wwmm.pubcrawler.crawlers.acta;
 import com.google.inject.Provides;
 import uk.ac.cam.ch.wwmm.httpcrawler.HttpFetcher;
 import wwmm.pubcrawler.crawlers.IssueTocCrawlTaskFactory;
+import wwmm.pubcrawler.crawlers.JournalHandler;
 import wwmm.pubcrawler.http.DocumentResource;
 import wwmm.pubcrawler.http.Fetcher;
 import wwmm.pubcrawler.http.RequestFactory;
 import wwmm.pubcrawler.inject.AbstractPublisherCrawlerModule;
 import wwmm.pubcrawler.model.id.PublisherId;
+import wwmm.pubcrawler.parsers.ArticleParserFactory;
 import wwmm.pubcrawler.parsers.IssueListParserFactory;
 import wwmm.pubcrawler.parsers.IssueTocParserFactory;
 import wwmm.pubcrawler.parsers.PublicationListParserFactory;
@@ -17,6 +19,11 @@ import wwmm.pubcrawler.tasks.HttpCrawlTaskData;
  * @author Sam Adams
  */
 public class IucrCrawlerModule extends AbstractPublisherCrawlerModule {
+
+    @Override
+    protected Class<? extends JournalHandler> getJournalHandlerType() {
+        return IucrJournalHandler.class;
+    }
 
     @Provides
     public PublicationListParserFactory<DocumentResource> providePublicationListParserFactory() {
@@ -53,6 +60,11 @@ public class IucrCrawlerModule extends AbstractPublisherCrawlerModule {
     @Override
     protected Class<? extends IssueTocCrawlTaskFactory> getIssueTocCrawlTaskFactoryType() {
         return IucrIssueTocCrawlTaskFactory.class;
+    }
+
+    @Override
+    protected Class<? extends ArticleParserFactory> getArticleParserFactoryType() {
+        return null;
     }
 
     @Override

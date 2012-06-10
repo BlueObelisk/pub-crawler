@@ -5,6 +5,7 @@ import wwmm.pubcrawler.crawlers.IssueTocCrawlTaskFactory;
 import wwmm.pubcrawler.http.DocumentResource;
 import wwmm.pubcrawler.inject.AbstractPublisherCrawlerModule;
 import wwmm.pubcrawler.model.id.PublisherId;
+import wwmm.pubcrawler.parsers.ArticleParserFactory;
 import wwmm.pubcrawler.parsers.IssueTocParserFactory;
 import wwmm.pubcrawler.parsers.PublicationListParserFactory;
 
@@ -31,6 +32,11 @@ public class NatureCrawlerModule extends AbstractPublisherCrawlerModule {
     @Override
     protected Class<? extends IssueTocCrawlTaskFactory> getIssueTocCrawlTaskFactoryType() {
         return NatureIssueTocCrawlTaskFactory.class;
+    }
+
+    @Override
+    protected Class<? extends ArticleParserFactory> getArticleParserFactoryType() {
+        return null;
     }
 
     @Override

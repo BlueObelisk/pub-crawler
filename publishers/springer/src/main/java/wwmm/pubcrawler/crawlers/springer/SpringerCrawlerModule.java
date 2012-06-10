@@ -5,6 +5,7 @@ import wwmm.pubcrawler.crawlers.IssueTocCrawlTaskFactory;
 import wwmm.pubcrawler.http.DocumentResource;
 import wwmm.pubcrawler.inject.AbstractPublisherCrawlerModule;
 import wwmm.pubcrawler.model.id.PublisherId;
+import wwmm.pubcrawler.parsers.ArticleParserFactory;
 import wwmm.pubcrawler.parsers.IssueTocParserFactory;
 import wwmm.pubcrawler.parsers.PublicationListParserFactory;
 
@@ -31,6 +32,11 @@ public class SpringerCrawlerModule extends AbstractPublisherCrawlerModule {
     @Override
     protected Class<? extends IssueTocCrawlTaskFactory> getIssueTocCrawlTaskFactoryType() {
         return SpringerIssueTocCrawlTaskFactory.class;
+    }
+
+    @Override
+    protected Class<? extends ArticleParserFactory> getArticleParserFactoryType() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override

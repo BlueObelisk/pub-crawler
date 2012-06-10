@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import wwmm.pubcrawler.archivers.ArticleArchiver;
 import wwmm.pubcrawler.archivers.IssueArchiver;
+import wwmm.pubcrawler.crawlers.ArticleHandler;
 import wwmm.pubcrawler.crawlers.IssueHandler;
 import wwmm.pubcrawler.crawlers.ResourceProcessor;
 import wwmm.pubcrawler.model.Article;
@@ -28,15 +29,17 @@ public class IssueTocProcessor<Resource> implements ResourceProcessor<Resource,I
     private static final Logger LOG = LoggerFactory.getLogger(IssueTocProcessor.class);
 
     private final IssueArchiver issueArchiver;
-    private final ArticleArchiver articleArchiver;
     private final IssueHandler issueHandler;
+    private final ArticleArchiver articleArchiver;
+    private final ArticleHandler articleHandler;
     private final IssueTocParserFactory<Resource> parserFactory;
 
     @Inject
-    public IssueTocProcessor(final IssueArchiver issueArchiver, final ArticleArchiver articleArchiver, final IssueHandler issueHandler, final IssueTocParserFactory<Resource> parserFactory) {
+    public IssueTocProcessor(final IssueArchiver issueArchiver, final IssueHandler issueHandler, final ArticleArchiver articleArchiver, final ArticleHandler articleHandler, final IssueTocParserFactory<Resource> parserFactory) {
         this.issueArchiver = issueArchiver;
-        this.articleArchiver = articleArchiver;
         this.issueHandler = issueHandler;
+        this.articleArchiver = articleArchiver;
+        this.articleHandler = articleHandler;
         this.parserFactory = parserFactory;
     }
 
@@ -46,7 +49,7 @@ public class IssueTocProcessor<Resource> implements ResourceProcessor<Resource,I
         final JournalId journalId = new JournalId(publisherId, data.getJournal());
         final IssueTocParser parser = parserFactory.createIssueTocParser(journalId, resource);
         handleIssueDetails(taskId, parser);
-        handleIssueLinks(taskId, parser);
+//        handleIssueLinks(taskId, parser);
         handleArticles(taskId, parser);
     }
 
@@ -65,6 +68,7 @@ public class IssueTocProcessor<Resource> implements ResourceProcessor<Resource,I
             if (articles != null) {
                 for (final Article article : articles) {
                     articleArchiver.archive(article);
+                    articleHandler.handleArticleLink(article);
                 }
             }
         } catch (Exception e) {

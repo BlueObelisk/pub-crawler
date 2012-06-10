@@ -1,7 +1,5 @@
 package wwmm.pubcrawler.crawlers;
 
-import wwmm.pubcrawler.crawler.Task;
-
 /**
  * @author Sam Adams
  */

@@ -6,11 +6,13 @@ import uk.ac.cam.ch.wwmm.httpcrawler.HttpFetcher;
 import wwmm.pubcrawler.utils.HtmlUtils;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.io.IOException;
 
 /**
  * @author Sam Adams
  */
+@Singleton
 public class HtmlDocumentResourceHttpFetcher extends DocumentResourceHttpFetcher {
 
     @Inject
