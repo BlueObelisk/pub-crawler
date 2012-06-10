@@ -19,6 +19,8 @@ import static wwmm.pubcrawler.Config.ISSUE_LIST_CRAWL_INTERVAL;
  */
 public class IucrJournalHandler implements JournalHandler {
 
+    private static final String PUBLISHER = "iucr";
+
     private final TaskQueue taskQueue;
 
     @Inject
@@ -28,13 +30,13 @@ public class IucrJournalHandler implements JournalHandler {
 
     @Override
     public void handleJournal(final Journal journal) {
-        Task task = createTask(journal);
+        Task task = createIssueListCrawlTask(journal);
         taskQueue.queueTask(task);
     }
 
-    private Task createTask(final Journal journal) {
+    private Task createIssueListCrawlTask(final Journal journal) {
         final URI url = URI.create("http://journals.iucr.org/" + journal.getAbbreviation() +"/contents/backissuesbdy.html");
-        final IssueListCrawlTaskData data = new IssueListCrawlTaskData(url, "issuelist.html", ISSUE_LIST_CACHE_MAX_AGE, "iucr", journal.getAbbreviation());
+        final IssueListCrawlTaskData data = new IssueListCrawlTaskData(url, "issuelist.html", ISSUE_LIST_CACHE_MAX_AGE, PUBLISHER, journal.getAbbreviation());
 
         return TaskBuilder.newTask(IucrIssueListCrawlerTask.INSTANCE)
                 .withId("iucr:issue-list:" + journal.getAbbreviation())

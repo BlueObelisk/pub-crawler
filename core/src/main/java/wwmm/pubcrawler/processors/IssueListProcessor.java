@@ -29,7 +29,7 @@ public class IssueListProcessor<Resource, TaskData extends IssueListCrawlTaskDat
 
     @Override
     public void process(final String taskId, final TaskData data, final Resource resource) {
-        final PublisherId publisherId = new PublisherId(data.getJournal());
+        final PublisherId publisherId = new PublisherId(data.getPublisher());
         final JournalId journalId = new JournalId(publisherId, data.getJournal());
 
         final IssueListParser parser = parserFactory.createIssueListParser(journalId, resource);

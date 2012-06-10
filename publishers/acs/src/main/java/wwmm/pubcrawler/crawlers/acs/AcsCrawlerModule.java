@@ -5,6 +5,7 @@ import wwmm.pubcrawler.crawlers.IssueTocCrawlTaskFactory;
 import wwmm.pubcrawler.http.DocumentResource;
 import wwmm.pubcrawler.inject.AbstractPublisherCrawlerModule;
 import wwmm.pubcrawler.model.id.PublisherId;
+import wwmm.pubcrawler.parsers.ArticleParserFactory;
 import wwmm.pubcrawler.parsers.IssueTocParserFactory;
 import wwmm.pubcrawler.parsers.PublicationListParserFactory;
 
@@ -23,6 +24,11 @@ public class AcsCrawlerModule extends AbstractPublisherCrawlerModule {
         return new AcsIssueTocParserFactory();
     }
 
+    @Provides
+    public ArticleParserFactory<DocumentResource> provideArticleParserFactory() {
+        return new AcsArticleParserFactory();
+    }
+
 
     @Override
     protected Class<? extends IssueTocParserFactory> getIssueTocParserFactoryType() {
@@ -32,6 +38,11 @@ public class AcsCrawlerModule extends AbstractPublisherCrawlerModule {
     @Override
     protected Class<? extends IssueTocCrawlTaskFactory> getIssueTocCrawlTaskFactoryType() {
         return AcsIssueTocCrawlTaskFactory.class;
+    }
+
+    @Override
+    protected Class<? extends ArticleParserFactory> getArticleParserFactoryType() {
+        return AcsArticleParserFactory.class;
     }
 
     @Override

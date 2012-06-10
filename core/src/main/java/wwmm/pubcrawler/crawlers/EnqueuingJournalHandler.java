@@ -24,9 +24,12 @@ public class EnqueuingJournalHandler implements JournalHandler {
 
     @Override
     public void handleJournal(final Journal journal) {
+        if (journal.getId().getJournalPart().contains("cgdefu"))
+        {
         final Task task = taskFactory.createCurrentIssueTocCrawlTask(journal);
         if (task != null) {
             taskQueue.queueTask(task);
+        }
         }
     }
 
