@@ -53,6 +53,12 @@ public class AcsArticleSplashPageParserTest extends AbstractCrawlerTest {
     }
 
     @Test
+    public void testGetDoi() throws Exception {
+        AcsArticleSplashPageParser article = getArticleCg100078b();
+        assertEquals(new Doi("10.1021/cg100078b"), article.getDoi());
+    }
+
+    @Test
     public void testGetTitleHtml() throws Exception {
         AcsArticleSplashPageParser article = getArticleCg100078b();
         assertEquals("<h1 xmlns=\"http://www.w3.org/1999/xhtml\">Microporous La(III) Metal\u2212Organic Framework Using a Semirigid Tricarboxylic Ligand: "
@@ -167,29 +173,25 @@ public class AcsArticleSplashPageParserTest extends AbstractCrawlerTest {
     }
 
     protected AcsArticleSplashPageParser getArticleCg100078b() throws Exception {
-        Article article = new Article();
-        article.setId(new ArticleId("acs/cgdefu/10/8/cg100078b"));
-        article.setDoi(new Doi("10.1021/cg100078b"));
+        final ArticleId articleRef = new ArticleId("acs/cgdefu/10/8/cg100078b");
 
         Document doc = cg100078b;
         if (doc == null) {
             doc = loadDocument("cg100078b.html");
             cg100078b = doc;
         }
-        return new AcsArticleSplashPageParser(article, doc, URI.create("http://pubs.acs.org/doi/abs/10.1021/cg100078b"));
+        return new AcsArticleSplashPageParser(articleRef, doc, URI.create("http://pubs.acs.org/doi/abs/10.1021/cg100078b"));
     }
 
     protected AcsArticleSplashPageParser getArticleJo1013564() throws Exception {
-        Article article = new Article();
-        article.setId(new ArticleId("acs/joceah/75/23/jo1013564"));
-        article.setDoi(new Doi("10.1021/jo1013564"));
+        final ArticleId articleRef = new ArticleId("acs/joceah/75/23/jo1013564");
 
         Document doc = jo1013564;
         if (doc == null) {
             doc = loadDocument("jo1013564.html");
             jo1013564 = doc;
         }
-        return new AcsArticleSplashPageParser(article, doc, URI.create("http://pubs.acs.org/doi/abs/10.1021/jo1013564"));
+        return new AcsArticleSplashPageParser(articleRef, doc, URI.create("http://pubs.acs.org/doi/abs/10.1021/jo1013564"));
     }
 
     private Document loadDocument(String path) throws Exception {

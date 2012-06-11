@@ -20,12 +20,13 @@ import nu.xom.Element;
 import nu.xom.Node;
 import nu.xom.Serializer;
 import org.apache.log4j.Logger;
-import wwmm.pubcrawler.parsers.AbstractArticleParser;
-import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.FullTextResource;
 import wwmm.pubcrawler.model.Reference;
 import wwmm.pubcrawler.model.SupplementaryResource;
+import wwmm.pubcrawler.model.id.ArticleId;
 import wwmm.pubcrawler.model.id.ResourceId;
+import wwmm.pubcrawler.parsers.AbstractArticleParser;
+import wwmm.pubcrawler.types.Doi;
 import wwmm.pubcrawler.utils.XPathUtils;
 
 import java.io.ByteArrayOutputStream;
@@ -56,8 +57,18 @@ public class NatureArticleParser extends AbstractArticleParser {
 
     private static final Logger LOG = Logger.getLogger(NatureArticleParser.class);
 
-    public NatureArticleParser(final Article articleRef, final Document html, final URI url) throws IOException {
+    public NatureArticleParser(final ArticleId articleRef, final Document html, final URI url) throws IOException {
         super(articleRef, html, url);
+    }
+
+    @Override
+    protected ArticleId getArticleId() {
+        return getArticleRef();
+    }
+
+    @Override
+    protected Doi getDoi() {
+        return null;    // TODO
     }
 
     @Override
@@ -83,7 +94,7 @@ public class NatureArticleParser extends AbstractArticleParser {
             if (child instanceof Element) {
                 final Element e = (Element) child;
                 if ("img".equals(e.getLocalName())) {
-                    copy.appendChild(normaliseEntityImage(e));
+                    copy.appendChild(e);
                     continue;
                 }
             }
@@ -91,30 +102,6 @@ public class NatureArticleParser extends AbstractArticleParser {
         }
         return copy;
     }
-
-    private String normaliseEntityImage(final Element e) {
-        final String src = e.getAttributeValue("src");
-        if ("/appl/literatum/publisher/achs/journals/entities/223C.gif".equals(src)) {
-            return "\u223c";    // TILDE OPERATOR
-        }
-        if ("/appl/literatum/publisher/achs/journals/entities/2009.gif".equals(src)) {
-            return "\u2009";    // THIN SPACE
-        }
-        if ("/appl/literatum/publisher/achs/journals/entities/2002.gif".equals(src)) {
-            return "\u2002";    // EN SPACE
-        }
-        if ("/appl/literatum/publisher/achs/journals/entities/2225.gif".equals(src)) {
-            return "\u2225";    // PARALLEL TO
-        }
-        if ("/appl/literatum/publisher/achs/journals/entities/22A5.gif".equals(src)) {
-            return "\u22A5";    // UP TACK
-        }
-        if ("/appl/literatum/publisher/achs/journals/entities/21C6.gif".equals(src)) {
-            return "\u21C6";    // LEFTWARDS ARROW OVER RIGHTWARDS ARROW
-        }
-        throw new RuntimeException("Unknown entity: "+src);
-    }
-
 
     @Override
     public List<String> getAuthors() {

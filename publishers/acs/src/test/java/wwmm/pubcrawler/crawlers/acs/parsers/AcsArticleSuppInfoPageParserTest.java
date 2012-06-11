@@ -5,11 +5,11 @@ import nu.xom.Document;
 import org.apache.commons.io.IOUtils;
 import org.ccil.cowan.tagsoup.Parser;
 import org.junit.AfterClass;
+import org.junit.Assert;
 import org.junit.Test;
-import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.Author;
+import wwmm.pubcrawler.model.SupplementaryResource;
 import wwmm.pubcrawler.model.id.ArticleId;
-import wwmm.pubcrawler.types.Doi;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -124,18 +124,33 @@ public class AcsArticleSuppInfoPageParserTest {
         assertEquals(expectedAbstract, parser.getAbstractAsHtml());
     }
 
+    @Test
+    public void testGetSupplementaryResources() throws Exception {
+        AcsArticleSuppInfoPageParser parser = getArticleJo1013564();
+        List<SupplementaryResource> resources = parser.getSupplementaryResources();
+
+        assertEquals(2, resources.size());
+        assertEquals(URI.create("http://pubs.acs.org/doi/suppl/10.1021/jo1013564/suppl_file/jo1013564_si_001.pdf"), resources.get(0).getUrl());
+        assertEquals("jo1013564_si_001.pdf", resources.get(0).getFilePath());
+        assertEquals("jo1013564_si_001.pdf (2.33 MB)", resources.get(0).getLinkText());
+        assertEquals("application/pdf", resources.get(0).getContentType());
+
+        assertEquals(URI.create("http://pubs.acs.org/doi/suppl/10.1021/jo1013564/suppl_file/jo1013564_si_002.cif"), resources.get(1).getUrl());
+        assertEquals("jo1013564_si_002.cif", resources.get(1).getFilePath());
+        assertEquals("jo1013564_si_002.cif (33 KB)", resources.get(1).getLinkText());
+        assertEquals("chemical/x-cif", resources.get(1).getContentType());
+    }
+
 
     protected AcsArticleSuppInfoPageParser getArticleJo1013564() throws Exception {
-        Article article = new Article();
-        article.setId(new ArticleId("acs/joceah/75/23/jo1013564"));
-        article.setDoi(new Doi("10.1021/jo1013564"));
+        final ArticleId articleRef = new ArticleId("acs/joceah/75/23/jo1013564");
 
         Document doc = jo1013564;
         if (doc == null) {
             doc = loadDocument("jo1013564_supp.html");
             jo1013564 = doc;
         }
-        return new AcsArticleSuppInfoPageParser(article, doc, URI.create("http://pubs.acs.org/doi/abs/10.1021/jo1013564"));
+        return new AcsArticleSuppInfoPageParser(articleRef, doc, URI.create("http://pubs.acs.org/doi/suppl/10.1021/jo1013564"));
     }
 
     private Document loadDocument(String filename) throws Exception {

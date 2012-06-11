@@ -1,12 +1,12 @@
 package wwmm.pubcrawler.parsers;
 
-import wwmm.pubcrawler.model.Article;
+import wwmm.pubcrawler.model.id.ArticleId;
 
 /**
  * @author Sam Adams
  */
 public interface ArticleParserFactory<T> {
     
-    ArticleParser createArticleParser(Article articleRef, T resource);
+    ArticleParser createArticleParser(ArticleId articleRef, T resource);
     
 }

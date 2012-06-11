@@ -6,6 +6,7 @@ import wwmm.pubcrawler.archivers.ArticleArchiver;
 import wwmm.pubcrawler.crawlers.ArticleHandler;
 import wwmm.pubcrawler.crawlers.ResourceProcessor;
 import wwmm.pubcrawler.model.Article;
+import wwmm.pubcrawler.model.id.ArticleId;
 import wwmm.pubcrawler.parsers.ArticleParser;
 import wwmm.pubcrawler.parsers.ArticleParserFactory;
 import wwmm.pubcrawler.tasks.ArticleCrawlTaskData;
@@ -34,7 +35,8 @@ public class ArticleProcessor<Resource> implements ResourceProcessor<Resource, A
 
     @Override
     public void process(final String taskId, final ArticleCrawlTaskData data, final Resource resource) {
-        final ArticleParser parser = parserFactory.createArticleParser(null, resource);
+        final ArticleId articleRef = data.getArticleRef();
+        final ArticleParser parser = parserFactory.createArticleParser(articleRef, resource);
         handleArticle(taskId, parser);
     }
 

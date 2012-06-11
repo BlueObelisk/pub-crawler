@@ -46,17 +46,17 @@ import java.util.List;
  */
 public abstract class AbstractArticleParser implements ArticleParser {
 
-    protected final Article articleRef;
+    protected final ArticleId articleRef;
     private final Document html;
     private final URI url;
 
-    protected AbstractArticleParser(final Article articleRef, final Document document, final URI uri) {
+    protected AbstractArticleParser(final ArticleId articleRef, final Document document, final URI uri) {
         this.articleRef = articleRef;
         this.html = document;
         this.url = uri;
     }
 
-    protected Article getArticleRef() {
+    protected ArticleId getArticleRef() {
         return articleRef;
     }
 
@@ -68,13 +68,12 @@ public abstract class AbstractArticleParser implements ArticleParser {
         return url;
     }
 
-    protected ArticleId getArticleId() {
-        return getArticleRef().getId();
-    }
+    protected abstract ArticleId getArticleId();
 
-    protected Doi getDoi() {
-        return getArticleRef().getDoi();
-    }
+    protected abstract Doi getDoi();
+//    {
+//        return null;    // getArticleRef().getDoi();
+//    }
 
     @Override
     public Article getArticleDetails() {

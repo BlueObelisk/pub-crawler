@@ -20,12 +20,13 @@ import nu.xom.Element;
 import nu.xom.Node;
 import nu.xom.Serializer;
 import org.apache.log4j.Logger;
-import wwmm.pubcrawler.parsers.AbstractArticleParser;
-import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.FullTextResource;
 import wwmm.pubcrawler.model.Reference;
 import wwmm.pubcrawler.model.SupplementaryResource;
+import wwmm.pubcrawler.model.id.ArticleId;
 import wwmm.pubcrawler.model.id.ResourceId;
+import wwmm.pubcrawler.parsers.AbstractArticleParser;
+import wwmm.pubcrawler.types.Doi;
 import wwmm.pubcrawler.utils.XPathUtils;
 
 import java.io.ByteArrayOutputStream;
@@ -58,8 +59,18 @@ public class NatureSuppInfoParser extends AbstractArticleParser {
 
     private static final Logger LOG = Logger.getLogger(NatureSuppInfoParser.class);
 
-    public NatureSuppInfoParser(final Article articleRef, final Document html, final URI url) throws IOException {
+    public NatureSuppInfoParser(final ArticleId articleRef, final Document html, final URI url) throws IOException {
         super(articleRef, html, url);
+    }
+
+    @Override
+    protected ArticleId getArticleId() {
+        return getArticleRef();
+    }
+
+    @Override
+    protected Doi getDoi() {
+        return null;    // TODO
     }
 
     @Override
@@ -91,7 +102,7 @@ public class NatureSuppInfoParser extends AbstractArticleParser {
             if (child instanceof Element) {
                 final Element e = (Element) child;
                 if ("img".equals(e.getLocalName())) {
-                    copy.appendChild(normaliseEntityImage(e));
+                    copy.appendChild(e);
                     continue;
                 }
             }
@@ -100,35 +111,8 @@ public class NatureSuppInfoParser extends AbstractArticleParser {
         return copy;
     }
 
-    private String normaliseEntityImage(final Element e) {
-        final String src = e.getAttributeValue("src");
-        if ("/appl/literatum/publisher/achs/journals/entities/223C.gif".equals(src)) {
-            return "\u223c";    // TILDE OPERATOR
-        }
-        if ("/appl/literatum/publisher/achs/journals/entities/2009.gif".equals(src)) {
-            return "\u2009";    // THIN SPACE
-        }
-        if ("/appl/literatum/publisher/achs/journals/entities/2002.gif".equals(src)) {
-            return "\u2002";    // EN SPACE
-        }
-        if ("/appl/literatum/publisher/achs/journals/entities/2225.gif".equals(src)) {
-            return "\u2225";    // PARALLEL TO
-        }
-        if ("/appl/literatum/publisher/achs/journals/entities/22A5.gif".equals(src)) {
-            return "\u22A5";    // UP TACK
-        }
-        if ("/appl/literatum/publisher/achs/journals/entities/21C6.gif".equals(src)) {
-            return "\u21C6";    // LEFTWARDS ARROW OVER RIGHTWARDS ARROW
-        }
-        throw new RuntimeException("Unknown entity: "+src);
-    }
 
-
-    @Override
     public List<String> getAuthors() {
-        if (getHtml() == null) {
-            return getArticleRef().getAuthors();
-        }
         final List<String> authors = new ArrayList<String>();
         final List<Node> nodes = XPathUtils.queryHTML(getHtml(), ".//x:ul[contains(@class, 'authors')]//x:span[@class='fn']");
         for (final Node node : nodes) {
@@ -146,10 +130,6 @@ public class NatureSuppInfoParser extends AbstractArticleParser {
 
     @Override
     public Reference getReference() {
-        if (getHtml() == null) {
-            return getArticleRef().getReference();
-        }
-
         final String journalName = findJournalName();
         final String volume = findJournalVolume();
         final String number = XPathUtils.getString(getHtml(), "/x:html/x:head/x:meta[@name='citation_issue']/@content");
@@ -223,12 +203,6 @@ public class NatureSuppInfoParser extends AbstractArticleParser {
 
     @Override
     public List<SupplementaryResource> getSupplementaryResources() {
-        if (getHtml() == null) {
-            if  (getArticleRef().getSupplementaryResources() == null) {
-                return new ArrayList<SupplementaryResource>(1);
-            }
-            return getArticleRef().getSupplementaryResources();
-        }
         final List<SupplementaryResource> resources = new ArrayList<SupplementaryResource>();
         List<Node> nodes = XPathUtils.queryHTML(getHtml(), ".//x:div[@id='supplementary-information']//x:dt/x:a");
         if (nodes.isEmpty()) {
