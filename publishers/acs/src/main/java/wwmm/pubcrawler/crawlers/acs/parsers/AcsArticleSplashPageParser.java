@@ -25,6 +25,7 @@ import wwmm.pubcrawler.HtmlUtil;
 import wwmm.pubcrawler.parsers.AbstractArticleParser;
 import wwmm.pubcrawler.model.*;
 import wwmm.pubcrawler.model.id.ArticleId;
+import wwmm.pubcrawler.types.Doi;
 import wwmm.pubcrawler.utils.XPathUtils;
 
 import java.net.URI;
@@ -51,7 +52,7 @@ public class AcsArticleSplashPageParser extends AbstractArticleParser {
     private static final Logger LOG = Logger.getLogger(AcsArticleSplashPageParser.class);
     private static final Pattern WHITESPACE = Pattern.compile("\\s+");
 
-    public AcsArticleSplashPageParser(final Article articleRef, final Document document, final URI uri) {
+    public AcsArticleSplashPageParser(final ArticleId articleRef, final Document document, final URI uri) {
         super(articleRef, document, uri);
     }
 
@@ -76,7 +77,7 @@ public class AcsArticleSplashPageParser extends AbstractArticleParser {
 
     @Override
     public ArticleId getArticleId() {
-        return getArticleRef().getId();
+        return getArticleRef();
     }
 
     @Override
@@ -116,6 +117,15 @@ public class AcsArticleSplashPageParser extends AbstractArticleParser {
     public String getAbstractAsHtml() {
         Element element = getAbstractHtml();
         return normaliseWhiteSpace(HtmlUtil.writeAscii(new Document(element)));
+    }
+
+    @Override
+    protected Doi getDoi() {
+        final String text = XPathUtils.getString(getHtml(), "//x:div[@id='doi']");
+        if (text != null) {
+            return new Doi(text);
+        }
+        return null;
     }
 
     private String normaliseWhiteSpace(final String s) {
