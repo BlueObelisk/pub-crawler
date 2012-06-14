@@ -27,7 +27,8 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * @author Sam Adams
@@ -184,7 +185,7 @@ public class IucrIssueTocParserTest {
         assertEquals(Arrays.asList("M. Tr\u00f6mel"), articles.get(9).getAuthors());
         assertEquals(Arrays.asList("C. H. G\u00f6rbitz"), articles.get(10).getAuthors());
         assertEquals(Arrays.asList("L. F\u00e1bi\u00e1n", "C. P. Brock"), articles.get(11).getAuthors());
-        assertEquals(Arrays.asList(), articles.get(12).getAuthors());
+        assertEquals(Arrays.<String>asList(), articles.get(12).getAuthors());
     }
 
     @Test
@@ -197,9 +198,15 @@ public class IucrIssueTocParserTest {
     }
 
     @Test
-    @Ignore
     public void testArticleSuppInfoLinks() throws Exception {
-        fail();
+        IucrIssueTocParser parser = getActaB2007_06();
+        List<Node> articleNodes = parser.getArticleNodes();
+        List<SupplementaryResource> resources = parser.getArticleSupplementaryResources(new ArticleId(ACTA_B, "bk5060"), articleNodes.get(3));
+        assertEquals(2, resources.size());
+        assertEquals(URI.create("http://scripts.iucr.org/cgi-bin/sendsup?bk5060"), resources.get(0).getUrl());
+        assertEquals("x-multi/resource", resources.get(0).getContentType());
+        assertEquals(URI.create("http://journals.iucr.org/b/issues/2007/06/00/bk5060/bk5060sup3.pdf"), resources.get(1).getUrl());
+        assertEquals("application/pdf", resources.get(1).getContentType());
     }
 
     @Test
@@ -435,6 +442,10 @@ public class IucrIssueTocParserTest {
 
     protected IucrIssueTocParser getActaA2010_06() throws Exception {
         return new IucrIssueTocParser(loadBody("a-2010-06-body.html", URL_A_2010_06), loadHead("a-2010-06-head.html", URL_A_2010_06), ACTA_A);
+    }
+
+    protected IucrIssueTocParser getActaB2007_06() throws Exception {
+        return new IucrIssueTocParser(loadBody("b-2007-06-body.html", URL_A_2010_06), loadHead("b-2007-06-head.html", URL_A_2010_06), ACTA_A);
     }
 
     protected IucrIssueTocParser getActaC2005_10() throws Exception {
