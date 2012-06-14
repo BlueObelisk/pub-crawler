@@ -21,6 +21,7 @@ import nu.xom.Node;
 import org.apache.log4j.Logger;
 import wwmm.pubcrawler.model.Article;
 import wwmm.pubcrawler.model.SupplementaryResource;
+import wwmm.pubcrawler.model.id.ArticleId;
 import wwmm.pubcrawler.model.id.ResourceId;
 import wwmm.pubcrawler.utils.XPathUtils;
 
@@ -36,32 +37,58 @@ public class IucrSuppInfoResourcePageParser {
 
     private static final Logger LOG = Logger.getLogger(IucrSuppInfoResourcePageParser.class);
 
-    private Article articleRef;
+    private ArticleId articleRef;
     private Document html;
+    private URI url;
 
-    public IucrSuppInfoResourcePageParser(final Article articleRef, final Document html) {
+    public IucrSuppInfoResourcePageParser(final ArticleId articleRef, final Document html, final URI url) {
         this.articleRef = articleRef;
         this.html = html;
+        this.url = url;
     }
 
-    public List<SupplementaryResource> getResources(final URI url) throws IOException {
+    public List<SupplementaryResource> getResources() throws IOException {
         final List<SupplementaryResource> resources = new ArrayList<SupplementaryResource>();
         final List<Node> nodes = XPathUtils.queryHTML(html, ".//x:td[@width='400']");
         for (final Node node : nodes) {
-            final String href = XPathUtils.getString(node, "./x:a[./x:img[@alt='display file' or @alt='play file']]/@href");
-            final String contentType = XPathUtils.getString(node, "./x:p/x:b");
-            final String s = node.getValue();
-            final String linkText = s.substring(s.indexOf(']')+1).trim();
-            final int i = href.indexOf("file=");
-            final String filePath = href.substring(i+5, href.indexOf('&', i));
-            final ResourceId id = new ResourceId(articleRef.getId(), filePath);
-            final SupplementaryResource resource = new SupplementaryResource(id, url.resolve(href), filePath);
-            resource.setContentType(contentType);
-            resource.setLinkText(linkText);
-
+            final SupplementaryResource resource = createResource(node);
             resources.add(resource);
         }
         return resources;
+    }
+
+    private SupplementaryResource createResource(final Node node) {
+        final String href = getHref(node);
+        final String linkText = getLinkText(node);
+        final String description = getDescription(node);
+        final String filePath = getFilePath(href);
+        final ResourceId id = new ResourceId(articleRef, filePath);
+        final SupplementaryResource resource = new SupplementaryResource(id, url.resolve(href), filePath);
+        resource.setLinkText(linkText);
+        resource.setDescription(description);
+        return resource;
+    }
+
+    private String getFilePath(final String href) {
+        final int i = href.indexOf("file=");
+        return href.substring(i+5, href.indexOf('&', i));
+    }
+
+    private String getDescription(final Node node) {
+        final String s = node.getValue();
+        return s.substring(s.indexOf(']')+1).trim().trim();
+    }
+
+    private String getLinkText(final Node node) {
+        return XPathUtils.getString(node, "./x:p/x:b").trim();
+    }
+
+    private String getHref(final Node node) {
+        final String href = XPathUtils.getString(node, "./x:a[./x:img[@alt='display file' or @alt='play file']]/@href");
+        if (href == null) {
+            return XPathUtils.getString(node, "./x:a[contains(@href, '&file=')]/@href");
+        }
+        return href;
     }
 
 }

@@ -84,17 +84,19 @@ public class IucrSuppInfoParser {
             LOG.trace("resource: [" + href + "] " + altTest);
 
             if (isCif(altTest) && isMultiCif(href)) {
-//                try {
-//                    resources.addAll(getCifs(url));
-//                } catch (Exception e) {
-//                    throw new CrawlerRuntimeException("Error retrieving CIF links: "+ url, e);
-//                }
+                final String path = getFilePath(href);
+                final ResourceId id = new ResourceId(articleId, path);
+                final SupplementaryResource resource = new SupplementaryResource(id, url, path);
+                resource.setLinkText(altTest);
+                resource.setContentType("x-multi/cif");
+                resources.add(resource);
             } else if (isMultiFile(href)) {
-//                try {
-//                    resources.addAll(getResources(url));
-//                } catch (Exception e) {
-//                    throw new CrawlerRuntimeException("Error retrieving resource links: "+url, e);
-//                }
+                final String path = getFilePath(href);
+                final ResourceId id = new ResourceId(articleId, path);
+                final SupplementaryResource resource = new SupplementaryResource(id, url, path);
+                resource.setLinkText(altTest);
+                resource.setContentType("x-multi/resource");
+                resources.add(resource);
             } else {
                 final String path = getFilePath(href);
                 final ResourceId id = new ResourceId(articleId, path);
