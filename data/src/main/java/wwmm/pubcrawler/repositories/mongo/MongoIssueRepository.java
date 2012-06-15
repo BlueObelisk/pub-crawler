@@ -18,14 +18,13 @@ import java.util.List;
  * @author Sam Adams
  */
 @Singleton
-public class MongoIssueRepository implements IssueRepository {
+public class MongoIssueRepository extends AbstractMongoRepository implements IssueRepository {
 
-    private final DBCollection collection;
     private final MongoIssueMapper mongoIssueMapper;
 
     @Inject
     public MongoIssueRepository(@Issues final DBCollection collection, final MongoIssueMapper mongoIssueMapper) {
-        this.collection = collection;
+        super(collection);
         this.mongoIssueMapper = mongoIssueMapper;
         this.collection.ensureIndex(new BasicDBObject("id", 1), "id_index", true);
     }

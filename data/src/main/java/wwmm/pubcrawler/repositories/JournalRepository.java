@@ -20,4 +20,6 @@ public interface JournalRepository {
     void updateJournal(PublisherId acs, Journal journal);
 
     void saveOrUpdateJournal(Journal journal);
+
+    long getNextSequence();
 }

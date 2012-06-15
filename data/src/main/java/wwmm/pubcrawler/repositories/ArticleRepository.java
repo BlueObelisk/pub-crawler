@@ -15,4 +15,5 @@ public interface ArticleRepository {
 
     void saveOrUpdateArticle(Article article);
 
+    long getNextSequence();
 }

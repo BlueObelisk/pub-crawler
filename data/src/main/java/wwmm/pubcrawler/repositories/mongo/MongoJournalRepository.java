@@ -18,14 +18,13 @@ import java.util.List;
  * @author Sam Adams
  */
 @Singleton
-public class MongoJournalRepository implements JournalRepository {
+public class MongoJournalRepository extends AbstractMongoRepository implements JournalRepository {
 
-    private final DBCollection collection;
     private final MongoJournalMapper mongoJournalMapper;
 
     @Inject
     public MongoJournalRepository(@Journals final DBCollection collection, final MongoJournalMapper mongoJournalMapper) {
-        this.collection = collection;
+        super(collection);
         this.mongoJournalMapper = mongoJournalMapper;
         this.collection.ensureIndex(new BasicDBObject("id", 1), "id_index", true);
     }
