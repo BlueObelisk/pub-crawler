@@ -31,6 +31,7 @@ public class Journal extends PubcrawlerObject<JournalId> {
     private List<IssueLink> issues = Collections.emptyList();
 
     private URI url;
+    private long sequence;
 
     public Journal() { }
 
@@ -75,5 +76,13 @@ public class Journal extends PubcrawlerObject<JournalId> {
 
     public void setTitle(final String title) {
         this.title = title;
+    }
+
+    public long getSequence() {
+        return sequence;
+    }
+
+    public void setSequence(final long sequence) {
+        this.sequence = sequence;
     }
 }

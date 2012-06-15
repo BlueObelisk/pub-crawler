@@ -21,4 +21,6 @@ public interface IssueRepository {
     void saveOrUpdateIssue(Issue issue);
 
     List<Issue> getIssueBatch(long offset, int maxResults);
+
+    long getNextSequence();
 }

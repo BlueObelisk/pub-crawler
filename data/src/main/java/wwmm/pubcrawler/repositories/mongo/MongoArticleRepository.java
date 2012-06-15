@@ -17,14 +17,13 @@ import java.util.List;
  * @author Sam Adams
  */
 @Singleton
-public class MongoArticleRepository implements ArticleRepository {
+public class MongoArticleRepository extends AbstractMongoRepository implements ArticleRepository {
 
-    private final DBCollection collection;
     private final MongoArticleMapper mongoArticleMapper;
 
     @Inject
     public MongoArticleRepository(@Articles final DBCollection collection, final MongoArticleMapper mongoArticleMapper) {
-        this.collection = collection;
+        super(collection);
         this.mongoArticleMapper = mongoArticleMapper;
         this.collection.ensureIndex(new BasicDBObject("id", 1), "id_index", true);
     }

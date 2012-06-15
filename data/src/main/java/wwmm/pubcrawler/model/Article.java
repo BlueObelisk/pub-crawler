@@ -38,6 +38,7 @@ public class Article extends PubcrawlerObject<ArticleId> {
     private List<SupplementaryResource> supplementaryResources;
     private List<FullTextResource> fullTextResources;
     private URI supplementaryResourceUrl;
+    private long sequence;
 
     public Article() {
     }
@@ -148,5 +149,13 @@ public class Article extends PubcrawlerObject<ArticleId> {
 
     public void setIssueRef(final IssueId issueRef) {
         this.issueRef = issueRef;
+    }
+
+    public long getSequence() {
+        return sequence;
+    }
+
+    public void setSequence(final long sequence) {
+        this.sequence = sequence;
     }
 }
