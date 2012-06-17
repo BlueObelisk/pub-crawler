@@ -1,13 +1,10 @@
 package wwmm.pubcrawler.crawlers.springer;
 
-import wwmm.pubcrawler.archivers.JournalArchiver;
+import wwmm.pubcrawler.archivers.Archiver;
 import wwmm.pubcrawler.crawler.Task;
 import wwmm.pubcrawler.crawler.TaskQueue;
 import wwmm.pubcrawler.crawlers.JournalHandler;
 import wwmm.pubcrawler.crawlers.ResourceProcessor;
-import wwmm.pubcrawler.crawlers.springer.SpringerPublicationListCrawlTaskData;
-import wwmm.pubcrawler.crawlers.springer.SpringerPublicationListCrawlTaskFactory;
-import wwmm.pubcrawler.crawlers.springer.SpringerPublicationListParserFactory;
 import wwmm.pubcrawler.crawlers.springer.parsers.SpringerPublicationListParser;
 import wwmm.pubcrawler.http.DocumentResource;
 import wwmm.pubcrawler.model.Journal;
@@ -22,12 +19,12 @@ public class SpringerPublicationListProcessor implements ResourceProcessor<Docum
 
     private final SpringerPublicationListParserFactory publicationListParserFactory;
     private final SpringerPublicationListCrawlTaskFactory issueIndexCrawlTaskFactory;
-    private final JournalArchiver journalArchiver;
+    private final Archiver<Journal> journalArchiver;
     private final JournalHandler journalHandler;
     private final TaskQueue taskQueue;
 
     @Inject
-    public SpringerPublicationListProcessor(final SpringerPublicationListParserFactory publicationListParserFactory, final SpringerPublicationListCrawlTaskFactory issueIndexCrawlTaskFactory, final JournalArchiver journalArchiver, final JournalHandler journalHandler, final TaskQueue taskQueue) {
+    public SpringerPublicationListProcessor(final SpringerPublicationListParserFactory publicationListParserFactory, final SpringerPublicationListCrawlTaskFactory issueIndexCrawlTaskFactory, final Archiver<Journal> journalArchiver, final JournalHandler journalHandler, final TaskQueue taskQueue) {
         this.publicationListParserFactory = publicationListParserFactory;
         this.issueIndexCrawlTaskFactory = issueIndexCrawlTaskFactory;
         this.journalArchiver = journalArchiver;
