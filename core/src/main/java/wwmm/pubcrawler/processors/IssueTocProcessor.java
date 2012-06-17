@@ -2,8 +2,7 @@ package wwmm.pubcrawler.processors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import wwmm.pubcrawler.archivers.ArticleArchiver;
-import wwmm.pubcrawler.archivers.IssueArchiver;
+import wwmm.pubcrawler.archivers.Archiver;
 import wwmm.pubcrawler.crawlers.ArticleHandler;
 import wwmm.pubcrawler.crawlers.IssueHandler;
 import wwmm.pubcrawler.crawlers.ResourceProcessor;
@@ -28,14 +27,14 @@ public class IssueTocProcessor<Resource> implements ResourceProcessor<Resource,I
 
     private static final Logger LOG = LoggerFactory.getLogger(IssueTocProcessor.class);
 
-    private final IssueArchiver issueArchiver;
+    private final Archiver<Issue> issueArchiver;
+    private final Archiver<Article> articleArchiver;
     private final IssueHandler issueHandler;
-    private final ArticleArchiver articleArchiver;
     private final ArticleHandler articleHandler;
     private final IssueTocParserFactory<Resource> parserFactory;
 
     @Inject
-    public IssueTocProcessor(final IssueArchiver issueArchiver, final IssueHandler issueHandler, final ArticleArchiver articleArchiver, final ArticleHandler articleHandler, final IssueTocParserFactory<Resource> parserFactory) {
+    public IssueTocProcessor(final Archiver<Issue> issueArchiver, final IssueHandler issueHandler, final Archiver<Article> articleArchiver, final ArticleHandler articleHandler, final IssueTocParserFactory<Resource> parserFactory) {
         this.issueArchiver = issueArchiver;
         this.issueHandler = issueHandler;
         this.articleArchiver = articleArchiver;

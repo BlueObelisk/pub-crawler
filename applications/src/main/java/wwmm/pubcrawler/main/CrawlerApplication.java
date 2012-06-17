@@ -10,6 +10,8 @@ import wwmm.pubcrawler.controller.ResumeTask;
 import wwmm.pubcrawler.inject.HttpFetcherModule;
 import wwmm.pubcrawler.inject.MongoRepositoryModule;
 import wwmm.pubcrawler.inject.PubcrawlerModule;
+import wwmm.pubserver.archiver.ArchiveProcessor;
+import wwmm.pubserver.archiver.PubserverArchiverModule;
 
 import java.net.UnknownHostException;
 import java.util.concurrent.ExecutorService;
@@ -35,23 +37,28 @@ public abstract class CrawlerApplication {
             new PubcrawlerModule(),
             new HttpFetcherModule(httpdb),
             new MongoRepositoryModule(pubdb, taskdb),
+            new PubserverArchiverModule(),
             getPublisherModule()
         );
 
-        final ExecutorService executorService = Executors.newSingleThreadExecutor();
+        final ExecutorService taskExecutor = Executors.newSingleThreadExecutor();
+        final ExecutorService archiveExecutor = Executors.newSingleThreadExecutor();
+
+        final ArchiveProcessor archiveProcessor = injector.getInstance(ArchiveProcessor.class);
+        archiveExecutor.submit(archiveProcessor);
 
         final Class<? extends Runnable> seederType = getSeederType();
         final Runnable seedRunner = injector.getInstance(seederType);
-        executorService.submit(seedRunner);
+        taskExecutor.submit(seedRunner);
 
         final Runnable resumeRunner = injector.getInstance(ResumeTask.class);
-        executorService.submit(resumeRunner);
+        taskExecutor.submit(resumeRunner);
 
         final CrawlerExecutor crawlRunner = injector.getInstance(CrawlerExecutor.class);
-        executorService.submit(crawlRunner);
+        taskExecutor.submit(crawlRunner);
 
         // Wait for CrawlRunner to complete and stop executor service
-        executorService.shutdown();
+        taskExecutor.shutdown();
     }
 
     protected abstract Module getPublisherModule();
