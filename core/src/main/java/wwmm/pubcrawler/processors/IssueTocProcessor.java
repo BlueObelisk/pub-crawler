@@ -48,7 +48,7 @@ public class IssueTocProcessor<Resource> implements ResourceProcessor<Resource,I
         final JournalId journalId = new JournalId(publisherId, data.getJournal());
         final IssueTocParser parser = parserFactory.createIssueTocParser(journalId, resource);
         handleIssueDetails(taskId, parser);
-//        handleIssueLinks(taskId, parser);
+        handleIssueLinks(taskId, parser);
         handleArticles(taskId, parser);
     }
 
