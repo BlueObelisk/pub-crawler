@@ -18,23 +18,23 @@ import java.util.List;
  * @author Sam Adams
  */
 @Singleton
-public class PublicationListProcessor<Resource> implements ResourceProcessor<Resource, HttpCrawlTaskData> {
+public class PublicationListProcessor<R> implements ResourceProcessor<R, HttpCrawlTaskData> {
 
     private static final Logger LOG = LoggerFactory.getLogger(PublicationListProcessor.class);
 
-    private final PublicationListParserFactory<Resource> parserFactory;
+    private final PublicationListParserFactory<R> parserFactory;
     private final JournalArchiver journalArchiver;
     private final JournalHandler journalHandler;
 
     @Inject
-    public PublicationListProcessor(final PublicationListParserFactory<Resource> parserFactory, final JournalArchiver journalArchiver, final JournalHandler journalHandler) {
+    public PublicationListProcessor(final PublicationListParserFactory<R> parserFactory, final JournalArchiver journalArchiver, final JournalHandler journalHandler) {
         this.parserFactory = parserFactory;
         this.journalArchiver = journalArchiver;
         this.journalHandler = journalHandler;
     }
 
     @Override
-    public void process(final String taskId, final HttpCrawlTaskData httpCrawlTask, final Resource resource) {
+    public void process(final String taskId, final HttpCrawlTaskData httpCrawlTask, final R resource) {
         final PublicationListParser parser = parserFactory.createPublicationListParser(resource);
         final List<Journal> journals = parser.findJournals();
         for (final Journal journal : journals) {

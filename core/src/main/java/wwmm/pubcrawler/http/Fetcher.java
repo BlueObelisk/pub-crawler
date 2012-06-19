@@ -3,8 +3,8 @@ package wwmm.pubcrawler.http;
 /**
  * @author Sam Adams
  */
-public interface Fetcher<Request,Resource> {
+public interface Fetcher<R, T> {
     
-    Resource fetch(Request request) throws Exception;
+    T fetch(R request) throws Exception;
     
 }

@@ -24,7 +24,7 @@ import java.util.List;
  * @author Sam Adams
  */
 @Singleton
-public class IssueTocProcessor<Resource> implements ResourceProcessor<Resource,IssueTocCrawlTaskData> {
+public class IssueTocProcessor<R> implements ResourceProcessor<R, IssueTocCrawlTaskData> {
 
     private static final Logger LOG = LoggerFactory.getLogger(IssueTocProcessor.class);
 
@@ -32,10 +32,10 @@ public class IssueTocProcessor<Resource> implements ResourceProcessor<Resource,I
     private final ArticleArchiver articleArchiver;
     private final IssueHandler issueHandler;
     private final ArticleHandler articleHandler;
-    private final IssueTocParserFactory<Resource> parserFactory;
+    private final IssueTocParserFactory<R> parserFactory;
 
     @Inject
-    public IssueTocProcessor(final IssueArchiver issueArchiver, final IssueHandler issueHandler, final ArticleArchiver articleArchiver, final ArticleHandler articleHandler, final IssueTocParserFactory<Resource> parserFactory) {
+    public IssueTocProcessor(final IssueArchiver issueArchiver, final IssueHandler issueHandler, final ArticleArchiver articleArchiver, final ArticleHandler articleHandler, final IssueTocParserFactory<R> parserFactory) {
         this.issueArchiver = issueArchiver;
         this.issueHandler = issueHandler;
         this.articleArchiver = articleArchiver;
@@ -44,7 +44,7 @@ public class IssueTocProcessor<Resource> implements ResourceProcessor<Resource,I
     }
 
     @Override
-    public void process(final String taskId, final IssueTocCrawlTaskData data, final Resource resource) {
+    public void process(final String taskId, final IssueTocCrawlTaskData data, final R resource) {
         final PublisherId publisherId = new PublisherId(data.getPublisher());
         final JournalId journalId = new JournalId(publisherId, data.getJournal());
         final IssueTocParser parser = parserFactory.createIssueTocParser(journalId, resource);
