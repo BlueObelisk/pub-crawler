@@ -2,7 +2,7 @@ package wwmm.pubcrawler.processors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import wwmm.pubcrawler.archivers.Archiver;
+import wwmm.pubcrawler.archivers.JournalArchiver;
 import wwmm.pubcrawler.crawlers.JournalHandler;
 import wwmm.pubcrawler.crawlers.ResourceProcessor;
 import wwmm.pubcrawler.model.Journal;
@@ -23,11 +23,11 @@ public class PublicationListProcessor<Resource> implements ResourceProcessor<Res
     private static final Logger LOG = LoggerFactory.getLogger(PublicationListProcessor.class);
 
     private final PublicationListParserFactory<Resource> parserFactory;
-    private final Archiver<Journal> journalArchiver;
+    private final JournalArchiver journalArchiver;
     private final JournalHandler journalHandler;
 
     @Inject
-    public PublicationListProcessor(final PublicationListParserFactory<Resource> parserFactory, final Archiver<Journal> journalArchiver, final JournalHandler journalHandler) {
+    public PublicationListProcessor(final PublicationListParserFactory<Resource> parserFactory, final JournalArchiver journalArchiver, final JournalHandler journalHandler) {
         this.parserFactory = parserFactory;
         this.journalArchiver = journalArchiver;
         this.journalHandler = journalHandler;
