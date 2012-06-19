@@ -3,13 +3,7 @@ package wwmm.pubcrawler;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import org.mockito.Mockito;
-import wwmm.pubcrawler.archivers.Archiver;
-import wwmm.pubcrawler.archivers.ArticleArchiver;
-import wwmm.pubcrawler.archivers.IssueArchiver;
-import wwmm.pubcrawler.archivers.JournalArchiver;
-import wwmm.pubcrawler.model.Article;
-import wwmm.pubcrawler.model.Issue;
-import wwmm.pubcrawler.model.Journal;
+import wwmm.pubcrawler.archivers.*;
 
 /**
  * @author Sam Adams
@@ -21,18 +15,18 @@ public class MockRepositoryModule extends AbstractModule {
     }
     
     @Provides
-    public Archiver<Journal> provideJournalArchiver() {
-        return Mockito.mock(JournalArchiver.class);
+    public JournalArchiver provideJournalArchiver() {
+        return Mockito.mock(JournalRepositoryArchiver.class);
     }
 
     @Provides
-    public Archiver<Issue> provideIssueArchiver() {
-        return Mockito.mock(IssueArchiver.class);
+    public IssueArchiver provideIssueArchiver() {
+        return Mockito.mock(IssueRepositoryArchiver.class);
     }
 
     @Provides
-    public Archiver<Article> providesArticleArchiver() {
-        return Mockito.mock(ArticleArchiver.class);
+    public ArticleArchiver providesArticleArchiver() {
+        return Mockito.mock(ArticleRepositoryArchiver.class);
     }
 
 }
