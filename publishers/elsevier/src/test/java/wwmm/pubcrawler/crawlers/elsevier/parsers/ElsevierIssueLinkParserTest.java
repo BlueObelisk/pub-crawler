@@ -43,6 +43,11 @@ public class ElsevierIssueLinkParserTest {
     }
 
     @Test
+    public void testParseVolumeSuppLink() {
+        assertEquals(new IssueId(JOURNAL, "116", "(S2)"), parser.parseIssueLink(JOURNAL, "TITLE", URI.create("http://foo.com/"), "/science/journal/00928674/116/supp/S2").getIssueId());
+    }
+
+    @Test
     public void testParseVolumeLink() {
         assertEquals(new IssueId(JOURNAL, "93", "-"), parser.parseIssueLink(JOURNAL, "TITLE", URI.create("http://foo.com/"), "/science/journal/00399140/93").getIssueId());
     }
