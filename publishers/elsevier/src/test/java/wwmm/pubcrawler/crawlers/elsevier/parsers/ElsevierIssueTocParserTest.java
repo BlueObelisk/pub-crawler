@@ -129,7 +129,7 @@ public class ElsevierIssueTocParserTest {
         ElsevierIssueTocParser parser = getJournalParser00928674_116_1();
         IssueLink issueRef = parser.getPreviousIssue();
         assertEquals("116", issueRef.getVolume());
-        assertEquals("S2", issueRef.getNumber());
+        assertEquals("(S2)", issueRef.getNumber());
         assertEquals(URI.create("http://www.sciencedirect.com/science/journal/00928674/116/supp/S2"), issueRef.getUrl());
     }
 
