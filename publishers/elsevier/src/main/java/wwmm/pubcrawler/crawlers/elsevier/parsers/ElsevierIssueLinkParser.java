@@ -30,7 +30,7 @@ public class ElsevierIssueLinkParser {
     // /science/journal/00457949/62/part/P1
     // /science/journal/03770427/71-80/index/I1
     private static final Pattern VOLUME_PART =
-     Pattern.compile("/science/journal/([^/]+)/([^/]+)/(?:index|part)/([^/]+)");
+     Pattern.compile("/science/journal/([^/]+)/([^/]+)/(?:index|part|supp)/([^/]+)");
 
 
     public IssueLink parseIssueLink(final JournalId journalId, final String journalTitle, final URI url, final String link) {
