@@ -22,7 +22,10 @@ import nu.xom.Node;
 import nu.xom.Text;
 import org.apache.log4j.Logger;
 import wwmm.pubcrawler.CrawlerRuntimeException;
-import wwmm.pubcrawler.model.*;
+import wwmm.pubcrawler.model.FullTextResource;
+import wwmm.pubcrawler.model.Issue;
+import wwmm.pubcrawler.model.IssueLink;
+import wwmm.pubcrawler.model.SupplementaryResource;
 import wwmm.pubcrawler.model.id.ArticleId;
 import wwmm.pubcrawler.model.id.JournalId;
 import wwmm.pubcrawler.parsers.AbstractIssueTocParser;
@@ -63,9 +66,9 @@ public class ElsevierIssueTocParser extends AbstractIssueTocParser implements Is
     private static final Pattern VOLUME_SUPPLEMENT_PATTERN = Pattern.compile("Vol(?:ume)?s? (\\d+), Supplement (\\S+),.*?\\(.*\\b(\\d{4})\\)");
     private static final Pattern VOLUME_PATTERN = Pattern.compile("Vol(?:ume)?s? (\\S+),.*?\\(.*\\b(\\d{4})\\)");
 
-    // e.g. /science/journal/09254005/164/1
-    private static final Pattern PREV_URL = Pattern.compile("/science/journal/([^/]+)/([^/]+)(?:(?:/supp)?/([^/]+))?");
     private static final Pattern P_PAGES = Pattern.compile("Pages? (\\S+)");
+
+    private final ElsevierIssueLinkParser issueLinkParser = new ElsevierIssueLinkParser();
 
     public ElsevierIssueTocParser(final Document html, final URI url, final JournalId journalId) {
         super(html, url, journalId);
@@ -193,18 +196,9 @@ public class ElsevierIssueTocParser extends AbstractIssueTocParser implements Is
         if (!nodes.isEmpty()) {
             final Element addr = (Element) nodes.get(0);
             final String href = addr.getAttributeValue("href");
-            final Matcher m = PREV_URL.matcher((href));
-            if (m.matches()) {
-                final String volume = m.group(2);
-                final String number = m.group(3) != null ? m.group(3) : Issue.NULL_NUMBER;
-
-                return new IssueLinkBuilder()
-                        .withJournalId(getJournalId())
-                        .withJournalTitle(getJournalTitle())
-                        .withVolume(volume)
-                        .withNumber(number)
-                        .withUrl(getUrl().resolve(href))
-                        .build();
+            final IssueLink issueLink = issueLinkParser.parseIssueLink(getJournalId(), getJournalTitle(), getUrl().resolve(href), href);
+            if (issueLink != null) {
+                return issueLink;
             } else {
                 LOG.warn("Error parsing previous issue link: " + href);
             }
