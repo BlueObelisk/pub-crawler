@@ -30,7 +30,7 @@ public class IucrIssueListCrawlerTask implements TaskSpecification<IssueListCraw
     public static class Runner extends CrawlTaskRunner<IssueListCrawlTaskData, UriRequest, DocumentResource> {
 
         @Inject
-        public Runner(final Fetcher<UriRequest, DocumentResource> fetcher, final RequestFactory<HttpCrawlTaskData, UriRequest> requestFactory, final IssueListProcessor<DocumentResource, IssueListCrawlTaskData> issueListProcessor) {
+        public Runner(final Fetcher<UriRequest, DocumentResource> fetcher, final RequestFactory<HttpCrawlTaskData, UriRequest> requestFactory, final IssueListProcessor<DocumentResource> issueListProcessor) {
             super(fetcher, requestFactory, issueListProcessor);
         }
     }
