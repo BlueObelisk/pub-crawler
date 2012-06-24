@@ -36,7 +36,7 @@ public class SpringerIssueListCrawlTask implements TaskSpecification<IssueListCr
 
         @Inject
         public Runner(final Fetcher<UriRequest, DocumentResource> fetcher, final SpringerUriRequestFactory requestFactory, final SpringerIssueListParserFactory parserFactory, final IssueHandler issueHandler) {
-            super(fetcher, requestFactory, new IssueListProcessor<DocumentResource, IssueListCrawlTaskData>(parserFactory, issueHandler));
+            super(fetcher, requestFactory, new IssueListProcessor<DocumentResource>(parserFactory, issueHandler));
         }
 
     }

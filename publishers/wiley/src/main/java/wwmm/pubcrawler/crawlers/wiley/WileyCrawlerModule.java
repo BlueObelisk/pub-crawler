@@ -1,7 +1,9 @@
 package wwmm.pubcrawler.crawlers.wiley;
 
 import com.google.inject.Provides;
+import wwmm.pubcrawler.crawlers.EnqueuingJournalHandler;
 import wwmm.pubcrawler.crawlers.IssueTocCrawlTaskFactory;
+import wwmm.pubcrawler.crawlers.JournalHandler;
 import wwmm.pubcrawler.http.DocumentResource;
 import wwmm.pubcrawler.inject.AbstractPublisherCrawlerModule;
 import wwmm.pubcrawler.model.id.PublisherId;
@@ -37,6 +39,11 @@ public class WileyCrawlerModule extends AbstractPublisherCrawlerModule {
     @Override
     protected Class<? extends ArticleParserFactory> getArticleParserFactoryType() {
         return null;
+    }
+
+    @Override
+    protected Class<? extends JournalHandler> getJournalHandlerType() {
+        return WileyJournalHandler.class;
     }
 
     @Override

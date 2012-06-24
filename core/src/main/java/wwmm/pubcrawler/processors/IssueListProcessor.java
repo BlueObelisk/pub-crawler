@@ -16,19 +16,19 @@ import javax.inject.Singleton;
  * @author Sam Adams
  */
 @Singleton
-public class IssueListProcessor<R, T extends IssueListCrawlTaskData> implements ResourceProcessor<R, T> {
+public class IssueListProcessor<T> implements ResourceProcessor<T, IssueListCrawlTaskData> {
 
-    private final IssueListParserFactory<R> parserFactory;
+    private final IssueListParserFactory<T> parserFactory;
     private final IssueHandler issueHandler;
 
     @Inject
-    public IssueListProcessor(final IssueListParserFactory<R> parserFactory, final IssueHandler issueHandler) {
+    public IssueListProcessor(final IssueListParserFactory<T> parserFactory, final IssueHandler issueHandler) {
         this.parserFactory = parserFactory;
         this.issueHandler = issueHandler;
     }
 
     @Override
-    public void process(final String taskId, final T data, final R resource) {
+    public void process(final String taskId, final IssueListCrawlTaskData data, final T resource) {
         final PublisherId publisherId = new PublisherId(data.getPublisher());
         final JournalId journalId = new JournalId(publisherId, data.getJournal());
 

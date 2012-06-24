@@ -13,14 +13,14 @@ import static org.junit.Assert.assertEquals;
 /**
  * @author Sam Adams
  */
-public class WileyPreviousIssueLinkHandlerTest {
+public class WileyIssueLinkParserTest {
     
     private static final JournalId JOURNAL_ID = new JournalId(Wiley.PUBLISHER_ID, "journal-id");
     private static final URI URL = java.net.URI.create("http://onlinelibrary.wiley.com/doi/journal/issue/toc");
 
     @Test
     public void testHandlerPreviousIssueLink() {
-        IssueLink issueRef = new WileyPreviousIssueLinkHandler(JOURNAL_ID, URL).parse("/doi/10.1002/abc.v16.3/issuetoc");
+        IssueLink issueRef = new WileyIssueLinkParser(JOURNAL_ID, URL).parseIssueLink("/doi/10.1002/abc.v16.3/issuetoc");
         assertEquals("16", issueRef.getVolume());
         assertEquals("3", issueRef.getNumber());
         assertEquals(new IssueId(JOURNAL_ID, "16", "3"), issueRef.getIssueId());
@@ -29,7 +29,7 @@ public class WileyPreviousIssueLinkHandlerTest {
 
     @Test
     public void testHandleAlternativePreviousIssueLink() {
-        IssueLink issueRef = new WileyPreviousIssueLinkHandler(JOURNAL_ID, URL).parse("/doi/10.1111/abac.2011.47.issue-1/issuetoc");
+        IssueLink issueRef = new WileyIssueLinkParser(JOURNAL_ID, URL).parseIssueLink("/doi/10.1111/abac.2011.47.issue-1/issuetoc");
         assertEquals("47", issueRef.getVolume());
         assertEquals("1", issueRef.getNumber());
         assertEquals(new IssueId(JOURNAL_ID, "47", "1"), issueRef.getIssueId());
@@ -38,7 +38,7 @@ public class WileyPreviousIssueLinkHandlerTest {
 
     @Test
     public void testHandleMultiplePreviousIssueLink() {
-        IssueLink issueRef = new WileyPreviousIssueLinkHandler(JOURNAL_ID, URL).parse("/doi/10.1002/abio.v23:2/3/issuetoc");
+        IssueLink issueRef = new WileyIssueLinkParser(JOURNAL_ID, URL).parseIssueLink("/doi/10.1002/abio.v23:2/3/issuetoc");
         assertEquals("23", issueRef.getVolume());
         assertEquals("2/3", issueRef.getNumber());
         assertEquals(new IssueId(JOURNAL_ID, "23", "2/3"), issueRef.getIssueId());
@@ -47,7 +47,7 @@ public class WileyPreviousIssueLinkHandlerTest {
 
     @Test
     public void testHandleNonNumericNumberInPreviousIssueLink() {
-        IssueLink issueRef = new WileyPreviousIssueLinkHandler(JOURNAL_ID, URL).parse("/doi/10.1111/apa.2012.101.issue-s464/issuetoc");
+        IssueLink issueRef = new WileyIssueLinkParser(JOURNAL_ID, URL).parseIssueLink("/doi/10.1111/apa.2012.101.issue-s464/issuetoc");
         assertEquals("101", issueRef.getVolume());
         assertEquals("s464", issueRef.getNumber());
         assertEquals(new IssueId(JOURNAL_ID, "101", "s464"), issueRef.getIssueId());
@@ -56,7 +56,7 @@ public class WileyPreviousIssueLinkHandlerTest {
 
     @Test
     public void testHandleNonNumericVolumeInPreviousIssueLink() {
-        IssueLink issueRef = new WileyPreviousIssueLinkHandler(JOURNAL_ID, URL).parse("/doi/10.1002/ajmg.a.v158a.3/issuetoc");
+        IssueLink issueRef = new WileyIssueLinkParser(JOURNAL_ID, URL).parseIssueLink("/doi/10.1002/ajmg.a.v158a.3/issuetoc");
         assertEquals("158a", issueRef.getVolume());
         assertEquals("3", issueRef.getNumber());
         assertEquals(new IssueId(JOURNAL_ID, "158a", "3"), issueRef.getIssueId());
