@@ -1,6 +1,8 @@
 package wwmm.pubcrawler.tasks;
 
 import org.joda.time.Duration;
+import wwmm.pubcrawler.model.id.JournalId;
+import wwmm.pubcrawler.model.id.PublisherId;
 
 import java.net.URI;
 
@@ -24,5 +26,10 @@ public class IssueListCrawlTaskData extends HttpCrawlTaskData {
 
     public String getJournal() {
         return journal;
+    }
+
+    public JournalId getJournalId() {
+        final PublisherId publisherId = new PublisherId(publisher);
+        return new JournalId(publisherId, journal);
     }
 }

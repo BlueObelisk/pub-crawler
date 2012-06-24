@@ -45,8 +45,11 @@ public class WileyIssueTocParser extends AbstractIssueTocParser implements Issue
     private static final Logger LOG = Logger.getLogger(WileyIssueTocParser.class);
     private static final Pattern P_PAGES = Pattern.compile("\\(pages? ([^)]+)\\)");
 
+    private final WileyIssueLinkParser issueLinkParser;
+
     public WileyIssueTocParser(final Document html, final URI url, final JournalId journalId) {
         super(html, url, journalId);
+        issueLinkParser = new WileyIssueLinkParser(journalId, url);
     }
 
     @Override
@@ -168,7 +171,11 @@ public class WileyIssueTocParser extends AbstractIssueTocParser implements Issue
     public IssueLink getPreviousIssue() {
         final String href = XPathUtils.getString(getHtml(), "//x:a[@id='previousLink']/@href");
         if (href != null) {
-            return new WileyPreviousIssueLinkHandler(getJournalId(), getUrl()).parse(href);
+            final IssueLink issueLink = issueLinkParser.parseIssueLink(href);
+            if (issueLink == null) {
+                throw new CrawlerRuntimeException("Cannot locate prev issue ID: " + href, null, null);
+            }
+            return issueLink;
         }
         return null;
     }
