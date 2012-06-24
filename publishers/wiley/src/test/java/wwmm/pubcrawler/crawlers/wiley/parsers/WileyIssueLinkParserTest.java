@@ -40,8 +40,8 @@ public class WileyIssueLinkParserTest {
     public void testHandleMultiplePreviousIssueLink() {
         IssueLink issueRef = new WileyIssueLinkParser(JOURNAL_ID, URL).parseIssueLink("/doi/10.1002/abio.v23:2/3/issuetoc");
         assertEquals("23", issueRef.getVolume());
-        assertEquals("2/3", issueRef.getNumber());
-        assertEquals(new IssueId(JOURNAL_ID, "23", "2/3"), issueRef.getIssueId());
+        assertEquals("2-3", issueRef.getNumber());
+        assertEquals(new IssueId(JOURNAL_ID, "23", "2-3"), issueRef.getIssueId());
         assertEquals(URI.create("http://onlinelibrary.wiley.com/doi/10.1002/abio.v23:2/3/issuetoc"), issueRef.getUrl());
     }
 
