@@ -15,7 +15,6 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>applications</module>
         <module>core</module>
         <module>data</module>
         <module>publishers</module>
